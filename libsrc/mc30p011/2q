@@ -1,0 +1,19 @@
+# .bashrc
+
+# Source global definitions
+if [ -f /etc/bashrc ]; then
+	. /etc/bashrc
+fi
+
+# User specific aliases and functions
+#source /home/env/bashrc
+
+export PATH=$PATH:.
+
+export SDCC_HOME=/home/wuj/aaa/sn-sdcc
+#export PATH=$PATH:/home/wuj/aaa/sn-sdcc/bin
+export PATH=$PATH:/home/wuj/aaa/snutils/gpasm
+export PATH=$PATH:/home/wuj/aaa/snutils/gplink
+export PATH=$PATH:/home/wuj/aaa/snutils/gputils
+
+

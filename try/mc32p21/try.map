@@ -1,0 +1,157 @@
+gplink-1.4.1_beta1 (Oct 14 2013)
+Map File - Created 2013-11-19  14:03:11
+ 
+                                 Section Info
+                  Section       Type    Address   Location Size(Bytes)
+                ---------  ---------  ---------  ---------  ---------
+                  STARTUP       code   00000000    program   0x000002
+               code_idata       code   0x000001    program   0x0000dc
+                    .code       code   0x00006f    program   0x000050
+                 code_try       code   0x000097    program   0x000010
+                   .cinit       code   0x00009f    program   0x000010
+             ID_idata_0_i       code   0x0000a7    program   0x000002
+               ID_idata_0      idata   0x000013       data   0x000001
+                sharebank      udata   00000000       data   0x000007
+              UDL_idata_0      udata   0x000007       data   0x00000c
+       UD_abs_mc32p21_180      udata   0x000180       data   0x000001
+       UD_abs_mc32p21_181      udata   0x000181       data   0x000001
+       UD_abs_mc32p21_182      udata   0x000182       data   0x000001
+       UD_abs_mc32p21_183      udata   0x000183       data   0x000001
+       UD_abs_mc32p21_184      udata   0x000184       data   0x000001
+       UD_abs_mc32p21_185      udata   0x000185       data   0x000001
+       UD_abs_mc32p21_186      udata   0x000186       data   0x000001
+       UD_abs_mc32p21_187      udata   0x000187       data   0x000001
+       UD_abs_mc32p21_188      udata   0x000188       data   0x000001
+       UD_abs_mc32p21_189      udata   0x000189       data   0x000001
+       UD_abs_mc32p21_18a      udata   0x00018a       data   0x000001
+       UD_abs_mc32p21_18b      udata   0x00018b       data   0x000001
+       UD_abs_mc32p21_190      udata   0x000190       data   0x000001
+       UD_abs_mc32p21_191      udata   0x000191       data   0x000001
+       UD_abs_mc32p21_192      udata   0x000192       data   0x000001
+       UD_abs_mc32p21_193      udata   0x000193       data   0x000001
+       UD_abs_mc32p21_194      udata   0x000194       data   0x000001
+       UD_abs_mc32p21_195      udata   0x000195       data   0x000001
+       UD_abs_mc32p21_196      udata   0x000196       data   0x000001
+       UD_abs_mc32p21_197      udata   0x000197       data   0x000001
+       UD_abs_mc32p21_1a0      udata   0x0001a0       data   0x000001
+       UD_abs_mc32p21_1a1      udata   0x0001a1       data   0x000001
+       UD_abs_mc32p21_1a2      udata   0x0001a2       data   0x000001
+       UD_abs_mc32p21_1a3      udata   0x0001a3       data   0x000001
+       UD_abs_mc32p21_1a4      udata   0x0001a4       data   0x000001
+       UD_abs_mc32p21_1a5      udata   0x0001a5       data   0x000001
+       UD_abs_mc32p21_1a6      udata   0x0001a6       data   0x000001
+       UD_abs_mc32p21_1a7      udata   0x0001a7       data   0x000001
+       UD_abs_mc32p21_1ad      udata   0x0001ad       data   0x000001
+       UD_abs_mc32p21_1ae      udata   0x0001ae       data   0x000001
+       UD_abs_mc32p21_1b0      udata   0x0001b0       data   0x000001
+       UD_abs_mc32p21_1b1      udata   0x0001b1       data   0x000001
+       UD_abs_mc32p21_1b4      udata   0x0001b4       data   0x000001
+       UD_abs_mc32p21_1b5      udata   0x0001b5       data   0x000001
+       UD_abs_mc32p21_1fb      udata   0x0001fb       data   0x000001
+ 
+                              Program Memory Usage
+                               Start         End
+                           ---------   ---------
+                            00000000    00000000
+                            0x000097    0x00009e
+                            0x0000a7    0x0000a7
+                            0x000001    0x00006e
+                            0x00006f    0x000096
+                            0x00009f    0x0000a6
+ 
+                            168 program addresses used
+ 
+                              Symbols
+                     Name    Address   Location    Storage File
+                ---------  ---------  ---------  --------- ---------
+                    STK06   00000000       data     extern try.asm
+                    STK05   0x000001       data     extern try.asm
+                    STK04   0x000002       data     extern try.asm
+                    STK03   0x000003       data     extern try.asm
+                    STK02   0x000004       data     extern try.asm
+                    STK01   0x000005       data     extern try.asm
+                    STK00   0x000006       data     extern try.asm
+                    _main   0x000097    program     extern try.asm
+               _00106_DS_   0x00009b    program     static try.asm
+                    _INDF   0x000180       data     extern mc32p21.asm
+                   _INDF0   0x000180       data     extern mc32p21.asm
+                   _INDF1   0x000181       data     extern mc32p21.asm
+                   _INDF2   0x000182       data     extern mc32p21.asm
+                  _HIBYTE   0x000183       data     extern mc32p21.asm
+                     _FSR   0x000184       data     extern mc32p21.asm
+                    _FSR0   0x000184       data     extern mc32p21.asm
+                    _FSR1   0x000185       data     extern mc32p21.asm
+                     _PCL   0x000186       data     extern mc32p21.asm
+              _STATUSbits   0x000187       data     extern mc32p21.asm
+                  _STATUS   0x000187       data     extern mc32p21.asm
+                 _MCRbits   0x000188       data     extern mc32p21.asm
+                     _MCR   0x000188       data     extern mc32p21.asm
+                   _INDF3   0x000189       data     extern mc32p21.asm
+                _INTEbits   0x00018a       data     extern mc32p21.asm
+                    _INTE   0x00018a       data     extern mc32p21.asm
+                _INTFbits   0x00018b       data     extern mc32p21.asm
+                    _INTF   0x00018b       data     extern mc32p21.asm
+                _IOP0bits   0x000190       data     extern mc32p21.asm
+                    _IOP0   0x000190       data     extern mc32p21.asm
+                _OEP0bits   0x000191       data     extern mc32p21.asm
+                    _OEP0   0x000191       data     extern mc32p21.asm
+                _PUP0bits   0x000192       data     extern mc32p21.asm
+                    _PUP0   0x000192       data     extern mc32p21.asm
+               _ANSELbits   0x000193       data     extern mc32p21.asm
+                   _ANSEL   0x000193       data     extern mc32p21.asm
+                _IOP1bits   0x000194       data     extern mc32p21.asm
+                    _IOP1   0x000194       data     extern mc32p21.asm
+                _OEP1bits   0x000195       data     extern mc32p21.asm
+                    _OEP1   0x000195       data     extern mc32p21.asm
+                _PUP1bits   0x000196       data     extern mc32p21.asm
+                    _PUP1   0x000196       data     extern mc32p21.asm
+                _KBIMbits   0x000197       data     extern mc32p21.asm
+                    _KBIM   0x000197       data     extern mc32p21.asm
+                _T0CRbits   0x0001a0       data     extern mc32p21.asm
+                    _T0CR   0x0001a0       data     extern mc32p21.asm
+                   _T0CNT   0x0001a1       data     extern mc32p21.asm
+                  _T0LOAD   0x0001a2       data     extern mc32p21.asm
+                  _T0DATA   0x0001a3       data     extern mc32p21.asm
+                _T1CRbits   0x0001a4       data     extern mc32p21.asm
+                    _T1CR   0x0001a4       data     extern mc32p21.asm
+                   _T1CNT   0x0001a5       data     extern mc32p21.asm
+                  _T1LOAD   0x0001a6       data     extern mc32p21.asm
+                  _T1DATA   0x0001a7       data     extern mc32p21.asm
+               _LVDCRbits   0x0001ad       data     extern mc32p21.asm
+                   _LVDCR   0x0001ad       data     extern mc32p21.asm
+                _OSCMbits   0x0001ae       data     extern mc32p21.asm
+                    _OSCM   0x0001ae       data     extern mc32p21.asm
+               _ADCR0bits   0x0001b0       data     extern mc32p21.asm
+                   _ADCR0   0x0001b0       data     extern mc32p21.asm
+               _ADCR1bits   0x0001b1       data     extern mc32p21.asm
+                   _ADCR1   0x0001b1       data     extern mc32p21.asm
+                    _ADRH   0x0001b4       data     extern mc32p21.asm
+                    _ADRL   0x0001b5       data     extern mc32p21.asm
+                   _OSCAL   0x0001fb       data     extern mc32p21.asm
+                  r0x1001   0x000007       data     static idata.asm
+                  r0x1000   0x000008       data     static idata.asm
+                  r0x1002   0x000009       data     static idata.asm
+                  r0x1003   0x00000a       data     static idata.asm
+                  r0x1004   0x00000b       data     static idata.asm
+                  r0x1005   0x00000c       data     static idata.asm
+                  r0x1007   0x00000d       data     static idata.asm
+                  r0x1006   0x00000e       data     static idata.asm
+                  r0x1009   0x00000f       data     static idata.asm
+                  r0x1008   0x000010       data     static idata.asm
+                  r0x100B   0x000011       data     static idata.asm
+                  r0x100A   0x000012       data     static idata.asm
+             _force_cinit   0x000013       data     static idata.asm
+    __sdcc_gsinit_startup   0x000001    program     extern idata.asm
+               _00108_DS_   0x00000e    program     static idata.asm
+               _00105_DS_   0x000047    program     static idata.asm
+               _00107_DS_   0x000068    program     static idata.asm
+               _00110_DS_   0x00006d    program     static idata.asm
+                __gptrget   0x00006f    program     extern _gptrget1.S
+               __gptrget1   0x00006f    program     extern _gptrget1.S
+            __dataptrget1   0x000076    program     static _gptrget1.S
+            __codeptrget1   0x00007a    program     extern _gptrget1.S
+               __gptrget2   0x00007d    program     extern ../libsdcc/_gptrget2.S
+            __dataptrget2   0x000085    program     static ../libsdcc/_gptrget2.S
+            __codeptrget2   0x00008c    program     static ../libsdcc/_gptrget2.S
+                   _cinit   0x00009f    program     extern  
+ 

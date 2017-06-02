@@ -1,0 +1,132 @@
+gplink-1.4.1_beta1 (Oct 14 2013)
+Map File - Created 2013-11-20  11:43:27
+ 
+                                 Section Info
+                  Section       Type    Address   Location Size(Bytes)
+                ---------  ---------  ---------  ---------  ---------
+                  STARTUP       code   00000000    program   0x000002
+               code_idata       code   0x000001    program   0x0000dc
+                    .code       code   0x00006f    program   0x000054
+                code_test       code   0x000099    program   0x000032
+                   .cinit       code   0x0000b2    program   0x000010
+             ID_idata_0_i       code   0x0000ba    program   0x000002
+               ID_idata_0      idata   0x000007       data   0x000001
+        UD_abs_mc30p011_0      udata   00000000       data   0x000001
+        UD_abs_mc30p011_1      udata   0x000001       data   0x000001
+        UD_abs_mc30p011_2      udata   0x000002       data   0x000001
+        UD_abs_mc30p011_3      udata   0x000003       data   0x000001
+        UD_abs_mc30p011_4      udata   0x000004       data   0x000001
+        UD_abs_mc30p011_5      udata   0x000005       data   0x000001
+        UD_abs_mc30p011_6      udata   0x000006       data   0x000001
+        UD_abs_mc30p011_8      udata   0x000008       data   0x000001
+        UD_abs_mc30p011_9      udata   0x000009       data   0x000001
+        UD_abs_mc30p011_a      udata   0x00000a       data   0x000001
+        UD_abs_mc30p011_b      udata   0x00000b       data   0x000001
+        UD_abs_mc30p011_c      udata   0x00000c       data   0x000001
+        UD_abs_mc30p011_d      udata   0x00000d       data   0x000001
+        UD_abs_mc30p011_e      udata   0x00000e       data   0x000001
+        UD_abs_mc30p011_f      udata   0x00000f       data   0x000001
+                sharebank      udata   0x000010       data   0x000007
+              UDL_idata_0      udata   0x000017       data   0x00000c
+               UDL_test_0      udata   0x000023       data   0x000002
+       UD_abs_mc30p011_41      udata   0x000041       data   0x000001
+       UD_abs_mc30p011_45      udata   0x000045       data   0x000001
+       UD_abs_mc30p011_46      udata   0x000046       data   0x000001
+       UD_abs_mc30p011_4b      udata   0x00004b       data   0x000001
+       UD_abs_mc30p011_4c      udata   0x00004c       data   0x000001
+       UD_abs_mc30p011_4d      udata   0x00004d       data   0x000001
+       UD_abs_mc30p011_4e      udata   0x00004e       data   0x000001
+       UD_abs_mc30p011_4f      udata   0x00004f       data   0x000001
+ 
+                              Program Memory Usage
+                               Start         End
+                           ---------   ---------
+                            00000000    00000000
+                            0x000099    0x0000b1
+                            0x0000ba    0x0000ba
+                            0x000001    0x00006e
+                            0x00006f    0x000098
+                            0x0000b2    0x0000b9
+ 
+                            187 program addresses used
+ 
+                              Symbols
+                     Name    Address   Location    Storage File
+                ---------  ---------  ---------  --------- ---------
+                    STK06   0x000010       data     extern test.asm
+                    STK05   0x000011       data     extern test.asm
+                    STK04   0x000012       data     extern test.asm
+                    STK03   0x000013       data     extern test.asm
+                    STK02   0x000014       data     extern test.asm
+                    STK01   0x000015       data     extern test.asm
+                    STK00   0x000016       data     extern test.asm
+                  r0x1000   0x000023       data     static test.asm
+                  r0x1001   0x000024       data     static test.asm
+                    _main   0x000099    program     extern test.asm
+               _00105_DS_   0x0000a9    program     static test.asm
+               _00108_DS_   0x0000b1    program     static test.asm
+                    _INDF   00000000       data     extern mc30p011.asm
+                   _T0CNT   0x000001       data     extern mc30p011.asm
+                     _PCL   0x000002       data     extern mc30p011.asm
+              _STATUSbits   0x000003       data     extern mc30p011.asm
+                  _STATUS   0x000003       data     extern mc30p011.asm
+                     _FSR   0x000004       data     extern mc30p011.asm
+                  _P0bits   0x000005       data     extern mc30p011.asm
+                      _P0   0x000005       data     extern mc30p011.asm
+                  _P1bits   0x000006       data     extern mc30p011.asm
+                      _P1   0x000006       data     extern mc30p011.asm
+                 _MCRbits   0x000008       data     extern mc30p011.asm
+                     _MCR   0x000008       data     extern mc30p011.asm
+                _KBIMbits   0x000009       data     extern mc30p011.asm
+                    _KBIM   0x000009       data     extern mc30p011.asm
+                  _PCLATH   0x00000a       data     extern mc30p011.asm
+               _PDCONbits   0x00000b       data     extern mc30p011.asm
+                   _PDCON   0x00000b       data     extern mc30p011.asm
+               _ODCONbits   0x00000c       data     extern mc30p011.asm
+                   _ODCON   0x00000c       data     extern mc30p011.asm
+               _PUCONbits   0x00000d       data     extern mc30p011.asm
+                   _PUCON   0x00000d       data     extern mc30p011.asm
+             _INTECONbits   0x00000e       data     extern mc30p011.asm
+                 _INTECON   0x00000e       data     extern mc30p011.asm
+             _INTFLAGbits   0x00000f       data     extern mc30p011.asm
+                 _INTFLAG   0x00000f       data     extern mc30p011.asm
+                _T0CRbits   0x000041       data     extern mc30p011.asm
+                    _T0CR   0x000041       data     extern mc30p011.asm
+                _DDR0bits   0x000045       data     extern mc30p011.asm
+                    _DDR0   0x000045       data     extern mc30p011.asm
+                _DDR1bits   0x000046       data     extern mc30p011.asm
+                    _DDR1   0x000046       data     extern mc30p011.asm
+                _TMCRbits   0x00004b       data     extern mc30p011.asm
+                    _TMCR   0x00004b       data     extern mc30p011.asm
+                _T1CRbits   0x00004c       data     extern mc30p011.asm
+                    _T1CR   0x00004c       data     extern mc30p011.asm
+                   _T1CNT   0x00004d       data     extern mc30p011.asm
+                  _T1LOAD   0x00004e       data     extern mc30p011.asm
+                  _T1DATA   0x00004f       data     extern mc30p011.asm
+                  r0x1001   0x000017       data     static idata.asm
+                  r0x1000   0x000018       data     static idata.asm
+                  r0x1002   0x000019       data     static idata.asm
+                  r0x1003   0x00001a       data     static idata.asm
+                  r0x1004   0x00001b       data     static idata.asm
+                  r0x1005   0x00001c       data     static idata.asm
+                  r0x1007   0x00001d       data     static idata.asm
+                  r0x1006   0x00001e       data     static idata.asm
+                  r0x1009   0x00001f       data     static idata.asm
+                  r0x1008   0x000020       data     static idata.asm
+                  r0x100B   0x000021       data     static idata.asm
+                  r0x100A   0x000022       data     static idata.asm
+             _force_cinit   0x000007       data     static idata.asm
+    __sdcc_gsinit_startup   0x000001    program     extern idata.asm
+               _00108_DS_   0x00000e    program     static idata.asm
+               _00105_DS_   0x000047    program     static idata.asm
+               _00107_DS_   0x000068    program     static idata.asm
+               _00110_DS_   0x00006d    program     static idata.asm
+                __gptrget   0x00006f    program     extern ../libsdcc/_gptrget1.S
+               __gptrget1   0x00006f    program     extern ../libsdcc/_gptrget1.S
+            __dataptrget1   0x000076    program     static ../libsdcc/_gptrget1.S
+            __codeptrget1   0x00007a    program     extern ../libsdcc/_gptrget1.S
+               __gptrget2   0x00007f    program     extern ../libsdcc/_gptrget2.S
+            __dataptrget2   0x000087    program     static ../libsdcc/_gptrget2.S
+            __codeptrget2   0x00008e    program     static ../libsdcc/_gptrget2.S
+                   _cinit   0x0000b2    program     extern  
+ 

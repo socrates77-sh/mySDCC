@@ -1,0 +1,339 @@
+gpasm-1.3.0 (Jun 19 2013)    main.asm           2013-7-5  15:49:24           PAGE  1
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+                      00001 ;--------------------------------------------------------
+                      00002 ; File Created by SN-SDCC : ANSI-C Compiler
+                      00003 ; Version 0.0.2 (Jun 26 2013) (Linux)
+                      00004 ; This file was generated Fri Jul  5 15:49:23 2013
+                      00005 ;--------------------------------------------------------
+                      00006 ; MC3X port for the RISC core
+                      00007 ;--------------------------------------------------------
+                      00008 ;       .file   "main.c"
+                      00009         list    p=30p011
+                      00010         radix dec
+                      00011         include "mc30p011.inc"
+                      00001                 LIST
+                      00002 ;mc30p011.inc    Standard Header File, Version 1.00 by Sinomcu
+                      00225                 LIST
+                      00012 ;--------------------------------------------------------
+                      00013 ; external declarations
+                      00014 ;--------------------------------------------------------
+                      00015         extern  _i2cint
+                      00016         extern  _i2cout
+                      00017         extern  _i
+                      00018         extern  _j
+                      00019         extern  _n
+                      00020         extern  _table
+                      00021         extern  __gptrget1
+                      00022         extern  __sdcc_gsinit_startup
+                      00023 ;--------------------------------------------------------
+                      00024 ; global declarations
+                      00025 ;--------------------------------------------------------
+                      00026         global  _main
+                      00027 
+                      00028         global PSAVE
+                      00029         global SSAVE
+                      00030         global WSAVE
+                      00031         global STK12
+                      00032         global STK11
+                      00033         global STK10
+                      00034         global STK09
+                      00035         global STK08
+                      00036         global STK07
+                      00037         global STK06
+                      00038         global STK05
+                      00039         global STK04
+                      00040         global STK03
+                      00041         global STK02
+                      00042         global STK01
+                      00043         global STK00
+                      00044 
+                      00045 sharebank udata_ovr 0x0010
+0008                  00046 PSAVE   res 1
+0008                  00047 SSAVE   res 1
+0009                  00048 WSAVE   res 1
+0009                  00049 STK12   res 1
+000A                  00050 STK11   res 1
+000A                  00051 STK10   res 1
+000B                  00052 STK09   res 1
+000B                  00053 STK08   res 1
+000C                  00054 STK07   res 1
+000C                  00055 STK06   res 1
+000D                  00056 STK05   res 1
+000D                  00057 STK04   res 1
+000E                  00058 STK03   res 1
+000E                  00059 STK02   res 1
+000F                  00060 STK01   res 1
+000F                  00061 STK00   res 1
+                      00062 
+                      00063 ;--------------------------------------------------------
+                      00064 ; global definitions
+                      00065 ;--------------------------------------------------------
+                      00066 ;--------------------------------------------------------
+                      00067 ; absolute symbol definitions
+                      00068 ;--------------------------------------------------------
+                      00069 ;--------------------------------------------------------
+                      00070 ; compiler-defined variables
+                      00071 ;--------------------------------------------------------
+                      00072 UDL_main_0      udata
+0000                  00073 r0x1002 res     1
+0000                  00074 r0x1003 res     1
+                      00075 ;--------------------------------------------------------
+                      00076 ; initialized data
+                      00077 ;--------------------------------------------------------
+                      00078 ;--------------------------------------------------------
+                      00079 ; overlayable items in internal ram 
+                      00080 ;--------------------------------------------------------
+                      00081 ;       udata_ovr
+                      00082 ;--------------------------------------------------------
+                      00083 ; reset vector 
+                      00084 ;--------------------------------------------------------
+                      00085 STARTUP code 0x0000
+0000   2800           00086         goto    __sdcc_gsinit_startup
+                      00087 ;--------------------------------------------------------
+                      00088 ; code
+                      00089 ;--------------------------------------------------------
+                      00090 code_main       code
+                      00091 ;***
+                      00092 ;  pBlock Stats: dbName = M
+                      00093 ;***
+                      00094 ;entry:  _main  ;Function start
+                      00095 ; 2 exit points
+                      00096 ;has an exit
+                      00097 ;functions called:
+                      00098 ;   _i2cint
+                      00099 ;   __gptrget1
+                      00100 ;   _i2cout
+                      00101 ;   _i2cint
+                      00102 ;   __gptrget1
+                      00103 ;   _i2cout
+                      00104 ;4 compiler assigned registers:
+                      00105 ;   r0x1002
+                      00106 ;   r0x1003
+                      00107 ;   STK01
+                      00108 ;   STK00
+                      00109 ;; Starting pCode block
+0000                  00110 _main   ;Function start
+                      00111 ; 2 exit points
+                      00112 ;       .line   9; "main.c"     i2cint();     
+0000   2000           00113         CALL    _i2cint
+0001                  00114 _00106_DS_
+                      00115 ;       .line   12; "main.c"    for(i=0x00;i<=127;++i)
+0001   1D80           00116         CLRR    _i
+                      00117 ;;swapping arguments (AOP_TYPEs 1/3)
+                      00118 ;;unsigned compare: left >= lit(0x80=128), size=1
+0002                  00119 _00108_DS_
+0002   0B80           00120         MOVAI   0x80
+0003   1200           00121         RSUBAR  _i
+0004   3403           00122         JBCLR   STATUS,0
+0005   2800           00123         GOTO    _00106_DS_
+                      00124 ;;genSkipc:3244: created from rifx:0xbfe2bb14
+                      00125 ;       .line   14; "main.c"    j=table[i]; 
+0006   1600           00126         MOVAR   _i
+0007   0E00           00127         ADDAI   (_table + 0)
+0008   1580           00128         MOVRA   r0x1002
+0009   0B00           00129         MOVAI   high (_table + 0)
+000A   3403           00130         JBCLR   STATUS,0
+000B   0E01           00131         ADDAI   0x01
+000C   1580           00132         MOVRA   r0x1003
+000D   1600           00133         MOVAR   r0x1002
+000E   1580           00134         MOVRA   STK01
+000F   1600           00135         MOVAR   r0x1003
+0010   1580           00136         MOVRA   STK00
+0011   0B80           00137         MOVAI   0x80
+0012   2000           00138         CALL    __gptrget1
+0013   1580           00139         MOVRA   _j
+                      00140 ;       .line   15; "main.c"    i2cout(); 
+0014   2000           00141         CALL    _i2cout
+                      00142 ;       .line   12; "main.c"    for(i=0x00;i<=127;++i)
+0015   1980           00143         INCR    _i
+0016   2800           00144         GOTO    _00108_DS_
+0017   000C           00145         RETURN  
+                      00146 ; exit point of _main
+                      00147 
+                      00148 
+                      00149 ;       code size estimation:
+                      00150 ;          24+    0 =    24 instructions (   48 byte)
+                      00151 
+                      00152         end
+gpasm-1.3.0 (Jun 19 2013)    main.asm           2013-7-5  15:49:24           PAGE  2
+
+
+SYMBOL TABLE
+  LABEL                             VALUE
+
+BUZOUT                            00000005
+C                                 00000000
+DC                                00000001
+DDR0                              00000045
+DDR00                             00000000
+DDR01                             00000001
+DDR02                             00000002
+DDR03                             00000003
+DDR1                              00000046
+DDR10                             00000000
+DDR11                             00000001
+DDR12                             00000002
+DDR14                             00000004
+DDR15                             00000005
+DDR16                             00000006
+DDR17                             00000007
+EIS                               00000006
+FSR                               00000004
+GIE                               00000007
+INDF                              00000000
+INT0IE                            00000002
+INT0IF                            00000002
+INT0M                             00000006
+INTECON                           0000000E
+INTFLAG                           0000000F
+KBIE                              00000001
+KBIF                              00000001
+KBIM                              00000009
+KBIM0                             00000000
+KBIM1                             00000001
+KBIM2                             00000002
+KBIM3                             00000003
+KBIM4                             00000004
+KBIM5                             00000005
+KBIM6                             00000006
+KBIM7                             00000007
+MCR                               00000008
+ODCON                             0000000C
+P0                                00000005
+P00                               00000000
+P00PD                             00000000
+P01                               00000001
+P01PD                             00000001
+P02                               00000002
+P02PD                             00000002
+P03                               00000003
+P03PD                             00000003
+P1                                00000006
+P10                               00000000
+P10OD                             00000000
+P10PD                             00000004
+P10PU                             00000000
+P11                               00000001
+P11OD                             00000001
+P11PD                             00000005
+P11PU                             00000001
+P12                               00000002
+P12OD                             00000002
+P12PD                             00000006
+P12PU                             00000002
+P13                               00000003
+P14                               00000004
+P14OD                             00000004
+P14PU                             00000004
+P15                               00000005
+P15OD                             00000005
+P15PU                             00000005
+P16                               00000006
+P16OD                             00000006
+P16PU                             00000006
+P17                               00000007
+P17OD                             00000007
+P17PU                             00000007
+PCL                               00000002
+PCLATH                            0000000A
+PD                                00000003
+PDCON                             0000000B
+PSAVE                             00000010
+PUCON                             0000000D
+PWMOUT                            00000006
+RST                               00000007
+SSAVE                             00000011
+STATUS                            00000003
+STK00                             0000001F
+STK01                             0000001E
+STK02                             0000001D
+STK03                             0000001C
+STK04                             0000001B
+STK05                             0000001A
+STK06                             00000019
+STK07                             00000018
+STK08                             00000017
+STK09                             00000016
+STK10                             00000015
+STK11                             00000014
+STK12                             00000013
+T0CNT                             00000001
+T0CR                              00000041
+T0IE                              00000000
+T0IF                              00000000
+T0PTA                             00000003
+T0PTS                             00000005
+T0SE                              00000004
+T1CNT                             0000004D
+T1CR                              0000004C
+T1DATA                            0000004F
+T1IE                              00000001
+T1IF                              00000000
+T1LOAD                            0000004E
+TBS                               00000007
+TMCR                              0000004B
+TMR1EN                            00000007
+TO                                00000004
+WDTEN                             00000007
+WSAVE                             00000012
+Z                                 00000002
+_00106_DS_                        00000001
+_00108_DS_                        00000002
+_CONFIG0                          00002000
+_CONFIG1                          00002001
+_CP_ALL                           00001FFF
+_FCPU_2T                          00003F7F
+_FCPU_4T                          00003FFF
+_IRC_1M                           00003FCF
+_IRC_2M                           00003FDF
+_IRC_444K                         00003FAF
+_IRC_4M                           00003FEF
+_IRC_8M                           00003FFF
+_MCLR_OFF                         00003FF7
+_MCLR_ON                          00003FFF
+_OSC_HXT                          00002FFF
+_OSC_IRC                          000037FF
+_OSC_IRC_RTC                      00003FFF
+_OSC_LXT                          000027FF
+_PWRT_OFF                         00003BFF
+_PWRT_ON                          00003FFF
+_RD_FROM_PIN                      00003FFF
+_RD_FROM_REG                      00003EFF
+_SMT_OFF                          00003FFF
+_SMT_ON                           00003DFF
+_TWDT_18MS                        00003FFF
+_TWDT_288MS                       00003DFF
+_TWDT_4P5MS                       00003EFF
+_TWDT_72MS                        00003CFF
+_VBOR_15                          00003FF8
+_VBOR_18                          00003FF9
+_VBOR_20                          00003FFA
+_VBOR_22                          00003FFB
+_VBOR_24                          00003FFC
+_VBOR_26                          00003FFD
+_VBOR_30                          00003FFE
+_VBOR_36                          00003FFF
+_WDT_OFF                          000037FF
+_WDT_ON                           00003FFF
+__30P011                          00000001
+__gptrget1                        00000000
+__sdcc_gsinit_startup             00000000
+_i                                00000000
+_i2cint                           00000000
+_i2cout                           00000000
+_j                                00000000
+_main                             00000000
+_n                                00000000
+_table                            00000000
+r0x1002                           00000000
+r0x1003                           00000001
+
+Errors   :     0
+Warnings :     0 reported,     0 suppressed
+Messages :     0 reported,     0 suppressed
+
+

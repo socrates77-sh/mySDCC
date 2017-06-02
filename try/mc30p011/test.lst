@@ -1,0 +1,258 @@
+gplink-1.4.1_beta1 (Oct 14 2013)
+Listing File Generated: 2013-11-20  11:43:27
+ 
+ 
+Address  Value    Disassembly              Source
+-------  -----    -----------              ------
+                                           ;--------------------------------------------------------
+                                           ; File Created by SN-SDCC : ANSI-C Compiler
+                                           ; Version 0.0.4 (Nov 20 2013) (Linux)
+                                           ; This file was generated Wed Nov 20 11:43:27 2013
+                                           ;--------------------------------------------------------
+                                           ; MC3X port for the RISC core
+                                           ;--------------------------------------------------------
+                                           ;	.file	"test.c"
+                                           	list	p=30p011
+                                           	radix dec
+                                           	include "mc30p011.inc"
+                                           		LIST
+                                           ;mc30p011.inc    Standard Header File, Version 1.00 by Sinomcu
+                                           		NOLIST
+                                           ;--------------------------------------------------------
+                                           ; external declarations
+                                           ;--------------------------------------------------------
+                                           	extern	_STATUSbits
+                                           	extern	_P0bits
+                                           	extern	_P1bits
+                                           	extern	_MCRbits
+                                           	extern	_KBIMbits
+                                           	extern	_PDCONbits
+                                           	extern	_ODCONbits
+                                           	extern	_PUCONbits
+                                           	extern	_INTECONbits
+                                           	extern	_INTFLAGbits
+                                           	extern	_T0CRbits
+                                           	extern	_DDR0bits
+                                           	extern	_DDR1bits
+                                           	extern	_TMCRbits
+                                           	extern	_T1CRbits
+                                           	extern	_INDF
+                                           	extern	_T0CNT
+                                           	extern	_PCL
+                                           	extern	_STATUS
+                                           	extern	_FSR
+                                           	extern	_P0
+                                           	extern	_P1
+                                           	extern	_MCR
+                                           	extern	_KBIM
+                                           	extern	_PCLATH
+                                           	extern	_PDCON
+                                           	extern	_ODCON
+                                           	extern	_PUCON
+                                           	extern	_INTECON
+                                           	extern	_INTFLAG
+                                           	extern	_T0CR
+                                           	extern	_DDR0
+                                           	extern	_DDR1
+                                           	extern	_TMCR
+                                           	extern	_T1CR
+                                           	extern	_T1CNT
+                                           	extern	_T1LOAD
+                                           	extern	_T1DATA
+                                           	extern	__sdcc_gsinit_startup
+                                           ;--------------------------------------------------------
+                                           ; global declarations
+                                           ;--------------------------------------------------------
+                                           	global	_main
+                                           
+                                           	global STK06
+                                           	global STK05
+                                           	global STK04
+                                           	global STK03
+                                           	global STK02
+                                           	global STK01
+                                           	global STK00
+                                           
+                                           sharebank udata_ovr 0x0010
+                                           STK06	res 1
+                                           STK05	res 1
+                                           STK04	res 1
+                                           STK03	res 1
+                                           STK02	res 1
+                                           STK01	res 1
+                                           STK00	res 1
+                                           
+                                           ;--------------------------------------------------------
+                                           ; global definitions
+                                           ;--------------------------------------------------------
+                                           ;--------------------------------------------------------
+                                           ; absolute symbol definitions
+                                           ;--------------------------------------------------------
+                                           ;--------------------------------------------------------
+                                           ; compiler-defined variables
+                                           ;--------------------------------------------------------
+                                           UDL_test_0	udata
+                                           r0x1000	res	1
+                                           r0x1001	res	1
+                                           ;--------------------------------------------------------
+                                           ; initialized data
+                                           ;--------------------------------------------------------
+                                           ;--------------------------------------------------------
+                                           ; overlayable items in internal ram 
+                                           ;--------------------------------------------------------
+                                           ;	udata_ovr
+                                           ;--------------------------------------------------------
+                                           ; reset vector 
+                                           ;--------------------------------------------------------
+                                           STARTUP	code 0x0000
+000000   2801     goto    0x1              	goto	__sdcc_gsinit_startup
+                                           ;--------------------------------------------------------
+                                           ; code
+                                           ;--------------------------------------------------------
+                                           code_test	code
+                                           ;***
+                                           ;  pBlock Stats: dbName = M
+                                           ;***
+                                           ;entry:  _main	;Function start
+                                           ; 2 exit points
+                                           ;has an exit
+                                           ;2 compiler assigned registers:
+                                           ;   r0x1000
+                                           ;   r0x1001
+                                           ;; Starting pCode block
+                                           _main	;Function start
+                                           ; 2 exit points
+                                           ;	.line	7; "test.c"	DDR1 = 0x01;
+000099   0b01     movai   0x1              	MOVAI	0x01
+00009a   15c6     movra   0x46             	MOVRA	_DDR1
+                                           ;	.line	8; "test.c"	KBIM = DDR1 & 0x55;
+00009b   0b55     movai   0x55             	MOVAI	0x55
+00009c   1e46     andar   0x46             	ANDAR	_DDR1
+00009d   1589     movra   0x9              	MOVRA	_KBIM
+                                           ;	.line	9; "test.c"	KBIM = DDR1 | 0x66;
+00009e   0b66     movai   0x66             	MOVAI	0x66
+00009f   1746     orar    0x46             	ORAR	_DDR1
+0000a0   1589     movra   0x9              	MOVRA	_KBIM
+                                           ;	.line	10; "test.c"	KBIM = DDR1 ^ 0x66;
+0000a1   0b66     movai   0x66             	MOVAI	0x66
+0000a2   1046     xorar   0x46             	XORAR	_DDR1
+0000a3   1589     movra   0x9              	MOVRA	_KBIM
+                                           ;	.line	11; "test.c"	KBIE = 1;
+0000a4   388e     bset    0xe, 0x1         	BSET	_INTECONbits,1
+                                           ;	.line	15; "test.c"	while(a==3)
+0000a5   0b01     movai   0x1              	MOVAI	0x01
+0000a6   15a3     movra   0x23             	MOVRA	r0x1000
+0000a7   0b02     movai   0x2              	MOVAI	0x02
+0000a8   15a4     movra   0x24             	MOVRA	r0x1001
+                                           _00105_DS_
+0000a9   1623     movar   0x23             	MOVAR	r0x1000
+0000aa   0803     xorai   0x3              	XORAI	0x03
+0000ab   3103     jbset   0x3, 0x2         	JBSET	STATUS,2
+0000ac   28b1     goto    0xb1             	GOTO	_00108_DS_
+                                           ;	.line	17; "test.c"	a++;
+0000ad   19a3     incr    0x23             	INCR	r0x1000
+                                           ;	.line	18; "test.c"	b = b + 2;
+0000ae   19a4     incr    0x24             	INCR	r0x1001
+0000af   19a4     incr    0x24             	INCR	r0x1001
+                                           ;	.line	19; "test.c"	c = a + b;
+0000b0   28a9     goto    0xa9             	GOTO	_00105_DS_
+                                           _00108_DS_
+0000b1   000c     return                   	RETURN	
+                                           ; exit point of _main
+                                           
+                                           
+                                           ;	code size estimation:
+                                           ;	   25+    0 =    25 instructions (   50 byte)
+                                           
+                                           	end
+                                           		LIST
+                                           ;mc30p011.inc    Standard Header File, Version 1.00 by Sinomcu
+                                           		NOLIST
+                                           		LIST
+                                           ;mc30p011.inc    Standard Header File, Version 1.00 by Sinomcu
+                                           		NOLIST
+                                           ;--------------------------------------------------------------------------
+                                           ;  p16f_common.inc - definitions common to all 14 bit PIC devices
+                                           ;
+                                           ;  Copyright (C) 2005, Vangelis Rokas <vrokas AT otenet.gr>
+                                           ;
+                                           ;  This library is free software; you can redistribute it and/or modify it
+                                           ;  under the terms of the GNU General Public License as published by the
+                                           ;  Free Software Foundation; either version 2, or (at your option) any
+                                           ;  later version.
+                                           ;
+                                           ;  This library is distributed in the hope that it will be useful,
+                                           ;  but WITHOUT ANY WARRANTY; without even the implied warranty of
+                                           ;  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+                                           ;  GNU General Public License for more details.
+                                           ;
+                                           ;  You should have received a copy of the GNU General Public License 
+                                           ;  along with this library; see the file COPYING. If not, write to the
+                                           ;  Free Software Foundation, 51 Franklin Street, Fifth Floor, Boston,
+                                           ;   MA 02110-1301, USA.
+                                           ;
+                                           ;  As a special exception, if you link this library with other files,
+                                           ;  some of which are compiled with SDCC, to produce an executable,
+                                           ;  this library does not by itself cause the resulting executable to
+                                           ;  be covered by the GNU General Public License. This exception does
+                                           ;  not however invalidate any other reasons why the executable file
+                                           ;  might be covered by the GNU General Public License.
+                                           ;--------------------------------------------------------------------------
+                                           
+                                           		extern	STK00
+                                           		extern	STK01
+                                           		extern	STK02
+                                           		extern	STK03
+                                           		extern	STK04
+                                           		extern	STK05
+                                           
+                                           ;--------------------------------------------------------------------------
+                                           ;  p16f_common.inc - definitions common to all 14 bit PIC devices
+                                           ;
+                                           ;  Copyright (C) 2005, Vangelis Rokas <vrokas AT otenet.gr>
+                                           ;
+                                           ;  This library is free software; you can redistribute it and/or modify it
+                                           ;  under the terms of the GNU General Public License as published by the
+                                           ;  Free Software Foundation; either version 2, or (at your option) any
+                                           ;  later version.
+                                           ;
+                                           ;  This library is distributed in the hope that it will be useful,
+                                           ;  but WITHOUT ANY WARRANTY; without even the implied warranty of
+                                           ;  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+                                           ;  GNU General Public License for more details.
+                                           ;
+                                           ;  You should have received a copy of the GNU General Public License 
+                                           ;  along with this library; see the file COPYING. If not, write to the
+                                           ;  Free Software Foundation, 51 Franklin Street, Fifth Floor, Boston,
+                                           ;   MA 02110-1301, USA.
+                                           ;
+                                           ;  As a special exception, if you link this library with other files,
+                                           ;  some of which are compiled with SDCC, to produce an executable,
+                                           ;  this library does not by itself cause the resulting executable to
+                                           ;  be covered by the GNU General Public License. This exception does
+                                           ;  not however invalidate any other reasons why the executable file
+                                           ;  might be covered by the GNU General Public License.
+                                           ;--------------------------------------------------------------------------
+                                           
+                                           		extern	STK00
+                                           		extern	STK01
+                                           		extern	STK02
+                                           		extern	STK03
+                                           		extern	STK04
+                                           		extern	STK05
+                                           
+
+
+MEMORY USAGE MAP ('X' = Used,  '-' = Unused)
+
+0000 : XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX
+0040 : XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX
+0080 : XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX
+00C0 : XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX
+0100 : XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX
+0140 : XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX XXXXXX----------
+
+All other memory blocks unused.
+
+Program Memory Words Used:   187
+

@@ -1,0 +1,694 @@
+gpasm-1.9.6 (Apr 26 2017)    fs2sint.asm        2017-4-27  10:00:40          PAGE  1
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+                      00001 ;--------------------------------------------------------
+                      00002 ; File Created by SN-SDCC : ANSI-C Compiler
+                      00003 ; Version 0.0.4 (Nov 23 2015) (Linux)
+                      00004 ; This file was generated Thu Apr 27 10:00:40 2017
+                      00005 ;--------------------------------------------------------
+                      00006 ; MC3X port for the RISC core
+                      00007 ;--------------------------------------------------------
+                      00008 ;       .file   "../libsdcc/fs2sint.c"
+                      00009         list    p=7122
+                      00010         radix dec
+                      00011         include "7122.inc"
+                      00001                 LIST
+                      00002 ;mc32f7122.inc    Standard Header File, Version 1.00 by Sinomcu
+Message[301]: Processor-header file mismatch.  Verify selected processor.
+                      00643                 LIST
+                      00012 ;--------------------------------------------------------
+                      00013 ; external declarations
+                      00014 ;--------------------------------------------------------
+                      00015         extern  ___uchar2fs
+                      00016         extern  ___schar2fs
+                      00017         extern  ___uint2fs
+                      00018         extern  ___sint2fs
+                      00019         extern  ___ulong2fs
+                      00020         extern  ___slong2fs
+                      00021         extern  ___fs2uchar
+                      00022         extern  ___fs2schar
+                      00023         extern  ___fs2uint
+                      00024         extern  ___fs2ulong
+                      00025         extern  ___fs2slong
+                      00026         extern  ___fsadd
+                      00027         extern  ___fssub
+                      00028         extern  ___fsmul
+                      00029         extern  ___fsdiv
+                      00030         extern  ___fslt
+                      00031         extern  ___fseq
+                      00032         extern  ___fsneq
+                      00033         extern  ___fsgt
+                      00034 
+                      00035         extern STK06
+                      00036         extern STK05
+                      00037         extern STK04
+                      00038         extern STK03
+                      00039         extern STK02
+                      00040         extern STK01
+                      00041         extern STK00
+                      00042 ;--------------------------------------------------------
+                      00043 ; global declarations
+                      00044 ;--------------------------------------------------------
+                      00045         global  ___fs2sint
+                      00046 
+                      00047 ;--------------------------------------------------------
+                      00048 ; global definitions
+                      00049 ;--------------------------------------------------------
+                      00050 ;--------------------------------------------------------
+                      00051 ; absolute symbol definitions
+                      00052 ;--------------------------------------------------------
+                      00053 ;--------------------------------------------------------
+                      00054 ; compiler-defined variables
+                      00055 ;--------------------------------------------------------
+                      00056 UDL_fs2sint_0   udata
+0000                  00057 r0x1003 res     1
+0000                  00058 r0x1002 res     1
+0001                  00059 r0x1001 res     1
+0001                  00060 r0x1000 res     1
+                      00061 ;--------------------------------------------------------
+                      00062 ; initialized data
+                      00063 ;--------------------------------------------------------
+                      00064 ;--------------------------------------------------------
+                      00065 ; overlayable items in internal ram 
+                      00066 ;--------------------------------------------------------
+                      00067 ;       udata_ovr
+                      00068 ;--------------------------------------------------------
+                      00069 ; code
+                      00070 ;--------------------------------------------------------
+                      00071 code_fs2sint    code
+                      00072 ;***
+                      00073 ;  pBlock Stats: dbName = C
+                      00074 ;***
+                      00075 ;entry:  ___fs2sint     ;Function start
+                      00076 ; 2 exit points
+                      00077 ;has an exit
+                      00078 ;functions called:
+                      00079 ;   ___fs2slong
+                      00080 ;   ___fs2slong
+                      00081 ;9 compiler assigned registers:
+                      00082 ;   r0x1000
+                      00083 ;   STK00
+                      00084 ;   r0x1001
+                      00085 ;   STK01
+                      00086 ;   r0x1002
+                      00087 ;   STK02
+                      00088 ;   r0x1003
+                      00089 ;   r0x1004
+                      00090 ;   r0x1005
+                      00091 ;; Starting pCode block
+                      00092 ;;[ICODE] ../libsdcc/fs2sint.c:33:  _entry($6) :
+                      00093 ;;[ICODE] ../libsdcc/fs2sint.c:33:      proc ___fs2sint [k1 lr0:0 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{int function ( float fixed) fixed}
+0000                  00094 ___fs2sint      ;Function start
+                      00095 ; 2 exit points
+                      00096 ;;[ICODE] ../libsdcc/fs2sint.c:33: iTemp0 [k2 lr3:4 so:0]{ ia0 a2p0 re1 rm0 nos0 ru1 dp0}{float fixed}{ sir@ ___fs2sint_f_1_21}[r0x1000 r0x1001 r0x1002 r0x1003 ] = recv ___fs2sint [k1 lr0:0 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{int function ( float fixed) fixed}
+                      00097 ;       .line   33; "../libsdcc/fs2sint.c"      signed int __fs2sint (float f) _FS_REENTRANT
+0000   5600           00098         MOVRA   r0x1000
+0001   5800           00099         MOVAR   STK00
+0002   5600           00100         MOVRA   r0x1001
+0003   5800           00101         MOVAR   STK01
+0004   5600           00102         MOVRA   r0x1002
+0005   5800           00103         MOVAR   STK02
+0006   5600           00104         MOVRA   r0x1003
+                      00105 ;;[ICODE] ../libsdcc/fs2sint.c:35:      send iTemp0 [k2 lr3:4 so:0]{ ia0 a2p0 re1 rm0 nos0 ru1 dp0}{float fixed}{ sir@ ___fs2sint_f_1_21}[r0x1000 r0x1001 r0x1002 r0x1003 ]{argreg = 1}
+                      00106 ;;[ICODE] ../libsdcc/fs2sint.c:35:      iTemp1 [k4 lr5:15 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{long-int fixed}{ sir@ ___fs2sint_sl_1_22}[r0x1000 r0x1001 r0x1002 r0x1003 ] = call ___fs2slong [k6 lr0:0 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{long-int function ( float fixed) fixed}
+                      00107 ;       .line   35; "../libsdcc/fs2sint.c"      signed long sl=__fs2slong(f);
+0007   5800           00108         MOVAR   r0x1003
+0008   5600           00109         MOVRA   STK02
+0009   5800           00110         MOVAR   r0x1002
+000A   5600           00111         MOVRA   STK01
+000B   5800           00112         MOVAR   r0x1001
+000C   5600           00113         MOVRA   STK00
+000D   5800           00114         MOVAR   r0x1000
+000E   8000           00115         CALL    ___fs2slong
+000F   5600           00116         MOVRA   r0x1000
+0010   5800           00117         MOVAR   STK00
+0011   5600           00118         MOVRA   r0x1001
+0012   5800           00119         MOVAR   STK01
+0013   5600           00120         MOVRA   r0x1002
+0014   5800           00121         MOVAR   STK02
+0015   5600           00122         MOVRA   r0x1003
+                      00123 ;;[ICODE] ../libsdcc/fs2sint.c:36:      iTemp3 [k9 lr7:8 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char fixed} = iTemp1 [k4 lr5:15 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{long-int fixed}{ sir@ ___fs2sint_sl_1_22}[r0x1000 r0x1001 r0x1002 r0x1003 ] < 0x7fff {long-int literal}
+                      00124 ;;signed compare: left < lit(0x7FFF=32767), size=4, mask=ffffffff
+                      00125 ;       .line   36; "../libsdcc/fs2sint.c"      if (sl>=INT_MAX)
+0016   5800           00126         MOVAR   r0x1000
+0017   3F80           00127         ADDAI   0x80
+0018   3F80           00128         ADDAI   0x80
+0019   E587           00129         JBSET   STATUS,2
+001A   A000           00130         GOTO    _00115_DS_
+001B   3C00           00131         MOVAI   0x00
+001C   4800           00132         RSUBAR  r0x1001
+001D   E587           00133         JBSET   STATUS,2
+001E   A000           00134         GOTO    _00115_DS_
+001F   3C7F           00135         MOVAI   0x7f
+0020   4800           00136         RSUBAR  r0x1002
+0021   E587           00137         JBSET   STATUS,2
+0022   A000           00138         GOTO    _00115_DS_
+0023   3CFF           00139         MOVAI   0xff
+0024   4800           00140         RSUBAR  r0x1003
+0025                  00141 _00115_DS_
+0025   E187           00142         JBSET   STATUS,0
+0026   A000           00143         GOTO    _00106_DS_
+                      00144 ;;genSkipc:3246: created from rifx:0xbfff2ce0
+                      00145 ;;[ICODE] ../libsdcc/fs2sint.c:36:      if iTemp3 [k9 lr7:8 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char fixed} != 0 goto _iffalse_0($2)
+                      00146 ;;[ICODE] ../libsdcc/fs2sint.c:37:      ret 0x7fff {const-int literal}
+                      00147 ;       .line   37; "../libsdcc/fs2sint.c"      return INT_MAX;
+0027   3CFF           00148         MOVAI   0xff
+0028   5600           00149         MOVRA   STK00
+0029   3C7F           00150         MOVAI   0x7f
+002A   A000           00151         GOTO    _00109_DS_
+                      00152 ;;[ICODE] ../libsdcc/fs2sint.c:37:  _iffalse_0($2) :
+                      00153 ;;[ICODE] ../libsdcc/fs2sint.c:38:      iTemp4 [k10 lr11:12 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char fixed} = iTemp1 [k4 lr5:15 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{long-int fixed}{ sir@ ___fs2sint_sl_1_22}[r0x1000 r0x1001 r0x1002 r0x1003 ] > 0xffff8000 {const-long-int literal}
+                      00154 ;;swapping arguments (AOP_TYPEs 1/2)
+                      00155 ;;signed compare: left >= lit(0xFFFF8001=-32767), size=4, mask=ffffffff
+002B                  00156 _00106_DS_
+                      00157 ;       .line   38; "../libsdcc/fs2sint.c"      if (sl<=INT_MIN) 
+002B   5800           00158         MOVAR   r0x1000
+002C   3F80           00159         ADDAI   0x80
+002D   3F81           00160         ADDAI   0x81
+002E   E587           00161         JBSET   STATUS,2
+002F   A000           00162         GOTO    _00116_DS_
+0030   3CFF           00163         MOVAI   0xff
+0031   4800           00164         RSUBAR  r0x1001
+0032   E587           00165         JBSET   STATUS,2
+0033   A000           00166         GOTO    _00116_DS_
+0034   3C80           00167         MOVAI   0x80
+0035   4800           00168         RSUBAR  r0x1002
+0036   E587           00169         JBSET   STATUS,2
+0037   A000           00170         GOTO    _00116_DS_
+0038   3C01           00171         MOVAI   0x01
+0039   4800           00172         RSUBAR  r0x1003
+003A                  00173 _00116_DS_
+003A   F187           00174         JBCLR   STATUS,0
+003B   A000           00175         GOTO    _00108_DS_
+                      00176 ;;genSkipc:3246: created from rifx:0xbfff2ce0
+                      00177 ;;[ICODE] ../libsdcc/fs2sint.c:38:      if iTemp4 [k10 lr11:12 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char fixed} != 0 goto _iffalse_1($4)
+                      00178 ;;[ICODE] ../libsdcc/fs2sint.c:39:      ret 0xffff8000 {int literal}
+                      00179 ;       .line   39; "../libsdcc/fs2sint.c"      return -INT_MIN;
+003C   3C00           00180         MOVAI   0x00
+003D   5600           00181         MOVRA   STK00
+003E   3C80           00182         MOVAI   0x80
+003F   A000           00183         GOTO    _00109_DS_
+                      00184 ;;[ICODE] ../libsdcc/fs2sint.c:39:  _iffalse_1($4) :
+                      00185 ;;[ICODE] ../libsdcc/fs2sint.c:40:      iTemp5 [k11 lr15:16 so:0]{ ia0 a2p0 re0 rm0 nos0 ru1 dp0}{int fixed}[r0x1004 r0x1005 ] = (int fixed)iTemp1 [k4 lr5:15 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{long-int fixed}{ sir@ ___fs2sint_sl_1_22}[r0x1000 r0x1001 r0x1002 r0x1003 ]
+                      00186 ;;101   MOVAR   r0x1003
+                      00187 ;;99    MOVRA   r0x1004
+                      00188 ;;104   MOVAR   r0x1002
+                      00189 ;;102   MOVRA   r0x1005
+                      00190 ;;[ICODE] ../libsdcc/fs2sint.c:40:      ret iTemp5 [k11 lr15:16 so:0]{ ia0 a2p0 re0 rm0 nos0 ru1 dp0}{int fixed}[r0x1004 r0x1005 ]
+                      00191 ;;100   MOVAR   r0x1004
+0040                  00192 _00108_DS_
+                      00193 ;       .line   40; "../libsdcc/fs2sint.c"      return sl;
+0040   5800           00194         MOVAR   r0x1003
+0041   5600           00195         MOVRA   STK00
+                      00196 ;;103   MOVAR   r0x1005
+0042   5800           00197         MOVAR   r0x1002
+                      00198 ;;[ICODE] ../libsdcc/fs2sint.c:40:  _return($5) :
+                      00199 ;;[ICODE] ../libsdcc/fs2sint.c:40:      eproc ___fs2sint [k1 lr0:0 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{int function ( float fixed) fixed}
+0043                  00200 _00109_DS_
+0043   000C           00201         RETURN  
+                      00202 ; exit point of ___fs2sint
+                      00203 
+                      00204 
+                      00205 ;       code size estimation:
+                      00206 ;          68+    0 =    68 instructions (  136 byte)
+                      00207 
+                      00208         end
+gpasm-1.9.6 (Apr 26 2017)    fs2sint.asm        2017-4-27  10:00:40          PAGE  2
+
+
+SYMBOL TABLE
+  LABEL                             VALUE
+
+ADCR0                             000001B8
+ADCR1                             000001B9
+ADIOS0                            000001BC
+ADIOS1                            000001BD
+ADRH                              000001BA
+ADRL                              000001BB
+CP0CLR                            000001CC
+CP1CLR                            000001CD
+CP2CLR                            000001CE
+CP3CLR                            000001CF
+CPCR                              000001C8
+CPSR                              000001C9
+CPVR0                             000001CA
+CPVR1                             000001CB
+EEAR                              000001B6
+EECR                              000001B4
+EEDR                              000001B7
+EEMASK                            000001B5
+FSR                               00000184
+FSR0                              00000184
+FSR1                              00000185
+HIBYTE                            00000183
+IICAR                             000001B1
+IICCR                             000001B0
+IICDR                             000001B2
+INDF                              00000180
+INDF0                             00000180
+INDF1                             00000181
+INDF2                             00000182
+INDF3                             00000189
+INTE                              0000018A
+INTE1                             0000018D
+INTF                              0000018B
+INTF1                             0000018E
+IOP0                              00000190
+IOP1                              00000194
+IOP2                              00000198
+LCDCR                             0000018F
+MCR                               00000188
+OEP0                              00000191
+OEP1                              00000195
+OEP2                              00000199
+OPACLR                            000001C5
+OPACR                             000001C4
+OSADJCR                           000001BE
+OSCM                              0000018C
+PCL                               00000186
+PDP0                              00000193
+PDP1                              00000197
+PDP2                              0000019B
+PFLAG                             00000187
+PPGCR                             000001C0
+PPGLOAD                           000001C1
+PPGTDB                            000001C3
+PPGTDL                            000001C2
+PUP0                              00000192
+PUP1                              00000196
+PUP2                              0000019A
+STATUS                            00000187
+STK00                             00000000
+STK01                             00000000
+STK02                             00000000
+STK03                             00000000
+STK04                             00000000
+STK05                             00000000
+STK06                             00000000
+T0CNT                             000001A1
+T0CR                              000001A0
+T0DATA                            000001A3
+T0EFR                             000001A4
+T0LOAD                            000001A2
+T1CNT                             000001A6
+T1CR                              000001A5
+T1LOAD                            000001A7
+T2CNT                             000001A9
+T2CR                              000001A8
+T2EFR                             000001AC
+T2LOAD                            000001AA
+T3CNT                             000001AE
+T3CR                              000001AD
+T3LOAD                            000001AF
+_00106_DS_                        0000002B
+_00108_DS_                        00000040
+_00109_DS_                        00000043
+_00115_DS_                        00000025
+_00116_DS_                        0000003A
+_CONFIG0                          00008000
+_CONFIG1                          00008001
+__7122                            00000001
+___fs2schar                       00000000
+___fs2sint                        00000000
+___fs2slong                       00000000
+___fs2uchar                       00000000
+___fs2uint                        00000000
+___fs2ulong                       00000000
+___fsadd                          00000000
+___fsdiv                          00000000
+___fseq                           00000000
+___fsgt                           00000000
+___fslt                           00000000
+___fsmul                          00000000
+___fsneq                          00000000
+___fssub                          00000000
+___schar2fs                       00000000
+___sint2fs                        00000000
+___slong2fs                       00000000
+___uchar2fs                       00000000
+___uint2fs                        00000000
+___ulong2fs                       00000000
+r0x1000                           00000003
+r0x1001                           00000002
+r0x1002                           00000001
+r0x1003                           00000000
+ADCHS0                            ADCR0,4
+ADCHS1                            ADCR0,5
+ADCHS2                            ADCR0,6
+ADCHS3                            ADCR0,7
+ADCKS0                            ADCR1,4
+ADCKS1                            ADCR1,5
+ADEN                              ADCR0,0
+ADEOC                             ADCR0,1
+ADIE                              INTE,6
+ADIF                              INTF,6
+ADRSEL                            ADCR1,7
+ADSPS0                            ADCR1,0
+ADSPS1                            ADCR1,1
+ADVRS                             ADCR0,2
+BUZ0OE                            T0CR,5
+C                                 PFLAG,0
+CLKS                              OSCM,2
+CP0CLR0                           CP0CLR,0
+CP0CLR1                           CP0CLR,1
+CP0CLR2                           CP0CLR,2
+CP0CLR3                           CP0CLR,3
+CP0CLR4                           CP0CLR,4
+CP0CLR5                           CP0CLR,5
+CP0CLRS                           CP0CLR,6
+CP0EN                             CPCR,0
+CP0MOD                            CP0CLR,7
+CP0OP                             CPSR,0
+CP1CLR0                           CP1CLR,0
+CP1CLR1                           CP1CLR,1
+CP1CLR2                           CP1CLR,2
+CP1CLR3                           CP1CLR,3
+CP1CLR4                           CP1CLR,4
+CP1CLR5                           CP1CLR,5
+CP1CLRS                           CP1CLR,6
+CP1EN                             CPCR,1
+CP1IE                             INTE1,5
+CP1IF                             INTF1,5
+CP1MOD                            CP1CLR,7
+CP1NS                             CPCR,4
+CP1OP                             CPSR,1
+CP1VS0                            CPVR0,0
+CP1VS1                            CPVR0,1
+CP1VS2                            CPVR0,2
+CP1VS3                            CPVR0,3
+CP2CLR0                           CP2CLR,0
+CP2CLR1                           CP2CLR,1
+CP2CLR2                           CP2CLR,2
+CP2CLR3                           CP2CLR,3
+CP2CLR4                           CP2CLR,4
+CP2CLR5                           CP2CLR,5
+CP2CLRS                           CP2CLR,6
+CP2EN                             CPCR,2
+CP2IE                             INTE1,6
+CP2IF                             INTF1,6
+CP2MOD                            CP2CLR,7
+CP2OP                             CPSR,2
+CP2VS0                            CPVR0,4
+CP2VS2                            CPVR0,6
+CP2VS3                            CPVR0,7
+CP3CLR0                           CP3CLR,0
+CP3CLR1                           CP3CLR,1
+CP3CLR2                           CP3CLR,2
+CP3CLR3                           CP3CLR,3
+CP3CLR4                           CP3CLR,4
+CP3CLR5                           CP3CLR,5
+CP3CLRS                           CP3CLR,6
+CP3EN                             CPCR,3
+CP3IE                             INTE1,7
+CP3IF                             INTF1,7
+CP3MOD                            CP3CLR,7
+CP3NS0                            CPCR,5
+CP3NS1                            CPCR,6
+CP3OP                             CPSR,3
+CP3VS0                            CPVR1,0
+CP3VS1                            CPVR1,1
+CP3VS2                            CPVR1,2
+CP3VS3                            CPVR1,3
+CP3VS4                            CPVR1,4
+DC                                PFLAG,1
+EERW                              EECR,6
+EETRIG                            EECR,7
+GIE                               MCR,7
+HFEN                              OSCM,0
+IICAAS                            IICCR,6
+IICAD0                            IICAR,1
+IICAD1                            IICAR,2
+IICAD2                            IICAR,3
+IICAD3                            IICAR,4
+IICAD4                            IICAR,5
+IICAD5                            IICAR,6
+IICAD6                            IICAR,7
+IICBUSY                           IICCR,5
+IICEN                             IICCR,1
+IICEOF                            IICCR,7
+IICIE                             INTE,5
+IICIF                             INTF,5
+IICMOD                            IICCR,4
+INT0IE                            INTE,2
+INT0IF                            INTF,2
+INT1IE                            INTE,3
+INT1IF                            INTF,3
+LFEN                              OSCM,1
+LVDEN                             LCDCR,7
+LVDF                              LCDCR,0
+LVDIE                             INTE,4
+LVDIF                             INTF,4
+MINT00                            MCR,0
+MINT01                            MCR,1
+MINT10                            MCR,2
+MINT11                            MCR,3
+MSTCMD                            IICCR,2
+OPACLRS                           OPACLR,6
+OPADLR0                           OPACLR,0
+OPADLR1                           OPACLR,1
+OPADLR2                           OPACLR,2
+OPADLR3                           OPACLR,3
+OPADLR4                           OPACLR,4
+OPADLR5                           OPACLR,5
+OPAEN                             OPACR,7
+OPAMOD                            OPACLR,7
+OPAOP                             OPACR,6
+OPAOS0                            OPACR,2
+OPAOS1                            OPACR,3
+OPAPS0                            OPACR,0
+OPAPS1                            OPACR,1
+OSADJEN                           OSADJCR,7
+OSADJTR0                          OSADJCR,0
+OSADJTR1                          OSADJCR,1
+OSADJTR2                          OSADJCR,2
+OSADJTR3                          OSADJCR,3
+OSADJTR4                          OSADJCR,4
+OSADJTR5                          OSADJCR,5
+P00ADS                            ADIOS0,0
+P00D                              IOP0,0
+P00OE                             OEP0,0
+P00PD                             PDP0,0
+P00PU                             PUP0,0
+P01ADS                            ADIOS0,1
+P01D                              IOP0,1
+P01OE                             OEP0,1
+P01PD                             PDP0,1
+P01PU                             PUP0,1
+P02ADS                            ADIOS0,2
+P02D                              IOP0,2
+P02OE                             OEP0,2
+P02PD                             PDP0,2
+P02PU                             PUP0,2
+P03ADS                            ADIOS0,3
+P03D                              IOP0,3
+P03OE                             OEP0,3
+P03PD                             PDP0,3
+P03PU                             PUP0,3
+P04ADS                            ADIOS0,4
+P04D                              IOP0,4
+P04OE                             OEP0,4
+P04PD                             PDP0,4
+P04PU                             PUP0,4
+P05ADS                            ADIOS0,5
+P05D                              IOP0,5
+P05OE                             OEP0,5
+P05PD                             PDP0,5
+P05PU                             PUP0,5
+P06ADS                            ADIOS0,6
+P06D                              IOP0,6
+P06OE                             OEP0,6
+P06PD                             PDP0,6
+P06PU                             PUP0,6
+P07ADS                            ADIOS0,7
+P07D                              IOP0,7
+P07OE                             OEP0,7
+P07PD                             PDP0,7
+P07PU                             PUP0,7
+P10ADS                            ADIOS1,0
+P10D                              IOP1,0
+P10OE                             OEP1,0
+P10PD                             PDP1,0
+P10PU                             PUP1,0
+P11ADS                            ADIOS1,1
+P11D                              IOP1,1
+P11OE                             OEP1,1
+P11PD                             PDP1,1
+P11PU                             PUP1,1
+P12ADS                            ADIOS1,2
+P12D                              IOP1,2
+P12OE                             OEP1,2
+P12PD                             PDP1,2
+P12PU                             PUP1,2
+P13ADS                            ADIOS1,3
+P13D                              IOP1,3
+P13OE                             OEP1,3
+P13PD                             PDP1,3
+P13PU                             PUP1,3
+P14ADS                            ADIOS1,4
+P14D                              IOP1,4
+P14OE                             OEP1,4
+P14PD                             PDP1,4
+P14PU                             PUP1,4
+P15ADS                            ADIOS1,5
+P15D                              IOP1,5
+P15OE                             OEP1,5
+P15PD                             PDP1,5
+P15PU                             PUP1,5
+P16ADS                            ADIOS1,6
+P16D                              IOP1,6
+P16OE                             OEP1,6
+P16PD                             PDP1,6
+P16PU                             PUP1,6
+P17ADS                            ADIOS1,7
+P17D                              IOP1,7
+P17OE                             OEP1,7
+P17PD                             PDP1,7
+P17PU                             PUP1,7
+P20D                              IOP2,0
+P20OE                             OEP2,0
+P20PD                             PDP2,0
+P20PU                             PUP2,0
+P21D                              IOP2,1
+P21OE                             OEP2,1
+P21PD                             PDP2,1
+P21PU                             PUP2,1
+PD                                MCR,4
+PGLOAD0                           PPGLOAD,0
+PGLOAD1                           PPGLOAD,1
+PGLOAD2                           PPGLOAD,2
+PGLOAD3                           PPGLOAD,3
+PGLOAD4                           PPGLOAD,4
+PGLOAD5                           PPGLOAD,5
+PGLOAD6                           PPGLOAD,6
+PGLOAD7                           PPGLOAD,7
+PGLOAD8                           PPGTDL,6
+PGLOAD9                           PPGTDL,7
+POLEV                             PPGCR,6
+PPGEN                             PPGCR,7
+PPGPRS0                           PPGCR,0
+PPGPRS1                           PPGCR,1
+PPGSTR                            PPGCR,2
+PPGTDB0                           PPGTDB,0
+PPGTDB1                           PPGTDB,1
+PPGTDB2                           PPGTDB,2
+PPGTDB3                           PPGTDB,3
+PPGTDB4                           PPGTDB,4
+PPGTDB5                           PPGTDB,5
+PPGTDL0                           PPGTDL,0
+PPGTDL1                           PPGTDL,1
+PPGTDL2                           PPGTDL,2
+PPGTDL3                           PPGTDL,3
+PPGTDL4                           PPGTDL,4
+PPGTDL5                           PPGTDL,5
+PPGTEG                            PPGTDB,6
+PPGTIE                            INTE,7
+PPGTIF                            INTF,7
+PPGTIS                            PPGTDB,7
+PSTPEN                            PPGCR,4
+PSTREN                            PPGCR,5
+PWM0OE                            T0CR,6
+PWMOD0                            T0EFR,0
+PWMOD1                            T0EFR,1
+PWMOD2                            T0EFR,2
+RACK                              IICCR,0
+SACK                              IICCR,3
+STBH                              OSCM,4
+STBL                              OSCM,5
+T0CKS0                            T0CR,3
+T0CKS1                            T0CR,4
+T0EN                              T0CR,7
+T0IE                              INTE,0
+T0IF                              INTF,0
+T0PRS0                            T0CR,0
+T0PRS1                            T0CR,1
+T0PRS2                            T0CR,2
+T1CKS0                            T1CR,3
+T1CKS1                            T1CR,4
+T1CNT0                            T1CNT,0
+T1CNT1                            T1CNT,1
+T1CNT2                            T1CNT,2
+T1CNT3                            T1CNT,3
+T1CNT4                            T1CNT,4
+T1CNT5                            T1CNT,5
+T1CNT6                            T1CNT,6
+T1CNT7                            T1CNT,7
+T1EN                              T1CR,7
+T1IE                              INTE,1
+T1IF                              INTF,1
+T1LOAD0                           T1LOAD,0
+T1LOAD1                           T1LOAD,1
+T1LOAD2                           T1LOAD,2
+T1LOAD3                           T1LOAD,3
+T1LOAD4                           T1LOAD,4
+T1LOAD5                           T1LOAD,5
+T1LOAD6                           T1LOAD,6
+T1LOAD7                           T1LOAD,7
+T1PRS0                            T1CR,0
+T1PRS1                            T1CR,1
+T1PRS2                            T1CR,2
+T2CKS0                            T2CR,3
+T2CKS1                            T2CR,4
+T2CNT0                            T2CNT,0
+T2CNT1                            T2CNT,1
+T2CNT2                            T2CNT,2
+T2CNT3                            T2CNT,3
+T2CNT4                            T2CNT,4
+T2CNT5                            T2CNT,5
+T2CNT6                            T2CNT,6
+T2CNT7                            T2CNT,7
+T2EN                              T2CR,7
+T2IE                              INTE1,0
+T2IF                              INTF1,0
+T2LOAD0                           T2LOAD,0
+T2LOAD1                           T2LOAD,1
+T2LOAD2                           T2LOAD,2
+T2LOAD3                           T2LOAD,3
+T2LOAD4                           T2LOAD,4
+T2LOAD5                           T2LOAD,5
+T2LOAD6                           T2LOAD,6
+T2LOAD7                           T2LOAD,7
+T2MOD                             T2CR,6
+T2PIS                             T2EFR,1
+T2PLS                             T2EFR,0
+T2PRS0                            T2CR,0
+T2PRS1                            T2CR,1
+T2PRS2                            T2CR,2
+T3CKS0                            T3CR,3
+T3CKS1                            T3CR,4
+T3CNT0                            T3CNT,0
+T3CNT1                            T3CNT,1
+T3CNT2                            T3CNT,2
+T3CNT3                            T3CNT,3
+T3CNT4                            T3CNT,4
+T3CNT5                            T3CNT,5
+T3CNT6                            T3CNT,6
+T3CNT7                            T3CNT,7
+T3EN                              T3CR,7
+T3IE                              INTE1,1
+T3IF                              INTF1,1
+T3LOAD0                           T3LOAD,0
+T3LOAD1                           T3LOAD,1
+T3LOAD2                           T3LOAD,2
+T3LOAD3                           T3LOAD,3
+T3LOAD4                           T3LOAD,4
+T3LOAD5                           T3LOAD,5
+T3LOAD6                           T3LOAD,6
+T3LOAD7                           T3LOAD,7
+T3MOD                             T3CR,6
+T3PRS0                            T3CR,0
+T3PRS1                            T3CR,1
+T3PRS2                            T3CR,2
+TO                                MCR,5
+TRIGSYN                           PPGCR,3
+VLVDS                             LCDCR,4
+VP2VS1                            CPVR0,5
+Z                                 PFLAG,2
+
+Errors   :     0
+Warnings :     0 reported,     0 suppressed
+Messages :     1 reported,     0 suppressed
+
+

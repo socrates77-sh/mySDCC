@@ -1,0 +1,11 @@
+DEVICE=mc32p64
+
+dev_$DEVICE
+mv $DEVICE.inc ../../share/header
+mv $DEVICE.h ../../share/include
+mv $DEVICE.c ../../libsrc/$DEVICE
+
+echo "(FF) ../../share/header/$DEVICE.inc"
+echo "(FF) ../../share/include/$DEVICE.h"
+echo "(FF) ../../libsrc/$DEVICE/$DEVICE.c"
+

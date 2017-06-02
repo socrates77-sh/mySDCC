@@ -1,0 +1,212 @@
+;--------------------------------------------------------
+; File Created by SN-SDCC : ANSI-C Compiler
+; Version 0.0.3 (Sep 22 2013) (Linux)
+; This file was generated Sun Sep 22 15:57:08 2013
+;--------------------------------------------------------
+; MC3X port for the RISC core
+;--------------------------------------------------------
+;	.file	"fun.c"
+	list	p=30p011
+	radix dec
+	include "mc30p011.inc"
+;--------------------------------------------------------
+; external declarations
+;--------------------------------------------------------
+	extern	_STATUSbits
+	extern	_P0bits
+	extern	_P1bits
+	extern	_MCRbits
+	extern	_KBIMbits
+	extern	_PDCONbits
+	extern	_ODCONbits
+	extern	_PUCONbits
+	extern	_INTECONbits
+	extern	_INTFLAGbits
+	extern	_T0CRbits
+	extern	_DDR0bits
+	extern	_DDR1bits
+	extern	_TMCRbits
+	extern	_T1CRbits
+	extern	_INDF
+	extern	_T0CNT
+	extern	_PCL
+	extern	_STATUS
+	extern	_FSR
+	extern	_P0
+	extern	_P1
+	extern	_MCR
+	extern	_KBIM
+	extern	_PCLATH
+	extern	_PDCON
+	extern	_ODCON
+	extern	_PUCON
+	extern	_INTECON
+	extern	_INTFLAG
+	extern	_T0CR
+	extern	_DDR0
+	extern	_DDR1
+	extern	_TMCR
+	extern	_T1CR
+	extern	_T1CNT
+	extern	_T1LOAD
+	extern	_T1DATA
+	extern	__sdcc_gsinit_startup
+;--------------------------------------------------------
+; global declarations
+;--------------------------------------------------------
+	global	_fun1
+	global	_main
+	global	_global_a
+
+	global STK06
+	global STK05
+	global STK04
+	global STK03
+	global STK02
+	global STK01
+	global STK00
+
+sharebank udata_ovr 0x0010
+STK06	res 1
+STK05	res 1
+STK04	res 1
+STK03	res 1
+STK02	res 1
+STK01	res 1
+STK00	res 1
+
+;--------------------------------------------------------
+; global definitions
+;--------------------------------------------------------
+UD_fun_0	udata
+_global_a	res	1
+
+;--------------------------------------------------------
+; absolute symbol definitions
+;--------------------------------------------------------
+;--------------------------------------------------------
+; compiler-defined variables
+;--------------------------------------------------------
+UDL_fun_0	udata
+r0x1001	res	1
+r0x1002	res	1
+r0x1003	res	1
+r0x1004	res	1
+;--------------------------------------------------------
+; initialized data
+;--------------------------------------------------------
+;--------------------------------------------------------
+; overlayable items in internal ram 
+;--------------------------------------------------------
+;	udata_ovr
+;--------------------------------------------------------
+; reset vector 
+;--------------------------------------------------------
+STARTUP	code 0x0000
+	goto	__sdcc_gsinit_startup
+;--------------------------------------------------------
+; code
+;--------------------------------------------------------
+code_fun	code
+;***
+;  pBlock Stats: dbName = M
+;***
+;entry:  _main	;Function start
+; 2 exit points
+;has an exit
+;functions called:
+;   _fun1
+;   _fun1
+;2 compiler assigned registers:
+;   r0x1004
+;   STK00
+;; Starting pCode block
+;;[ICODE] fun.c:23:  _entry($5) :
+;;[ICODE] fun.c:23: 	proc _main [k1 lr0:0 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{void function ( ) fixed}
+_main	;Function start
+; 2 exit points
+;;[ICODE] fun.c:27: 	_global_a [k2 lr0:0 so:0]{ ia1 a2p0 re0 rm0 nos0 ru1 dp0}{unsigned-char fixed} := _MCR [k3 lr0:0 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{volatile-unsigned-char sfr}
+;	.line	27; "fun.c"	global_a = MCR;
+	MOVAR	_MCR
+	MOVRA	_global_a
+;;[ICODE] fun.c:28: 	iTemp1 [k5 lr5:7 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{unsigned-char fixed}{ sir@ _main_b_1_4}[r0x1004 ] := _DDR0 [k7 lr0:0 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{volatile-unsigned-char sfr}
+;	.line	28; "fun.c"	b = DDR0;
+	MOVAR	_DDR0
+	MOVRA	r0x1004
+;;[ICODE] fun.c:30: 	send _global_a [k2 lr0:0 so:0]{ ia0 a2p0 re0 rm0 nos0 ru1 dp0}{unsigned-char fixed}{argreg = 1}
+;;[ICODE] fun.c:30: 	send iTemp1 [k5 lr5:7 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{unsigned-char fixed}{ sir@ _main_b_1_4}[r0x1004 ]{argreg = 1}
+;;[ICODE] fun.c:30: 	_P0 [k8 lr0:0 so:0]{ ia1 a2p0 re0 rm0 nos0 ru0 dp0}{volatile-unsigned-char sfr} = call _fun1 [k9 lr0:0 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-char function ( unsigned-char fixed, unsigned-char fixed) fixed}
+;	.line	30; "fun.c"	P0 = fun1(global_a, b);
+	MOVAR	r0x1004
+	MOVRA	STK00
+	MOVAR	_global_a
+	CALL	_fun1
+	MOVRA	_P0
+;;[ICODE] fun.c:33:  _whilebody_0($2) :
+;;[ICODE] fun.c:33: 	 goto _whilebody_0($2)
+_00114_DS_
+;	.line	33; "fun.c"	while(1);
+	GOTO	_00114_DS_
+;;[ICODE] fun.c:33:  _return($4) :
+;;[ICODE] fun.c:33: 	eproc _main [k1 lr0:0 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{void function ( ) fixed}
+	RETURN	
+; exit point of _main
+
+;***
+;  pBlock Stats: dbName = C
+;***
+;entry:  _fun1	;Function start
+; 2 exit points
+;has an exit
+;4 compiler assigned registers:
+;   r0x1001
+;   STK00
+;   r0x1002
+;   r0x1003
+;; Starting pCode block
+;;[ICODE] fun.c:5:  _entry($6) :
+;;[ICODE] fun.c:5: 	proc _fun1 [k1 lr0:0 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-char function ( unsigned-char fixed, unsigned-char fixed) fixed}
+_fun1	;Function start
+; 2 exit points
+;;[ICODE] fun.c:5: iTemp0 [k2 lr3:13 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{unsigned-char fixed}{ sir@ _fun1_a_1_1}[r0x1000 ] = recv _fun1 [k1 lr0:0 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-char function ( unsigned-char fixed, unsigned-char fixed) fixed}
+;	.line	5; "fun.c"	uchar fun1(uchar a, uchar b)
+	MOVRA	r0x1001
+;;[ICODE] fun.c:5: iTemp1 [k4 lr4:15 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{unsigned-char fixed}{ sir@ _fun1_b_1_1}[r0x1001 ] = recv _fun1 [k1 lr0:0 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-char function ( unsigned-char fixed, unsigned-char fixed) fixed}
+	MOVAR	STK00
+	MOVRA	r0x1002
+;;[ICODE] fun.c:8: 	iTemp6 [k11 lr5:13 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-char fixed}{ sir@ _fun1_i_1_2}[r0x1002 ] := 0x0 {const-unsigned-char literal}
+;	.line	8; "fun.c"	for(i=0; i<a; i++)
+	CLRR	r0x1003
+;;[ICODE] fun.c:8:  _forcond_0($1) :
+;;[ICODE] fun.c:8: 	iTemp3 [k8 lr8:9 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char fixed} = iTemp6 [k11 lr5:13 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-char fixed}{ sir@ _fun1_i_1_2}[r0x1002 ] < iTemp0 [k2 lr3:13 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{unsigned-char fixed}{ sir@ _fun1_a_1_1}[r0x1000 ]
+_00105_DS_
+	MOVAR	r0x1001
+	RSUBAR	r0x1003
+	JBCLR	STATUS,0
+	GOTO	_00108_DS_
+;;genSkipc:3246: created from rifx:0xbf8d4944
+;;[ICODE] fun.c:8: 	if iTemp3 [k8 lr8:9 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char fixed} == 0 goto _forbreak_0($4)
+;;[ICODE] fun.c:9: 	iTemp1 [k4 lr4:15 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{unsigned-char fixed}{ sir@ _fun1_b_1_1}[r0x1001 ] = iTemp1 [k4 lr4:15 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{unsigned-char fixed}{ sir@ _fun1_b_1_1}[r0x1001 ] + iTemp0 [k2 lr3:13 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{unsigned-char fixed}{ sir@ _fun1_a_1_1}[r0x1000 ]
+;	.line	9; "fun.c"	b += a;
+	MOVAR	r0x1001
+	ADDRA	r0x1002
+;;[ICODE] fun.c:8: 	iTemp6 [k11 lr5:13 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-char fixed}{ sir@ _fun1_i_1_2}[r0x1002 ] = iTemp6 [k11 lr5:13 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-char fixed}{ sir@ _fun1_i_1_2}[r0x1002 ] + 0x1 {const-unsigned-char literal}
+;	.line	8; "fun.c"	for(i=0; i<a; i++)
+	INCR	r0x1003
+;;[ICODE] fun.c:8: 	 goto _forcond_0($1)
+	GOTO	_00105_DS_
+;;[ICODE] fun.c:8:  _forbreak_0($4) :
+;;[ICODE] fun.c:11: 	ret iTemp1 [k4 lr4:15 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{unsigned-char fixed}{ sir@ _fun1_b_1_1}[r0x1001 ]
+_00108_DS_
+;	.line	11; "fun.c"	return b;
+	MOVAR	r0x1002
+;;[ICODE] fun.c:11:  _return($5) :
+;;[ICODE] fun.c:11: 	eproc _fun1 [k1 lr0:0 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-char function ( unsigned-char fixed, unsigned-char fixed) fixed}
+	RETURN	
+; exit point of _fun1
+
+
+;	code size estimation:
+;	   25+    0 =    25 instructions (   50 byte)
+
+	end

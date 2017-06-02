@@ -1,0 +1,7 @@
+SDCC_EXE=../../bin/sdcc
+SDCC_ARG="-V --verbose -mmc3x -p32p64 \
+    -Wa-I$SDCC_HOME/share/header \
+	-Wl-s$SDCC_HOME/share/lkr/mc32p64.lkr"
+
+$SDCC_EXE $SDCC_ARG $1
+

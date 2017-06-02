@@ -1,0 +1,5 @@
+#../bin/sdcc -V --verbose --use-non-free -mpic14 -p16f877 test.c
+../bin/sdcc -V --verbose --use-non-free -mmc31 -p31p11 \
+-Wa"-I$SDCC_HOME/share/header/mc31" \
+-Wl"-s$SDCC_HOME/share/lkr/mc31/mc31p011.lkr" \
+test.c

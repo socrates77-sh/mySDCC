@@ -1,0 +1,142 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.5.4	//
+BitCnt	VAR.H	/^uchar	BitCnt;$/;"	v
+BlueTbl	CtrlSbr.c	/^const  char  BlueTbl[ ] =  {255,255,14,252,247,38,255,174,214,35,214,117};$/;"	v
+CCode0	CONST.H	45;"	d
+CCode1	CONST.H	46;"	d
+CCodeR	CONST.H	47;"	d
+CHEAD	CONST.H	44;"	d
+CIDCode	CONST.H	22;"	d
+CIDCode	CONST.H	24;"	d
+CIR4H	CONST.H	28;"	d
+CIR8H	CONST.H	29;"	d
+CIRCOLR1	CONST.H	31;"	d
+CIRCOLR2	CONST.H	32;"	d
+CIRCOLR3	CONST.H	33;"	d
+CIRCOLR4	CONST.H	34;"	d
+CIRCOLR5	CONST.H	35;"	d
+CIRCOLR6	CONST.H	36;"	d
+CIRCOLR7	CONST.H	37;"	d
+CIRCOLR8	CONST.H	38;"	d
+CIRCOLR9	CONST.H	39;"	d
+CIRCOLRA	CONST.H	40;"	d
+CIRCOLRB	CONST.H	41;"	d
+CIRCOLRC	CONST.H	42;"	d
+CIRMCOLR	CONST.H	30;"	d
+CIRMODE	CONST.H	27;"	d
+CIROFF	CONST.H	26;"	d
+CIRON	CONST.H	25;"	d
+CIRTMR	CONST.H	23;"	d
+CMCandle	CONST.H	49;"	d
+CMMColor	CONST.H	50;"	d
+CMSColor	CONST.H	51;"	d
+CT0	CONST.H	9;"	d
+CT1	CONST.H	10;"	d
+Color	VAR.H	/^uchar	Color;$/;"	v
+ColorKeySbr	IR.c	/^void ColorKeySbr(uchar i)$/;"	f
+ColorSbr	CtrlSbr.c	/^void ColorSbr()$/;"	f
+Custom	VAR.H	/^uchar	Custom;$/;"	v
+CustomRev	VAR.H	/^uchar	CustomRev;$/;"	v
+Dly100ms	VAR.H	/^uchar	T40ms,Dly100ms;$/;"	v
+F2ms	VAR.H	56;"	d
+F2ms	externVAR.h	56;"	d
+F4ms	VAR.H	64;"	d
+F4ms	externVAR.h	64;"	d
+FCandle	VAR.H	67;"	d
+FCandle	externVAR.h	67;"	d
+FDirection	VAR.H	55;"	d
+FDirection	externVAR.h	55;"	d
+FDouble	VAR.H	57;"	d
+FDouble	externVAR.h	57;"	d
+FIRAck	VAR.H	58;"	d
+FIRAck	externVAR.h	58;"	d
+FKeyAck	VAR.H	54;"	d
+FKeyAck	externVAR.h	54;"	d
+FLead	VAR.H	59;"	d
+FLead	externVAR.h	59;"	d
+FLight	VAR.H	68;"	d
+FLight	externVAR.h	68;"	d
+FLongRKey	VAR.H	62;"	d
+FLongRKey	externVAR.h	62;"	d
+FMultiColor	VAR.H	66;"	d
+FMultiColor	externVAR.h	66;"	d
+FOn	VAR.H	53;"	d
+FOn	externVAR.h	53;"	d
+FStep	VAR.H	65;"	d
+FStep	externVAR.h	65;"	d
+FStop	VAR.H	63;"	d
+FStop	externVAR.h	63;"	d
+FTmr	VAR.H	60;"	d
+FTmr	externVAR.h	60;"	d
+Flag1	VAR.H	/^volatile bitn	Flag1,Flag2;$/;"	v
+Flag2	VAR.H	/^volatile bitn	Flag1,Flag2;$/;"	v
+GreenTbl	CtrlSbr.c	/^const  char  GreenTbl[ ] = {255,14,255,139,24,247,38,31,38,88,247,221};$/;"	v
+IRCnt	VAR.H	/^uchar	IRCnt;$/;"	v
+IRCode1	VAR.H	/^uchar	IRCode1;$/;"	v
+IRCodeRev1	VAR.H	/^uchar	IRCodeRev1;$/;"	v
+IRKeyR	IR.c	/^void IRKeyR()$/;"	f
+IROffKeySbr	IR.c	/^void IROffKeySbr()$/;"	f
+IRSbr	IR.c	/^void IRSbr()$/;"	f
+IRSbr4	IR.c	/^void IRSbr4()$/;"	f
+IRTmr	VAR.H	/^uchar	IRTmr;$/;"	v
+InitalRAM	initSys.c	/^void InitalRAM()$/;"	f
+InitialSys	initSys.c	/^void InitialSys()$/;"	f
+KeyCnt	VAR.H	/^uchar	KeyCnt;$/;"	v
+KeyCode	VAR.H	/^uchar	KeyCode;$/;"	v
+LongIRCnt	VAR.H	/^uchar	LongIRCnt;$/;"	v
+MColorSbr	CtrlSbr.c	/^void MColorSbr()$/;"	f
+Mode1Cnt	VAR.H	/^uchar	Mode1Cnt;$/;"	v
+Mode2Cnt2	VAR.H	/^uchar	Mode2Cnt2;$/;"	v
+Mode2Cnt3	VAR.H	/^uchar	Mode2Cnt3;$/;"	v
+Mode2Sbr	CtrlSbr.c	/^void Mode2Sbr()$/;"	f
+RedTbl	CtrlSbr.c	/^const  char  RedTbl[ ] =   {14,255,255,26,160,227,0,174,49,227,39,174};$/;"	v
+Step	VAR.H	/^uchar	Step;$/;"	v
+T1s	VAR.H	/^uchar	T1s;$/;"	v
+T1sSbr	T1sSbr.c	/^void T1sSbr()$/;"	f
+T40ms	VAR.H	/^uchar	T40ms,Dly100ms;$/;"	v
+TBlue	VAR.H	/^uchar	TRed,TGreen,TBlue;$/;"	v
+TBluebak	VAR.H	/^uchar	TRedbak,TGreenbak,TBluebak;$/;"	v
+TColor	CONST.H	53;"	d
+TGreen	VAR.H	/^uchar	TRed,TGreen,TBlue;$/;"	v
+TGreenbak	VAR.H	/^uchar	TRedbak,TGreenbak,TBluebak;$/;"	v
+TRed	VAR.H	/^uchar	TRed,TGreen,TBlue;$/;"	v
+TRedCnt	VAR.H	/^uchar	TRedCnt;$/;"	v
+TRedbak	VAR.H	/^uchar	TRedbak,TGreenbak,TBluebak;$/;"	v
+TSteplengh	CONST.H	54;"	d
+TStop	VAR.H	/^uchar	TStop;$/;"	v
+Tmr	VAR.H	/^ushort	Tmr;$/;"	v
+_CONST_H_	CONST.H	6;"	d
+_EXTERNVAR_H_	externVAR.h	8;"	d
+_VAR_H_	VAR.H	8;"	d
+bit0	VAR.H	/^    uchar bit0         : 1;$/;"	m
+bit0	externVAR.h	/^    uchar bit0         : 1;$/;"	m
+bit1	VAR.H	/^    uchar bit1         : 1;$/;"	m
+bit1	externVAR.h	/^    uchar bit1         : 1;$/;"	m
+bit2	VAR.H	/^    uchar bit2         : 1;$/;"	m
+bit2	externVAR.h	/^    uchar bit2         : 1;$/;"	m
+bit3	VAR.H	/^    uchar bit3         : 1;$/;"	m
+bit3	externVAR.h	/^    uchar bit3         : 1;$/;"	m
+bit4	VAR.H	/^    uchar bit4         : 1;	$/;"	m
+bit4	externVAR.h	/^    uchar bit4         : 1;	$/;"	m
+bit5	VAR.H	/^    uchar bit5         : 1; $/;"	m
+bit5	externVAR.h	/^    uchar bit5         : 1; $/;"	m
+bit6	VAR.H	/^    uchar bit6         : 1; 	$/;"	m
+bit6	externVAR.h	/^    uchar bit6         : 1; 	$/;"	m
+bit7	VAR.H	/^    uchar bit7         : 1; 	$/;"	m
+bit7	externVAR.h	/^    uchar bit7         : 1; 	$/;"	m
+bitn	VAR.H	/^} bitn;$/;"	t
+bitn	externVAR.h	/^} bitn;$/;"	t
+delay	VAR.H	/^uchar	delay;$/;"	v
+delay05ms	VAR.H	/^uchar	delay05ms;$/;"	v
+main	YKQ3011.c	/^void main ()$/;"	f
+pBlue	CONST.H	16;"	d
+pBlueC	CONST.H	20;"	d
+pGreen	CONST.H	15;"	d
+pGreenC	CONST.H	19;"	d
+pIR	CONST.H	17;"	d
+pRed	CONST.H	14;"	d
+pRedC	CONST.H	18;"	d

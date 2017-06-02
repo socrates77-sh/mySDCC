@@ -1,0 +1,6 @@
+#../bin/sdcc -V --verbose --use-non-free -mpic14 -p16f877 test.c
+../../bin/sdcc -V --verbose --use-non-free -mmc3x -p30p011 \
+--dumpall \
+-Wa"-I$SDCC_HOME/share/header" \
+-Wl"-s$SDCC_HOME/share/lkr/mc30p011.lkr" \
+$1

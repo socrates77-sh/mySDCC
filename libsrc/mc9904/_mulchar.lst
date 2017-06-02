@@ -1,0 +1,392 @@
+gpasm-1.9.7 (May 15 2017)    _mulchar.asm       2017-5-15  15:28:53          PAGE  1
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+                      00001 ;--------------------------------------------------------
+                      00002 ; File Created by SN-SDCC : ANSI-C Compiler
+                      00003 ; Version 0.0.4 (Nov 23 2015) (Linux)
+                      00004 ; This file was generated Mon May 15 15:28:53 2017
+                      00005 ;--------------------------------------------------------
+                      00006 ; MC3X port for the RISC core
+                      00007 ;--------------------------------------------------------
+                      00008 ;       .file   "../libsdcc/_mulchar.c"
+                      00009         list    p=9904
+                      00010         radix dec
+                      00011         include "9904.inc"
+                      00001                 LIST
+                      00002 ;mc9904.inc    Standard Header File, Version 1.00 by Sinomcu
+Message[301]: Processor-header file mismatch.  Verify selected processor.
+                      00344                 LIST
+                      00012 ;--------------------------------------------------------
+                      00013 ; external declarations
+                      00014 ;--------------------------------------------------------
+                      00015 
+                      00016         extern STK06
+                      00017         extern STK05
+                      00018         extern STK04
+                      00019         extern STK03
+                      00020         extern STK02
+                      00021         extern STK01
+                      00022         extern STK00
+                      00023 ;--------------------------------------------------------
+                      00024 ; global declarations
+                      00025 ;--------------------------------------------------------
+                      00026         global  __mulchar
+                      00027 
+                      00028 ;--------------------------------------------------------
+                      00029 ; global definitions
+                      00030 ;--------------------------------------------------------
+                      00031 ;--------------------------------------------------------
+                      00032 ; absolute symbol definitions
+                      00033 ;--------------------------------------------------------
+                      00034 ;--------------------------------------------------------
+                      00035 ; compiler-defined variables
+                      00036 ;--------------------------------------------------------
+                      00037 UDL__mulchar_0  udata
+0000                  00038 r0x1000 res     1
+0000                  00039 r0x1001 res     1
+0001                  00040 r0x1002 res     1
+0001                  00041 r0x1003 res     1
+0002                  00042 r0x1004 res     1
+                      00043 ;--------------------------------------------------------
+                      00044 ; initialized data
+                      00045 ;--------------------------------------------------------
+                      00046 ;--------------------------------------------------------
+                      00047 ; overlayable items in internal ram 
+                      00048 ;--------------------------------------------------------
+                      00049 ;       udata_ovr
+                      00050 ;--------------------------------------------------------
+                      00051 ; code
+                      00052 ;--------------------------------------------------------
+                      00053 code__mulchar   code
+                      00054 ;***
+                      00055 ;  pBlock Stats: dbName = C
+                      00056 ;***
+                      00057 ;entry:  __mulchar      ;Function start
+                      00058 ; 2 exit points
+                      00059 ;has an exit
+                      00060 ;6 compiler assigned registers:
+                      00061 ;   r0x1000
+                      00062 ;   STK00
+                      00063 ;   r0x1001
+                      00064 ;   r0x1002
+                      00065 ;   r0x1003
+                      00066 ;   r0x1004
+                      00067 ;; Starting pCode block
+                      00068 ;;[ICODE] ../libsdcc/_mulchar.c:33:  _entry($7) :
+                      00069 ;;[ICODE] ../libsdcc/_mulchar.c:33:     proc __mulchar [k1 lr0:0 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char function ( char fixed, char fixed) fixed}
+0000                  00070 __mulchar       ;Function start
+                      00071 ; 2 exit points
+                      00072 ;;[ICODE] ../libsdcc/_mulchar.c:33: iTemp0 [k2 lr3:23 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{char fixed}{ sir@ __mulchar_a_1_1}[r0x1000 ] = recv __mulchar [k1 lr0:0 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char function ( char fixed, char fixed) fixed}
+                      00073 ;       .line   33; "../libsdcc/_mulchar.c"     _mulchar (char a, char b)
+0000   5600           00074         MOVRA   r0x1000
+                      00075 ;;[ICODE] ../libsdcc/_mulchar.c:33: iTemp1 [k4 lr4:23 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{char fixed}{ sir@ __mulchar_b_1_1}[r0x1001 ] = recv __mulchar [k1 lr0:0 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char function ( char fixed, char fixed) fixed}
+0001   5800           00076         MOVAR   STK00
+0002   5600           00077         MOVRA   r0x1001
+                      00078 ;;[ICODE] ../libsdcc/_mulchar.c:35:     iTemp2 [k6 lr5:24 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{char fixed}{ sir@ __mulchar_result_1_2}[r0x1002 ] := 0x0 {const-unsigned-char literal}
+                      00079 ;       .line   35; "../libsdcc/_mulchar.c"     char result = 0;
+0003   7600           00080         CLRR    r0x1002
+                      00081 ;;[ICODE] ../libsdcc/_mulchar.c:39:     iTemp3 [k8 lr6:23 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{unsigned-char fixed}{ sir@ __mulchar_i_1_2}[r0x1003 ] := 0x8 {unsigned-char literal}
+                      00082 ;       .line   39; "../libsdcc/_mulchar.c"     for (i = 0; i < 8u; i++) {
+0004   3C08           00083         MOVAI   0x08
+0005   5600           00084         MOVRA   r0x1003
+                      00085 ;;[ICODE] ../libsdcc/_mulchar.c:39:  _forcontinue_0($5) :
+                      00086 ;;[ICODE] ../libsdcc/_mulchar.c:41:     iTemp4 [k10 lr9:10 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char register} = iTemp0 [k2 lr3:23 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{char fixed}{ sir@ __mulchar_a_1_1}[r0x1000 ] & 0x1 {char literal}
+0006                  00087 _00109_DS_
+                      00088 ;       .line   41; "../libsdcc/_mulchar.c"     if (a & (unsigned char)0x0001u) result += b;
+0006   E000           00089         JBSET   r0x1000,0
+0007   A000           00090         GOTO    _00106_DS_
+                      00091 ;;[ICODE] ../libsdcc/_mulchar.c:41:     if iTemp4 [k10 lr9:10 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char register} == 0 goto _iffalse_0($2)
+                      00092 ;;[ICODE] ../libsdcc/_mulchar.c:41:     iTemp2 [k6 lr5:24 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{char fixed}{ sir@ __mulchar_result_1_2}[r0x1002 ] = iTemp2 [k6 lr5:24 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{char fixed}{ sir@ __mulchar_result_1_2}[r0x1002 ] + iTemp1 [k4 lr4:23 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{char fixed}{ sir@ __mulchar_b_1_1}[r0x1001 ]
+0008   5800           00093         MOVAR   r0x1001
+0009   7E00           00094         ADDRA   r0x1002
+                      00095 ;;[ICODE] ../libsdcc/_mulchar.c:41:  _iffalse_0($2) :
+                      00096 ;;[ICODE] ../libsdcc/_mulchar.c:45:     iTemp6 [k12 lr14:15 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-char fixed}[r0x1004 ] = (unsigned-char fixed)iTemp0 [k2 lr3:23 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{char fixed}{ sir@ __mulchar_a_1_1}[r0x1000 ]
+000A                  00097 _00106_DS_
+                      00098 ;       .line   45; "../libsdcc/_mulchar.c"     a = ((unsigned char)a) >> 1u;
+000A   5800           00099         MOVAR   r0x1000
+000B   5600           00100         MOVRA   r0x1004
+                      00101 ;;[ICODE] ../libsdcc/_mulchar.c:45:     iTemp0 [k2 lr3:23 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{char fixed}{ sir@ __mulchar_a_1_1}[r0x1000 ] = iTemp6 [k12 lr14:15 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-char fixed}[r0x1004 ] >> 0x1 {const-unsigned-int literal}
+                      00102 ;;shiftRight_Left2ResultLit:5278: shCount=1, size=1, sign=0, same=0, offr=0
+000C   D187           00103         BCLR    STATUS,0
+000D   4C00           00104         RRAR    r0x1004
+000E   5600           00105         MOVRA   r0x1000
+                      00106 ;;[ICODE] ../libsdcc/_mulchar.c:46:     iTemp9 [k15 lr17:18 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-int register}[r0x1004 r0x1005 ] = iTemp1 [k4 lr4:23 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{char fixed}{ sir@ __mulchar_b_1_1}[r0x1001 ] << 0x1 {const-unsigned-int literal}
+                      00107 ;       .line   46; "../libsdcc/_mulchar.c"     b <<= 1u;
+000F   D187           00108         BCLR    STATUS,0
+0010   5000           00109         RLAR    r0x1001
+0011   5600           00110         MOVRA   r0x1001
+0012   5600           00111         MOVRA   r0x1004
+                      00112 ;;[ICODE] ../libsdcc/_mulchar.c:46:     iTemp1 [k4 lr4:23 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{char fixed}{ sir@ __mulchar_b_1_1}[r0x1001 ] = (char fixed)iTemp9 [k15 lr17:18 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-int register}[r0x1004 r0x1005 ]
+                      00113 ;;99    MOVAR   r0x1004
+                      00114 ;;[ICODE] ../libsdcc/_mulchar.c:46:     iTemp11 [k17 lr20:21 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char register}[r0x1004 ] = (char register)iTemp3 [k8 lr6:23 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{unsigned-char fixed}{ sir@ __mulchar_i_1_2}[r0x1003 ]
+0013   5800           00115         MOVAR   r0x1003
+0014   5600           00116         MOVRA   r0x1004
+                      00117 ;;[ICODE] ../libsdcc/_mulchar.c:46:     iTemp3 [k8 lr6:23 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{unsigned-char fixed}{ sir@ __mulchar_i_1_2}[r0x1003 ] = iTemp11 [k17 lr20:21 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char register}[r0x1004 ] - 0x1 {const-char literal}
+0015   6C00           00118         DECAR   r0x1004
+0016   5600           00119         MOVRA   r0x1003
+                      00120 ;;[ICODE] ../libsdcc/_mulchar.c:39:     if iTemp3 [k8 lr6:23 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{unsigned-char fixed}{ sir@ __mulchar_i_1_2}[r0x1003 ] != 0 goto _forcontinue_0($5)
+                      00121 ;       .line   39; "../libsdcc/_mulchar.c"     for (i = 0; i < 8u; i++) {
+0017   3C00           00122         MOVAI   0x00
+0018   5C00           00123         ORAR    r0x1003
+0019   E587           00124         JBSET   STATUS,2
+001A   A000           00125         GOTO    _00109_DS_
+                      00126 ;;[ICODE] ../libsdcc/_mulchar.c:49:     ret iTemp2 [k6 lr5:24 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{char fixed}{ sir@ __mulchar_result_1_2}[r0x1002 ]
+                      00127 ;       .line   49; "../libsdcc/_mulchar.c"     return result;
+001B   5800           00128         MOVAR   r0x1002
+                      00129 ;;[ICODE] ../libsdcc/_mulchar.c:49:  _return($6) :
+                      00130 ;;[ICODE] ../libsdcc/_mulchar.c:49:     eproc __mulchar [k1 lr0:0 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char function ( char fixed, char fixed) fixed}
+001C   000C           00131         RETURN  
+                      00132 ; exit point of __mulchar
+                      00133 
+                      00134 
+                      00135 ;       code size estimation:
+                      00136 ;          29+    0 =    29 instructions (   58 byte)
+                      00137 
+                      00138         end
+gpasm-1.9.7 (May 15 2017)    _mulchar.asm       2017-5-15  15:28:53          PAGE  2
+
+
+SYMBOL TABLE
+  LABEL                             VALUE
+
+ADCR0                             000001B8
+ADCR1                             000001B9
+ADIOS0                            000001BC
+ADIOS1                            000001BD
+ADRH                              000001BA
+ADRL                              000001BB
+EEAR                              000001B6
+EECR                              000001B4
+EEDR                              000001B7
+EEMASK                            000001B5
+FSR                               00000184
+FSR0                              00000184
+FSR1                              00000185
+HIBYTE                            00000183
+IICCR                             000001B0
+IICDR                             000001B2
+IICSR                             000001B1
+INDF                              00000180
+INDF0                             00000180
+INDF1                             00000181
+INDF2                             00000182
+INDF3                             00000189
+INTE                              0000018A
+INTF                              0000018B
+IOP0                              00000190
+IOP1                              00000194
+IOP2                              00000198
+KBCR                              0000018F
+MCR                               00000188
+OEP0                              00000191
+OEP1                              00000195
+OEP2                              00000199
+OSADJCR                           000001BE
+OSCM                              0000018C
+PCL                               00000186
+PFLAG                             00000187
+PUP0                              00000192
+PUP1                              00000196
+PUP2                              0000019A
+STATUS                            00000187
+STK00                             00000000
+STK01                             00000000
+STK02                             00000000
+STK03                             00000000
+STK04                             00000000
+STK05                             00000000
+STK06                             00000000
+T0CNT                             000001A1
+T0CR                              000001A0
+T0DATA                            000001A3
+T0LOAD                            000001A2
+T1CNTH                            000001A9
+T1CNTL                            000001AA
+T1CR                              000001A8
+T1DATAH                           000001AD
+T1DATAL                           000001AE
+T1LOADH                           000001AB
+T1LOADL                           000001AC
+_00106_DS_                        0000000A
+_00109_DS_                        00000006
+_CONFIG0                          00001FE0
+_CONFIG1                          00001FE1
+__9904                            00000001
+__mulchar                         00000000
+r0x1000                           00000000
+r0x1001                           00000001
+r0x1002                           00000002
+r0x1003                           00000003
+r0x1004                           00000004
+ADCHS0                            ADCR0,4
+ADCHS1                            ADCR0,5
+ADCHS2                            ADCR0,6
+ADCHS3                            ADCR0,7
+ADCKS0                            ADCR1,4
+ADCKS1                            ADCR1,5
+ADEN                              ADCR0,0
+ADEOC                             ADCR0,1
+ADIE                              INTE,6
+ADIF                              INTF,6
+ADRSEL                            ADCR1,7
+ADSPS0                            ADCR1,0
+ADSPS1                            ADCR1,1
+AN0EN                             ADIOS0,0
+AN10EN                            ADIOS1,2
+AN11EN                            ADIOS1,3
+AN12EN                            ADIOS1,4
+AN13EN                            ADIOS1,5
+AN1EN                             ADIOS0,1
+AN2EN                             ADIOS0,2
+AN3EN                             ADIOS0,3
+AN4EN                             ADIOS0,4
+AN5EN                             ADIOS0,5
+AN6EN                             ADIOS0,6
+AN7EN                             ADIOS0,7
+AN8EN                             ADIOS1,0
+AN9EN                             ADIOS1,1
+BUZ0OE                            T0CR,5
+C                                 PFLAG,0
+CLKS                              OSCM,2
+DC                                PFLAG,1
+EERW                              EECR,6
+EETRIG                            EECR,7
+GIE                               MCR,7
+HFEN                              OSCM,0
+IICACK                            IICSR,3
+IICCKS0                           IICCR,4
+IICCKS1                           IICCR,5
+IICEN                             IICCR,7
+IICIE                             INTE,5
+IICIF                             INTF,5
+IICIMS                            IICCR,0
+IICRD                             IICSR,5
+IICRDTP                           IICCR,1
+IICRS                             IICCR,6
+IICSTP                            IICSR,6
+IICSTR                            IICSR,7
+IICTYP0                           IICCR,2
+IICTYP1                           IICCR,3
+IICWR                             IICSR,4
+INT0IE                            INTE,2
+INT0IF                            INTF,2
+INT1IE                            INTE,3
+INT1IF                            INTF,3
+KBIE                              INTE,4
+KBIF                              INTF,4
+LFEN                              OSCM,1
+MINT00                            MCR,0
+MINT01                            MCR,1
+MINT10                            MCR,2
+MINT11                            MCR,3
+OSADJEN                           OSADJCR,7
+OSADJTR0                          OSADJCR,0
+OSADJTR1                          OSADJCR,1
+OSADJTR2                          OSADJCR,2
+OSADJTR3                          OSADJCR,3
+OSADJTR4                          OSADJCR,4
+OSADJTR5                          OSADJCR,5
+P00D                              IOP0,0
+P00OE                             OEP0,0
+P00PU                             PUP0,0
+P01D                              IOP0,1
+P01OE                             OEP0,1
+P01PU                             PUP0,1
+P02D                              IOP0,2
+P02OE                             OEP0,2
+P02PU                             PUP0,2
+P03D                              IOP0,3
+P03OE                             OEP0,3
+P03PU                             PUP0,3
+P04D                              IOP0,4
+P04OE                             OEP0,4
+P04PU                             PUP0,4
+P05D                              IOP0,5
+P05OE                             OEP0,5
+P05PU                             PUP0,5
+P06D                              IOP0,6
+P06OE                             OEP0,6
+P06PU                             PUP0,6
+P07D                              IOP0,7
+P07OE                             OEP0,7
+P07PU                             PUP0,7
+P10D                              IOP1,0
+P10OE                             OEP1,0
+P10PU                             PUP1,0
+P11D                              IOP1,1
+P11OE                             OEP1,1
+P11PU                             PUP1,1
+P12D                              IOP1,2
+P12OE                             OEP1,2
+P12PU                             PUP1,2
+P13D                              IOP1,3
+P13OE                             OEP1,3
+P13PU                             PUP1,3
+P14D                              IOP1,4
+P14OE                             OEP1,4
+P14PU                             PUP1,4
+P15D                              IOP1,5
+P15OE                             OEP1,5
+P15PU                             PUP1,5
+P16D                              IOP1,6
+P16OE                             OEP1,6
+P16PU                             PUP1,6
+P17D                              IOP1,7
+P17OE                             OEP1,7
+P17PU                             PUP1,7
+P20D                              IOP2,0
+P20OE                             OEP2,0
+P20PU                             PUP2,0
+P21D                              IOP2,1
+P21OE                             OEP2,1
+P21PU                             PUP2,1
+P22D                              IOP2,2
+P22OE                             OEP2,2
+P22PU                             PUP2,2
+P23D                              IOP2,3
+P23OE                             OEP2,3
+P23PU                             PUP2,3
+P24D                              IOP2,4
+P24OE                             OEP2,4
+P24PU                             PUP2,4
+P25D                              IOP2,5
+P25OE                             OEP2,5
+P25PU                             PUP2,5
+PD                                MCR,4
+PWM0OE                            T0CR,6
+PWM1OE                            T1CR,6
+RACK                              IICSR,1
+SACK                              IICSR,2
+STBH                              OSCM,4
+STBL                              OSCM,5
+T0CKS0                            T0CR,3
+T0CKS1                            T0CR,4
+T0EN                              T0CR,7
+T0IE                              INTE,0
+T0IF                              INTF,0
+T0PRS0                            T0CR,0
+T0PRS1                            T0CR,1
+T0PRS2                            T0CR,2
+T1CKS0                            T1CR,3
+T1CKS1                            T1CR,4
+T1EN                              T1CR,7
+T1IE                              INTE,1
+T1IF                              INTF,1
+T1PRS0                            T1CR,0
+T1PRS1                            T1CR,1
+T1PRS2                            T1CR,2
+TO                                MCR,5
+UARTIE                            INTE,7
+UARTIF                            INTF,7
+VRS0                              ADCR0,2
+VRS1                              ADCR0,3
+Z                                 PFLAG,2
+
+Errors   :     0
+Warnings :     0 reported,     0 suppressed
+Messages :     1 reported,     0 suppressed
+
+

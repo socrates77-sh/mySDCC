@@ -1,0 +1,142 @@
+sdcc_bin=/home/zwr/work/tool/sn-sdcc/bin/sdcc
+gpasm_bin=/home/zwr/work/tool/snutils/gpasm/gpasm
+gplib_bin=/home/zwr/work/tool/snutils/gputils/gplib
+out=Makefile
+
+c_file=" \
+_divschar \
+_divsint \
+_divslong \
+_divuchar \
+_divuint \
+_divulong \
+fs2schar \
+fs2sint \
+fs2slong \
+fs2uchar \
+fs2uint \
+fs2ulong \
+fsadd \
+fsdiv \
+fseq \
+fsgt \
+fslt \
+fsmul \
+fsneq \
+fssub \
+idata \
+_modschar \
+_modsint \
+_modslong \
+_moduchar \
+_moduint \
+_modulong \
+_mulchar \
+_mulint \
+_mullong \
+schar2fs \
+sint2fs \
+slong2fs \
+uchar2fs \
+uint2fs \
+ulong2fs"
+
+m_file=" \
+acosf \
+asincosf \
+asinf \
+atan2f \
+atanf \
+ceilf \
+cosf \
+coshf \
+cotf \
+errno \
+expf \
+fabsf \
+floorf \
+frexpf \
+ldexpf \
+log10f \
+logf \
+modff \
+powf \
+sincosf \
+sincoshf \
+sinf \
+sinhf \
+sqrtf \
+tancotf \
+tanf \
+tanhf"
+
+s_file="\
+_gptrget1 \
+_gptrget2 \
+_gptrget3 \
+_gptrget4 \
+_gptrput1 \
+_gptrput2 \
+_gptrput3 \
+_gptrput4"
+
+echo "SDCC_EXE = $sdcc_bin" > $out
+echo "ASM_EXE = $gpasm_bin" >> $out
+echo "LIB_EXE = $gplib_bin" >> $out
+echo "LIB = libsdcc.lib" >> $out
+printf "OBJ = shadowregs.o " >> $out
+
+for file in $c_file; do
+	printf "$file.o " >> $out
+done
+
+for file in $m_file; do
+	printf "$file.o " >> $out
+done
+
+for file in $s_file; do
+	printf "$file.o " >> $out
+done
+
+echo >> $out
+echo >> $out
+
+echo 'SDCC_ARG = -V --verbose --use-non-free -mmc30 -p30p011 -Wa-I$(SDCC_HOME)/share/header/mc30 \' >> $out
+echo '    -I$(SDCC_HOME)/share/include/mc30 \' >> $out
+echo '    --std-c99 --i-code-in-asm  -c -o ' >> $out
+echo >> $out
+
+echo 'ASM_ARG = -p mc30p011 -I../../../../include/mc30 -I../../../../non-free/include/mc30 -I. -c -o ' >> $out
+echo >> $out
+
+echo 'all : $(OBJ) $(LIB)' >> $out
+
+echo >> $out
+
+printf '$(LIB) : $(OBJ)\n' >> $out
+printf '\t$(LIB_EXE) -c $(LIB) *.o\n' >> $out
+printf '\tcp -av $(LIB) ../..\n' >> $out
+
+printf "shadowregs.o : shadowregs.c\n" >> $out
+printf '\t$(SDCC_EXE) $(SDCC_ARG) shadowregs.o shadowregs.c\n' >> $out
+
+for file in $c_file; do
+	printf "$file.o : ../$file.c\n" >> $out
+	printf '\t$(SDCC_EXE) $(SDCC_ARG) '$file'.o ../'$file'.c\n' >> $out
+done
+
+for file in $m_file; do
+	printf "$file.o : ../../libm/$file.c\n" >> $out
+	printf '\t$(SDCC_EXE) $(SDCC_ARG) '$file'.o ../../libm/'$file'.c\n' >> $out
+done
+
+for file in $s_file; do
+	printf "$file.o : $file.S\n" >> $out
+	printf '\t$(ASM_EXE) $(ASM_ARG) '$file'.o '$file'.S\n' >> $out
+done
+
+echo >> $out
+
+echo "clean:" >> $out
+printf "\trm -f *.o *.lst *.asm *.lib ../../*.lib" >> $out
+

@@ -1,0 +1,621 @@
+gpasm-1.9.7 (May 15 2017)    mc9904.asm         2017-5-15  15:28:52          PAGE  1
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+                      00001 ;--------------------------------------------------------
+                      00002 ; File Created by SN-SDCC : ANSI-C Compiler
+                      00003 ; Version 0.0.4 (Nov 23 2015) (Linux)
+                      00004 ; This file was generated Mon May 15 15:28:52 2017
+                      00005 ;--------------------------------------------------------
+                      00006 ; MC3X port for the RISC core
+                      00007 ;--------------------------------------------------------
+                      00008 ;       .file   "mc9904.c"
+                      00009         list    p=9904
+                      00010         radix dec
+                      00011         include "9904.inc"
+                      00001                 LIST
+                      00002 ;mc9904.inc    Standard Header File, Version 1.00 by Sinomcu
+Message[301]: Processor-header file mismatch.  Verify selected processor.
+                      00344                 LIST
+                      00012 ;--------------------------------------------------------
+                      00013 ; external declarations
+                      00014 ;--------------------------------------------------------
+                      00015 
+                      00016         extern STK06
+                      00017         extern STK05
+                      00018         extern STK04
+                      00019         extern STK03
+                      00020         extern STK02
+                      00021         extern STK01
+                      00022         extern STK00
+                      00023 ;--------------------------------------------------------
+                      00024 ; global declarations
+                      00025 ;--------------------------------------------------------
+                      00026         global  _PCLbits
+                      00027         global  _PFLAGbits
+                      00028         global  _MCRbits
+                      00029         global  _INTEbits
+                      00030         global  _INTFbits
+                      00031         global  _OSCMbits
+                      00032         global  _IOP0bits
+                      00033         global  _OEP0bits
+                      00034         global  _PUP0bits
+                      00035         global  _IOP1bits
+                      00036         global  _OEP1bits
+                      00037         global  _PUP1bits
+                      00038         global  _IOP2bits
+                      00039         global  _OEP2bits
+                      00040         global  _PUP2bits
+                      00041         global  _T0CRbits
+                      00042         global  _T1CRbits
+                      00043         global  _IICCRbits
+                      00044         global  _IICSRbits
+                      00045         global  _EECRbits
+                      00046         global  _ADCR0bits
+                      00047         global  _ADCR1bits
+                      00048         global  _ADIOS0bits
+                      00049         global  _ADIOS1bits
+                      00050         global  _OSADJCRbits
+                      00051         global  _INDF
+                      00052         global  _INDF0
+                      00053         global  _INDF1
+                      00054         global  _INDF2
+                      00055         global  _HIBYTE
+                      00056         global  _FSR
+                      00057         global  _FSR0
+                      00058         global  _FSR1
+                      00059         global  _PCL
+                      00060         global  _STATUS
+                      00061         global  _PFLAG
+                      00062         global  _MCR
+                      00063         global  _INDF3
+                      00064         global  _INTE
+                      00065         global  _INTF
+                      00066         global  _OSCM
+                      00067         global  _KBCR
+                      00068         global  _IOP0
+                      00069         global  _OEP0
+                      00070         global  _PUP0
+                      00071         global  _IOP1
+                      00072         global  _OEP1
+                      00073         global  _PUP1
+                      00074         global  _IOP2
+                      00075         global  _OEP2
+                      00076         global  _PUP2
+                      00077         global  _T0CR
+                      00078         global  _T0CNT
+                      00079         global  _T0LOAD
+                      00080         global  _T0DATA
+                      00081         global  _T1CR
+                      00082         global  _T1CNTH
+                      00083         global  _T1CNTL
+                      00084         global  _T1LOADH
+                      00085         global  _T1LOADL
+                      00086         global  _T1DATAH
+                      00087         global  _T1DATAL
+                      00088         global  _IICCR
+                      00089         global  _IICSR
+                      00090         global  _IICDR
+                      00091         global  _EECR
+                      00092         global  _EEMASK
+                      00093         global  _EEAR
+                      00094         global  _EEDR
+                      00095         global  _ADCR0
+                      00096         global  _ADCR1
+                      00097         global  _ADRH
+                      00098         global  _ADRL
+                      00099         global  _ADIOS0
+                      00100         global  _ADIOS1
+                      00101         global  _OSADJCR
+                      00102 
+                      00103 ;--------------------------------------------------------
+                      00104 ; global definitions
+                      00105 ;--------------------------------------------------------
+                      00106 ;--------------------------------------------------------
+                      00107 ; absolute symbol definitions
+                      00108 ;--------------------------------------------------------
+                      00109 UD_abs_mc9904_180       udata_ovr       0x0180
+00C0                  00110 _INDF
+00C0                  00111 _INDF0
+00C0                  00112         res     1
+                      00113 UD_abs_mc9904_181       udata_ovr       0x0181
+00C0                  00114 _INDF1
+00C0                  00115         res     1
+                      00116 UD_abs_mc9904_182       udata_ovr       0x0182
+00C1                  00117 _INDF2
+00C1                  00118         res     1
+                      00119 UD_abs_mc9904_183       udata_ovr       0x0183
+00C1                  00120 _HIBYTE
+00C1                  00121         res     1
+                      00122 UD_abs_mc9904_184       udata_ovr       0x0184
+00C2                  00123 _FSR
+00C2                  00124 _FSR0
+00C2                  00125         res     1
+                      00126 UD_abs_mc9904_185       udata_ovr       0x0185
+00C2                  00127 _FSR1
+00C2                  00128         res     1
+                      00129 UD_abs_mc9904_186       udata_ovr       0x0186
+00C3                  00130 _PCLbits
+00C3                  00131 _PCL
+00C3                  00132         res     1
+                      00133 UD_abs_mc9904_187       udata_ovr       0x0187
+00C3                  00134 _PFLAGbits
+00C3                  00135 _STATUS
+00C3                  00136 _PFLAG
+00C3                  00137         res     1
+                      00138 UD_abs_mc9904_188       udata_ovr       0x0188
+00C4                  00139 _MCRbits
+00C4                  00140 _MCR
+00C4                  00141         res     1
+                      00142 UD_abs_mc9904_189       udata_ovr       0x0189
+00C4                  00143 _INDF3
+00C4                  00144         res     1
+                      00145 UD_abs_mc9904_18a       udata_ovr       0x018a
+00C5                  00146 _INTEbits
+00C5                  00147 _INTE
+00C5                  00148         res     1
+                      00149 UD_abs_mc9904_18b       udata_ovr       0x018b
+00C5                  00150 _INTFbits
+00C5                  00151 _INTF
+00C5                  00152         res     1
+                      00153 UD_abs_mc9904_18c       udata_ovr       0x018c
+00C6                  00154 _OSCMbits
+00C6                  00155 _OSCM
+00C6                  00156         res     1
+                      00157 UD_abs_mc9904_18f       udata_ovr       0x018f
+00C7                  00158 _KBCR
+00C7                  00159         res     1
+                      00160 UD_abs_mc9904_190       udata_ovr       0x0190
+00C8                  00161 _IOP0bits
+00C8                  00162 _IOP0
+00C8                  00163         res     1
+                      00164 UD_abs_mc9904_191       udata_ovr       0x0191
+00C8                  00165 _OEP0bits
+00C8                  00166 _OEP0
+00C8                  00167         res     1
+                      00168 UD_abs_mc9904_192       udata_ovr       0x0192
+00C9                  00169 _PUP0bits
+00C9                  00170 _PUP0
+00C9                  00171         res     1
+                      00172 UD_abs_mc9904_194       udata_ovr       0x0194
+00CA                  00173 _IOP1bits
+00CA                  00174 _IOP1
+00CA                  00175         res     1
+                      00176 UD_abs_mc9904_195       udata_ovr       0x0195
+00CA                  00177 _OEP1bits
+00CA                  00178 _OEP1
+00CA                  00179         res     1
+                      00180 UD_abs_mc9904_196       udata_ovr       0x0196
+00CB                  00181 _PUP1bits
+00CB                  00182 _PUP1
+00CB                  00183         res     1
+                      00184 UD_abs_mc9904_198       udata_ovr       0x0198
+00CC                  00185 _IOP2bits
+00CC                  00186 _IOP2
+00CC                  00187         res     1
+                      00188 UD_abs_mc9904_199       udata_ovr       0x0199
+00CC                  00189 _OEP2bits
+00CC                  00190 _OEP2
+00CC                  00191         res     1
+                      00192 UD_abs_mc9904_19a       udata_ovr       0x019a
+00CD                  00193 _PUP2bits
+00CD                  00194 _PUP2
+00CD                  00195         res     1
+                      00196 UD_abs_mc9904_1a0       udata_ovr       0x01a0
+00D0                  00197 _T0CRbits
+00D0                  00198 _T0CR
+00D0                  00199         res     1
+                      00200 UD_abs_mc9904_1a1       udata_ovr       0x01a1
+00D0                  00201 _T0CNT
+00D0                  00202         res     1
+                      00203 UD_abs_mc9904_1a2       udata_ovr       0x01a2
+00D1                  00204 _T0LOAD
+00D1                  00205         res     1
+                      00206 UD_abs_mc9904_1a3       udata_ovr       0x01a3
+00D1                  00207 _T0DATA
+00D1                  00208         res     1
+                      00209 UD_abs_mc9904_1a8       udata_ovr       0x01a8
+00D4                  00210 _T1CRbits
+00D4                  00211 _T1CR
+00D4                  00212         res     1
+                      00213 UD_abs_mc9904_1a9       udata_ovr       0x01a9
+00D4                  00214 _T1CNTH
+00D4                  00215         res     1
+                      00216 UD_abs_mc9904_1aa       udata_ovr       0x01aa
+00D5                  00217 _T1CNTL
+00D5                  00218         res     1
+                      00219 UD_abs_mc9904_1ab       udata_ovr       0x01ab
+00D5                  00220 _T1LOADH
+00D5                  00221         res     1
+                      00222 UD_abs_mc9904_1ac       udata_ovr       0x01ac
+00D6                  00223 _T1LOADL
+00D6                  00224         res     1
+                      00225 UD_abs_mc9904_1ad       udata_ovr       0x01ad
+00D6                  00226 _T1DATAH
+00D6                  00227         res     1
+                      00228 UD_abs_mc9904_1ae       udata_ovr       0x01ae
+00D7                  00229 _T1DATAL
+00D7                  00230         res     1
+                      00231 UD_abs_mc9904_1b0       udata_ovr       0x01b0
+00D8                  00232 _IICCRbits
+00D8                  00233 _IICCR
+00D8                  00234         res     1
+                      00235 UD_abs_mc9904_1b1       udata_ovr       0x01b1
+00D8                  00236 _IICSRbits
+00D8                  00237 _IICSR
+00D8                  00238         res     1
+                      00239 UD_abs_mc9904_1b2       udata_ovr       0x01b2
+00D9                  00240 _IICDR
+00D9                  00241         res     1
+                      00242 UD_abs_mc9904_1b4       udata_ovr       0x01b4
+00DA                  00243 _EECRbits
+00DA                  00244 _EECR
+00DA                  00245         res     1
+                      00246 UD_abs_mc9904_1b5       udata_ovr       0x01b5
+00DA                  00247 _EEMASK
+00DA                  00248         res     1
+                      00249 UD_abs_mc9904_1b6       udata_ovr       0x01b6
+00DB                  00250 _EEAR
+00DB                  00251         res     1
+                      00252 UD_abs_mc9904_1b7       udata_ovr       0x01b7
+00DB                  00253 _EEDR
+00DB                  00254         res     1
+                      00255 UD_abs_mc9904_1b8       udata_ovr       0x01b8
+00DC                  00256 _ADCR0bits
+00DC                  00257 _ADCR0
+00DC                  00258         res     1
+                      00259 UD_abs_mc9904_1b9       udata_ovr       0x01b9
+00DC                  00260 _ADCR1bits
+00DC                  00261 _ADCR1
+00DC                  00262         res     1
+                      00263 UD_abs_mc9904_1ba       udata_ovr       0x01ba
+00DD                  00264 _ADRH
+00DD                  00265         res     1
+                      00266 UD_abs_mc9904_1bb       udata_ovr       0x01bb
+00DD                  00267 _ADRL
+00DD                  00268         res     1
+                      00269 UD_abs_mc9904_1bc       udata_ovr       0x01bc
+00DE                  00270 _ADIOS0bits
+00DE                  00271 _ADIOS0
+00DE                  00272         res     1
+                      00273 UD_abs_mc9904_1bd       udata_ovr       0x01bd
+00DE                  00274 _ADIOS1bits
+00DE                  00275 _ADIOS1
+00DE                  00276         res     1
+                      00277 UD_abs_mc9904_1be       udata_ovr       0x01be
+00DF                  00278 _OSADJCRbits
+00DF                  00279 _OSADJCR
+00DF                  00280         res     1
+                      00281 ;--------------------------------------------------------
+                      00282 ; compiler-defined variables
+                      00283 ;--------------------------------------------------------
+                      00284 ;--------------------------------------------------------
+                      00285 ; initialized data
+                      00286 ;--------------------------------------------------------
+                      00287 ;--------------------------------------------------------
+                      00288 ; overlayable items in internal ram 
+                      00289 ;--------------------------------------------------------
+                      00290 ;       udata_ovr
+                      00291 ;--------------------------------------------------------
+                      00292 ; code
+                      00293 ;--------------------------------------------------------
+                      00294 code_mc9904     code
+                      00295 
+                      00296 ;       code size estimation:
+                      00297 ;           0+    0 =     0 instructions (    0 byte)
+                      00298 
+                      00299         end
+gpasm-1.9.7 (May 15 2017)    mc9904.asm         2017-5-15  15:28:52          PAGE  2
+
+
+SYMBOL TABLE
+  LABEL                             VALUE
+
+ADCR0                             000001B8
+ADCR1                             000001B9
+ADIOS0                            000001BC
+ADIOS1                            000001BD
+ADRH                              000001BA
+ADRL                              000001BB
+EEAR                              000001B6
+EECR                              000001B4
+EEDR                              000001B7
+EEMASK                            000001B5
+FSR                               00000184
+FSR0                              00000184
+FSR1                              00000185
+HIBYTE                            00000183
+IICCR                             000001B0
+IICDR                             000001B2
+IICSR                             000001B1
+INDF                              00000180
+INDF0                             00000180
+INDF1                             00000181
+INDF2                             00000182
+INDF3                             00000189
+INTE                              0000018A
+INTF                              0000018B
+IOP0                              00000190
+IOP1                              00000194
+IOP2                              00000198
+KBCR                              0000018F
+MCR                               00000188
+OEP0                              00000191
+OEP1                              00000195
+OEP2                              00000199
+OSADJCR                           000001BE
+OSCM                              0000018C
+PCL                               00000186
+PFLAG                             00000187
+PUP0                              00000192
+PUP1                              00000196
+PUP2                              0000019A
+STATUS                            00000187
+STK00                             00000000
+STK01                             00000000
+STK02                             00000000
+STK03                             00000000
+STK04                             00000000
+STK05                             00000000
+STK06                             00000000
+T0CNT                             000001A1
+T0CR                              000001A0
+T0DATA                            000001A3
+T0LOAD                            000001A2
+T1CNTH                            000001A9
+T1CNTL                            000001AA
+T1CR                              000001A8
+T1DATAH                           000001AD
+T1DATAL                           000001AE
+T1LOADH                           000001AB
+T1LOADL                           000001AC
+_ADCR0                            000001B8
+_ADCR0bits                        000001B8
+_ADCR1                            000001B9
+_ADCR1bits                        000001B9
+_ADIOS0                           000001BC
+_ADIOS0bits                       000001BC
+_ADIOS1                           000001BD
+_ADIOS1bits                       000001BD
+_ADRH                             000001BA
+_ADRL                             000001BB
+_CONFIG0                          00001FE0
+_CONFIG1                          00001FE1
+_EEAR                             000001B6
+_EECR                             000001B4
+_EECRbits                         000001B4
+_EEDR                             000001B7
+_EEMASK                           000001B5
+_FSR                              00000184
+_FSR0                             00000184
+_FSR1                             00000185
+_HIBYTE                           00000183
+_IICCR                            000001B0
+_IICCRbits                        000001B0
+_IICDR                            000001B2
+_IICSR                            000001B1
+_IICSRbits                        000001B1
+_INDF                             00000180
+_INDF0                            00000180
+_INDF1                            00000181
+_INDF2                            00000182
+_INDF3                            00000189
+_INTE                             0000018A
+_INTEbits                         0000018A
+_INTF                             0000018B
+_INTFbits                         0000018B
+_IOP0                             00000190
+_IOP0bits                         00000190
+_IOP1                             00000194
+_IOP1bits                         00000194
+_IOP2                             00000198
+_IOP2bits                         00000198
+_KBCR                             0000018F
+_MCR                              00000188
+_MCRbits                          00000188
+_OEP0                             00000191
+_OEP0bits                         00000191
+_OEP1                             00000195
+_OEP1bits                         00000195
+_OEP2                             00000199
+_OEP2bits                         00000199
+_OSADJCR                          000001BE
+_OSADJCRbits                      000001BE
+_OSCM                             0000018C
+_OSCMbits                         0000018C
+_PCL                              00000186
+_PCLbits                          00000186
+_PFLAG                            00000187
+_PFLAGbits                        00000187
+_PUP0                             00000192
+_PUP0bits                         00000192
+_PUP1                             00000196
+_PUP1bits                         00000196
+_PUP2                             0000019A
+_PUP2bits                         0000019A
+_STATUS                           00000187
+_T0CNT                            000001A1
+_T0CR                             000001A0
+_T0CRbits                         000001A0
+_T0DATA                           000001A3
+_T0LOAD                           000001A2
+_T1CNTH                           000001A9
+_T1CNTL                           000001AA
+_T1CR                             000001A8
+_T1CRbits                         000001A8
+_T1DATAH                          000001AD
+_T1DATAL                          000001AE
+_T1LOADH                          000001AB
+_T1LOADL                          000001AC
+__9904                            00000001
+ADCHS0                            ADCR0,4
+ADCHS1                            ADCR0,5
+ADCHS2                            ADCR0,6
+ADCHS3                            ADCR0,7
+ADCKS0                            ADCR1,4
+ADCKS1                            ADCR1,5
+ADEN                              ADCR0,0
+ADEOC                             ADCR0,1
+ADIE                              INTE,6
+ADIF                              INTF,6
+ADRSEL                            ADCR1,7
+ADSPS0                            ADCR1,0
+ADSPS1                            ADCR1,1
+AN0EN                             ADIOS0,0
+AN10EN                            ADIOS1,2
+AN11EN                            ADIOS1,3
+AN12EN                            ADIOS1,4
+AN13EN                            ADIOS1,5
+AN1EN                             ADIOS0,1
+AN2EN                             ADIOS0,2
+AN3EN                             ADIOS0,3
+AN4EN                             ADIOS0,4
+AN5EN                             ADIOS0,5
+AN6EN                             ADIOS0,6
+AN7EN                             ADIOS0,7
+AN8EN                             ADIOS1,0
+AN9EN                             ADIOS1,1
+BUZ0OE                            T0CR,5
+C                                 PFLAG,0
+CLKS                              OSCM,2
+DC                                PFLAG,1
+EERW                              EECR,6
+EETRIG                            EECR,7
+GIE                               MCR,7
+HFEN                              OSCM,0
+IICACK                            IICSR,3
+IICCKS0                           IICCR,4
+IICCKS1                           IICCR,5
+IICEN                             IICCR,7
+IICIE                             INTE,5
+IICIF                             INTF,5
+IICIMS                            IICCR,0
+IICRD                             IICSR,5
+IICRDTP                           IICCR,1
+IICRS                             IICCR,6
+IICSTP                            IICSR,6
+IICSTR                            IICSR,7
+IICTYP0                           IICCR,2
+IICTYP1                           IICCR,3
+IICWR                             IICSR,4
+INT0IE                            INTE,2
+INT0IF                            INTF,2
+INT1IE                            INTE,3
+INT1IF                            INTF,3
+KBIE                              INTE,4
+KBIF                              INTF,4
+LFEN                              OSCM,1
+MINT00                            MCR,0
+MINT01                            MCR,1
+MINT10                            MCR,2
+MINT11                            MCR,3
+OSADJEN                           OSADJCR,7
+OSADJTR0                          OSADJCR,0
+OSADJTR1                          OSADJCR,1
+OSADJTR2                          OSADJCR,2
+OSADJTR3                          OSADJCR,3
+OSADJTR4                          OSADJCR,4
+OSADJTR5                          OSADJCR,5
+P00D                              IOP0,0
+P00OE                             OEP0,0
+P00PU                             PUP0,0
+P01D                              IOP0,1
+P01OE                             OEP0,1
+P01PU                             PUP0,1
+P02D                              IOP0,2
+P02OE                             OEP0,2
+P02PU                             PUP0,2
+P03D                              IOP0,3
+P03OE                             OEP0,3
+P03PU                             PUP0,3
+P04D                              IOP0,4
+P04OE                             OEP0,4
+P04PU                             PUP0,4
+P05D                              IOP0,5
+P05OE                             OEP0,5
+P05PU                             PUP0,5
+P06D                              IOP0,6
+P06OE                             OEP0,6
+P06PU                             PUP0,6
+P07D                              IOP0,7
+P07OE                             OEP0,7
+P07PU                             PUP0,7
+P10D                              IOP1,0
+P10OE                             OEP1,0
+P10PU                             PUP1,0
+P11D                              IOP1,1
+P11OE                             OEP1,1
+P11PU                             PUP1,1
+P12D                              IOP1,2
+P12OE                             OEP1,2
+P12PU                             PUP1,2
+P13D                              IOP1,3
+P13OE                             OEP1,3
+P13PU                             PUP1,3
+P14D                              IOP1,4
+P14OE                             OEP1,4
+P14PU                             PUP1,4
+P15D                              IOP1,5
+P15OE                             OEP1,5
+P15PU                             PUP1,5
+P16D                              IOP1,6
+P16OE                             OEP1,6
+P16PU                             PUP1,6
+P17D                              IOP1,7
+P17OE                             OEP1,7
+P17PU                             PUP1,7
+P20D                              IOP2,0
+P20OE                             OEP2,0
+P20PU                             PUP2,0
+P21D                              IOP2,1
+P21OE                             OEP2,1
+P21PU                             PUP2,1
+P22D                              IOP2,2
+P22OE                             OEP2,2
+P22PU                             PUP2,2
+P23D                              IOP2,3
+P23OE                             OEP2,3
+P23PU                             PUP2,3
+P24D                              IOP2,4
+P24OE                             OEP2,4
+P24PU                             PUP2,4
+P25D                              IOP2,5
+P25OE                             OEP2,5
+P25PU                             PUP2,5
+PD                                MCR,4
+PWM0OE                            T0CR,6
+PWM1OE                            T1CR,6
+RACK                              IICSR,1
+SACK                              IICSR,2
+STBH                              OSCM,4
+STBL                              OSCM,5
+T0CKS0                            T0CR,3
+T0CKS1                            T0CR,4
+T0EN                              T0CR,7
+T0IE                              INTE,0
+T0IF                              INTF,0
+T0PRS0                            T0CR,0
+T0PRS1                            T0CR,1
+T0PRS2                            T0CR,2
+T1CKS0                            T1CR,3
+T1CKS1                            T1CR,4
+T1EN                              T1CR,7
+T1IE                              INTE,1
+T1IF                              INTF,1
+T1PRS0                            T1CR,0
+T1PRS1                            T1CR,1
+T1PRS2                            T1CR,2
+TO                                MCR,5
+UARTIE                            INTE,7
+UARTIF                            INTF,7
+VRS0                              ADCR0,2
+VRS1                              ADCR0,3
+Z                                 PFLAG,2
+
+Errors   :     0
+Warnings :     0 reported,     0 suppressed
+Messages :     1 reported,     0 suppressed
+
+

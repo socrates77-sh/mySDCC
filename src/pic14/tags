@@ -1,0 +1,1143 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.5.4	//
+ALTPATTERNS	pcodepeep.c	180;"	d	file:
+ALT_COMMENT	pcodepeep.c	/^    ALT_COMMENT,$/;"	e	file:
+ALT_LABEL	pcodepeep.c	/^  ALT_LABEL=1,$/;"	e	file:
+ALT_MNEM0	pcodepeep.c	/^    ALT_MNEM0,$/;"	e	file:
+ALT_MNEM0A	pcodepeep.c	/^    ALT_MNEM0A,$/;"	e	file:
+ALT_MNEM1	pcodepeep.c	/^    ALT_MNEM1,$/;"	e	file:
+ALT_MNEM1A	pcodepeep.c	/^    ALT_MNEM1A,$/;"	e	file:
+ALT_MNEM1B	pcodepeep.c	/^    ALT_MNEM1B,$/;"	e	file:
+ALT_MNEM2	pcodepeep.c	/^    ALT_MNEM2,$/;"	e	file:
+ALT_MNEM2A	pcodepeep.c	/^    ALT_MNEM2A,$/;"	e	file:
+ALT_MNEM3	pcodepeep.c	/^    ALT_MNEM3$/;"	e	file:
+AOP	gen.h	100;"	d
+AOP_CRY	gen.h	/^  AOP_CRY,$/;"	e
+AOP_DIR	gen.h	/^  AOP_DIR,$/;"	e
+AOP_IMMD	gen.h	/^  AOP_IMMD,$/;"	e
+AOP_LIT	gen.h	/^  AOP_LIT = 1,$/;"	e
+AOP_NEEDSACC	gen.h	104;"	d
+AOP_PCODE	gen.h	/^  AOP_PCODE$/;"	e
+AOP_REG	gen.h	/^  AOP_REG,$/;"	e
+AOP_SIZE	gen.h	102;"	d
+AOP_STK	gen.h	/^  AOP_STK,$/;"	e
+AOP_STR	gen.h	/^  AOP_STR,$/;"	e
+AOP_TYPE	gen.h	101;"	d
+AccLsh	gen.c	/^AccLsh (pCodeOp * pcop, int shCount)$/;"	f	file:
+AccRsh	gen.c	/^AccRsh (pCodeOp * pcop, int shCount, int mask_mode)$/;"	f	file:
+AnalyzeBanking	pcode.c	/^void AnalyzeBanking(void)$/;"	f
+AnalyzeFlow	pcode.c	/^static void AnalyzeFlow(int level)$/;"	f	file:
+AnalyzepBlock	pcode.c	/^static void AnalyzepBlock(pBlock *pb)$/;"	f	file:
+AnalyzepCode	pcode.c	/^void AnalyzepCode(char dbName)$/;"	f
+AopType	genarith.c	/^const char *AopType(short type)$/;"	f
+BITSKIP	pcode.h	/^	BITSKIP,$/;"	e	enum:peepCommandTypes
+BYTE_IN_LONG	glue.c	57;"	d	file:
+BYTEofLONG	genarith.c	46;"	d	file:
+BuildFlow	pcode.c	/^static void BuildFlow(pBlock *pb)$/;"	f	file:
+BuildFlowTree	pcodeflow.c	/^void BuildFlowTree(pBlock *pb)$/;"	f
+CLRC	gen.h	111;"	d
+CLR_BANK_BIT	pcode.c	51;"	d	file:
+CopyFlow	pcode.c	/^static void CopyFlow(pCodeInstruction *pcd, pCode *pcs) {$/;"	f	file:
+DEBUGpc	gen.c	3250;"	d	file:
+DEBUGpic14_AopType	gen.c	/^DEBUGpic14_AopType (int line_no, operand * left, operand * right, operand * result)$/;"	f
+DEBUGpic14_AopTypeSign	gen.c	/^DEBUGpic14_AopTypeSign (int line_no, operand * left, operand * right, operand * result)$/;"	f	file:
+DEBUGpic14_emitcode	gen.c	/^DEBUGpic14_emitcode (char *inst, char *fmt, ...)$/;"	f
+DEBUGprintf	glue.c	623;"	d	file:
+DEBUGprintf	glue.c	626;"	d	file:
+DEBUGprintf	glue.c	629;"	d	file:
+DEFSETFUNC	pcode.c	/^static DEFSETFUNC (resetrIdx)$/;"	f	file:
+DEFSETFUNC	ralloc.c	/^DEFSETFUNC (deallocStackSpil)$/;"	f	file:
+DEFSETFUNC	ralloc.c	/^DEFSETFUNC (isFree)$/;"	f	file:
+DEVICE_FILE_NAME	device.c	38;"	d	file:
+DFPRINTF	pcode.h	89;"	d
+DFPRINTF	pcode.h	91;"	d
+DLL_append	pcodepeep.c	/^static void * DLL_append(DLList *list, DLList *next)$/;"	f	file:
+DLList	pcodepeep.c	/^typedef struct DLList {$/;"	s	file:
+DLList	pcodepeep.c	/^} DLList;$/;"	t	file:
+FENTRY	gen.h	35;"	d
+FENTRY2	ralloc.c	41;"	d	file:
+FENTRY2	ralloc.c	43;"	d	file:
+FEXIT	gen.h	41;"	d
+FixRegisterBanking	pcode.c	/^static void FixRegisterBanking(pBlock *pb)$/;"	f	file:
+FlowTree	pcode.h	/^	set *FlowTree;$/;"	m	struct:pBlock
+FromConflicts	pcode.h	/^	int FromConflicts;$/;"	m	struct:pCodeFlow
+GPTRTAG_CODE	pcode.h	30;"	d
+GPTRTAG_DATA	pcode.h	29;"	d
+GpcFlowSeq	pcode.c	/^static int GpcFlowSeq = 1;$/;"	v	file:
+GpsuedoStkPtr	gen.c	/^static int GpsuedoStkPtr = 0;$/;"	v	file:
+Gstack_base_addr	ralloc.c	/^int Gstack_base_addr=0; \/* The starting address of registers that$/;"	v
+Gstack_size	ralloc.c	/^static int Gstack_size = 0;$/;"	v	file:
+IDX_FSR	ralloc.h	110;"	d
+IDX_FSR0H	ralloc.h	112;"	d
+IDX_FSR0L	ralloc.h	111;"	d
+IDX_INDF	ralloc.h	105;"	d
+IDX_INDF0	ralloc.h	106;"	d
+IDX_INTCON	ralloc.h	114;"	d
+IDX_KZ	ralloc.h	116;"	d
+IDX_PCL	ralloc.h	108;"	d
+IDX_PCLATH	ralloc.h	113;"	d
+IDX_PSAVE	ralloc.h	119;"	d
+IDX_SSAVE	ralloc.h	118;"	d
+IDX_STATUS	ralloc.h	109;"	d
+IDX_TMR0	ralloc.h	107;"	d
+IDX_WSAVE	ralloc.h	117;"	d
+INVERTBITSKIP	pcode.h	/^	INVERTBITSKIP,$/;"	e	enum:peepCommandTypes
+IS_CONFIG_ADDRESS	device.c	/^int IS_CONFIG_ADDRESS(int address)$/;"	f
+IS_DEFINED_HERE	glue.c	59;"	d	file:
+IS_GLOBAL	glue.c	58;"	d	file:
+IS_PCCOMMENT	pcodepeep.c	27;"	d	file:
+IS_REF	ralloc.c	47;"	d	file:
+InitReuseReg	pcode.c	/^static void InitReuseReg(void)$/;"	f	file:
+InlineFunction	pcode.c	/^static void InlineFunction(pBlock *pb)$/;"	f	file:
+InlinepCode	pcode.c	/^void InlinepCode(void)$/;"	f
+InsertpFlow	pcode.c	/^static void InsertpFlow(pCode *pc, pCode **pflow)$/;"	f	file:
+LEN	glue.c	634;"	d	file:
+LSB	gen.h	113;"	d
+LinkFlow	pcode.c	/^static void LinkFlow(pBlock *pb)$/;"	f	file:
+LinkFlow_pCode	pcode.c	/^static void LinkFlow_pCode(pCodeInstruction *from, pCodeInstruction *to)$/;"	f	file:
+MAIN_INCLUDE	main.h	2;"	d
+MAX_NUM_CONFIGS	device.h	34;"	d
+MAX_PARSEDPATARR	pcodepeep.c	90;"	d	file:
+MAX_PASSES	pcode.c	4475;"	d	file:
+MAX_PIC14MNEMONICS	pcode.h	/^	MAX_PIC14MNEMONICS$/;"	e
+MAX_PICLIST	device.c	32;"	d	file:
+MOVA	gen.h	110;"	d
+MSB16	gen.h	114;"	d
+MSB24	gen.h	115;"	d
+MSB32	gen.h	116;"	d
+NOTBITSKIP	pcode.h	/^	NOTBITSKIP = 0,$/;"	e	enum:peepCommandTypes
+OPTION_STACK_SIZE	main.c	32;"	d	file:
+OPT_PASSES	pcoderegs.c	747;"	d	file:
+OptimizeRegUsage	pcoderegs.c	/^static void OptimizeRegUsage(set *fregs, int optimize_multi_uses, int optimize_level)$/;"	f	file:
+OptimizepBlock	pcode.c	/^static int OptimizepBlock(pBlock *pb)$/;"	f	file:
+OptimizepCode	pcode.c	/^static int OptimizepCode(char dbName)$/;"	f	file:
+PBR	pcode.h	764;"	d
+PCAD	pcode.h	753;"	d
+PCCS	pcode.h	752;"	d
+PCC_C	pcodeflow.h	52;"	d
+PCC_DC	pcodeflow.h	54;"	d
+PCC_EXAMINE_PCOP	pcodeflow.h	56;"	d
+PCC_LITERAL	pcodeflow.h	61;"	d
+PCC_NONE	pcodeflow.h	50;"	d
+PCC_REGISTER	pcodeflow.h	51;"	d
+PCC_REG_BANK0	pcodeflow.h	57;"	d
+PCC_REG_BANK1	pcodeflow.h	58;"	d
+PCC_REG_BANK2	pcodeflow.h	59;"	d
+PCC_REG_BANK3	pcodeflow.h	60;"	d
+PCC_W	pcodeflow.h	55;"	d
+PCC_Z	pcodeflow.h	53;"	d
+PCF	pcode.h	748;"	d
+PCFL	pcode.h	749;"	d
+PCFLINK	pcode.h	750;"	d
+PCI	pcode.h	746;"	d
+PCL	pcode.h	747;"	d
+PCODE	pcode.h	745;"	d
+PCOI	pcode.h	757;"	d
+PCOL	pcode.h	756;"	d
+PCOLAB	pcode.h	758;"	d
+PCOP	pcode.h	755;"	d
+PCOR	pcode.h	759;"	d
+PCORB	pcode.h	760;"	d
+PCOS	pcode.h	761;"	d
+PCOW	pcode.h	762;"	d
+PCPATTERNS	pcodepeep.c	128;"	d	file:
+PCP_COMMA	pcodepeep.c	/^  PCP_COMMA,$/;"	e	file:
+PCP_COMMENT	pcodepeep.c	/^  PCP_COMMENT$/;"	e	file:
+PCP_LABEL	pcodepeep.c	/^  PCP_LABEL=1,$/;"	e	file:
+PCP_NUMBER	pcodepeep.c	/^  PCP_NUMBER,$/;"	e	file:
+PCP_STR	pcodepeep.c	/^  PCP_STR,$/;"	e	file:
+PCP_WILDSTR	pcodepeep.c	/^  PCP_WILDSTR,$/;"	e	file:
+PCP_WILDVAR	pcodepeep.c	/^  PCP_WILDVAR,$/;"	e	file:
+PCT_COLON	pcodepeep.c	/^    PCT_COLON,$/;"	e	file:
+PCT_COMMA	pcodepeep.c	/^    PCT_COMMA,$/;"	e	file:
+PCT_COMMENT	pcodepeep.c	/^    PCT_COMMENT,$/;"	e	file:
+PCT_GREATERTHAN	pcodepeep.c	/^    PCT_GREATERTHAN,$/;"	e	file:
+PCT_LESSTHAN	pcodepeep.c	/^    PCT_LESSTHAN,$/;"	e	file:
+PCT_NULL	pcodepeep.c	/^  PCT_NULL=0,$/;"	e	file:
+PCT_NUMBER	pcodepeep.c	/^    PCT_NUMBER$/;"	e	file:
+PCT_PERCENT	pcodepeep.c	/^    PCT_PERCENT,$/;"	e	file:
+PCT_SPACE	pcodepeep.c	/^    PCT_SPACE=1,$/;"	e	file:
+PCT_STRING	pcodepeep.c	/^    PCT_STRING,$/;"	e	file:
+PCW	pcode.h	751;"	d
+PCWB	pcode.h	766;"	d
+PC_ASMDIR	pcode.h	/^	PC_ASMDIR,      \/* Assembler directive *\/$/;"	e
+PC_BAD	pcode.h	/^	PC_BAD          \/* Mark the pCode object as being bad *\/$/;"	e
+PC_COMMENT	pcode.h	/^	PC_COMMENT=0,   \/* pCode is a comment     *\/$/;"	e
+PC_CSOURCE	pcode.h	/^	PC_CSOURCE,     \/* C-Source Line  *\/$/;"	e
+PC_FLOW	pcode.h	/^	PC_FLOW,        \/* flow analysis          *\/$/;"	e
+PC_FUNCTION	pcode.h	/^	PC_FUNCTION,    \/* Function start or end  *\/$/;"	e
+PC_INLINE	pcode.h	/^	PC_INLINE,      \/* user's inline code     *\/$/;"	e
+PC_LABEL	pcode.h	/^	PC_LABEL,       \/* assembly label         *\/$/;"	e
+PC_OPCODE	pcode.h	/^	PC_OPCODE,      \/* PORT dependent opcode  *\/$/;"	e
+PC_TYPE	pcode.h	/^} PC_TYPE;$/;"	t
+PC_WILD	pcode.h	/^	PC_WILD,        \/* wildcard - an opcode place holder used $/;"	e
+PCodeID	pcode.c	/^static unsigned PCodeID(void) {$/;"	f	file:
+PIC14_STRING_LEN	device.c	39;"	d	file:
+PIC_C_BIT	pcode.h	98;"	d
+PIC_DC_BIT	pcode.h	99;"	d
+PIC_GIE_BIT	pcode.h	115;"	d
+PIC_GLUE_H	glue.h	26;"	d
+PIC_INTE_BIT	pcode.h	112;"	d
+PIC_INTF_BIT	pcode.h	109;"	d
+PIC_IRP_BIT	pcode.h	103;"	d
+PIC_IS_DATA_PTR	gen.c	57;"	d	file:
+PIC_OPCODE	pcode.h	/^} PIC_OPCODE;$/;"	t
+PIC_OPTYPE	pcode.h	/^} PIC_OPTYPE;$/;"	t
+PIC_PIE_BIT	pcode.h	114;"	d
+PIC_RBIE_BIT	pcode.h	111;"	d
+PIC_RBIF_BIT	pcode.h	108;"	d
+PIC_RP0_BIT	pcode.h	101;"	d
+PIC_RP1_BIT	pcode.h	102;"	d
+PIC_T0IE_BIT	pcode.h	113;"	d
+PIC_T0IF_BIT	pcode.h	110;"	d
+PIC_Z_BIT	pcode.h	100;"	d
+PIC_device	device.h	/^typedef struct PIC_device {$/;"	s
+PIC_device	device.h	/^} PIC_device;$/;"	t
+POC_ADDFW	pcode.h	/^	POC_ADDFW,$/;"	e
+POC_ADDLW	pcode.h	/^	POC_ADDLW=0,$/;"	e
+POC_ADDWF	pcode.h	/^	POC_ADDWF,$/;"	e
+POC_ANDFW	pcode.h	/^	POC_ANDFW,$/;"	e
+POC_ANDLW	pcode.h	/^	POC_ANDLW,$/;"	e
+POC_ANDWF	pcode.h	/^	POC_ANDWF,$/;"	e
+POC_BANKSEL	pcode.h	/^	POC_BANKSEL,$/;"	e
+POC_BCF	pcode.h	/^	POC_BCF,$/;"	e
+POC_BSF	pcode.h	/^	POC_BSF,$/;"	e
+POC_BTFSC	pcode.h	/^	POC_BTFSC,$/;"	e
+POC_BTFSS	pcode.h	/^	POC_BTFSS,$/;"	e
+POC_CALL	pcode.h	/^	POC_CALL,$/;"	e
+POC_CLRF	pcode.h	/^	POC_CLRF,$/;"	e
+POC_CLRW	pcode.h	/^	POC_CLRW,$/;"	e
+POC_CLRWDT	pcode.h	/^	POC_CLRWDT,$/;"	e
+POC_COMF	pcode.h	/^	POC_COMF,$/;"	e
+POC_COMFW	pcode.h	/^	POC_COMFW,$/;"	e
+POC_DECF	pcode.h	/^	POC_DECF,$/;"	e
+POC_DECFSZ	pcode.h	/^	POC_DECFSZ,$/;"	e
+POC_DECFSZW	pcode.h	/^	POC_DECFSZW,$/;"	e
+POC_DECFW	pcode.h	/^	POC_DECFW,$/;"	e
+POC_GOTO	pcode.h	/^	POC_GOTO,$/;"	e
+POC_INCF	pcode.h	/^	POC_INCF,$/;"	e
+POC_INCFSZ	pcode.h	/^	POC_INCFSZ,$/;"	e
+POC_INCFSZW	pcode.h	/^	POC_INCFSZW,$/;"	e
+POC_INCFW	pcode.h	/^	POC_INCFW,$/;"	e
+POC_IORFW	pcode.h	/^	POC_IORFW,$/;"	e
+POC_IORLW	pcode.h	/^	POC_IORLW,$/;"	e
+POC_IORWF	pcode.h	/^	POC_IORWF,$/;"	e
+POC_MOVF	pcode.h	/^	POC_MOVF,$/;"	e
+POC_MOVFW	pcode.h	/^	POC_MOVFW,$/;"	e
+POC_MOVLW	pcode.h	/^	POC_MOVLW,$/;"	e
+POC_MOVWF	pcode.h	/^	POC_MOVWF,$/;"	e
+POC_NOP	pcode.h	/^	POC_NOP,$/;"	e
+POC_PAGESEL	pcode.h	/^	POC_PAGESEL,$/;"	e
+POC_RETFIE	pcode.h	/^	POC_RETFIE,$/;"	e
+POC_RETLW	pcode.h	/^	POC_RETLW,$/;"	e
+POC_RETURN	pcode.h	/^	POC_RETURN,$/;"	e
+POC_RLF	pcode.h	/^	POC_RLF,$/;"	e
+POC_RLFW	pcode.h	/^	POC_RLFW,$/;"	e
+POC_RRF	pcode.h	/^	POC_RRF,$/;"	e
+POC_RRFW	pcode.h	/^	POC_RRFW,$/;"	e
+POC_SUBFW	pcode.h	/^	POC_SUBFW,$/;"	e
+POC_SUBLW	pcode.h	/^	POC_SUBLW,$/;"	e
+POC_SUBWF	pcode.h	/^	POC_SUBWF,$/;"	e
+POC_SWAPF	pcode.h	/^	POC_SWAPF,$/;"	e
+POC_SWAPFW	pcode.h	/^	POC_SWAPFW,$/;"	e
+POC_TRIS	pcode.h	/^	POC_TRIS,$/;"	e
+POC_WILD	pcode.h	/^	POC_WILD=-1,   \/* Wild card - used in the pCode peep hole optimizer$/;"	e
+POC_XORFW	pcode.h	/^	POC_XORFW,$/;"	e
+POC_XORLW	pcode.h	/^	POC_XORLW,$/;"	e
+POC_XORWF	pcode.h	/^	POC_XORWF,$/;"	e
+PO_BIT	pcode.h	/^	PO_BIT,            \/\/ bit operand.$/;"	e
+PO_CRY	pcode.h	/^	PO_CRY,            \/\/ bit memory (8051 legacy)$/;"	e
+PO_DIR	pcode.h	/^	PO_DIR,            \/\/ Direct memory (8051 legacy)$/;"	e
+PO_FSR	pcode.h	/^	PO_FSR,            \/\/ The "file select register" (in 18c it's one of three)$/;"	e
+PO_GPR_BIT	pcode.h	/^	PO_GPR_BIT,        \/\/ A bit of a general purpose register$/;"	e
+PO_GPR_POINTER	pcode.h	/^	PO_GPR_POINTER,    \/\/ A general purpose pointer$/;"	e
+PO_GPR_REGISTER	pcode.h	/^	PO_GPR_REGISTER,   \/\/ A general purpose register$/;"	e
+PO_GPR_TEMP	pcode.h	/^	PO_GPR_TEMP,       \/\/ A general purpose temporary register$/;"	e
+PO_IMMEDIATE	pcode.h	/^	PO_IMMEDIATE,      \/\/  (8051 legacy)$/;"	e
+PO_INDF	pcode.h	/^	PO_INDF,           \/\/ The Indirect register$/;"	e
+PO_INTCON	pcode.h	/^	PO_INTCON,         \/\/ Interrupt Control register$/;"	e
+PO_LABEL	pcode.h	/^	PO_LABEL,$/;"	e
+PO_LITERAL	pcode.h	/^	PO_LITERAL,        \/\/ A constant$/;"	e
+PO_NONE	pcode.h	/^	PO_NONE=0,         \/\/ No operand e.g. NOP$/;"	e
+PO_PCL	pcode.h	/^	PO_PCL,            \/\/ Program counter Low register$/;"	e
+PO_PCLATH	pcode.h	/^	PO_PCLATH,         \/\/ Program counter Latch high register$/;"	e
+PO_SFR_REGISTER	pcode.h	/^	PO_SFR_REGISTER,   \/\/ A special function register (e.g. PORTA)$/;"	e
+PO_STATUS	pcode.h	/^	PO_STATUS,         \/\/ The 'STATUS' register$/;"	e
+PO_STR	pcode.h	/^	PO_STR,            \/\/  (8051 legacy)$/;"	e
+PO_W	pcode.h	/^	PO_W,              \/\/ The 'W' register$/;"	e
+PO_WILD	pcode.h	/^	PO_WILD            \/\/ Wild card operand in peep optimizer$/;"	e
+Pics	device.c	/^static PIC_device *Pics[MAX_PICLIST];$/;"	v	file:
+REG_CND	ralloc.h	/^  REG_CND,$/;"	e
+REG_GPR	ralloc.h	/^  REG_GPR,$/;"	e
+REG_PTR	ralloc.h	/^  REG_PTR=1,$/;"	e
+REG_SFR	ralloc.h	/^  REG_SFR,$/;"	e
+REG_STK	ralloc.h	/^  REG_STK,$/;"	e
+REG_TMP	ralloc.h	/^  REG_TMP$/;"	e
+RESULTONSTACK	gen.h	106;"	d
+RegCond	pcode.c	/^static int RegCond(pCodeOp *pcop)$/;"	f	file:
+RegsSetUnMapLiveRanges	pcoderegs.c	/^static void RegsSetUnMapLiveRanges(set *regset)$/;"	f	file:
+RegsUnMapLiveRanges	pcoderegs.c	/^void  RegsUnMapLiveRanges(void)$/;"	f
+Remove1pcode	pcoderegs.c	/^static void Remove1pcode(pCode *pc, reg_info *reg, int debug_code)$/;"	f	file:
+Remove2pcodes	pcoderegs.c	/^static void Remove2pcodes(pCode *pcflow, pCode *pc1, pCode *pc2, reg_info *reg, int can_free)$/;"	f	file:
+RemoveRegsFromSet	pcoderegs.c	/^static void RemoveRegsFromSet(set *regset)$/;"	f	file:
+RemoveUnusedRegisters	pcoderegs.c	/^void RemoveUnusedRegisters(void)$/;"	f
+ReuseReg	pcode.c	/^ReuseReg(void)$/;"	f
+SDCCGENPIC14_H	gen.h	27;"	d
+SDCCRALLOC_H	ralloc.h	28;"	d
+SET_BANK_BIT	pcode.c	50;"	d	file:
+SPLIT_WORDS_MAX	device.c	40;"	d	file:
+SetIrp	gen.c	/^SetIrp (operand * result)$/;"	f	file:
+ToConflicts	pcode.h	/^	int ToConflicts;$/;"	m	struct:pCodeFlow
+_ENDIAN	glue.c	52;"	d	file:
+_ENDIAN	glue.c	54;"	d	file:
+_G	gen.c	/^} _G;$/;"	v	file:
+_G	ralloc.c	/^_G;$/;"	v	file:
+_LAST_PEEP_COMMAND_	pcode.h	/^	_LAST_PEEP_COMMAND_$/;"	e	enum:peepCommandTypes
+__DEVICE_H__	device.h	30;"	d
+__FUNCTION__	genarith.c	33;"	d	file:
+__PCODEFLOW_H__	pcodeflow.h	23;"	d
+__PCODEREGS_H__	pcoderegs.h	24;"	d
+__PCODE_H__	pcode.h	23;"	d
+_asmCmd	main.c	/^static const char *_asmCmd[] =$/;"	v	file:
+_const	pcode.h	/^	unsigned _const:1;    \/* is in code space    *\/$/;"	m	struct:pCodeOpImmd
+_defaultRules	main.c	/^static char _defaultRules[] =$/;"	v	file:
+_function	pcode.h	/^	unsigned _function:1; \/* is a (pointer to a) function *\/$/;"	m	struct:pCodeOpImmd
+_hasNativeMulFor	main.c	/^_hasNativeMulFor (iCode *ic, sym_link *left, sym_link *right)$/;"	f	file:
+_pic14_do_link	main.c	/^_pic14_do_link (void)$/;"	f	file:
+_pic14_finaliseOptions	main.c	/^_pic14_finaliseOptions (void)$/;"	f	file:
+_pic14_genAssemblerPreamble	main.c	/^_pic14_genAssemblerPreamble (FILE * of)$/;"	f	file:
+_pic14_genIVT	main.c	/^_pic14_genIVT (struct dbuf_s * oBuf, symbol ** interrupts, int maxInterrupts)$/;"	f	file:
+_pic14_getRegName	main.c	/^_pic14_getRegName (const struct reg_info *reg)$/;"	f	file:
+_pic14_init	main.c	/^_pic14_init (void)$/;"	f	file:
+_pic14_keywords	main.c	/^static char *_pic14_keywords[] =$/;"	v	file:
+_pic14_parseOptions	main.c	/^_pic14_parseOptions (int *pargc, char **argv, int *i)$/;"	f	file:
+_pic14_poptions	main.c	/^static OPTION _pic14_poptions[] =$/;"	v	file:
+_pic14_regparm	main.c	/^_pic14_regparm (sym_link * l, bool reentrant)$/;"	f	file:
+_pic14_reset_regparm	main.c	/^_pic14_reset_regparm (void)$/;"	f	file:
+_pic14_setDefaultOptions	main.c	/^_pic14_setDefaultOptions (void)$/;"	f	file:
+accInUse	gen.c	/^  short accInUse;$/;"	m	file:
+addSign	genarith.c	/^void addSign(operand *result, int offset, int sign)$/;"	f
+addpBlock	pcode.c	/^void addpBlock(pBlock *pb)$/;"	f
+addpCode2pBlock	pcode.c	/^void addpCode2pBlock(pBlock *pb, pCode *pc)$/;"	f
+addpCodeComment	pcode.c	/^static void addpCodeComment(pCode *pc, const char *fmt, ...)$/;"	f	file:
+address	ralloc.h	/^  unsigned address;           \/* reg's address if isFixed | isMapped is true *\/$/;"	m	struct:reg_info
+advTokIdx	pcodepeep.c	/^static int advTokIdx(int *v, int amt)$/;"	f	file:
+alias	device.h	/^	int alias;              \/* bit mask defining how\/if memory range is aliased $/;"	m	struct:memRange
+alias	ralloc.h	/^  unsigned alias;             \/* Alias mask if register appears in multiple banks *\/$/;"	m	struct:reg_info
+allLRs	ralloc.c	/^allLRs (symbol * sym, eBBlock * ebp, iCode * ic)$/;"	f	file:
+allocDirReg	ralloc.c	/^allocDirReg (operand *op )$/;"	f
+allocInternalRegister	ralloc.c	/^allocInternalRegister(int rIdx, char * name, PIC_OPTYPE po_type, int alias)$/;"	f
+allocNewDirReg	ralloc.c	/^allocNewDirReg (sym_link *symlnk,const char *name)$/;"	f
+allocProcessorRegister	ralloc.c	/^allocProcessorRegister(int rIdx, char * name, short po_type, int alias)$/;"	f
+allocReg	ralloc.c	/^allocReg (short type)$/;"	f	file:
+allocRegByName	ralloc.c	/^allocRegByName (char *name, int size)$/;"	f
+altArr	pcodepeep.c	/^static pcPattern altArr[] = {$/;"	v	file:
+altComparePattern	pcodepeep.c	/^static int altComparePattern(char *pct, parsedPattern *pat, int max_tokens)$/;"	f	file:
+altPatterns	pcodepeep.c	/^} altPatterns;$/;"	t	file:
+alt_comment	pcodepeep.c	/^static char alt_comment[]   = { PCP_COMMENT, 0};$/;"	v	file:
+alt_label	pcodepeep.c	/^static char alt_label[]     = { PCP_LABEL, 0};$/;"	v	file:
+alt_mnem0	pcodepeep.c	/^static char alt_mnem0[]     = { PCP_STR, 0};$/;"	v	file:
+alt_mnem0a	pcodepeep.c	/^static char alt_mnem0a[]    = { PCP_WILDVAR, 0};$/;"	v	file:
+alt_mnem1	pcodepeep.c	/^static char alt_mnem1[]     = { PCP_STR, PCP_STR, 0};$/;"	v	file:
+alt_mnem1a	pcodepeep.c	/^static char alt_mnem1a[]    = { PCP_STR, PCP_WILDVAR, 0};$/;"	v	file:
+alt_mnem1b	pcodepeep.c	/^static char alt_mnem1b[]    = { PCP_STR, PCP_NUMBER, 0};$/;"	v	file:
+alt_mnem2	pcodepeep.c	/^static char alt_mnem2[]     = { PCP_STR, PCP_STR, PCP_COMMA, PCP_STR, 0};$/;"	v	file:
+alt_mnem2a	pcodepeep.c	/^static char alt_mnem2a[]    = { PCP_STR, PCP_WILDVAR, PCP_COMMA, PCP_STR, 0};$/;"	v	file:
+alt_mnem3	pcodepeep.c	/^static char alt_mnem3[]     = { PCP_STR, PCP_STR, PCP_COMMA, PCP_NUMBER, 0};$/;"	v	file:
+ancestor	pcode.h	/^	struct pCodeFlow *ancestor; \/* The most immediate "single" pCodeFlow object that$/;"	m	struct:pCodeFlow
+aopForRemat	gen.c	/^aopForRemat (operand * op)      \/\/ x symbol *sym)$/;"	f	file:
+aopForSym	gen.c	/^aopForSym (iCode * ic, symbol * sym, bool result)$/;"	f	file:
+aopGet	gen.c	/^aopGet (asmop * aop, int offset, bool bit16, bool dname)$/;"	f
+aopIdx	gen.c	/^aopIdx (asmop * aop, int offset)$/;"	f	file:
+aopOp	gen.c	/^aopOp (operand * op, iCode * ic, bool result)$/;"	f
+aopPut	gen.c	/^aopPut (asmop * aop, char *s, int offset)$/;"	f
+aop_dir	gen.h	/^    char *aop_dir;      \/* if direct  *\/$/;"	m	union:asmop::<anonymous>
+aop_immd	gen.h	/^    char *aop_immd;     \/* if immediate others are implied *\/$/;"	m	union:asmop::<anonymous>
+aop_isLitLike	gen.c	/^aop_isLitLike (asmop * aop)$/;"	f	file:
+aop_lit	gen.h	/^    value *aop_lit;     \/* if literal *\/$/;"	m	union:asmop::<anonymous>
+aop_ptr	gen.h	/^    reg_info *aop_ptr;      \/* either -> to r0 or r1 *\/$/;"	m	union:asmop::<anonymous>
+aop_reg	gen.h	/^    reg_info *aop_reg[4];   \/* array of registers *\/$/;"	m	union:asmop::<anonymous>
+aop_stk	gen.h	/^    int aop_stk;        \/* stack offset when AOP_STK *\/$/;"	m	union:asmop::<anonymous>
+aop_str	gen.h	/^    char *aop_str[4];   \/* just a string array containing the location *\/$/;"	m	union:asmop::<anonymous>
+aopu	gen.h	/^  aopu;$/;"	m	struct:asmop
+arg	pcode.h	/^  char *arg;$/;"	m	struct:pCodeAsmDir
+asmop	gen.h	/^asmop;$/;"	t
+asmop	gen.h	/^typedef struct asmop$/;"	s
+assignResultValue	gen.c	/^assignResultValue (operand * oper)$/;"	f	file:
+assignedpFlows	pcoderegs.h	/^	set *assignedpFlows;   \/* set of pFlow objects that assign values to this register *\/$/;"	m	struct:pCodeRegLives
+bank	device.h	/^	int bank;               \/* PIC memory bank this range occupies *\/$/;"	m	struct:memRange
+bankCompare	pcode.c	/^static int bankCompare(const char *op1, const char *op2)$/;"	f	file:
+bankMask	device.h	/^	int bankMask;               \/* Bitmask that is ANDed with address to extract banking bits *\/$/;"	m	struct:PIC_device
+bank_conflict	pcode.h	/^	int bank_conflict;    \/* records bank conflicts *\/$/;"	m	struct:pCodeFlowLink
+bit	pcode.h	/^	int bit;                \/\/ 0-7 bit number.$/;"	m	struct:pCodeOpRegBit
+bitEQUs	ralloc.c	/^static void bitEQUs(FILE *of, set *bregs)$/;"	f	file:
+blockSpil	ralloc.c	/^        short blockSpil;$/;"	m	file:
+buildCallTree	pcode.c	/^static void buildCallTree(void)$/;"	f	file:
+c	pcodepeep.c	/^    char c;  \/\/ character$/;"	m	union:pCodeToken::<anonymous>	file:
+call_libraryfunc	gen.c	/^call_libraryfunc (char *name)$/;"	f	file:
+checkLabel	pcode.c	/^static int checkLabel(pCode *pc)$/;"	f	file:
+cline	pcode.h	/^	pCodeCSource *cline;         \/* C Source from which this instruction was derived *\/$/;"	m	struct:pCodeInstruction
+cmd	pcode.h	/^	char *cmd;$/;"	m	struct:peepCommand
+cmemmap	pcode.h	/^	memmap *cmemmap;   \/* The snippet is from this memmap *\/$/;"	m	struct:pBlock
+code	gen.h	/^  unsigned code:1;      \/* is in Code space *\/$/;"	m	struct:asmop
+coff	gen.h	/^  short coff;           \/* current offset *\/$/;"	m	struct:asmop
+comment	pcode.h	/^	char *comment;$/;"	m	struct:pCodeComment
+compareLabel	pcode.c	/^static int compareLabel(pCode *pc, pCodeOpLabel *pcop_label)$/;"	f	file:
+computeSpillable	ralloc.c	/^computeSpillable (iCode * ic)$/;"	f	file:
+condition	gen.c	/^  int condition;                \/* true or false ifx *\/$/;"	m	struct:resolvedIfx	file:
+config	device.h	/^	int config[MAX_NUM_CONFIGS];    \/* addresses of config word(s) *\/$/;"	m	struct:PIC_device
+config_word	device.c	/^static unsigned int config_word[MAX_NUM_CONFIGS];$/;"	v	file:
+continueIfTrue	gen.c	/^continueIfTrue (iCode * ic)$/;"	f	file:
+copypCode	pcode.c	/^void copypCode(FILE *of, char dbName)$/;"	f
+createRegMask	ralloc.c	/^createRegMask (eBBlock ** ebbs, int count)$/;"	f	file:
+createStackSpil	ralloc.c	/^createStackSpil (symbol * sym)$/;"	f	file:
+create_pic	device.c	/^create_pic (char *pic_name, int maxram, int bankmsk, int confsiz,$/;"	f	file:
+critical_temps	gen.c	/^static set *critical_temps = NULL;$/;"	v	file:
+cvt_altpat_comment	pcodepeep.c	/^static void * cvt_altpat_comment(void *pp,pCodeWildBlock *pcwb)$/;"	f	file:
+cvt_altpat_label	pcodepeep.c	/^static void * cvt_altpat_label(void *pp,pCodeWildBlock *pcwb)$/;"	f	file:
+cvt_altpat_mnem0	pcodepeep.c	/^static void * cvt_altpat_mnem0(void *pp,pCodeWildBlock *pcwb)$/;"	f	file:
+cvt_altpat_mnem0a	pcodepeep.c	/^static void * cvt_altpat_mnem0a(void *pp, pCodeWildBlock *pcwb)$/;"	f	file:
+cvt_altpat_mnem1	pcodepeep.c	/^static void * cvt_altpat_mnem1(void *pp,pCodeWildBlock *pcwb)$/;"	f	file:
+cvt_altpat_mnem1a	pcodepeep.c	/^static void * cvt_altpat_mnem1a(void *pp,pCodeWildBlock *pcwb)$/;"	f	file:
+cvt_altpat_mnem1b	pcodepeep.c	/^static void * cvt_altpat_mnem1b(void *pp,pCodeWildBlock *pcwb)$/;"	f	file:
+cvt_altpat_mnem2	pcodepeep.c	/^static void * cvt_altpat_mnem2(void *pp,pCodeWildBlock *pcwb)$/;"	f	file:
+cvt_altpat_mnem2a	pcodepeep.c	/^static void * cvt_altpat_mnem2a(void *pp,pCodeWildBlock *pcwb)$/;"	f	file:
+cvt_altpat_mnem3	pcodepeep.c	/^static void * cvt_altpat_mnem3(void *pp,pCodeWildBlock *pcwb)$/;"	f	file:
+cvt_extract_destination	pcodepeep.c	/^static int cvt_extract_destination(parsedPattern *pp)$/;"	f	file:
+cvt_extract_status	pcodepeep.c	/^static pCodeOp *cvt_extract_status(char *reg, char *bit)$/;"	f	file:
+dataExtend	ralloc.c	/^        int dataExtend;$/;"	m	file:
+dataMemSize	device.h	/^	int dataMemSize;            \/* data (RAM) memory size in bytes - for device listing only *\/$/;"	m	struct:PIC_device
+dbName	pcode.h	/^	char   dbName;     \/* if cmemmap is NULL, then dbName will identify the block *\/$/;"	m	struct:pBlock
+deassignLRs	ralloc.c	/^deassignLRs (iCode * ic, eBBlock * ebp)$/;"	f	file:
+debug	ralloc.c	/^static int debug = 0;   \/\/ should be 0 when committed, creates .d files$/;"	v	file:
+debugAopGet	ralloc.c	/^debugAopGet (char *str, operand * op)$/;"	f	file:
+debugF	ralloc.c	/^static FILE *debugF = NULL;$/;"	v	file:
+debugLog	ralloc.c	/^debugLog (char *fmt,...)$/;"	f	file:
+debugLogRegType	ralloc.c	/^debugLogRegType (short type)$/;"	f	file:
+debugNewLine	ralloc.c	/^debugNewLine (void)$/;"	f	file:
+debug_verbose	main.c	/^int debug_verbose = 0;$/;"	v
+decodeOp	ralloc.c	/^decodeOp (unsigned int op)$/;"	f	file:
+defMaxRAMaddrs	device.h	/^	int defMaxRAMaddrs;         \/* default maximum value for a data address *\/$/;"	m	struct:PIC_device
+destruct	pcode.h	/^	void (*destruct)(struct pCode *_this);$/;"	m	struct:pCode
+destructpCodeFlow	pcode.c	/^static void destructpCodeFlow(pCode *pc)$/;"	f	file:
+directSpilLoc	ralloc.c	/^directSpilLoc (symbol * sym, eBBlock * ebp, iCode * ic)$/;"	f	file:
+directive	pcode.h	/^  char *directive;$/;"	m	struct:pCodeAsmDir
+dirregWithName	ralloc.c	/^dirregWithName (char *name)$/;"	f
+disable_df	main.h	/^  int disable_df;$/;"	m
+dll	pcodepeep.c	/^  DLList dll;$/;"	m	struct:pCodePeepSnippets	file:
+dump1Token	pcodepeep.c	/^static void dump1Token(pCodeTokens tt)$/;"	f	file:
+dumpEbbsToDebug	ralloc.c	/^dumpEbbsToDebug (eBBlock ** ebbs, int count)$/;"	f	file:
+dumppCodeStatistics	pcode.c	/^void dumppCodeStatistics (FILE *of)$/;"	f
+dynAllocRegs	ralloc.c	/^set *dynAllocRegs=NULL;$/;"	v
+dynDirectBitRegs	ralloc.c	/^set *dynDirectBitRegs=NULL;$/;"	v
+dynDirectRegNames	ralloc.c	/^static hTab  *dynDirectRegNames= NULL;$/;"	v	file:
+dynDirectRegs	ralloc.c	/^set *dynDirectRegs=NULL;$/;"	v
+dynInternalRegs	ralloc.c	/^set *dynInternalRegs=NULL;$/;"	v
+dynProcessorRegs	ralloc.c	/^set *dynProcessorRegs=NULL;$/;"	v
+dynStackRegs	ralloc.c	/^set *dynStackRegs=NULL;$/;"	v
+dynrIdx	ralloc.c	/^static int dynrIdx = 0x1000;$/;"	v	file:
+eepromMemSize	device.h	/^	int eepromMemSize;          \/* EEPROM memory size in bytes - for device listing only *\/$/;"	m	struct:PIC_device
+emitCLRC	gen.h	129;"	d
+emitCLRDC	gen.h	130;"	d
+emitCLRIRP	gen.h	131;"	d
+emitCLRZ	gen.h	128;"	d
+emitIfNew	glue.c	/^emitIfNew(struct dbuf_s *oBuf, set **emitted, const char *fmt,$/;"	f	file:
+emitInitVal	glue.c	/^emitInitVal(struct dbuf_s *oBuf, symbol *topsym, sym_link *my_type, initList *list)$/;"	f	file:
+emitIvalLabel	glue.c	/^emitIvalLabel(struct dbuf_s *oBuf, symbol *sym)$/;"	f	file:
+emitIvals	glue.c	/^emitIvals(struct dbuf_s *oBuf, symbol *sym, initList *list, long lit, int size)$/;"	f	file:
+emitMOVWF	genarith.c	/^static void emitMOVWF(operand *reg, int offset)$/;"	f	file:
+emitPseudoStack	glue.c	/^emitPseudoStack(struct dbuf_s *oBuf, struct dbuf_s *oBufExt)$/;"	f	file:
+emitPtrByteGet	gen.c	/^emitPtrByteGet (operand * src, int p_type, bool alreadyAddressed)$/;"	f	file:
+emitPtrByteSet	gen.c	/^emitPtrByteSet (operand * dst, int p_type, bool alreadyAddressed)$/;"	f	file:
+emitSETC	gen.h	133;"	d
+emitSETDC	gen.h	134;"	d
+emitSETIRP	gen.h	135;"	d
+emitSETZ	gen.h	132;"	d
+emitSKPC	gen.h	122;"	d
+emitSKPDC	gen.h	126;"	d
+emitSKPNC	gen.h	123;"	d
+emitSKPNDC	gen.h	127;"	d
+emitSKPNZ	gen.h	125;"	d
+emitSKPZ	gen.h	124;"	d
+emitSymbolSet	glue.c	/^emitSymbolSet(set *s, int type)$/;"	f	file:
+emitpComment	gen.c	/^emitpComment (const char *fmt, ...)$/;"	f
+emitpLabel	gen.c	/^emitpLabel (int key)$/;"	f
+emitpcode	gen.h	139;"	d
+emitpcodeNULLop	gen.c	/^emitpcodeNULLop (PIC_OPCODE poc)$/;"	f	file:
+emitpcode_real	gen.c	/^emitpcode_real (PIC_OPCODE poc, pCodeOp * pcop)$/;"	f
+emitted	glue.c	/^static set *emitted = NULL;$/;"	v	file:
+end	pcode.h	/^	pCode *end;   \/* Last pCode in this flow. Note that$/;"	m	struct:pCodeFlow
+end_address	device.h	/^	int end_address;        \/* last *\/$/;"	m	struct:memRange
+exchangeLabels	pcode.c	/^static void exchangeLabels(pCodeLabel *pcl, pCode *pc)$/;"	f	file:
+extBuf	glue.c	/^static struct dbuf_s *ivalBuf, *extBuf, *gloBuf, *gloDefBuf;$/;"	v	file:
+f	pcodepeep.c	/^  void * (*f) (void *,pCodeWildBlock *);$/;"	m	struct:pcPattern	file:
+fReturn	gen.c	/^static char **fReturn = fReturnpic14;$/;"	v	file:
+fReturnSizePic	gen.c	/^unsigned fReturnSizePic = 4;    \/* shared with ralloc.c *\/$/;"	v
+fReturnpic14	gen.c	/^static char *fReturnpic14[] = { "temp1", "temp2", "temp3", "temp4" };$/;"	v	file:
+farSpacePackable	ralloc.c	/^farSpacePackable (iCode * ic)$/;"	f	file:
+file_name	pcode.h	/^	char *file_name;$/;"	m	struct:pCodeCSource
+findAssignToSym	ralloc.c	/^findAssignToSym (operand * op, iCode * ic)$/;"	f	file:
+findFunction	pcode.c	/^static pCode *findFunction(char *fname)$/;"	f	file:
+findInstructionUsingLabel	pcode.c	/^static pCode * findInstructionUsingLabel(pCodeLabel *pcl, pCode *pcs)$/;"	f	file:
+findLabelinpBlock	pcode.c	/^static pCode * findLabelinpBlock(pBlock *pb,pCodeOpLabel *pcop_label)$/;"	f	file:
+findNextInstruction	pcode.c	/^pCode * findNextInstruction(pCode *pci)$/;"	f
+findNextpCode	pcode.c	/^pCode * findNextpCode(pCode *pc, PC_TYPE pct)$/;"	f
+findPrevInstruction	pcode.c	/^pCode * findPrevInstruction(pCode *pci)$/;"	f
+find_device	device.c	/^find_device (char *pic_name)$/;"	f	file:
+firstBank	pcode.h	/^	int firstBank; \/* The first and last bank flags are the first and last *\/$/;"	m	struct:pCodeFlow
+fname	pcode.h	/^	char *fname;     \/* If NULL, then this is the end of$/;"	m	struct:pCodeFunction
+freeAsmop	gen.c	/^freeAsmop (operand * op, asmop * aaop, iCode * ic, bool pop)$/;"	f
+freeReg	ralloc.c	/^freeReg (reg_info * reg)$/;"	f	file:
+freed	gen.h	/^  unsigned freed:1;     \/* already freed    *\/$/;"	m	struct:asmop
+from	pcode.h	/^	pBranch *from;       \/\/ pCodes that execute before this one$/;"	m	struct:pCodeFunction
+from	pcode.h	/^	pBranch *from;       \/\/ pCodes that execute before this one$/;"	m	struct:pCodeInstruction
+from	pcode.h	/^	set *from;    \/* flow blocks that can send control to this flow block *\/$/;"	m	struct:pCodeFlow
+funcrUsed	ralloc.c	/^        bitVect *funcrUsed;             \/* registers used in a function *\/$/;"	m	file:
+functionInlining	pcode.c	/^static int functionInlining = 1;      \/* inline functions if nonzero *\/$/;"	v	file:
+function_calls	pcode.h	/^	set *function_calls;$/;"	m	struct:pBlock
+function_entries	pcode.h	/^	set *function_entries;    \/* dll of functions in this pblock *\/$/;"	m	struct:pBlock
+function_exits	pcode.h	/^	set *function_exits;$/;"	m	struct:pBlock
+functions	pcode.h	/^	pBranch *functions; \/* A SLL of functions in this pFile *\/$/;"	m	struct:pFile
+genAddLit	genarith.c	/^static void genAddLit (iCode *ic, int lit)$/;"	f	file:
+genAddLit2byte	genarith.c	/^static void genAddLit2byte (operand *result, int offr, int lit)$/;"	f	file:
+genAddrOf	gen.c	/^genAddrOf (iCode * ic)$/;"	f	file:
+genAnd	gen.c	/^genAnd (iCode * ic, iCode * ifx)$/;"	f	file:
+genAndOp	gen.c	/^genAndOp (iCode * ic)$/;"	f	file:
+genAssign	gen.c	/^genAssign (iCode * ic)$/;"	f	file:
+genCall	gen.c	/^genCall (iCode * ic)$/;"	f	file:
+genCast	gen.c	/^genCast (iCode * ic)$/;"	f	file:
+genCmp	gen.c	/^genCmp (operand * left, operand * right, operand * result, iCode * ifx, int sign)$/;"	f	file:
+genCmpEq	gen.c	/^genCmpEq (iCode * ic, iCode * ifx)$/;"	f	file:
+genCmpGt	gen.c	/^genCmpGt (iCode * ic, iCode * ifx)$/;"	f	file:
+genCmpLt	gen.c	/^genCmpLt (iCode * ic, iCode * ifx)$/;"	f	file:
+genConstPointerGet	gen.c	/^genConstPointerGet (operand * left, operand * result, iCode * ic)$/;"	f	file:
+genCpl	gen.c	/^genCpl (iCode * ic)$/;"	f	file:
+genCritical	gen.c	/^genCritical (iCode * ic)$/;"	f	file:
+genDataPointerGet	gen.c	/^genDataPointerGet (operand * left, operand * result, iCode * ic)$/;"	f	file:
+genDataPointerSet	gen.c	/^genDataPointerSet (operand * right, operand * result, iCode * ic)$/;"	f	file:
+genDiv	gen.c	/^genDiv (iCode * ic)$/;"	f	file:
+genDivOneByte	gen.c	/^genDivOneByte (operand * left, operand * right, operand * result)$/;"	f	file:
+genDivbits	gen.c	/^genDivbits (operand * left, operand * right, operand * result)$/;"	f	file:
+genDjnz	gen.c	/^genDjnz (iCode * ic, iCode * ifx)$/;"	f	file:
+genDummyRead	gen.c	/^genDummyRead (iCode * ic)$/;"	f	file:
+genEndCritical	gen.c	/^genEndCritical (iCode * ic)$/;"	f	file:
+genEndFunction	gen.c	/^genEndFunction (iCode * ic)$/;"	f	file:
+genFunction	gen.c	/^genFunction (iCode * ic)$/;"	f	file:
+genGenPointerGet	gen.c	/^genGenPointerGet (operand * left, operand * result, iCode * ic)$/;"	f	file:
+genGenPointerSet	gen.c	/^genGenPointerSet (operand * right, operand * result, iCode * ic)$/;"	f	file:
+genGenericShift	gen.c	/^genGenericShift (iCode * ic, int shiftRight)$/;"	f	file:
+genGetABit	gen.c	/^genGetABit (iCode * ic)$/;"	f	file:
+genGetHbit	gen.c	/^genGetHbit (iCode * ic)$/;"	f	file:
+genGoto	gen.c	/^genGoto (iCode * ic)$/;"	f	file:
+genIfx	gen.c	/^genIfx (iCode * ic, iCode * popIc)$/;"	f	file:
+genIfxJump	gen.c	/^genIfxJump (iCode * ic, char *jval)$/;"	f	file:
+genIpop	gen.c	/^genIpop (iCode * ic)$/;"	f	file:
+genIpush	gen.c	/^genIpush (iCode * ic)$/;"	f	file:
+genJumpTab	gen.c	/^genJumpTab (iCode * ic)$/;"	f	file:
+genLabel	gen.c	/^genLabel (iCode * ic)$/;"	f	file:
+genLeftShift	gen.c	/^genLeftShift (iCode * ic)$/;"	f	file:
+genMinus	genarith.c	/^void genMinus (iCode *ic)$/;"	f
+genMod	gen.c	/^genMod (iCode * ic)$/;"	f	file:
+genModOneByte	gen.c	/^genModOneByte (operand * left, operand * right, operand * result)$/;"	f	file:
+genMult	gen.c	/^genMult (iCode * ic)$/;"	f	file:
+genMultOneByte	gen.c	/^genMultOneByte (operand * left, operand * right, operand * result)$/;"	f	file:
+genMultbits	gen.c	/^genMultbits (operand * left, operand * right, operand * result)$/;"	f	file:
+genMultiAsm	gen.c	/^genMultiAsm (PIC_OPCODE poc, operand * reg, int size, int endian)$/;"	f	file:
+genNearPointerGet	gen.c	/^genNearPointerGet (operand * left, operand * result, iCode * ic)$/;"	f	file:
+genNearPointerSet	gen.c	/^genNearPointerSet (operand * right, operand * result, iCode * ic)$/;"	f	file:
+genNot	gen.c	/^genNot (iCode * ic)$/;"	f	file:
+genOr	gen.c	/^genOr (iCode * ic, iCode * ifx)$/;"	f	file:
+genOrOp	gen.c	/^genOrOp (iCode * ic)$/;"	f	file:
+genPackBits	gen.c	/^genPackBits (sym_link * etype, operand * result, operand * right, int p_type)$/;"	f	file:
+genPcall	gen.c	/^genPcall (iCode * ic)$/;"	f	file:
+genPlus	genarith.c	/^void genPlus (iCode *ic)$/;"	f
+genPlusIncr	genarith.c	/^static bool genPlusIncr (iCode *ic)$/;"	f	file:
+genPointerGet	gen.c	/^genPointerGet (iCode * ic)$/;"	f	file:
+genPointerSet	gen.c	/^genPointerSet (iCode * ic)$/;"	f	file:
+genRLC	gen.c	/^genRLC (iCode * ic)$/;"	f	file:
+genRRC	gen.c	/^genRRC (iCode * ic)$/;"	f	file:
+genReceive	gen.c	/^genReceive (iCode * ic)$/;"	f	file:
+genRet	gen.c	/^genRet (iCode * ic)$/;"	f	file:
+genRightShift	gen.c	/^genRightShift (iCode * ic)$/;"	f	file:
+genSkipc	gen.c	/^genSkipc (resolvedIfx * rifx)$/;"	f	file:
+genUminus	gen.c	/^genUminus (iCode * ic)$/;"	f	file:
+genUminusFloat	gen.c	/^genUminusFloat (operand * op, operand * result)$/;"	f	file:
+genUnpackBits	gen.c	/^genUnpackBits (operand * result, operand * left, int ptype, iCode * ifx)$/;"	f	file:
+genXor	gen.c	/^genXor (iCode * ic, iCode * ifx)$/;"	f	file:
+generated	gen.c	/^  int generated;                \/* set true when the code associated with the ifx$/;"	m	struct:resolvedIfx	file:
+genericDestruct	pcode.c	/^static void genericDestruct(pCode *pc)$/;"	f	file:
+genericPrint	pcode.c	/^static void genericPrint(FILE *of, pCode *pc)$/;"	f	file:
+genpic14Code	gen.c	/^genpic14Code (iCode * lic)$/;"	f
+getRegFromInstruction	pcode.c	/^reg_info * getRegFromInstruction(pCode *pc)$/;"	f
+getRegGpr	ralloc.c	/^getRegGpr (iCode * ic, eBBlock * ebp, symbol * sym)$/;"	f	file:
+getRegPtr	ralloc.c	/^getRegPtr (iCode * ic, eBBlock * ebp, symbol * sym)$/;"	f	file:
+get_argument_pcop	gen.c	/^get_argument_pcop (int idx)$/;"	f	file:
+get_op	pcode.c	/^char *get_op(pCodeOp *pcop,char *buffer, size_t size)$/;"	f
+get_op_from_instruction	pcode.c	/^static char *get_op_from_instruction( pCodeInstruction *pcc)$/;"	f	file:
+get_return_val_pcop	gen.c	/^get_return_val_pcop (int offset)$/;"	f	file:
+get_returnvalue	gen.c	/^get_returnvalue (operand * op, int offset, int idx)$/;"	f	file:
+getpBlock_dbName	pcode.c	/^static char getpBlock_dbName(pBlock *pb)$/;"	f	file:
+getpCode	pcode.c	/^int getpCode(char *mnem,unsigned dest)$/;"	f
+getpCodePeepCommand	pcode.c	/^int getpCodePeepCommand(char *cmd)$/;"	f
+gloBuf	glue.c	/^static struct dbuf_s *ivalBuf, *extBuf, *gloBuf, *gloDefBuf;$/;"	v	file:
+gloDefBuf	glue.c	/^static struct dbuf_s *ivalBuf, *extBuf, *gloBuf, *gloDefBuf;$/;"	v	file:
+hasExtBitOp	main.c	/^hasExtBitOp (int op, int size)$/;"	f	file:
+hasSpilLoc	ralloc.c	/^hasSpilLoc (symbol * sym, eBBlock * ebp, iCode * ic)$/;"	f	file:
+hasSpilLocnoUptr	ralloc.c	/^hasSpilLocnoUptr (symbol * sym, eBBlock * ebp, iCode * ic)$/;"	f	file:
+id	pcode.h	/^	int    id;     \/* Index into the wild card array of a peepBlock $/;"	m	struct:pCodeWild
+id	pcode.h	/^	int id;                 \/* index into an array of char *'s that will match$/;"	m	struct:pCodeOpWild
+id	pcode.h	/^	int id;$/;"	m	struct:peepCommand
+id	pcode.h	/^	unsigned id;         \/\/ unique ID number for all pCodes to assist in debugging$/;"	m	struct:pCode
+inBitSpace	pcode.h	/^	unsigned int inBitSpace: 1; \/* True if in bit space, else$/;"	m	struct:pCodeOpRegBit
+inCond	pcode.h	/^	int inCond;   \/* Input conditions - stuff assumed defined at entry *\/$/;"	m	struct:pCodeFlow
+inCond	pcode.h	/^	unsigned int inCond;   \/\/ Input conditions for this instruction$/;"	m	struct:pCodeInstruction
+inc_fsr	gen.c	/^inc_fsr (int delta)$/;"	f	file:
+index	pcode.h	/^	int index;            \/* add this to the immediate value *\/$/;"	m	struct:pCodeOpImmd
+initStack	ralloc.c	/^void initStack(int base_address, int size, int shared)$/;"	f
+init_pic	device.c	/^init_pic (char *pic_type)$/;"	f
+initpCodePeep	pcodepeep.c	/^static void initpCodePeep(pCodePeep *pcp)$/;"	f	file:
+initpCodeWildBlock	pcodepeep.c	/^static void initpCodeWildBlock(pCodeWildBlock *pcwb)$/;"	f	file:
+insertBankSel	pcode.c	/^static int insertBankSel(pCodeInstruction  *pci, const char *name)$/;"	f	file:
+insertPCodeInstruction	pcode.c	/^static void insertPCodeInstruction(pCodeInstruction *pci, pCodeInstruction *new_pci)$/;"	f	file:
+instance	pcode.h	/^	int instance;    \/\/ byte # of Multi-byte registers$/;"	m	struct:pCodeOpReg
+invertBitSkipInst	pcode.h	/^	int    invertBitSkipInst:1;$/;"	m	struct:pCodeWild
+inverted_op	pcode.h	/^	PIC_OPCODE inverted_op;      \/* Opcode of instruction that's the opposite of this one *\/$/;"	m	struct:pCodeInstruction
+ioPins	device.h	/^	int ioPins;                 \/* number of I\/O pins - for device listing only *\/$/;"	m	struct:PIC_device
+isAOP_LIT	gen.c	3249;"	d	file:
+isAOP_REGlike	gen.c	3248;"	d	file:
+isBitField	ralloc.h	/^  unsigned isBitField:1;      \/* True if reg is type bit OR is holder for several bits *\/$/;"	m	struct:reg_info
+isBitInst	pcode.h	/^	unsigned int isBitInst: 1;   \/* e.g. BCF *\/$/;"	m	struct:pCodeInstruction
+isBitwiseOptimizable	ralloc.c	/^isBitwiseOptimizable (iCode * ic)$/;"	f	file:
+isBranch	pcode.h	/^	unsigned int isBranch:  1;   \/* True if this is a branching instruction *\/$/;"	m	struct:pCodeInstruction
+isCALL	pcode.h	786;"	d
+isData	ralloc.c	/^static void isData(sym_link *sl)$/;"	f	file:
+isEmitted	ralloc.h	/^  unsigned isEmitted:1;       \/* True if the reg has been written to a .asm file *\/$/;"	m	struct:reg_info
+isEnhancedCore	device.h	/^        int isEnhancedCore;         \/* enhanced cores (19f1934) feature automatic context saving *\/$/;"	m	struct:PIC_device
+isExtern	ralloc.h	/^  unsigned isExtern:1;        \/* True if the reg is in another module *\/$/;"	m	struct:reg_info
+isFixed	ralloc.h	/^  unsigned isFixed:1;         \/* True if address can't change *\/$/;"	m	struct:reg_info
+isFree	ralloc.h	/^  unsigned isFree:1;          \/* is currently unassigned  *\/$/;"	m	struct:reg_info
+isLibrarySource	main.h	/^  unsigned int isLibrarySource:1;$/;"	m
+isLit	pcode.h	/^	unsigned int isLit:     1;   \/* True if this instruction has an literal operand *\/$/;"	m	struct:pCodeInstruction
+isLiteralBit	gen.c	/^isLiteralBit (unsigned long lit)$/;"	f	file:
+isMapped	ralloc.h	/^  unsigned isMapped:1;        \/* The Register's address has been mapped to physical RAM *\/$/;"	m	struct:reg_info
+isModReg	pcode.h	/^	unsigned int isModReg:  1;   \/* If destination is W or F, then 1==F *\/$/;"	m	struct:pCodeInstruction
+isPCASMDIR	pcode.h	781;"	d
+isPCCS	pcode.h	780;"	d
+isPCF	pcode.h	777;"	d
+isPCFL	pcode.h	776;"	d
+isPCI	pcode.h	775;"	d
+isPCI_BITSKIP	pcode.h	790;"	d
+isPCI_BRANCH	pcode.h	787;"	d
+isPCI_LIT	pcode.h	789;"	d
+isPCI_SKIP	pcode.h	788;"	d
+isPCL	pcode.h	778;"	d
+isPCOLAB	pcode.h	768;"	d
+isPCOS	pcode.h	769;"	d
+isPCW	pcode.h	779;"	d
+isPublic	pcode.h	/^	unsigned isPublic: 1; \/* True if not static ie extern *\/$/;"	m	struct:pCodeOpStr
+isPublic	pcode.h	/^	unsigned isPublic:1; \/* True if the fn is not static and can be called from another module (ie a another c or asm file) *\/$/;"	m	struct:pCodeFunction
+isPublic	ralloc.h	/^  unsigned isPublic:1;        \/* True if the reg is not static and can be modified in another module (ie a another c or asm file) *\/$/;"	m	struct:reg_info
+isSTATUS_REG	pcode.h	793;"	d
+isSkip	pcode.h	/^	unsigned int isSkip:    1;   \/* True if this is a skip instruction *\/$/;"	m	struct:pCodeInstruction
+isSpiltOnStack	ralloc.c	/^isSpiltOnStack (symbol * sym)$/;"	f	file:
+isValidIdChar	pcode.c	/^static int isValidIdChar (char c)$/;"	f	file:
+ivalBuf	glue.c	/^static struct dbuf_s *ivalBuf, *extBuf, *gloBuf, *gloDefBuf;$/;"	v	file:
+jmpTrueOrFalse	gen.c	/^jmpTrueOrFalse (iCode * ic, symbol * tlbl)$/;"	f	file:
+jumpIfTrue	gen.c	/^jumpIfTrue (iCode * ic)$/;"	f	file:
+key	pcode.h	/^	int key;$/;"	m	struct:pCodeLabel
+key	pcode.h	/^	int key;$/;"	m	struct:pCodeOpLabel
+label	pcode.h	/^	char *label;$/;"	m	struct:pCodeLabel
+label	pcode.h	/^	pBranch *label;      \/\/ pCode instructions that have labels$/;"	m	struct:pCodeFunction
+label	pcode.h	/^	pBranch *label;      \/\/ pCode instructions that have labels$/;"	m	struct:pCodeInstruction
+label	pcode.h	/^	pCodeOp *label;    \/\/ Optional label$/;"	m	struct:pCodeWild
+labelOffset	gen.c	/^static int labelOffset = 0;$/;"	v	file:
+lastBank	pcode.h	/^	int lastBank;  \/* register banks used within one flow object *\/$/;"	m	struct:pCodeFlow
+lbl	gen.c	/^  symbol *lbl;                  \/* pointer to a label *\/$/;"	m	struct:resolvedIfx	file:
+leastUsedLR	ralloc.c	/^leastUsedLR (set * sset)$/;"	f	file:
+line	pcode.h	/^	char *line;$/;"	m	struct:pCodeCSource
+line_number	pcode.h	/^	int  line_number;$/;"	m	struct:pCodeCSource
+list_valid_pics	device.c	/^list_valid_pics(int ncols)$/;"	f	file:
+lit	pcode.h	/^	int lit;$/;"	m	struct:pCodeOpLit
+liveRangesWith	ralloc.c	/^liveRangesWith (bitVect * lrs, int (func) (symbol *, eBBlock *, iCode *),$/;"	f	file:
+loadSignToC	gen.c	/^loadSignToC (operand * op)$/;"	f	file:
+matchIvalToUnion	glue.c	/^matchIvalToUnion (initList *list, sym_link *type, int size)$/;"	f	file:
+matched	pcode.h	/^	pCodeOp *matched;       \/* When a wild matches, we'll store a pointer to the$/;"	m	struct:pCodeOpWild
+maxRAMaddress	device.c	/^static int maxRAMaddress = 0;$/;"	v	file:
+maxRAMaddress	device.h	/^	int maxRAMaddress;          \/* maximum value for a data address *\/$/;"	m	struct:PIC_device
+max_key	gen.c	/^static int max_key = 0;$/;"	v	file:
+memRange	device.h	/^typedef struct memRange {$/;"	s
+memRange	device.h	/^} memRange;$/;"	t
+mergepBlocks	pcode.c	/^static void mergepBlocks(char dbName)$/;"	f	file:
+mnem2key	pcode.c	/^static int mnem2key(unsigned char const *mnem)$/;"	f	file:
+mnemonic	pcode.h	/^	char const * const mnemonic;       \/\/ Pointer to mnemonic string$/;"	m	struct:pCodeInstruction
+mnemonics_initialized	pcode.c	/^static int mnemonics_initialized = 0;$/;"	v	file:
+modname	pcode.h	/^	char *modname;$/;"	m	struct:pCodeFunction
+mov2w	gen.c	/^mov2w (asmop * aop, int offset)$/;"	f
+mov2w_op	gen.c	/^mov2w_op (operand * op, int offset)$/;"	f	file:
+movLeft2Result	gen.c	/^movLeft2Result (operand * left, int offl, operand * result, int offr)$/;"	f	file:
+movepBlock2Head	pcode.c	/^void movepBlock2Head(char dbName)$/;"	f
+movwf	gen.c	/^movwf (asmop * op, int offset)$/;"	f	file:
+mustBeBitSkipInst	pcode.h	/^	int    mustBeBitSkipInst:1;$/;"	m	struct:pCodeWild
+mustNotBeBitSkipInst	pcode.h	/^	int    mustNotBeBitSkipInst:1;$/;"	m	struct:pCodeWild
+my_powof2	gen.c	/^my_powof2 (unsigned long num)$/;"	f	file:
+n	pcodepeep.c	/^    int  n;  \/\/ number$/;"	m	union:pCodeToken::<anonymous>	file:
+nFreeRegs	ralloc.c	/^nFreeRegs (int type)$/;"	f	file:
+nRegsSaved	gen.c	/^  short nRegsSaved;$/;"	m	file:
+name	device.h	/^	char *name;                 \/* the processor name *\/$/;"	m	struct:PIC_device
+name	pcode.h	/^	char *name;$/;"	m	struct:pCodeOp
+name	ralloc.h	/^  char *name;    \/* name *\/$/;"	m	struct:reg_info
+ncalled	pcode.h	/^	int  ncalled;        \/* Number of times function is called *\/$/;"	m	struct:pCodeFunction
+newAsmop	gen.c	/^newAsmop (short type)$/;"	f	file:
+newReg	ralloc.c	/^static reg_info* newReg(short type, PIC_OPTYPE pc_type, int rIdx, char *name, int size, int alias)$/;"	f	file:
+newpBlock	pcode.c	/^static pBlock *newpBlock(void)$/;"	f	file:
+newpCode	pcode.c	/^pCode *newpCode (PIC_OPCODE op, pCodeOp *pcop)$/;"	f
+newpCodeAsmDir	pcode.c	/^pCode *newpCodeAsmDir(char *asdir, char *argfmt, ...)$/;"	f
+newpCodeCSource	pcode.c	/^pCode *newpCodeCSource(int ln, char *f, const char *l)$/;"	f
+newpCodeChain	pcode.c	/^pBlock *newpCodeChain(memmap *cm,char c, pCode *pc)$/;"	f
+newpCodeCharP	pcode.c	/^pCode *newpCodeCharP(char *cP)$/;"	f
+newpCodeFlow	pcode.c	/^static pCode *newpCodeFlow(void )$/;"	f	file:
+newpCodeFlowLink	pcode.c	/^static pCodeFlowLink *newpCodeFlowLink(pCodeFlow *pcflow)$/;"	f	file:
+newpCodeFunction	pcode.c	/^pCode *newpCodeFunction(char *mod,char *f,int isPublic)$/;"	f
+newpCodeLabel	pcode.c	/^pCode *newpCodeLabel(char *name, int key)$/;"	f
+newpCodeOp	pcode.c	/^pCodeOp *newpCodeOp(char *name, PIC_OPTYPE type)$/;"	f
+newpCodeOpBit	pcode.c	/^pCodeOp *newpCodeOpBit(char *name, int ibit, int inBitSpace)$/;"	f
+newpCodeOpImmd	pcode.c	/^pCodeOp *newpCodeOpImmd(char *name, int offset, int index, int code_space, int is_func)$/;"	f
+newpCodeOpLabel	pcode.c	/^pCodeOp *newpCodeOpLabel(char *name, int key)$/;"	f
+newpCodeOpLit	pcode.c	/^pCodeOp *newpCodeOpLit(int lit)$/;"	f
+newpCodeOpReg	pcode.c	/^static pCodeOp *newpCodeOpReg(int rIdx)$/;"	f	file:
+newpCodeOpRegFromStr	pcode.c	/^pCodeOp *newpCodeOpRegFromStr(char *name)$/;"	f
+newpCodeOpStr	pcode.c	/^static pCodeOp *newpCodeOpStr(char *name)$/;"	f	file:
+newpCodeOpWild	pcode.c	/^pCodeOp *newpCodeOpWild(int id, pCodeWildBlock *pcwb, pCodeOp *subtype)$/;"	f
+newpCodeWild	pcode.c	/^pCode *newpCodeWild(int pCodeID, pCodeOp *optional_operand, pCodeOp *optional_label)$/;"	f
+next	device.h	/^	struct memRange *next;	\/* linked list *\/$/;"	m	struct:memRange
+next	pcode.h	/^	struct pBlock *next;      \/* The pBlocks will form a doubly linked list *\/$/;"	m	struct:pBlock
+next	pcode.h	/^	struct pBranch *next;  \/* If more than one branch$/;"	m	struct:pBranch
+next	pcode.h	/^	struct pCode *next;  \/\/ in doubly linked lists.$/;"	m	struct:pCode
+next	pcodepeep.c	/^  struct DLList *next;$/;"	m	struct:DLList	file:
+nfreeRegsType	ralloc.c	/^nfreeRegsType (int type)$/;"	f	file:
+noOverLap	ralloc.c	/^noOverLap (set * itmpStack, symbol * fsym)$/;"	f	file:
+noSpilLoc	ralloc.c	/^noSpilLoc (symbol * sym, eBBlock * ebp, iCode * ic)$/;"	f	file:
+nops	pcode.h	/^	int       nops;           \/\/ Number of wildcard operands in target.$/;"	m	struct:pCodeWildBlock
+notUsedInRemaining	ralloc.c	/^notUsedInRemaining (symbol * sym, eBBlock * ebp, iCode * ic)$/;"	f	file:
+num_configs	device.h	/^	int num_configs;                \/* number of config words for this device *\/$/;"	m	struct:PIC_device
+num_of_supported_PICS	device.c	/^static int num_of_supported_PICS = 0;$/;"	v	file:
+num_ops	pcode.h	/^	unsigned int num_ops;        \/* Number of operands (0,1,2 for mid range pics) *\/$/;"	m	struct:pCodeInstruction
+nvars	pcode.h	/^	int       nvars;          \/\/ Number of wildcard registers in target.$/;"	m	struct:pCodeWildBlock
+nwildpCodes	pcode.h	/^	int       nwildpCodes;    \/\/ Number of wildcard pCodes in target\/replace$/;"	m	struct:pCodeWildBlock
+oclsExpense	main.c	/^oclsExpense (struct memmap *oclass)$/;"	f	file:
+offset	pcode.h	/^	int offset;           \/* low or high byte of label *\/$/;"	m	struct:pCodeOpLabel
+offset	pcode.h	/^	int offset;           \/* low,med, or high byte of immediate value *\/$/;"	m	struct:pCodeOpImmd
+one	gen.c	/^static char *one = "0x01";$/;"	v	file:
+op	pcode.h	/^	PIC_OPCODE op;        \/\/ The opcode of the instruction.$/;"	m	struct:pCodeInstruction
+op_isLitLike	gen.c	/^op_isLitLike (operand * op)$/;"	f
+operand	pcode.h	/^	pCodeOp *operand;  \/\/ Optional operand$/;"	m	struct:pCodeWild
+operandsEqu	gen.c	/^operandsEqu (operand * op1, operand * op2)$/;"	f	file:
+outCond	pcode.h	/^	int outCond;  \/* Output conditions - stuff modified by flow block *\/$/;"	m	struct:pCodeFlow
+outCond	pcode.h	/^	unsigned int outCond;  \/\/ Output conditions for this instruction$/;"	m	struct:pCodeInstruction
+pBlock	pcode.h	/^typedef struct pBlock$/;"	s
+pBlock	pcode.h	/^} pBlock;$/;"	t
+pBlockConvert2ISR	pcode.c	/^void pBlockConvert2ISR(pBlock *pb)$/;"	f
+pBlockDestruct	pcode.c	/^static void pBlockDestruct(pBlock *pb)$/;"	f	file:
+pBlockMergeLabels	pcode.c	/^void pBlockMergeLabels(pBlock *pb)$/;"	f
+pBlockRemoveUnusedLabels	pcode.c	/^static void pBlockRemoveUnusedLabels(pBlock *pb)$/;"	f	file:
+pBlockStats	pcode.c	/^static void pBlockStats(FILE *of, pBlock *pb)$/;"	f	file:
+pBranch	pcode.h	/^typedef struct pBranch$/;"	s
+pBranch	pcode.h	/^} pBranch;$/;"	t
+pBranchAppend	pcode.c	/^pBranch * pBranchAppend(pBranch *h, pBranch *n)$/;"	f
+pBranchLink	pcode.c	/^static void pBranchLink(pCodeFunction *f, pCodeFunction *t)$/;"	f	file:
+pCode	pcode.h	/^typedef struct pCode$/;"	s
+pCode	pcode.h	/^} pCode;$/;"	t
+pCode2str	pcode.c	/^char *pCode2str(char *str, size_t size, pCode *pc)$/;"	f
+pCodeAsmDir	pcode.h	/^typedef struct pCodeAsmDir$/;"	s
+pCodeAsmDir	pcode.h	/^} pCodeAsmDir;$/;"	t
+pCodeCSource	pcode.h	/^typedef struct pCodeCSource$/;"	s
+pCodeCSource	pcode.h	/^} pCodeCSource;$/;"	t
+pCodeComment	pcode.h	/^typedef struct pCodeComment$/;"	s
+pCodeComment	pcode.h	/^} pCodeComment;$/;"	t
+pCodeDeleteChain	pcode.c	/^void pCodeDeleteChain(pCode *f,pCode *t)$/;"	f
+pCodeFlow	pcode.h	/^typedef struct pCodeFlow$/;"	s
+pCodeFlow	pcode.h	/^} pCodeFlow;$/;"	t
+pCodeFlowLink	pcode.h	/^typedef struct pCodeFlowLink$/;"	s
+pCodeFlowLink	pcode.h	/^} pCodeFlowLink;$/;"	t
+pCodeFunction	pcode.h	/^typedef struct pCodeFunction$/;"	s
+pCodeFunction	pcode.h	/^} pCodeFunction;$/;"	t
+pCodeInitRegisters	pcode.c	/^void  pCodeInitRegisters(void)$/;"	f
+pCodeInsertAfter	pcode.c	/^void pCodeInsertAfter(pCode *pc1, pCode *pc2)$/;"	f
+pCodeInsertBefore	pcode.c	/^void pCodeInsertBefore(pCode *pc1, pCode *pc2)$/;"	f
+pCodeInstruction	pcode.h	/^typedef struct pCodeInstruction$/;"	s
+pCodeInstruction	pcode.h	/^} pCodeInstruction;$/;"	t
+pCodeInstructionCopy	pcode.c	/^pCode *pCodeInstructionCopy(pCodeInstruction *pci,int invert)$/;"	f
+pCodeLabel	pcode.h	/^typedef struct pCodeLabel$/;"	s
+pCodeLabel	pcode.h	/^} pCodeLabel;$/;"	t
+pCodeLabelDestruct	pcode.c	/^static void pCodeLabelDestruct(pCode *pc)$/;"	f	file:
+pCodeOp	pcode.h	/^typedef struct pCodeOp$/;"	s
+pCodeOp	pcode.h	/^} pCodeOp;$/;"	t
+pCodeOpCompare	pcodepeep.c	/^static int pCodeOpCompare(pCodeOp *pcops, pCodeOp *pcopd)$/;"	f	file:
+pCodeOpCopy	pcode.c	/^pCodeOp *pCodeOpCopy(pCodeOp *pcop)$/;"	f
+pCodeOpImmd	pcode.h	/^typedef struct pCodeOpImmd$/;"	s
+pCodeOpImmd	pcode.h	/^} pCodeOpImmd;$/;"	t
+pCodeOpLabel	pcode.h	/^typedef struct pCodeOpLabel$/;"	s
+pCodeOpLabel	pcode.h	/^} pCodeOpLabel;$/;"	t
+pCodeOpLit	pcode.h	/^typedef struct pCodeOpLit$/;"	s
+pCodeOpLit	pcode.h	/^} pCodeOpLit;$/;"	t
+pCodeOpPrint	pcode.c	/^static void pCodeOpPrint(FILE *of, pCodeOp *pcop)$/;"	f	file:
+pCodeOpReg	pcode.h	/^typedef struct pCodeOpReg$/;"	s
+pCodeOpReg	pcode.h	/^} pCodeOpReg;$/;"	t
+pCodeOpRegBit	pcode.h	/^typedef struct pCodeOpRegBit$/;"	s
+pCodeOpRegBit	pcode.h	/^} pCodeOpRegBit;$/;"	t
+pCodeOpStr	pcode.h	/^typedef struct pCodeOpStr \/* Only used here for the name of fn being called or jumped to *\/$/;"	s
+pCodeOpStr	pcode.h	/^} pCodeOpStr;$/;"	t
+pCodeOpType	genarith.c	/^const char *pCodeOpType(pCodeOp *pcop)$/;"	f
+pCodeOpWild	pcode.h	/^typedef struct pCodeOpWild$/;"	s
+pCodeOpWild	pcode.h	/^} pCodeOpWild;$/;"	t
+pCodeOptime2pCodes	pcoderegs.c	/^static int pCodeOptime2pCodes(pCode *pc1, pCode *pc2, pCode *pcfl_used, reg_info *reg, int can_free, int optimize_level)$/;"	f	file:
+pCodePatterns	pcodepeep.c	/^} pCodePatterns;$/;"	t	file:
+pCodePeep	pcode.h	/^typedef struct pCodePeep {$/;"	s
+pCodePeep	pcode.h	/^} pCodePeep;$/;"	t
+pCodePeepClrVars	pcodepeep.c	/^static void pCodePeepClrVars(pCodePeep *pcp)$/;"	f	file:
+pCodePeepMatchLabels	pcodepeep.c	/^static int pCodePeepMatchLabels(pCodePeep *peepBlock, pCode *pcs, pCode *pcd)$/;"	f	file:
+pCodePeepMatchLine	pcodepeep.c	/^static int pCodePeepMatchLine(pCodePeep *peepBlock, pCode *pcs, pCode *pcd)$/;"	f	file:
+pCodePeepMatchRule	pcodepeep.c	/^int pCodePeepMatchRule(pCode *pc)$/;"	f
+pCodePeepSnippets	pcodepeep.c	/^typedef struct pCodePeepSnippets$/;"	s	file:
+pCodePeepSnippets	pcodepeep.c	/^} pCodePeepSnippets;$/;"	t	file:
+pCodePrintFunction	pcode.c	/^static void pCodePrintFunction(FILE *of, pCode *pc)$/;"	f	file:
+pCodePrintLabel	pcode.c	/^static void pCodePrintLabel(FILE *of, pCode *pc)$/;"	f	file:
+pCodeRegLives	pcoderegs.h	/^typedef struct pCodeRegLives {$/;"	s
+pCodeRegLives	pcoderegs.h	/^} pCodeRegLives;$/;"	t
+pCodeRegMapLiveRanges	pcoderegs.c	/^void pCodeRegMapLiveRanges(pBlock *pb)$/;"	f
+pCodeRegMapLiveRangesInFlow	pcoderegs.c	/^static void pCodeRegMapLiveRangesInFlow(pCodeFlow *pcfl)$/;"	f	file:
+pCodeRegOptimizeRegUsage	pcoderegs.c	/^void pCodeRegOptimizeRegUsage(int level)$/;"	f
+pCodeReplace	pcode.c	/^static void pCodeReplace (pCode *old, pCode *new)$/;"	f	file:
+pCodeSearchCondition	pcodepeep.c	/^int pCodeSearchCondition(pCode *pc, unsigned int cond, int contIfSkip)$/;"	f
+pCodeToken	pcodepeep.c	/^typedef struct pCodeToken$/;"	s	file:
+pCodeToken	pcodepeep.c	/^} pCodeToken;$/;"	t	file:
+pCodeTokens	pcodepeep.c	/^} pCodeTokens;$/;"	t	file:
+pCodeWild	pcode.h	/^typedef struct pCodeWild$/;"	s
+pCodeWild	pcode.h	/^} pCodeWild;$/;"	t
+pCodeWildBlock	pcode.h	/^typedef struct pCodeWildBlock {$/;"	s
+pCodeWildBlock	pcode.h	/^} pCodeWildBlock;$/;"	t
+pFile	pcode.h	/^typedef struct pFile$/;"	s
+pFile	pcode.h	/^} pFile;$/;"	t
+packBits	ralloc.c	/^static void packBits(set *bregs)$/;"	f	file:
+packForPush	ralloc.c	/^packForPush (iCode * ic, eBBlock * ebp)$/;"	f	file:
+packForReceive	ralloc.c	/^packForReceive (iCode * ic, eBBlock * ebp)$/;"	f	file:
+packRegisters	ralloc.c	/^packRegisters (eBBlock * ebp)$/;"	f	file:
+packRegsForAccUse	ralloc.c	/^packRegsForAccUse (iCode * ic)$/;"	f	file:
+packRegsForAssign	ralloc.c	/^packRegsForAssign (iCode * ic, eBBlock * ebp)$/;"	f	file:
+packRegsForOneuse	ralloc.c	/^packRegsForOneuse (iCode * ic, operand * op, eBBlock * ebp)$/;"	f	file:
+packRegsForSupport	ralloc.c	/^packRegsForSupport (iCode * ic, eBBlock * ebp)$/;"	f	file:
+paged	gen.h	/^  unsigned paged:1;     \/* in paged memory  *\/$/;"	m	struct:asmop
+parseIvalAst	glue.c	/^parseIvalAst (ast *node, int *inCodeSpace) {$/;"	f	file:
+parseTokens	pcodepeep.c	/^static int parseTokens(pCodeWildBlock *pcwb, pCode **pcret)$/;"	f	file:
+parse_config_value	device.c	/^parse_config_value (char *str)$/;"	f	file:
+parsedPatArr	pcodepeep.c	/^static parsedPattern parsedPatArr[MAX_PARSEDPATARR];$/;"	v	file:
+parsedPattern	pcodepeep.c	/^typedef struct parsedPattern {$/;"	s	file:
+parsedPattern	pcodepeep.c	/^} parsedPattern;$/;"	t	file:
+pass_argument	gen.c	/^pass_argument (operand * op, int offset, int idx)$/;"	f	file:
+pb	gen.c	/^static pBlock *pb;$/;"	v	file:
+pb	pcode.h	/^	pBlock    *pb;$/;"	m	struct:pCodeWildBlock
+pb	pcode.h	/^	struct pBlock *pb;   \/\/ The pBlock that contains this pCode.$/;"	m	struct:pCode
+pb	pcode.h	/^	struct pBlock *pb;$/;"	m	struct:pCodeOpReg
+pbHead	pcode.h	/^	pBlock *pbHead;     \/* A pointer to the first pBlock *\/$/;"	m	struct:pFile
+pbTail	pcode.h	/^	pBlock *pbTail;     \/* A pointer to the last pBlock *\/$/;"	m	struct:pFile
+pb_dead_pcodes	pcode.c	/^static pBlock *pb_dead_pcodes = NULL;$/;"	v	file:
+pc	pcode.h	/^	pCode  pc;$/;"	m	struct:pCodeCSource
+pc	pcode.h	/^	pCode  pc;$/;"	m	struct:pCodeComment
+pc	pcode.h	/^	pCode  pc;$/;"	m	struct:pCodeFlow
+pc	pcode.h	/^	pCode  pc;$/;"	m	struct:pCodeFunction
+pc	pcode.h	/^	pCode  pc;$/;"	m	struct:pCodeInstruction
+pc	pcode.h	/^	pCode  pc;$/;"	m	struct:pCodeLabel
+pc	pcode.h	/^	struct pCode   *pc;    \/\/ Next pCode in a branch$/;"	m	struct:pBranch
+pcComparePattern	pcodepeep.c	/^static int pcComparePattern(pCodeToken *pct, char *pat, int max_tokens)$/;"	f	file:
+pcHead	pcode.h	/^	pCode *pcHead;     \/* A pointer to the first pCode in a link list of pCodes *\/$/;"	m	struct:pBlock
+pcPattern	pcodepeep.c	/^typedef struct pcPattern {$/;"	s	file:
+pcPattern	pcodepeep.c	/^} pcPattern;$/;"	t	file:
+pcTail	pcode.h	/^	pCode *pcTail;     \/* A pointer to the last pCode in a link list of pCodes *\/$/;"	m	struct:pBlock
+pc_fsr	pcode.c	/^pCodeOpReg pc_fsr       = {{PO_FSR,     "FSR"}, -1, NULL,0,NULL};$/;"	v
+pc_fsr0h	pcode.c	/^pCodeOpReg pc_fsr0h     = {{PO_FSR,     "FSR0H"}, -1, NULL,0,NULL};$/;"	v
+pc_fsr0l	pcode.c	/^pCodeOpReg pc_fsr0l     = {{PO_FSR,     "FSR0L"}, -1, NULL,0,NULL};$/;"	v
+pc_indf	pcode.c	/^pCodeOpReg *pc_indf     = &pc_indf_;$/;"	v
+pc_indf0	pcode.c	/^pCodeOpReg pc_indf0     = {{PO_INDF,    "INDF0"}, -1, NULL,0,NULL};$/;"	v
+pc_indf_	pcode.c	/^pCodeOpReg pc_indf_     = {{PO_INDF,    "INDF"}, -1, NULL,0,NULL};$/;"	v
+pc_intcon	pcode.c	/^pCodeOpReg pc_intcon    = {{PO_INTCON,  "INTCON"}, -1, NULL,0,NULL};$/;"	v
+pc_pcl	pcode.c	/^pCodeOpReg pc_pcl       = {{PO_PCL,     "PCL"}, -1, NULL,0,NULL};$/;"	v
+pc_pclath	pcode.c	/^pCodeOpReg pc_pclath    = {{PO_PCLATH,  "PCLATH"}, -1, NULL,0,NULL};$/;"	v
+pc_psave	pcode.c	/^pCodeOpReg pc_psave     = {{PO_GPR_REGISTER,  "PSAVE"}, -1, NULL,0,NULL};$/;"	v
+pc_ssave	pcode.c	/^pCodeOpReg pc_ssave     = {{PO_GPR_REGISTER,  "SSAVE"}, -1, NULL,0,NULL};$/;"	v
+pc_status	pcode.c	/^pCodeOpReg pc_status    = {{PO_STATUS,  "STATUS"}, -1, NULL,0,NULL};$/;"	v
+pc_type	ralloc.h	/^  short pc_type; \/* pcode type *\/$/;"	m	struct:reg_info
+pc_wsave	pcode.c	/^pCodeOpReg pc_wsave     = {{PO_GPR_REGISTER,  "WSAVE"}, -1, NULL,0,NULL};$/;"	v
+pcflow	pcode.h	/^	pCodeFlow  *pcflow;   \/* pointer to linked pCodeFlow object *\/$/;"	m	struct:pCodeFlowLink
+pcflow	pcode.h	/^	pCodeFlow *pcflow;           \/* flow block to which this instruction belongs *\/$/;"	m	struct:pCodeInstruction
+pci	pcode.h	/^	pCodeInstruction  pci;$/;"	m	struct:pCodeWild
+pci	pcode.h	/^  pCodeInstruction pci;$/;"	m	struct:pCodeAsmDir
+pciADDFW	pcode.c	/^static pCodeInstruction pciADDFW = {$/;"	v	file:
+pciADDLW	pcode.c	/^static pCodeInstruction pciADDLW = {$/;"	v	file:
+pciADDWF	pcode.c	/^static pCodeInstruction pciADDWF = {$/;"	v	file:
+pciANDFW	pcode.c	/^static pCodeInstruction pciANDFW = {$/;"	v	file:
+pciANDLW	pcode.c	/^static pCodeInstruction pciANDLW = {$/;"	v	file:
+pciANDWF	pcode.c	/^static pCodeInstruction pciANDWF = {$/;"	v	file:
+pciBANKSEL	pcode.c	/^static pCodeInstruction pciBANKSEL = {$/;"	v	file:
+pciBCF	pcode.c	/^static pCodeInstruction pciBCF = {$/;"	v	file:
+pciBSF	pcode.c	/^static pCodeInstruction pciBSF = {$/;"	v	file:
+pciBTFSC	pcode.c	/^static pCodeInstruction pciBTFSC = {$/;"	v	file:
+pciBTFSS	pcode.c	/^static pCodeInstruction pciBTFSS = {$/;"	v	file:
+pciCALL	pcode.c	/^static pCodeInstruction pciCALL = {$/;"	v	file:
+pciCLRF	pcode.c	/^static pCodeInstruction pciCLRF = {$/;"	v	file:
+pciCLRW	pcode.c	/^static pCodeInstruction pciCLRW = {$/;"	v	file:
+pciCLRWDT	pcode.c	/^static pCodeInstruction pciCLRWDT = {$/;"	v	file:
+pciCOMF	pcode.c	/^static pCodeInstruction pciCOMF = {$/;"	v	file:
+pciCOMFW	pcode.c	/^static pCodeInstruction pciCOMFW = {$/;"	v	file:
+pciDECF	pcode.c	/^static pCodeInstruction pciDECF = {$/;"	v	file:
+pciDECFSZ	pcode.c	/^static pCodeInstruction pciDECFSZ = {$/;"	v	file:
+pciDECFSZW	pcode.c	/^static pCodeInstruction pciDECFSZW = {$/;"	v	file:
+pciDECFW	pcode.c	/^static pCodeInstruction pciDECFW = {$/;"	v	file:
+pciGOTO	pcode.c	/^static pCodeInstruction pciGOTO = {$/;"	v	file:
+pciINCF	pcode.c	/^static pCodeInstruction pciINCF = {$/;"	v	file:
+pciINCFSZ	pcode.c	/^static pCodeInstruction pciINCFSZ = {$/;"	v	file:
+pciINCFSZW	pcode.c	/^static pCodeInstruction pciINCFSZW = {$/;"	v	file:
+pciINCFW	pcode.c	/^static pCodeInstruction pciINCFW = {$/;"	v	file:
+pciIORFW	pcode.c	/^static pCodeInstruction pciIORFW = {$/;"	v	file:
+pciIORLW	pcode.c	/^static pCodeInstruction pciIORLW = {$/;"	v	file:
+pciIORWF	pcode.c	/^static pCodeInstruction pciIORWF = {$/;"	v	file:
+pciMOVF	pcode.c	/^static pCodeInstruction pciMOVF = {$/;"	v	file:
+pciMOVFW	pcode.c	/^static pCodeInstruction pciMOVFW = {$/;"	v	file:
+pciMOVLW	pcode.c	/^static pCodeInstruction pciMOVLW = {$/;"	v	file:
+pciMOVWF	pcode.c	/^static pCodeInstruction pciMOVWF = {$/;"	v	file:
+pciNOP	pcode.c	/^static pCodeInstruction pciNOP = {$/;"	v	file:
+pciPAGESEL	pcode.c	/^static pCodeInstruction pciPAGESEL = {$/;"	v	file:
+pciRETFIE	pcode.c	/^static pCodeInstruction pciRETFIE = {$/;"	v	file:
+pciRETLW	pcode.c	/^static pCodeInstruction pciRETLW = {$/;"	v	file:
+pciRETURN	pcode.c	/^static pCodeInstruction pciRETURN = {$/;"	v	file:
+pciRLF	pcode.c	/^static pCodeInstruction pciRLF = {$/;"	v	file:
+pciRLFW	pcode.c	/^static pCodeInstruction pciRLFW = {$/;"	v	file:
+pciRRF	pcode.c	/^static pCodeInstruction pciRRF = {$/;"	v	file:
+pciRRFW	pcode.c	/^static pCodeInstruction pciRRFW = {$/;"	v	file:
+pciSUBFW	pcode.c	/^static pCodeInstruction pciSUBFW = {$/;"	v	file:
+pciSUBLW	pcode.c	/^static pCodeInstruction pciSUBLW = {$/;"	v	file:
+pciSUBWF	pcode.c	/^static pCodeInstruction pciSUBWF = {$/;"	v	file:
+pciSWAPF	pcode.c	/^static pCodeInstruction pciSWAPF = {$/;"	v	file:
+pciSWAPFW	pcode.c	/^static pCodeInstruction pciSWAPFW = {$/;"	v	file:
+pciTRIS	pcode.c	/^static pCodeInstruction pciTRIS = {$/;"	v	file:
+pciXORFW	pcode.c	/^static pCodeInstruction pciXORFW = {$/;"	v	file:
+pciXORLW	pcode.c	/^static pCodeInstruction pciXORLW = {$/;"	v	file:
+pciXORWF	pcode.c	/^static pCodeInstruction pciXORWF = {$/;"	v	file:
+pcode_doubles	pcode.c	/^static unsigned int pcode_doubles = 0;$/;"	v	file:
+pcode_insns	pcode.c	/^static unsigned int pcode_insns = 0;$/;"	v	file:
+pcode_test	pcode.c	/^void pcode_test(void)$/;"	f
+pcop	gen.h	/^    pCodeOp *pcop;$/;"	m	union:asmop::<anonymous>
+pcop	pcode.h	/^	pCodeOp  pcop;$/;"	m	struct:pCodeOpStr
+pcop	pcode.h	/^	pCodeOp *pcop;               \/* Operand, if this instruction has one *\/$/;"	m	struct:pCodeInstruction
+pcop	pcode.h	/^	pCodeOp pcop;    \/\/ Can be either GPR or SFR$/;"	m	struct:pCodeOpReg
+pcop	pcode.h	/^	pCodeOp pcop;$/;"	m	struct:pCodeOpImmd
+pcop	pcode.h	/^	pCodeOp pcop;$/;"	m	struct:pCodeOpLabel
+pcop	pcode.h	/^	pCodeOp pcop;$/;"	m	struct:pCodeOpLit
+pcop	pcode.h	/^	pCodeOp pcop;$/;"	m	struct:pCodeOpWild
+pcor	pcode.h	/^	pCodeOpReg  pcor;       \/\/ The Register containing this bit$/;"	m	struct:pCodeOpRegBit
+pcp	pcode.h	/^	struct pCodePeep *pcp;    \/\/ pointer back to ... I don't like this...$/;"	m	struct:pCodeWildBlock
+pcp	pcodepeep.c	/^  struct pcPattern *pcp;$/;"	m	struct:parsedPattern	file:
+pcpArr	pcodepeep.c	/^static pcPattern pcpArr[] = {$/;"	v	file:
+pcpat_comma	pcodepeep.c	/^static char pcpat_comma[]      = {PCT_COMMA, 0};$/;"	v	file:
+pcpat_comment	pcodepeep.c	/^static char pcpat_comment[]    = {PCT_COMMENT, 0};$/;"	v	file:
+pcpat_label	pcodepeep.c	/^static char pcpat_label[]      = {PCT_PERCENT, PCT_NUMBER, PCT_COLON, 0};$/;"	v	file:
+pcpat_number	pcodepeep.c	/^static char pcpat_number[]     = {PCT_NUMBER, 0};$/;"	v	file:
+pcpat_string	pcodepeep.c	/^static char pcpat_string[]     = {PCT_STRING, 0};$/;"	v	file:
+pcpat_wildString	pcodepeep.c	/^static char pcpat_wildString[] = {PCT_PERCENT, PCT_STRING, 0};$/;"	v	file:
+pcpat_wildVar	pcodepeep.c	/^static char pcpat_wildVar[]    = {PCT_PERCENT, PCT_NUMBER, 0};$/;"	v	file:
+pct	pcodepeep.c	/^  pCodeToken *pct;$/;"	m	struct:parsedPattern	file:
+pcwb	pcode.h	/^	struct pCodeWildBlock *pcwb;$/;"	m	struct:pCodeOpWild
+peakIdx	pcode.c	/^static unsigned peakIdx = 0; \/* This keeps track of the peak register index for call tree register reuse *\/$/;"	v	file:
+peep	pcodepeep.c	/^  pCodePeep *peep;$/;"	m	struct:pCodePeepSnippets	file:
+peepCommand	pcode.h	/^typedef struct peepCommand {$/;"	s
+peepCommand	pcode.h	/^} peepCommand;$/;"	t
+peepCommandTypes	pcode.h	/^enum peepCommandTypes{$/;"	g
+peepCommands	pcode.c	/^static peepCommand peepCommands[] = {$/;"	v	file:
+peepRuleBlock2pCodeBlock	pcodepeep.c	/^static void peepRuleBlock2pCodeBlock(lineNode *ln, pCodeWildBlock *pcwb)$/;"	f	file:
+peepRuleCondition	pcodepeep.c	/^static void   peepRuleCondition(char *cond, pCodePeep *pcp)$/;"	f	file:
+peepRules2pCode	pcodepeep.c	/^void peepRules2pCode(peepRule *rules)$/;"	f
+peepSnippets	pcodepeep.c	/^static pCodePeepSnippets  *peepSnippets=NULL;$/;"	v	file:
+pic	device.c	/^static PIC_device *pic = NULL;$/;"	v	file:
+pic14Mnemonics	pcode.c	/^pCodeInstruction *pic14Mnemonics[MAX_PIC14MNEMONICS];$/;"	v
+pic14MnemonicsHash	pcode.c	/^static hTab *pic14MnemonicsHash = NULL;$/;"	v	file:
+pic14_ReMapLiveRanges	pcoderegs.c	/^static void pic14_ReMapLiveRanges(void)$/;"	f	file:
+pic14_allRAMShared	device.c	/^int pic14_allRAMShared(void)$/;"	f
+pic14_allocWithIdx	ralloc.c	/^pic14_allocWithIdx (int idx)$/;"	f
+pic14_assignConfigWordValue	device.c	/^pic14_assignConfigWordValue(int address, int value)$/;"	f
+pic14_assignRegisters	ralloc.c	/^pic14_assignRegisters (ebbIndex *ebbi)$/;"	f
+pic14_constructAbsMap	glue.c	/^pic14_constructAbsMap (struct dbuf_s *oBuf, struct dbuf_s *gloBuf)$/;"	f	file:
+pic14_debugLogClose	ralloc.c	/^pic14_debugLogClose (void)$/;"	f
+pic14_emitConfigWord	device.c	/^pic14_emitConfigWord (FILE * vFile)$/;"	f
+pic14_emitDebuggerSymbol	gen.c	/^pic14_emitDebuggerSymbol (const char *debugSym)$/;"	f
+pic14_emitInterruptHandler	glue.c	/^pic14_emitInterruptHandler (FILE * asmFile)$/;"	f	file:
+pic14_emitcode	gen.c	/^pic14_emitcode (char *inst, char *fmt, ...)$/;"	f
+pic14_findFreeReg	ralloc.c	/^pic14_findFreeReg(short type)$/;"	f
+pic14_genInline	gen.c	/^pic14_genInline (iCode * ic)$/;"	f	file:
+pic14_getDataSize	gen.c	/^pic14_getDataSize (operand * op)$/;"	f
+pic14_getPIC	device.c	/^PIC_device * pic14_getPIC(void)$/;"	f
+pic14_getSharedStack	device.c	/^int pic14_getSharedStack(int *low, int *high, int *size)$/;"	f
+pic14_hasInterrupt	glue.c	/^int pic14_hasInterrupt = 0;             \/\/ Indicates whether to emit interrupt handler or not$/;"	v
+pic14_hasSetConfigWord	device.c	/^static int pic14_hasSetConfigWord = 0;$/;"	v	file:
+pic14_hasSharebank	device.c	/^static int pic14_hasSharebank(int *low, int *high, int *size)$/;"	f	file:
+pic14_inISR	gen.c	/^static int pic14_inISR = 0;$/;"	v	file:
+pic14_isShared	device.c	/^static int pic14_isShared(int low, int high)$/;"	f	file:
+pic14_localFunctions	glue.c	/^set *pic14_localFunctions = NULL;$/;"	v
+pic14_mov2w_regOrLit	gen.c	/^pic14_mov2w_regOrLit (asmop * aop, unsigned long lit, int offset)$/;"	f	file:
+pic14_nRegs	ralloc.h	121;"	d
+pic14_operandsAllocatedInSameBank	pcode.c	/^pic14_operandsAllocatedInSameBank(const char *str1, const char *str2) {$/;"	f	file:
+pic14_options	main.c	/^pic14_options_t pic14_options;$/;"	v
+pic14_options_t	main.h	/^} pic14_options_t;$/;"	t
+pic14_outAcc	gen.c	/^pic14_outAcc (operand * result)$/;"	f
+pic14_outBitC	gen.c	/^pic14_outBitC (operand * result)$/;"	f	file:
+pic14_ptrRegReq	ralloc.c	/^static int pic14_ptrRegReq;            \/* one byte pointer register required *\/$/;"	v	file:
+pic14_regWithIdx	ralloc.c	/^pic14_regWithIdx (int idx)$/;"	f
+pic14_sameRegs	gen.c	/^pic14_sameRegs (asmop * aop1, asmop * aop2)$/;"	f
+pic14_stringInSet	glue.c	/^pic14_stringInSet(const char *str, set **world, int autoAdd)$/;"	f
+pic14_toBoolean	gen.c	/^pic14_toBoolean (operand * oper)$/;"	f	file:
+pic14aopLiteral	gen.c	/^pic14aopLiteral (value * val, int offset)$/;"	f	file:
+pic14createInterruptVect	glue.c	/^pic14createInterruptVect (struct dbuf_s * vBuf)$/;"	f	file:
+pic14emitOverlay	glue.c	/^pic14emitOverlay (struct dbuf_s * aBuf)$/;"	f	file:
+pic14initMnemonics	pcode.c	/^static void pic14initMnemonics(void)$/;"	f	file:
+pic14initialComments	glue.c	/^pic14initialComments (FILE * afile)$/;"	f	file:
+pic14initpCodePeepCommands	pcode.c	/^void pic14initpCodePeepCommands(void)$/;"	f
+pic14pCodePeepCommandsHash	pcode.c	/^static hTab *pic14pCodePeepCommandsHash = NULL;$/;"	v	file:
+pic14printLocals	glue.c	/^pic14printLocals (struct dbuf_s *oBuf)$/;"	f	file:
+picIsInitialized	device.c	/^int picIsInitialized(void)$/;"	f
+pic_port	main.c	/^PORT pic_port =$/;"	v
+picglue	glue.c	/^picglue ()$/;"	f
+popCopyGPR2Bit	pcode.c	/^pCodeOp *popCopyGPR2Bit(pCodeOp *pc, int bitval)$/;"	f
+popCopyReg	pcode.c	/^pCodeOp *popCopyReg(pCodeOpReg *pc)$/;"	f
+popGet	gen.c	/^popGet (asmop * aop, int offset)        \/\/, bool bit16, bool dname)$/;"	f
+popGetAddr	gen.c	/^popGetAddr (asmop * aop, int offset, int index)$/;"	f
+popGetExternal	gen.c	/^popGetExternal (char *str, int isReg)$/;"	f
+popGetHighLabel	gen.c	/^popGetHighLabel (unsigned int key)$/;"	f	file:
+popGetImmd	gen.c	/^popGetImmd (char *name, unsigned int offset, int index, int is_func)$/;"	f	file:
+popGetLabel	gen.c	/^popGetLabel (unsigned int key)$/;"	f
+popGetLit	gen.c	/^popGetLit (unsigned int lit)$/;"	f
+popGetTempReg	gen.c	/^popGetTempReg (void)$/;"	f	file:
+popGetWithString	gen.c	/^popGetWithString (char *str, int isExtern)$/;"	f	file:
+popRegFromIdx	gen.c	/^popRegFromIdx (int rIdx)$/;"	f	file:
+popRegFromString	gen.c	/^popRegFromString (char *str, int size, int offset)$/;"	f	file:
+popReleaseTempReg	gen.c	/^popReleaseTempReg (pCodeOp * pcop)$/;"	f	file:
+positionRegs	ralloc.c	/^positionRegs (symbol * result, symbol * opsym, int lineno)$/;"	f	file:
+postFalseCond	pcode.h	/^	unsigned int postFalseCond;  $/;"	m	struct:pCodePeep
+postTrueCond	pcode.h	/^	unsigned int postTrueCond;$/;"	m	struct:pCodePeep
+postinit_pCodeWildBlock	pcodepeep.c	/^static void postinit_pCodeWildBlock(pCodeWildBlock *pcwb)$/;"	f	file:
+prev	pcode.h	/^	struct pBlock *prev;$/;"	m	struct:pBlock
+prev	pcode.h	/^	struct pCode *prev;  \/\/ The pCode objects are linked together$/;"	m	struct:pCode
+prev	pcodepeep.c	/^  struct DLList *prev;$/;"	m	struct:DLList	file:
+print	pcode.h	/^	void (*print)  (FILE *of,struct pCode *_this);$/;"	m	struct:pCode
+printSymType	ralloc.c	/^static void printSymType(char * str, sym_link *sl)$/;"	f	file:
+printpBlock	pcode.c	/^void printpBlock(FILE *of, pBlock *pb)$/;"	f
+printpCode	pcode.c	/^void printpCode(FILE *of, pCode *pc)$/;"	f
+processor_base_name	device.c	/^char *processor_base_name(void)$/;"	f
+programMemSize	device.h	/^	int programMemSize;         \/* program memory size in words - for device listing only *\/$/;"	m	struct:PIC_device
+pt	pcodepeep.c	/^  char pt;                 \/\/ Pattern type$/;"	m	struct:pcPattern	file:
+pushSide	gen.c	/^pushSide (operand * oper, int size)$/;"	f	file:
+r	pcode.h	/^	struct reg_info *r;       \/* then this is the reg. *\/$/;"	m	struct:pCodeOpImmd
+r	pcode.h	/^	struct reg_info *r;$/;"	m	struct:pCodeOpReg
+rIdx	pcode.h	/^	int rIdx;             \/* If this immd points to a register *\/$/;"	m	struct:pCodeOpImmd
+rIdx	pcode.h	/^	int rIdx;        \/\/ Index into the register table$/;"	m	struct:pCodeOpReg
+rIdx	ralloc.h	/^  short rIdx;    \/* index into register table *\/$/;"	m	struct:reg_info
+rUmaskForOp	ralloc.c	/^rUmaskForOp (operand * op)$/;"	f	file:
+ram	device.h	/^	memRange *ram;              \/* RAM memory map *\/$/;"	m	struct:PIC_device
+ram_map	device.c	/^ram_map (int num_words, char **word)$/;"	f	file:
+rangeRAM	device.c	/^static memRange *rangeRAM = NULL;$/;"	v	file:
+reassignLR	ralloc.c	/^reassignLR (operand * op)$/;"	f	file:
+regAssigned	ralloc.c	/^        bitVect *regAssigned;$/;"	m	file:
+regFindFree	ralloc.c	/^regFindFree (set *dRegs)$/;"	f	file:
+regFindWithName	ralloc.c	/^regFindWithName (const char *name)$/;"	f
+regIsSpecial	pcoderegs.c	/^static int regIsSpecial (reg_info *reg, int mayBeGlobal)$/;"	f	file:
+regParmFlg	main.c	/^static int regParmFlg = 0;  \/* determine if we can register a parameter *\/$/;"	v	file:
+regTypeNum	ralloc.c	/^regTypeNum ()$/;"	f	file:
+regUsedinRange	pcoderegs.c	/^static int regUsedinRange(pCode *pc1, pCode *pc2, reg_info *reg)$/;"	f	file:
+regWithIdx	ralloc.c	/^regWithIdx (set *dRegs, int idx, int fixed)$/;"	f	file:
+regWithName	ralloc.c	/^regWithName (set *dRegs, const char *name)$/;"	f	file:
+reg_alias	ralloc.h	/^  struct reg_info *reg_alias; \/* If more than one register share the same address $/;"	m	struct:reg_info
+reg_info	ralloc.h	/^reg_info;$/;"	t
+reg_info	ralloc.h	/^typedef struct reg_info$/;"	s
+register_map	device.c	/^register_map (int num_words, char **word)$/;"	f	file:
+register_optimization	pcoderegs.c	/^static int register_optimization=1;$/;"	v	file:
+register_reassign	pcode.c	/^register_reassign(pBlock *pb, unsigned startIdx, unsigned level)$/;"	f	file:
+registers	pcode.h	/^	set *registers;\/* Registers used in this flow *\/$/;"	m	struct:pCodeFlow
+reglives	ralloc.h	/^  pCodeRegLives reglives;     \/* live range mapping *\/$/;"	m	struct:reg_info
+regname2key	ralloc.c	/^static int regname2key(char const *name)$/;"	f	file:
+regsInCommon	gen.c	/^regsInCommon (operand * op1, operand * op2)$/;"	f	file:
+regsUsedIniCode	ralloc.c	/^regsUsedIniCode (iCode * ic)$/;"	f	file:
+rematable	ralloc.c	/^rematable (symbol * sym, eBBlock * ebp, iCode * ic)$/;"	f	file:
+removepBlock	pcode.c	/^static void removepBlock(pBlock *pb)$/;"	f	file:
+replace	pcode.h	/^	pCodeWildBlock replace;    \/\/ and this is what we'll optimize it with.$/;"	m	struct:pCodePeep
+resetpCodeStatistics	pcode.c	/^void resetpCodeStatistics (void)$/;"	f
+resolveIfx	gen.c	/^resolveIfx (resolvedIfx * resIfx, iCode * ifx)$/;"	f	file:
+resolvedIfx	gen.c	/^typedef struct resolvedIfx$/;"	s	file:
+resolvedIfx	gen.c	/^} resolvedIfx;$/;"	t	file:
+resultRemat	gen.c	/^resultRemat (iCode * ic)$/;"	f	file:
+s	pcodepeep.c	/^    char *s; \/\/ string$/;"	m	union:pCodeToken::<anonymous>	file:
+sameBank	pcode.c	/^static int sameBank(reg_info *reg, reg_info *previous_reg, const char *new_bank, const char *cur_bank, unsigned max_mask)$/;"	f	file:
+sanitise_processor_name	device.c	/^sanitise_processor_name (char *name)$/;"	f	file:
+saveRegisters	gen.c	/^saveRegisters (iCode * lic)$/;"	f	file:
+saverbank	gen.c	/^saverbank (int bank, iCode * ic, bool pushPsw)$/;"	f	file:
+selectSpil	ralloc.c	/^selectSpil (iCode * ic, eBBlock * ebp, symbol * forSym)$/;"	f	file:
+sendSet	gen.c	/^  set *sendSet;$/;"	m	file:
+seq	pcode.h	/^	int seq;             \/\/ sequence number$/;"	m	struct:pCode
+seq	pcode.h	/^	unsigned seq;             \/* sequence number of this pBlock *\/$/;"	m	struct:pBlock
+serialRegAssign	ralloc.c	/^serialRegAssign (eBBlock ** ebbs, int count)$/;"	f	file:
+setMaxRAM	device.c	/^setMaxRAM (int size)$/;"	f	file:
+setup_fsr	gen.c	/^setup_fsr (operand * ptr)$/;"	f	file:
+sfr	device.h	/^	memRange *sfr;              \/* SFR memory map *\/$/;"	m	struct:PIC_device
+shiftLeft_Left2ResultLit	gen.c	/^shiftLeft_Left2ResultLit (operand * left, operand * result, int shCount)$/;"	f	file:
+shiftRight_Left2ResultLit	gen.c	/^shiftRight_Left2ResultLit (operand * left, operand * result, int shCount, int sign)$/;"	f	file:
+showAllMemmaps	glue.c	/^showAllMemmaps(FILE *of)$/;"	f	file:
+size	gen.h	/^  short size;           \/* total size *\/$/;"	m	struct:asmop
+size	ralloc.h	/^  unsigned size;              \/* 0 for byte, 1 for int, 4 for long *\/$/;"	m	struct:reg_info
+slocNum	ralloc.c	/^        int slocNum;$/;"	m	file:
+spilSomething	ralloc.c	/^spilSomething (iCode * ic, eBBlock * ebp, symbol * forSym)$/;"	f	file:
+spillLRWithPtrReg	ralloc.c	/^spillLRWithPtrReg (symbol * forSym)$/;"	f	file:
+spillThis	ralloc.c	/^spillThis (symbol * sym)$/;"	f	file:
+spiltSet	ralloc.c	/^        bitVect *spiltSet;$/;"	m	file:
+split_words	device.c	/^split_words (char **result_word, char *str)$/;"	f	file:
+spname	gen.c	/^static char *spname = "sp";$/;"	v	file:
+stackExtend	ralloc.c	/^        int stackExtend;$/;"	m	file:
+stackSpil	ralloc.c	/^        set *stackSpil;$/;"	m	file:
+start_address	device.h	/^	int start_address;      \/* first address in range *\/$/;"	m	struct:memRange
+subtype	pcode.h	/^	PIC_OPTYPE subtype;     \/\/ The type of this register.$/;"	m	struct:pCodeOpRegBit
+subtype	pcode.h	/^	pCodeOp *subtype;       \/* Pointer to the Operand type into which this wild$/;"	m	struct:pCodeOpWild
+symFindWithName	pcode.c	/^static symbol *symFindWithName(memmap * map, const char *name)$/;"	f	file:
+symHasReg	ralloc.c	/^symHasReg (symbol *sym, reg_info *reg)$/;"	f	file:
+target	pcode.h	/^	pCodeWildBlock target;     \/\/ code we'd like to optimize$/;"	m	struct:pCodePeep
+the_pFile	pcode.c	/^pFile *the_pFile = NULL;$/;"	v
+to	pcode.h	/^	pBranch *to;         \/\/ pCodes that execute after$/;"	m	struct:pCodeFunction
+to	pcode.h	/^	pBranch *to;         \/\/ pCodes that execute after$/;"	m	struct:pCodeInstruction
+to	pcode.h	/^	set *to;      \/* flow blocks to which this one can send control *\/$/;"	m	struct:pCodeFlow
+tok	pcodepeep.c	/^  } tok;$/;"	m	struct:pCodeToken	file:
+tokArr	pcodepeep.c	/^static pCodeToken tokArr[50];$/;"	v	file:
+tokIdx	pcodepeep.c	/^static unsigned   tokIdx=0;$/;"	v	file:
+tokenizeLineNode	pcodepeep.c	/^static void tokenizeLineNode(char *ln)$/;"	f	file:
+tokens	pcodepeep.c	/^  char *tokens;           \/\/ list of tokens that describe the pattern$/;"	m	struct:pcPattern	file:
+total_registers_saved	pcoderegs.c	/^static int total_registers_saved=0;$/;"	v	file:
+tregisters	pcode.h	/^	set *tregisters;$/;"	m	struct:pBlock
+tt	pcodepeep.c	/^  int tt;  \/\/ token type;$/;"	m	struct:pCodeToken	file:
+type	gen.h	/^  short type;  \/* can have values$/;"	m	struct:asmop
+type	pcode.h	/^	PC_TYPE    type;$/;"	m	struct:pCode
+type	pcode.h	/^	PIC_OPTYPE type;$/;"	m	struct:pCodeOp
+type	ralloc.h	/^  short type;  \/* can have value $/;"	m	struct:reg_info
+typeRegWithIdx	ralloc.c	/^typeRegWithIdx (int idx, int type, int fixed)$/;"	f
+unBuildFlow	pcode.c	/^static void unBuildFlow(pBlock *pb)$/;"	f	file:
+unlinkpCode	pcode.c	/^void unlinkpCode(pCode *pc)$/;"	f
+unlinkpCodeFromBranch	pcode.c	/^static void unlinkpCodeFromBranch(pCode *pcl , pCode *pc)$/;"	f	file:
+unsaveRegisters	gen.c	/^unsaveRegisters (iCode * ic)$/;"	f	file:
+unsaverbank	gen.c	/^unsaverbank (int bank, iCode * ic, bool popPsw)$/;"	f	file:
+usedpCodes	pcoderegs.h	/^	set *usedpCodes;       \/* set of all instructions that use this register *\/$/;"	m	struct:pCodeRegLives
+usedpFlows	pcoderegs.h	/^	set *usedpFlows;       \/* set of pFlow objects that use this register *\/$/;"	m	struct:pCodeRegLives
+vars	pcode.h	/^	char    **vars;           \/\/ array of pointers to them$/;"	m	struct:pCodeWildBlock
+verifyRegsAssigned	ralloc.c	/^verifyRegsAssigned (operand *op, iCode * ic)$/;"	f	file:
+visited	pcode.h	/^	unsigned visited:1;       \/* set true if traversed in call tree *\/$/;"	m	struct:pBlock
+wasUsed	ralloc.h	/^  unsigned wasUsed:1;         \/* becomes true if register has been used *\/$/;"	m	struct:reg_info
+wildpCodeOps	pcode.h	/^	pCodeOp **wildpCodeOps;   \/\/ array of pointers to the pCodeOp's.$/;"	m	struct:pCodeWildBlock
+wildpCodes	pcode.h	/^	pCode   **wildpCodes;     \/\/ array of pointers to the pCode's.$/;"	m	struct:pCodeWildBlock
+willCauseSpill	ralloc.c	/^willCauseSpill (int nr, int rt)$/;"	f	file:
+writeUsedRegs	ralloc.c	/^void writeUsedRegs(FILE *of)$/;"	f
+zero	gen.c	/^static char *zero = "0x00";$/;"	v	file:

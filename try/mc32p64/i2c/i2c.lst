@@ -1,0 +1,1221 @@
+gplink-1.3.0 (Jun 19 2013)
+Listing File Generated: 2013-7-5  15:49:24
+ 
+ 
+Address  Value    Disassembly              Source
+-------  -----    -----------              ------
+                                           ;--------------------------------------------------------
+                                           ; File Created by SN-SDCC : ANSI-C Compiler
+                                           ; Version 0.0.2 (Jun 26 2013) (Linux)
+                                           ; This file was generated Fri Jul  5 15:49:23 2013
+                                           ;--------------------------------------------------------
+                                           ; MC3X port for the RISC core
+                                           ;--------------------------------------------------------
+                                           ;	.file	"main.c"
+                                           	list	p=30p011
+                                           	radix dec
+                                           	include "mc30p011.inc"
+                                           		LIST
+                                           ;mc30p011.inc    Standard Header File, Version 1.00 by Sinomcu
+                                           		NOLIST
+                                           ;--------------------------------------------------------
+                                           ; external declarations
+                                           ;--------------------------------------------------------
+                                           	extern	_i2cint
+                                           	extern	_i2cout
+                                           	extern	_i
+                                           	extern	_j
+                                           	extern	_n
+                                           	extern	_table
+                                           	extern	__gptrget1
+                                           	extern	__sdcc_gsinit_startup
+                                           ;--------------------------------------------------------
+                                           ; global declarations
+                                           ;--------------------------------------------------------
+                                           	global	_main
+                                           
+                                           	global PSAVE
+                                           	global SSAVE
+                                           	global WSAVE
+                                           	global STK12
+                                           	global STK11
+                                           	global STK10
+                                           	global STK09
+                                           	global STK08
+                                           	global STK07
+                                           	global STK06
+                                           	global STK05
+                                           	global STK04
+                                           	global STK03
+                                           	global STK02
+                                           	global STK01
+                                           	global STK00
+                                           
+                                           sharebank udata_ovr 0x0010
+                                           PSAVE	res 1
+                                           SSAVE	res 1
+                                           WSAVE	res 1
+                                           STK12	res 1
+                                           STK11	res 1
+                                           STK10	res 1
+                                           STK09	res 1
+                                           STK08	res 1
+                                           STK07	res 1
+                                           STK06	res 1
+                                           STK05	res 1
+                                           STK04	res 1
+                                           STK03	res 1
+                                           STK02	res 1
+                                           STK01	res 1
+                                           STK00	res 1
+                                           
+                                           ;--------------------------------------------------------
+                                           ; global definitions
+                                           ;--------------------------------------------------------
+                                           ;--------------------------------------------------------
+                                           ; absolute symbol definitions
+                                           ;--------------------------------------------------------
+                                           ;--------------------------------------------------------
+                                           ; compiler-defined variables
+                                           ;--------------------------------------------------------
+                                           UDL_main_0	udata
+                                           r0x1002	res	1
+                                           r0x1003	res	1
+                                           ;--------------------------------------------------------
+                                           ; initialized data
+                                           ;--------------------------------------------------------
+                                           ;--------------------------------------------------------
+                                           ; overlayable items in internal ram 
+                                           ;--------------------------------------------------------
+                                           ;	udata_ovr
+                                           ;--------------------------------------------------------
+                                           ; reset vector 
+                                           ;--------------------------------------------------------
+                                           STARTUP	code 0x0000
+000000   2ae1     goto    0x2e1            	goto	__sdcc_gsinit_startup
+                                           ;--------------------------------------------------------
+                                           ; code
+                                           ;--------------------------------------------------------
+                                           code_main	code
+                                           ;***
+                                           ;  pBlock Stats: dbName = M
+                                           ;***
+                                           ;entry:  _main	;Function start
+                                           ; 2 exit points
+                                           ;has an exit
+                                           ;functions called:
+                                           ;   _i2cint
+                                           ;   __gptrget1
+                                           ;   _i2cout
+                                           ;   _i2cint
+                                           ;   __gptrget1
+                                           ;   _i2cout
+                                           ;4 compiler assigned registers:
+                                           ;   r0x1002
+                                           ;   r0x1003
+                                           ;   STK01
+                                           ;   STK00
+                                           ;; Starting pCode block
+                                           _main	;Function start
+                                           ; 2 exit points
+                                           ;	.line	9; "main.c"	i2cint();     
+0003a1   239c     call    0x39c            	CALL	_i2cint
+                                           _00106_DS_
+                                           ;	.line	12; "main.c"	for(i=0x00;i<=127;++i)
+0003a2   1d87     clrr    0x7              	CLRR	_i
+                                           ;;swapping arguments (AOP_TYPEs 1/3)
+                                           ;;unsigned compare: left >= lit(0x80=128), size=1
+                                           _00108_DS_
+0003a3   0b80     movai   0x80             	MOVAI	0x80
+0003a4   1207     rsubar  0x7              	RSUBAR	_i
+0003a5   3403     jbclr   0x3, 0           	JBCLR	STATUS,0
+0003a6   2ba2     goto    0x3a2            	GOTO	_00106_DS_
+                                           ;;genSkipc:3244: created from rifx:0xbfe2bb14
+                                           ;	.line	14; "main.c"	j=table[i]; 
+0003a7   1607     movar   0x7              	MOVAR	_i
+0003a8   0e01     addai   0x1              	ADDAI	(_table + 0)
+0003a9   15ac     movra   0x2c             	MOVRA	r0x1002
+0003aa   0b00     movai   0                	MOVAI	high (_table + 0)
+0003ab   3403     jbclr   0x3, 0           	JBCLR	STATUS,0
+0003ac   0e01     addai   0x1              	ADDAI	0x01
+0003ad   15ad     movra   0x2d             	MOVRA	r0x1003
+0003ae   162c     movar   0x2c             	MOVAR	r0x1002
+0003af   159e     movra   0x1e             	MOVRA	STK01
+0003b0   162d     movar   0x2d             	MOVAR	r0x1003
+0003b1   159f     movra   0x1f             	MOVRA	STK00
+0003b2   0b80     movai   0x80             	MOVAI	0x80
+0003b3   234f     call    0x34f            	CALL	__gptrget1
+0003b4   15ae     movra   0x2e             	MOVRA	_j
+                                           ;	.line	15; "main.c"	i2cout(); 
+0003b5   2379     call    0x379            	CALL	_i2cout
+                                           ;	.line	12; "main.c"	for(i=0x00;i<=127;++i)
+0003b6   1987     incr    0x7              	INCR	_i
+0003b7   2ba3     goto    0x3a3            	GOTO	_00108_DS_
+0003b8   000c     return                   	RETURN	
+                                           ; exit point of _main
+                                           
+                                           
+                                           ;	code size estimation:
+                                           ;	   24+    0 =    24 instructions (   48 byte)
+                                           
+                                           	end
+                                           ;--------------------------------------------------------
+                                           ; File Created by SN-SDCC : ANSI-C Compiler
+                                           ; Version 0.0.2 (Jun 26 2013) (Linux)
+                                           ; This file was generated Fri Jul  5 15:49:23 2013
+                                           ;--------------------------------------------------------
+                                           ; MC3X port for the RISC core
+                                           ;--------------------------------------------------------
+                                           ;	.file	"fun.c"
+                                           	list	p=30p011
+                                           	radix dec
+                                           	include "mc30p011.inc"
+                                           		LIST
+                                           ;mc30p011.inc    Standard Header File, Version 1.00 by Sinomcu
+                                           		NOLIST
+                                           ;--------------------------------------------------------
+                                           ; external declarations
+                                           ;--------------------------------------------------------
+                                           	extern	_STATUSbits
+                                           	extern	_P0bits
+                                           	extern	_P1bits
+                                           	extern	_MCRbits
+                                           	extern	_KBIMbits
+                                           	extern	_PDCONbits
+                                           	extern	_ODCONbits
+                                           	extern	_PUCONbits
+                                           	extern	_INTECONbits
+                                           	extern	_INTFLAGbits
+                                           	extern	_T0CRbits
+                                           	extern	_DDR0bits
+                                           	extern	_DDR1bits
+                                           	extern	_TMCRbits
+                                           	extern	_T1CRbits
+                                           	extern	_INDF
+                                           	extern	_T0CNT
+                                           	extern	_PCL
+                                           	extern	_STATUS
+                                           	extern	_FSR
+                                           	extern	_P0
+                                           	extern	_P1
+                                           	extern	_MCR
+                                           	extern	_KBIM
+                                           	extern	_PCLATH
+                                           	extern	_PDCON
+                                           	extern	_ODCON
+                                           	extern	_PUCON
+                                           	extern	_INTECON
+                                           	extern	_INTFLAG
+                                           	extern	_T0CR
+                                           	extern	_DDR0
+                                           	extern	_DDR1
+                                           	extern	_TMCR
+                                           	extern	_T1CR
+                                           	extern	_T1CNT
+                                           	extern	_T1LOAD
+                                           	extern	_T1DATA
+                                           
+                                           	extern PSAVE
+                                           	extern SSAVE
+                                           	extern WSAVE
+                                           	extern STK12
+                                           	extern STK11
+                                           	extern STK10
+                                           	extern STK09
+                                           	extern STK08
+                                           	extern STK07
+                                           	extern STK06
+                                           	extern STK05
+                                           	extern STK04
+                                           	extern STK03
+                                           	extern STK02
+                                           	extern STK01
+                                           	extern STK00
+                                           ;--------------------------------------------------------
+                                           ; global declarations
+                                           ;--------------------------------------------------------
+                                           	global	_i2cint
+                                           	global	_i2cout
+                                           	global	_i
+                                           	global	_j
+                                           	global	_n
+                                           	global	_table
+                                           
+                                           ;--------------------------------------------------------
+                                           ; global definitions
+                                           ;--------------------------------------------------------
+                                           UD_fun_0	udata
+                                           _i	res	1
+                                           
+                                           UD_fun_1	udata
+                                           _j	res	1
+                                           
+                                           UD_fun_2	udata
+                                           _n	res	1
+                                           
+                                           ;--------------------------------------------------------
+                                           ; absolute symbol definitions
+                                           ;--------------------------------------------------------
+                                           ;--------------------------------------------------------
+                                           ; compiler-defined variables
+                                           ;--------------------------------------------------------
+                                           ;--------------------------------------------------------
+                                           ; initialized data
+                                           ;--------------------------------------------------------
+                                           
+                                           ID_fun_0	code
+                                           _table
+000001   0a80     retai   0x80             	retai 0x80
+000002   0a86     retai   0x86             	retai 0x86
+000003   0a8d     retai   0x8d             	retai 0x8d
+000004   0a93     retai   0x93             	retai 0x93
+000005   0a99     retai   0x99             	retai 0x99
+000006   0a9f     retai   0x9f             	retai 0x9f
+000007   0aa5     retai   0xa5             	retai 0xa5
+000008   0aab     retai   0xab             	retai 0xab
+000009   0ab1     retai   0xb1             	retai 0xb1
+00000a   0ab7     retai   0xb7             	retai 0xb7
+00000b   0abc     retai   0xbc             	retai 0xbc
+00000c   0ac2     retai   0xc2             	retai 0xc2
+00000d   0ac7     retai   0xc7             	retai 0xc7
+00000e   0acc     retai   0xcc             	retai 0xcc
+00000f   0ad1     retai   0xd1             	retai 0xd1
+000010   0ad6     retai   0xd6             	retai 0xd6
+000011   0ada     retai   0xda             	retai 0xda
+000012   0adf     retai   0xdf             	retai 0xdf
+000013   0ae3     retai   0xe3             	retai 0xe3
+000014   0ae7     retai   0xe7             	retai 0xe7
+000015   0aea     retai   0xea             	retai 0xea
+000016   0aee     retai   0xee             	retai 0xee
+000017   0af1     retai   0xf1             	retai 0xf1
+000018   0af4     retai   0xf4             	retai 0xf4
+000019   0af6     retai   0xf6             	retai 0xf6
+00001a   0af8     retai   0xf8             	retai 0xf8
+00001b   0afa     retai   0xfa             	retai 0xfa
+00001c   0afc     retai   0xfc             	retai 0xfc
+00001d   0afd     retai   0xfd             	retai 0xfd
+00001e   0aff     retai   0xff             	retai 0xff
+00001f   0aff     retai   0xff             	retai 0xff
+000020   0aff     retai   0xff             	retai 0xff
+000021   0aff     retai   0xff             	retai 0xff
+000022   0aff     retai   0xff             	retai 0xff
+000023   0aff     retai   0xff             	retai 0xff
+000024   0afe     retai   0xfe             	retai 0xfe
+000025   0afd     retai   0xfd             	retai 0xfd
+000026   0afb     retai   0xfb             	retai 0xfb
+000027   0af9     retai   0xf9             	retai 0xf9
+000028   0af7     retai   0xf7             	retai 0xf7
+000029   0af5     retai   0xf5             	retai 0xf5
+00002a   0af2     retai   0xf2             	retai 0xf2
+00002b   0aef     retai   0xef             	retai 0xef
+00002c   0aec     retai   0xec             	retai 0xec
+00002d   0ae9     retai   0xe9             	retai 0xe9
+00002e   0ae5     retai   0xe5             	retai 0xe5
+00002f   0ae1     retai   0xe1             	retai 0xe1
+000030   0add     retai   0xdd             	retai 0xdd
+000031   0ad8     retai   0xd8             	retai 0xd8
+000032   0ad4     retai   0xd4             	retai 0xd4
+000033   0acf     retai   0xcf             	retai 0xcf
+000034   0aca     retai   0xca             	retai 0xca
+000035   0ac5     retai   0xc5             	retai 0xc5
+000036   0abf     retai   0xbf             	retai 0xbf
+000037   0aba     retai   0xba             	retai 0xba
+000038   0ab4     retai   0xb4             	retai 0xb4
+000039   0aae     retai   0xae             	retai 0xae
+00003a   0aa8     retai   0xa8             	retai 0xa8
+00003b   0aa2     retai   0xa2             	retai 0xa2
+00003c   0a9c     retai   0x9c             	retai 0x9c
+00003d   0a96     retai   0x96             	retai 0x96
+00003e   0a90     retai   0x90             	retai 0x90
+00003f   0a89     retai   0x89             	retai 0x89
+000040   0a83     retai   0x83             	retai 0x83
+000041   0a80     retai   0x80             	retai 0x80
+000042   0a79     retai   0x79             	retai 0x79
+000043   0a72     retai   0x72             	retai 0x72
+000044   0a6c     retai   0x6c             	retai 0x6c
+000045   0a66     retai   0x66             	retai 0x66
+000046   0a60     retai   0x60             	retai 0x60
+000047   0a5a     retai   0x5a             	retai 0x5a
+000048   0a55     retai   0x55             	retai 0x55
+000049   0a4e     retai   0x4e             	retai 0x4e
+00004a   0a48     retai   0x48             	retai 0x48
+00004b   0a43     retai   0x43             	retai 0x43
+00004c   0a3d     retai   0x3d             	retai 0x3d
+00004d   0a38     retai   0x38             	retai 0x38
+00004e   0a33     retai   0x33             	retai 0x33
+00004f   0a2e     retai   0x2e             	retai 0x2e
+000050   0a29     retai   0x29             	retai 0x29
+000051   0a25     retai   0x25             	retai 0x25
+000052   0a20     retai   0x20             	retai 0x20
+000053   0a1c     retai   0x1c             	retai 0x1c
+000054   0a18     retai   0x18             	retai 0x18
+000055   0a15     retai   0x15             	retai 0x15
+000056   0a11     retai   0x11             	retai 0x11
+000057   0a0e     retai   0xe              	retai 0x0e
+000058   0a0b     retai   0xb              	retai 0x0b
+000059   0a09     retai   0x9              	retai 0x09
+00005a   0a07     retai   0x7              	retai 0x07
+00005b   0a05     retai   0x5              	retai 0x05
+00005c   0a03     retai   0x3              	retai 0x03
+00005d   0a02     retai   0x2              	retai 0x02
+00005e   0a00     retai   0                	retai 0x00
+00005f   0a00     retai   0                	retai 0x00
+000060   0a00     retai   0                	retai 0x00
+000061   0a00     retai   0                	retai 0x00
+000062   0a00     retai   0                	retai 0x00
+000063   0a00     retai   0                	retai 0x00
+000064   0a01     retai   0x1              	retai 0x01
+000065   0a02     retai   0x2              	retai 0x02
+000066   0a04     retai   0x4              	retai 0x04
+000067   0a06     retai   0x6              	retai 0x06
+000068   0a08     retai   0x8              	retai 0x08
+000069   0a0a     retai   0xa              	retai 0x0a
+00006a   0a0d     retai   0xd              	retai 0x0d
+00006b   0a10     retai   0x10             	retai 0x10
+00006c   0a13     retai   0x13             	retai 0x13
+00006d   0a16     retai   0x16             	retai 0x16
+00006e   0a1a     retai   0x1a             	retai 0x1a
+00006f   0a1e     retai   0x1e             	retai 0x1e
+000070   0a22     retai   0x22             	retai 0x22
+000071   0a27     retai   0x27             	retai 0x27
+000072   0a2b     retai   0x2b             	retai 0x2b
+000073   0a30     retai   0x30             	retai 0x30
+000074   0a35     retai   0x35             	retai 0x35
+000075   0a3a     retai   0x3a             	retai 0x3a
+000076   0a40     retai   0x40             	retai 0x40
+000077   0a45     retai   0x45             	retai 0x45
+000078   0a4c     retai   0x4c             	retai 0x4c
+000079   0a51     retai   0x51             	retai 0x51
+00007a   0a57     retai   0x57             	retai 0x57
+00007b   0a5d     retai   0x5d             	retai 0x5d
+00007c   0a63     retai   0x63             	retai 0x63
+00007d   0a69     retai   0x69             	retai 0x69
+00007e   0a6f     retai   0x6f             	retai 0x6f
+00007f   0a76     retai   0x76             	retai 0x76
+000080   0a7c     retai   0x7c             	retai 0x7c
+000081   0a80     retai   0x80             	retai 0x80
+000082   0a86     retai   0x86             	retai 0x86
+000083   0a8d     retai   0x8d             	retai 0x8d
+000084   0a93     retai   0x93             	retai 0x93
+000085   0a99     retai   0x99             	retai 0x99
+000086   0a9f     retai   0x9f             	retai 0x9f
+000087   0aa5     retai   0xa5             	retai 0xa5
+000088   0aab     retai   0xab             	retai 0xab
+000089   0ab1     retai   0xb1             	retai 0xb1
+00008a   0ab7     retai   0xb7             	retai 0xb7
+00008b   0abc     retai   0xbc             	retai 0xbc
+00008c   0ac2     retai   0xc2             	retai 0xc2
+00008d   0ac7     retai   0xc7             	retai 0xc7
+00008e   0acc     retai   0xcc             	retai 0xcc
+00008f   0ad1     retai   0xd1             	retai 0xd1
+000090   0ad6     retai   0xd6             	retai 0xd6
+000091   0ada     retai   0xda             	retai 0xda
+000092   0adf     retai   0xdf             	retai 0xdf
+000093   0ae3     retai   0xe3             	retai 0xe3
+000094   0ae7     retai   0xe7             	retai 0xe7
+000095   0aea     retai   0xea             	retai 0xea
+000096   0aee     retai   0xee             	retai 0xee
+000097   0af1     retai   0xf1             	retai 0xf1
+000098   0af4     retai   0xf4             	retai 0xf4
+000099   0af6     retai   0xf6             	retai 0xf6
+00009a   0af8     retai   0xf8             	retai 0xf8
+00009b   0afa     retai   0xfa             	retai 0xfa
+00009c   0afc     retai   0xfc             	retai 0xfc
+00009d   0afd     retai   0xfd             	retai 0xfd
+00009e   0aff     retai   0xff             	retai 0xff
+00009f   0aff     retai   0xff             	retai 0xff
+0000a0   0aff     retai   0xff             	retai 0xff
+0000a1   0aff     retai   0xff             	retai 0xff
+0000a2   0aff     retai   0xff             	retai 0xff
+0000a3   0aff     retai   0xff             	retai 0xff
+0000a4   0afe     retai   0xfe             	retai 0xfe
+0000a5   0afd     retai   0xfd             	retai 0xfd
+0000a6   0afb     retai   0xfb             	retai 0xfb
+0000a7   0af9     retai   0xf9             	retai 0xf9
+0000a8   0af7     retai   0xf7             	retai 0xf7
+0000a9   0af5     retai   0xf5             	retai 0xf5
+0000aa   0af2     retai   0xf2             	retai 0xf2
+0000ab   0aef     retai   0xef             	retai 0xef
+0000ac   0aec     retai   0xec             	retai 0xec
+0000ad   0ae9     retai   0xe9             	retai 0xe9
+0000ae   0ae5     retai   0xe5             	retai 0xe5
+0000af   0ae1     retai   0xe1             	retai 0xe1
+0000b0   0add     retai   0xdd             	retai 0xdd
+0000b1   0ad8     retai   0xd8             	retai 0xd8
+0000b2   0ad4     retai   0xd4             	retai 0xd4
+0000b3   0acf     retai   0xcf             	retai 0xcf
+0000b4   0aca     retai   0xca             	retai 0xca
+0000b5   0ac5     retai   0xc5             	retai 0xc5
+0000b6   0abf     retai   0xbf             	retai 0xbf
+0000b7   0aba     retai   0xba             	retai 0xba
+0000b8   0ab4     retai   0xb4             	retai 0xb4
+0000b9   0aae     retai   0xae             	retai 0xae
+0000ba   0aa8     retai   0xa8             	retai 0xa8
+0000bb   0aa2     retai   0xa2             	retai 0xa2
+0000bc   0a9c     retai   0x9c             	retai 0x9c
+0000bd   0a96     retai   0x96             	retai 0x96
+0000be   0a90     retai   0x90             	retai 0x90
+0000bf   0a89     retai   0x89             	retai 0x89
+0000c0   0a83     retai   0x83             	retai 0x83
+0000c1   0a80     retai   0x80             	retai 0x80
+0000c2   0a79     retai   0x79             	retai 0x79
+0000c3   0a72     retai   0x72             	retai 0x72
+0000c4   0a6c     retai   0x6c             	retai 0x6c
+0000c5   0a66     retai   0x66             	retai 0x66
+0000c6   0a60     retai   0x60             	retai 0x60
+0000c7   0a5a     retai   0x5a             	retai 0x5a
+0000c8   0a55     retai   0x55             	retai 0x55
+0000c9   0a4e     retai   0x4e             	retai 0x4e
+0000ca   0a48     retai   0x48             	retai 0x48
+0000cb   0a43     retai   0x43             	retai 0x43
+0000cc   0a3d     retai   0x3d             	retai 0x3d
+0000cd   0a38     retai   0x38             	retai 0x38
+0000ce   0a33     retai   0x33             	retai 0x33
+0000cf   0a2e     retai   0x2e             	retai 0x2e
+0000d0   0a29     retai   0x29             	retai 0x29
+0000d1   0a25     retai   0x25             	retai 0x25
+0000d2   0a20     retai   0x20             	retai 0x20
+0000d3   0a1c     retai   0x1c             	retai 0x1c
+0000d4   0a18     retai   0x18             	retai 0x18
+0000d5   0a15     retai   0x15             	retai 0x15
+0000d6   0a11     retai   0x11             	retai 0x11
+0000d7   0a0e     retai   0xe              	retai 0x0e
+0000d8   0a0b     retai   0xb              	retai 0x0b
+0000d9   0a09     retai   0x9              	retai 0x09
+0000da   0a07     retai   0x7              	retai 0x07
+0000db   0a05     retai   0x5              	retai 0x05
+0000dc   0a03     retai   0x3              	retai 0x03
+0000dd   0a02     retai   0x2              	retai 0x02
+0000de   0a00     retai   0                	retai 0x00
+0000df   0a00     retai   0                	retai 0x00
+0000e0   0a00     retai   0                	retai 0x00
+0000e1   0a00     retai   0                	retai 0x00
+0000e2   0a00     retai   0                	retai 0x00
+0000e3   0a00     retai   0                	retai 0x00
+0000e4   0a01     retai   0x1              	retai 0x01
+0000e5   0a02     retai   0x2              	retai 0x02
+0000e6   0a04     retai   0x4              	retai 0x04
+0000e7   0a06     retai   0x6              	retai 0x06
+0000e8   0a08     retai   0x8              	retai 0x08
+0000e9   0a0a     retai   0xa              	retai 0x0a
+0000ea   0a0d     retai   0xd              	retai 0x0d
+0000eb   0a10     retai   0x10             	retai 0x10
+0000ec   0a13     retai   0x13             	retai 0x13
+0000ed   0a16     retai   0x16             	retai 0x16
+0000ee   0a1a     retai   0x1a             	retai 0x1a
+0000ef   0a1e     retai   0x1e             	retai 0x1e
+0000f0   0a22     retai   0x22             	retai 0x22
+0000f1   0a27     retai   0x27             	retai 0x27
+0000f2   0a2b     retai   0x2b             	retai 0x2b
+0000f3   0a30     retai   0x30             	retai 0x30
+0000f4   0a35     retai   0x35             	retai 0x35
+0000f5   0a3a     retai   0x3a             	retai 0x3a
+0000f6   0a40     retai   0x40             	retai 0x40
+0000f7   0a45     retai   0x45             	retai 0x45
+0000f8   0a4c     retai   0x4c             	retai 0x4c
+0000f9   0a51     retai   0x51             	retai 0x51
+0000fa   0a57     retai   0x57             	retai 0x57
+0000fb   0a5d     retai   0x5d             	retai 0x5d
+0000fc   0a63     retai   0x63             	retai 0x63
+0000fd   0a69     retai   0x69             	retai 0x69
+0000fe   0a6f     retai   0x6f             	retai 0x6f
+0000ff   0a76     retai   0x76             	retai 0x76
+000100   0a7c     retai   0x7c             	retai 0x7c
+000101   0a80     retai   0x80             	retai 0x80
+000102   0a86     retai   0x86             	retai 0x86
+000103   0a8d     retai   0x8d             	retai 0x8d
+000104   0a93     retai   0x93             	retai 0x93
+000105   0a99     retai   0x99             	retai 0x99
+000106   0a9f     retai   0x9f             	retai 0x9f
+000107   0aa5     retai   0xa5             	retai 0xa5
+000108   0aab     retai   0xab             	retai 0xab
+000109   0ab1     retai   0xb1             	retai 0xb1
+00010a   0ab7     retai   0xb7             	retai 0xb7
+00010b   0abc     retai   0xbc             	retai 0xbc
+00010c   0ac2     retai   0xc2             	retai 0xc2
+00010d   0ac7     retai   0xc7             	retai 0xc7
+00010e   0acc     retai   0xcc             	retai 0xcc
+00010f   0ad1     retai   0xd1             	retai 0xd1
+000110   0ad6     retai   0xd6             	retai 0xd6
+000111   0ada     retai   0xda             	retai 0xda
+000112   0adf     retai   0xdf             	retai 0xdf
+000113   0ae3     retai   0xe3             	retai 0xe3
+000114   0ae7     retai   0xe7             	retai 0xe7
+000115   0aea     retai   0xea             	retai 0xea
+000116   0aee     retai   0xee             	retai 0xee
+000117   0af1     retai   0xf1             	retai 0xf1
+000118   0af4     retai   0xf4             	retai 0xf4
+000119   0af6     retai   0xf6             	retai 0xf6
+00011a   0af8     retai   0xf8             	retai 0xf8
+00011b   0afa     retai   0xfa             	retai 0xfa
+00011c   0afc     retai   0xfc             	retai 0xfc
+00011d   0afd     retai   0xfd             	retai 0xfd
+00011e   0aff     retai   0xff             	retai 0xff
+00011f   0aff     retai   0xff             	retai 0xff
+000120   0aff     retai   0xff             	retai 0xff
+000121   0aff     retai   0xff             	retai 0xff
+000122   0aff     retai   0xff             	retai 0xff
+000123   0aff     retai   0xff             	retai 0xff
+000124   0afe     retai   0xfe             	retai 0xfe
+000125   0afd     retai   0xfd             	retai 0xfd
+000126   0afb     retai   0xfb             	retai 0xfb
+000127   0af9     retai   0xf9             	retai 0xf9
+000128   0af7     retai   0xf7             	retai 0xf7
+000129   0af5     retai   0xf5             	retai 0xf5
+00012a   0af2     retai   0xf2             	retai 0xf2
+00012b   0aef     retai   0xef             	retai 0xef
+00012c   0aec     retai   0xec             	retai 0xec
+00012d   0ae9     retai   0xe9             	retai 0xe9
+00012e   0ae5     retai   0xe5             	retai 0xe5
+00012f   0ae1     retai   0xe1             	retai 0xe1
+000130   0add     retai   0xdd             	retai 0xdd
+000131   0ad8     retai   0xd8             	retai 0xd8
+000132   0ad4     retai   0xd4             	retai 0xd4
+000133   0acf     retai   0xcf             	retai 0xcf
+000134   0aca     retai   0xca             	retai 0xca
+000135   0ac5     retai   0xc5             	retai 0xc5
+000136   0abf     retai   0xbf             	retai 0xbf
+000137   0aba     retai   0xba             	retai 0xba
+000138   0ab4     retai   0xb4             	retai 0xb4
+000139   0aae     retai   0xae             	retai 0xae
+00013a   0aa8     retai   0xa8             	retai 0xa8
+00013b   0aa2     retai   0xa2             	retai 0xa2
+00013c   0a9c     retai   0x9c             	retai 0x9c
+00013d   0a96     retai   0x96             	retai 0x96
+00013e   0a90     retai   0x90             	retai 0x90
+00013f   0a89     retai   0x89             	retai 0x89
+000140   0a83     retai   0x83             	retai 0x83
+000141   0a80     retai   0x80             	retai 0x80
+000142   0a79     retai   0x79             	retai 0x79
+000143   0a72     retai   0x72             	retai 0x72
+000144   0a6c     retai   0x6c             	retai 0x6c
+000145   0a66     retai   0x66             	retai 0x66
+000146   0a60     retai   0x60             	retai 0x60
+000147   0a5a     retai   0x5a             	retai 0x5a
+000148   0a55     retai   0x55             	retai 0x55
+000149   0a4e     retai   0x4e             	retai 0x4e
+00014a   0a48     retai   0x48             	retai 0x48
+00014b   0a43     retai   0x43             	retai 0x43
+00014c   0a3d     retai   0x3d             	retai 0x3d
+00014d   0a38     retai   0x38             	retai 0x38
+00014e   0a33     retai   0x33             	retai 0x33
+00014f   0a2e     retai   0x2e             	retai 0x2e
+000150   0a29     retai   0x29             	retai 0x29
+000151   0a25     retai   0x25             	retai 0x25
+000152   0a20     retai   0x20             	retai 0x20
+000153   0a1c     retai   0x1c             	retai 0x1c
+000154   0a18     retai   0x18             	retai 0x18
+000155   0a15     retai   0x15             	retai 0x15
+000156   0a11     retai   0x11             	retai 0x11
+000157   0a0e     retai   0xe              	retai 0x0e
+000158   0a0b     retai   0xb              	retai 0x0b
+000159   0a09     retai   0x9              	retai 0x09
+00015a   0a07     retai   0x7              	retai 0x07
+00015b   0a05     retai   0x5              	retai 0x05
+00015c   0a03     retai   0x3              	retai 0x03
+00015d   0a02     retai   0x2              	retai 0x02
+00015e   0a00     retai   0                	retai 0x00
+00015f   0a00     retai   0                	retai 0x00
+000160   0a00     retai   0                	retai 0x00
+000161   0a00     retai   0                	retai 0x00
+000162   0a00     retai   0                	retai 0x00
+000163   0a00     retai   0                	retai 0x00
+000164   0a01     retai   0x1              	retai 0x01
+000165   0a02     retai   0x2              	retai 0x02
+000166   0a04     retai   0x4              	retai 0x04
+000167   0a06     retai   0x6              	retai 0x06
+000168   0a08     retai   0x8              	retai 0x08
+000169   0a0a     retai   0xa              	retai 0x0a
+00016a   0a0d     retai   0xd              	retai 0x0d
+00016b   0a10     retai   0x10             	retai 0x10
+00016c   0a13     retai   0x13             	retai 0x13
+00016d   0a16     retai   0x16             	retai 0x16
+00016e   0a1a     retai   0x1a             	retai 0x1a
+00016f   0a1e     retai   0x1e             	retai 0x1e
+000170   0a22     retai   0x22             	retai 0x22
+000171   0a27     retai   0x27             	retai 0x27
+000172   0a2b     retai   0x2b             	retai 0x2b
+000173   0a30     retai   0x30             	retai 0x30
+000174   0a35     retai   0x35             	retai 0x35
+000175   0a3a     retai   0x3a             	retai 0x3a
+000176   0a40     retai   0x40             	retai 0x40
+000177   0a45     retai   0x45             	retai 0x45
+000178   0a4c     retai   0x4c             	retai 0x4c
+000179   0a51     retai   0x51             	retai 0x51
+00017a   0a57     retai   0x57             	retai 0x57
+00017b   0a5d     retai   0x5d             	retai 0x5d
+00017c   0a63     retai   0x63             	retai 0x63
+00017d   0a69     retai   0x69             	retai 0x69
+00017e   0a6f     retai   0x6f             	retai 0x6f
+00017f   0a76     retai   0x76             	retai 0x76
+000180   0a7c     retai   0x7c             	retai 0x7c
+000181   0a80     retai   0x80             	retai 0x80
+000182   0a86     retai   0x86             	retai 0x86
+000183   0a8d     retai   0x8d             	retai 0x8d
+000184   0a93     retai   0x93             	retai 0x93
+000185   0a99     retai   0x99             	retai 0x99
+000186   0a9f     retai   0x9f             	retai 0x9f
+000187   0aa5     retai   0xa5             	retai 0xa5
+000188   0aab     retai   0xab             	retai 0xab
+000189   0ab1     retai   0xb1             	retai 0xb1
+00018a   0ab7     retai   0xb7             	retai 0xb7
+00018b   0abc     retai   0xbc             	retai 0xbc
+00018c   0ac2     retai   0xc2             	retai 0xc2
+00018d   0ac7     retai   0xc7             	retai 0xc7
+00018e   0acc     retai   0xcc             	retai 0xcc
+00018f   0ad1     retai   0xd1             	retai 0xd1
+000190   0ad6     retai   0xd6             	retai 0xd6
+000191   0ada     retai   0xda             	retai 0xda
+000192   0adf     retai   0xdf             	retai 0xdf
+000193   0ae3     retai   0xe3             	retai 0xe3
+000194   0ae7     retai   0xe7             	retai 0xe7
+000195   0aea     retai   0xea             	retai 0xea
+000196   0aee     retai   0xee             	retai 0xee
+000197   0af1     retai   0xf1             	retai 0xf1
+000198   0af4     retai   0xf4             	retai 0xf4
+000199   0af6     retai   0xf6             	retai 0xf6
+00019a   0af8     retai   0xf8             	retai 0xf8
+00019b   0afa     retai   0xfa             	retai 0xfa
+00019c   0afc     retai   0xfc             	retai 0xfc
+00019d   0afd     retai   0xfd             	retai 0xfd
+00019e   0aff     retai   0xff             	retai 0xff
+00019f   0aff     retai   0xff             	retai 0xff
+0001a0   0aff     retai   0xff             	retai 0xff
+0001a1   0aff     retai   0xff             	retai 0xff
+0001a2   0aff     retai   0xff             	retai 0xff
+0001a3   0aff     retai   0xff             	retai 0xff
+0001a4   0afe     retai   0xfe             	retai 0xfe
+0001a5   0afd     retai   0xfd             	retai 0xfd
+0001a6   0afb     retai   0xfb             	retai 0xfb
+0001a7   0af9     retai   0xf9             	retai 0xf9
+0001a8   0af7     retai   0xf7             	retai 0xf7
+0001a9   0af5     retai   0xf5             	retai 0xf5
+0001aa   0af2     retai   0xf2             	retai 0xf2
+0001ab   0aef     retai   0xef             	retai 0xef
+0001ac   0aec     retai   0xec             	retai 0xec
+0001ad   0ae9     retai   0xe9             	retai 0xe9
+0001ae   0ae5     retai   0xe5             	retai 0xe5
+0001af   0ae1     retai   0xe1             	retai 0xe1
+0001b0   0add     retai   0xdd             	retai 0xdd
+0001b1   0ad8     retai   0xd8             	retai 0xd8
+0001b2   0ad4     retai   0xd4             	retai 0xd4
+0001b3   0acf     retai   0xcf             	retai 0xcf
+0001b4   0aca     retai   0xca             	retai 0xca
+0001b5   0ac5     retai   0xc5             	retai 0xc5
+0001b6   0abf     retai   0xbf             	retai 0xbf
+0001b7   0aba     retai   0xba             	retai 0xba
+0001b8   0ab4     retai   0xb4             	retai 0xb4
+0001b9   0aae     retai   0xae             	retai 0xae
+0001ba   0aa8     retai   0xa8             	retai 0xa8
+0001bb   0aa2     retai   0xa2             	retai 0xa2
+0001bc   0a9c     retai   0x9c             	retai 0x9c
+0001bd   0a96     retai   0x96             	retai 0x96
+0001be   0a90     retai   0x90             	retai 0x90
+0001bf   0a89     retai   0x89             	retai 0x89
+0001c0   0a83     retai   0x83             	retai 0x83
+0001c1   0a80     retai   0x80             	retai 0x80
+0001c2   0a79     retai   0x79             	retai 0x79
+0001c3   0a72     retai   0x72             	retai 0x72
+0001c4   0a6c     retai   0x6c             	retai 0x6c
+0001c5   0a66     retai   0x66             	retai 0x66
+0001c6   0a60     retai   0x60             	retai 0x60
+0001c7   0a5a     retai   0x5a             	retai 0x5a
+0001c8   0a55     retai   0x55             	retai 0x55
+0001c9   0a4e     retai   0x4e             	retai 0x4e
+0001ca   0a48     retai   0x48             	retai 0x48
+0001cb   0a43     retai   0x43             	retai 0x43
+0001cc   0a3d     retai   0x3d             	retai 0x3d
+0001cd   0a38     retai   0x38             	retai 0x38
+0001ce   0a33     retai   0x33             	retai 0x33
+0001cf   0a2e     retai   0x2e             	retai 0x2e
+0001d0   0a29     retai   0x29             	retai 0x29
+0001d1   0a25     retai   0x25             	retai 0x25
+0001d2   0a20     retai   0x20             	retai 0x20
+0001d3   0a1c     retai   0x1c             	retai 0x1c
+0001d4   0a18     retai   0x18             	retai 0x18
+0001d5   0a15     retai   0x15             	retai 0x15
+0001d6   0a11     retai   0x11             	retai 0x11
+0001d7   0a0e     retai   0xe              	retai 0x0e
+0001d8   0a0b     retai   0xb              	retai 0x0b
+0001d9   0a09     retai   0x9              	retai 0x09
+0001da   0a07     retai   0x7              	retai 0x07
+0001db   0a05     retai   0x5              	retai 0x05
+0001dc   0a03     retai   0x3              	retai 0x03
+0001dd   0a02     retai   0x2              	retai 0x02
+0001de   0a00     retai   0                	retai 0x00
+0001df   0a00     retai   0                	retai 0x00
+0001e0   0a00     retai   0                	retai 0x00
+0001e1   0a00     retai   0                	retai 0x00
+0001e2   0a00     retai   0                	retai 0x00
+0001e3   0a00     retai   0                	retai 0x00
+0001e4   0a01     retai   0x1              	retai 0x01
+0001e5   0a02     retai   0x2              	retai 0x02
+0001e6   0a04     retai   0x4              	retai 0x04
+0001e7   0a06     retai   0x6              	retai 0x06
+0001e8   0a08     retai   0x8              	retai 0x08
+0001e9   0a0a     retai   0xa              	retai 0x0a
+0001ea   0a0d     retai   0xd              	retai 0x0d
+0001eb   0a10     retai   0x10             	retai 0x10
+0001ec   0a13     retai   0x13             	retai 0x13
+0001ed   0a16     retai   0x16             	retai 0x16
+0001ee   0a1a     retai   0x1a             	retai 0x1a
+0001ef   0a1e     retai   0x1e             	retai 0x1e
+0001f0   0a22     retai   0x22             	retai 0x22
+0001f1   0a27     retai   0x27             	retai 0x27
+0001f2   0a2b     retai   0x2b             	retai 0x2b
+0001f3   0a30     retai   0x30             	retai 0x30
+0001f4   0a35     retai   0x35             	retai 0x35
+0001f5   0a3a     retai   0x3a             	retai 0x3a
+0001f6   0a40     retai   0x40             	retai 0x40
+0001f7   0a45     retai   0x45             	retai 0x45
+0001f8   0a4c     retai   0x4c             	retai 0x4c
+0001f9   0a51     retai   0x51             	retai 0x51
+0001fa   0a57     retai   0x57             	retai 0x57
+0001fb   0a5d     retai   0x5d             	retai 0x5d
+0001fc   0a63     retai   0x63             	retai 0x63
+0001fd   0a69     retai   0x69             	retai 0x69
+0001fe   0a6f     retai   0x6f             	retai 0x6f
+0001ff   0a76     retai   0x76             	retai 0x76
+000200   0a7c     retai   0x7c             	retai 0x7c
+000201   0a80     retai   0x80             	retai 0x80
+000202   0a86     retai   0x86             	retai 0x86
+000203   0a8d     retai   0x8d             	retai 0x8d
+000204   0a93     retai   0x93             	retai 0x93
+000205   0a99     retai   0x99             	retai 0x99
+000206   0a9f     retai   0x9f             	retai 0x9f
+000207   0aa5     retai   0xa5             	retai 0xa5
+000208   0aab     retai   0xab             	retai 0xab
+000209   0ab1     retai   0xb1             	retai 0xb1
+00020a   0ab7     retai   0xb7             	retai 0xb7
+00020b   0abc     retai   0xbc             	retai 0xbc
+00020c   0ac2     retai   0xc2             	retai 0xc2
+00020d   0ac7     retai   0xc7             	retai 0xc7
+00020e   0acc     retai   0xcc             	retai 0xcc
+00020f   0ad1     retai   0xd1             	retai 0xd1
+000210   0ad6     retai   0xd6             	retai 0xd6
+000211   0ada     retai   0xda             	retai 0xda
+000212   0adf     retai   0xdf             	retai 0xdf
+000213   0ae3     retai   0xe3             	retai 0xe3
+000214   0ae7     retai   0xe7             	retai 0xe7
+000215   0aea     retai   0xea             	retai 0xea
+000216   0aee     retai   0xee             	retai 0xee
+000217   0af1     retai   0xf1             	retai 0xf1
+000218   0af4     retai   0xf4             	retai 0xf4
+000219   0af6     retai   0xf6             	retai 0xf6
+00021a   0af8     retai   0xf8             	retai 0xf8
+00021b   0afa     retai   0xfa             	retai 0xfa
+00021c   0afc     retai   0xfc             	retai 0xfc
+00021d   0afd     retai   0xfd             	retai 0xfd
+00021e   0aff     retai   0xff             	retai 0xff
+00021f   0aff     retai   0xff             	retai 0xff
+000220   0aff     retai   0xff             	retai 0xff
+000221   0aff     retai   0xff             	retai 0xff
+000222   0aff     retai   0xff             	retai 0xff
+000223   0aff     retai   0xff             	retai 0xff
+000224   0afe     retai   0xfe             	retai 0xfe
+000225   0afd     retai   0xfd             	retai 0xfd
+000226   0afb     retai   0xfb             	retai 0xfb
+000227   0af9     retai   0xf9             	retai 0xf9
+000228   0af7     retai   0xf7             	retai 0xf7
+000229   0af5     retai   0xf5             	retai 0xf5
+00022a   0af2     retai   0xf2             	retai 0xf2
+00022b   0aef     retai   0xef             	retai 0xef
+00022c   0aec     retai   0xec             	retai 0xec
+00022d   0ae9     retai   0xe9             	retai 0xe9
+00022e   0ae5     retai   0xe5             	retai 0xe5
+00022f   0ae1     retai   0xe1             	retai 0xe1
+000230   0add     retai   0xdd             	retai 0xdd
+000231   0ad8     retai   0xd8             	retai 0xd8
+000232   0ad4     retai   0xd4             	retai 0xd4
+000233   0acf     retai   0xcf             	retai 0xcf
+000234   0aca     retai   0xca             	retai 0xca
+000235   0ac5     retai   0xc5             	retai 0xc5
+000236   0abf     retai   0xbf             	retai 0xbf
+000237   0aba     retai   0xba             	retai 0xba
+000238   0ab4     retai   0xb4             	retai 0xb4
+000239   0aae     retai   0xae             	retai 0xae
+00023a   0aa8     retai   0xa8             	retai 0xa8
+00023b   0aa2     retai   0xa2             	retai 0xa2
+00023c   0a9c     retai   0x9c             	retai 0x9c
+00023d   0a96     retai   0x96             	retai 0x96
+00023e   0a90     retai   0x90             	retai 0x90
+00023f   0a89     retai   0x89             	retai 0x89
+000240   0a83     retai   0x83             	retai 0x83
+000241   0a80     retai   0x80             	retai 0x80
+000242   0a79     retai   0x79             	retai 0x79
+000243   0a72     retai   0x72             	retai 0x72
+000244   0a6c     retai   0x6c             	retai 0x6c
+000245   0a66     retai   0x66             	retai 0x66
+000246   0a60     retai   0x60             	retai 0x60
+000247   0a5a     retai   0x5a             	retai 0x5a
+000248   0a55     retai   0x55             	retai 0x55
+000249   0a4e     retai   0x4e             	retai 0x4e
+00024a   0a48     retai   0x48             	retai 0x48
+00024b   0a43     retai   0x43             	retai 0x43
+00024c   0a3d     retai   0x3d             	retai 0x3d
+00024d   0a38     retai   0x38             	retai 0x38
+00024e   0a33     retai   0x33             	retai 0x33
+00024f   0a2e     retai   0x2e             	retai 0x2e
+000250   0a29     retai   0x29             	retai 0x29
+000251   0a25     retai   0x25             	retai 0x25
+000252   0a20     retai   0x20             	retai 0x20
+000253   0a1c     retai   0x1c             	retai 0x1c
+000254   0a18     retai   0x18             	retai 0x18
+000255   0a15     retai   0x15             	retai 0x15
+000256   0a11     retai   0x11             	retai 0x11
+000257   0a0e     retai   0xe              	retai 0x0e
+000258   0a0b     retai   0xb              	retai 0x0b
+000259   0a09     retai   0x9              	retai 0x09
+00025a   0a07     retai   0x7              	retai 0x07
+00025b   0a05     retai   0x5              	retai 0x05
+00025c   0a03     retai   0x3              	retai 0x03
+00025d   0a02     retai   0x2              	retai 0x02
+00025e   0a00     retai   0                	retai 0x00
+00025f   0a00     retai   0                	retai 0x00
+000260   0a00     retai   0                	retai 0x00
+000261   0a00     retai   0                	retai 0x00
+000262   0a00     retai   0                	retai 0x00
+000263   0a00     retai   0                	retai 0x00
+000264   0a01     retai   0x1              	retai 0x01
+000265   0a02     retai   0x2              	retai 0x02
+000266   0a04     retai   0x4              	retai 0x04
+000267   0a06     retai   0x6              	retai 0x06
+000268   0a08     retai   0x8              	retai 0x08
+000269   0a0a     retai   0xa              	retai 0x0a
+00026a   0a0d     retai   0xd              	retai 0x0d
+00026b   0a10     retai   0x10             	retai 0x10
+00026c   0a13     retai   0x13             	retai 0x13
+00026d   0a16     retai   0x16             	retai 0x16
+00026e   0a1a     retai   0x1a             	retai 0x1a
+00026f   0a1e     retai   0x1e             	retai 0x1e
+000270   0a22     retai   0x22             	retai 0x22
+000271   0a27     retai   0x27             	retai 0x27
+000272   0a2b     retai   0x2b             	retai 0x2b
+000273   0a30     retai   0x30             	retai 0x30
+000274   0a35     retai   0x35             	retai 0x35
+000275   0a3a     retai   0x3a             	retai 0x3a
+000276   0a40     retai   0x40             	retai 0x40
+000277   0a45     retai   0x45             	retai 0x45
+000278   0a4c     retai   0x4c             	retai 0x4c
+000279   0a51     retai   0x51             	retai 0x51
+00027a   0a57     retai   0x57             	retai 0x57
+00027b   0a5d     retai   0x5d             	retai 0x5d
+00027c   0a63     retai   0x63             	retai 0x63
+00027d   0a69     retai   0x69             	retai 0x69
+00027e   0a6f     retai   0x6f             	retai 0x6f
+00027f   0a76     retai   0x76             	retai 0x76
+000280   0a7c     retai   0x7c             	retai 0x7c
+000281   0a80     retai   0x80             	retai 0x80
+000282   0a86     retai   0x86             	retai 0x86
+000283   0a8d     retai   0x8d             	retai 0x8d
+000284   0a93     retai   0x93             	retai 0x93
+000285   0a99     retai   0x99             	retai 0x99
+000286   0a9f     retai   0x9f             	retai 0x9f
+000287   0aa5     retai   0xa5             	retai 0xa5
+000288   0aab     retai   0xab             	retai 0xab
+000289   0ab1     retai   0xb1             	retai 0xb1
+00028a   0ab7     retai   0xb7             	retai 0xb7
+00028b   0abc     retai   0xbc             	retai 0xbc
+00028c   0ac2     retai   0xc2             	retai 0xc2
+00028d   0ac7     retai   0xc7             	retai 0xc7
+00028e   0acc     retai   0xcc             	retai 0xcc
+00028f   0ad1     retai   0xd1             	retai 0xd1
+000290   0ad6     retai   0xd6             	retai 0xd6
+000291   0ada     retai   0xda             	retai 0xda
+000292   0adf     retai   0xdf             	retai 0xdf
+000293   0ae3     retai   0xe3             	retai 0xe3
+000294   0ae7     retai   0xe7             	retai 0xe7
+000295   0aea     retai   0xea             	retai 0xea
+000296   0aee     retai   0xee             	retai 0xee
+000297   0af1     retai   0xf1             	retai 0xf1
+000298   0af4     retai   0xf4             	retai 0xf4
+000299   0af6     retai   0xf6             	retai 0xf6
+00029a   0af8     retai   0xf8             	retai 0xf8
+00029b   0afa     retai   0xfa             	retai 0xfa
+00029c   0afc     retai   0xfc             	retai 0xfc
+00029d   0afd     retai   0xfd             	retai 0xfd
+00029e   0aff     retai   0xff             	retai 0xff
+00029f   0aff     retai   0xff             	retai 0xff
+0002a0   0aff     retai   0xff             	retai 0xff
+0002a1   0aff     retai   0xff             	retai 0xff
+0002a2   0aff     retai   0xff             	retai 0xff
+0002a3   0aff     retai   0xff             	retai 0xff
+0002a4   0afe     retai   0xfe             	retai 0xfe
+0002a5   0afd     retai   0xfd             	retai 0xfd
+0002a6   0afb     retai   0xfb             	retai 0xfb
+0002a7   0af9     retai   0xf9             	retai 0xf9
+0002a8   0af7     retai   0xf7             	retai 0xf7
+0002a9   0ab1     retai   0xb1             	retai 0xb1
+0002aa   0ab7     retai   0xb7             	retai 0xb7
+0002ab   0abc     retai   0xbc             	retai 0xbc
+0002ac   0ac2     retai   0xc2             	retai 0xc2
+0002ad   0ac7     retai   0xc7             	retai 0xc7
+0002ae   0acc     retai   0xcc             	retai 0xcc
+0002af   0ad1     retai   0xd1             	retai 0xd1
+0002b0   0ad6     retai   0xd6             	retai 0xd6
+0002b1   0ada     retai   0xda             	retai 0xda
+0002b2   0adf     retai   0xdf             	retai 0xdf
+0002b3   0ae3     retai   0xe3             	retai 0xe3
+0002b4   0ae7     retai   0xe7             	retai 0xe7
+0002b5   0aea     retai   0xea             	retai 0xea
+0002b6   0aee     retai   0xee             	retai 0xee
+0002b7   0af1     retai   0xf1             	retai 0xf1
+0002b8   0af4     retai   0xf4             	retai 0xf4
+0002b9   0a09     retai   0x9              	retai 0x09
+0002ba   0a07     retai   0x7              	retai 0x07
+0002bb   0a05     retai   0x5              	retai 0x05
+0002bc   0a03     retai   0x3              	retai 0x03
+0002bd   0a02     retai   0x2              	retai 0x02
+0002be   0a00     retai   0                	retai 0x00
+0002bf   0a00     retai   0                	retai 0x00
+0002c0   0a00     retai   0                	retai 0x00
+0002c1   0a00     retai   0                	retai 0x00
+0002c2   0a00     retai   0                	retai 0x00
+0002c3   0a00     retai   0                	retai 0x00
+0002c4   0a01     retai   0x1              	retai 0x01
+0002c5   0a02     retai   0x2              	retai 0x02
+0002c6   0a04     retai   0x4              	retai 0x04
+0002c7   0a06     retai   0x6              	retai 0x06
+0002c8   0a08     retai   0x8              	retai 0x08
+0002c9   0a0a     retai   0xa              	retai 0x0a
+0002ca   0a0d     retai   0xd              	retai 0x0d
+0002cb   0a10     retai   0x10             	retai 0x10
+0002cc   0a13     retai   0x13             	retai 0x13
+0002cd   0a16     retai   0x16             	retai 0x16
+0002ce   0a1a     retai   0x1a             	retai 0x1a
+0002cf   0a1e     retai   0x1e             	retai 0x1e
+0002d0   0a22     retai   0x22             	retai 0x22
+0002d1   0a27     retai   0x27             	retai 0x27
+0002d2   0a2b     retai   0x2b             	retai 0x2b
+0002d3   0a30     retai   0x30             	retai 0x30
+0002d4   0a35     retai   0x35             	retai 0x35
+0002d5   0a3a     retai   0x3a             	retai 0x3a
+0002d6   0a40     retai   0x40             	retai 0x40
+0002d7   0a45     retai   0x45             	retai 0x45
+0002d8   0a4c     retai   0x4c             	retai 0x4c
+0002d9   0a51     retai   0x51             	retai 0x51
+0002da   0a57     retai   0x57             	retai 0x57
+0002db   0a5d     retai   0x5d             	retai 0x5d
+0002dc   0a63     retai   0x63             	retai 0x63
+0002dd   0a69     retai   0x69             	retai 0x69
+0002de   0a6f     retai   0x6f             	retai 0x6f
+0002df   0a76     retai   0x76             	retai 0x76
+0002e0   0a7c     retai   0x7c             	retai 0x7c
+                                           
+                                           ;--------------------------------------------------------
+                                           ; overlayable items in internal ram 
+                                           ;--------------------------------------------------------
+                                           ;	udata_ovr
+                                           ;--------------------------------------------------------
+                                           ; code
+                                           ;--------------------------------------------------------
+                                           code_fun	code
+                                           ;***
+                                           ;  pBlock Stats: dbName = C
+                                           ;***
+                                           ;entry:  _i2cout	;Function start
+                                           ; 2 exit points
+                                           ;has an exit
+                                           ;; Starting pCode block
+                                           _i2cout	;Function start
+                                           ; 2 exit points
+                                           ;	.line	110; "fun.c"	GIE = 1;
+000379   3b8e     bset    0xe, 0x7         	BSET	_INTECONbits,7
+                                           ;	.line	111; "fun.c"	for(n=0x02;--n;) continue;
+00037a   0b02     movai   0x2              	MOVAI	0x02
+00037b   15af     movra   0x2f             	MOVRA	_n
+                                           _00109_DS_
+00037c   1baf     decr    0x2f             	DECR	_n
+00037d   0b00     movai   0                	MOVAI	0x00
+00037e   172f     orar    0x2f             	ORAR	_n
+00037f   3103     jbset   0x3, 0x2         	JBSET	STATUS,2
+000380   2b7c     goto    0x37c            	GOTO	_00109_DS_
+                                           _00112_DS_
+                                           ;	.line	114; "fun.c"	P00=1; 
+000381   3805     bset    0x5, 0           	BSET	_P0bits,0
+                                           ;	.line	115; "fun.c"	}while(P01==0);  
+000382   3085     jbset   0x5, 0x1         	JBSET	_P0bits,1
+000383   2b81     goto    0x381            	GOTO	_00112_DS_
+                                           ;	.line	116; "fun.c"	P00=0;
+000384   3c05     bclr    0x5, 0           	BCLR	_P0bits,0
+                                           ;	.line	117; "fun.c"	P0=0x58;
+000385   0b58     movai   0x58             	MOVAI	0x58
+000386   1585     movra   0x5              	MOVRA	_P0
+                                           _00115_DS_
+                                           ;	.line	121; "fun.c"	}while(P01==0);
+000387   3085     jbset   0x5, 0x1         	JBSET	_P0bits,1
+000388   2b87     goto    0x387            	GOTO	_00115_DS_
+                                           ;	.line	122; "fun.c"	P01=0; 
+000389   3c85     bclr    0x5, 0x1         	BCLR	_P0bits,1
+                                           ;	.line	123; "fun.c"	P0=0X01;
+00038a   0b01     movai   0x1              	MOVAI	0x01
+00038b   1585     movra   0x5              	MOVRA	_P0
+                                           _00117_DS_
+                                           ;	.line	127; "fun.c"	}while(P01==0); 
+00038c   3085     jbset   0x5, 0x1         	JBSET	_P0bits,1
+00038d   2b8c     goto    0x38c            	GOTO	_00117_DS_
+                                           ;	.line	128; "fun.c"	P01=0;  
+00038e   3c85     bclr    0x5, 0x1         	BCLR	_P0bits,1
+                                           ;	.line	129; "fun.c"	P02=j;   
+00038f   132e     rrar    0x2e             	RRAR	_j
+000390   3003     jbset   0x3, 0           	JBSET	STATUS,0
+000391   3d05     bclr    0x5, 0x2         	BCLR	_P0bits,2
+000392   3403     jbclr   0x3, 0           	JBCLR	STATUS,0
+000393   3905     bset    0x5, 0x2         	BSET	_P0bits,2
+                                           _00119_DS_
+                                           ;	.line	133; "fun.c"	}while(P01==0);
+000394   3085     jbset   0x5, 0x1         	JBSET	_P0bits,1
+000395   2b94     goto    0x394            	GOTO	_00119_DS_
+                                           ;	.line	134; "fun.c"	P01=0;   
+000396   3c85     bclr    0x5, 0x1         	BCLR	_P0bits,1
+                                           ;	.line	135; "fun.c"	P00=1;    
+000397   3805     bset    0x5, 0           	BSET	_P0bits,0
+                                           _00121_DS_
+                                           ;	.line	139; "fun.c"	}while(P01==0); 
+000398   3085     jbset   0x5, 0x1         	JBSET	_P0bits,1
+000399   2b98     goto    0x398            	GOTO	_00121_DS_
+                                           ;	.line	140; "fun.c"	P01=0;    
+00039a   3c85     bclr    0x5, 0x1         	BCLR	_P0bits,1
+00039b   000c     return                   	RETURN	
+                                           ; exit point of _i2cout
+                                           
+                                           ;***
+                                           ;  pBlock Stats: dbName = C
+                                           ;***
+                                           ;entry:  _i2cint	;Function start
+                                           ; 2 exit points
+                                           ;has an exit
+                                           ;; Starting pCode block
+                                           _i2cint	;Function start
+                                           ; 2 exit points
+                                           ;	.line	103; "fun.c"	DDR0 = 0X08;
+00039c   0b08     movai   0x8              	MOVAI	0x08
+00039d   15c5     dw      0x15c5           	MOVRA	_DDR0
+                                           ;	.line	104; "fun.c"	P00 = 1;
+00039e   3805     bset    0x5, 0           	BSET	_P0bits,0
+                                           ;	.line	105; "fun.c"	P00 = 0;
+00039f   3c05     bclr    0x5, 0           	BCLR	_P0bits,0
+0003a0   000c     return                   	RETURN	
+                                           ; exit point of _i2cint
+                                           
+                                           
+                                           ;	code size estimation:
+                                           ;	   40+    0 =    40 instructions (   80 byte)
+                                           
+                                           	end
+                                           ;--------------------------------------------------------------------------
+                                           ;  p16f_common.inc - definitions common to all 14 bit PIC devices
+                                           ;
+                                           ;  Copyright (C) 2005, Vangelis Rokas <vrokas AT otenet.gr>
+                                           ;
+                                           ;  This library is free software; you can redistribute it and/or modify it
+                                           ;  under the terms of the GNU General Public License as published by the
+                                           ;  Free Software Foundation; either version 2, or (at your option) any
+                                           ;  later version.
+                                           ;
+                                           ;  This library is distributed in the hope that it will be useful,
+                                           ;  but WITHOUT ANY WARRANTY; without even the implied warranty of
+                                           ;  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+                                           ;  GNU General Public License for more details.
+                                           ;
+                                           ;  You should have received a copy of the GNU General Public License 
+                                           ;  along with this library; see the file COPYING. If not, write to the
+                                           ;  Free Software Foundation, 51 Franklin Street, Fifth Floor, Boston,
+                                           ;   MA 02110-1301, USA.
+                                           ;
+                                           ;  As a special exception, if you link this library with other files,
+                                           ;  some of which are compiled with SDCC, to produce an executable,
+                                           ;  this library does not by itself cause the resulting executable to
+                                           ;  be covered by the GNU General Public License. This exception does
+                                           ;  not however invalidate any other reasons why the executable file
+                                           ;  might be covered by the GNU General Public License.
+                                           ;--------------------------------------------------------------------------
+                                           
+                                           		extern	STK00
+                                           		extern	STK01
+                                           		extern	STK02
+                                           		extern	STK03
+                                           		extern	STK04
+                                           		extern	STK05
+                                           
+                                           		LIST
+                                           ;mc30p011.inc    Standard Header File, Version 1.00 by Sinomcu
+                                           		NOLIST
+                                           ;--------------------------------------------------------------------------
+                                           ;  p16f_common.inc - definitions common to all 14 bit PIC devices
+                                           ;
+                                           ;  Copyright (C) 2005, Vangelis Rokas <vrokas AT otenet.gr>
+                                           ;
+                                           ;  This library is free software; you can redistribute it and/or modify it
+                                           ;  under the terms of the GNU General Public License as published by the
+                                           ;  Free Software Foundation; either version 2, or (at your option) any
+                                           ;  later version.
+                                           ;
+                                           ;  This library is distributed in the hope that it will be useful,
+                                           ;  but WITHOUT ANY WARRANTY; without even the implied warranty of
+                                           ;  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+                                           ;  GNU General Public License for more details.
+                                           ;
+                                           ;  You should have received a copy of the GNU General Public License 
+                                           ;  along with this library; see the file COPYING. If not, write to the
+                                           ;  Free Software Foundation, 51 Franklin Street, Fifth Floor, Boston,
+                                           ;   MA 02110-1301, USA.
+                                           ;
+                                           ;  As a special exception, if you link this library with other files,
+                                           ;  some of which are compiled with SDCC, to produce an executable,
+                                           ;  this library does not by itself cause the resulting executable to
+                                           ;  be covered by the GNU General Public License. This exception does
+                                           ;  not however invalidate any other reasons why the executable file
+                                           ;  might be covered by the GNU General Public License.
+                                           ;--------------------------------------------------------------------------
+                                           
+                                           		extern	STK00
+                                           		extern	STK01
+                                           		extern	STK02
+                                           		extern	STK03
+                                           		extern	STK04
+                                           		extern	STK05
+                                           
+                                           		LIST
+                                           ;mc30p011.inc    Standard Header File, Version 1.00 by Sinomcu
+                                           		NOLIST
+
+
+MEMORY USAGE MAP ('X' = Used,  '-' = Unused)
+
+0000 : XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX
+0040 : XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX
+0080 : XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX
+00C0 : XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX
+0100 : XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX
+0140 : XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX
+0180 : XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX
+01C0 : XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX
+0200 : XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX
+0240 : XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX
+0280 : XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX
+02C0 : XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX
+0300 : XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX
+0340 : XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX
+0380 : XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX
+03C0 : XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX
+0400 : XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX
+0440 : XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX
+0480 : XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX
+04C0 : XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX
+0500 : XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX
+0540 : XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX
+0580 : XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX
+05C0 : XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX
+0600 : XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX
+0640 : XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX
+0680 : XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX
+06C0 : XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX
+0700 : XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX
+0740 : XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX
+0780 : XXXX------------ ---------------- ---------------- ----------------
+
+All other memory blocks unused.
+
+Program Memory Words Used:   962
+

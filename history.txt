@@ -1,0 +1,15 @@
+=======
+sn-sdcc
+=======
+Rev:		Date:		Reason:
+0.0.1		13/6/20		eval version release, just for mc30/mc30p011
+0.0.2		13/7/9		eval version, support mc30/mc31/mc32
+0.0.3		13/7/17		remove interrupt auto code, remove STK07-STK12
+0.0.4		13/11/19	link mcxxx.lib only
+
+====================================================================
+device list:
+mc30p011
+mc31p11
+mc32p21
+mc32p64

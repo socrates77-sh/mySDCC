@@ -1,0 +1,1165 @@
+gpasm-1.3.0 (Jun 19 2013)    fun.asm            2013-7-5  15:49:23           PAGE  1
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+                      00001 ;--------------------------------------------------------
+                      00002 ; File Created by SN-SDCC : ANSI-C Compiler
+                      00003 ; Version 0.0.2 (Jun 26 2013) (Linux)
+                      00004 ; This file was generated Fri Jul  5 15:49:23 2013
+                      00005 ;--------------------------------------------------------
+                      00006 ; MC3X port for the RISC core
+                      00007 ;--------------------------------------------------------
+                      00008 ;       .file   "fun.c"
+                      00009         list    p=30p011
+                      00010         radix dec
+                      00011         include "mc30p011.inc"
+                      00001                 LIST
+                      00002 ;mc30p011.inc    Standard Header File, Version 1.00 by Sinomcu
+                      00225                 LIST
+                      00012 ;--------------------------------------------------------
+                      00013 ; external declarations
+                      00014 ;--------------------------------------------------------
+                      00015         extern  _STATUSbits
+                      00016         extern  _P0bits
+                      00017         extern  _P1bits
+                      00018         extern  _MCRbits
+                      00019         extern  _KBIMbits
+                      00020         extern  _PDCONbits
+                      00021         extern  _ODCONbits
+                      00022         extern  _PUCONbits
+                      00023         extern  _INTECONbits
+                      00024         extern  _INTFLAGbits
+                      00025         extern  _T0CRbits
+                      00026         extern  _DDR0bits
+                      00027         extern  _DDR1bits
+                      00028         extern  _TMCRbits
+                      00029         extern  _T1CRbits
+                      00030         extern  _INDF
+                      00031         extern  _T0CNT
+                      00032         extern  _PCL
+                      00033         extern  _STATUS
+                      00034         extern  _FSR
+                      00035         extern  _P0
+                      00036         extern  _P1
+                      00037         extern  _MCR
+                      00038         extern  _KBIM
+                      00039         extern  _PCLATH
+                      00040         extern  _PDCON
+                      00041         extern  _ODCON
+                      00042         extern  _PUCON
+                      00043         extern  _INTECON
+                      00044         extern  _INTFLAG
+                      00045         extern  _T0CR
+                      00046         extern  _DDR0
+                      00047         extern  _DDR1
+                      00048         extern  _TMCR
+                      00049         extern  _T1CR
+                      00050         extern  _T1CNT
+                      00051         extern  _T1LOAD
+                      00052         extern  _T1DATA
+                      00053 
+                      00054         extern PSAVE
+                      00055         extern SSAVE
+                      00056         extern WSAVE
+                      00057         extern STK12
+                      00058         extern STK11
+                      00059         extern STK10
+                      00060         extern STK09
+                      00061         extern STK08
+                      00062         extern STK07
+                      00063         extern STK06
+                      00064         extern STK05
+                      00065         extern STK04
+                      00066         extern STK03
+                      00067         extern STK02
+                      00068         extern STK01
+                      00069         extern STK00
+                      00070 ;--------------------------------------------------------
+                      00071 ; global declarations
+                      00072 ;--------------------------------------------------------
+                      00073         global  _i2cint
+                      00074         global  _i2cout
+                      00075         global  _i
+                      00076         global  _j
+                      00077         global  _n
+                      00078         global  _table
+                      00079 
+                      00080 ;--------------------------------------------------------
+                      00081 ; global definitions
+                      00082 ;--------------------------------------------------------
+                      00083 UD_fun_0        udata
+0000                  00084 _i      res     1
+                      00085 
+                      00086 UD_fun_1        udata
+0000                  00087 _j      res     1
+                      00088 
+                      00089 UD_fun_2        udata
+0000                  00090 _n      res     1
+                      00091 
+                      00092 ;--------------------------------------------------------
+                      00093 ; absolute symbol definitions
+                      00094 ;--------------------------------------------------------
+                      00095 ;--------------------------------------------------------
+                      00096 ; compiler-defined variables
+                      00097 ;--------------------------------------------------------
+                      00098 ;--------------------------------------------------------
+                      00099 ; initialized data
+                      00100 ;--------------------------------------------------------
+                      00101 
+                      00102 ID_fun_0        code
+0000                  00103 _table
+0000   0A80           00104         retai 0x80
+0001   0A86           00105         retai 0x86
+0002   0A8D           00106         retai 0x8d
+0003   0A93           00107         retai 0x93
+0004   0A99           00108         retai 0x99
+0005   0A9F           00109         retai 0x9f
+0006   0AA5           00110         retai 0xa5
+0007   0AAB           00111         retai 0xab
+0008   0AB1           00112         retai 0xb1
+0009   0AB7           00113         retai 0xb7
+000A   0ABC           00114         retai 0xbc
+000B   0AC2           00115         retai 0xc2
+000C   0AC7           00116         retai 0xc7
+000D   0ACC           00117         retai 0xcc
+000E   0AD1           00118         retai 0xd1
+000F   0AD6           00119         retai 0xd6
+0010   0ADA           00120         retai 0xda
+0011   0ADF           00121         retai 0xdf
+0012   0AE3           00122         retai 0xe3
+0013   0AE7           00123         retai 0xe7
+0014   0AEA           00124         retai 0xea
+0015   0AEE           00125         retai 0xee
+0016   0AF1           00126         retai 0xf1
+0017   0AF4           00127         retai 0xf4
+0018   0AF6           00128         retai 0xf6
+0019   0AF8           00129         retai 0xf8
+001A   0AFA           00130         retai 0xfa
+001B   0AFC           00131         retai 0xfc
+001C   0AFD           00132         retai 0xfd
+001D   0AFF           00133         retai 0xff
+001E   0AFF           00134         retai 0xff
+001F   0AFF           00135         retai 0xff
+0020   0AFF           00136         retai 0xff
+0021   0AFF           00137         retai 0xff
+0022   0AFF           00138         retai 0xff
+0023   0AFE           00139         retai 0xfe
+0024   0AFD           00140         retai 0xfd
+0025   0AFB           00141         retai 0xfb
+0026   0AF9           00142         retai 0xf9
+0027   0AF7           00143         retai 0xf7
+0028   0AF5           00144         retai 0xf5
+0029   0AF2           00145         retai 0xf2
+002A   0AEF           00146         retai 0xef
+002B   0AEC           00147         retai 0xec
+002C   0AE9           00148         retai 0xe9
+002D   0AE5           00149         retai 0xe5
+002E   0AE1           00150         retai 0xe1
+002F   0ADD           00151         retai 0xdd
+0030   0AD8           00152         retai 0xd8
+0031   0AD4           00153         retai 0xd4
+0032   0ACF           00154         retai 0xcf
+0033   0ACA           00155         retai 0xca
+0034   0AC5           00156         retai 0xc5
+0035   0ABF           00157         retai 0xbf
+0036   0ABA           00158         retai 0xba
+0037   0AB4           00159         retai 0xb4
+0038   0AAE           00160         retai 0xae
+0039   0AA8           00161         retai 0xa8
+003A   0AA2           00162         retai 0xa2
+003B   0A9C           00163         retai 0x9c
+003C   0A96           00164         retai 0x96
+003D   0A90           00165         retai 0x90
+003E   0A89           00166         retai 0x89
+003F   0A83           00167         retai 0x83
+0040   0A80           00168         retai 0x80
+0041   0A79           00169         retai 0x79
+0042   0A72           00170         retai 0x72
+0043   0A6C           00171         retai 0x6c
+0044   0A66           00172         retai 0x66
+0045   0A60           00173         retai 0x60
+0046   0A5A           00174         retai 0x5a
+0047   0A55           00175         retai 0x55
+0048   0A4E           00176         retai 0x4e
+0049   0A48           00177         retai 0x48
+004A   0A43           00178         retai 0x43
+004B   0A3D           00179         retai 0x3d
+004C   0A38           00180         retai 0x38
+004D   0A33           00181         retai 0x33
+004E   0A2E           00182         retai 0x2e
+004F   0A29           00183         retai 0x29
+0050   0A25           00184         retai 0x25
+0051   0A20           00185         retai 0x20
+0052   0A1C           00186         retai 0x1c
+0053   0A18           00187         retai 0x18
+0054   0A15           00188         retai 0x15
+0055   0A11           00189         retai 0x11
+0056   0A0E           00190         retai 0x0e
+0057   0A0B           00191         retai 0x0b
+0058   0A09           00192         retai 0x09
+0059   0A07           00193         retai 0x07
+005A   0A05           00194         retai 0x05
+005B   0A03           00195         retai 0x03
+005C   0A02           00196         retai 0x02
+005D   0A00           00197         retai 0x00
+005E   0A00           00198         retai 0x00
+005F   0A00           00199         retai 0x00
+0060   0A00           00200         retai 0x00
+0061   0A00           00201         retai 0x00
+0062   0A00           00202         retai 0x00
+0063   0A01           00203         retai 0x01
+0064   0A02           00204         retai 0x02
+0065   0A04           00205         retai 0x04
+0066   0A06           00206         retai 0x06
+0067   0A08           00207         retai 0x08
+0068   0A0A           00208         retai 0x0a
+0069   0A0D           00209         retai 0x0d
+006A   0A10           00210         retai 0x10
+006B   0A13           00211         retai 0x13
+006C   0A16           00212         retai 0x16
+006D   0A1A           00213         retai 0x1a
+006E   0A1E           00214         retai 0x1e
+006F   0A22           00215         retai 0x22
+0070   0A27           00216         retai 0x27
+0071   0A2B           00217         retai 0x2b
+0072   0A30           00218         retai 0x30
+0073   0A35           00219         retai 0x35
+0074   0A3A           00220         retai 0x3a
+0075   0A40           00221         retai 0x40
+0076   0A45           00222         retai 0x45
+0077   0A4C           00223         retai 0x4c
+0078   0A51           00224         retai 0x51
+0079   0A57           00225         retai 0x57
+007A   0A5D           00226         retai 0x5d
+007B   0A63           00227         retai 0x63
+007C   0A69           00228         retai 0x69
+007D   0A6F           00229         retai 0x6f
+007E   0A76           00230         retai 0x76
+007F   0A7C           00231         retai 0x7c
+0080   0A80           00232         retai 0x80
+0081   0A86           00233         retai 0x86
+0082   0A8D           00234         retai 0x8d
+0083   0A93           00235         retai 0x93
+0084   0A99           00236         retai 0x99
+0085   0A9F           00237         retai 0x9f
+0086   0AA5           00238         retai 0xa5
+0087   0AAB           00239         retai 0xab
+0088   0AB1           00240         retai 0xb1
+0089   0AB7           00241         retai 0xb7
+008A   0ABC           00242         retai 0xbc
+008B   0AC2           00243         retai 0xc2
+008C   0AC7           00244         retai 0xc7
+008D   0ACC           00245         retai 0xcc
+008E   0AD1           00246         retai 0xd1
+008F   0AD6           00247         retai 0xd6
+0090   0ADA           00248         retai 0xda
+0091   0ADF           00249         retai 0xdf
+0092   0AE3           00250         retai 0xe3
+0093   0AE7           00251         retai 0xe7
+0094   0AEA           00252         retai 0xea
+0095   0AEE           00253         retai 0xee
+0096   0AF1           00254         retai 0xf1
+0097   0AF4           00255         retai 0xf4
+0098   0AF6           00256         retai 0xf6
+0099   0AF8           00257         retai 0xf8
+009A   0AFA           00258         retai 0xfa
+009B   0AFC           00259         retai 0xfc
+009C   0AFD           00260         retai 0xfd
+009D   0AFF           00261         retai 0xff
+009E   0AFF           00262         retai 0xff
+009F   0AFF           00263         retai 0xff
+00A0   0AFF           00264         retai 0xff
+00A1   0AFF           00265         retai 0xff
+00A2   0AFF           00266         retai 0xff
+00A3   0AFE           00267         retai 0xfe
+00A4   0AFD           00268         retai 0xfd
+00A5   0AFB           00269         retai 0xfb
+00A6   0AF9           00270         retai 0xf9
+00A7   0AF7           00271         retai 0xf7
+00A8   0AF5           00272         retai 0xf5
+00A9   0AF2           00273         retai 0xf2
+00AA   0AEF           00274         retai 0xef
+00AB   0AEC           00275         retai 0xec
+00AC   0AE9           00276         retai 0xe9
+00AD   0AE5           00277         retai 0xe5
+00AE   0AE1           00278         retai 0xe1
+00AF   0ADD           00279         retai 0xdd
+00B0   0AD8           00280         retai 0xd8
+00B1   0AD4           00281         retai 0xd4
+00B2   0ACF           00282         retai 0xcf
+00B3   0ACA           00283         retai 0xca
+00B4   0AC5           00284         retai 0xc5
+00B5   0ABF           00285         retai 0xbf
+00B6   0ABA           00286         retai 0xba
+00B7   0AB4           00287         retai 0xb4
+00B8   0AAE           00288         retai 0xae
+00B9   0AA8           00289         retai 0xa8
+00BA   0AA2           00290         retai 0xa2
+00BB   0A9C           00291         retai 0x9c
+00BC   0A96           00292         retai 0x96
+00BD   0A90           00293         retai 0x90
+00BE   0A89           00294         retai 0x89
+00BF   0A83           00295         retai 0x83
+00C0   0A80           00296         retai 0x80
+00C1   0A79           00297         retai 0x79
+00C2   0A72           00298         retai 0x72
+00C3   0A6C           00299         retai 0x6c
+00C4   0A66           00300         retai 0x66
+00C5   0A60           00301         retai 0x60
+00C6   0A5A           00302         retai 0x5a
+00C7   0A55           00303         retai 0x55
+00C8   0A4E           00304         retai 0x4e
+00C9   0A48           00305         retai 0x48
+00CA   0A43           00306         retai 0x43
+00CB   0A3D           00307         retai 0x3d
+00CC   0A38           00308         retai 0x38
+00CD   0A33           00309         retai 0x33
+00CE   0A2E           00310         retai 0x2e
+00CF   0A29           00311         retai 0x29
+00D0   0A25           00312         retai 0x25
+00D1   0A20           00313         retai 0x20
+00D2   0A1C           00314         retai 0x1c
+00D3   0A18           00315         retai 0x18
+00D4   0A15           00316         retai 0x15
+00D5   0A11           00317         retai 0x11
+00D6   0A0E           00318         retai 0x0e
+00D7   0A0B           00319         retai 0x0b
+00D8   0A09           00320         retai 0x09
+00D9   0A07           00321         retai 0x07
+00DA   0A05           00322         retai 0x05
+00DB   0A03           00323         retai 0x03
+00DC   0A02           00324         retai 0x02
+00DD   0A00           00325         retai 0x00
+00DE   0A00           00326         retai 0x00
+00DF   0A00           00327         retai 0x00
+00E0   0A00           00328         retai 0x00
+00E1   0A00           00329         retai 0x00
+00E2   0A00           00330         retai 0x00
+00E3   0A01           00331         retai 0x01
+00E4   0A02           00332         retai 0x02
+00E5   0A04           00333         retai 0x04
+00E6   0A06           00334         retai 0x06
+00E7   0A08           00335         retai 0x08
+00E8   0A0A           00336         retai 0x0a
+00E9   0A0D           00337         retai 0x0d
+00EA   0A10           00338         retai 0x10
+00EB   0A13           00339         retai 0x13
+00EC   0A16           00340         retai 0x16
+00ED   0A1A           00341         retai 0x1a
+00EE   0A1E           00342         retai 0x1e
+00EF   0A22           00343         retai 0x22
+00F0   0A27           00344         retai 0x27
+00F1   0A2B           00345         retai 0x2b
+00F2   0A30           00346         retai 0x30
+00F3   0A35           00347         retai 0x35
+00F4   0A3A           00348         retai 0x3a
+00F5   0A40           00349         retai 0x40
+00F6   0A45           00350         retai 0x45
+00F7   0A4C           00351         retai 0x4c
+00F8   0A51           00352         retai 0x51
+00F9   0A57           00353         retai 0x57
+00FA   0A5D           00354         retai 0x5d
+00FB   0A63           00355         retai 0x63
+00FC   0A69           00356         retai 0x69
+00FD   0A6F           00357         retai 0x6f
+00FE   0A76           00358         retai 0x76
+00FF   0A7C           00359         retai 0x7c
+0100   0A80           00360         retai 0x80
+0101   0A86           00361         retai 0x86
+0102   0A8D           00362         retai 0x8d
+0103   0A93           00363         retai 0x93
+0104   0A99           00364         retai 0x99
+0105   0A9F           00365         retai 0x9f
+0106   0AA5           00366         retai 0xa5
+0107   0AAB           00367         retai 0xab
+0108   0AB1           00368         retai 0xb1
+0109   0AB7           00369         retai 0xb7
+010A   0ABC           00370         retai 0xbc
+010B   0AC2           00371         retai 0xc2
+010C   0AC7           00372         retai 0xc7
+010D   0ACC           00373         retai 0xcc
+010E   0AD1           00374         retai 0xd1
+010F   0AD6           00375         retai 0xd6
+0110   0ADA           00376         retai 0xda
+0111   0ADF           00377         retai 0xdf
+0112   0AE3           00378         retai 0xe3
+0113   0AE7           00379         retai 0xe7
+0114   0AEA           00380         retai 0xea
+0115   0AEE           00381         retai 0xee
+0116   0AF1           00382         retai 0xf1
+0117   0AF4           00383         retai 0xf4
+0118   0AF6           00384         retai 0xf6
+0119   0AF8           00385         retai 0xf8
+011A   0AFA           00386         retai 0xfa
+011B   0AFC           00387         retai 0xfc
+011C   0AFD           00388         retai 0xfd
+011D   0AFF           00389         retai 0xff
+011E   0AFF           00390         retai 0xff
+011F   0AFF           00391         retai 0xff
+0120   0AFF           00392         retai 0xff
+0121   0AFF           00393         retai 0xff
+0122   0AFF           00394         retai 0xff
+0123   0AFE           00395         retai 0xfe
+0124   0AFD           00396         retai 0xfd
+0125   0AFB           00397         retai 0xfb
+0126   0AF9           00398         retai 0xf9
+0127   0AF7           00399         retai 0xf7
+0128   0AF5           00400         retai 0xf5
+0129   0AF2           00401         retai 0xf2
+012A   0AEF           00402         retai 0xef
+012B   0AEC           00403         retai 0xec
+012C   0AE9           00404         retai 0xe9
+012D   0AE5           00405         retai 0xe5
+012E   0AE1           00406         retai 0xe1
+012F   0ADD           00407         retai 0xdd
+0130   0AD8           00408         retai 0xd8
+0131   0AD4           00409         retai 0xd4
+0132   0ACF           00410         retai 0xcf
+0133   0ACA           00411         retai 0xca
+0134   0AC5           00412         retai 0xc5
+0135   0ABF           00413         retai 0xbf
+0136   0ABA           00414         retai 0xba
+0137   0AB4           00415         retai 0xb4
+0138   0AAE           00416         retai 0xae
+0139   0AA8           00417         retai 0xa8
+013A   0AA2           00418         retai 0xa2
+013B   0A9C           00419         retai 0x9c
+013C   0A96           00420         retai 0x96
+013D   0A90           00421         retai 0x90
+013E   0A89           00422         retai 0x89
+013F   0A83           00423         retai 0x83
+0140   0A80           00424         retai 0x80
+0141   0A79           00425         retai 0x79
+0142   0A72           00426         retai 0x72
+0143   0A6C           00427         retai 0x6c
+0144   0A66           00428         retai 0x66
+0145   0A60           00429         retai 0x60
+0146   0A5A           00430         retai 0x5a
+0147   0A55           00431         retai 0x55
+0148   0A4E           00432         retai 0x4e
+0149   0A48           00433         retai 0x48
+014A   0A43           00434         retai 0x43
+014B   0A3D           00435         retai 0x3d
+014C   0A38           00436         retai 0x38
+014D   0A33           00437         retai 0x33
+014E   0A2E           00438         retai 0x2e
+014F   0A29           00439         retai 0x29
+0150   0A25           00440         retai 0x25
+0151   0A20           00441         retai 0x20
+0152   0A1C           00442         retai 0x1c
+0153   0A18           00443         retai 0x18
+0154   0A15           00444         retai 0x15
+0155   0A11           00445         retai 0x11
+0156   0A0E           00446         retai 0x0e
+0157   0A0B           00447         retai 0x0b
+0158   0A09           00448         retai 0x09
+0159   0A07           00449         retai 0x07
+015A   0A05           00450         retai 0x05
+015B   0A03           00451         retai 0x03
+015C   0A02           00452         retai 0x02
+015D   0A00           00453         retai 0x00
+015E   0A00           00454         retai 0x00
+015F   0A00           00455         retai 0x00
+0160   0A00           00456         retai 0x00
+0161   0A00           00457         retai 0x00
+0162   0A00           00458         retai 0x00
+0163   0A01           00459         retai 0x01
+0164   0A02           00460         retai 0x02
+0165   0A04           00461         retai 0x04
+0166   0A06           00462         retai 0x06
+0167   0A08           00463         retai 0x08
+0168   0A0A           00464         retai 0x0a
+0169   0A0D           00465         retai 0x0d
+016A   0A10           00466         retai 0x10
+016B   0A13           00467         retai 0x13
+016C   0A16           00468         retai 0x16
+016D   0A1A           00469         retai 0x1a
+016E   0A1E           00470         retai 0x1e
+016F   0A22           00471         retai 0x22
+0170   0A27           00472         retai 0x27
+0171   0A2B           00473         retai 0x2b
+0172   0A30           00474         retai 0x30
+0173   0A35           00475         retai 0x35
+0174   0A3A           00476         retai 0x3a
+0175   0A40           00477         retai 0x40
+0176   0A45           00478         retai 0x45
+0177   0A4C           00479         retai 0x4c
+0178   0A51           00480         retai 0x51
+0179   0A57           00481         retai 0x57
+017A   0A5D           00482         retai 0x5d
+017B   0A63           00483         retai 0x63
+017C   0A69           00484         retai 0x69
+017D   0A6F           00485         retai 0x6f
+017E   0A76           00486         retai 0x76
+017F   0A7C           00487         retai 0x7c
+0180   0A80           00488         retai 0x80
+0181   0A86           00489         retai 0x86
+0182   0A8D           00490         retai 0x8d
+0183   0A93           00491         retai 0x93
+0184   0A99           00492         retai 0x99
+0185   0A9F           00493         retai 0x9f
+0186   0AA5           00494         retai 0xa5
+0187   0AAB           00495         retai 0xab
+0188   0AB1           00496         retai 0xb1
+0189   0AB7           00497         retai 0xb7
+018A   0ABC           00498         retai 0xbc
+018B   0AC2           00499         retai 0xc2
+018C   0AC7           00500         retai 0xc7
+018D   0ACC           00501         retai 0xcc
+018E   0AD1           00502         retai 0xd1
+018F   0AD6           00503         retai 0xd6
+0190   0ADA           00504         retai 0xda
+0191   0ADF           00505         retai 0xdf
+0192   0AE3           00506         retai 0xe3
+0193   0AE7           00507         retai 0xe7
+0194   0AEA           00508         retai 0xea
+0195   0AEE           00509         retai 0xee
+0196   0AF1           00510         retai 0xf1
+0197   0AF4           00511         retai 0xf4
+0198   0AF6           00512         retai 0xf6
+0199   0AF8           00513         retai 0xf8
+019A   0AFA           00514         retai 0xfa
+019B   0AFC           00515         retai 0xfc
+019C   0AFD           00516         retai 0xfd
+019D   0AFF           00517         retai 0xff
+019E   0AFF           00518         retai 0xff
+019F   0AFF           00519         retai 0xff
+01A0   0AFF           00520         retai 0xff
+01A1   0AFF           00521         retai 0xff
+01A2   0AFF           00522         retai 0xff
+01A3   0AFE           00523         retai 0xfe
+01A4   0AFD           00524         retai 0xfd
+01A5   0AFB           00525         retai 0xfb
+01A6   0AF9           00526         retai 0xf9
+01A7   0AF7           00527         retai 0xf7
+01A8   0AF5           00528         retai 0xf5
+01A9   0AF2           00529         retai 0xf2
+01AA   0AEF           00530         retai 0xef
+01AB   0AEC           00531         retai 0xec
+01AC   0AE9           00532         retai 0xe9
+01AD   0AE5           00533         retai 0xe5
+01AE   0AE1           00534         retai 0xe1
+01AF   0ADD           00535         retai 0xdd
+01B0   0AD8           00536         retai 0xd8
+01B1   0AD4           00537         retai 0xd4
+01B2   0ACF           00538         retai 0xcf
+01B3   0ACA           00539         retai 0xca
+01B4   0AC5           00540         retai 0xc5
+01B5   0ABF           00541         retai 0xbf
+01B6   0ABA           00542         retai 0xba
+01B7   0AB4           00543         retai 0xb4
+01B8   0AAE           00544         retai 0xae
+01B9   0AA8           00545         retai 0xa8
+01BA   0AA2           00546         retai 0xa2
+01BB   0A9C           00547         retai 0x9c
+01BC   0A96           00548         retai 0x96
+01BD   0A90           00549         retai 0x90
+01BE   0A89           00550         retai 0x89
+01BF   0A83           00551         retai 0x83
+01C0   0A80           00552         retai 0x80
+01C1   0A79           00553         retai 0x79
+01C2   0A72           00554         retai 0x72
+01C3   0A6C           00555         retai 0x6c
+01C4   0A66           00556         retai 0x66
+01C5   0A60           00557         retai 0x60
+01C6   0A5A           00558         retai 0x5a
+01C7   0A55           00559         retai 0x55
+01C8   0A4E           00560         retai 0x4e
+01C9   0A48           00561         retai 0x48
+01CA   0A43           00562         retai 0x43
+01CB   0A3D           00563         retai 0x3d
+01CC   0A38           00564         retai 0x38
+01CD   0A33           00565         retai 0x33
+01CE   0A2E           00566         retai 0x2e
+01CF   0A29           00567         retai 0x29
+01D0   0A25           00568         retai 0x25
+01D1   0A20           00569         retai 0x20
+01D2   0A1C           00570         retai 0x1c
+01D3   0A18           00571         retai 0x18
+01D4   0A15           00572         retai 0x15
+01D5   0A11           00573         retai 0x11
+01D6   0A0E           00574         retai 0x0e
+01D7   0A0B           00575         retai 0x0b
+01D8   0A09           00576         retai 0x09
+01D9   0A07           00577         retai 0x07
+01DA   0A05           00578         retai 0x05
+01DB   0A03           00579         retai 0x03
+01DC   0A02           00580         retai 0x02
+01DD   0A00           00581         retai 0x00
+01DE   0A00           00582         retai 0x00
+01DF   0A00           00583         retai 0x00
+01E0   0A00           00584         retai 0x00
+01E1   0A00           00585         retai 0x00
+01E2   0A00           00586         retai 0x00
+01E3   0A01           00587         retai 0x01
+01E4   0A02           00588         retai 0x02
+01E5   0A04           00589         retai 0x04
+01E6   0A06           00590         retai 0x06
+01E7   0A08           00591         retai 0x08
+01E8   0A0A           00592         retai 0x0a
+01E9   0A0D           00593         retai 0x0d
+01EA   0A10           00594         retai 0x10
+01EB   0A13           00595         retai 0x13
+01EC   0A16           00596         retai 0x16
+01ED   0A1A           00597         retai 0x1a
+01EE   0A1E           00598         retai 0x1e
+01EF   0A22           00599         retai 0x22
+01F0   0A27           00600         retai 0x27
+01F1   0A2B           00601         retai 0x2b
+01F2   0A30           00602         retai 0x30
+01F3   0A35           00603         retai 0x35
+01F4   0A3A           00604         retai 0x3a
+01F5   0A40           00605         retai 0x40
+01F6   0A45           00606         retai 0x45
+01F7   0A4C           00607         retai 0x4c
+01F8   0A51           00608         retai 0x51
+01F9   0A57           00609         retai 0x57
+01FA   0A5D           00610         retai 0x5d
+01FB   0A63           00611         retai 0x63
+01FC   0A69           00612         retai 0x69
+01FD   0A6F           00613         retai 0x6f
+01FE   0A76           00614         retai 0x76
+01FF   0A7C           00615         retai 0x7c
+0200   0A80           00616         retai 0x80
+0201   0A86           00617         retai 0x86
+0202   0A8D           00618         retai 0x8d
+0203   0A93           00619         retai 0x93
+0204   0A99           00620         retai 0x99
+0205   0A9F           00621         retai 0x9f
+0206   0AA5           00622         retai 0xa5
+0207   0AAB           00623         retai 0xab
+0208   0AB1           00624         retai 0xb1
+0209   0AB7           00625         retai 0xb7
+020A   0ABC           00626         retai 0xbc
+020B   0AC2           00627         retai 0xc2
+020C   0AC7           00628         retai 0xc7
+020D   0ACC           00629         retai 0xcc
+020E   0AD1           00630         retai 0xd1
+020F   0AD6           00631         retai 0xd6
+0210   0ADA           00632         retai 0xda
+0211   0ADF           00633         retai 0xdf
+0212   0AE3           00634         retai 0xe3
+0213   0AE7           00635         retai 0xe7
+0214   0AEA           00636         retai 0xea
+0215   0AEE           00637         retai 0xee
+0216   0AF1           00638         retai 0xf1
+0217   0AF4           00639         retai 0xf4
+0218   0AF6           00640         retai 0xf6
+0219   0AF8           00641         retai 0xf8
+021A   0AFA           00642         retai 0xfa
+021B   0AFC           00643         retai 0xfc
+021C   0AFD           00644         retai 0xfd
+021D   0AFF           00645         retai 0xff
+021E   0AFF           00646         retai 0xff
+021F   0AFF           00647         retai 0xff
+0220   0AFF           00648         retai 0xff
+0221   0AFF           00649         retai 0xff
+0222   0AFF           00650         retai 0xff
+0223   0AFE           00651         retai 0xfe
+0224   0AFD           00652         retai 0xfd
+0225   0AFB           00653         retai 0xfb
+0226   0AF9           00654         retai 0xf9
+0227   0AF7           00655         retai 0xf7
+0228   0AF5           00656         retai 0xf5
+0229   0AF2           00657         retai 0xf2
+022A   0AEF           00658         retai 0xef
+022B   0AEC           00659         retai 0xec
+022C   0AE9           00660         retai 0xe9
+022D   0AE5           00661         retai 0xe5
+022E   0AE1           00662         retai 0xe1
+022F   0ADD           00663         retai 0xdd
+0230   0AD8           00664         retai 0xd8
+0231   0AD4           00665         retai 0xd4
+0232   0ACF           00666         retai 0xcf
+0233   0ACA           00667         retai 0xca
+0234   0AC5           00668         retai 0xc5
+0235   0ABF           00669         retai 0xbf
+0236   0ABA           00670         retai 0xba
+0237   0AB4           00671         retai 0xb4
+0238   0AAE           00672         retai 0xae
+0239   0AA8           00673         retai 0xa8
+023A   0AA2           00674         retai 0xa2
+023B   0A9C           00675         retai 0x9c
+023C   0A96           00676         retai 0x96
+023D   0A90           00677         retai 0x90
+023E   0A89           00678         retai 0x89
+023F   0A83           00679         retai 0x83
+0240   0A80           00680         retai 0x80
+0241   0A79           00681         retai 0x79
+0242   0A72           00682         retai 0x72
+0243   0A6C           00683         retai 0x6c
+0244   0A66           00684         retai 0x66
+0245   0A60           00685         retai 0x60
+0246   0A5A           00686         retai 0x5a
+0247   0A55           00687         retai 0x55
+0248   0A4E           00688         retai 0x4e
+0249   0A48           00689         retai 0x48
+024A   0A43           00690         retai 0x43
+024B   0A3D           00691         retai 0x3d
+024C   0A38           00692         retai 0x38
+024D   0A33           00693         retai 0x33
+024E   0A2E           00694         retai 0x2e
+024F   0A29           00695         retai 0x29
+0250   0A25           00696         retai 0x25
+0251   0A20           00697         retai 0x20
+0252   0A1C           00698         retai 0x1c
+0253   0A18           00699         retai 0x18
+0254   0A15           00700         retai 0x15
+0255   0A11           00701         retai 0x11
+0256   0A0E           00702         retai 0x0e
+0257   0A0B           00703         retai 0x0b
+0258   0A09           00704         retai 0x09
+0259   0A07           00705         retai 0x07
+025A   0A05           00706         retai 0x05
+025B   0A03           00707         retai 0x03
+025C   0A02           00708         retai 0x02
+025D   0A00           00709         retai 0x00
+025E   0A00           00710         retai 0x00
+025F   0A00           00711         retai 0x00
+0260   0A00           00712         retai 0x00
+0261   0A00           00713         retai 0x00
+0262   0A00           00714         retai 0x00
+0263   0A01           00715         retai 0x01
+0264   0A02           00716         retai 0x02
+0265   0A04           00717         retai 0x04
+0266   0A06           00718         retai 0x06
+0267   0A08           00719         retai 0x08
+0268   0A0A           00720         retai 0x0a
+0269   0A0D           00721         retai 0x0d
+026A   0A10           00722         retai 0x10
+026B   0A13           00723         retai 0x13
+026C   0A16           00724         retai 0x16
+026D   0A1A           00725         retai 0x1a
+026E   0A1E           00726         retai 0x1e
+026F   0A22           00727         retai 0x22
+0270   0A27           00728         retai 0x27
+0271   0A2B           00729         retai 0x2b
+0272   0A30           00730         retai 0x30
+0273   0A35           00731         retai 0x35
+0274   0A3A           00732         retai 0x3a
+0275   0A40           00733         retai 0x40
+0276   0A45           00734         retai 0x45
+0277   0A4C           00735         retai 0x4c
+0278   0A51           00736         retai 0x51
+0279   0A57           00737         retai 0x57
+027A   0A5D           00738         retai 0x5d
+027B   0A63           00739         retai 0x63
+027C   0A69           00740         retai 0x69
+027D   0A6F           00741         retai 0x6f
+027E   0A76           00742         retai 0x76
+027F   0A7C           00743         retai 0x7c
+0280   0A80           00744         retai 0x80
+0281   0A86           00745         retai 0x86
+0282   0A8D           00746         retai 0x8d
+0283   0A93           00747         retai 0x93
+0284   0A99           00748         retai 0x99
+0285   0A9F           00749         retai 0x9f
+0286   0AA5           00750         retai 0xa5
+0287   0AAB           00751         retai 0xab
+0288   0AB1           00752         retai 0xb1
+0289   0AB7           00753         retai 0xb7
+028A   0ABC           00754         retai 0xbc
+028B   0AC2           00755         retai 0xc2
+028C   0AC7           00756         retai 0xc7
+028D   0ACC           00757         retai 0xcc
+028E   0AD1           00758         retai 0xd1
+028F   0AD6           00759         retai 0xd6
+0290   0ADA           00760         retai 0xda
+0291   0ADF           00761         retai 0xdf
+0292   0AE3           00762         retai 0xe3
+0293   0AE7           00763         retai 0xe7
+0294   0AEA           00764         retai 0xea
+0295   0AEE           00765         retai 0xee
+0296   0AF1           00766         retai 0xf1
+0297   0AF4           00767         retai 0xf4
+0298   0AF6           00768         retai 0xf6
+0299   0AF8           00769         retai 0xf8
+029A   0AFA           00770         retai 0xfa
+029B   0AFC           00771         retai 0xfc
+029C   0AFD           00772         retai 0xfd
+029D   0AFF           00773         retai 0xff
+029E   0AFF           00774         retai 0xff
+029F   0AFF           00775         retai 0xff
+02A0   0AFF           00776         retai 0xff
+02A1   0AFF           00777         retai 0xff
+02A2   0AFF           00778         retai 0xff
+02A3   0AFE           00779         retai 0xfe
+02A4   0AFD           00780         retai 0xfd
+02A5   0AFB           00781         retai 0xfb
+02A6   0AF9           00782         retai 0xf9
+02A7   0AF7           00783         retai 0xf7
+02A8   0AB1           00784         retai 0xb1
+02A9   0AB7           00785         retai 0xb7
+02AA   0ABC           00786         retai 0xbc
+02AB   0AC2           00787         retai 0xc2
+02AC   0AC7           00788         retai 0xc7
+02AD   0ACC           00789         retai 0xcc
+02AE   0AD1           00790         retai 0xd1
+02AF   0AD6           00791         retai 0xd6
+02B0   0ADA           00792         retai 0xda
+02B1   0ADF           00793         retai 0xdf
+02B2   0AE3           00794         retai 0xe3
+02B3   0AE7           00795         retai 0xe7
+02B4   0AEA           00796         retai 0xea
+02B5   0AEE           00797         retai 0xee
+02B6   0AF1           00798         retai 0xf1
+02B7   0AF4           00799         retai 0xf4
+02B8   0A09           00800         retai 0x09
+02B9   0A07           00801         retai 0x07
+02BA   0A05           00802         retai 0x05
+02BB   0A03           00803         retai 0x03
+02BC   0A02           00804         retai 0x02
+02BD   0A00           00805         retai 0x00
+02BE   0A00           00806         retai 0x00
+02BF   0A00           00807         retai 0x00
+02C0   0A00           00808         retai 0x00
+02C1   0A00           00809         retai 0x00
+02C2   0A00           00810         retai 0x00
+02C3   0A01           00811         retai 0x01
+02C4   0A02           00812         retai 0x02
+02C5   0A04           00813         retai 0x04
+02C6   0A06           00814         retai 0x06
+02C7   0A08           00815         retai 0x08
+02C8   0A0A           00816         retai 0x0a
+02C9   0A0D           00817         retai 0x0d
+02CA   0A10           00818         retai 0x10
+02CB   0A13           00819         retai 0x13
+02CC   0A16           00820         retai 0x16
+02CD   0A1A           00821         retai 0x1a
+02CE   0A1E           00822         retai 0x1e
+02CF   0A22           00823         retai 0x22
+02D0   0A27           00824         retai 0x27
+02D1   0A2B           00825         retai 0x2b
+02D2   0A30           00826         retai 0x30
+02D3   0A35           00827         retai 0x35
+02D4   0A3A           00828         retai 0x3a
+02D5   0A40           00829         retai 0x40
+02D6   0A45           00830         retai 0x45
+02D7   0A4C           00831         retai 0x4c
+02D8   0A51           00832         retai 0x51
+02D9   0A57           00833         retai 0x57
+02DA   0A5D           00834         retai 0x5d
+02DB   0A63           00835         retai 0x63
+02DC   0A69           00836         retai 0x69
+02DD   0A6F           00837         retai 0x6f
+02DE   0A76           00838         retai 0x76
+02DF   0A7C           00839         retai 0x7c
+                      00840 
+                      00841 ;--------------------------------------------------------
+                      00842 ; overlayable items in internal ram 
+                      00843 ;--------------------------------------------------------
+                      00844 ;       udata_ovr
+                      00845 ;--------------------------------------------------------
+                      00846 ; code
+                      00847 ;--------------------------------------------------------
+                      00848 code_fun        code
+                      00849 ;***
+                      00850 ;  pBlock Stats: dbName = C
+                      00851 ;***
+                      00852 ;entry:  _i2cout        ;Function start
+                      00853 ; 2 exit points
+                      00854 ;has an exit
+                      00855 ;; Starting pCode block
+0000                  00856 _i2cout ;Function start
+                      00857 ; 2 exit points
+                      00858 ;       .line   110; "fun.c"    GIE = 1;
+0000   3B80           00859         BSET    _INTECONbits,7
+                      00860 ;       .line   111; "fun.c"    for(n=0x02;--n;) continue;
+0001   0B02           00861         MOVAI   0x02
+0002   1580           00862         MOVRA   _n
+0003                  00863 _00109_DS_
+0003   1B80           00864         DECR    _n
+0004   0B00           00865         MOVAI   0x00
+0005   1700           00866         ORAR    _n
+0006   3103           00867         JBSET   STATUS,2
+0007   2800           00868         GOTO    _00109_DS_
+0008                  00869 _00112_DS_
+                      00870 ;       .line   114; "fun.c"    P00=1; 
+0008   3800           00871         BSET    _P0bits,0
+                      00872 ;       .line   115; "fun.c"    }while(P01==0);  
+0009   3080           00873         JBSET   _P0bits,1
+000A   2800           00874         GOTO    _00112_DS_
+                      00875 ;       .line   116; "fun.c"    P00=0;
+000B   3C00           00876         BCLR    _P0bits,0
+                      00877 ;       .line   117; "fun.c"    P0=0x58;
+000C   0B58           00878         MOVAI   0x58
+000D   1580           00879         MOVRA   _P0
+000E                  00880 _00115_DS_
+                      00881 ;       .line   121; "fun.c"    }while(P01==0);
+000E   3080           00882         JBSET   _P0bits,1
+000F   2800           00883         GOTO    _00115_DS_
+                      00884 ;       .line   122; "fun.c"    P01=0; 
+0010   3C80           00885         BCLR    _P0bits,1
+                      00886 ;       .line   123; "fun.c"    P0=0X01;
+0011   0B01           00887         MOVAI   0x01
+0012   1580           00888         MOVRA   _P0
+0013                  00889 _00117_DS_
+                      00890 ;       .line   127; "fun.c"    }while(P01==0); 
+0013   3080           00891         JBSET   _P0bits,1
+0014   2800           00892         GOTO    _00117_DS_
+                      00893 ;       .line   128; "fun.c"    P01=0;  
+0015   3C80           00894         BCLR    _P0bits,1
+                      00895 ;       .line   129; "fun.c"    P02=j;   
+0016   1300           00896         RRAR    _j
+0017   3003           00897         JBSET   STATUS,0
+0018   3D00           00898         BCLR    _P0bits,2
+0019   3403           00899         JBCLR   STATUS,0
+001A   3900           00900         BSET    _P0bits,2
+001B                  00901 _00119_DS_
+                      00902 ;       .line   133; "fun.c"    }while(P01==0);
+001B   3080           00903         JBSET   _P0bits,1
+001C   2800           00904         GOTO    _00119_DS_
+                      00905 ;       .line   134; "fun.c"    P01=0;   
+001D   3C80           00906         BCLR    _P0bits,1
+                      00907 ;       .line   135; "fun.c"    P00=1;    
+001E   3800           00908         BSET    _P0bits,0
+001F                  00909 _00121_DS_
+                      00910 ;       .line   139; "fun.c"    }while(P01==0); 
+001F   3080           00911         JBSET   _P0bits,1
+0020   2800           00912         GOTO    _00121_DS_
+                      00913 ;       .line   140; "fun.c"    P01=0;    
+0021   3C80           00914         BCLR    _P0bits,1
+0022   000C           00915         RETURN  
+                      00916 ; exit point of _i2cout
+                      00917 
+                      00918 ;***
+                      00919 ;  pBlock Stats: dbName = C
+                      00920 ;***
+                      00921 ;entry:  _i2cint        ;Function start
+                      00922 ; 2 exit points
+                      00923 ;has an exit
+                      00924 ;; Starting pCode block
+0023                  00925 _i2cint ;Function start
+                      00926 ; 2 exit points
+                      00927 ;       .line   103; "fun.c"    DDR0 = 0X08;
+0023   0B08           00928         MOVAI   0x08
+0024   1580           00929         MOVRA   _DDR0
+                      00930 ;       .line   104; "fun.c"    P00 = 1;
+0025   3800           00931         BSET    _P0bits,0
+                      00932 ;       .line   105; "fun.c"    P00 = 0;
+0026   3C00           00933         BCLR    _P0bits,0
+0027   000C           00934         RETURN  
+                      00935 ; exit point of _i2cint
+                      00936 
+                      00937 
+                      00938 ;       code size estimation:
+                      00939 ;          40+    0 =    40 instructions (   80 byte)
+                      00940 
+                      00941         end
+gpasm-1.3.0 (Jun 19 2013)    fun.asm            2013-7-5  15:49:23           PAGE  2
+
+
+SYMBOL TABLE
+  LABEL                             VALUE
+
+BUZOUT                            00000005
+C                                 00000000
+DC                                00000001
+DDR0                              00000045
+DDR00                             00000000
+DDR01                             00000001
+DDR02                             00000002
+DDR03                             00000003
+DDR1                              00000046
+DDR10                             00000000
+DDR11                             00000001
+DDR12                             00000002
+DDR14                             00000004
+DDR15                             00000005
+DDR16                             00000006
+DDR17                             00000007
+EIS                               00000006
+FSR                               00000004
+GIE                               00000007
+INDF                              00000000
+INT0IE                            00000002
+INT0IF                            00000002
+INT0M                             00000006
+INTECON                           0000000E
+INTFLAG                           0000000F
+KBIE                              00000001
+KBIF                              00000001
+KBIM                              00000009
+KBIM0                             00000000
+KBIM1                             00000001
+KBIM2                             00000002
+KBIM3                             00000003
+KBIM4                             00000004
+KBIM5                             00000005
+KBIM6                             00000006
+KBIM7                             00000007
+MCR                               00000008
+ODCON                             0000000C
+P0                                00000005
+P00                               00000000
+P00PD                             00000000
+P01                               00000001
+P01PD                             00000001
+P02                               00000002
+P02PD                             00000002
+P03                               00000003
+P03PD                             00000003
+P1                                00000006
+P10                               00000000
+P10OD                             00000000
+P10PD                             00000004
+P10PU                             00000000
+P11                               00000001
+P11OD                             00000001
+P11PD                             00000005
+P11PU                             00000001
+P12                               00000002
+P12OD                             00000002
+P12PD                             00000006
+P12PU                             00000002
+P13                               00000003
+P14                               00000004
+P14OD                             00000004
+P14PU                             00000004
+P15                               00000005
+P15OD                             00000005
+P15PU                             00000005
+P16                               00000006
+P16OD                             00000006
+P16PU                             00000006
+P17                               00000007
+P17OD                             00000007
+P17PU                             00000007
+PCL                               00000002
+PCLATH                            0000000A
+PD                                00000003
+PDCON                             0000000B
+PSAVE                             00000000
+PUCON                             0000000D
+PWMOUT                            00000006
+RST                               00000007
+SSAVE                             00000000
+STATUS                            00000003
+STK00                             00000000
+STK01                             00000000
+STK02                             00000000
+STK03                             00000000
+STK04                             00000000
+STK05                             00000000
+STK06                             00000000
+STK07                             00000000
+STK08                             00000000
+STK09                             00000000
+STK10                             00000000
+STK11                             00000000
+STK12                             00000000
+T0CNT                             00000001
+T0CR                              00000041
+T0IE                              00000000
+T0IF                              00000000
+T0PTA                             00000003
+T0PTS                             00000005
+T0SE                              00000004
+T1CNT                             0000004D
+T1CR                              0000004C
+T1DATA                            0000004F
+T1IE                              00000001
+T1IF                              00000000
+T1LOAD                            0000004E
+TBS                               00000007
+TMCR                              0000004B
+TMR1EN                            00000007
+TO                                00000004
+WDTEN                             00000007
+WSAVE                             00000000
+Z                                 00000002
+_00109_DS_                        00000003
+_00112_DS_                        00000008
+_00115_DS_                        0000000E
+_00117_DS_                        00000013
+_00119_DS_                        0000001B
+_00121_DS_                        0000001F
+_CONFIG0                          00002000
+_CONFIG1                          00002001
+_CP_ALL                           00001FFF
+_DDR0                             00000000
+_DDR0bits                         00000000
+_DDR1                             00000000
+_DDR1bits                         00000000
+_FCPU_2T                          00003F7F
+_FCPU_4T                          00003FFF
+_FSR                              00000000
+_INDF                             00000000
+_INTECON                          00000000
+_INTECONbits                      00000000
+_INTFLAG                          00000000
+_INTFLAGbits                      00000000
+_IRC_1M                           00003FCF
+_IRC_2M                           00003FDF
+_IRC_444K                         00003FAF
+_IRC_4M                           00003FEF
+_IRC_8M                           00003FFF
+_KBIM                             00000000
+_KBIMbits                         00000000
+_MCLR_OFF                         00003FF7
+_MCLR_ON                          00003FFF
+_MCR                              00000000
+_MCRbits                          00000000
+_ODCON                            00000000
+_ODCONbits                        00000000
+_OSC_HXT                          00002FFF
+_OSC_IRC                          000037FF
+_OSC_IRC_RTC                      00003FFF
+_OSC_LXT                          000027FF
+_P0                               00000000
+_P0bits                           00000000
+_P1                               00000000
+_P1bits                           00000000
+_PCL                              00000000
+_PCLATH                           00000000
+_PDCON                            00000000
+_PDCONbits                        00000000
+_PUCON                            00000000
+_PUCONbits                        00000000
+_PWRT_OFF                         00003BFF
+_PWRT_ON                          00003FFF
+_RD_FROM_PIN                      00003FFF
+_RD_FROM_REG                      00003EFF
+_SMT_OFF                          00003FFF
+_SMT_ON                           00003DFF
+_STATUS                           00000000
+_STATUSbits                       00000000
+_T0CNT                            00000000
+_T0CR                             00000000
+_T0CRbits                         00000000
+_T1CNT                            00000000
+_T1CR                             00000000
+_T1CRbits                         00000000
+_T1DATA                           00000000
+_T1LOAD                           00000000
+_TMCR                             00000000
+_TMCRbits                         00000000
+_TWDT_18MS                        00003FFF
+_TWDT_288MS                       00003DFF
+_TWDT_4P5MS                       00003EFF
+_TWDT_72MS                        00003CFF
+_VBOR_15                          00003FF8
+_VBOR_18                          00003FF9
+_VBOR_20                          00003FFA
+_VBOR_22                          00003FFB
+_VBOR_24                          00003FFC
+_VBOR_26                          00003FFD
+_VBOR_30                          00003FFE
+_VBOR_36                          00003FFF
+_WDT_OFF                          000037FF
+_WDT_ON                           00003FFF
+__30P011                          00000001
+_i                                00000000
+_i2cint                           00000023
+_i2cout                           00000000
+_j                                00000000
+_n                                00000000
+_table                            00000000
+
+Errors   :     0
+Warnings :     0 reported,     0 suppressed
+Messages :     0 reported,     0 suppressed
+
+

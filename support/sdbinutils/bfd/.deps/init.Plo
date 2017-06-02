@@ -1,0 +1,84 @@
+init.lo: init.c sysdep.h config.h ../include/ansidecl.h \
+ e:\mingw\lib\gcc\mingw32\5.3.0\include\stddef.h e:\mingw\include\stdio.h \
+ e:\mingw\include\_mingw.h e:\mingw\include\msvcrtver.h \
+ e:\mingw\include\w32api.h e:\mingw\include\sdkddkver.h \
+ e:\mingw\include\sys/types.h \
+ e:\mingw\lib\gcc\mingw32\5.3.0\include\stdarg.h \
+ e:\mingw\include\sys\types.h e:\mingw\include\sys\stat.h \
+ e:\mingw\include\errno.h e:\mingw\include\string.h \
+ e:\mingw\include\strings.h e:\mingw\include\wchar.h \
+ e:\mingw\include\stdlib.h e:\mingw\include\sys\time.h \
+ e:\mingw\include\time.h e:\mingw\include\unistd.h e:\mingw\include\io.h \
+ e:\mingw\include\stdint.h e:\mingw\include\process.h \
+ e:\mingw\include\getopt.h ../include/fopen-bin.h \
+ e:\mingw\include\fcntl.h e:\mingw\include\io.h ../include/filenames.h \
+ bfd.h ../include/symcat.h libbfd.h ../include/hashtab.h \
+ ../include/ansidecl.h
+
+sysdep.h:
+
+config.h:
+
+../include/ansidecl.h:
+
+e:\mingw\lib\gcc\mingw32\5.3.0\include\stddef.h:
+
+e:\mingw\include\stdio.h:
+
+e:\mingw\include\_mingw.h:
+
+e:\mingw\include\msvcrtver.h:
+
+e:\mingw\include\w32api.h:
+
+e:\mingw\include\sdkddkver.h:
+
+e:\mingw\include\sys/types.h:
+
+e:\mingw\lib\gcc\mingw32\5.3.0\include\stdarg.h:
+
+e:\mingw\include\sys\types.h:
+
+e:\mingw\include\sys\stat.h:
+
+e:\mingw\include\errno.h:
+
+e:\mingw\include\string.h:
+
+e:\mingw\include\strings.h:
+
+e:\mingw\include\wchar.h:
+
+e:\mingw\include\stdlib.h:
+
+e:\mingw\include\sys\time.h:
+
+e:\mingw\include\time.h:
+
+e:\mingw\include\unistd.h:
+
+e:\mingw\include\io.h:
+
+e:\mingw\include\stdint.h:
+
+e:\mingw\include\process.h:
+
+e:\mingw\include\getopt.h:
+
+../include/fopen-bin.h:
+
+e:\mingw\include\fcntl.h:
+
+e:\mingw\include\io.h:
+
+../include/filenames.h:
+
+bfd.h:
+
+../include/symcat.h:
+
+libbfd.h:
+
+../include/hashtab.h:
+
+../include/ansidecl.h:

@@ -1,0 +1,45 @@
+sdcc_bin=/home/zwr/work/tool/sn-sdcc/bin/sdcc
+gplib_bin=/home/zwr/work/tool/snutils/gputils/gplib
+out=Makefile
+
+c_file=" \
+30p011"
+
+echo "SDCC_EXE = $sdcc_bin" > $out
+echo "LIB_EXE = $gplib_bin" >> $out
+
+printf "LIB = " >> $out
+for file in $c_file; do
+	printf "mc$file.lib " >> $out
+done
+echo >> $out
+
+printf "OBJ = " >> $out
+for file in $c_file; do
+	printf "mc$file.o " >> $out
+done
+echo >> $out
+
+echo 'SDCC_ARG = -V --verbose --use-non-free -mmc30 -Wa-I$(SDCC_HOME)/share/header/mc30 \' >> $out
+echo '    -I$(SDCC_HOME)/share/include/mc30 \' >> $out
+echo '    --std-c99 --i-code-in-asm  -c -o ' >> $out
+echo >> $out
+
+echo 'all : $(OBJ) $(LIB)' >> $out
+
+echo >> $out
+
+for file in $c_file; do
+	printf "mc$file.o : mc$file.c\n" >> $out
+	printf '\t$(SDCC_EXE) -p'$file' $(SDCC_ARG) mc'$file'.o mc'$file'.c\n' >> $out
+done
+
+for file in $c_file; do
+	printf "mc$file.lib : mc$file.c\n" >> $out
+	printf '\t$(LIB_EXE) -c ../mc'$file'.lib mc'$file'.o\n' >> $out
+done
+
+echo >> $out
+echo "clean:" >> $out
+printf "\trm -f *.o *.lst *.asm *.lib ../*.lib" >> $out
+

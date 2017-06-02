@@ -1,0 +1,27 @@
+#rm -rfv ./share
+
+include_mc30=include/mc30
+non_free_include_mc30=non-free/include/mc30
+lib_mc30=lib/mc30
+non_free_lib_mc30=non-free/lib/mc30
+header_inc=/home/zwr/work/tool/snutils/header
+lkr_file=/home/zwr/work/tool/snutils/lkr
+
+mkdir -p share/header/mc30
+mkdir -p share/lkr/mc30
+mkdir -p share/$include_mc30
+mkdir -p share/$non_free_include_mc30
+
+cp -av $header_inc/mc30*.inc share/header/mc30
+cp -av $lkr_file/mc30*.lkr share/lkr/mc30
+
+cp -av device/$include_mc30/mc30devices.txt share/$include_mc30
+cp -av device/$include_mc30/*.h share/$include_mc30
+cp -av device/$include_mc30/../asm/mc30/*.h share/$include_mc30
+cp -av device/$non_free_include_mc30/*.h share/$non_free_include_mc30
+
+mkdir -p share/$lib_mc30
+mkdir -p share/$non_free_lib_mc30
+
+cp -av device/$lib_mc30/*.lib share/$lib_mc30
+cp -av device/$non_free_lib_mc30/*.lib share/$non_free_lib_mc30

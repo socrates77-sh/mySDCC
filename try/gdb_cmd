@@ -1,0 +1,18 @@
+file ../bin/sdcc 
+#start -v
+start -V --verbose --use-non-free -mmc30 -p30p011 test.c
+
+#break main
+#break printVersionInfo
+#break SDCCmain.c:2614
+#break glue.c:604
+#break pcode.c:2985
+#break genpic14Code
+#break gen.c:7513
+#break device.c:262
+#break SDCCmain.c:2147
+#break SDCCmacro.c:126
+#break SDCCutil.c:392
+#break ralloc.c:3979
+break printpCode
+
