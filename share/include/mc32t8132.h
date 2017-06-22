@@ -426,7 +426,7 @@ extern volatile __INTEbits_t __at(INTE_ADDR) INTEbits;
 #define T1IE            INTEbits.T1IE           /* bit 1 */
 #define INT0IE          INTEbits.INT0IE         /* bit 2 */
 #define INT1IE          INTEbits.INT1IE         /* bit 3 */
-#define T2IE            INTEbits.T2IE           /* bit 4 */
+#define KBIE            INTEbits.T2IE           /* bit 4 */
 #define ADIE            INTEbits.ADIE           /* bit 6 */
 
 // ----- INTF Bits --------------------------------------------
@@ -444,11 +444,11 @@ typedef union {
 } __INTFbits_t;
 extern volatile __INTFbits_t __at(INTF_ADDR) INTFbits;
 
-#define T0IF      	INTFbits.T0IF         	/* bit 0 */
+#define T0IF      	    INTFbits.T0IF         	/* bit 0 */
 #define T1IF            INTFbits.T1IF           /* bit 1 */
-#define INT0IF    	INTFbits.INT0IF       	/* bit 2 */
+#define INT0IF    	    INTFbits.INT0IF       	/* bit 2 */
 #define INT1IF          INTFbits.INT1IF         /* bit 3 */
-#define T2IF            INTFbits.T2IF           /* bit 4 */
+#define KBIF            INTFbits.T2IF           /* bit 4 */
 #define ADIF            INTFbits.ADIF           /* bit 6 */
 
 // ----- OSCM Bits --------------------------------------------

@@ -1,225 +1,238 @@
-		LIST
-;mc30p011.inc    Standard Header File, Version 1.00 by Sinomcu
-		NOLIST
 
-;==========================================================================
-;
-;	Verify Processor
-;
-;==========================================================================
-
-	IFNDEF __30P011
-		MESSG "Processor-header file mismatch.  Verify selected processor."
-	ENDIF
-
-;==========================================================================
-;
-;	Register Definitions
-;
-;==========================================================================
-
-;----- Register Files ---------------------------------------------------
-
-INDF      		EQU		H'0000'
-T0CNT     		EQU		H'0001'
-PCL       		EQU		H'0002'
-STATUS    		EQU		H'0003'
-FSR       		EQU		H'0004'
-P0        		EQU		H'0005'
-P1        		EQU		H'0006'
-MCR       		EQU		H'0008'
-KBIM      		EQU		H'0009'
-PCLATH    		EQU		H'000A'
-PDCON     		EQU		H'000B'
-ODCON     		EQU		H'000C'
-PUCON     		EQU		H'000D'
-INTECON   		EQU		H'000E'
-INTFLAG   		EQU		H'000F'
-T0CR      		EQU		H'0041'
-DDR0      		EQU		H'0045'
-DDR1      		EQU		H'0046'
-TMCR      		EQU		H'004B'
-T1CR      		EQU		H'004C'
-T1CNT     		EQU		H'004D'
-T1LOAD    		EQU		H'004E'
-T1DATA    		EQU		H'004F'
-
-;----- STATUS Bits ---------------------------------------------------
-
-C         		EQU		H'0000'
-DC        		EQU		H'0001'
-Z         		EQU		H'0002'
-PD        		EQU		H'0003'
-TO        		EQU		H'0004'
-RST       		EQU		H'0007'
-
-;----- P0 Bits ---------------------------------------------------
-
-P00       		EQU		H'0000'
-P01       		EQU		H'0001'
-P02       		EQU		H'0002'
-P03       		EQU		H'0003'
-
-;----- P1 Bits ---------------------------------------------------
-
-P10       		EQU		H'0000'
-P11       		EQU		H'0001'
-P12       		EQU		H'0002'
-P13       		EQU		H'0003'
-P14       		EQU		H'0004'
-P15       		EQU		H'0005'
-P16       		EQU		H'0006'
-P17       		EQU		H'0007'
-
-;----- MCR Bits ---------------------------------------------------
-
-EIS       		EQU		H'0006'
-WDTEN     		EQU		H'0007'
-
-;----- KBIM Bits ---------------------------------------------------
-
-KBIM0     		EQU		H'0000'
-KBIM1     		EQU		H'0001'
-KBIM2     		EQU		H'0002'
-KBIM3     		EQU		H'0003'
-KBIM4     		EQU		H'0004'
-KBIM5     		EQU		H'0005'
-KBIM6     		EQU		H'0006'
-KBIM7     		EQU		H'0007'
-
-;----- PDCON Bits ---------------------------------------------------
-
-P00PD     		EQU		H'0000'
-P01PD     		EQU		H'0001'
-P02PD     		EQU		H'0002'
-P03PD     		EQU		H'0003'
-P10PD     		EQU		H'0004'
-P11PD     		EQU		H'0005'
-P12PD     		EQU		H'0006'
-
-;----- ODCON Bits ---------------------------------------------------
-
-P10OD     		EQU		H'0000'
-P11OD     		EQU		H'0001'
-P12OD     		EQU		H'0002'
-P14OD     		EQU		H'0004'
-P15OD     		EQU		H'0005'
-P16OD     		EQU		H'0006'
-P17OD     		EQU		H'0007'
-
-;----- PUCON Bits ---------------------------------------------------
-
-P10PU     		EQU		H'0000'
-P11PU     		EQU		H'0001'
-P12PU     		EQU		H'0002'
-P14PU     		EQU		H'0004'
-P15PU     		EQU		H'0005'
-P16PU     		EQU		H'0006'
-P17PU     		EQU		H'0007'
-
-;----- INTECON Bits ---------------------------------------------------
-
-T0IE      		EQU		H'0000'
-KBIE      		EQU		H'0001'
-INT0IE    		EQU		H'0002'
-GIE       		EQU		H'0007'
-
-;----- INTFLAG Bits ---------------------------------------------------
-
-T0IF      		EQU		H'0000'
-KBIF      		EQU		H'0001'
-INT0IF    		EQU		H'0002'
-
-;----- T0CR Bits ---------------------------------------------------
-
-T0PTA     		EQU		H'0003'
-T0SE      		EQU		H'0004'
-T0PTS     		EQU		H'0005'
-INT0M     		EQU		H'0006'
-
-;----- DDR0 Bits ---------------------------------------------------
-
-DDR00     		EQU		H'0000'
-DDR01     		EQU		H'0001'
-DDR02     		EQU		H'0002'
-DDR03     		EQU		H'0003'
-
-;----- DDR1 Bits ---------------------------------------------------
-
-DDR10     		EQU		H'0000'
-DDR11     		EQU		H'0001'
-DDR12     		EQU		H'0002'
-DDR14     		EQU		H'0004'
-DDR15     		EQU		H'0005'
-DDR16     		EQU		H'0006'
-DDR17     		EQU		H'0007'
-
-;----- TMCR Bits ---------------------------------------------------
-
-T1IF      		EQU		H'0000'
-T1IE      		EQU		H'0001'
-TBS       		EQU		H'0007'
-
-;----- T1CR Bits ---------------------------------------------------
-
-BUZOUT    		EQU		H'0005'
-PWMOUT    		EQU		H'0006'
-TMR1EN    		EQU		H'0007'
-
-;==========================================================================
-;
-;	RAM Definition
-;
-;==========================================================================
-
-	__MAXRAM H'4F'
+;MC30P01A.INC  Standard Header File, Version 1.00 by Sinomcu
 
 
 ;==========================================================================
 ;
-;	Configuration Bits
+;       Revision History
 ;
 ;==========================================================================
 
-_CONFIG1  		EQU		H'2001'
-_CONFIG0  		EQU		H'2000'
+;Rev:   Date:    Reason:
 
-;OPBIT1
-_CP_ALL         	EQU		H'1FFF'
-_OSC_IRC_RTC    	EQU		H'3FFF'
-_OSC_IRC        	EQU		H'37FF'
-_OSC_HXT        	EQU		H'2FFF'
-_OSC_LXT        	EQU		H'27FF'
-_SMT_OFF        	EQU		H'3FFF'
-_SMT_ON         	EQU		H'3DFF'
-_RD_FROM_PIN    	EQU		H'3FFF'
-_RD_FROM_REG    	EQU		H'3EFF'
+;1.00   12/06/21 Initial Release
 
-;OPBIT0
-_WDT_ON         	EQU		H'3FFF'
-_WDT_OFF        	EQU		H'37FF'
-_PWRT_ON        	EQU		H'3FFF'
-_PWRT_OFF       	EQU		H'3BFF'
-_TWDT_18MS      	EQU		H'3FFF'
-_TWDT_4P5MS     	EQU		H'3EFF'
-_TWDT_288MS     	EQU		H'3DFF'
-_TWDT_72MS      	EQU		H'3CFF'
-_FCPU_4T        	EQU		H'3FFF'
-_FCPU_2T        	EQU		H'3F7F'
-_IRC_8M         	EQU		H'3FFF'
-_IRC_4M         	EQU		H'3FEF'
-_IRC_2M         	EQU		H'3FDF'
-_IRC_1M         	EQU		H'3FCF'
-_IRC_444K       	EQU		H'3FAF'
-_MCLR_ON        	EQU		H'3FFF'
-_MCLR_OFF       	EQU		H'3FF7'
-_VBOR_36        	EQU		H'3FFF'
-_VBOR_30        	EQU		H'3FFE'
-_VBOR_26        	EQU		H'3FFD'
-_VBOR_24        	EQU		H'3FFC'
-_VBOR_22        	EQU		H'3FFB'
-_VBOR_20        	EQU		H'3FFA'
-_VBOR_18        	EQU		H'3FF9'
-_VBOR_15        	EQU		H'3FF8'
+;==========================================================================
+;
+;       Verify Processor
+;
+;==========================================================================
+;==========================================================================
+;
+;       Register Definitions
+;
+;==========================================================================
 
-		LIST
+;----- Register Files------------------------------------------------------
+
+INDF                         EQU     H'0000'
+T0CNT                        EQU     H'0001'
+PCL                          EQU     H'0002'
+STATUS                       EQU     H'0003'
+FSR                          EQU     H'0004'
+P0                           EQU     H'0005'
+P1                           EQU     H'0006'
+MCR                          EQU     H'0008'
+KBIM                         EQU     H'0009'
+PCLATH                       EQU     H'000A'
+PDCON                        EQU     H'000B'
+ODCON                        EQU     H'000C'
+PUCON                        EQU     H'000D'
+INTECON                      EQU     H'000E'
+INTFLAG                      EQU     H'000F'
+T0CR                         EQU     H'0041'
+DDR0                         EQU     H'0045'
+DDR1                         EQU     H'0046'
+TMCR                         EQU     H'004B'
+T1CR                         EQU     H'004C'
+T1CNT                        EQU     H'004D'
+T1LOAD                       EQU     H'004E'
+T1DATA                       EQU     H'004F'
+
+;INDF 
+#define         INDF7          INDF,7
+#define         INDF6          INDF,6
+#define         INDF5          INDF,5
+#define         INDF4          INDF,4
+#define         INDF3          INDF,3
+#define         INDF2          INDF,2
+#define         INDF1          INDF,1
+#define         INDF0          INDF,0
+
+;T0CNT 
+#define         T0C7           T0CNT,7
+#define         T0C6           T0CNT,6
+#define         T0C5           T0CNT,5
+#define         T0C4           T0CNT,4
+#define         T0C3           T0CNT,3
+#define         T0C2           T0CNT,2
+#define         T0C1           T0CNT,1
+#define         T0C0           T0CNT,0
+
+;PCL 
+#define         PC7             PCL,7
+#define         PC6             PCL,6
+#define         PC5             PCL,5
+#define         PC4             PCL,4
+#define         PC3             PCL,3
+#define         PC2             PCL,2
+#define         PC1             PCL,1
+#define         PC0             PCL,0
+
+;----- STATUS Bits --------------------------
+#define	RST	  STATUS,7
+#define	TO	  STATUS,4
+#define	PD	  STATUS,3
+#define	Z	    STATUS,2
+#define	DC	  STATUS,1
+#define	C	    STATUS,0
+
+;FSR 
+#define         FSR5           FSR,5
+#define         FSR4           FSR,4
+#define         FSR3           FSR,3
+#define         FSR2           FSR,2
+#define         FSR1           FSR,1
+#define         FSR0           FSR,0
+
+;P0 
+#define         P03D           P0,3
+#define         P02D           P0,2
+#define         P01D           P0,1
+#define         P00D           P0,0
+
+;P1 
+#define         P17D           P1,7
+#define         P16D           P1,6
+#define         P15D           P1,5
+#define         P14D           P1,4
+#define         P12D           P1,2
+#define         P11D           P1,1
+#define         P10D           P1,0
+
+;----- MCR Bits --------------------------------------------------------
+#define	WDTEN	MCR,7
+#define	EIS	  MCR,6
+
+;KBIM 
+#define         KBIM7           KBIM,7
+#define         KBIM6           KBIM,6
+#define         KBIM5           KBIM,5
+#define         KBIM4           KBIM,4
+#define         KBIM3           KBIM,3
+#define         KBIM2           KBIM,2
+#define         KBIM1           KBIM,1
+#define         KBIM0           KBIM,0
+
+;----- PCLATH Bits --------------------------------------------------------
+#define	PCH1	  PCLATH,1
+#define	PCH0	  PCLATH,0
+
+;PDCON
+#define         P12PD           PDCON,6
+#define         P11PD           PDCON,5
+#define         P10PD           PDCON,4
+#define         P03PD           PDCON,3
+#define         P02PD           PDCON,2
+#define         P01PD           PDCON,1
+#define         P00PD           PDCON,0
+
+;ODCON
+#define         P17OD           ODCON,7
+#define         P16OD           ODCON,6
+#define         P15OD           ODCON,5
+#define         P14OD           ODCON,4
+#define         P12OD           ODCON,2
+#define         P11OD           ODCON,1
+#define         P10OD           ODCON,0
+
+;PUCON
+#define         P17PU           PUCON,7
+#define         P16PU           PUCON,6
+#define         P15PU           PUCON,5
+#define         P14PU           PUCON,4
+#define         P12PU           PUCON,2
+#define         P11PU           PUCON,1
+#define         P10PU           PUCON,0
+
+;----- INTECON Bits --------------------------------------------------------
+#define	INTE	INTECON
+#define	GIE	INTECON,7
+#define	INT0IE	INTECON,2
+#define	KBIE	INTECON,1
+#define	T0IE	INTECON,0
+
+;----- INTFLAG Bits --------------------------------------------------------
+#define	INTF	  INTFLAG
+#define	INT0IF	INTF,2
+#define	KBIF	  INTF,1
+#define	T0IF	  INTF,0
+
+;----- T0CR Bits --------------------------------------------------------
+#define         INT0M           T0CR,6
+#define         T0PTS           T0CR,5
+#define         T0SE            T0CR,4
+#define         T0PTA           T0CR,3
+#define         T0PR2           T0CR,2
+#define         T0PR1           T0CR,1
+#define         T0PR0           T0CR,0
+
+;DDR0
+#define         DDR03           DDR0,3
+#define         DDR02           DDR0,2
+#define         DDR01           DDR0,1
+#define         DDR00           DDR0,0
+
+;DDR1
+#define         DDR17           DDR1,7
+#define         DDR16           DDR1,6
+#define         DDR15           DDR1,5
+#define         DDR14           DDR1,4
+#define         DDR12           DDR1,2
+#define         DDR11           DDR1,1
+#define         DDR10           DDR1,0
+
+;------TMCR -----------------
+#define TBS     TMCR,7
+#define T1IE    TMCR,1
+#define T1IF    TMCR,0
+
+;-------T1CR----------
+#define TMR1EN  T1CR,7
+#define PWMOUT  T1CR,6
+#define BUZOUT  T1CR,5
+#define T1PTS1  T1CR,4
+#define T1PTS0  T1CR,3
+#define T1PR2   T1CR,2
+#define T1PR1   T1CR,1
+#define T1PR0   T1CR,0
+
+;T1CNT
+#define T1C7   T1CNT,7
+#define T1C6   T1CNT,6
+#define T1C5   T1CNT,5
+#define T1C4   T1CNT,4
+#define T1C3   T1CNT,3
+#define T1C2   T1CNT,2
+#define T1C1   T1CNT,1
+#define T1C0   T1CNT,0
+
+;T1LOAD
+#define T1LOAD7   T1LOAD,7
+#define T1LOAD6   T1LOAD,6
+#define T1LOAD5   T1LOAD,5
+#define T1LOAD4   T1LOAD,4
+#define T1LOAD3   T1LOAD,3
+#define T1LOAD2   T1LOAD,2
+#define T1LOAD1   T1LOAD,1
+#define T1LOAD0   T1LOAD,0
+
+;T1DATA
+#define T1DATA7   T1DATA,7
+#define T1DATA6   T1DATA,6
+#define T1DATA5   T1DATA,5
+#define T1DATA4   T1DATA,4
+#define T1DATA3   T1DATA,3
+#define T1DATA2   T1DATA,2
+#define T1DATA1   T1DATA,1
+#define T1DATA0   T1DATA,0

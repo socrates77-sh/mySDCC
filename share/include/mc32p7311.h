@@ -7,22 +7,22 @@
 // Register addresses.
 //
 #define INDF_ADDR               0x0180
-#define INDF0_ADDR              0x0180
-#define INDF1_ADDR              0x0181
-#define INDF2_ADDR              0x0182
+#define INDF0_ADDR       	      0x0180
+#define INDF1_ADDR      	      0x0181
+#define INDF2_ADDR        	    0x0182
 #define HIBYTE_ADDR             0x0183
 #define FSR_ADDR                0x0184
 #define FSR0_ADDR               0x0184
 #define FSR1_ADDR               0x0185
 #define PCL_ADDR                0x0186
-#define STATUS_ADDR             0x0187
+#define STATUS_ADDR     	      0x0187
 #define PFLAG_ADDR     	        0x0187
-#define MCR_ADDR                0x0188
-#define INDF3_ADDR              0x0189
-#define INTE_ADDR               0x018A
-#define INTF_ADDR               0x018B
-#define DRVCR_ADDR              0x018C
-#define KBCR_ADDR               0x018E
+#define MCR_ADDR        	      0x0188
+#define INDF3_ADDR         	    0x0189
+#define INTE_ADDR         	    0x018A
+#define INTF_ADDR        	      0x018B
+#define DRVCR_ADDR       	      0x018C
+#define KBCR_ADDR       	      0x018E
 
 #define IOP0_ADDR               0x0190
 #define OEP0_ADDR               0x0191
@@ -72,38 +72,38 @@
 
 //----- Register Files -----------------------------------------------------
 
-extern __sfr __at (INDF_ADDR)           INDF;
-extern __sfr __at (INDF0_ADDR)          INDF0;
-extern __sfr __at (INDF1_ADDR)          INDF1;
+extern __sfr __at (INDF_ADDR)     	    INDF;
+extern __sfr __at (INDF0_ADDR)     	    INDF0;
+extern __sfr __at (INDF1_ADDR)    	    INDF1;
 extern __sfr __at (INDF2_ADDR)          INDF2;
 extern __sfr __at (HIBYTE_ADDR)         HIBYTE;
 extern __sfr __at (FSR_ADDR)            FSR;
 extern __sfr __at (FSR0_ADDR)           FSR0;
 extern __sfr __at (FSR1_ADDR)           FSR1;
-extern __sfr __at (PCL_ADDR)            PCL;
-extern __sfr __at (STATUS_ADDR)         STATUS;
-extern __sfr __at (PFLAG_ADDR)          PFLAG;
-extern __sfr __at (MCR_ADDR)            MCR;
-extern __sfr __at (INDF3_ADDR)          INDF3;
-extern __sfr __at (INTE_ADDR)           INTE;
-extern __sfr __at (INTF_ADDR)           INTF;
-extern __sfr __at (DRVCR_ADDR)          DRVCR;
-extern __sfr __at (KBCR_ADDR)           KBCR;
-extern __sfr __at (IOP0_ADDR)           IOP0;
-extern __sfr __at (OEP0_ADDR)           OEP0;
-extern __sfr __at (PUP0_ADDR)           PUP0;
-extern __sfr __at (PDP0_ADDR)           PDP0;
-extern __sfr __at (IOP1_ADDR)           IOP1;
-extern __sfr __at (OEP1_ADDR)           OEP1;
+extern __sfr __at (PCL_ADDR)      	    PCL;
+extern __sfr __at (STATUS_ADDR)   	    STATUS;
+extern __sfr __at (PFLAG_ADDR)   	      PFLAG;
+extern __sfr __at (MCR_ADDR)      	    MCR;
+extern __sfr __at (INDF3_ADDR)       	  INDF3;
+extern __sfr __at (INTE_ADDR)       	  INTE;
+extern __sfr __at (INTF_ADDR)      	    INTF;
+extern __sfr __at (DRVCR_ADDR)     	    DRVCR;
+extern __sfr __at (KBCR_ADDR)     	    KBCR;
+extern __sfr __at (IOP0_ADDR)     	    IOP0;
+extern __sfr __at (OEP0_ADDR)     	    OEP0;
+extern __sfr __at (PUP0_ADDR)     	    PUP0;
+extern __sfr __at (PDP0_ADDR)     	    PDP0;
+extern __sfr __at (IOP1_ADDR)    	      IOP1;
+extern __sfr __at (OEP1_ADDR)    	      OEP1;
 extern __sfr __at (PUP1_ADDR)  	        PUP1;
 extern __sfr __at (PDP1_ADDR)  	        PDP1;
-extern __sfr __at (T0CR_ADDR)           T0CR;
-extern __sfr __at (T0CNT_ADDR)          T0CNT;
-extern __sfr __at (T0LOAD_ADDR)         T0LOAD;
-extern __sfr __at (T0DATA_ADDR)         T0DATA;
-extern __sfr __at (T1CR_ADDR)           T1CR;
-extern __sfr __at (T1CNT_ADDR)          T1CNT;
-extern __sfr __at (T1LOAD_ADDR)         T1LOAD;
+extern __sfr __at (T0CR_ADDR)     	    T0CR;
+extern __sfr __at (T0CNT_ADDR)    	    T0CNT;
+extern __sfr __at (T0LOAD_ADDR)   	    T0LOAD;
+extern __sfr __at (T0DATA_ADDR)   	    T0DATA;
+extern __sfr __at (T1CR_ADDR)   	      T1CR;
+extern __sfr __at (T1CNT_ADDR)   	      T1CNT;
+extern __sfr __at (T1LOAD_ADDR)   	    T1LOAD;
 extern __sfr __at (T1DATA_ADDR)         T1DATA;
 extern __sfr __at (T2CR_ADDR)           T2CR;
 extern __sfr __at (T2CNT_ADDR)          T2CNT;

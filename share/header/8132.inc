@@ -1,16 +1,13 @@
 
   ;processor mc32t8132
 
-INDF       equ   0x1a0
 INDF0      equ   0x1a0
 INDF1      equ   0x1a1
 INDF2      equ   0x1a2
 HIBYTE     equ   0x1a3
-FSR        equ   0x1a4
 FSR0       equ   0x1a4
 FSR1       equ   0x1a5
 PCL        equ   0x1a6
-STATUS     equ   0x1a7
 PFLAG      equ   0x1a7
 MCR        equ   0x1a8
 INDF3      equ   0x1a9
@@ -83,16 +80,21 @@ LEDIOS0    equ   0x1f2
 LEDIOS1    equ   0x1f3
 LEDDRV     equ   0x1f4 
 
+#define		STATUS		PFLAG
+#define		INDF		  INDF0
+#define		FSR		    FSR0
+#define		INTECON		INTE
+#define		INTFLAG	  INTF
 
 ; ----- INDF0 Bits --------------------------------------------
 #define INDF00           INDF0,0          /* bit 0 */
-#define INDF01           INDF0,1        	 /* bit 1 */
+#define INDF01           INDF0,1        	/* bit 1 */
 #define INDF02           INDF0,2          /* bit 2 */
-#define INDF03           INDF0,3        	 /* bit 3 */
-#define INDF04           INDF0,4        	 /* bit 4 */
-#define INDF05           INDF0,5        	 /* bit 5 */
-#define INDF06           INDF0,6        	 /* bit 6 */
-#define INDF07           INDF0,7        	 /* bit 7 */
+#define INDF03           INDF0,3        	/* bit 3 */
+#define INDF04           INDF0,4        	/* bit 4 */
+#define INDF05           INDF0,5        	/* bit 5 */
+#define INDF06           INDF0,6        	/* bit 6 */
+#define INDF07           INDF0,7        	/* bit 7 */
 
 ; ----- INDF1 Bits --------------------------------------------
 #define INDF10           INDF1,0          /* bit 0 */
@@ -183,7 +185,7 @@ LEDDRV     equ   0x1f4
 #define T1IE            INTE,1            /* bit 1 */
 #define INT0IE          INTE,2            /* bit 2 */
 #define INT1IE          INTE,3            /* bit 3 */
-#define T2IE            INTE,4            /* bit 4 */
+#define KBIE            INTE,4            /* bit 4 */
 #define ADIE            INTE,6            /* bit 6 */
 
 ; ----- INTF Bits --------------------------------------------
@@ -191,7 +193,7 @@ LEDDRV     equ   0x1f4
 #define T1IF            INTF,1          /* bit 1 */
 #define INT0IF    	    INTF,2       	  /* bit 2 */
 #define INT1IF          INTF,3          /* bit 3 */
-#define T2IF            INTF,4          /* bit 4 */
+#define KBIF            INTF,4          /* bit 4 */
 #define ADIF            INTF,6          /* bit 6 */
 
 ; ----- OSCM Bits --------------------------------------------

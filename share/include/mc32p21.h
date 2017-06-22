@@ -36,8 +36,8 @@
 #define T1CNT_ADDR      	0x01A5
 #define T1LOAD_ADDR     	0x01A6
 #define T1DATA_ADDR     	0x01A7
+#define LVDCR_ADDR      	0x01AD
 #define OSCM_ADDR       	0x01AE
-#define LVDCR_ADDR              0x01AF
 #define ADCR0_ADDR      	0x01B0
 #define ADCR1_ADDR      	0x01B1
 #define ADRH_ADDR       	0x01B4

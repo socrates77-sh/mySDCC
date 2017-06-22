@@ -1,5 +1,5 @@
-#ifndef MC99P4_H
-#define MC99P4_H
+#ifndef MC9904_H
+#define MC9904_H
 
 #include <mc3x-common.h>
 

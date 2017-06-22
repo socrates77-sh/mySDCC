@@ -8,10 +8,6 @@
 ;
 ;==========================================================================
 
-	IFNDEF __32P7212
-		MESSG "Processor-header file mismatch.  Verify selected processor."
-	ENDIF
-
 ;==========================================================================
 ;
 ;	Register Definitions
@@ -309,6 +305,93 @@ LCDDS13   		EQU		H'01CB'
 
 ;----- LCDIOS2 Bits ---------------------------------------------------
 
+#define		SEGIOS11  	LCDIOS2,1
+#define		SEGIOS12  	LCDIOS2,2
+#define		SEGIOS13  	LCDIOS2,3
+
+;----- LCDDS2 Bits ---------------------------------------------------
+
+#define		COM0SEG2  	LCDDS2,0
+#define		COM1SEG2  	LCDDS2,1
+#define		COM2SEG2  	LCDDS2,2
+#define		COM3SEG2  	LCDDS2,3
+
+;----- LCDDS3 Bits ---------------------------------------------------
+
+#define		COM0SEG3  	LCDDS3,0
+#define		COM1SEG3  	LCDDS3,1
+#define		COM2SEG3  	LCDDS3,2
+#define		COM3SEG3  	LCDDS3,3
+
+;----- LCDDS4 Bits ---------------------------------------------------
+
+#define		COM0SEG4  	LCDDS4,0
+#define		COM1SEG4  	LCDDS4,1
+#define		COM2SEG4  	LCDDS4,2
+#define		COM3SEG4  	LCDDS4,3
+
+;----- LCDDS5 Bits ---------------------------------------------------
+
+#define		COM0SEG5  	LCDDS5,0
+#define		COM1SEG5  	LCDDS5,1
+#define		COM2SEG5  	LCDDS5,2
+#define		COM3SEG5  	LCDDS5,3
+
+;----- LCDDS6 Bits ---------------------------------------------------
+
+#define		COM0SEG6  	LCDDS6,0
+#define		COM1SEG6  	LCDDS6,1
+#define		COM2SEG6  	LCDDS6,2
+#define		COM3SEG6  	LCDDS6,3
+
+;----- LCDDS7 Bits ---------------------------------------------------
+
+#define		COM0SEG7  	LCDDS7,0
+#define		COM1SEG7  	LCDDS7,1
+#define		COM2SEG7  	LCDDS7,2
+#define		COM3SEG7  	LCDDS7,3
+
+;----- LCDDS8 Bits ---------------------------------------------------
+
+#define		COM0SEG8  	LCDDS8,0
+#define		COM1SEG8  	LCDDS8,1
+#define		COM2SEG8  	LCDDS8,2
+#define		COM3SEG8  	LCDDS8,3
+
+;----- LCDDS9 Bits ---------------------------------------------------
+
+#define		COM0SEG9  	LCDDS9,0
+#define		COM1SEG9  	LCDDS9,1
+#define		COM2SEG9  	LCDDS9,2
+#define		COM3SEG9  	LCDDS9,3
+
+;----- LCDDS10 Bits ---------------------------------------------------
+
+#define		COM0SEG10 	LCDDS10,0
+#define		COM1SEG10 	LCDDS10,1
+#define		COM2SEG10 	LCDDS10,2
+#define		COM3SEG10 	LCDDS10,3
+
+;----- LCDDS11 Bits ---------------------------------------------------
+
+#define		COM0SEG11 	LCDDS11,0
+#define		COM1SEG11 	LCDDS11,1
+#define		COM2SEG11 	LCDDS11,2
+#define		COM3SEG11 	LCDDS11,3
+
+;----- LCDDS12 Bits ---------------------------------------------------
+
+#define		COM0SEG12 	LCDDS12,0
+#define		COM1SEG12 	LCDDS12,1
+#define		COM2SEG12 	LCDDS12,2
+#define		COM3SEG12 	LCDDS12,3
+
+;----- LCDDS13 Bits ---------------------------------------------------
+
+#define		COM0SEG13 	LCDDS13,0
+#define		COM1SEG13 	LCDDS13,1
+#define		COM2SEG13 	LCDDS13,2
+#define		COM3SEG13 	LCDDS13,3
 
 ;==========================================================================
 ;
@@ -317,7 +400,7 @@ LCDDS13   		EQU		H'01CB'
 ;==========================================================================
 
 	__MAXRAM H'1FF'
-	__BADRAM H'80'-H'17F'
+	__BADRAM H'100'-H'17F'
 	__BADRAM H'18C'-H'18F'
 	__BADRAM H'193'
 	__BADRAM H'197'

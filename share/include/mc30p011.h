@@ -13,6 +13,7 @@
 #define FSR_ADDR        	0x0004
 #define P0_ADDR         	0x0005
 #define P1_ADDR         	0x0006
+#define	GPR_ADDR		0x0007
 #define MCR_ADDR        	0x0008
 #define KBIM_ADDR       	0x0009
 #define PCLATH_ADDR     	0x000A
@@ -39,6 +40,7 @@ extern __sfr __at (STATUS_ADDR)   	STATUS;
 extern __sfr __at (FSR_ADDR)      	FSR;
 extern __sfr __at (P0_ADDR)       	P0;
 extern __sfr __at (P1_ADDR)       	P1;
+extern __sfr __at (GPR_ADDR)       	GPR;
 extern __sfr __at (MCR_ADDR)      	MCR;
 extern __sfr __at (KBIM_ADDR)     	KBIM;
 extern __sfr __at (PCLATH_ADDR)   	PCLATH;

@@ -13,7 +13,7 @@ HIBYTE  EQU     0X1B3
 FSR0    EQU     0X1B4
 FSR1    EQU     0X1B5
 PCL     EQU     0X1B6
-PFLAG   EQU     0X1B7
+PFALG   EQU     0X1B7
 MCR     EQU     0X1B8
 INDF3   EQU     0X1B9   
 INTE    EQU     0X1BA
@@ -66,7 +66,7 @@ I2CADDR EQU     0X1F1
 I2CDATA EQU     0X1F2
 OSCCAL  EQU     0X1FB
 
-#define		STATUS		PFLAG
+#define		STATUS		PFALG
 #define		INDF		  INDF0
 #define		FSR		    FSR0
 #define		INTECON		INTE

@@ -6,55 +6,24 @@
 //
 // Register addresses.
 //
-#define LCDDS00_ADDR               0x0100
-#define LCDDS01_ADDR               0x0101
-#define LCDDS02_ADDR               0x0102
-#define LCDDS03_ADDR               0x0103
-#define LCDDS04_ADDR               0x0104
-#define LCDDS05_ADDR               0x0105
-#define LCDDS06_ADDR               0x0106
-#define LCDDS07_ADDR               0x0107
-#define LCDDS08_ADDR               0x0108
-#define LCDDS09_ADDR               0x0109
-#define LCDDS10_ADDR               0x010A
-#define LCDDS11_ADDR               0x010B
-#define LCDDS12_ADDR               0x010C
-#define LCDDS13_ADDR               0x010D
-#define LCDDS14_ADDR               0x010E
-#define LCDDS15_ADDR               0x010F
-#define LCDDS16_ADDR               0x0110
-#define LCDDS17_ADDR               0x0111
-#define LCDDS18_ADDR               0x0112
-#define LCDDS19_ADDR               0x0113
-#define LCDDS20_ADDR               0x0114
-#define LCDDS21_ADDR               0x0115
-#define LCDDS22_ADDR               0x0116
-#define LCDDS23_ADDR               0x0117
-#define LCDDS24_ADDR               0x0118
-#define LCDDS25_ADDR               0x0119
-#define LCDDS26_ADDR               0x011A
-#define LCDDS27_ADDR               0x011B
-#define LCDDS28_ADDR               0x011C
-#define LCDDS29_ADDR               0x011D
-
-#define INDF_ADDR		0x01B0
-#define INDF0_ADDR		0x01B0
-#define INDF1_ADDR      	0x01B1
-#define INDF2_ADDR        	0x01B2
+#define INDF_ADDR               0x01B0
+#define INDF0_ADDR       	      0x01B0
+#define INDF1_ADDR      	      0x01B1
+#define INDF2_ADDR        	    0x01B2
 #define HIBYTE_ADDR             0x01B3
 #define FSR_ADDR                0x01B4
 #define FSR0_ADDR               0x01B4
 #define FSR1_ADDR               0x01B5
 #define PCL_ADDR                0x01B6
-#define PFLAG_ADDR		0x01B7
-#define STATUS_ADDR     	0x01B7
-#define MCR_ADDR        	0x01B8
-#define INDF3_ADDR         	0x01B9
-#define INTE_ADDR         	0x01BA
-#define INTF_ADDR        	0x01BB
-#define OSCM_ADDR       	0x01BC
-#define LVDCR_ADDR        	0x01BD
-#define LXTCR_ADDR      	0x01BE
+#define PFLAG_ADDR     	        0x01B7
+#define STATUS_ADDR     	      0x01B7
+#define MCR_ADDR        	      0x01B8
+#define INDF3_ADDR         	    0x01B9
+#define INTE_ADDR         	    0x01BA
+#define INTF_ADDR        	      0x01BB
+#define OSCM_ADDR       	      0x01BC
+#define LVDCR_ADDR        	    0x01BD
+#define LXTCR_ADDR      	      0x01BE
 
 #define IOP0_ADDR               0x01C0
 #define OEP0_ADDR               0x01C1
@@ -110,47 +79,17 @@
 #define LCDDRV_ADDR              0x01F6
 
 //----- Register Files -----------------------------------------------------
-extern __sfr __at (LCDDS00_ADDR)       LCDDS00;
-extern __sfr __at (LCDDS01_ADDR)       LCDDS01;
-extern __sfr __at (LCDDS02_ADDR)       LCDDS02;
-extern __sfr __at (LCDDS03_ADDR)       LCDDS03;
-extern __sfr __at (LCDDS04_ADDR)       LCDDS04;
-extern __sfr __at (LCDDS05_ADDR)       LCDDS05;
-extern __sfr __at (LCDDS06_ADDR)       LCDDS06;
-extern __sfr __at (LCDDS07_ADDR)       LCDDS07;
-extern __sfr __at (LCDDS08_ADDR)       LCDDS08;
-extern __sfr __at (LCDDS09_ADDR)       LCDDS09;
-extern __sfr __at (LCDDS10_ADDR)       LCDDS10;
-extern __sfr __at (LCDDS11_ADDR)       LCDDS11;
-extern __sfr __at (LCDDS12_ADDR)       LCDDS12;
-extern __sfr __at (LCDDS13_ADDR)       LCDDS13;
-extern __sfr __at (LCDDS14_ADDR)       LCDDS14;
-extern __sfr __at (LCDDS15_ADDR)       LCDDS15;
-extern __sfr __at (LCDDS16_ADDR)       LCDDS16;
-extern __sfr __at (LCDDS17_ADDR)       LCDDS17;
-extern __sfr __at (LCDDS18_ADDR)       LCDDS18;
-extern __sfr __at (LCDDS19_ADDR)       LCDDS19;
-extern __sfr __at (LCDDS20_ADDR)       LCDDS20;
-extern __sfr __at (LCDDS21_ADDR)       LCDDS21;
-extern __sfr __at (LCDDS22_ADDR)       LCDDS22;
-extern __sfr __at (LCDDS23_ADDR)       LCDDS23;
-extern __sfr __at (LCDDS24_ADDR)       LCDDS24;
-extern __sfr __at (LCDDS25_ADDR)       LCDDS25;
-extern __sfr __at (LCDDS26_ADDR)       LCDDS26;
-extern __sfr __at (LCDDS27_ADDR)       LCDDS27;
-extern __sfr __at (LCDDS28_ADDR)       LCDDS28;
-extern __sfr __at (LCDDS29_ADDR)       LCDDS29;
 
-extern __sfr __at (INDF_ADDR)	    INDF;
-extern __sfr __at (INDF0_ADDR)      INDF0;
-extern __sfr __at (INDF1_ADDR)      INDF1;
+extern __sfr __at (INDF_ADDR)       INDF;
+extern __sfr __at (INDF0_ADDR)     	INDF0;
+extern __sfr __at (INDF1_ADDR)    	INDF1;
 extern __sfr __at (INDF2_ADDR)      INDF2;
 extern __sfr __at (HIBYTE_ADDR)     HIBYTE;
 extern __sfr __at (FSR_ADDR)        FSR;
 extern __sfr __at (FSR0_ADDR)       FSR0;
 extern __sfr __at (FSR1_ADDR)       FSR1;
 extern __sfr __at (PCL_ADDR)      	PCL;
-extern __sfr __at (PFLAG_ADDR)		PFLAG;
+extern __sfr __at (PFLAG_ADDR)   	  PFLAG;
 extern __sfr __at (STATUS_ADDR)   	STATUS;
 extern __sfr __at (MCR_ADDR)      	MCR;
 extern __sfr __at (INDF3_ADDR)      INDF3;
@@ -1416,8 +1355,8 @@ typedef union {
 } __ADCR0bits_t;
 extern volatile __ADCR0bits_t __at(ADCR0_ADDR) ADCR0bits;
 
-#define ADON      	      ADCR0bits.ADON       	/* bit 0 */
-#define ADEOC     	      ADCR0bits.ADEOC       	/* bit 1 */
+#define ADON      	    ADCR0bits.ADON       	/* bit 0 */
+#define ADEOC     	    ADCR0bits.ADEOC       	/* bit 1 */
 #define ADCKS    	      ADCR0bits.ADCKS       	  /* bit 3-2 */
 #define ADCHS    	      ADCR0bits.ADCHS       	  /* bit 7-4 */
 

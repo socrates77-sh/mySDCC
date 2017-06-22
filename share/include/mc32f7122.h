@@ -1,5 +1,5 @@
-#ifndef MC32P7122_H
-#define MC32P7122_H
+#ifndef MC32F7122_H
+#define MC32F7122_H
 
 #include <mc3x-common.h>
 

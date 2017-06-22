@@ -47,12 +47,10 @@
 
 //----- Register Files -----------------------------------------------------
 
-extern __sfr __at (INDF_ADDR)           INDF;
 extern __sfr __at (INDF0_ADDR)     	INDF0;
 extern __sfr __at (INDF1_ADDR)    	INDF1;
 extern __sfr __at (INDF2_ADDR)          INDF2;
 extern __sfr __at (HIBYTE_ADDR)         HIBYTE;
-extern __sfr __at (FSR_ADDR)            FSR;
 extern __sfr __at (FSR0_ADDR)           FSR0;
 extern __sfr __at (FSR1_ADDR)           FSR1;
 extern __sfr __at (PCL_ADDR)      	PCL;
@@ -597,7 +595,6 @@ typedef union {
                 unsigned char P14DKW:1;
                 unsigned char P15DKW:1;
                 unsigned char P16DKW:1;
-                unsigned char :1;
         };
 } __DKWP1bits_t;
 extern volatile __DKWP1bits_t __at(DKWP1_ADDR) DKWP1bits;
@@ -624,9 +621,9 @@ extern volatile __T0CRbits_t __at(T0CR_ADDR) T0CRbits;
 
 #define T0PR            T0CRbits.T0PR           /* bit 2-0 */
 #define T0PS            T0CRbits.T0PS           /* bit 4-3 */
-#define BUZ0OE          T0CRbits.BUZ0OE         /* bit 5 */
-#define PWM0OE          T0CRbits.PWM0OE         /* bit 6 */
-#define TC0EN           T0CRbits.TC0EN          /* bit 7 */
+#define T0SE            T0CRbits.BUZ0OE         /* bit 5 */
+#define T0PTS           T0CRbits.PWM0OE         /* bit 6 */
+#define INT0M           T0CRbits.TC0EN          /* bit 7 */
 
 // ----- T0CNT Bits --------------------------------------------
 typedef union {
