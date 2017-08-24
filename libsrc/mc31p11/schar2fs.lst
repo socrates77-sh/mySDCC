@@ -1,0 +1,290 @@
+gpasm-1.7.0_beta1 (Jan 22 2015)schar2fs.asm       2015-1-22  23:34:25          PAGE  1
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+                      00001 ;--------------------------------------------------------
+                      00002 ; File Created by SN-SDCC : ANSI-C Compiler
+                      00003 ; Version 0.0.4 (Jan 22 2015) (Linux)
+                      00004 ; This file was generated Thu Jan 22 23:34:25 2015
+                      00005 ;--------------------------------------------------------
+                      00006 ; MC3X port for the RISC core
+                      00007 ;--------------------------------------------------------
+                      00008 ;       .file   "../libsdcc/schar2fs.c"
+                      00009         list    p=31p11
+                      00010         radix dec
+                      00011         include "mc31p11.inc"
+                      00001                 LIST
+                      00002 ;mc31p11.inc    Standard Header File, Version 1.00 by Sinomcu
+                      00176                 LIST
+                      00012 ;--------------------------------------------------------
+                      00013 ; external declarations
+                      00014 ;--------------------------------------------------------
+                      00015         extern  ___uchar2fs
+                      00016         extern  ___uint2fs
+                      00017         extern  ___sint2fs
+                      00018         extern  ___ulong2fs
+                      00019         extern  ___slong2fs
+                      00020         extern  ___fs2uchar
+                      00021         extern  ___fs2schar
+                      00022         extern  ___fs2uint
+                      00023         extern  ___fs2sint
+                      00024         extern  ___fs2ulong
+                      00025         extern  ___fs2slong
+                      00026         extern  ___fsadd
+                      00027         extern  ___fssub
+                      00028         extern  ___fsmul
+                      00029         extern  ___fsdiv
+                      00030         extern  ___fslt
+                      00031         extern  ___fseq
+                      00032         extern  ___fsneq
+                      00033         extern  ___fsgt
+                      00034 
+                      00035         extern STK06
+                      00036         extern STK05
+                      00037         extern STK04
+                      00038         extern STK03
+                      00039         extern STK02
+                      00040         extern STK01
+                      00041         extern STK00
+                      00042 ;--------------------------------------------------------
+                      00043 ; global declarations
+                      00044 ;--------------------------------------------------------
+                      00045         global  ___schar2fs
+                      00046 
+                      00047 ;--------------------------------------------------------
+                      00048 ; global definitions
+                      00049 ;--------------------------------------------------------
+                      00050 ;--------------------------------------------------------
+                      00051 ; absolute symbol definitions
+                      00052 ;--------------------------------------------------------
+                      00053 ;--------------------------------------------------------
+                      00054 ; compiler-defined variables
+                      00055 ;--------------------------------------------------------
+                      00056 UDL_schar2fs_0  udata
+0000                  00057 r0x1000 res     1
+0000                  00058 r0x1001 res     1
+0001                  00059 r0x1004 res     1
+0001                  00060 r0x1003 res     1
+0002                  00061 r0x1002 res     1
+                      00062 ;--------------------------------------------------------
+                      00063 ; initialized data
+                      00064 ;--------------------------------------------------------
+                      00065 ;--------------------------------------------------------
+                      00066 ; overlayable items in internal ram 
+                      00067 ;--------------------------------------------------------
+                      00068 ;       udata_ovr
+                      00069 ;--------------------------------------------------------
+                      00070 ; code
+                      00071 ;--------------------------------------------------------
+                      00072 code_schar2fs   code
+                      00073 ;***
+                      00074 ;  pBlock Stats: dbName = C
+                      00075 ;***
+                      00076 ;entry:  ___schar2fs    ;Function start
+                      00077 ; 2 exit points
+                      00078 ;has an exit
+                      00079 ;functions called:
+                      00080 ;   ___slong2fs
+                      00081 ;   ___slong2fs
+                      00082 ;8 compiler assigned registers:
+                      00083 ;   r0x1000
+                      00084 ;   r0x1001
+                      00085 ;   r0x1002
+                      00086 ;   r0x1003
+                      00087 ;   r0x1004
+                      00088 ;   STK02
+                      00089 ;   STK01
+                      00090 ;   STK00
+                      00091 ;; Starting pCode block
+                      00092 ;;[ICODE] ../libsdcc/schar2fs.c:33:  _entry($2) :
+                      00093 ;;[ICODE] ../libsdcc/schar2fs.c:33:     proc ___schar2fs [k1 lr0:0 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{float function ( char fixed) fixed}
+0000                  00094 ___schar2fs     ;Function start
+                      00095 ; 2 exit points
+                      00096 ;;[ICODE] ../libsdcc/schar2fs.c:33: iTemp0 [k2 lr3:4 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{char fixed}{ sir@ ___schar2fs_sc_1_21}[r0x1000 ] = recv ___schar2fs [k1 lr0:0 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{float function ( char fixed) fixed}
+0000   0AC0           00097         MOVRA   r0x1001
+                      00098 ;       .line   33; "../libsdcc/schar2fs.c"     float __schar2fs (signed char sc) _FS_REENTRANT
+0001   0AC0           00099         MOVRA   r0x1000
+                      00100 ;;[ICODE] ../libsdcc/schar2fs.c:35:     iTemp1 [k5 lr4:5 so:0]{ ia0 a2p0 re0 rm0 nos0 ru1 dp0}{long-int fixed}[r0x1001 r0x1002 r0x1003 r0x1004 ] = (long-int fixed)iTemp0 [k2 lr3:4 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{char fixed}{ sir@ ___schar2fs_sc_1_21}[r0x1000 ]
+                      00101 ;;99    MOVAR   r0x1000
+                      00102 ;       .line   35; "../libsdcc/schar2fs.c"     return __slong2fs(sc);
+0002   0400           00103         MOVAI   0x00
+0003   1FC0           00104         JBCLR   r0x1001,7
+0004   04FF           00105         MOVAI   0xff
+0005   0AC0           00106         MOVRA   r0x1002
+0006   0AC0           00107         MOVRA   r0x1003
+0007   0AC0           00108         MOVRA   r0x1004
+                      00109 ;;[ICODE] ../libsdcc/schar2fs.c:35:     send iTemp1 [k5 lr4:5 so:0]{ ia0 a2p0 re0 rm0 nos0 ru1 dp0}{long-int fixed}[r0x1001 r0x1002 r0x1003 r0x1004 ]{argreg = 1}
+                      00110 ;;[ICODE] ../libsdcc/schar2fs.c:35:     iTemp2 [k7 lr6:7 so:0]{ ia0 a2p0 re0 rm0 nos0 ru1 dp0}{float fixed}[r0x1000 r0x1001 r0x1002 r0x1003 ] = call ___slong2fs [k4 lr0:0 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{float function ( long-int fixed) fixed}
+0008   0B00           00111         MOVAR   r0x1001
+0009   0AC0           00112         MOVRA   STK02
+000A   0B00           00113         MOVAR   r0x1004
+000B   0AC0           00114         MOVRA   STK01
+000C   0B00           00115         MOVAR   r0x1003
+000D   0AC0           00116         MOVRA   STK00
+000E   0B00           00117         MOVAR   r0x1002
+000F   1000           00118         CALL    ___slong2fs
+0010   0AC0           00119         MOVRA   r0x1003
+0011   0B00           00120         MOVAR   STK00
+0012   0AC0           00121         MOVRA   r0x1004
+0013   0B00           00122         MOVAR   STK01
+0014   0AC0           00123         MOVRA   r0x1001
+0015   0B00           00124         MOVAR   STK02
+0016   0AC0           00125         MOVRA   r0x1000
+                      00126 ;;[ICODE] ../libsdcc/schar2fs.c:35:     ret iTemp2 [k7 lr6:7 so:0]{ ia0 a2p0 re0 rm0 nos0 ru1 dp0}{float fixed}[r0x1000 r0x1001 r0x1002 r0x1003 ]
+0017   0B00           00127         MOVAR   r0x1000
+0018   0AC0           00128         MOVRA   STK02
+0019   0B00           00129         MOVAR   r0x1001
+001A   0AC0           00130         MOVRA   STK01
+001B   0B00           00131         MOVAR   r0x1004
+001C   0AC0           00132         MOVRA   STK00
+001D   0B00           00133         MOVAR   r0x1003
+                      00134 ;;[ICODE] ../libsdcc/schar2fs.c:35:  _return($1) :
+                      00135 ;;[ICODE] ../libsdcc/schar2fs.c:35:     eproc ___schar2fs [k1 lr0:0 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{float function ( char fixed) fixed}
+001E   000C           00136         RETURN  
+                      00137 ; exit point of ___schar2fs
+                      00138 
+                      00139 
+                      00140 ;       code size estimation:
+                      00141 ;          31+    0 =    31 instructions (   62 byte)
+                      00142 
+                      00143         end
+gpasm-1.7.0_beta1 (Jan 22 2015)schar2fs.asm       2015-1-22  23:34:25          PAGE  2
+
+
+SYMBOL TABLE
+  LABEL                             VALUE
+
+C                                 00000000
+DC                                00000001
+DKW                               0000000F
+DKWE                              00000007
+DKWP0                             0000000A
+DKWP00                            00000000
+DKWP01                            00000001
+DKWP02                            00000002
+DKWP03                            00000003
+DKWP04                            00000004
+DKWP05                            00000005
+DKWP1                             0000000E
+DKWP10                            00000000
+DKWP11                            00000001
+DKWP12                            00000002
+DKWP13                            00000003
+DKWP14                            00000004
+DKWP15                            00000005
+DKWP16                            00000006
+FSR                               00000001
+GIE                               00000007
+INDF                              00000000
+INT0IE                            00000002
+INT0IF                            00000002
+INT1IE                            00000003
+INT1IF                            00000003
+INTECON                           00000005
+INTFLAG                           00000006
+IOP0                              00000007
+IOP00                             00000000
+IOP01                             00000001
+IOP02                             00000002
+IOP03                             00000003
+IOP04                             00000004
+IOP05                             00000005
+IOP06                             00000006
+IOP1                              0000000B
+IOP10                             00000000
+IOP11                             00000001
+IOP12                             00000002
+IOP13                             00000003
+IOP14                             00000004
+IOP15                             00000005
+IOP16                             00000006
+MCR                               00000004
+OEP0                              00000008
+OEP00                             00000000
+OEP01                             00000001
+OEP02                             00000002
+OEP03                             00000003
+OEP04                             00000004
+OEP05                             00000005
+OEP06                             00000006
+OEP1                              0000000C
+OEP10                             00000000
+OEP11                             00000001
+OEP12                             00000002
+OEP13                             00000003
+OEP14                             00000004
+OEP15                             00000005
+OEP16                             00000006
+PCL                               00000002
+PD                                00000004
+PUP0                              00000009
+PUP00                             00000000
+PUP01                             00000001
+PUP02                             00000002
+PUP03                             00000003
+PUP04                             00000004
+PUP05                             00000005
+PUP06                             00000006
+PUP1                              0000000D
+PUP10                             00000000
+PUP11                             00000001
+PUP12                             00000002
+PUP13                             00000003
+PUP14                             00000004
+PUP15                             00000005
+PUP16                             00000006
+RSEL                              00000006
+STATUS                            00000003
+STK00                             00000000
+STK01                             00000000
+STK02                             00000000
+STK03                             00000000
+STK04                             00000000
+STK05                             00000000
+STK06                             00000000
+TO                                00000005
+Z                                 00000002
+_CONFIG0                          00008000
+_CONFIG1                          00008001
+_CP_ALL                           00000FFF
+_FCPU_16X                         00001FFF
+_FCPU_2X                          00001FF3
+_FCPU_4X                          00001FF7
+_FCPU_8X                          00001FFB
+_WDT_ALWAYS_OFF                   00001FFC
+_WDT_ALWAYS_ON                    00001FFF
+_WDT_SLEEP_OFF                    00001FFD
+__31P11                           00000001
+___fs2schar                       00000000
+___fs2sint                        00000000
+___fs2slong                       00000000
+___fs2uchar                       00000000
+___fs2uint                        00000000
+___fs2ulong                       00000000
+___fsadd                          00000000
+___fsdiv                          00000000
+___fseq                           00000000
+___fsgt                           00000000
+___fslt                           00000000
+___fsmul                          00000000
+___fsneq                          00000000
+___fssub                          00000000
+___schar2fs                       00000000
+___sint2fs                        00000000
+___slong2fs                       00000000
+___uchar2fs                       00000000
+___uint2fs                        00000000
+___ulong2fs                       00000000
+r0x1000                           00000000
+r0x1001                           00000001
+r0x1002                           00000004
+r0x1003                           00000003
+r0x1004                           00000002
+
+Errors   :     0
+Warnings :     0 reported,     0 suppressed
+Messages :     0 reported,     0 suppressed
+
+

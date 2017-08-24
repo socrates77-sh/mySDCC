@@ -1,0 +1,625 @@
+gpasm-1.7.0_beta1 (Jan 22 2015)_modslong.asm      2015-1-22  23:34:25          PAGE  1
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+                      00001 ;--------------------------------------------------------
+                      00002 ; File Created by SN-SDCC : ANSI-C Compiler
+                      00003 ; Version 0.0.4 (Jan 22 2015) (Linux)
+                      00004 ; This file was generated Thu Jan 22 23:34:25 2015
+                      00005 ;--------------------------------------------------------
+                      00006 ; MC3X port for the RISC core
+                      00007 ;--------------------------------------------------------
+                      00008 ;       .file   "../libsdcc/_modslong.c"
+                      00009         list    p=31p11
+                      00010         radix dec
+                      00011         include "mc31p11.inc"
+                      00001                 LIST
+                      00002 ;mc31p11.inc    Standard Header File, Version 1.00 by Sinomcu
+                      00176                 LIST
+                      00012 ;--------------------------------------------------------
+                      00013 ; external declarations
+                      00014 ;--------------------------------------------------------
+                      00015         extern  __modulong
+                      00016 
+                      00017         extern STK06
+                      00018         extern STK05
+                      00019         extern STK04
+                      00020         extern STK03
+                      00021         extern STK02
+                      00022         extern STK01
+                      00023         extern STK00
+                      00024 ;--------------------------------------------------------
+                      00025 ; global declarations
+                      00026 ;--------------------------------------------------------
+                      00027         global  __modslong
+                      00028 
+                      00029 ;--------------------------------------------------------
+                      00030 ; global definitions
+                      00031 ;--------------------------------------------------------
+                      00032 ;--------------------------------------------------------
+                      00033 ; absolute symbol definitions
+                      00034 ;--------------------------------------------------------
+                      00035 ;--------------------------------------------------------
+                      00036 ; compiler-defined variables
+                      00037 ;--------------------------------------------------------
+                      00038 UDL__modslong_0 udata
+0000                  00039 r0x1003 res     1
+0000                  00040 r0x1002 res     1
+0001                  00041 r0x1001 res     1
+0001                  00042 r0x1000 res     1
+0002                  00043 r0x1007 res     1
+0002                  00044 r0x1006 res     1
+0003                  00045 r0x1005 res     1
+0003                  00046 r0x1004 res     1
+0004                  00047 r0x1008 res     1
+0004                  00048 r0x1009 res     1
+0005                  00049 r0x100A res     1
+0005                  00050 r0x100B res     1
+0006                  00051 r0x100C res     1
+0006                  00052 r0x100D res     1
+0007                  00053 r0x100E res     1
+0007                  00054 r0x100F res     1
+0008                  00055 r0x1010 res     1
+0008                  00056 r0x1011 res     1
+0009                  00057 r0x1012 res     1
+0009                  00058 r0x1013 res     1
+                      00059 ;--------------------------------------------------------
+                      00060 ; initialized data
+                      00061 ;--------------------------------------------------------
+                      00062 ;--------------------------------------------------------
+                      00063 ; overlayable items in internal ram 
+                      00064 ;--------------------------------------------------------
+                      00065 ;       udata_ovr
+                      00066 ;--------------------------------------------------------
+                      00067 ; code
+                      00068 ;--------------------------------------------------------
+                      00069 code__modslong  code
+                      00070 ;***
+                      00071 ;  pBlock Stats: dbName = C
+                      00072 ;***
+                      00073 ;entry:  __modslong     ;Function start
+                      00074 ; 2 exit points
+                      00075 ;has an exit
+                      00076 ;functions called:
+                      00077 ;   __modulong
+                      00078 ;   __modulong
+                      00079 ;   __modulong
+                      00080 ;   __modulong
+                      00081 ;   __modulong
+                      00082 ;   __modulong
+                      00083 ;   __modulong
+                      00084 ;   __modulong
+                      00085 ;27 compiler assigned registers:
+                      00086 ;   r0x1000
+                      00087 ;   STK00
+                      00088 ;   r0x1001
+                      00089 ;   STK01
+                      00090 ;   r0x1002
+                      00091 ;   STK02
+                      00092 ;   r0x1003
+                      00093 ;   STK03
+                      00094 ;   r0x1004
+                      00095 ;   STK04
+                      00096 ;   r0x1005
+                      00097 ;   STK05
+                      00098 ;   r0x1006
+                      00099 ;   STK06
+                      00100 ;   r0x1007
+                      00101 ;   r0x1008
+                      00102 ;   r0x1009
+                      00103 ;   r0x100A
+                      00104 ;   r0x100B
+                      00105 ;   r0x100C
+                      00106 ;   r0x100D
+                      00107 ;   r0x100E
+                      00108 ;   r0x100F
+                      00109 ;   r0x1010
+                      00110 ;   r0x1011
+                      00111 ;   r0x1012
+                      00112 ;   r0x1013
+                      00113 ;; Starting pCode block
+                      00114 ;;[ICODE] ../libsdcc/_modslong.c:32:  _entry($11) :
+                      00115 ;;[ICODE] ../libsdcc/_modslong.c:32:    proc __modslong [k1 lr0:0 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{long-int function ( long-int fixed, long-int fixed) fixed}
+0000                  00116 __modslong      ;Function start
+                      00117 ; 2 exit points
+                      00118 ;;[ICODE] ../libsdcc/_modslong.c:32: iTemp0 [k2 lr3:36 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{long-int fixed}{ sir@ __modslong_a_1_2}[r0x1000 r0x1001 r0x1002 r0x1003 ] = recv __modslong [k1 lr0:0 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{long-int function ( long-int fixed, long-int fixed) fixed}
+                      00119 ;       .line   32; "../libsdcc/_modslong.c"    _modslong (long a, long b)
+0000   0AC0           00120         MOVRA   r0x1000
+0001   0B00           00121         MOVAR   STK00
+0002   0AC0           00122         MOVRA   r0x1001
+0003   0B00           00123         MOVAR   STK01
+0004   0AC0           00124         MOVRA   r0x1002
+0005   0B00           00125         MOVAR   STK02
+0006   0AC0           00126         MOVRA   r0x1003
+                      00127 ;;[ICODE] ../libsdcc/_modslong.c:32: iTemp1 [k4 lr4:37 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{long-int fixed}{ sir@ __modslong_b_1_2}[r0x1004 r0x1005 r0x1006 r0x1007 ] = recv __modslong [k1 lr0:0 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{long-int function ( long-int fixed, long-int fixed) fixed}
+0007   0B00           00128         MOVAR   STK03
+0008   0AC0           00129         MOVRA   r0x1004
+0009   0B00           00130         MOVAR   STK04
+000A   0AC0           00131         MOVRA   r0x1005
+000B   0B00           00132         MOVAR   STK05
+000C   0AC0           00133         MOVRA   r0x1006
+000D   0B00           00134         MOVAR   STK06
+000E   0AC0           00135         MOVRA   r0x1007
+                      00136 ;;[ICODE] ../libsdcc/_modslong.c:34:    iTemp2 [k6 lr5:6 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char fixed} = iTemp0 [k2 lr3:36 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{long-int fixed}{ sir@ __modslong_a_1_2}[r0x1000 r0x1001 r0x1002 r0x1003 ] < 0x0 {long-int literal}
+                      00137 ;;signed compare: left < lit(0x0=0), size=4, mask=ffffffff
+                      00138 ;       .line   34; "../libsdcc/_modslong.c"    if (a < 0) {
+000F   1803           00139         BSET    STATUS,0
+0010   1DC0           00140         JBSET   r0x1000,7
+0011   1A03           00141         BCLR    STATUS,0
+0012   1C03           00142         JBSET   STATUS,0
+0013   1400           00143         GOTO    _00112_DS_
+                      00144 ;;genSkipc:3246: created from rifx:0xbff89850
+                      00145 ;;[ICODE] ../libsdcc/_modslong.c:34:    if iTemp2 [k6 lr5:6 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char fixed} == 0 goto _iffalse_2($8)
+                      00146 ;;[ICODE] ../libsdcc/_modslong.c:35:    iTemp3 [k7 lr7:8 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char fixed} = iTemp1 [k4 lr4:37 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{long-int fixed}{ sir@ __modslong_b_1_2}[r0x1004 r0x1005 r0x1006 r0x1007 ] < 0x0 {long-int literal}
+                      00147 ;;signed compare: left < lit(0x0=0), size=4, mask=ffffffff
+                      00148 ;       .line   35; "../libsdcc/_modslong.c"    if (b < 0)
+0014   1803           00149         BSET    STATUS,0
+0015   1DC0           00150         JBSET   r0x1004,7
+0016   1A03           00151         BCLR    STATUS,0
+0017   1C03           00152         JBSET   STATUS,0
+0018   1400           00153         GOTO    _00106_DS_
+                      00154 ;;genSkipc:3246: created from rifx:0xbff89850
+                      00155 ;;[ICODE] ../libsdcc/_modslong.c:35:    if iTemp3 [k7 lr7:8 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char fixed} == 0 goto _iffalse_0($2)
+                      00156 ;;[ICODE] ../libsdcc/_modslong.c:36:    iTemp4 [k9 lr9:10 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{long-int fixed}[r0x1008 r0x1009 r0x100A r0x100B ] = - iTemp0 [k2 lr3:36 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{long-int fixed}{ sir@ __modslong_a_1_2}[r0x1000 r0x1001 r0x1002 r0x1003 ]
+                      00157 ;       .line   36; "../libsdcc/_modslong.c"    return _modulong ((unsigned long)-a, (unsigned long)-b);
+0019   0E00           00158         COMAR   r0x1003
+001A   0AC0           00159         MOVRA   r0x1008
+001B   0E00           00160         COMAR   r0x1002
+001C   0AC0           00161         MOVRA   r0x1009
+001D   0E00           00162         COMAR   r0x1001
+001E   0AC0           00163         MOVRA   r0x100A
+001F   0E00           00164         COMAR   r0x1000
+0020   0AC0           00165         MOVRA   r0x100B
+0021   0CC0           00166         INCR    r0x1008
+0022   1E83           00167         JBCLR   STATUS,2
+0023   0CC0           00168         INCR    r0x1009
+0024   1E83           00169         JBCLR   STATUS,2
+0025   0CC0           00170         INCR    r0x100A
+0026   1E83           00171         JBCLR   STATUS,2
+0027   0CC0           00172         INCR    r0x100B
+                      00173 ;;[ICODE] ../libsdcc/_modslong.c:36:    iTemp5 [k10 lr10:14 so:0]{ ia0 a2p0 re0 rm0 nos0 ru1 dp0}{unsigned-long-int fixed}[r0x100C r0x100D r0x100E r0x100F ] = (unsigned-long-int fixed)iTemp4 [k9 lr9:10 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{long-int fixed}[r0x1008 r0x1009 r0x100A r0x100B ]
+0028   0B00           00174         MOVAR   r0x1008
+0029   0AC0           00175         MOVRA   r0x100C
+002A   0B00           00176         MOVAR   r0x1009
+002B   0AC0           00177         MOVRA   r0x100D
+002C   0B00           00178         MOVAR   r0x100A
+002D   0AC0           00179         MOVRA   r0x100E
+002E   0B00           00180         MOVAR   r0x100B
+002F   0AC0           00181         MOVRA   r0x100F
+                      00182 ;;[ICODE] ../libsdcc/_modslong.c:36:    iTemp6 [k11 lr11:12 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{long-int fixed}[r0x1008 r0x1009 r0x100A r0x100B ] = - iTemp1 [k4 lr4:37 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{long-int fixed}{ sir@ __modslong_b_1_2}[r0x1004 r0x1005 r0x1006 r0x1007 ]
+0030   0E00           00183         COMAR   r0x1007
+0031   0AC0           00184         MOVRA   r0x1008
+0032   0E00           00185         COMAR   r0x1006
+0033   0AC0           00186         MOVRA   r0x1009
+0034   0E00           00187         COMAR   r0x1005
+0035   0AC0           00188         MOVRA   r0x100A
+0036   0E00           00189         COMAR   r0x1004
+0037   0AC0           00190         MOVRA   r0x100B
+0038   0CC0           00191         INCR    r0x1008
+0039   1E83           00192         JBCLR   STATUS,2
+003A   0CC0           00193         INCR    r0x1009
+003B   1E83           00194         JBCLR   STATUS,2
+003C   0CC0           00195         INCR    r0x100A
+003D   1E83           00196         JBCLR   STATUS,2
+003E   0CC0           00197         INCR    r0x100B
+                      00198 ;;[ICODE] ../libsdcc/_modslong.c:36:    iTemp7 [k12 lr12:14 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-long-int fixed}[r0x1010 r0x1011 r0x1012 r0x1013 ] = (unsigned-long-int fixed)iTemp6 [k11 lr11:12 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{long-int fixed}[r0x1008 r0x1009 r0x100A r0x100B ]
+                      00199 ;;124   MOVAR   r0x1008
+                      00200 ;;126   MOVAR   r0x1009
+                      00201 ;;128   MOVAR   r0x100A
+                      00202 ;;130   MOVAR   r0x100B
+                      00203 ;;[ICODE] ../libsdcc/_modslong.c:36:    send iTemp5 [k10 lr10:14 so:0]{ ia0 a2p0 re0 rm0 nos0 ru1 dp0}{unsigned-long-int fixed}[r0x100C r0x100D r0x100E r0x100F ]{argreg = 1}
+                      00204 ;;[ICODE] ../libsdcc/_modslong.c:36:    send iTemp7 [k12 lr12:14 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-long-int fixed}[r0x1010 r0x1011 r0x1012 r0x1013 ]{argreg = 1}
+                      00205 ;;[ICODE] ../libsdcc/_modslong.c:36:    iTemp8 [k15 lr15:16 so:0]{ ia0 a2p0 re0 rm0 nos0 ru1 dp0}{unsigned-long-int fixed}[r0x1008 r0x1009 r0x100A r0x100B ] = call __modulong [k8 lr0:0 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-long-int function ( unsigned-long-int fixed, unsigned-long-int fixed) fixed}
+                      00206 ;;123   MOVAR   r0x1010
+003F   0B00           00207         MOVAR   r0x1008
+0040   0AC0           00208         MOVRA   r0x1010
+0041   0AC0           00209         MOVRA   STK06
+                      00210 ;;125   MOVAR   r0x1011
+0042   0B00           00211         MOVAR   r0x1009
+0043   0AC0           00212         MOVRA   r0x1011
+0044   0AC0           00213         MOVRA   STK05
+                      00214 ;;127   MOVAR   r0x1012
+0045   0B00           00215         MOVAR   r0x100A
+0046   0AC0           00216         MOVRA   r0x1012
+0047   0AC0           00217         MOVRA   STK04
+                      00218 ;;129   MOVAR   r0x1013
+0048   0B00           00219         MOVAR   r0x100B
+0049   0AC0           00220         MOVRA   r0x1013
+004A   0AC0           00221         MOVRA   STK03
+004B   0B00           00222         MOVAR   r0x100C
+004C   0AC0           00223         MOVRA   STK02
+004D   0B00           00224         MOVAR   r0x100D
+004E   0AC0           00225         MOVRA   STK01
+004F   0B00           00226         MOVAR   r0x100E
+0050   0AC0           00227         MOVRA   STK00
+0051   0B00           00228         MOVAR   r0x100F
+0052   1000           00229         CALL    __modulong
+0053   0AC0           00230         MOVRA   r0x100B
+0054   0B00           00231         MOVAR   STK00
+0055   0AC0           00232         MOVRA   r0x100A
+0056   0B00           00233         MOVAR   STK01
+0057   0AC0           00234         MOVRA   r0x1009
+0058   0B00           00235         MOVAR   STK02
+0059   0AC0           00236         MOVRA   r0x1008
+                      00237 ;;[ICODE] ../libsdcc/_modslong.c:36:    ret iTemp8 [k15 lr15:16 so:0]{ ia0 a2p0 re0 rm0 nos0 ru1 dp0}{unsigned-long-int fixed}[r0x1008 r0x1009 r0x100A r0x100B ]
+005A   0B00           00238         MOVAR   r0x1008
+005B   0AC0           00239         MOVRA   STK02
+005C   0B00           00240         MOVAR   r0x1009
+005D   0AC0           00241         MOVRA   STK01
+005E   0B00           00242         MOVAR   r0x100A
+005F   0AC0           00243         MOVRA   STK00
+0060   0B00           00244         MOVAR   r0x100B
+0061   1400           00245         GOTO    _00114_DS_
+                      00246 ;;[ICODE] ../libsdcc/_modslong.c:36:  _iffalse_0($2) :
+                      00247 ;;[ICODE] ../libsdcc/_modslong.c:38:    iTemp9 [k16 lr18:19 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{long-int fixed}[r0x1008 r0x1009 r0x100A r0x100B ] = - iTemp0 [k2 lr3:36 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{long-int fixed}{ sir@ __modslong_a_1_2}[r0x1000 r0x1001 r0x1002 r0x1003 ]
+0062                  00248 _00106_DS_
+                      00249 ;       .line   38; "../libsdcc/_modslong.c"    return _modulong ((unsigned long)-a, (unsigned long)b);
+0062   0E00           00250         COMAR   r0x1003
+0063   0AC0           00251         MOVRA   r0x1008
+0064   0E00           00252         COMAR   r0x1002
+0065   0AC0           00253         MOVRA   r0x1009
+0066   0E00           00254         COMAR   r0x1001
+0067   0AC0           00255         MOVRA   r0x100A
+0068   0E00           00256         COMAR   r0x1000
+0069   0AC0           00257         MOVRA   r0x100B
+006A   0CC0           00258         INCR    r0x1008
+006B   1E83           00259         JBCLR   STATUS,2
+006C   0CC0           00260         INCR    r0x1009
+006D   1E83           00261         JBCLR   STATUS,2
+006E   0CC0           00262         INCR    r0x100A
+006F   1E83           00263         JBCLR   STATUS,2
+0070   0CC0           00264         INCR    r0x100B
+                      00265 ;;[ICODE] ../libsdcc/_modslong.c:38:    iTemp10 [k17 lr19:22 so:0]{ ia0 a2p0 re0 rm0 nos0 ru1 dp0}{unsigned-long-int fixed}[r0x100C r0x100D r0x100E r0x100F ] = (unsigned-long-int fixed)iTemp9 [k16 lr18:19 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{long-int fixed}[r0x1008 r0x1009 r0x100A r0x100B ]
+0071   0B00           00266         MOVAR   r0x1008
+0072   0AC0           00267         MOVRA   r0x100C
+0073   0B00           00268         MOVAR   r0x1009
+0074   0AC0           00269         MOVRA   r0x100D
+0075   0B00           00270         MOVAR   r0x100A
+0076   0AC0           00271         MOVRA   r0x100E
+0077   0B00           00272         MOVAR   r0x100B
+0078   0AC0           00273         MOVRA   r0x100F
+                      00274 ;;[ICODE] ../libsdcc/_modslong.c:38:    iTemp11 [k18 lr20:22 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-long-int fixed}[r0x1008 r0x1009 r0x100A r0x100B ] = (unsigned-long-int fixed)iTemp1 [k4 lr4:37 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{long-int fixed}{ sir@ __modslong_b_1_2}[r0x1004 r0x1005 r0x1006 r0x1007 ]
+                      00275 ;;108   MOVAR   r0x1007
+                      00276 ;;110   MOVAR   r0x1006
+                      00277 ;;112   MOVAR   r0x1005
+                      00278 ;;114   MOVAR   r0x1004
+                      00279 ;;[ICODE] ../libsdcc/_modslong.c:38:    send iTemp10 [k17 lr19:22 so:0]{ ia0 a2p0 re0 rm0 nos0 ru1 dp0}{unsigned-long-int fixed}[r0x100C r0x100D r0x100E r0x100F ]{argreg = 1}
+                      00280 ;;[ICODE] ../libsdcc/_modslong.c:38:    send iTemp11 [k18 lr20:22 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-long-int fixed}[r0x1008 r0x1009 r0x100A r0x100B ]{argreg = 1}
+                      00281 ;;[ICODE] ../libsdcc/_modslong.c:38:    iTemp12 [k19 lr23:24 so:0]{ ia0 a2p0 re0 rm0 nos0 ru1 dp0}{unsigned-long-int fixed}[r0x1008 r0x1009 r0x100A r0x100B ] = call __modulong [k8 lr0:0 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-long-int function ( unsigned-long-int fixed, unsigned-long-int fixed) fixed}
+                      00282 ;;107   MOVAR   r0x1008
+0079   0B00           00283         MOVAR   r0x1007
+007A   0AC0           00284         MOVRA   r0x1008
+007B   0AC0           00285         MOVRA   STK06
+                      00286 ;;109   MOVAR   r0x1009
+007C   0B00           00287         MOVAR   r0x1006
+007D   0AC0           00288         MOVRA   r0x1009
+007E   0AC0           00289         MOVRA   STK05
+                      00290 ;;111   MOVAR   r0x100A
+007F   0B00           00291         MOVAR   r0x1005
+0080   0AC0           00292         MOVRA   r0x100A
+0081   0AC0           00293         MOVRA   STK04
+                      00294 ;;113   MOVAR   r0x100B
+0082   0B00           00295         MOVAR   r0x1004
+0083   0AC0           00296         MOVRA   r0x100B
+0084   0AC0           00297         MOVRA   STK03
+0085   0B00           00298         MOVAR   r0x100C
+0086   0AC0           00299         MOVRA   STK02
+0087   0B00           00300         MOVAR   r0x100D
+0088   0AC0           00301         MOVRA   STK01
+0089   0B00           00302         MOVAR   r0x100E
+008A   0AC0           00303         MOVRA   STK00
+008B   0B00           00304         MOVAR   r0x100F
+008C   1000           00305         CALL    __modulong
+008D   0AC0           00306         MOVRA   r0x100B
+008E   0B00           00307         MOVAR   STK00
+008F   0AC0           00308         MOVRA   r0x100A
+0090   0B00           00309         MOVAR   STK01
+0091   0AC0           00310         MOVRA   r0x1009
+0092   0B00           00311         MOVAR   STK02
+0093   0AC0           00312         MOVRA   r0x1008
+                      00313 ;;[ICODE] ../libsdcc/_modslong.c:38:    ret iTemp12 [k19 lr23:24 so:0]{ ia0 a2p0 re0 rm0 nos0 ru1 dp0}{unsigned-long-int fixed}[r0x1008 r0x1009 r0x100A r0x100B ]
+0094   0B00           00314         MOVAR   r0x1008
+0095   0AC0           00315         MOVRA   STK02
+0096   0B00           00316         MOVAR   r0x1009
+0097   0AC0           00317         MOVRA   STK01
+0098   0B00           00318         MOVAR   r0x100A
+0099   0AC0           00319         MOVRA   STK00
+009A   0B00           00320         MOVAR   r0x100B
+009B   1400           00321         GOTO    _00114_DS_
+                      00322 ;;[ICODE] ../libsdcc/_modslong.c:38:  _iffalse_2($8) :
+                      00323 ;;[ICODE] ../libsdcc/_modslong.c:40:    iTemp13 [k20 lr26:27 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char fixed} = iTemp1 [k4 lr4:37 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{long-int fixed}{ sir@ __modslong_b_1_2}[r0x1004 r0x1005 r0x1006 r0x1007 ] < 0x0 {long-int literal}
+                      00324 ;;signed compare: left < lit(0x0=0), size=4, mask=ffffffff
+009C                  00325 _00112_DS_
+                      00326 ;       .line   40; "../libsdcc/_modslong.c"    if (b < 0)
+009C   1803           00327         BSET    STATUS,0
+009D   1DC0           00328         JBSET   r0x1004,7
+009E   1A03           00329         BCLR    STATUS,0
+009F   1C03           00330         JBSET   STATUS,0
+00A0   1400           00331         GOTO    _00109_DS_
+                      00332 ;;genSkipc:3246: created from rifx:0xbff89850
+                      00333 ;;[ICODE] ../libsdcc/_modslong.c:40:    if iTemp13 [k20 lr26:27 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char fixed} == 0 goto _iffalse_1($5)
+                      00334 ;;[ICODE] ../libsdcc/_modslong.c:41:    iTemp14 [k21 lr28:32 so:0]{ ia0 a2p0 re0 rm0 nos0 ru1 dp0}{unsigned-long-int fixed}[r0x1008 r0x1009 r0x100A r0x100B ] = (unsigned-long-int fixed)iTemp0 [k2 lr3:36 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{long-int fixed}{ sir@ __modslong_a_1_2}[r0x1000 r0x1001 r0x1002 r0x1003 ]
+                      00335 ;       .line   41; "../libsdcc/_modslong.c"    return _modulong ((unsigned long)a, (unsigned long)-b);
+00A1   0B00           00336         MOVAR   r0x1003
+00A2   0AC0           00337         MOVRA   r0x1008
+00A3   0B00           00338         MOVAR   r0x1002
+00A4   0AC0           00339         MOVRA   r0x1009
+00A5   0B00           00340         MOVAR   r0x1001
+00A6   0AC0           00341         MOVRA   r0x100A
+00A7   0B00           00342         MOVAR   r0x1000
+00A8   0AC0           00343         MOVRA   r0x100B
+                      00344 ;;[ICODE] ../libsdcc/_modslong.c:41:    iTemp15 [k22 lr29:30 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{long-int fixed}[r0x100C r0x100D r0x100E r0x100F ] = - iTemp1 [k4 lr4:37 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{long-int fixed}{ sir@ __modslong_b_1_2}[r0x1004 r0x1005 r0x1006 r0x1007 ]
+00A9   0E00           00345         COMAR   r0x1007
+00AA   0AC0           00346         MOVRA   r0x100C
+00AB   0E00           00347         COMAR   r0x1006
+00AC   0AC0           00348         MOVRA   r0x100D
+00AD   0E00           00349         COMAR   r0x1005
+00AE   0AC0           00350         MOVRA   r0x100E
+00AF   0E00           00351         COMAR   r0x1004
+00B0   0AC0           00352         MOVRA   r0x100F
+00B1   0CC0           00353         INCR    r0x100C
+00B2   1E83           00354         JBCLR   STATUS,2
+00B3   0CC0           00355         INCR    r0x100D
+00B4   1E83           00356         JBCLR   STATUS,2
+00B5   0CC0           00357         INCR    r0x100E
+00B6   1E83           00358         JBCLR   STATUS,2
+00B7   0CC0           00359         INCR    r0x100F
+                      00360 ;;[ICODE] ../libsdcc/_modslong.c:41:    iTemp16 [k23 lr30:32 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-long-int fixed}[r0x1010 r0x1011 r0x1012 r0x1013 ] = (unsigned-long-int fixed)iTemp15 [k22 lr29:30 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{long-int fixed}[r0x100C r0x100D r0x100E r0x100F ]
+                      00361 ;;116   MOVAR   r0x100C
+                      00362 ;;118   MOVAR   r0x100D
+                      00363 ;;120   MOVAR   r0x100E
+                      00364 ;;122   MOVAR   r0x100F
+                      00365 ;;[ICODE] ../libsdcc/_modslong.c:41:    send iTemp14 [k21 lr28:32 so:0]{ ia0 a2p0 re0 rm0 nos0 ru1 dp0}{unsigned-long-int fixed}[r0x1008 r0x1009 r0x100A r0x100B ]{argreg = 1}
+                      00366 ;;[ICODE] ../libsdcc/_modslong.c:41:    send iTemp16 [k23 lr30:32 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-long-int fixed}[r0x1010 r0x1011 r0x1012 r0x1013 ]{argreg = 1}
+                      00367 ;;[ICODE] ../libsdcc/_modslong.c:41:    iTemp17 [k24 lr33:34 so:0]{ ia0 a2p0 re0 rm0 nos0 ru1 dp0}{unsigned-long-int fixed}[r0x1008 r0x1009 r0x100A r0x100B ] = call __modulong [k8 lr0:0 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-long-int function ( unsigned-long-int fixed, unsigned-long-int fixed) fixed}
+                      00368 ;;115   MOVAR   r0x1010
+00B8   0B00           00369         MOVAR   r0x100C
+00B9   0AC0           00370         MOVRA   r0x1010
+00BA   0AC0           00371         MOVRA   STK06
+                      00372 ;;117   MOVAR   r0x1011
+00BB   0B00           00373         MOVAR   r0x100D
+00BC   0AC0           00374         MOVRA   r0x1011
+00BD   0AC0           00375         MOVRA   STK05
+                      00376 ;;119   MOVAR   r0x1012
+00BE   0B00           00377         MOVAR   r0x100E
+00BF   0AC0           00378         MOVRA   r0x1012
+00C0   0AC0           00379         MOVRA   STK04
+                      00380 ;;121   MOVAR   r0x1013
+00C1   0B00           00381         MOVAR   r0x100F
+00C2   0AC0           00382         MOVRA   r0x1013
+00C3   0AC0           00383         MOVRA   STK03
+00C4   0B00           00384         MOVAR   r0x1008
+00C5   0AC0           00385         MOVRA   STK02
+00C6   0B00           00386         MOVAR   r0x1009
+00C7   0AC0           00387         MOVRA   STK01
+00C8   0B00           00388         MOVAR   r0x100A
+00C9   0AC0           00389         MOVRA   STK00
+00CA   0B00           00390         MOVAR   r0x100B
+00CB   1000           00391         CALL    __modulong
+00CC   0AC0           00392         MOVRA   r0x100B
+00CD   0B00           00393         MOVAR   STK00
+00CE   0AC0           00394         MOVRA   r0x100A
+00CF   0B00           00395         MOVAR   STK01
+00D0   0AC0           00396         MOVRA   r0x1009
+00D1   0B00           00397         MOVAR   STK02
+00D2   0AC0           00398         MOVRA   r0x1008
+                      00399 ;;[ICODE] ../libsdcc/_modslong.c:41:    ret iTemp17 [k24 lr33:34 so:0]{ ia0 a2p0 re0 rm0 nos0 ru1 dp0}{unsigned-long-int fixed}[r0x1008 r0x1009 r0x100A r0x100B ]
+00D3   0B00           00400         MOVAR   r0x1008
+00D4   0AC0           00401         MOVRA   STK02
+00D5   0B00           00402         MOVAR   r0x1009
+00D6   0AC0           00403         MOVRA   STK01
+00D7   0B00           00404         MOVAR   r0x100A
+00D8   0AC0           00405         MOVRA   STK00
+00D9   0B00           00406         MOVAR   r0x100B
+00DA   1400           00407         GOTO    _00114_DS_
+                      00408 ;;[ICODE] ../libsdcc/_modslong.c:41:  _iffalse_1($5) :
+                      00409 ;;[ICODE] ../libsdcc/_modslong.c:43:    iTemp18 [k25 lr36:39 so:0]{ ia0 a2p0 re0 rm0 nos0 ru1 dp0}{unsigned-long-int fixed}[r0x1008 r0x1009 r0x100A r0x100B ] = (unsigned-long-int fixed)iTemp0 [k2 lr3:36 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{long-int fixed}{ sir@ __modslong_a_1_2}[r0x1000 r0x1001 r0x1002 r0x1003 ]
+00DB                  00410 _00109_DS_
+                      00411 ;       .line   43; "../libsdcc/_modslong.c"    return _modulong ((unsigned long)a, (unsigned long)b);
+00DB   0B00           00412         MOVAR   r0x1003
+00DC   0AC0           00413         MOVRA   r0x1008
+00DD   0B00           00414         MOVAR   r0x1002
+00DE   0AC0           00415         MOVRA   r0x1009
+00DF   0B00           00416         MOVAR   r0x1001
+00E0   0AC0           00417         MOVRA   r0x100A
+00E1   0B00           00418         MOVAR   r0x1000
+00E2   0AC0           00419         MOVRA   r0x100B
+                      00420 ;;[ICODE] ../libsdcc/_modslong.c:43:    iTemp19 [k26 lr37:39 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-long-int fixed}[r0x1000 r0x1001 r0x1002 r0x1003 ] = (unsigned-long-int fixed)iTemp1 [k4 lr4:37 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{long-int fixed}{ sir@ __modslong_b_1_2}[r0x1004 r0x1005 r0x1006 r0x1007 ]
+                      00421 ;;100   MOVAR   r0x1007
+                      00422 ;;102   MOVAR   r0x1006
+                      00423 ;;104   MOVAR   r0x1005
+                      00424 ;;106   MOVAR   r0x1004
+                      00425 ;;[ICODE] ../libsdcc/_modslong.c:43:    send iTemp18 [k25 lr36:39 so:0]{ ia0 a2p0 re0 rm0 nos0 ru1 dp0}{unsigned-long-int fixed}[r0x1008 r0x1009 r0x100A r0x100B ]{argreg = 1}
+                      00426 ;;[ICODE] ../libsdcc/_modslong.c:43:    send iTemp19 [k26 lr37:39 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-long-int fixed}[r0x1000 r0x1001 r0x1002 r0x1003 ]{argreg = 1}
+                      00427 ;;[ICODE] ../libsdcc/_modslong.c:43:    iTemp20 [k27 lr40:41 so:0]{ ia0 a2p0 re0 rm0 nos0 ru1 dp0}{unsigned-long-int fixed}[r0x1000 r0x1001 r0x1002 r0x1003 ] = call __modulong [k8 lr0:0 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-long-int function ( unsigned-long-int fixed, unsigned-long-int fixed) fixed}
+                      00428 ;;99    MOVAR   r0x1003
+00E3   0B00           00429         MOVAR   r0x1007
+00E4   0AC0           00430         MOVRA   r0x1003
+00E5   0AC0           00431         MOVRA   STK06
+                      00432 ;;101   MOVAR   r0x1002
+00E6   0B00           00433         MOVAR   r0x1006
+00E7   0AC0           00434         MOVRA   r0x1002
+00E8   0AC0           00435         MOVRA   STK05
+                      00436 ;;103   MOVAR   r0x1001
+00E9   0B00           00437         MOVAR   r0x1005
+00EA   0AC0           00438         MOVRA   r0x1001
+00EB   0AC0           00439         MOVRA   STK04
+                      00440 ;;105   MOVAR   r0x1000
+00EC   0B00           00441         MOVAR   r0x1004
+00ED   0AC0           00442         MOVRA   r0x1000
+00EE   0AC0           00443         MOVRA   STK03
+00EF   0B00           00444         MOVAR   r0x1008
+00F0   0AC0           00445         MOVRA   STK02
+00F1   0B00           00446         MOVAR   r0x1009
+00F2   0AC0           00447         MOVRA   STK01
+00F3   0B00           00448         MOVAR   r0x100A
+00F4   0AC0           00449         MOVRA   STK00
+00F5   0B00           00450         MOVAR   r0x100B
+00F6   1000           00451         CALL    __modulong
+00F7   0AC0           00452         MOVRA   r0x1000
+00F8   0B00           00453         MOVAR   STK00
+00F9   0AC0           00454         MOVRA   r0x1001
+00FA   0B00           00455         MOVAR   STK01
+00FB   0AC0           00456         MOVRA   r0x1002
+00FC   0B00           00457         MOVAR   STK02
+00FD   0AC0           00458         MOVRA   r0x1003
+                      00459 ;;[ICODE] ../libsdcc/_modslong.c:43:    ret iTemp20 [k27 lr40:41 so:0]{ ia0 a2p0 re0 rm0 nos0 ru1 dp0}{unsigned-long-int fixed}[r0x1000 r0x1001 r0x1002 r0x1003 ]
+00FE   0B00           00460         MOVAR   r0x1003
+00FF   0AC0           00461         MOVRA   STK02
+0100   0B00           00462         MOVAR   r0x1002
+0101   0AC0           00463         MOVRA   STK01
+0102   0B00           00464         MOVAR   r0x1001
+0103   0AC0           00465         MOVRA   STK00
+0104   0B00           00466         MOVAR   r0x1000
+                      00467 ;;[ICODE] ../libsdcc/_modslong.c:43:  _return($10) :
+                      00468 ;;[ICODE] ../libsdcc/_modslong.c:43:    eproc __modslong [k1 lr0:0 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{long-int function ( long-int fixed, long-int fixed) fixed}
+0105                  00469 _00114_DS_
+0105   000C           00470         RETURN  
+                      00471 ; exit point of __modslong
+                      00472 
+                      00473 
+                      00474 ;       code size estimation:
+                      00475 ;         262+    0 =   262 instructions (  524 byte)
+                      00476 
+                      00477         end
+gpasm-1.7.0_beta1 (Jan 22 2015)_modslong.asm      2015-1-22  23:34:25          PAGE  2
+
+
+SYMBOL TABLE
+  LABEL                             VALUE
+
+C                                 00000000
+DC                                00000001
+DKW                               0000000F
+DKWE                              00000007
+DKWP0                             0000000A
+DKWP00                            00000000
+DKWP01                            00000001
+DKWP02                            00000002
+DKWP03                            00000003
+DKWP04                            00000004
+DKWP05                            00000005
+DKWP1                             0000000E
+DKWP10                            00000000
+DKWP11                            00000001
+DKWP12                            00000002
+DKWP13                            00000003
+DKWP14                            00000004
+DKWP15                            00000005
+DKWP16                            00000006
+FSR                               00000001
+GIE                               00000007
+INDF                              00000000
+INT0IE                            00000002
+INT0IF                            00000002
+INT1IE                            00000003
+INT1IF                            00000003
+INTECON                           00000005
+INTFLAG                           00000006
+IOP0                              00000007
+IOP00                             00000000
+IOP01                             00000001
+IOP02                             00000002
+IOP03                             00000003
+IOP04                             00000004
+IOP05                             00000005
+IOP06                             00000006
+IOP1                              0000000B
+IOP10                             00000000
+IOP11                             00000001
+IOP12                             00000002
+IOP13                             00000003
+IOP14                             00000004
+IOP15                             00000005
+IOP16                             00000006
+MCR                               00000004
+OEP0                              00000008
+OEP00                             00000000
+OEP01                             00000001
+OEP02                             00000002
+OEP03                             00000003
+OEP04                             00000004
+OEP05                             00000005
+OEP06                             00000006
+OEP1                              0000000C
+OEP10                             00000000
+OEP11                             00000001
+OEP12                             00000002
+OEP13                             00000003
+OEP14                             00000004
+OEP15                             00000005
+OEP16                             00000006
+PCL                               00000002
+PD                                00000004
+PUP0                              00000009
+PUP00                             00000000
+PUP01                             00000001
+PUP02                             00000002
+PUP03                             00000003
+PUP04                             00000004
+PUP05                             00000005
+PUP06                             00000006
+PUP1                              0000000D
+PUP10                             00000000
+PUP11                             00000001
+PUP12                             00000002
+PUP13                             00000003
+PUP14                             00000004
+PUP15                             00000005
+PUP16                             00000006
+RSEL                              00000006
+STATUS                            00000003
+STK00                             00000000
+STK01                             00000000
+STK02                             00000000
+STK03                             00000000
+STK04                             00000000
+STK05                             00000000
+STK06                             00000000
+TO                                00000005
+Z                                 00000002
+_00106_DS_                        00000062
+_00109_DS_                        000000DB
+_00112_DS_                        0000009C
+_00114_DS_                        00000105
+_CONFIG0                          00008000
+_CONFIG1                          00008001
+_CP_ALL                           00000FFF
+_FCPU_16X                         00001FFF
+_FCPU_2X                          00001FF3
+_FCPU_4X                          00001FF7
+_FCPU_8X                          00001FFB
+_WDT_ALWAYS_OFF                   00001FFC
+_WDT_ALWAYS_ON                    00001FFF
+_WDT_SLEEP_OFF                    00001FFD
+__31P11                           00000001
+__modslong                        00000000
+__modulong                        00000000
+r0x1000                           00000003
+r0x1001                           00000002
+r0x1002                           00000001
+r0x1003                           00000000
+r0x1004                           00000007
+r0x1005                           00000006
+r0x1006                           00000005
+r0x1007                           00000004
+r0x1008                           00000008
+r0x1009                           00000009
+r0x100A                           0000000A
+r0x100B                           0000000B
+r0x100C                           0000000C
+r0x100D                           0000000D
+r0x100E                           0000000E
+r0x100F                           0000000F
+r0x1010                           00000010
+r0x1011                           00000011
+r0x1012                           00000012
+r0x1013                           00000013
+
+Errors   :     0
+Warnings :     0 reported,     0 suppressed
+Messages :     0 reported,     0 suppressed
+
+

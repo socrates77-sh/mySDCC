@@ -1,0 +1,580 @@
+gpasm-1.7.0_beta1 (Jan 22 2015)ulong2fs.asm       2015-1-22  23:37:00          PAGE  1
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+                      00001 ;--------------------------------------------------------
+                      00002 ; File Created by SN-SDCC : ANSI-C Compiler
+                      00003 ; Version 0.0.4 (Jan 22 2015) (Linux)
+                      00004 ; This file was generated Thu Jan 22 23:37:00 2015
+                      00005 ;--------------------------------------------------------
+                      00006 ; MC3X port for the RISC core
+                      00007 ;--------------------------------------------------------
+                      00008 ;       .file   "../libsdcc/ulong2fs.c"
+                      00009         list    p=33p78
+                      00010         radix dec
+                      00011         include "mc33p78.inc"
+                      00001 
+                      00002 ;mc33p78 header file
+                      00003 ;define must write at first row
+                      00004 
+  000001B0            00005 INDF    EQU     0X01B0       
+  000001B0            00006 INDF0   EQU     0X01B0
+  000001B1            00007 INDF1   EQU     0X01B1
+  000001B2            00008 INDF2   EQU     0X01B2
+  000001B3            00009 HIBYTE  EQU     0X01B3
+  000001B4            00010 FSR     EQU     0X01B4
+  000001B4            00011 FSR0    EQU     0X01B4
+  000001B5            00012 FSR1    EQU     0X1B5
+  000001B6            00013 PCL     EQU     0X1B6
+  000001B7            00014 PFLAG   EQU    0X1B7
+  000001B7            00015 STATUS  EQU     0X1B7
+  000001B8            00016 MCR     EQU     0X1B8
+  000001B9            00017 INDF3   EQU    0X1B9   
+  000001BA            00018 INTE    EQU     0X1BA
+  000001BB            00019 INTF    EQU     0X1BB
+  000001BC            00020 OSCM    EQU     0X1BC
+                      00021 ;IOP0    EQU     0X1C0
+                      00022 ;OEP0    EQU     0X1C1
+                      00023 ;PUP0    EQU     0X1C2
+                      00024 ;IOP1    EQU     0X1C4
+                      00025 ;OEP1    EQU     0X1C5
+                      00026 ;PUP1    EQU     0X1C6
+  000001C8            00027 IOP1    EQU     0X1C8
+  000001C9            00028 OEP1    EQU     0X1C9
+  000001CA            00029 PUP1    EQU     0X1CA
+                      00030 
+  000001CE            00031 DKWP1    EQU     0X1CE
+                      00032 
+  000001D0            00033 IOP2    EQU     0X1D0
+  000001D1            00034 OEP2    EQU     0X1D1
+  000001D2            00035 PUP2    EQU     0X1D2
+                      00036 ;T0DATA  EQU     0X1D3
+                      00037 ;T1CR    EQU     0X1D4
+                      00038 ;T1CNT   EQU     0X1D5
+  000001D6            00039 DKWP2   EQU     0X1D6
+  000001D7            00040 KBCR    EQU     0X1D7
+  000001D8            00041 T0CR    EQU     0X1D8
+  000001D9            00042 T0LOADH EQU     0X1D9
+  000001DA            00043 T0LOADL  EQU     0X1DA
+  000001DB            00044 T0LATFL   EQU     0X1DB
+  000001DC            00045 T0LATFH EQU     0X1DC
+                      00046 
+  000001DD            00047 T0LATRL  EQU     0X1DD
+  000001DE            00048 T0LATRH  EQU     0X1DE
+                      00049 
+  000001E0            00050 T1CR    EQU     0X1E0
+  000001E1            00051 T1DATA  EQU     0X1E1
+  000001E2            00052 T1LOAD  EQU     0X1E2
+                      00053 
+  000001E4            00054 OPCR0   EQU     0X1E4
+  000001E5            00055 OPCR1   EQU     0X1E5
+  000001E6            00056 DKW0    EQU     0X1E6
+  000001E7            00057 DKW1    EQU     0X1E7
+                      00058 
+                      00059 ;pflag bit 
+                      00060 #define         Z       PFLAG,2
+                      00061 #define         DC      PFLAG,1
+                      00062 #define         C       PFLAG,0 
+                      00063 
+                      00064 ;MCR
+                      00065 #define         GIE     MCR,7
+                      00066 #DEFINE         TO      MCR,5
+                      00067 #DEFINE         PD      MCR,4
+                      00068 #DEFINE         MINT11  MCR,3
+                      00069 
+                      00070 
+                      00071 ;INTE
+                      00072 #define         KBIE    INTE,7
+                      00073 #DEFINE         INT1IE  INTE,3
+                      00074 #DEFINE         INT0IE  INTE,2
+                      00075 #DEFINE         T1IE    INTE,1
+                      00076 #define         T0IE    INTE,0
+                      00077 
+                      00078 ;INTF
+                      00079 #DEFINE         KBIF    INTF,7
+                      00080 #DEFINE         T0RF    INTF,6
+                      00081 #DEFINE         INT1IF  INTF,3
+                      00082 #DEFINE         INT0IF  INTF,2
+                      00083 #DEFINE         T1IF    INTF,1
+                      00084 #DEFINE         T0IF    INTF,0
+                      00085 
+                      00086 ;DKW0
+                      00087 #DEFINE         DKWE    DKW0,7
+                      00088 #DEFINE         IROS    DKW0,6
+                      00089 #DEFINE         IROT    DKW0,5         
+                      00090 #DEFINE         WSEL0   DKW0,4
+                      00091 #DEFINE         WSEL1   DKW0,3
+                      00092 #DEFINE         RSEL    DKW0,2
+                      00093 #DEFINE         ISEL1   DKW0,1
+                      00094 #define         ISEL0   DKW0,0 
+                      00095 
+                      00096 #define                                 HFEN            OSCM,0
+                      00097 #define                                 LFEN            OSCM,1
+                      00098 #define                                 CLKS            OSCM,2
+                      00099 #define                                 STBH            OSCM,4
+                      00100 #DEFINE                                 STBL            OSCM,5
+                      00101 
+                      00102 ;T0CR
+                      00103 #DEFINE         TC0EN   T0CR,7
+                      00104 ;#DEFINE  
+                      00105 
+                      00106 ;T1CR
+                      00107 #DEFINE         TC1EN   T1CR,7
+                      00108          
+                      00109     
+                      00110 
+                      00111 
+                      00012 ;--------------------------------------------------------
+                      00013 ; external declarations
+                      00014 ;--------------------------------------------------------
+                      00015         extern  ___uchar2fs
+                      00016         extern  ___schar2fs
+                      00017         extern  ___uint2fs
+                      00018         extern  ___sint2fs
+                      00019         extern  ___slong2fs
+                      00020         extern  ___fs2uchar
+                      00021         extern  ___fs2schar
+                      00022         extern  ___fs2uint
+                      00023         extern  ___fs2sint
+                      00024         extern  ___fs2ulong
+                      00025         extern  ___fs2slong
+                      00026         extern  ___fsadd
+                      00027         extern  ___fssub
+                      00028         extern  ___fsmul
+                      00029         extern  ___fsdiv
+                      00030         extern  ___fslt
+                      00031         extern  ___fseq
+                      00032         extern  ___fsneq
+                      00033         extern  ___fsgt
+                      00034 
+                      00035         extern STK06
+                      00036         extern STK05
+                      00037         extern STK04
+                      00038         extern STK03
+                      00039         extern STK02
+                      00040         extern STK01
+                      00041         extern STK00
+                      00042 ;--------------------------------------------------------
+                      00043 ; global declarations
+                      00044 ;--------------------------------------------------------
+                      00045         global  ___ulong2fs
+                      00046 
+                      00047 ;--------------------------------------------------------
+                      00048 ; global definitions
+                      00049 ;--------------------------------------------------------
+                      00050 ;--------------------------------------------------------
+                      00051 ; absolute symbol definitions
+                      00052 ;--------------------------------------------------------
+                      00053 ;--------------------------------------------------------
+                      00054 ; compiler-defined variables
+                      00055 ;--------------------------------------------------------
+                      00056 UDL_ulong2fs_0  udata
+0000                  00057 r0x1007 res     1
+0000                  00058 r0x1006 res     1
+0001                  00059 r0x1005 res     1
+0001                  00060 r0x1004 res     1
+0002                  00061 r0x1008 res     1
+0002                  00062 r0x1009 res     1
+0003                  00063 r0x100A res     1
+0003                  00064 r0x100B res     1
+0004                  00065 r0x100C res     1
+0004                  00066 r0x100D res     1
+0005                  00067 r0x100F res     1
+0005                  00068 r0x100E res     1
+0006                  00069 ___ulong2fs_fl_1_22     res     4
+                      00070 ;--------------------------------------------------------
+                      00071 ; initialized data
+                      00072 ;--------------------------------------------------------
+                      00073 ;--------------------------------------------------------
+                      00074 ; overlayable items in internal ram 
+                      00075 ;--------------------------------------------------------
+                      00076 ;       udata_ovr
+                      00077 ;--------------------------------------------------------
+                      00078 ; code
+                      00079 ;--------------------------------------------------------
+                      00080 code_ulong2fs   code
+                      00081 ;***
+                      00082 ;  pBlock Stats: dbName = C
+                      00083 ;***
+                      00084 ;entry:  ___ulong2fs    ;Function start
+                      00085 ; 2 exit points
+                      00086 ;has an exit
+                      00087 ;15 compiler assigned registers:
+                      00088 ;   r0x1004
+                      00089 ;   STK00
+                      00090 ;   r0x1005
+                      00091 ;   STK01
+                      00092 ;   r0x1006
+                      00093 ;   STK02
+                      00094 ;   r0x1007
+                      00095 ;   r0x1008
+                      00096 ;   r0x1009
+                      00097 ;   r0x100A
+                      00098 ;   r0x100B
+                      00099 ;   r0x100C
+                      00100 ;   r0x100D
+                      00101 ;   r0x100E
+                      00102 ;   r0x100F
+                      00103 ;; Starting pCode block
+                      00104 ;;[ICODE] ../libsdcc/ulong2fs.c:54:  _entry($14) :
+                      00105 ;;[ICODE] ../libsdcc/ulong2fs.c:54:     proc ___ulong2fs [k1 lr0:0 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{float function ( unsigned-long-int fixed) fixed}
+0000                  00106 ___ulong2fs     ;Function start
+                      00107 ; 2 exit points
+                      00108 ;;[ICODE] ../libsdcc/ulong2fs.c:54: iTemp0 [k2 lr3:42 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{unsigned-long-int fixed}{ sir@ ___ulong2fs_a_1_21}[r0x1000 r0x1001 r0x1002 r0x1003 ] = recv ___ulong2fs [k1 lr0:0 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{float function ( unsigned-long-int fixed) fixed}
+                      00109 ;       .line   54; "../libsdcc/ulong2fs.c"     float __ulong2fs (unsigned long a ) _FS_REENTRANT
+0000   5600           00110         MOVRA   r0x1004
+0001   5800           00111         MOVAR   STK00
+0002   5600           00112         MOVRA   r0x1005
+0003   5800           00113         MOVAR   STK01
+0004   5600           00114         MOVRA   r0x1006
+0005   5800           00115         MOVAR   STK02
+0006   5600           00116         MOVRA   r0x1007
+                      00117 ;;[ICODE] ../libsdcc/ulong2fs.c:59:     if iTemp0 [k2 lr3:42 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{unsigned-long-int fixed}{ sir@ ___ulong2fs_a_1_21}[r0x1000 r0x1001 r0x1002 r0x1003 ] != 0 goto preHeaderLbl0($17)
+                      00118 ;       .line   59; "../libsdcc/ulong2fs.c"     if (!a)
+0007   5800           00119         MOVAR   r0x1007
+0008   5C00           00120         ORAR    r0x1006
+0009   5C00           00121         ORAR    r0x1005
+000A   5C00           00122         ORAR    r0x1004
+000B   E5B7           00123         JBSET   STATUS,2
+000C   A000           00124         GOTO    _00121_DS_
+                      00125 ;;[ICODE] ../libsdcc/ulong2fs.c:61:     ret 0 {const-float literal}
+                      00126 ;       .line   61; "../libsdcc/ulong2fs.c"     return 0.0;
+000D   3C00           00127         MOVAI   0x00
+000E   5600           00128         MOVRA   STK02
+000F   3C00           00129         MOVAI   0x00
+0010   5600           00130         MOVRA   STK01
+0011   3C00           00131         MOVAI   0x00
+0012   5600           00132         MOVRA   STK00
+0013   3C00           00133         MOVAI   0x00
+0014   A000           00134         GOTO    _00117_DS_
+                      00135 ;;[ICODE] ../libsdcc/ulong2fs.c:64:  preHeaderLbl0($17) :
+                      00136 ;;[ICODE] ../libsdcc/ulong2fs.c:64:     iTemp5 [k9 lr7:20 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{int fixed}{ sir@ ___ulong2fs_exp_1_22}[r0x1004 r0x1005 ] := 0x96 {int literal}
+0015                  00137 _00121_DS_
+                      00138 ;       .line   64; "../libsdcc/ulong2fs.c"     while (a & NORM) 
+0015   3C96           00139         MOVAI   0x96
+0016   5600           00140         MOVRA   r0x1008
+0017   7600           00141         CLRR    r0x1009
+                      00142 ;;[ICODE] ../libsdcc/ulong2fs.c:64:  _whilecontinue_0($3) :
+                      00143 ;;[ICODE] ../libsdcc/ulong2fs.c:64:     iTemp2 [k6 lr10:11 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-long-int register} = iTemp0 [k2 lr3:42 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{unsigned-long-int fixed}{ sir@ ___ulong2fs_a_1_21}[r0x1000 r0x1001 r0x1002 r0x1003 ] & 0xff000000 {const-unsigned-long-int literal}
+0018                  00144 _00107_DS_
+0018   5800           00145         MOVAR   r0x1004
+0019   3EFF           00146         ANDAI   0xff
+001A   F5B7           00147         JBCLR   STATUS,2
+001B   A000           00148         GOTO    _00124_DS_
+                      00149 ;;[ICODE] ../libsdcc/ulong2fs.c:64:     if iTemp2 [k6 lr10:11 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-long-int register} == 0 goto loopExitLbl2($20)
+                      00150 ;;[ICODE] ../libsdcc/ulong2fs.c:67:     iTemp0 [k2 lr3:42 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{unsigned-long-int fixed}{ sir@ ___ulong2fs_a_1_21}[r0x1000 r0x1001 r0x1002 r0x1003 ] = iTemp0 [k2 lr3:42 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{unsigned-long-int fixed}{ sir@ ___ulong2fs_a_1_21}[r0x1000 r0x1001 r0x1002 r0x1003 ] >> 0x1 {const-unsigned-char literal}
+                      00151 ;;shiftRight_Left2ResultLit:5278: shCount=1, size=4, sign=0, same=1, offr=0
+                      00152 ;       .line   67; "../libsdcc/ulong2fs.c"     a >>= 1;
+001C   D1B7           00153         BCLR    STATUS,0
+001D   4E00           00154         RRR     r0x1004
+001E   4E00           00155         RRR     r0x1005
+001F   4E00           00156         RRR     r0x1006
+0020   4E00           00157         RRR     r0x1007
+                      00158 ;;[ICODE] ../libsdcc/ulong2fs.c:68:     iTemp5 [k9 lr7:20 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{int fixed}{ sir@ ___ulong2fs_exp_1_22}[r0x1004 r0x1005 ] = iTemp5 [k9 lr7:20 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{int fixed}{ sir@ ___ulong2fs_exp_1_22}[r0x1004 r0x1005 ] + 0x1 {const-unsigned-char literal}
+                      00159 ;       .line   68; "../libsdcc/ulong2fs.c"     exp++;
+0021   6600           00160         INCR    r0x1008
+0022   F5B7           00161         JBCLR   STATUS,2
+0023   6600           00162         INCR    r0x1009
+                      00163 ;;[ICODE] ../libsdcc/ulong2fs.c:68:      goto _whilecontinue_0($3)
+0024   A000           00164         GOTO    _00107_DS_
+                      00165 ;;[ICODE] ../libsdcc/ulong2fs.c:68:  loopExitLbl2($20) :
+                      00166 ;;[ICODE] ../libsdcc/ulong2fs.c:68:     iTemp1 [k4 lr17:40 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{int fixed}[r0x1006 r0x1007 ] := iTemp5 [k9 lr7:20 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{int fixed}{ sir@ ___ulong2fs_exp_1_22}[r0x1004 r0x1005 ]
+0025                  00167 _00124_DS_
+0025   5800           00168         MOVAR   r0x1008
+0026   5600           00169         MOVRA   r0x100A
+0027   5800           00170         MOVAR   r0x1009
+0028   5600           00171         MOVRA   r0x100B
+                      00172 ;;[ICODE] ../libsdcc/ulong2fs.c:72:     iTemp6 [k10 lr18:19 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char fixed} = iTemp0 [k2 lr3:42 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{unsigned-long-int fixed}{ sir@ ___ulong2fs_a_1_21}[r0x1000 r0x1001 r0x1002 r0x1003 ] & 0xff800000 {const-long-int literal}
+                      00173 ;       .line   72; "../libsdcc/ulong2fs.c"     if(a < HIDDEN) {
+0029   5800           00174         MOVAR   r0x1005
+002A   FE00           00175         JBCLR   r0x1005,7
+002B   A000           00176         GOTO    _00114_DS_
+002C   5800           00177         MOVAR   r0x1004
+002D   3EFF           00178         ANDAI   0xff
+002E   E5B7           00179         JBSET   STATUS,2
+002F   A000           00180         GOTO    _00114_DS_
+                      00181 ;;[ICODE] ../libsdcc/ulong2fs.c:72:     if iTemp6 [k10 lr18:19 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char fixed} != 0 goto _iffalse_1($10)
+                      00182 ;;[ICODE] ../libsdcc/ulong2fs.c:73:     iTemp9 [k13 lr20:28 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{int fixed}{ sir@ ___ulong2fs_exp_1_22}[r0x1004 r0x1005 ] := iTemp5 [k9 lr7:20 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{int fixed}{ sir@ ___ulong2fs_exp_1_22}[r0x1004 r0x1005 ]
+                      00183 ;;[ICODE] ../libsdcc/ulong2fs.c:73:  _dobody_0($6) :
+                      00184 ;;[ICODE] ../libsdcc/ulong2fs.c:74:     iTemp0 [k2 lr3:42 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{unsigned-long-int fixed}{ sir@ ___ulong2fs_a_1_21}[r0x1000 r0x1001 r0x1002 r0x1003 ] = iTemp0 [k2 lr3:42 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{unsigned-long-int fixed}{ sir@ ___ulong2fs_a_1_21}[r0x1000 r0x1001 r0x1002 r0x1003 ] << 0x1 {const-unsigned-char literal}
+0030                  00185 _00110_DS_
+                      00186 ;       .line   74; "../libsdcc/ulong2fs.c"     a<<=1;
+0030   D1B7           00187         BCLR    STATUS,0
+0031   5200           00188         RLR     r0x1007
+0032   5200           00189         RLR     r0x1006
+0033   5200           00190         RLR     r0x1005
+0034   5200           00191         RLR     r0x1004
+                      00192 ;;[ICODE] ../libsdcc/ulong2fs.c:75:     iTemp9 [k13 lr20:28 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{int fixed}{ sir@ ___ulong2fs_exp_1_22}[r0x1004 r0x1005 ] = iTemp9 [k13 lr20:28 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{int fixed}{ sir@ ___ulong2fs_exp_1_22}[r0x1004 r0x1005 ] - 0x1 {const-unsigned-char literal}
+                      00193 ;       .line   75; "../libsdcc/ulong2fs.c"     exp--;
+0035   3CFF           00194         MOVAI   0xff
+0036   7E00           00195         ADDRA   r0x1008
+0037   E1B7           00196         JBSET   STATUS,0
+0038   6E00           00197         DECR    r0x1009
+                      00198 ;;[ICODE] ../libsdcc/ulong2fs.c:76:     iTemp10 [k14 lr26:27 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char fixed} = iTemp0 [k2 lr3:42 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{unsigned-long-int fixed}{ sir@ ___ulong2fs_a_1_21}[r0x1000 r0x1001 r0x1002 r0x1003 ] & 0xff800000 {const-long-int literal}
+                      00199 ;       .line   76; "../libsdcc/ulong2fs.c"     } while (a < HIDDEN);
+0039   5800           00200         MOVAR   r0x1005
+003A   EE00           00201         JBSET   r0x1005,7
+003B   A000           00202         GOTO    _00110_DS_
+003C   5800           00203         MOVAR   r0x1004
+003D   3EFF           00204         ANDAI   0xff
+003E   F5B7           00205         JBCLR   STATUS,2
+003F   A000           00206         GOTO    _00110_DS_
+                      00207 ;;[ICODE] ../libsdcc/ulong2fs.c:76:     if iTemp10 [k14 lr26:27 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char fixed} == 0 goto _dobody_0($6)
+                      00208 ;;[ICODE] ../libsdcc/ulong2fs.c:76:     iTemp1 [k4 lr17:40 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{int fixed}[r0x1006 r0x1007 ] := iTemp9 [k13 lr20:28 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{int fixed}{ sir@ ___ulong2fs_exp_1_22}[r0x1004 r0x1005 ]
+0040   5800           00209         MOVAR   r0x1008
+0041   5600           00210         MOVRA   r0x100A
+0042   5800           00211         MOVAR   r0x1009
+0043   5600           00212         MOVRA   r0x100B
+                      00213 ;;[ICODE] ../libsdcc/ulong2fs.c:76:  _iffalse_1($10) :
+                      00214 ;;[ICODE] ../libsdcc/ulong2fs.c:87:     iTemp11 [k15 lr30:31 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-long-int register}[r0x1004 r0x1005 r0x1008 r0x1009 ] = iTemp0 [k2 lr3:42 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{unsigned-long-int fixed}{ sir@ ___ulong2fs_a_1_21}[r0x1000 r0x1001 r0x1002 r0x1003 ] & 0x7fffff {unsigned-long-int literal}
+                      00215 ;;100   MOVAR   r0x1007
+0044                  00216 _00114_DS_
+                      00217 ;       .line   87; "../libsdcc/ulong2fs.c"     if ((a&0x7fffff)==0x7fffff) {
+0044   5800           00218         MOVAR   r0x1006
+0045   5600           00219         MOVRA   r0x1009
+0046   3C7F           00220         MOVAI   0x7f
+0047   7800           00221         ANDAR   r0x1005
+0048   5600           00222         MOVRA   r0x100C
+0049   7600           00223         CLRR    r0x100D
+                      00224 ;;[ICODE] ../libsdcc/ulong2fs.c:87:     iTemp12 [k16 lr31:32 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char fixed} = iTemp11 [k15 lr30:31 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-long-int register}[r0x1004 r0x1005 r0x1008 r0x1009 ] == 0x7fffff {unsigned-long-int literal}
+                      00225 ;;99    MOVAR   r0x1008
+004A   5800           00226         MOVAR   r0x1007
+004B   5600           00227         MOVRA   r0x1008
+004C   39FF           00228         XORAI   0xff
+004D   E5B7           00229         JBSET   STATUS,2
+004E   A000           00230         GOTO    _00116_DS_
+004F   5800           00231         MOVAR   r0x1009
+0050   39FF           00232         XORAI   0xff
+0051   E5B7           00233         JBSET   STATUS,2
+0052   A000           00234         GOTO    _00116_DS_
+0053   5800           00235         MOVAR   r0x100C
+0054   397F           00236         XORAI   0x7f
+0055   E5B7           00237         JBSET   STATUS,2
+0056   A000           00238         GOTO    _00116_DS_
+0057   5800           00239         MOVAR   r0x100D
+0058   3900           00240         XORAI   0x00
+0059   E5B7           00241         JBSET   STATUS,2
+005A   A000           00242         GOTO    _00116_DS_
+                      00243 ;;[ICODE] ../libsdcc/ulong2fs.c:87:     if iTemp12 [k16 lr31:32 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char fixed} == 0 goto _iffalse_2($12)
+                      00244 ;;[ICODE] ../libsdcc/ulong2fs.c:88:     iTemp0 [k2 lr3:42 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{unsigned-long-int fixed}{ sir@ ___ulong2fs_a_1_21}[r0x1000 r0x1001 r0x1002 r0x1003 ] := 0x0 {unsigned-long-int literal}
+                      00245 ;       .line   88; "../libsdcc/ulong2fs.c"     a=0;
+005B   7600           00246         CLRR    r0x1007
+005C   7600           00247         CLRR    r0x1006
+005D   7600           00248         CLRR    r0x1005
+005E   7600           00249         CLRR    r0x1004
+                      00250 ;;[ICODE] ../libsdcc/ulong2fs.c:89:     iTemp1 [k4 lr17:40 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{int fixed}[r0x1006 r0x1007 ] = iTemp1 [k4 lr17:40 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{int fixed}[r0x1006 r0x1007 ] + 0x1 {const-unsigned-char literal}
+                      00251 ;       .line   89; "../libsdcc/ulong2fs.c"     exp++;
+005F   6600           00252         INCR    r0x100A
+0060   F5B7           00253         JBCLR   STATUS,2
+0061   6600           00254         INCR    r0x100B
+                      00255 ;;[ICODE] ../libsdcc/ulong2fs.c:89:  _iffalse_2($12) :
+                      00256 ;;[ICODE] ../libsdcc/ulong2fs.c:93:     iTemp0 [k2 lr3:42 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{unsigned-long-int fixed}{ sir@ ___ulong2fs_a_1_21}[r0x1000 r0x1001 r0x1002 r0x1003 ] = iTemp0 [k2 lr3:42 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{unsigned-long-int fixed}{ sir@ ___ulong2fs_a_1_21}[r0x1000 r0x1001 r0x1002 r0x1003 ] & 0xff7fffff {unsigned-long-int literal}
+0062                  00257 _00116_DS_
+                      00258 ;       .line   93; "../libsdcc/ulong2fs.c"     a &= ~HIDDEN ;
+0062   DE00           00259         BCLR    r0x1005,7
+                      00260 ;;[ICODE] ../libsdcc/ulong2fs.c:95:     iTemp16 [k21 lr39:43 so:0]{ ia0 a2p0 re0 rm1 nos0 ru0 dp0}{volatile-long-int near* fixed}[remat] = &[___ulong2fs_fl_1_22 [k20 lr0:0 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{volatile-struct float_long fixed}]
+                      00261 ;;[ICODE] ../libsdcc/ulong2fs.c:95:     iTemp18 [k24 lr40:41 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-long-int fixed}[r0x1004 r0x1005 r0x1008 r0x1009 ] = (unsigned-long-int fixed)iTemp1 [k4 lr17:40 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{int fixed}[r0x1006 r0x1007 ]
+                      00262 ;       .line   95; "../libsdcc/ulong2fs.c"     fl.l = PACK(0,(unsigned long)exp, a);
+0063   5800           00263         MOVAR   r0x100A
+0064   5600           00264         MOVRA   r0x1008
+0065   5800           00265         MOVAR   r0x100B
+0066   5600           00266         MOVRA   r0x1009
+0067   3C00           00267         MOVAI   0x00
+0068   FE00           00268         JBCLR   r0x1009,7
+0069   3CFF           00269         MOVAI   0xff
+006A   5600           00270         MOVRA   r0x100D
+006B   5600           00271         MOVRA   r0x100C
+                      00272 ;;[ICODE] ../libsdcc/ulong2fs.c:95:     iTemp19 [k25 lr41:42 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-long-int fixed}[r0x1006 r0x1007 r0x100A r0x100B ] = iTemp18 [k24 lr40:41 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-long-int fixed}[r0x1004 r0x1005 r0x1008 r0x1009 ] << 0x17 {const-unsigned-char literal}
+006C   4C00           00273         RRAR    r0x1009
+006D   4C00           00274         RRAR    r0x1008
+006E   5600           00275         MOVRA   r0x100E
+006F   7600           00276         CLRR    r0x100F
+0070   4E00           00277         RRR     r0x100F
+0071   7600           00278         CLRR    r0x100B
+0072   7600           00279         CLRR    r0x100A
+                      00280 ;;[ICODE] ../libsdcc/ulong2fs.c:95:     iTemp21 [k27 lr42:43 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-long-int fixed}[r0x1000 r0x1001 r0x1002 r0x1003 ] = iTemp19 [k25 lr41:42 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-long-int fixed}[r0x1006 r0x1007 r0x100A r0x100B ] | iTemp0 [k2 lr3:42 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{unsigned-long-int fixed}{ sir@ ___ulong2fs_a_1_21}[r0x1000 r0x1001 r0x1002 r0x1003 ]
+0073   3C00           00281         MOVAI   0x00
+0074   5E00           00282         ORRA    r0x1007
+0075   3C00           00283         MOVAI   0x00
+0076   5E00           00284         ORRA    r0x1006
+0077   5800           00285         MOVAR   r0x100F
+0078   5E00           00286         ORRA    r0x1005
+0079   5800           00287         MOVAR   r0x100E
+007A   5E00           00288         ORRA    r0x1004
+                      00289 ;;[ICODE] ../libsdcc/ulong2fs.c:95:     *(iTemp16 [k21 lr39:43 so:0]{ ia1 a2p0 re0 rm1 nos0 ru0 dp0}{volatile-long-int near* fixed}[remat]) := iTemp21 [k27 lr42:43 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-long-int fixed}[r0x1000 r0x1001 r0x1002 r0x1003 ]
+                      00290 ;;gen.c:6444: size=3/4, offset=0, AOP_TYPE(res)=8
+007B   5800           00291         MOVAR   r0x1007
+007C   5600           00292         MOVRA   (___ulong2fs_fl_1_22 + 0)
+                      00293 ;;gen.c:6444: size=2/4, offset=1, AOP_TYPE(res)=8
+007D   5800           00294         MOVAR   r0x1006
+007E   5600           00295         MOVRA   (___ulong2fs_fl_1_22 + 1)
+                      00296 ;;gen.c:6444: size=1/4, offset=2, AOP_TYPE(res)=8
+007F   5800           00297         MOVAR   r0x1005
+0080   5600           00298         MOVRA   (___ulong2fs_fl_1_22 + 2)
+                      00299 ;;gen.c:6444: size=0/4, offset=3, AOP_TYPE(res)=8
+0081   5800           00300         MOVAR   r0x1004
+0082   5600           00301         MOVRA   (___ulong2fs_fl_1_22 + 3)
+                      00302 ;;[ICODE] ../libsdcc/ulong2fs.c:97:     iTemp22 [k28 lr44:45 so:0]{ ia0 a2p0 re0 rm1 nos0 ru0 dp0}{volatile-float near* fixed}[remat] = &[___ulong2fs_fl_1_22 [k20 lr0:0 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{volatile-struct float_long fixed}]
+                      00303 ;;[ICODE] ../libsdcc/ulong2fs.c:97:     iTemp24 [k31 lr45:46 so:0]{ ia0 a2p0 re0 rm0 nos0 ru1 dp0}{volatile-float fixed}[r0x1000 r0x1001 r0x1002 r0x1003 ] = @[iTemp22 [k28 lr44:45 so:0]{ ia1 a2p0 re0 rm1 nos0 ru0 dp0}{volatile-float near* fixed}[remat] + 0x0 {const-unsigned-char literal}]
+                      00304 ;       .line   97; "../libsdcc/ulong2fs.c"     return (fl.f);
+0083   5800           00305         MOVAR   (___ulong2fs_fl_1_22 + 0)
+0084   5600           00306         MOVRA   r0x1007
+0085   5800           00307         MOVAR   (___ulong2fs_fl_1_22 + 1)
+0086   5600           00308         MOVRA   r0x1006
+0087   5800           00309         MOVAR   (___ulong2fs_fl_1_22 + 2)
+0088   5600           00310         MOVRA   r0x1005
+0089   5800           00311         MOVAR   (___ulong2fs_fl_1_22 + 3)
+008A   5600           00312         MOVRA   r0x1004
+                      00313 ;;[ICODE] ../libsdcc/ulong2fs.c:97:     ret iTemp24 [k31 lr45:46 so:0]{ ia0 a2p0 re0 rm0 nos0 ru1 dp0}{volatile-float fixed}[r0x1000 r0x1001 r0x1002 r0x1003 ]
+008B   5800           00314         MOVAR   r0x1007
+008C   5600           00315         MOVRA   STK02
+008D   5800           00316         MOVAR   r0x1006
+008E   5600           00317         MOVRA   STK01
+008F   5800           00318         MOVAR   r0x1005
+0090   5600           00319         MOVRA   STK00
+0091   5800           00320         MOVAR   r0x1004
+                      00321 ;;[ICODE] ../libsdcc/ulong2fs.c:97:  _return($13) :
+                      00322 ;;[ICODE] ../libsdcc/ulong2fs.c:97:     eproc ___ulong2fs [k1 lr0:0 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{float function ( unsigned-long-int fixed) fixed}
+0092                  00323 _00117_DS_
+0092   000C           00324         RETURN  
+                      00325 ; exit point of ___ulong2fs
+                      00326 
+                      00327 
+                      00328 ;       code size estimation:
+                      00329 ;         147+    0 =   147 instructions (  294 byte)
+                      00330 
+                      00331         end
+gpasm-1.7.0_beta1 (Jan 22 2015)ulong2fs.asm       2015-1-22  23:37:00          PAGE  2
+
+
+SYMBOL TABLE
+  LABEL                             VALUE
+
+DKW0                              000001E6
+DKW1                              000001E7
+DKWP1                             000001CE
+DKWP2                             000001D6
+FSR                               000001B4
+FSR0                              000001B4
+FSR1                              000001B5
+HIBYTE                            000001B3
+INDF                              000001B0
+INDF0                             000001B0
+INDF1                             000001B1
+INDF2                             000001B2
+INDF3                             000001B9
+INTE                              000001BA
+INTF                              000001BB
+IOP1                              000001C8
+IOP2                              000001D0
+KBCR                              000001D7
+MCR                               000001B8
+OEP1                              000001C9
+OEP2                              000001D1
+OPCR0                             000001E4
+OPCR1                             000001E5
+OSCM                              000001BC
+PCL                               000001B6
+PFLAG                             000001B7
+PUP1                              000001CA
+PUP2                              000001D2
+STATUS                            000001B7
+STK00                             00000000
+STK01                             00000000
+STK02                             00000000
+STK03                             00000000
+STK04                             00000000
+STK05                             00000000
+STK06                             00000000
+T0CR                              000001D8
+T0LATFH                           000001DC
+T0LATFL                           000001DB
+T0LATRH                           000001DE
+T0LATRL                           000001DD
+T0LOADH                           000001D9
+T0LOADL                           000001DA
+T1CR                              000001E0
+T1DATA                            000001E1
+T1LOAD                            000001E2
+_00107_DS_                        00000018
+_00110_DS_                        00000030
+_00114_DS_                        00000044
+_00116_DS_                        00000062
+_00117_DS_                        00000092
+_00121_DS_                        00000015
+_00124_DS_                        00000025
+__33P78                           00000001
+___fs2schar                       00000000
+___fs2sint                        00000000
+___fs2slong                       00000000
+___fs2uchar                       00000000
+___fs2uint                        00000000
+___fs2ulong                       00000000
+___fsadd                          00000000
+___fsdiv                          00000000
+___fseq                           00000000
+___fsgt                           00000000
+___fslt                           00000000
+___fsmul                          00000000
+___fsneq                          00000000
+___fssub                          00000000
+___schar2fs                       00000000
+___sint2fs                        00000000
+___slong2fs                       00000000
+___uchar2fs                       00000000
+___uint2fs                        00000000
+___ulong2fs                       00000000
+___ulong2fs_fl_1_22               0000000C
+r0x1004                           00000003
+r0x1005                           00000002
+r0x1006                           00000001
+r0x1007                           00000000
+r0x1008                           00000004
+r0x1009                           00000005
+r0x100A                           00000006
+r0x100B                           00000007
+r0x100C                           00000008
+r0x100D                           00000009
+r0x100E                           0000000B
+r0x100F                           0000000A
+C                                 PFLAG,0
+CLKS                              OSCM,2
+DC                                PFLAG,1
+DKWE                              DKW0,7
+GIE                               MCR,7
+HFEN                              OSCM,0
+INT0IE                            INTE,2
+INT0IF                            INTF,2
+INT1IE                            INTE,3
+INT1IF                            INTF,3
+IROS                              DKW0,6
+IROT                              DKW0,5
+ISEL0                             DKW0,0
+ISEL1                             DKW0,1
+KBIE                              INTE,7
+KBIF                              INTF,7
+LFEN                              OSCM,1
+MINT11                            MCR,3
+PD                                MCR,4
+RSEL                              DKW0,2
+STBH                              OSCM,4
+STBL                              OSCM,5
+T0IE                              INTE,0
+T0IF                              INTF,0
+T0RF                              INTF,6
+T1IE                              INTE,1
+T1IF                              INTF,1
+TC0EN                             T0CR,7
+TC1EN                             T1CR,7
+TO                                MCR,5
+WSEL0                             DKW0,4
+WSEL1                             DKW0,3
+Z                                 PFLAG,2
+
+Errors   :     0
+Warnings :     0 reported,     0 suppressed
+Messages :     0 reported,     0 suppressed
+
+

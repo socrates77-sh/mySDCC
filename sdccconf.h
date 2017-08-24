@@ -129,7 +129,7 @@
 #define OPT_DISABLE_PACKIHX 1
 
 /* XXX */
-#define OPT_DISABLE_PIC14 0
+#define OPT_DISABLE_PIC14 1
 
 /* XXX */
 #define OPT_DISABLE_PIC16 1

@@ -1,0 +1,343 @@
+gpasm-1.7.0_beta1 (Jan 22 2015)_mulint.asm        2015-1-22  23:34:25          PAGE  1
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+                      00001 ;--------------------------------------------------------
+                      00002 ; File Created by SN-SDCC : ANSI-C Compiler
+                      00003 ; Version 0.0.4 (Jan 22 2015) (Linux)
+                      00004 ; This file was generated Thu Jan 22 23:34:25 2015
+                      00005 ;--------------------------------------------------------
+                      00006 ; MC3X port for the RISC core
+                      00007 ;--------------------------------------------------------
+                      00008 ;       .file   "../libsdcc/_mulint.c"
+                      00009         list    p=31p11
+                      00010         radix dec
+                      00011         include "mc31p11.inc"
+                      00001                 LIST
+                      00002 ;mc31p11.inc    Standard Header File, Version 1.00 by Sinomcu
+                      00176                 LIST
+                      00012 ;--------------------------------------------------------
+                      00013 ; external declarations
+                      00014 ;--------------------------------------------------------
+                      00015 
+                      00016         extern STK06
+                      00017         extern STK05
+                      00018         extern STK04
+                      00019         extern STK03
+                      00020         extern STK02
+                      00021         extern STK01
+                      00022         extern STK00
+                      00023 ;--------------------------------------------------------
+                      00024 ; global declarations
+                      00025 ;--------------------------------------------------------
+                      00026         global  __mulint
+                      00027 
+                      00028 ;--------------------------------------------------------
+                      00029 ; global definitions
+                      00030 ;--------------------------------------------------------
+                      00031 ;--------------------------------------------------------
+                      00032 ; absolute symbol definitions
+                      00033 ;--------------------------------------------------------
+                      00034 ;--------------------------------------------------------
+                      00035 ; compiler-defined variables
+                      00036 ;--------------------------------------------------------
+                      00037 UDL__mulint_0   udata
+0000                  00038 r0x1001 res     1
+0000                  00039 r0x1000 res     1
+0001                  00040 r0x1003 res     1
+0001                  00041 r0x1002 res     1
+0002                  00042 r0x1004 res     1
+0002                  00043 r0x1005 res     1
+0003                  00044 r0x1006 res     1
+0003                  00045 r0x1007 res     1
+0004                  00046 r0x1008 res     1
+0004                  00047 r0x100A res     1
+0005                  00048 r0x1009 res     1
+                      00049 ;--------------------------------------------------------
+                      00050 ; initialized data
+                      00051 ;--------------------------------------------------------
+                      00052 ;--------------------------------------------------------
+                      00053 ; overlayable items in internal ram 
+                      00054 ;--------------------------------------------------------
+                      00055 ;       udata_ovr
+                      00056 ;--------------------------------------------------------
+                      00057 ; code
+                      00058 ;--------------------------------------------------------
+                      00059 code__mulint    code
+                      00060 ;***
+                      00061 ;  pBlock Stats: dbName = C
+                      00062 ;***
+                      00063 ;entry:  __mulint       ;Function start
+                      00064 ; 2 exit points
+                      00065 ;has an exit
+                      00066 ;14 compiler assigned registers:
+                      00067 ;   r0x1000
+                      00068 ;   STK00
+                      00069 ;   r0x1001
+                      00070 ;   STK01
+                      00071 ;   r0x1002
+                      00072 ;   STK02
+                      00073 ;   r0x1003
+                      00074 ;   r0x1004
+                      00075 ;   r0x1005
+                      00076 ;   r0x1006
+                      00077 ;   r0x1007
+                      00078 ;   r0x1008
+                      00079 ;   r0x1009
+                      00080 ;   r0x100A
+                      00081 ;; Starting pCode block
+                      00082 ;;[ICODE] ../libsdcc/_mulint.c:33:  _entry($16) :
+                      00083 ;;[ICODE] ../libsdcc/_mulint.c:33:      proc __mulint [k1 lr0:0 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{int function ( int fixed, int fixed) fixed}
+0000                  00084 __mulint        ;Function start
+                      00085 ; 2 exit points
+                      00086 ;;[ICODE] ../libsdcc/_mulint.c:33: iTemp0 [k2 lr3:31 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{int fixed}{ sir@ __mulint_a_1_1}[r0x1000 r0x1001 ] = recv __mulint [k1 lr0:0 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{int function ( int fixed, int fixed) fixed}
+                      00087 ;       .line   33; "../libsdcc/_mulint.c"      _mulint (int a, int b)
+0000   0AC0           00088         MOVRA   r0x1000
+0001   0B00           00089         MOVAR   STK00
+0002   0AC0           00090         MOVRA   r0x1001
+                      00091 ;;[ICODE] ../libsdcc/_mulint.c:33: iTemp1 [k4 lr4:31 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{int fixed}{ sir@ __mulint_b_1_1}[r0x1002 r0x1003 ] = recv __mulint [k1 lr0:0 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{int function ( int fixed, int fixed) fixed}
+0003   0B00           00092         MOVAR   STK01
+0004   0AC0           00093         MOVRA   r0x1002
+0005   0B00           00094         MOVAR   STK02
+0006   0AC0           00095         MOVRA   r0x1003
+                      00096 ;;[ICODE] ../libsdcc/_mulint.c:35:      iTemp2 [k6 lr5:32 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{int fixed}{ sir@ __mulint_result_1_2}[r0x1004 r0x1005 ] := 0x0 {int literal}
+                      00097 ;       .line   35; "../libsdcc/_mulint.c"      int result = 0;
+0007   0EC0           00098         CLRR    r0x1004
+0008   0EC0           00099         CLRR    r0x1005
+                      00100 ;;[ICODE] ../libsdcc/_mulint.c:39:      iTemp3 [k8 lr6:31 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{unsigned-char fixed}{ sir@ __mulint_i_1_2}[r0x1006 ] := 0x8 {unsigned-char literal}
+                      00101 ;       .line   39; "../libsdcc/_mulint.c"      for (i = 0; i < 8u; i++) {
+0009   0408           00102         MOVAI   0x08
+000A   0AC0           00103         MOVRA   r0x1006
+                      00104 ;;[ICODE] ../libsdcc/_mulint.c:39:  _forcontinue_0($14) :
+                      00105 ;;[ICODE] ../libsdcc/_mulint.c:41:      iTemp4 [k10 lr9:10 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-int register}[r0x1007 r0x1008 ] = (unsigned-int register)iTemp0 [k2 lr3:31 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{int fixed}{ sir@ __mulint_a_1_1}[r0x1000 r0x1001 ]
+000B                  00106 _00118_DS_
+                      00107 ;       .line   41; "../libsdcc/_mulint.c"      if (a & 0x0001u) result += b;
+000B   0B00           00108         MOVAR   r0x1001
+000C   0AC0           00109         MOVRA   r0x1007
+000D   0B00           00110         MOVAR   r0x1000
+000E   0AC0           00111         MOVRA   r0x1008
+                      00112 ;;[ICODE] ../libsdcc/_mulint.c:41:      iTemp5 [k11 lr10:11 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-int register} = iTemp4 [k10 lr9:10 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-int register}[r0x1007 r0x1008 ] & 0x1 {const-unsigned-int literal}
+000F   1C00           00113         JBSET   r0x1007,0
+0010   1400           00114         GOTO    _00109_DS_
+                      00115 ;;[ICODE] ../libsdcc/_mulint.c:41:      if iTemp5 [k11 lr10:11 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-int register} == 0 goto _andif_0($5)
+                      00116 ;;[ICODE] ../libsdcc/_mulint.c:41:      iTemp2 [k6 lr5:32 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{int fixed}{ sir@ __mulint_result_1_2}[r0x1004 r0x1005 ] = iTemp2 [k6 lr5:32 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{int fixed}{ sir@ __mulint_result_1_2}[r0x1004 r0x1005 ] + iTemp1 [k4 lr4:31 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{int fixed}{ sir@ __mulint_b_1_1}[r0x1002 r0x1003 ]
+0011   0B00           00117         MOVAR   r0x1003
+0012   0FC0           00118         ADDRA   r0x1004
+0013   0B00           00119         MOVAR   r0x1002
+0014   1E03           00120         JBCLR   STATUS,0
+0015   0C00           00121         JZAR    r0x1002
+0016   0FC0           00122         ADDRA   r0x1005
+                      00123 ;;[ICODE] ../libsdcc/_mulint.c:42:  _andif_0($5) :
+                      00124 ;;[ICODE] ../libsdcc/_mulint.c:42:      iTemp7 [k13 lr15:16 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-long-int register}[r0x1007 r0x1008 r0x1009 r0x100A ] = (unsigned-long-int register)iTemp0 [k2 lr3:31 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{int fixed}{ sir@ __mulint_a_1_1}[r0x1000 r0x1001 ]
+0017                  00125 _00109_DS_
+                      00126 ;       .line   42; "../libsdcc/_mulint.c"      if (sizeof (a) > 1 && (a & 0x00000100ul)) result += (b << 8u);
+0017   0B00           00127         MOVAR   r0x1001
+0018   0AC0           00128         MOVRA   r0x1007
+0019   0B00           00129         MOVAR   r0x1000
+001A   0AC0           00130         MOVRA   r0x1008
+001B   0400           00131         MOVAI   0x00
+001C   1FC0           00132         JBCLR   r0x1008,7
+001D   04FF           00133         MOVAI   0xff
+001E   0AC0           00134         MOVRA   r0x1009
+001F   0AC0           00135         MOVRA   r0x100A
+                      00136 ;;[ICODE] ../libsdcc/_mulint.c:42:      iTemp8 [k14 lr16:17 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-long-int register} = iTemp7 [k13 lr15:16 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-long-int register}[r0x1007 r0x1008 r0x1009 r0x100A ] & 0x100 {const-unsigned-long-int literal}
+0020   1C00           00137         JBSET   r0x1008,0
+0021   1400           00138         GOTO    _00114_DS_
+                      00139 ;;[ICODE] ../libsdcc/_mulint.c:42:      if iTemp8 [k14 lr16:17 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-long-int register} == 0 goto _iffalse_3($10)
+                      00140 ;;[ICODE] ../libsdcc/_mulint.c:42:      iTemp10 [k16 lr18:20 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-int register}[r0x1007 r0x1008 ] = iTemp1 [k4 lr4:31 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{int fixed}{ sir@ __mulint_b_1_1}[r0x1002 r0x1003 ] << 0x8 {const-unsigned-int literal}
+                      00141 ;;100   MOVAR   r0x1003
+0022   0EC0           00142         CLRR    r0x1007
+                      00143 ;;[ICODE] ../libsdcc/_mulint.c:42:      iTemp11 [k17 lr19:20 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-int register}[r0x1009 r0x100A ] = (unsigned-int register)iTemp2 [k6 lr5:32 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{int fixed}{ sir@ __mulint_result_1_2}[r0x1004 r0x1005 ]
+0023   0B00           00144         MOVAR   r0x1004
+0024   0AC0           00145         MOVRA   r0x100A
+0025   0B00           00146         MOVAR   r0x1005
+0026   0AC0           00147         MOVRA   r0x1005
+0027   0AC0           00148         MOVRA   r0x1009
+                      00149 ;;[ICODE] ../libsdcc/_mulint.c:42:      iTemp2 [k6 lr5:32 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{int fixed}{ sir@ __mulint_result_1_2}[r0x1004 r0x1005 ] = iTemp11 [k17 lr19:20 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-int register}[r0x1009 r0x100A ] + iTemp10 [k16 lr18:20 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-int register}[r0x1007 r0x1008 ]
+0028   0400           00150         MOVAI   0x00
+0029   0F80           00151         ADDAR   r0x100A
+002A   0AC0           00152         MOVRA   r0x1004
+                      00153 ;;101   MOVAR   r0x1009
+                      00154 ;;99    MOVAR   r0x1008
+002B   0B00           00155         MOVAR   r0x1003
+002C   0AC0           00156         MOVRA   r0x1008
+002D   1E03           00157         JBCLR   STATUS,0
+002E   0C00           00158         JZAR    r0x1008
+002F   0FC0           00159         ADDRA   r0x1005
+                      00160 ;;[ICODE] ../libsdcc/_mulint.c:44:  _iffalse_3($10) :
+                      00161 ;;[ICODE] ../libsdcc/_mulint.c:45:      iTemp19 [k25 lr23:24 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-int fixed}[r0x1007 r0x1008 ] = (unsigned-int fixed)iTemp0 [k2 lr3:31 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{int fixed}{ sir@ __mulint_a_1_1}[r0x1000 r0x1001 ]
+0030                  00162 _00114_DS_
+                      00163 ;       .line   45; "../libsdcc/_mulint.c"      a = ((unsigned int)a) >> 1u;
+0030   0B00           00164         MOVAR   r0x1001
+0031   0AC0           00165         MOVRA   r0x1007
+0032   0B00           00166         MOVAR   r0x1000
+0033   0AC0           00167         MOVRA   r0x1008
+                      00168 ;;[ICODE] ../libsdcc/_mulint.c:45:      iTemp0 [k2 lr3:31 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{int fixed}{ sir@ __mulint_a_1_1}[r0x1000 r0x1001 ] = iTemp19 [k25 lr23:24 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-int fixed}[r0x1007 r0x1008 ] >> 0x1 {const-unsigned-int literal}
+                      00169 ;;shiftRight_Left2ResultLit:5278: shCount=1, size=2, sign=0, same=0, offr=0
+0034   1A03           00170         BCLR    STATUS,0
+0035   0980           00171         RRAR    r0x1008
+0036   0AC0           00172         MOVRA   r0x1000
+0037   0980           00173         RRAR    r0x1007
+0038   0AC0           00174         MOVRA   r0x1001
+                      00175 ;;[ICODE] ../libsdcc/_mulint.c:46:      iTemp1 [k4 lr4:31 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{int fixed}{ sir@ __mulint_b_1_1}[r0x1002 r0x1003 ] = iTemp1 [k4 lr4:31 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{int fixed}{ sir@ __mulint_b_1_1}[r0x1002 r0x1003 ] << 0x1 {const-unsigned-int literal}
+                      00176 ;       .line   46; "../libsdcc/_mulint.c"      b <<= 1u;
+0039   1A03           00177         BCLR    STATUS,0
+003A   0A40           00178         RLR     r0x1003
+003B   0A40           00179         RLR     r0x1002
+                      00180 ;;[ICODE] ../libsdcc/_mulint.c:46:      iTemp23 [k29 lr28:29 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char register}[r0x1007 ] = (char register)iTemp3 [k8 lr6:31 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{unsigned-char fixed}{ sir@ __mulint_i_1_2}[r0x1006 ]
+003C   0B00           00181         MOVAR   r0x1006
+003D   0AC0           00182         MOVRA   r0x1007
+                      00183 ;;[ICODE] ../libsdcc/_mulint.c:46:      iTemp3 [k8 lr6:31 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{unsigned-char fixed}{ sir@ __mulint_i_1_2}[r0x1006 ] = iTemp23 [k29 lr28:29 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char register}[r0x1007 ] - 0x1 {const-char literal}
+003E   0D80           00184         DECAR   r0x1007
+003F   0AC0           00185         MOVRA   r0x1006
+                      00186 ;;[ICODE] ../libsdcc/_mulint.c:39:      if iTemp3 [k8 lr6:31 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{unsigned-char fixed}{ sir@ __mulint_i_1_2}[r0x1006 ] != 0 goto _forcontinue_0($14)
+                      00187 ;       .line   39; "../libsdcc/_mulint.c"      for (i = 0; i < 8u; i++) {
+0040   0400           00188         MOVAI   0x00
+0041   0B80           00189         ORAR    r0x1006
+0042   1C83           00190         JBSET   STATUS,2
+0043   1400           00191         GOTO    _00118_DS_
+                      00192 ;;[ICODE] ../libsdcc/_mulint.c:49:      ret iTemp2 [k6 lr5:32 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{int fixed}{ sir@ __mulint_result_1_2}[r0x1004 r0x1005 ]
+                      00193 ;       .line   49; "../libsdcc/_mulint.c"      return result;
+0044   0B00           00194         MOVAR   r0x1004
+0045   0AC0           00195         MOVRA   STK00
+0046   0B00           00196         MOVAR   r0x1005
+                      00197 ;;[ICODE] ../libsdcc/_mulint.c:49:  _return($15) :
+                      00198 ;;[ICODE] ../libsdcc/_mulint.c:49:      eproc __mulint [k1 lr0:0 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{int function ( int fixed, int fixed) fixed}
+0047   000C           00199         RETURN  
+                      00200 ; exit point of __mulint
+                      00201 
+                      00202 
+                      00203 ;       code size estimation:
+                      00204 ;          72+    0 =    72 instructions (  144 byte)
+                      00205 
+                      00206         end
+gpasm-1.7.0_beta1 (Jan 22 2015)_mulint.asm        2015-1-22  23:34:25          PAGE  2
+
+
+SYMBOL TABLE
+  LABEL                             VALUE
+
+C                                 00000000
+DC                                00000001
+DKW                               0000000F
+DKWE                              00000007
+DKWP0                             0000000A
+DKWP00                            00000000
+DKWP01                            00000001
+DKWP02                            00000002
+DKWP03                            00000003
+DKWP04                            00000004
+DKWP05                            00000005
+DKWP1                             0000000E
+DKWP10                            00000000
+DKWP11                            00000001
+DKWP12                            00000002
+DKWP13                            00000003
+DKWP14                            00000004
+DKWP15                            00000005
+DKWP16                            00000006
+FSR                               00000001
+GIE                               00000007
+INDF                              00000000
+INT0IE                            00000002
+INT0IF                            00000002
+INT1IE                            00000003
+INT1IF                            00000003
+INTECON                           00000005
+INTFLAG                           00000006
+IOP0                              00000007
+IOP00                             00000000
+IOP01                             00000001
+IOP02                             00000002
+IOP03                             00000003
+IOP04                             00000004
+IOP05                             00000005
+IOP06                             00000006
+IOP1                              0000000B
+IOP10                             00000000
+IOP11                             00000001
+IOP12                             00000002
+IOP13                             00000003
+IOP14                             00000004
+IOP15                             00000005
+IOP16                             00000006
+MCR                               00000004
+OEP0                              00000008
+OEP00                             00000000
+OEP01                             00000001
+OEP02                             00000002
+OEP03                             00000003
+OEP04                             00000004
+OEP05                             00000005
+OEP06                             00000006
+OEP1                              0000000C
+OEP10                             00000000
+OEP11                             00000001
+OEP12                             00000002
+OEP13                             00000003
+OEP14                             00000004
+OEP15                             00000005
+OEP16                             00000006
+PCL                               00000002
+PD                                00000004
+PUP0                              00000009
+PUP00                             00000000
+PUP01                             00000001
+PUP02                             00000002
+PUP03                             00000003
+PUP04                             00000004
+PUP05                             00000005
+PUP06                             00000006
+PUP1                              0000000D
+PUP10                             00000000
+PUP11                             00000001
+PUP12                             00000002
+PUP13                             00000003
+PUP14                             00000004
+PUP15                             00000005
+PUP16                             00000006
+RSEL                              00000006
+STATUS                            00000003
+STK00                             00000000
+STK01                             00000000
+STK02                             00000000
+STK03                             00000000
+STK04                             00000000
+STK05                             00000000
+STK06                             00000000
+TO                                00000005
+Z                                 00000002
+_00109_DS_                        00000017
+_00114_DS_                        00000030
+_00118_DS_                        0000000B
+_CONFIG0                          00008000
+_CONFIG1                          00008001
+_CP_ALL                           00000FFF
+_FCPU_16X                         00001FFF
+_FCPU_2X                          00001FF3
+_FCPU_4X                          00001FF7
+_FCPU_8X                          00001FFB
+_WDT_ALWAYS_OFF                   00001FFC
+_WDT_ALWAYS_ON                    00001FFF
+_WDT_SLEEP_OFF                    00001FFD
+__31P11                           00000001
+__mulint                          00000000
+r0x1000                           00000001
+r0x1001                           00000000
+r0x1002                           00000003
+r0x1003                           00000002
+r0x1004                           00000004
+r0x1005                           00000005
+r0x1006                           00000006
+r0x1007                           00000007
+r0x1008                           00000008
+r0x1009                           0000000A
+r0x100A                           00000009
+
+Errors   :     0
+Warnings :     0 reported,     0 suppressed
+Messages :     0 reported,     0 suppressed
+
+

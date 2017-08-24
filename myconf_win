@@ -16,6 +16,7 @@ sdccconf_h_dir_separator='\\' \
 --disable-packihx \
 --disable-sdbinutils \
 --disable-sdcdb \
+--disable-pic14-port \
 --disable-pic16-port \
 --disable-device-lib \
 --disable-ucsim

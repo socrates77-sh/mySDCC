@@ -1,0 +1,536 @@
+gpasm-1.7.0_beta1 (Jan 22 2015)fslt.asm           2015-1-22  23:32:13          PAGE  1
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+                      00001 ;--------------------------------------------------------
+                      00002 ; File Created by SN-SDCC : ANSI-C Compiler
+                      00003 ; Version 0.0.4 (Jan 22 2015) (Linux)
+                      00004 ; This file was generated Thu Jan 22 23:32:13 2015
+                      00005 ;--------------------------------------------------------
+                      00006 ; MC3X port for the RISC core
+                      00007 ;--------------------------------------------------------
+                      00008 ;       .file   "../libsdcc/fslt.c"
+                      00009         list    p=32p21
+                      00010         radix dec
+                      00011         include "mc32p21.inc"
+                      00001                 LIST
+                      00002 ;mc32p21.inc    Standard Header File, Version 1.00 by Sinomcu
+                      00261                 LIST
+                      00012 ;--------------------------------------------------------
+                      00013 ; external declarations
+                      00014 ;--------------------------------------------------------
+                      00015         extern  ___uchar2fs
+                      00016         extern  ___schar2fs
+                      00017         extern  ___uint2fs
+                      00018         extern  ___sint2fs
+                      00019         extern  ___ulong2fs
+                      00020         extern  ___slong2fs
+                      00021         extern  ___fs2uchar
+                      00022         extern  ___fs2schar
+                      00023         extern  ___fs2uint
+                      00024         extern  ___fs2sint
+                      00025         extern  ___fs2ulong
+                      00026         extern  ___fs2slong
+                      00027         extern  ___fsadd
+                      00028         extern  ___fssub
+                      00029         extern  ___fsmul
+                      00030         extern  ___fsdiv
+                      00031         extern  ___fseq
+                      00032         extern  ___fsneq
+                      00033         extern  ___fsgt
+                      00034 
+                      00035         extern STK06
+                      00036         extern STK05
+                      00037         extern STK04
+                      00038         extern STK03
+                      00039         extern STK02
+                      00040         extern STK01
+                      00041         extern STK00
+                      00042 ;--------------------------------------------------------
+                      00043 ; global declarations
+                      00044 ;--------------------------------------------------------
+                      00045         global  ___fslt
+                      00046 
+                      00047 ;--------------------------------------------------------
+                      00048 ; global definitions
+                      00049 ;--------------------------------------------------------
+                      00050 ;--------------------------------------------------------
+                      00051 ; absolute symbol definitions
+                      00052 ;--------------------------------------------------------
+                      00053 ;--------------------------------------------------------
+                      00054 ; compiler-defined variables
+                      00055 ;--------------------------------------------------------
+                      00056 UDL_fslt_0      udata
+0000                  00057 r0x100B res     1
+0000                  00058 r0x100A res     1
+0001                  00059 r0x1009 res     1
+0001                  00060 r0x1008 res     1
+0002                  00061 r0x100F res     1
+0002                  00062 r0x100E res     1
+0003                  00063 r0x100D res     1
+0003                  00064 r0x100C res     1
+0004                  00065 r0x1010 res     1
+0004                  00066 ___fslt_fl1_1_22        res     4
+0006                  00067 ___fslt_fl2_1_22        res     4
+                      00068 ;--------------------------------------------------------
+                      00069 ; initialized data
+                      00070 ;--------------------------------------------------------
+                      00071 ;--------------------------------------------------------
+                      00072 ; overlayable items in internal ram 
+                      00073 ;--------------------------------------------------------
+                      00074 ;       udata_ovr
+                      00075 ;--------------------------------------------------------
+                      00076 ; code
+                      00077 ;--------------------------------------------------------
+                      00078 code_fslt       code
+                      00079 ;***
+                      00080 ;  pBlock Stats: dbName = C
+                      00081 ;***
+                      00082 ;entry:  ___fslt        ;Function start
+                      00083 ; 2 exit points
+                      00084 ;has an exit
+                      00085 ;16 compiler assigned registers:
+                      00086 ;   r0x1008
+                      00087 ;   STK00
+                      00088 ;   r0x1009
+                      00089 ;   STK01
+                      00090 ;   r0x100A
+                      00091 ;   STK02
+                      00092 ;   r0x100B
+                      00093 ;   STK03
+                      00094 ;   r0x100C
+                      00095 ;   STK04
+                      00096 ;   r0x100D
+                      00097 ;   STK05
+                      00098 ;   r0x100E
+                      00099 ;   STK06
+                      00100 ;   r0x100F
+                      00101 ;   r0x1010
+                      00102 ;; Starting pCode block
+                      00103 ;;[ICODE] ../libsdcc/fslt.c:55:  _entry($9) :
+                      00104 ;;[ICODE] ../libsdcc/fslt.c:55:         proc ___fslt [k1 lr0:0 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char function ( float fixed, float fixed) fixed}
+0000                  00105 ___fslt ;Function start
+                      00106 ; 2 exit points
+                      00107 ;;[ICODE] ../libsdcc/fslt.c:55: iTemp0 [k2 lr3:6 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{float fixed}{ sir@ ___fslt_a1_1_21}[r0x1000 r0x1001 r0x1002 r0x1003 ] = recv ___fslt [k1 lr0:0 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char function ( float fixed, float fixed) fixed}
+                      00108 ;       .line   55; "../libsdcc/fslt.c" char __fslt (float a1, float a2) _FS_REENTRANT
+0000   5600           00109         MOVRA   r0x1008
+0001   5800           00110         MOVAR   STK00
+0002   5600           00111         MOVRA   r0x1009
+0003   5800           00112         MOVAR   STK01
+0004   5600           00113         MOVRA   r0x100A
+0005   5800           00114         MOVAR   STK02
+0006   5600           00115         MOVRA   (___fslt_fl1_1_22 + 0)
+0007   5600           00116         MOVRA   r0x100B
+                      00117 ;;[ICODE] ../libsdcc/fslt.c:55: iTemp1 [k4 lr4:8 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{float fixed}{ sir@ ___fslt_a2_1_21}[r0x1004 r0x1005 r0x1006 r0x1007 ] = recv ___fslt [k1 lr0:0 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char function ( float fixed, float fixed) fixed}
+0008   5800           00118         MOVAR   STK03
+0009   5600           00119         MOVRA   r0x100C
+000A   5800           00120         MOVAR   STK04
+000B   5600           00121         MOVRA   r0x100D
+000C   5800           00122         MOVAR   STK05
+000D   5600           00123         MOVRA   r0x100E
+000E   5800           00124         MOVAR   STK06
+000F   5600           00125         MOVRA   r0x100F
+                      00126 ;;[ICODE] ../libsdcc/fslt.c:59:         iTemp2 [k7 lr5:6 so:0]{ ia0 a2p0 re0 rm1 nos0 ru0 dp0}{volatile-float near* fixed}[remat] = &[___fslt_fl1_1_22 [k6 lr0:0 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{volatile-struct float_long fixed}]
+                      00127 ;;[ICODE] ../libsdcc/fslt.c:59:         *(iTemp2 [k7 lr5:6 so:0]{ ia1 a2p0 re0 rm1 nos0 ru0 dp0}{volatile-float near* fixed}[remat]) := iTemp0 [k2 lr3:6 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{float fixed}{ sir@ ___fslt_a1_1_21}[r0x1000 r0x1001 r0x1002 r0x1003 ]
+                      00128 ;;gen.c:6444: size=3/4, offset=0, AOP_TYPE(res)=8
+                      00129 ;;99    MOVAR   r0x100B
+                      00130 ;;gen.c:6444: size=2/4, offset=1, AOP_TYPE(res)=8
+                      00131 ;       .line   59; "../libsdcc/fslt.c" fl1.f = a1;
+0010   5800           00132         MOVAR   r0x100A
+0011   5600           00133         MOVRA   (___fslt_fl1_1_22 + 1)
+                      00134 ;;gen.c:6444: size=1/4, offset=2, AOP_TYPE(res)=8
+0012   5800           00135         MOVAR   r0x1009
+0013   5600           00136         MOVRA   (___fslt_fl1_1_22 + 2)
+                      00137 ;;gen.c:6444: size=0/4, offset=3, AOP_TYPE(res)=8
+0014   5800           00138         MOVAR   r0x1008
+0015   5600           00139         MOVRA   (___fslt_fl1_1_22 + 3)
+                      00140 ;;[ICODE] ../libsdcc/fslt.c:60:         iTemp4 [k11 lr7:8 so:0]{ ia0 a2p0 re0 rm1 nos0 ru0 dp0}{volatile-float near* fixed}[remat] = &[___fslt_fl2_1_22 [k10 lr0:0 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{volatile-struct float_long fixed}]
+                      00141 ;;[ICODE] ../libsdcc/fslt.c:60:         *(iTemp4 [k11 lr7:8 so:0]{ ia1 a2p0 re0 rm1 nos0 ru0 dp0}{volatile-float near* fixed}[remat]) := iTemp1 [k4 lr4:8 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{float fixed}{ sir@ ___fslt_a2_1_21}[r0x1004 r0x1005 r0x1006 r0x1007 ]
+                      00142 ;;gen.c:6444: size=3/4, offset=0, AOP_TYPE(res)=8
+                      00143 ;       .line   60; "../libsdcc/fslt.c" fl2.f = a2;
+0016   5800           00144         MOVAR   r0x100F
+0017   5600           00145         MOVRA   (___fslt_fl2_1_22 + 0)
+                      00146 ;;gen.c:6444: size=2/4, offset=1, AOP_TYPE(res)=8
+0018   5800           00147         MOVAR   r0x100E
+0019   5600           00148         MOVRA   (___fslt_fl2_1_22 + 1)
+                      00149 ;;gen.c:6444: size=1/4, offset=2, AOP_TYPE(res)=8
+001A   5800           00150         MOVAR   r0x100D
+001B   5600           00151         MOVRA   (___fslt_fl2_1_22 + 2)
+                      00152 ;;gen.c:6444: size=0/4, offset=3, AOP_TYPE(res)=8
+001C   5800           00153         MOVAR   r0x100C
+001D   5600           00154         MOVRA   (___fslt_fl2_1_22 + 3)
+                      00155 ;;[ICODE] ../libsdcc/fslt.c:62:         iTemp6 [k14 lr9:10 so:0]{ ia0 a2p0 re0 rm1 nos0 ru0 dp0}{volatile-long-int near* fixed}[remat] = &[___fslt_fl1_1_22 [k6 lr0:0 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{volatile-struct float_long fixed}]
+                      00156 ;;[ICODE] ../libsdcc/fslt.c:62:         iTemp8 [k17 lr10:11 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{volatile-long-int fixed}[r0x1000 r0x1001 r0x1002 r0x1003 ] = @[iTemp6 [k14 lr9:10 so:0]{ ia1 a2p0 re0 rm1 nos0 ru0 dp0}{volatile-long-int near* fixed}[remat] + 0x0 {const-unsigned-char literal}]
+                      00157 ;       .line   62; "../libsdcc/fslt.c" if (fl1.l<0 && fl2.l<0) {
+001E   5800           00158         MOVAR   (___fslt_fl1_1_22 + 0)
+001F   5600           00159         MOVRA   r0x100B
+0020   5800           00160         MOVAR   (___fslt_fl1_1_22 + 1)
+0021   5600           00161         MOVRA   r0x100A
+0022   5800           00162         MOVAR   (___fslt_fl1_1_22 + 2)
+0023   5600           00163         MOVRA   r0x1009
+0024   5800           00164         MOVAR   (___fslt_fl1_1_22 + 3)
+0025   5600           00165         MOVRA   r0x1008
+                      00166 ;;[ICODE] ../libsdcc/fslt.c:62:         iTemp9 [k18 lr11:12 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char fixed} = iTemp8 [k17 lr10:11 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{volatile-long-int fixed}[r0x1000 r0x1001 r0x1002 r0x1003 ] < 0x0 {volatile-long-int literal}
+                      00167 ;;signed compare: left < lit(0x0=0), size=4, mask=ffffffff
+0026   C187           00168         BSET    STATUS,0
+0027   EE00           00169         JBSET   r0x1008,7
+0028   D187           00170         BCLR    STATUS,0
+0029   E187           00171         JBSET   STATUS,0
+002A   A000           00172         GOTO    _00108_DS_
+                      00173 ;;genSkipc:3246: created from rifx:0xbffed2b0
+                      00174 ;;[ICODE] ../libsdcc/fslt.c:62:         if iTemp9 [k18 lr11:12 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char fixed} == 0 goto _iffalse_1($4)
+                      00175 ;;[ICODE] ../libsdcc/fslt.c:62:         iTemp10 [k19 lr13:14 so:0]{ ia0 a2p0 re0 rm1 nos0 ru0 dp0}{volatile-long-int near* fixed}[remat] = &[___fslt_fl2_1_22 [k10 lr0:0 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{volatile-struct float_long fixed}]
+                      00176 ;;[ICODE] ../libsdcc/fslt.c:62:         iTemp12 [k22 lr14:15 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{volatile-long-int fixed}[r0x1000 r0x1001 r0x1002 r0x1003 ] = @[iTemp10 [k19 lr13:14 so:0]{ ia1 a2p0 re0 rm1 nos0 ru0 dp0}{volatile-long-int near* fixed}[remat] + 0x0 {const-unsigned-char literal}]
+002B   5800           00177         MOVAR   (___fslt_fl2_1_22 + 0)
+002C   5600           00178         MOVRA   r0x100B
+002D   5800           00179         MOVAR   (___fslt_fl2_1_22 + 1)
+002E   5600           00180         MOVRA   r0x100A
+002F   5800           00181         MOVAR   (___fslt_fl2_1_22 + 2)
+0030   5600           00182         MOVRA   r0x1009
+0031   5800           00183         MOVAR   (___fslt_fl2_1_22 + 3)
+0032   5600           00184         MOVRA   r0x1008
+                      00185 ;;[ICODE] ../libsdcc/fslt.c:62:         iTemp13 [k23 lr15:16 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char fixed} = iTemp12 [k22 lr14:15 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{volatile-long-int fixed}[r0x1000 r0x1001 r0x1002 r0x1003 ] < 0x0 {volatile-long-int literal}
+                      00186 ;;signed compare: left < lit(0x0=0), size=4, mask=ffffffff
+0033   C187           00187         BSET    STATUS,0
+0034   EE00           00188         JBSET   r0x1008,7
+0035   D187           00189         BCLR    STATUS,0
+0036   E187           00190         JBSET   STATUS,0
+0037   A000           00191         GOTO    _00108_DS_
+                      00192 ;;genSkipc:3246: created from rifx:0xbffed2b0
+                      00193 ;;[ICODE] ../libsdcc/fslt.c:62:         if iTemp13 [k23 lr15:16 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char fixed} == 0 goto _iffalse_1($4)
+                      00194 ;;[ICODE] ../libsdcc/fslt.c:63:         iTemp14 [k24 lr17:18 so:0]{ ia0 a2p0 re0 rm1 nos0 ru0 dp0}{volatile-long-int near* fixed}[remat] = &[___fslt_fl2_1_22 [k10 lr0:0 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{volatile-struct float_long fixed}]
+                      00195 ;;[ICODE] ../libsdcc/fslt.c:63:         iTemp16 [k27 lr18:21 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{volatile-long-int fixed}[r0x1000 r0x1001 r0x1002 r0x1003 ] = @[iTemp14 [k24 lr17:18 so:0]{ ia1 a2p0 re0 rm1 nos0 ru0 dp0}{volatile-long-int near* fixed}[remat] + 0x0 {const-unsigned-char literal}]
+                      00196 ;       .line   63; "../libsdcc/fslt.c" if (fl2.l < fl1.l)
+0038   5800           00197         MOVAR   (___fslt_fl2_1_22 + 0)
+0039   5600           00198         MOVRA   r0x100B
+003A   5800           00199         MOVAR   (___fslt_fl2_1_22 + 1)
+003B   5600           00200         MOVRA   r0x100A
+003C   5800           00201         MOVAR   (___fslt_fl2_1_22 + 2)
+003D   5600           00202         MOVRA   r0x1009
+003E   5800           00203         MOVAR   (___fslt_fl2_1_22 + 3)
+003F   5600           00204         MOVRA   r0x1008
+                      00205 ;;[ICODE] ../libsdcc/fslt.c:63:         iTemp17 [k28 lr19:20 so:0]{ ia0 a2p0 re0 rm1 nos0 ru0 dp0}{volatile-long-int near* fixed}[remat] = &[___fslt_fl1_1_22 [k6 lr0:0 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{volatile-struct float_long fixed}]
+                      00206 ;;[ICODE] ../libsdcc/fslt.c:63:         iTemp19 [k31 lr20:21 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{volatile-long-int fixed}[r0x1004 r0x1005 r0x1006 r0x1007 ] = @[iTemp17 [k28 lr19:20 so:0]{ ia1 a2p0 re0 rm1 nos0 ru0 dp0}{volatile-long-int near* fixed}[remat] + 0x0 {const-unsigned-char literal}]
+0040   5800           00207         MOVAR   (___fslt_fl1_1_22 + 0)
+0041   5600           00208         MOVRA   r0x100F
+0042   5800           00209         MOVAR   (___fslt_fl1_1_22 + 1)
+0043   5600           00210         MOVRA   r0x100E
+0044   5800           00211         MOVAR   (___fslt_fl1_1_22 + 2)
+0045   5600           00212         MOVRA   r0x100D
+0046   5800           00213         MOVAR   (___fslt_fl1_1_22 + 3)
+0047   5600           00214         MOVRA   r0x100C
+                      00215 ;;[ICODE] ../libsdcc/fslt.c:63:         iTemp20 [k32 lr21:22 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char fixed} = iTemp16 [k27 lr18:21 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{volatile-long-int fixed}[r0x1000 r0x1001 r0x1002 r0x1003 ] < iTemp19 [k31 lr20:21 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{volatile-long-int fixed}[r0x1004 r0x1005 r0x1006 r0x1007 ]
+0048   5800           00216         MOVAR   r0x1008
+0049   3F80           00217         ADDAI   0x80
+004A   5600           00218         MOVRA   r0x1010
+004B   5800           00219         MOVAR   r0x100C
+004C   3F80           00220         ADDAI   0x80
+004D   4800           00221         RSUBAR  r0x1010
+004E   E587           00222         JBSET   STATUS,2
+004F   A000           00223         GOTO    _00122_DS_
+0050   5800           00224         MOVAR   r0x100D
+0051   4800           00225         RSUBAR  r0x1009
+0052   E587           00226         JBSET   STATUS,2
+0053   A000           00227         GOTO    _00122_DS_
+0054   5800           00228         MOVAR   r0x100E
+0055   4800           00229         RSUBAR  r0x100A
+0056   E587           00230         JBSET   STATUS,2
+0057   A000           00231         GOTO    _00122_DS_
+0058   5800           00232         MOVAR   r0x100F
+0059   4800           00233         RSUBAR  r0x100B
+005A                  00234 _00122_DS_
+005A   F187           00235         JBCLR   STATUS,0
+005B   A000           00236         GOTO    _00106_DS_
+                      00237 ;;genSkipc:3246: created from rifx:0xbffed2b0
+                      00238 ;;[ICODE] ../libsdcc/fslt.c:63:         if iTemp20 [k32 lr21:22 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char fixed} == 0 goto _iffalse_0($2)
+                      00239 ;;[ICODE] ../libsdcc/fslt.c:64:         ret 0x1 {const-unsigned-char literal}
+                      00240 ;       .line   64; "../libsdcc/fslt.c" return (1);
+005C   3C01           00241         MOVAI   0x01
+005D   A000           00242         GOTO    _00112_DS_
+                      00243 ;;[ICODE] ../libsdcc/fslt.c:64:  _iffalse_0($2) :
+                      00244 ;;[ICODE] ../libsdcc/fslt.c:65:         ret 0x0 {const-unsigned-char literal}
+005E                  00245 _00106_DS_
+                      00246 ;       .line   65; "../libsdcc/fslt.c" return (0);
+005E   3C00           00247         MOVAI   0x00
+005F   A000           00248         GOTO    _00112_DS_
+                      00249 ;;[ICODE] ../libsdcc/fslt.c:65:  _iffalse_1($4) :
+                      00250 ;;[ICODE] ../libsdcc/fslt.c:68:         iTemp21 [k33 lr27:28 so:0]{ ia0 a2p0 re0 rm1 nos0 ru0 dp0}{volatile-long-int near* fixed}[remat] = &[___fslt_fl1_1_22 [k6 lr0:0 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{volatile-struct float_long fixed}]
+                      00251 ;;[ICODE] ../libsdcc/fslt.c:68:         iTemp23 [k36 lr28:31 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{volatile-long-int fixed}[r0x1000 r0x1001 r0x1002 r0x1003 ] = @[iTemp21 [k33 lr27:28 so:0]{ ia1 a2p0 re0 rm1 nos0 ru0 dp0}{volatile-long-int near* fixed}[remat] + 0x0 {const-unsigned-char literal}]
+0060                  00252 _00108_DS_
+                      00253 ;       .line   68; "../libsdcc/fslt.c" if (fl1.l < fl2.l)
+0060   5800           00254         MOVAR   (___fslt_fl1_1_22 + 0)
+0061   5600           00255         MOVRA   r0x100B
+0062   5800           00256         MOVAR   (___fslt_fl1_1_22 + 1)
+0063   5600           00257         MOVRA   r0x100A
+0064   5800           00258         MOVAR   (___fslt_fl1_1_22 + 2)
+0065   5600           00259         MOVRA   r0x1009
+0066   5800           00260         MOVAR   (___fslt_fl1_1_22 + 3)
+0067   5600           00261         MOVRA   r0x1008
+                      00262 ;;[ICODE] ../libsdcc/fslt.c:68:         iTemp24 [k37 lr29:30 so:0]{ ia0 a2p0 re0 rm1 nos0 ru0 dp0}{volatile-long-int near* fixed}[remat] = &[___fslt_fl2_1_22 [k10 lr0:0 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{volatile-struct float_long fixed}]
+                      00263 ;;[ICODE] ../libsdcc/fslt.c:68:         iTemp26 [k40 lr30:31 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{volatile-long-int fixed}[r0x1004 r0x1005 r0x1006 r0x1007 ] = @[iTemp24 [k37 lr29:30 so:0]{ ia1 a2p0 re0 rm1 nos0 ru0 dp0}{volatile-long-int near* fixed}[remat] + 0x0 {const-unsigned-char literal}]
+0068   5800           00264         MOVAR   (___fslt_fl2_1_22 + 0)
+0069   5600           00265         MOVRA   r0x100F
+006A   5800           00266         MOVAR   (___fslt_fl2_1_22 + 1)
+006B   5600           00267         MOVRA   r0x100E
+006C   5800           00268         MOVAR   (___fslt_fl2_1_22 + 2)
+006D   5600           00269         MOVRA   r0x100D
+006E   5800           00270         MOVAR   (___fslt_fl2_1_22 + 3)
+006F   5600           00271         MOVRA   r0x100C
+                      00272 ;;[ICODE] ../libsdcc/fslt.c:68:         iTemp27 [k41 lr31:32 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char fixed} = iTemp23 [k36 lr28:31 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{volatile-long-int fixed}[r0x1000 r0x1001 r0x1002 r0x1003 ] < iTemp26 [k40 lr30:31 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{volatile-long-int fixed}[r0x1004 r0x1005 r0x1006 r0x1007 ]
+0070   5800           00273         MOVAR   r0x1008
+0071   3F80           00274         ADDAI   0x80
+0072   5600           00275         MOVRA   r0x1010
+0073   5800           00276         MOVAR   r0x100C
+0074   3F80           00277         ADDAI   0x80
+0075   4800           00278         RSUBAR  r0x1010
+0076   E587           00279         JBSET   STATUS,2
+0077   A000           00280         GOTO    _00123_DS_
+0078   5800           00281         MOVAR   r0x100D
+0079   4800           00282         RSUBAR  r0x1009
+007A   E587           00283         JBSET   STATUS,2
+007B   A000           00284         GOTO    _00123_DS_
+007C   5800           00285         MOVAR   r0x100E
+007D   4800           00286         RSUBAR  r0x100A
+007E   E587           00287         JBSET   STATUS,2
+007F   A000           00288         GOTO    _00123_DS_
+0080   5800           00289         MOVAR   r0x100F
+0081   4800           00290         RSUBAR  r0x100B
+0082                  00291 _00123_DS_
+0082   F187           00292         JBCLR   STATUS,0
+0083   A000           00293         GOTO    _00111_DS_
+                      00294 ;;genSkipc:3246: created from rifx:0xbffed2b0
+                      00295 ;;[ICODE] ../libsdcc/fslt.c:68:         if iTemp27 [k41 lr31:32 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char fixed} == 0 goto _iffalse_2($7)
+                      00296 ;;[ICODE] ../libsdcc/fslt.c:69:         ret 0x1 {const-unsigned-char literal}
+                      00297 ;       .line   69; "../libsdcc/fslt.c" return (1);
+0084   3C01           00298         MOVAI   0x01
+0085   A000           00299         GOTO    _00112_DS_
+                      00300 ;;[ICODE] ../libsdcc/fslt.c:69:  _iffalse_2($7) :
+                      00301 ;;[ICODE] ../libsdcc/fslt.c:70:         ret 0x0 {const-unsigned-char literal}
+0086                  00302 _00111_DS_
+                      00303 ;       .line   70; "../libsdcc/fslt.c" return (0);
+0086   3C00           00304         MOVAI   0x00
+                      00305 ;;[ICODE] ../libsdcc/fslt.c:70:  _return($8) :
+                      00306 ;;[ICODE] ../libsdcc/fslt.c:70:         eproc ___fslt [k1 lr0:0 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char function ( float fixed, float fixed) fixed}
+0087                  00307 _00112_DS_
+0087   000C           00308         RETURN  
+                      00309 ; exit point of ___fslt
+                      00310 
+                      00311 
+                      00312 ;       code size estimation:
+                      00313 ;         136+    0 =   136 instructions (  272 byte)
+                      00314 
+                      00315         end
+gpasm-1.7.0_beta1 (Jan 22 2015)fslt.asm           2015-1-22  23:32:13          PAGE  2
+
+
+SYMBOL TABLE
+  LABEL                             VALUE
+
+ADCR0                             000001B0
+ADCR1                             000001B1
+ADEOC                             00000001
+ADIE                              00000006
+ADIF                              00000006
+ADON                              00000000
+ADRH                              000001B4
+ADRL                              000001B5
+ANSEL                             00000193
+BUZ0OE                            00000005
+BUZ1OE                            00000005
+C                                 00000000
+CLKS                              00000002
+DC                                00000001
+FSR                               00000184
+FSR0                              00000184
+FSR1                              00000185
+GIE                               00000007
+HFEN                              00000000
+HIBYTE                            00000183
+INDF                              00000180
+INDF0                             00000180
+INDF1                             00000181
+INDF2                             00000182
+INDF3                             00000189
+INT0IE                            00000002
+INT0IF                            00000002
+INT1IE                            00000003
+INT1IF                            00000003
+INTE                              0000018A
+INTF                              0000018B
+IOP0                              00000190
+IOP1                              00000194
+KBIE                              00000004
+KBIF                              00000004
+KBIM                              00000197
+KBIM0                             00000000
+KBIM1                             00000001
+KBIM2                             00000002
+KBIM3                             00000003
+KBIM4                             00000004
+KBIM5                             00000005
+KBIM6                             00000006
+LFEN                              00000001
+LVDCR                             000001AD
+LVDEN                             00000007
+LVDF                              00000000
+MCR                               00000188
+OEP0                              00000191
+OEP1                              00000195
+OSCAL                             000001FB
+OSCM                              000001AE
+P00                               00000000
+P00ANS                            00000000
+P00OE                             00000000
+P00PU                             00000000
+P01                               00000001
+P01ANS                            00000001
+P01OE                             00000001
+P01PU                             00000001
+P02                               00000002
+P02ANS                            00000002
+P02OE                             00000002
+P02PU                             00000002
+P03                               00000003
+P03ANS                            00000003
+P03OE                             00000003
+P03PU                             00000003
+P04                               00000004
+P04ANS                            00000004
+P04OE                             00000004
+P04PU                             00000004
+P10                               00000000
+P10OE                             00000000
+P10PU                             00000000
+P11                               00000001
+P11OE                             00000001
+P11PU                             00000001
+P12                               00000002
+P12ANS                            00000005
+P12OE                             00000002
+P12PU                             00000002
+P13                               00000003
+P13ANS                            00000006
+P13OE                             00000003
+P13PU                             00000003
+P14                               00000004
+P14OE                             00000004
+P14PU                             00000004
+P15                               00000005
+P15OE                             00000005
+P15PU                             00000005
+P16                               00000006
+P16OE                             00000006
+P16PU                             00000006
+PCL                               00000186
+PD                                00000004
+PUP0                              00000192
+PUP1                              00000196
+PWM0OE                            00000006
+PWM1OE                            00000006
+STATUS                            00000187
+STBH                              00000004
+STBL                              00000005
+STK00                             00000000
+STK01                             00000000
+STK02                             00000000
+STK03                             00000000
+STK04                             00000000
+STK05                             00000000
+STK06                             00000000
+T0CNT                             000001A1
+T0CR                              000001A0
+T0DATA                            000001A3
+T0IE                              00000000
+T0IF                              00000000
+T0LOAD                            000001A2
+T1CNT                             000001A5
+T1CR                              000001A4
+T1DATA                            000001A7
+T1IE                              00000001
+T1IF                              00000001
+T1LOAD                            000001A6
+TC0EN                             00000007
+TC1EN                             00000007
+TO                                00000005
+Z                                 00000002
+_00106_DS_                        0000005E
+_00108_DS_                        00000060
+_00111_DS_                        00000086
+_00112_DS_                        00000087
+_00122_DS_                        0000005A
+_00123_DS_                        00000082
+_CONFIG0                          00008000
+_CONFIG1                          00008001
+_CP_ALL                           00007FFF
+_FCPU_128T                        0000FFEF
+_FCPU_16T                         0000FFBF
+_FCPU_256T                        0000FFFF
+_FCPU_2T                          0000FF8F
+_FCPU_32T                         0000FFCF
+_FCPU_4T                          0000FF9F
+_FCPU_64T                         0000FFDF
+_FCPU_8T                          0000FFAF
+_HRC_LRC                          0000FCFF
+_HRC_LXT                          0000FDFF
+_HXT_LRC                          0000FEFF
+_MCLR_OFF                         0000FF7F
+_MCLR_ON                          0000FFFF
+_PTWRT_16_1024                    0000FFF7
+_PTWRT_16_16                      0000DFF7
+_PTWRT_256_256                    0000DFFF
+_PTWRT_256_4096                   0000FFFF
+_PTWRT_4_4                        0000DFF3
+_PTWRT_4_512                      0000FFF3
+_PTWRT_64_2048                    0000FFFB
+_PTWRT_64_64                      0000DFFB
+_VLVR_160                         0000E3FF
+_VLVR_185                         0000E7FF
+_VLVR_205                         0000EBFF
+_VLVR_218                         0000EFFF
+_VLVR_232                         0000F3FF
+_VLVR_245                         0000F7FF
+_VLVR_305                         0000FBFF
+_VLVR_360                         0000FFFF
+_WDT_ALWAYS_OFF                   0000FFFC
+_WDT_ALWAYS_ON                    0000FFFF
+_WDT_SLEEP_OFF                    0000FFFD
+__32P21                           00000001
+___fs2schar                       00000000
+___fs2sint                        00000000
+___fs2slong                       00000000
+___fs2uchar                       00000000
+___fs2uint                        00000000
+___fs2ulong                       00000000
+___fsadd                          00000000
+___fsdiv                          00000000
+___fseq                           00000000
+___fsgt                           00000000
+___fslt                           00000000
+___fslt_fl1_1_22                  00000009
+___fslt_fl2_1_22                  0000000D
+___fsmul                          00000000
+___fsneq                          00000000
+___fssub                          00000000
+___schar2fs                       00000000
+___sint2fs                        00000000
+___slong2fs                       00000000
+___uchar2fs                       00000000
+___uint2fs                        00000000
+___ulong2fs                       00000000
+r0x1008                           00000003
+r0x1009                           00000002
+r0x100A                           00000001
+r0x100B                           00000000
+r0x100C                           00000007
+r0x100D                           00000006
+r0x100E                           00000005
+r0x100F                           00000004
+r0x1010                           00000008
+
+Errors   :     0
+Warnings :     0 reported,     0 suppressed
+Messages :     0 reported,     0 suppressed
+
+

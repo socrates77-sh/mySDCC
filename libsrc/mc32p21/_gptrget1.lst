@@ -1,0 +1,218 @@
+gpasm-1.7.0_beta1 (Jan 22 2015)_gptrget1.S        2015-1-22  23:32:14          PAGE  1
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+                      00001 ; -------------------------------------------------------------------------
+                      00002 ;  _gptrget1.S - read one byte pointed to by a generic pointer
+                      00003 ;
+                      00004 ;  Copyright (C) 2005, Raphael Neider <rneider AT web.de>
+                      00005 ;
+                      00006 ;  This library is free software; you can redistribute it and/or modify it
+                      00007 ;  under the terms of the GNU General Public License as published by the
+                      00008 ;  Free Software Foundation; either version 2, or (at your option) any
+                      00009 ;  later version.
+                      00010 ;
+                      00011 ;  This library is distributed in the hope that it will be useful,
+                      00012 ;  but WITHOUT ANY WARRANTY; without even the implied warranty of
+                      00013 ;  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+                      00014 ;  GNU General Public License for more details.
+                      00015 ;
+                      00016 ;  You should have received a copy of the GNU General Public License 
+                      00017 ;  along with this library; see the file COPYING. If not, write to the
+                      00018 ;  Free Software Foundation, 51 Franklin Street, Fifth Floor, Boston,
+                      00019 ;   MA 02110-1301, USA.
+                      00020 ;
+                      00021 ;  As a special exception, if you link this library with other files,
+                      00022 ;  some of which are compiled with SDCC, to produce an executable,
+                      00023 ;  this library does not by itself cause the resulting executable to
+                      00024 ;  be covered by the GNU General Public License. This exception does
+                      00025 ;  not however invalidate any other reasons why the executable file
+                      00026 ;  might be covered by the GNU General Public License.
+                      00027 ;--------------------------------------------------------------------------
+                      00028 
+                      00029 ; calling conventions:
+                      00030 ;   3 byte generic pointer is passed in via (WREG STK00 STK01).
+                      00031 ;   The result is returned in (WREG (STK00 (STK01 (STK02)))).
+                      00032 ;
+                      00033 ;   unsigned char _gptrget  (void *gptr);
+                      00034 ;   unsigned char _gptrget1 (void *gptr);
+                      00035 ;   unsigned int  _gptrget2 (void *gptr);
+                      00036 ;   void *        _gptrget3 (void *gptr);
+                      00037 ;   unsigned long _gptrget4 (void *gptr);
+                      00038 ;
+                      00039 ;   void _gptrput  (void *ptr, unsigned char val);
+                      00040 ;   void _gptrput1 (void *ptr, unsigned char val);
+                      00041 ;   void _gptrput2 (void *ptr, unsigned int  val);
+                      00042 ;   void _gptrput3 (void *ptr, unsigned int  val);
+                      00043 ;   void _gptrput4 (void *ptr, unsigned long val);
+                      00044 
+                      00045 include macros.inc
+                      00001 ; -----------------------------------------------
+                      00002 ; --- extern declared SFRs
+                      00003 ; -----------------------------------------------
+                      00004         extern _STATUS
+                      00005         extern _FSR
+                      00006         extern _INDF
+                      00007         extern _PCLATH
+                      00008         extern _PCL
+                      00009 
+  00000000            00010 C       EQU     0
+  00000001            00011 DC      EQU     1
+  00000002            00012 Z       EQU     2
+  00000007            00013 IRP     EQU     7
+                      00014         
+                      00015 ; -----------------------------------------------
+                      00016 ; --- generic pointer access helpers
+                      00017 ; -----------------------------------------------
+                      00018 
+  00000000            00019 GPTRTAG_DATA    EQU     0x00
+  00000080            00020 GPTRTAG_CODE    EQU     0x80
+                      00021 
+                      00022 ; setup FSR to point to (STK00:STK01)
+                      00023 setup_fsr       macro
+                      00024         movar   STK01
+                      00025         movra   _FSR
+                      00026         ; select indirectly addressed bank
+                      00027         ;bclr   _STATUS, IRP
+                      00028         ;jbclr  STK00, 0
+                      00029         ;bset   _STATUS, IRP
+                      00030         endm
+                      00031 
+                      00032 ; increment FSR, update IRP on bank crossings
+                      00033 ; FIXME: update IRP if FSR is reset to 0...
+                      00034 inc_fsr         macro
+                      00035         incr    _FSR
+                      00036         endm
+                      00037 
+                      00038 ; dispatch according to gptr type
+                      00039 select_routine  macro   dataptr, codeptr
+                      00040         ; __data pointer tag: 0x00
+                      00041         xorai   GPTRTAG_DATA
+                      00042         jbclr   _STATUS, Z
+                      00043         goto    dataptr
+                      00044         ; __code pointer tag: 0x80
+                      00045         xorai   (GPTRTAG_DATA ^ GPTRTAG_CODE)
+                      00046         jbclr   _STATUS, Z
+                      00047         goto    codeptr
+                      00048         endm
+                      00049 
+                      00050 check_data      macro   dataptr
+                      00051         ; __data pointer tag: 0x00
+                      00052         xorai   GPTRTAG_DATA
+                      00053         jbclr   _STATUS, Z
+                      00054         goto    dataptr
+                      00055         endm
+                      00056 
+                      00046 include mc3xf_common.inc
+                      00001 ;--------------------------------------------------------------------------
+                      00002 ;  p16f_common.inc - definitions common to all 14 bit PIC devices
+                      00003 ;
+                      00004 ;  Copyright (C) 2005, Vangelis Rokas <vrokas AT otenet.gr>
+                      00005 ;
+                      00006 ;  This library is free software; you can redistribute it and/or modify it
+                      00007 ;  under the terms of the GNU General Public License as published by the
+                      00008 ;  Free Software Foundation; either version 2, or (at your option) any
+                      00009 ;  later version.
+                      00010 ;
+                      00011 ;  This library is distributed in the hope that it will be useful,
+                      00012 ;  but WITHOUT ANY WARRANTY; without even the implied warranty of
+                      00013 ;  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+                      00014 ;  GNU General Public License for more details.
+                      00015 ;
+                      00016 ;  You should have received a copy of the GNU General Public License 
+                      00017 ;  along with this library; see the file COPYING. If not, write to the
+                      00018 ;  Free Software Foundation, 51 Franklin Street, Fifth Floor, Boston,
+                      00019 ;   MA 02110-1301, USA.
+                      00020 ;
+                      00021 ;  As a special exception, if you link this library with other files,
+                      00022 ;  some of which are compiled with SDCC, to produce an executable,
+                      00023 ;  this library does not by itself cause the resulting executable to
+                      00024 ;  be covered by the GNU General Public License. This exception does
+                      00025 ;  not however invalidate any other reasons why the executable file
+                      00026 ;  might be covered by the GNU General Public License.
+                      00027 ;--------------------------------------------------------------------------
+                      00028 
+                      00029                 extern  STK00
+                      00030                 extern  STK01
+                      00031                 extern  STK02
+                      00032                 extern  STK03
+                      00033                 extern  STK04
+                      00034                 extern  STK05
+                      00035 
+                      00047 
+                      00048         global  __gptrget
+                      00049         global  __gptrget1
+                      00050         global  __codeptrget1
+                      00051         
+                      00052         CODE
+                      00053 
+0000                  00054 __gptrget:
+0000                  00055 __gptrget1:
+                      00056         select_routine __dataptrget1, __codeptrget1
+                          M         ; __data pointer tag: 0x00
+0000   3900               M         xorai   GPTRTAG_DATA
+0001   F400               M         jbclr   _STATUS, Z
+0002   A000               M         goto    dataptr
+                          M         ; __code pointer tag: 0x80
+0003   3980               M         xorai   (GPTRTAG_DATA ^ GPTRTAG_CODE)
+0004   F400               M         jbclr   _STATUS, Z
+0005   A000               M         goto    codeptr
+                      00057         ; invalid tag -- return 0x00
+0006   3B00           00058         retai   0x00
+                      00059 
+0007                  00060 __dataptrget1:
+                      00061         setup_fsr
+0007   5800               M         movar   STK01
+0008   5600               M         movra   _FSR
+                          M         ; select indirectly addressed bank
+                          M         ;bclr   _STATUS, IRP
+                          M         ;jbclr  STK00, 0
+                          M         ;bset   _STATUS, IRP
+0009   5800           00062         movar   _INDF
+000A   000C           00063         return
+                      00064 
+000B                  00065 __codeptrget1:
+                      00066         ; call the RETLW instruction at the given address
+                      00067         ;movar  STK00
+                      00068         ;movra  _PCLATH
+000B   5800           00069         movar   STK01
+000C   5600           00070         movra   _PCL
+000D   000C           00071         return  ; should never be executed...
+                      00072 
+                      00073         END
+gpasm-1.7.0_beta1 (Jan 22 2015)_gptrget1.S        2015-1-22  23:32:14          PAGE  2
+
+
+SYMBOL TABLE
+  LABEL                             VALUE
+
+C                                 00000000
+DC                                00000001
+GPTRTAG_CODE                      00000080
+GPTRTAG_DATA                      00000000
+IRP                               00000007
+STK00                             00000000
+STK01                             00000000
+STK02                             00000000
+STK03                             00000000
+STK04                             00000000
+STK05                             00000000
+Z                                 00000002
+_FSR                              00000000
+_INDF                             00000000
+_PCL                              00000000
+_PCLATH                           00000000
+_STATUS                           00000000
+__32P21                           00000001
+__codeptrget1                     0000000B
+__dataptrget1                     00000007
+__gptrget                         00000000
+__gptrget1                        00000000
+
+Errors   :     0
+Warnings :     0 reported,     0 suppressed
+Messages :     0 reported,     0 suppressed
+
+

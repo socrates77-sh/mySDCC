@@ -1,0 +1,454 @@
+gpasm-1.7.0_beta1 (Jan 22 2015)_modulong.asm      2015-1-22  23:37:00          PAGE  1
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+                      00001 ;--------------------------------------------------------
+                      00002 ; File Created by SN-SDCC : ANSI-C Compiler
+                      00003 ; Version 0.0.4 (Jan 22 2015) (Linux)
+                      00004 ; This file was generated Thu Jan 22 23:37:00 2015
+                      00005 ;--------------------------------------------------------
+                      00006 ; MC3X port for the RISC core
+                      00007 ;--------------------------------------------------------
+                      00008 ;       .file   "../libsdcc/_modulong.c"
+                      00009         list    p=33p78
+                      00010         radix dec
+                      00011         include "mc33p78.inc"
+                      00001 
+                      00002 ;mc33p78 header file
+                      00003 ;define must write at first row
+                      00004 
+  000001B0            00005 INDF    EQU     0X01B0       
+  000001B0            00006 INDF0   EQU     0X01B0
+  000001B1            00007 INDF1   EQU     0X01B1
+  000001B2            00008 INDF2   EQU     0X01B2
+  000001B3            00009 HIBYTE  EQU     0X01B3
+  000001B4            00010 FSR     EQU     0X01B4
+  000001B4            00011 FSR0    EQU     0X01B4
+  000001B5            00012 FSR1    EQU     0X1B5
+  000001B6            00013 PCL     EQU     0X1B6
+  000001B7            00014 PFLAG   EQU    0X1B7
+  000001B7            00015 STATUS  EQU     0X1B7
+  000001B8            00016 MCR     EQU     0X1B8
+  000001B9            00017 INDF3   EQU    0X1B9   
+  000001BA            00018 INTE    EQU     0X1BA
+  000001BB            00019 INTF    EQU     0X1BB
+  000001BC            00020 OSCM    EQU     0X1BC
+                      00021 ;IOP0    EQU     0X1C0
+                      00022 ;OEP0    EQU     0X1C1
+                      00023 ;PUP0    EQU     0X1C2
+                      00024 ;IOP1    EQU     0X1C4
+                      00025 ;OEP1    EQU     0X1C5
+                      00026 ;PUP1    EQU     0X1C6
+  000001C8            00027 IOP1    EQU     0X1C8
+  000001C9            00028 OEP1    EQU     0X1C9
+  000001CA            00029 PUP1    EQU     0X1CA
+                      00030 
+  000001CE            00031 DKWP1    EQU     0X1CE
+                      00032 
+  000001D0            00033 IOP2    EQU     0X1D0
+  000001D1            00034 OEP2    EQU     0X1D1
+  000001D2            00035 PUP2    EQU     0X1D2
+                      00036 ;T0DATA  EQU     0X1D3
+                      00037 ;T1CR    EQU     0X1D4
+                      00038 ;T1CNT   EQU     0X1D5
+  000001D6            00039 DKWP2   EQU     0X1D6
+  000001D7            00040 KBCR    EQU     0X1D7
+  000001D8            00041 T0CR    EQU     0X1D8
+  000001D9            00042 T0LOADH EQU     0X1D9
+  000001DA            00043 T0LOADL  EQU     0X1DA
+  000001DB            00044 T0LATFL   EQU     0X1DB
+  000001DC            00045 T0LATFH EQU     0X1DC
+                      00046 
+  000001DD            00047 T0LATRL  EQU     0X1DD
+  000001DE            00048 T0LATRH  EQU     0X1DE
+                      00049 
+  000001E0            00050 T1CR    EQU     0X1E0
+  000001E1            00051 T1DATA  EQU     0X1E1
+  000001E2            00052 T1LOAD  EQU     0X1E2
+                      00053 
+  000001E4            00054 OPCR0   EQU     0X1E4
+  000001E5            00055 OPCR1   EQU     0X1E5
+  000001E6            00056 DKW0    EQU     0X1E6
+  000001E7            00057 DKW1    EQU     0X1E7
+                      00058 
+                      00059 ;pflag bit 
+                      00060 #define         Z       PFLAG,2
+                      00061 #define         DC      PFLAG,1
+                      00062 #define         C       PFLAG,0 
+                      00063 
+                      00064 ;MCR
+                      00065 #define         GIE     MCR,7
+                      00066 #DEFINE         TO      MCR,5
+                      00067 #DEFINE         PD      MCR,4
+                      00068 #DEFINE         MINT11  MCR,3
+                      00069 
+                      00070 
+                      00071 ;INTE
+                      00072 #define         KBIE    INTE,7
+                      00073 #DEFINE         INT1IE  INTE,3
+                      00074 #DEFINE         INT0IE  INTE,2
+                      00075 #DEFINE         T1IE    INTE,1
+                      00076 #define         T0IE    INTE,0
+                      00077 
+                      00078 ;INTF
+                      00079 #DEFINE         KBIF    INTF,7
+                      00080 #DEFINE         T0RF    INTF,6
+                      00081 #DEFINE         INT1IF  INTF,3
+                      00082 #DEFINE         INT0IF  INTF,2
+                      00083 #DEFINE         T1IF    INTF,1
+                      00084 #DEFINE         T0IF    INTF,0
+                      00085 
+                      00086 ;DKW0
+                      00087 #DEFINE         DKWE    DKW0,7
+                      00088 #DEFINE         IROS    DKW0,6
+                      00089 #DEFINE         IROT    DKW0,5         
+                      00090 #DEFINE         WSEL0   DKW0,4
+                      00091 #DEFINE         WSEL1   DKW0,3
+                      00092 #DEFINE         RSEL    DKW0,2
+                      00093 #DEFINE         ISEL1   DKW0,1
+                      00094 #define         ISEL0   DKW0,0 
+                      00095 
+                      00096 #define                                 HFEN            OSCM,0
+                      00097 #define                                 LFEN            OSCM,1
+                      00098 #define                                 CLKS            OSCM,2
+                      00099 #define                                 STBH            OSCM,4
+                      00100 #DEFINE                                 STBL            OSCM,5
+                      00101 
+                      00102 ;T0CR
+                      00103 #DEFINE         TC0EN   T0CR,7
+                      00104 ;#DEFINE  
+                      00105 
+                      00106 ;T1CR
+                      00107 #DEFINE         TC1EN   T1CR,7
+                      00108          
+                      00109     
+                      00110 
+                      00111 
+                      00012 ;--------------------------------------------------------
+                      00013 ; external declarations
+                      00014 ;--------------------------------------------------------
+                      00015 
+                      00016         extern STK06
+                      00017         extern STK05
+                      00018         extern STK04
+                      00019         extern STK03
+                      00020         extern STK02
+                      00021         extern STK01
+                      00022         extern STK00
+                      00023 ;--------------------------------------------------------
+                      00024 ; global declarations
+                      00025 ;--------------------------------------------------------
+                      00026         global  __modulong
+                      00027 
+                      00028 ;--------------------------------------------------------
+                      00029 ; global definitions
+                      00030 ;--------------------------------------------------------
+                      00031 ;--------------------------------------------------------
+                      00032 ; absolute symbol definitions
+                      00033 ;--------------------------------------------------------
+                      00034 ;--------------------------------------------------------
+                      00035 ; compiler-defined variables
+                      00036 ;--------------------------------------------------------
+                      00037 UDL__modulong_0 udata
+0000                  00038 r0x1003 res     1
+0000                  00039 r0x1002 res     1
+0001                  00040 r0x1001 res     1
+0001                  00041 r0x1000 res     1
+0002                  00042 r0x1007 res     1
+0002                  00043 r0x1006 res     1
+0003                  00044 r0x1005 res     1
+0003                  00045 r0x1004 res     1
+0004                  00046 r0x1008 res     1
+                      00047 ;--------------------------------------------------------
+                      00048 ; initialized data
+                      00049 ;--------------------------------------------------------
+                      00050 ;--------------------------------------------------------
+                      00051 ; overlayable items in internal ram 
+                      00052 ;--------------------------------------------------------
+                      00053 ;       udata_ovr
+                      00054 ;--------------------------------------------------------
+                      00055 ; code
+                      00056 ;--------------------------------------------------------
+                      00057 code__modulong  code
+                      00058 ;***
+                      00059 ;  pBlock Stats: dbName = C
+                      00060 ;***
+                      00061 ;entry:  __modulong     ;Function start
+                      00062 ; 2 exit points
+                      00063 ;has an exit
+                      00064 ;16 compiler assigned registers:
+                      00065 ;   r0x1000
+                      00066 ;   STK00
+                      00067 ;   r0x1001
+                      00068 ;   STK01
+                      00069 ;   r0x1002
+                      00070 ;   STK02
+                      00071 ;   r0x1003
+                      00072 ;   STK03
+                      00073 ;   r0x1004
+                      00074 ;   STK04
+                      00075 ;   r0x1005
+                      00076 ;   STK05
+                      00077 ;   r0x1006
+                      00078 ;   STK06
+                      00079 ;   r0x1007
+                      00080 ;   r0x1008
+                      00081 ;; Starting pCode block
+                      00082 ;;[ICODE] ../libsdcc/_modulong.c:30:  _entry($12) :
+                      00083 ;;[ICODE] ../libsdcc/_modulong.c:30:    proc __modulong [k1 lr0:0 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-long-int function ( unsigned-long-int fixed, unsigned-long-int fixed) fixed}
+0000                  00084 __modulong      ;Function start
+                      00085 ; 2 exit points
+                      00086 ;;[ICODE] ../libsdcc/_modulong.c:30: iTemp0 [k2 lr3:32 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{unsigned-long-int fixed}{ sir@ __modulong_a_1_1}[r0x1000 r0x1001 r0x1002 r0x1003 ] = recv __modulong [k1 lr0:0 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-long-int function ( unsigned-long-int fixed, unsigned-long-int fixed) fixed}
+                      00087 ;       .line   30; "../libsdcc/_modulong.c"    _modulong (unsigned long a, unsigned long b)
+0000   5600           00088         MOVRA   r0x1000
+0001   5800           00089         MOVAR   STK00
+0002   5600           00090         MOVRA   r0x1001
+0003   5800           00091         MOVAR   STK01
+0004   5600           00092         MOVRA   r0x1002
+0005   5800           00093         MOVAR   STK02
+0006   5600           00094         MOVRA   r0x1003
+                      00095 ;;[ICODE] ../libsdcc/_modulong.c:30: iTemp1 [k4 lr4:30 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{unsigned-long-int fixed}{ sir@ __modulong_b_1_1}[r0x1004 r0x1005 r0x1006 r0x1007 ] = recv __modulong [k1 lr0:0 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-long-int function ( unsigned-long-int fixed, unsigned-long-int fixed) fixed}
+0007   5800           00096         MOVAR   STK03
+0008   5600           00097         MOVRA   r0x1004
+0009   5800           00098         MOVAR   STK04
+000A   5600           00099         MOVRA   r0x1005
+000B   5800           00100         MOVAR   STK05
+000C   5600           00101         MOVRA   r0x1006
+000D   5800           00102         MOVAR   STK06
+000E   5600           00103         MOVRA   r0x1007
+                      00104 ;;[ICODE] ../libsdcc/_modulong.c:35:    if iTemp1 [k4 lr4:30 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{unsigned-long-int fixed}{ sir@ __modulong_b_1_1}[r0x1004 r0x1005 r0x1006 r0x1007 ] != 0 goto preHeaderLbl0($15)
+                      00105 ;       .line   35; "../libsdcc/_modulong.c"    if (!b) return (unsigned long)-1;
+000F   5800           00106         MOVAR   r0x1007
+0010   5C00           00107         ORAR    r0x1006
+0011   5C00           00108         ORAR    r0x1005
+0012   5C00           00109         ORAR    r0x1004
+0013   E5B7           00110         JBSET   STATUS,2
+0014   A000           00111         GOTO    _00119_DS_
+                      00112 ;;[ICODE] ../libsdcc/_modulong.c:35:    ret 0xffffffff {unsigned-long-int literal}
+0015   3CFF           00113         MOVAI   0xff
+0016   5600           00114         MOVRA   STK02
+0017   3CFF           00115         MOVAI   0xff
+0018   5600           00116         MOVRA   STK01
+0019   3CFF           00117         MOVAI   0xff
+001A   5600           00118         MOVRA   STK00
+001B   3CFF           00119         MOVAI   0xff
+001C   A000           00120         GOTO    _00115_DS_
+                      00121 ;;[ICODE] ../libsdcc/_modulong.c:39:  preHeaderLbl0($15) :
+                      00122 ;;[ICODE] ../libsdcc/_modulong.c:39:    iTemp5 [k10 lr8:18 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-char fixed}{ sir@ __modulong_count_1_2}[r0x1008 ] := 0x1 {const-unsigned-char literal}
+001D                  00123 _00119_DS_
+                      00124 ;       .line   39; "../libsdcc/_modulong.c"    while (!(b & (1UL << (8*sizeof(unsigned long)-1)))) {
+001D   3C01           00125         MOVAI   0x01
+001E   5600           00126         MOVRA   r0x1008
+                      00127 ;;[ICODE] ../libsdcc/_modulong.c:39:  _whilecontinue_0($3) :
+                      00128 ;;[ICODE] ../libsdcc/_modulong.c:39:    iTemp3 [k8 lr11:12 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-long-int register} = iTemp1 [k4 lr4:30 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{unsigned-long-int fixed}{ sir@ __modulong_b_1_1}[r0x1004 r0x1005 r0x1006 r0x1007 ] & 0x80000000 {unsigned-long-int literal}
+001F                  00129 _00107_DS_
+001F   FE00           00130         JBCLR   r0x1004,7
+0020   A000           00131         GOTO    _00112_DS_
+                      00132 ;;[ICODE] ../libsdcc/_modulong.c:39:    if iTemp3 [k8 lr11:12 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-long-int register} != 0 goto preHeaderLbl1($18)
+                      00133 ;;[ICODE] ../libsdcc/_modulong.c:40:    iTemp1 [k4 lr4:30 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{unsigned-long-int fixed}{ sir@ __modulong_b_1_1}[r0x1004 r0x1005 r0x1006 r0x1007 ] = iTemp1 [k4 lr4:30 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{unsigned-long-int fixed}{ sir@ __modulong_b_1_1}[r0x1004 r0x1005 r0x1006 r0x1007 ] << 0x1 {const-unsigned-char literal}
+                      00134 ;       .line   40; "../libsdcc/_modulong.c"    b <<= 1;
+0021   D1B7           00135         BCLR    STATUS,0
+0022   5200           00136         RLR     r0x1007
+0023   5200           00137         RLR     r0x1006
+0024   5200           00138         RLR     r0x1005
+0025   5200           00139         RLR     r0x1004
+                      00140 ;;[ICODE] ../libsdcc/_modulong.c:41:    iTemp5 [k10 lr8:18 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-char fixed}{ sir@ __modulong_count_1_2}[r0x1008 ] = iTemp5 [k10 lr8:18 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-char fixed}{ sir@ __modulong_count_1_2}[r0x1008 ] + 0x1 {const-unsigned-char literal}
+                      00141 ;       .line   41; "../libsdcc/_modulong.c"    ++count;
+0026   6600           00142         INCR    r0x1008
+                      00143 ;;[ICODE] ../libsdcc/_modulong.c:41:     goto _whilecontinue_0($3)
+0027   A000           00144         GOTO    _00107_DS_
+                      00145 ;;[ICODE] ../libsdcc/_modulong.c:45:  preHeaderLbl1($18) :
+                      00146 ;;[ICODE] ../libsdcc/_modulong.c:45:    iTemp9 [k14 lr18:30 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-char fixed}{ sir@ __modulong_count_1_2}[r0x1008 ] := iTemp5 [k10 lr8:18 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-char fixed}{ sir@ __modulong_count_1_2}[r0x1008 ]
+                      00147 ;;[ICODE] ../libsdcc/_modulong.c:45:  _whilecontinue_1($8) :
+                      00148 ;;[ICODE] ../libsdcc/_modulong.c:45:    if iTemp9 [k14 lr18:30 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-char fixed}{ sir@ __modulong_count_1_2}[r0x1008 ] == 0 goto _whilebreak_1($10)
+0028                  00149 _00112_DS_
+                      00150 ;       .line   45; "../libsdcc/_modulong.c"    while (count) {
+0028   3C00           00151         MOVAI   0x00
+0029   5C00           00152         ORAR    r0x1008
+002A   F5B7           00153         JBCLR   STATUS,2
+002B   A000           00154         GOTO    _00114_DS_
+                      00155 ;;[ICODE] ../libsdcc/_modulong.c:46:    iTemp6 [k11 lr22:23 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char fixed} = iTemp0 [k2 lr3:32 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{unsigned-long-int fixed}{ sir@ __modulong_a_1_1}[r0x1000 r0x1001 r0x1002 r0x1003 ] < iTemp1 [k4 lr4:30 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{unsigned-long-int fixed}{ sir@ __modulong_b_1_1}[r0x1004 r0x1005 r0x1006 r0x1007 ]
+                      00156 ;       .line   46; "../libsdcc/_modulong.c"    if (a >= b) {
+002C   5800           00157         MOVAR   r0x1004
+002D   4800           00158         RSUBAR  r0x1000
+002E   E5B7           00159         JBSET   STATUS,2
+002F   A000           00160         GOTO    _00131_DS_
+0030   5800           00161         MOVAR   r0x1005
+0031   4800           00162         RSUBAR  r0x1001
+0032   E5B7           00163         JBSET   STATUS,2
+0033   A000           00164         GOTO    _00131_DS_
+0034   5800           00165         MOVAR   r0x1006
+0035   4800           00166         RSUBAR  r0x1002
+0036   E5B7           00167         JBSET   STATUS,2
+0037   A000           00168         GOTO    _00131_DS_
+0038   5800           00169         MOVAR   r0x1007
+0039   4800           00170         RSUBAR  r0x1003
+003A                  00171 _00131_DS_
+003A   E1B7           00172         JBSET   STATUS,0
+003B   A000           00173         GOTO    _00111_DS_
+                      00174 ;;genSkipc:3246: created from rifx:0xbfeb5290
+                      00175 ;;[ICODE] ../libsdcc/_modulong.c:46:    if iTemp6 [k11 lr22:23 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char fixed} != 0 goto _iffalse_1($7)
+                      00176 ;;[ICODE] ../libsdcc/_modulong.c:47:    iTemp0 [k2 lr3:32 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{unsigned-long-int fixed}{ sir@ __modulong_a_1_1}[r0x1000 r0x1001 r0x1002 r0x1003 ] = iTemp0 [k2 lr3:32 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{unsigned-long-int fixed}{ sir@ __modulong_a_1_1}[r0x1000 r0x1001 r0x1002 r0x1003 ] - iTemp1 [k4 lr4:30 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{unsigned-long-int fixed}{ sir@ __modulong_b_1_1}[r0x1004 r0x1005 r0x1006 r0x1007 ]
+                      00177 ;       .line   47; "../libsdcc/_modulong.c"    a -= b;
+003C   5800           00178         MOVAR   r0x1007
+003D   4A00           00179         RSUBRA  r0x1003
+003E   5800           00180         MOVAR   r0x1006
+003F   E1B7           00181         JBSET   STATUS,0
+0040   6000           00182         JZAR    r0x1006
+0041   4A00           00183         RSUBRA  r0x1002
+0042   5800           00184         MOVAR   r0x1005
+0043   E1B7           00185         JBSET   STATUS,0
+0044   6000           00186         JZAR    r0x1005
+0045   4A00           00187         RSUBRA  r0x1001
+0046   5800           00188         MOVAR   r0x1004
+0047   E1B7           00189         JBSET   STATUS,0
+0048   6000           00190         JZAR    r0x1004
+0049   4A00           00191         RSUBRA  r0x1000
+                      00192 ;;[ICODE] ../libsdcc/_modulong.c:47:  _iffalse_1($7) :
+                      00193 ;;[ICODE] ../libsdcc/_modulong.c:49:    iTemp1 [k4 lr4:30 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{unsigned-long-int fixed}{ sir@ __modulong_b_1_1}[r0x1004 r0x1005 r0x1006 r0x1007 ] = iTemp1 [k4 lr4:30 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{unsigned-long-int fixed}{ sir@ __modulong_b_1_1}[r0x1004 r0x1005 r0x1006 r0x1007 ] >> 0x1 {const-unsigned-char literal}
+                      00194 ;;shiftRight_Left2ResultLit:5278: shCount=1, size=4, sign=0, same=1, offr=0
+004A                  00195 _00111_DS_
+                      00196 ;       .line   49; "../libsdcc/_modulong.c"    b >>= 1;
+004A   D1B7           00197         BCLR    STATUS,0
+004B   4E00           00198         RRR     r0x1004
+004C   4E00           00199         RRR     r0x1005
+004D   4E00           00200         RRR     r0x1006
+004E   4E00           00201         RRR     r0x1007
+                      00202 ;;[ICODE] ../libsdcc/_modulong.c:50:    iTemp9 [k14 lr18:30 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-char fixed}{ sir@ __modulong_count_1_2}[r0x1008 ] = iTemp9 [k14 lr18:30 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-char fixed}{ sir@ __modulong_count_1_2}[r0x1008 ] - 0x1 {const-unsigned-char literal}
+                      00203 ;       .line   50; "../libsdcc/_modulong.c"    --count;
+004F   6E00           00204         DECR    r0x1008
+                      00205 ;;[ICODE] ../libsdcc/_modulong.c:50:     goto _whilecontinue_1($8)
+0050   A000           00206         GOTO    _00112_DS_
+                      00207 ;;[ICODE] ../libsdcc/_modulong.c:50:  _whilebreak_1($10) :
+                      00208 ;;[ICODE] ../libsdcc/_modulong.c:53:    ret iTemp0 [k2 lr3:32 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{unsigned-long-int fixed}{ sir@ __modulong_a_1_1}[r0x1000 r0x1001 r0x1002 r0x1003 ]
+0051                  00209 _00114_DS_
+                      00210 ;       .line   53; "../libsdcc/_modulong.c"    return a;
+0051   5800           00211         MOVAR   r0x1003
+0052   5600           00212         MOVRA   STK02
+0053   5800           00213         MOVAR   r0x1002
+0054   5600           00214         MOVRA   STK01
+0055   5800           00215         MOVAR   r0x1001
+0056   5600           00216         MOVRA   STK00
+0057   5800           00217         MOVAR   r0x1000
+                      00218 ;;[ICODE] ../libsdcc/_modulong.c:53:  _return($11) :
+                      00219 ;;[ICODE] ../libsdcc/_modulong.c:53:    eproc __modulong [k1 lr0:0 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-long-int function ( unsigned-long-int fixed, unsigned-long-int fixed) fixed}
+0058                  00220 _00115_DS_
+0058   000C           00221         RETURN  
+                      00222 ; exit point of __modulong
+                      00223 
+                      00224 
+                      00225 ;       code size estimation:
+                      00226 ;          89+    0 =    89 instructions (  178 byte)
+                      00227 
+                      00228         end
+gpasm-1.7.0_beta1 (Jan 22 2015)_modulong.asm      2015-1-22  23:37:00          PAGE  2
+
+
+SYMBOL TABLE
+  LABEL                             VALUE
+
+DKW0                              000001E6
+DKW1                              000001E7
+DKWP1                             000001CE
+DKWP2                             000001D6
+FSR                               000001B4
+FSR0                              000001B4
+FSR1                              000001B5
+HIBYTE                            000001B3
+INDF                              000001B0
+INDF0                             000001B0
+INDF1                             000001B1
+INDF2                             000001B2
+INDF3                             000001B9
+INTE                              000001BA
+INTF                              000001BB
+IOP1                              000001C8
+IOP2                              000001D0
+KBCR                              000001D7
+MCR                               000001B8
+OEP1                              000001C9
+OEP2                              000001D1
+OPCR0                             000001E4
+OPCR1                             000001E5
+OSCM                              000001BC
+PCL                               000001B6
+PFLAG                             000001B7
+PUP1                              000001CA
+PUP2                              000001D2
+STATUS                            000001B7
+STK00                             00000000
+STK01                             00000000
+STK02                             00000000
+STK03                             00000000
+STK04                             00000000
+STK05                             00000000
+STK06                             00000000
+T0CR                              000001D8
+T0LATFH                           000001DC
+T0LATFL                           000001DB
+T0LATRH                           000001DE
+T0LATRL                           000001DD
+T0LOADH                           000001D9
+T0LOADL                           000001DA
+T1CR                              000001E0
+T1DATA                            000001E1
+T1LOAD                            000001E2
+_00107_DS_                        0000001F
+_00111_DS_                        0000004A
+_00112_DS_                        00000028
+_00114_DS_                        00000051
+_00115_DS_                        00000058
+_00119_DS_                        0000001D
+_00131_DS_                        0000003A
+__33P78                           00000001
+__modulong                        00000000
+r0x1000                           00000003
+r0x1001                           00000002
+r0x1002                           00000001
+r0x1003                           00000000
+r0x1004                           00000007
+r0x1005                           00000006
+r0x1006                           00000005
+r0x1007                           00000004
+r0x1008                           00000008
+C                                 PFLAG,0
+CLKS                              OSCM,2
+DC                                PFLAG,1
+DKWE                              DKW0,7
+GIE                               MCR,7
+HFEN                              OSCM,0
+INT0IE                            INTE,2
+INT0IF                            INTF,2
+INT1IE                            INTE,3
+INT1IF                            INTF,3
+IROS                              DKW0,6
+IROT                              DKW0,5
+ISEL0                             DKW0,0
+ISEL1                             DKW0,1
+KBIE                              INTE,7
+KBIF                              INTF,7
+LFEN                              OSCM,1
+MINT11                            MCR,3
+PD                                MCR,4
+RSEL                              DKW0,2
+STBH                              OSCM,4
+STBL                              OSCM,5
+T0IE                              INTE,0
+T0IF                              INTF,0
+T0RF                              INTF,6
+T1IE                              INTE,1
+T1IF                              INTF,1
+TC0EN                             T0CR,7
+TC1EN                             T1CR,7
+TO                                MCR,5
+WSEL0                             DKW0,4
+WSEL1                             DKW0,3
+Z                                 PFLAG,2
+
+Errors   :     0
+Warnings :     0 reported,     0 suppressed
+Messages :     0 reported,     0 suppressed
+
+

@@ -1,0 +1,349 @@
+gpasm-1.7.0_beta1 (Jan 22 2015)_divuchar.asm      2015-1-22  23:30:19          PAGE  1
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+                      00001 ;--------------------------------------------------------
+                      00002 ; File Created by SN-SDCC : ANSI-C Compiler
+                      00003 ; Version 0.0.4 (Jan 22 2015) (Linux)
+                      00004 ; This file was generated Thu Jan 22 23:30:19 2015
+                      00005 ;--------------------------------------------------------
+                      00006 ; MC3X port for the RISC core
+                      00007 ;--------------------------------------------------------
+                      00008 ;       .file   "../libsdcc/_divuchar.c"
+                      00009         list    p=30p011
+                      00010         radix dec
+                      00011         include "mc30p011.inc"
+                      00001                 LIST
+                      00002 ;mc30p011.inc    Standard Header File, Version 1.00 by Sinomcu
+                      00225                 LIST
+                      00012 ;--------------------------------------------------------
+                      00013 ; external declarations
+                      00014 ;--------------------------------------------------------
+                      00015 
+                      00016         extern STK06
+                      00017         extern STK05
+                      00018         extern STK04
+                      00019         extern STK03
+                      00020         extern STK02
+                      00021         extern STK01
+                      00022         extern STK00
+                      00023 ;--------------------------------------------------------
+                      00024 ; global declarations
+                      00025 ;--------------------------------------------------------
+                      00026         global  __divuchar
+                      00027 
+                      00028 ;--------------------------------------------------------
+                      00029 ; global definitions
+                      00030 ;--------------------------------------------------------
+                      00031 ;--------------------------------------------------------
+                      00032 ; absolute symbol definitions
+                      00033 ;--------------------------------------------------------
+                      00034 ;--------------------------------------------------------
+                      00035 ; compiler-defined variables
+                      00036 ;--------------------------------------------------------
+                      00037 UDL__divuchar_0 udata
+0000                  00038 r0x1000 res     1
+0000                  00039 r0x1001 res     1
+0001                  00040 r0x1002 res     1
+0001                  00041 r0x1003 res     1
+0002                  00042 r0x1004 res     1
+                      00043 ;--------------------------------------------------------
+                      00044 ; initialized data
+                      00045 ;--------------------------------------------------------
+                      00046 ;--------------------------------------------------------
+                      00047 ; overlayable items in internal ram 
+                      00048 ;--------------------------------------------------------
+                      00049 ;       udata_ovr
+                      00050 ;--------------------------------------------------------
+                      00051 ; code
+                      00052 ;--------------------------------------------------------
+                      00053 code__divuchar  code
+                      00054 ;***
+                      00055 ;  pBlock Stats: dbName = C
+                      00056 ;***
+                      00057 ;entry:  __divuchar     ;Function start
+                      00058 ; 2 exit points
+                      00059 ;has an exit
+                      00060 ;9 compiler assigned registers:
+                      00061 ;   r0x1000
+                      00062 ;   STK00
+                      00063 ;   r0x1001
+                      00064 ;   r0x1002
+                      00065 ;   r0x1003
+                      00066 ;   r0x1004
+                      00067 ;   r0x1005
+                      00068 ;   r0x1006
+                      00069 ;   r0x1007
+                      00070 ;; Starting pCode block
+                      00071 ;;[ICODE] ../libsdcc/_divuchar.c:30:  _entry($12) :
+                      00072 ;;[ICODE] ../libsdcc/_divuchar.c:30:    proc __divuchar [k1 lr0:0 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-char function ( unsigned-char fixed, unsigned-char fixed) fixed}
+0000                  00073 __divuchar      ;Function start
+                      00074 ; 2 exit points
+                      00075 ;;[ICODE] ../libsdcc/_divuchar.c:30: iTemp0 [k2 lr3:33 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{unsigned-char fixed}{ sir@ __divuchar_a_1_1}[r0x1000 ] = recv __divuchar [k1 lr0:0 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-char function ( unsigned-char fixed, unsigned-char fixed) fixed}
+                      00076 ;       .line   30; "../libsdcc/_divuchar.c"    _divuchar (unsigned char a, unsigned char b)
+0000   1580           00077         MOVRA   r0x1000
+                      00078 ;;[ICODE] ../libsdcc/_divuchar.c:30: iTemp1 [k4 lr4:33 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{unsigned-char fixed}{ sir@ __divuchar_b_1_1}[r0x1001 ] = recv __divuchar [k1 lr0:0 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-char function ( unsigned-char fixed, unsigned-char fixed) fixed}
+0001   1600           00079         MOVAR   STK00
+0002   1580           00080         MOVRA   r0x1001
+                      00081 ;;[ICODE] ../libsdcc/_divuchar.c:32:    iTemp2 [k6 lr5:35 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{unsigned-char fixed}{ sir@ __divuchar_result_1_2}[r0x1002 ] := 0x0 {const-unsigned-char literal}
+                      00082 ;       .line   32; "../libsdcc/_divuchar.c"    unsigned char result = 0;
+0003   1D80           00083         CLRR    r0x1002
+                      00084 ;;[ICODE] ../libsdcc/_divuchar.c:33:    iTemp3 [k8 lr6:33 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{unsigned-char fixed}{ sir@ __divuchar_mask_1_2}[r0x1003 ] := 0x1 {const-unsigned-char literal}
+                      00085 ;       .line   33; "../libsdcc/_divuchar.c"    unsigned char mask = 0x01;
+0004   0B01           00086         MOVAI   0x01
+0005   1580           00087         MOVRA   r0x1003
+                      00088 ;;[ICODE] ../libsdcc/_divuchar.c:36:    if iTemp1 [k4 lr4:33 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{unsigned-char fixed}{ sir@ __divuchar_b_1_1}[r0x1001 ] != 0 goto _whilecontinue_0($3)
+                      00089 ;       .line   36; "../libsdcc/_divuchar.c"    if (!b) return (unsigned char)-1;
+0006   0B00           00090         MOVAI   0x00
+0007   1700           00091         ORAR    r0x1001
+0008   3103           00092         JBSET   STATUS,2
+0009   2800           00093         GOTO    _00107_DS_
+                      00094 ;;[ICODE] ../libsdcc/_divuchar.c:36:    ret 0xff {unsigned-char literal}
+000A   0BFF           00095         MOVAI   0xff
+000B   2800           00096         GOTO    _00115_DS_
+                      00097 ;;[ICODE] ../libsdcc/_divuchar.c:40:  _whilecontinue_0($3) :
+                      00098 ;;[ICODE] ../libsdcc/_divuchar.c:40:    iTemp4 [k10 lr11:12 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-long-int register}[r0x1004 r0x1005 r0x1006 r0x1007 ] = (unsigned-long-int register)iTemp1 [k4 lr4:33 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{unsigned-char fixed}{ sir@ __divuchar_b_1_1}[r0x1001 ]
+000C                  00099 _00107_DS_
+                      00100 ;       .line   40; "../libsdcc/_divuchar.c"    while (!(b & (1UL << (8*sizeof(unsigned char)-1)))) {
+000C   1600           00101         MOVAR   r0x1001
+000D   1580           00102         MOVRA   r0x1004
+                      00103 ;;1     CLRR    r0x1005
+                      00104 ;;1     CLRR    r0x1006
+                      00105 ;;1     CLRR    r0x1007
+                      00106 ;;[ICODE] ../libsdcc/_divuchar.c:40:    iTemp5 [k11 lr12:13 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-long-int register} = iTemp4 [k10 lr11:12 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-long-int register}[r0x1004 r0x1005 r0x1006 r0x1007 ] & 0x80 {unsigned-long-int literal}
+000E   3780           00107         JBCLR   r0x1004,7
+000F   2800           00108         GOTO    _00112_DS_
+                      00109 ;;[ICODE] ../libsdcc/_divuchar.c:40:    if iTemp5 [k11 lr12:13 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-long-int register} != 0 goto _whilecontinue_1($8)
+                      00110 ;;[ICODE] ../libsdcc/_divuchar.c:41:    iTemp1 [k4 lr4:33 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{unsigned-char fixed}{ sir@ __divuchar_b_1_1}[r0x1001 ] = iTemp1 [k4 lr4:33 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{unsigned-char fixed}{ sir@ __divuchar_b_1_1}[r0x1001 ] << 0x1 {const-unsigned-char literal}
+                      00111 ;       .line   41; "../libsdcc/_divuchar.c"    b <<= 1;
+0010   3C03           00112         BCLR    STATUS,0
+0011   1480           00113         RLR     r0x1001
+                      00114 ;;[ICODE] ../libsdcc/_divuchar.c:42:    iTemp3 [k8 lr6:33 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{unsigned-char fixed}{ sir@ __divuchar_mask_1_2}[r0x1003 ] = iTemp3 [k8 lr6:33 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{unsigned-char fixed}{ sir@ __divuchar_mask_1_2}[r0x1003 ] << 0x1 {const-unsigned-char literal}
+                      00115 ;       .line   42; "../libsdcc/_divuchar.c"    mask <<= 1;
+0012   3C03           00116         BCLR    STATUS,0
+0013   1480           00117         RLR     r0x1003
+                      00118 ;;[ICODE] ../libsdcc/_divuchar.c:42:     goto _whilecontinue_0($3)
+0014   2800           00119         GOTO    _00107_DS_
+                      00120 ;;[ICODE] ../libsdcc/_divuchar.c:47:  _whilecontinue_1($8) :
+                      00121 ;;[ICODE] ../libsdcc/_divuchar.c:47:    if iTemp3 [k8 lr6:33 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{unsigned-char fixed}{ sir@ __divuchar_mask_1_2}[r0x1003 ] == 0 goto _whilebreak_1($10)
+0015                  00122 _00112_DS_
+                      00123 ;       .line   47; "../libsdcc/_divuchar.c"    while (mask) {
+0015   0B00           00124         MOVAI   0x00
+0016   1700           00125         ORAR    r0x1003
+0017   3503           00126         JBCLR   STATUS,2
+0018   2800           00127         GOTO    _00114_DS_
+                      00128 ;;[ICODE] ../libsdcc/_divuchar.c:48:    iTemp8 [k14 lr22:23 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char fixed} = iTemp0 [k2 lr3:33 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{unsigned-char fixed}{ sir@ __divuchar_a_1_1}[r0x1000 ] < iTemp1 [k4 lr4:33 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{unsigned-char fixed}{ sir@ __divuchar_b_1_1}[r0x1001 ]
+                      00129 ;       .line   48; "../libsdcc/_divuchar.c"    if (a >= b) {
+0019   1600           00130         MOVAR   r0x1001
+001A   1200           00131         RSUBAR  r0x1000
+001B   3003           00132         JBSET   STATUS,0
+001C   2800           00133         GOTO    _00111_DS_
+                      00134 ;;genSkipc:3246: created from rifx:0xbff893b0
+                      00135 ;;[ICODE] ../libsdcc/_divuchar.c:48:    if iTemp8 [k14 lr22:23 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char fixed} != 0 goto _iffalse_1($7)
+                      00136 ;;[ICODE] ../libsdcc/_divuchar.c:49:    iTemp2 [k6 lr5:35 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{unsigned-char fixed}{ sir@ __divuchar_result_1_2}[r0x1002 ] = iTemp2 [k6 lr5:35 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{unsigned-char fixed}{ sir@ __divuchar_result_1_2}[r0x1002 ] + iTemp3 [k8 lr6:33 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{unsigned-char fixed}{ sir@ __divuchar_mask_1_2}[r0x1003 ]
+                      00137 ;       .line   49; "../libsdcc/_divuchar.c"    result += mask;
+001D   1600           00138         MOVAR   r0x1003
+001E   1F80           00139         ADDRA   r0x1002
+                      00140 ;;[ICODE] ../libsdcc/_divuchar.c:50:    iTemp0 [k2 lr3:33 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{unsigned-char fixed}{ sir@ __divuchar_a_1_1}[r0x1000 ] = iTemp0 [k2 lr3:33 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{unsigned-char fixed}{ sir@ __divuchar_a_1_1}[r0x1000 ] - iTemp1 [k4 lr4:33 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{unsigned-char fixed}{ sir@ __divuchar_b_1_1}[r0x1001 ]
+                      00141 ;       .line   50; "../libsdcc/_divuchar.c"    a -= b;
+001F   1600           00142         MOVAR   r0x1001
+0020   1280           00143         RSUBRA  r0x1000
+                      00144 ;;[ICODE] ../libsdcc/_divuchar.c:50:  _iffalse_1($7) :
+                      00145 ;;[ICODE] ../libsdcc/_divuchar.c:52:    iTemp1 [k4 lr4:33 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{unsigned-char fixed}{ sir@ __divuchar_b_1_1}[r0x1001 ] = iTemp1 [k4 lr4:33 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{unsigned-char fixed}{ sir@ __divuchar_b_1_1}[r0x1001 ] >> 0x1 {const-unsigned-char literal}
+                      00146 ;;shiftRight_Left2ResultLit:5278: shCount=1, size=1, sign=0, same=1, offr=0
+0021                  00147 _00111_DS_
+                      00148 ;       .line   52; "../libsdcc/_divuchar.c"    b >>= 1;
+0021   3C03           00149         BCLR    STATUS,0
+0022   1380           00150         RRR     r0x1001
+                      00151 ;;[ICODE] ../libsdcc/_divuchar.c:53:    iTemp3 [k8 lr6:33 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{unsigned-char fixed}{ sir@ __divuchar_mask_1_2}[r0x1003 ] = iTemp3 [k8 lr6:33 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{unsigned-char fixed}{ sir@ __divuchar_mask_1_2}[r0x1003 ] >> 0x1 {const-unsigned-char literal}
+                      00152 ;;shiftRight_Left2ResultLit:5278: shCount=1, size=1, sign=0, same=1, offr=0
+                      00153 ;       .line   53; "../libsdcc/_divuchar.c"    mask >>= 1;
+0023   3C03           00154         BCLR    STATUS,0
+0024   1380           00155         RRR     r0x1003
+                      00156 ;;[ICODE] ../libsdcc/_divuchar.c:53:     goto _whilecontinue_1($8)
+0025   2800           00157         GOTO    _00112_DS_
+                      00158 ;;[ICODE] ../libsdcc/_divuchar.c:53:  _whilebreak_1($10) :
+                      00159 ;;[ICODE] ../libsdcc/_divuchar.c:56:    ret iTemp2 [k6 lr5:35 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{unsigned-char fixed}{ sir@ __divuchar_result_1_2}[r0x1002 ]
+0026                  00160 _00114_DS_
+                      00161 ;       .line   56; "../libsdcc/_divuchar.c"    return result;
+0026   1600           00162         MOVAR   r0x1002
+                      00163 ;;[ICODE] ../libsdcc/_divuchar.c:56:  _return($11) :
+                      00164 ;;[ICODE] ../libsdcc/_divuchar.c:56:    eproc __divuchar [k1 lr0:0 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-char function ( unsigned-char fixed, unsigned-char fixed) fixed}
+0027                  00165 _00115_DS_
+0027   000C           00166         RETURN  
+                      00167 ; exit point of __divuchar
+                      00168 
+                      00169 
+                      00170 ;       code size estimation:
+                      00171 ;          40+    0 =    40 instructions (   80 byte)
+                      00172 
+                      00173         end
+gpasm-1.7.0_beta1 (Jan 22 2015)_divuchar.asm      2015-1-22  23:30:19          PAGE  2
+
+
+SYMBOL TABLE
+  LABEL                             VALUE
+
+BUZOUT                            00000005
+C                                 00000000
+DC                                00000001
+DDR0                              00000045
+DDR00                             00000000
+DDR01                             00000001
+DDR02                             00000002
+DDR03                             00000003
+DDR1                              00000046
+DDR10                             00000000
+DDR11                             00000001
+DDR12                             00000002
+DDR14                             00000004
+DDR15                             00000005
+DDR16                             00000006
+DDR17                             00000007
+EIS                               00000006
+FSR                               00000004
+GIE                               00000007
+INDF                              00000000
+INT0IE                            00000002
+INT0IF                            00000002
+INT0M                             00000006
+INTECON                           0000000E
+INTFLAG                           0000000F
+KBIE                              00000001
+KBIF                              00000001
+KBIM                              00000009
+KBIM0                             00000000
+KBIM1                             00000001
+KBIM2                             00000002
+KBIM3                             00000003
+KBIM4                             00000004
+KBIM5                             00000005
+KBIM6                             00000006
+KBIM7                             00000007
+MCR                               00000008
+ODCON                             0000000C
+P0                                00000005
+P00                               00000000
+P00PD                             00000000
+P01                               00000001
+P01PD                             00000001
+P02                               00000002
+P02PD                             00000002
+P03                               00000003
+P03PD                             00000003
+P1                                00000006
+P10                               00000000
+P10OD                             00000000
+P10PD                             00000004
+P10PU                             00000000
+P11                               00000001
+P11OD                             00000001
+P11PD                             00000005
+P11PU                             00000001
+P12                               00000002
+P12OD                             00000002
+P12PD                             00000006
+P12PU                             00000002
+P13                               00000003
+P14                               00000004
+P14OD                             00000004
+P14PU                             00000004
+P15                               00000005
+P15OD                             00000005
+P15PU                             00000005
+P16                               00000006
+P16OD                             00000006
+P16PU                             00000006
+P17                               00000007
+P17OD                             00000007
+P17PU                             00000007
+PCL                               00000002
+PCLATH                            0000000A
+PD                                00000003
+PDCON                             0000000B
+PUCON                             0000000D
+PWMOUT                            00000006
+RST                               00000007
+STATUS                            00000003
+STK00                             00000000
+STK01                             00000000
+STK02                             00000000
+STK03                             00000000
+STK04                             00000000
+STK05                             00000000
+STK06                             00000000
+T0CNT                             00000001
+T0CR                              00000041
+T0IE                              00000000
+T0IF                              00000000
+T0PTA                             00000003
+T0PTS                             00000005
+T0SE                              00000004
+T1CNT                             0000004D
+T1CR                              0000004C
+T1DATA                            0000004F
+T1IE                              00000001
+T1IF                              00000000
+T1LOAD                            0000004E
+TBS                               00000007
+TMCR                              0000004B
+TMR1EN                            00000007
+TO                                00000004
+WDTEN                             00000007
+Z                                 00000002
+_00107_DS_                        0000000C
+_00111_DS_                        00000021
+_00112_DS_                        00000015
+_00114_DS_                        00000026
+_00115_DS_                        00000027
+_CONFIG0                          00002000
+_CONFIG1                          00002001
+_CP_ALL                           00001FFF
+_FCPU_2T                          00003F7F
+_FCPU_4T                          00003FFF
+_IRC_1M                           00003FCF
+_IRC_2M                           00003FDF
+_IRC_444K                         00003FAF
+_IRC_4M                           00003FEF
+_IRC_8M                           00003FFF
+_MCLR_OFF                         00003FF7
+_MCLR_ON                          00003FFF
+_OSC_HXT                          00002FFF
+_OSC_IRC                          000037FF
+_OSC_IRC_RTC                      00003FFF
+_OSC_LXT                          000027FF
+_PWRT_OFF                         00003BFF
+_PWRT_ON                          00003FFF
+_RD_FROM_PIN                      00003FFF
+_RD_FROM_REG                      00003EFF
+_SMT_OFF                          00003FFF
+_SMT_ON                           00003DFF
+_TWDT_18MS                        00003FFF
+_TWDT_288MS                       00003DFF
+_TWDT_4P5MS                       00003EFF
+_TWDT_72MS                        00003CFF
+_VBOR_15                          00003FF8
+_VBOR_18                          00003FF9
+_VBOR_20                          00003FFA
+_VBOR_22                          00003FFB
+_VBOR_24                          00003FFC
+_VBOR_26                          00003FFD
+_VBOR_30                          00003FFE
+_VBOR_36                          00003FFF
+_WDT_OFF                          000037FF
+_WDT_ON                           00003FFF
+__30P011                          00000001
+__divuchar                        00000000
+r0x1000                           00000000
+r0x1001                           00000001
+r0x1002                           00000002
+r0x1003                           00000003
+r0x1004                           00000004
+
+Errors   :     0
+Warnings :     0 reported,     0 suppressed
+Messages :     0 reported,     0 suppressed
+
+

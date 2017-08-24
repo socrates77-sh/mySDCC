@@ -1,0 +1,515 @@
+gpasm-1.7.0_beta1 (Jan 22 2015)_mullong.asm       2015-1-22  23:30:21          PAGE  1
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+                      00001 ;--------------------------------------------------------
+                      00002 ; File Created by SN-SDCC : ANSI-C Compiler
+                      00003 ; Version 0.0.4 (Jan 22 2015) (Linux)
+                      00004 ; This file was generated Thu Jan 22 23:30:21 2015
+                      00005 ;--------------------------------------------------------
+                      00006 ; MC3X port for the RISC core
+                      00007 ;--------------------------------------------------------
+                      00008 ;       .file   "../libsdcc/_mullong.c"
+                      00009         list    p=30p011
+                      00010         radix dec
+                      00011         include "mc30p011.inc"
+                      00001                 LIST
+                      00002 ;mc30p011.inc    Standard Header File, Version 1.00 by Sinomcu
+                      00225                 LIST
+                      00012 ;--------------------------------------------------------
+                      00013 ; external declarations
+                      00014 ;--------------------------------------------------------
+                      00015 
+                      00016         extern STK06
+                      00017         extern STK05
+                      00018         extern STK04
+                      00019         extern STK03
+                      00020         extern STK02
+                      00021         extern STK01
+                      00022         extern STK00
+                      00023 ;--------------------------------------------------------
+                      00024 ; global declarations
+                      00025 ;--------------------------------------------------------
+                      00026         global  __mullong
+                      00027 
+                      00028 ;--------------------------------------------------------
+                      00029 ; global definitions
+                      00030 ;--------------------------------------------------------
+                      00031 ;--------------------------------------------------------
+                      00032 ; absolute symbol definitions
+                      00033 ;--------------------------------------------------------
+                      00034 ;--------------------------------------------------------
+                      00035 ; compiler-defined variables
+                      00036 ;--------------------------------------------------------
+                      00037 UDL__mullong_0  udata
+0000                  00038 r0x1003 res     1
+0000                  00039 r0x1002 res     1
+0001                  00040 r0x1001 res     1
+0001                  00041 r0x1000 res     1
+0002                  00042 r0x1007 res     1
+0002                  00043 r0x1006 res     1
+0003                  00044 r0x1005 res     1
+0003                  00045 r0x1004 res     1
+0004                  00046 r0x1008 res     1
+0004                  00047 r0x1009 res     1
+0005                  00048 r0x100A res     1
+0005                  00049 r0x100B res     1
+0006                  00050 r0x100C res     1
+0006                  00051 r0x100D res     1
+0007                  00052 r0x100E res     1
+0007                  00053 r0x100F res     1
+0008                  00054 r0x1010 res     1
+                      00055 ;--------------------------------------------------------
+                      00056 ; initialized data
+                      00057 ;--------------------------------------------------------
+                      00058 ;--------------------------------------------------------
+                      00059 ; overlayable items in internal ram 
+                      00060 ;--------------------------------------------------------
+                      00061 ;       udata_ovr
+                      00062 ;--------------------------------------------------------
+                      00063 ; code
+                      00064 ;--------------------------------------------------------
+                      00065 code__mullong   code
+                      00066 ;***
+                      00067 ;  pBlock Stats: dbName = C
+                      00068 ;***
+                      00069 ;entry:  __mullong      ;Function start
+                      00070 ; 2 exit points
+                      00071 ;has an exit
+                      00072 ;24 compiler assigned registers:
+                      00073 ;   r0x1000
+                      00074 ;   STK00
+                      00075 ;   r0x1001
+                      00076 ;   STK01
+                      00077 ;   r0x1002
+                      00078 ;   STK02
+                      00079 ;   r0x1003
+                      00080 ;   STK03
+                      00081 ;   r0x1004
+                      00082 ;   STK04
+                      00083 ;   r0x1005
+                      00084 ;   STK05
+                      00085 ;   r0x1006
+                      00086 ;   STK06
+                      00087 ;   r0x1007
+                      00088 ;   r0x1008
+                      00089 ;   r0x1009
+                      00090 ;   r0x100A
+                      00091 ;   r0x100B
+                      00092 ;   r0x100C
+                      00093 ;   r0x100D
+                      00094 ;   r0x100E
+                      00095 ;   r0x100F
+                      00096 ;   r0x1010
+                      00097 ;; Starting pCode block
+                      00098 ;;[ICODE] ../libsdcc/_mullong.c:33:  _entry($16) :
+                      00099 ;;[ICODE] ../libsdcc/_mullong.c:33:     proc __mullong [k1 lr0:0 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{long-int function ( long-int fixed, long-int fixed) fixed}
+0000                  00100 __mullong       ;Function start
+                      00101 ; 2 exit points
+                      00102 ;;[ICODE] ../libsdcc/_mullong.c:33: iTemp0 [k2 lr3:43 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{long-int fixed}{ sir@ __mullong_a_1_1}[r0x1000 r0x1001 r0x1002 r0x1003 ] = recv __mullong [k1 lr0:0 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{long-int function ( long-int fixed, long-int fixed) fixed}
+                      00103 ;       .line   33; "../libsdcc/_mullong.c"     _mullong (long a, long b)
+0000   1580           00104         MOVRA   r0x1000
+0001   1600           00105         MOVAR   STK00
+0002   1580           00106         MOVRA   r0x1001
+0003   1600           00107         MOVAR   STK01
+0004   1580           00108         MOVRA   r0x1002
+0005   1600           00109         MOVAR   STK02
+0006   1580           00110         MOVRA   r0x1003
+                      00111 ;;[ICODE] ../libsdcc/_mullong.c:33: iTemp1 [k4 lr4:43 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{long-int fixed}{ sir@ __mullong_b_1_1}[r0x1004 r0x1005 r0x1006 r0x1007 ] = recv __mullong [k1 lr0:0 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{long-int function ( long-int fixed, long-int fixed) fixed}
+0007   1600           00112         MOVAR   STK03
+0008   1580           00113         MOVRA   r0x1004
+0009   1600           00114         MOVAR   STK04
+000A   1580           00115         MOVRA   r0x1005
+000B   1600           00116         MOVAR   STK05
+000C   1580           00117         MOVRA   r0x1006
+000D   1600           00118         MOVAR   STK06
+000E   1580           00119         MOVRA   r0x1007
+                      00120 ;;[ICODE] ../libsdcc/_mullong.c:35:     iTemp2 [k6 lr5:44 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{long-int fixed}{ sir@ __mullong_result_1_2}[r0x1008 r0x1009 r0x100A r0x100B ] := 0x0 {long-int literal}
+                      00121 ;       .line   35; "../libsdcc/_mullong.c"     long result = 0;
+000F   1D80           00122         CLRR    r0x1008
+0010   1D80           00123         CLRR    r0x1009
+0011   1D80           00124         CLRR    r0x100A
+0012   1D80           00125         CLRR    r0x100B
+                      00126 ;;[ICODE] ../libsdcc/_mullong.c:39:     iTemp3 [k8 lr6:43 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{unsigned-char fixed}{ sir@ __mullong_i_1_2}[r0x100C ] := 0x8 {unsigned-char literal}
+                      00127 ;       .line   39; "../libsdcc/_mullong.c"     for (i = 0; i < 8u; i++) {
+0013   0B08           00128         MOVAI   0x08
+0014   1580           00129         MOVRA   r0x100C
+                      00130 ;;[ICODE] ../libsdcc/_mullong.c:39:  _forcontinue_0($14) :
+                      00131 ;;[ICODE] ../libsdcc/_mullong.c:41:     iTemp4 [k10 lr9:10 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{long-int fixed} = iTemp0 [k2 lr3:43 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{long-int fixed}{ sir@ __mullong_a_1_1}[r0x1000 r0x1001 r0x1002 r0x1003 ] & 0x1 {long-int literal}
+0015                  00132 _00118_DS_
+                      00133 ;       .line   41; "../libsdcc/_mullong.c"     if (a & 0x0001u) result += b;
+0015   3000           00134         JBSET   r0x1003,0
+0016   2800           00135         GOTO    _00109_DS_
+                      00136 ;;[ICODE] ../libsdcc/_mullong.c:41:     if iTemp4 [k10 lr9:10 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{long-int fixed} == 0 goto _andif_0($5)
+                      00137 ;;[ICODE] ../libsdcc/_mullong.c:41:     iTemp2 [k6 lr5:44 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{long-int fixed}{ sir@ __mullong_result_1_2}[r0x1008 r0x1009 r0x100A r0x100B ] = iTemp2 [k6 lr5:44 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{long-int fixed}{ sir@ __mullong_result_1_2}[r0x1008 r0x1009 r0x100A r0x100B ] + iTemp1 [k4 lr4:43 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{long-int fixed}{ sir@ __mullong_b_1_1}[r0x1004 r0x1005 r0x1006 r0x1007 ]
+0017   1600           00138         MOVAR   r0x1007
+0018   1F80           00139         ADDRA   r0x1008
+0019   1600           00140         MOVAR   r0x1006
+001A   3403           00141         JBCLR   STATUS,0
+001B   1800           00142         JZAR    r0x1006
+001C   1F80           00143         ADDRA   r0x1009
+001D   1600           00144         MOVAR   r0x1005
+001E   3403           00145         JBCLR   STATUS,0
+001F   1800           00146         JZAR    r0x1005
+0020   1F80           00147         ADDRA   r0x100A
+0021   1600           00148         MOVAR   r0x1004
+0022   3403           00149         JBCLR   STATUS,0
+0023   1800           00150         JZAR    r0x1004
+0024   1F80           00151         ADDRA   r0x100B
+                      00152 ;;[ICODE] ../libsdcc/_mullong.c:42:  _andif_0($5) :
+                      00153 ;;[ICODE] ../libsdcc/_mullong.c:42:     iTemp6 [k12 lr14:15 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-long-int register}[r0x100D r0x100E r0x100F r0x1010 ] = (unsigned-long-int register)iTemp0 [k2 lr3:43 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{long-int fixed}{ sir@ __mullong_a_1_1}[r0x1000 r0x1001 r0x1002 r0x1003 ]
+0025                  00154 _00109_DS_
+                      00155 ;       .line   42; "../libsdcc/_mullong.c"     if (sizeof (a) > 1 && (a & 0x00000100ul)) result += (b << 8u);
+0025   1600           00156         MOVAR   r0x1003
+0026   1580           00157         MOVRA   r0x100D
+0027   1600           00158         MOVAR   r0x1002
+0028   1580           00159         MOVRA   r0x100E
+0029   1600           00160         MOVAR   r0x1001
+002A   1580           00161         MOVRA   r0x100F
+002B   1600           00162         MOVAR   r0x1000
+002C   1580           00163         MOVRA   r0x1010
+                      00164 ;;[ICODE] ../libsdcc/_mullong.c:42:     iTemp7 [k13 lr15:16 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-long-int register} = iTemp6 [k12 lr14:15 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-long-int register}[r0x100D r0x100E r0x100F r0x1010 ] & 0x100 {const-unsigned-long-int literal}
+002D   3000           00165         JBSET   r0x100E,0
+002E   2800           00166         GOTO    _00112_DS_
+                      00167 ;;[ICODE] ../libsdcc/_mullong.c:42:     if iTemp7 [k13 lr15:16 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-long-int register} == 0 goto _andif_1($8)
+                      00168 ;;[ICODE] ../libsdcc/_mullong.c:42:     iTemp8 [k14 lr17:18 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{long-int fixed}[r0x100D r0x100E r0x100F r0x1010 ] = iTemp1 [k4 lr4:43 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{long-int fixed}{ sir@ __mullong_b_1_1}[r0x1004 r0x1005 r0x1006 r0x1007 ] << 0x8 {const-unsigned-int literal}
+002F   1600           00169         MOVAR   r0x1005
+0030   1580           00170         MOVRA   r0x1010
+0031   1600           00171         MOVAR   r0x1006
+0032   1580           00172         MOVRA   r0x100F
+                      00173 ;;100   MOVAR   r0x1007
+0033   1D80           00174         CLRR    r0x100D
+                      00175 ;;[ICODE] ../libsdcc/_mullong.c:42:     iTemp2 [k6 lr5:44 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{long-int fixed}{ sir@ __mullong_result_1_2}[r0x1008 r0x1009 r0x100A r0x100B ] = iTemp2 [k6 lr5:44 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{long-int fixed}{ sir@ __mullong_result_1_2}[r0x1008 r0x1009 r0x100A r0x100B ] + iTemp8 [k14 lr17:18 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{long-int fixed}[r0x100D r0x100E r0x100F r0x1010 ]
+0034   0B00           00176         MOVAI   0x00
+0035   1F80           00177         ADDRA   r0x1008
+                      00178 ;;99    MOVAR   r0x100E
+0036   1600           00179         MOVAR   r0x1007
+0037   1580           00180         MOVRA   r0x100E
+0038   3403           00181         JBCLR   STATUS,0
+0039   1800           00182         JZAR    r0x100E
+003A   1F80           00183         ADDRA   r0x1009
+003B   1600           00184         MOVAR   r0x100F
+003C   3403           00185         JBCLR   STATUS,0
+003D   1800           00186         JZAR    r0x100F
+003E   1F80           00187         ADDRA   r0x100A
+003F   1600           00188         MOVAR   r0x1010
+0040   3403           00189         JBCLR   STATUS,0
+0041   1800           00190         JZAR    r0x1010
+0042   1F80           00191         ADDRA   r0x100B
+                      00192 ;;[ICODE] ../libsdcc/_mullong.c:43:  _andif_1($8) :
+                      00193 ;;[ICODE] ../libsdcc/_mullong.c:43:     iTemp10 [k16 lr21:22 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-long-int register}[r0x100D r0x100E r0x100F r0x1010 ] = (unsigned-long-int register)iTemp0 [k2 lr3:43 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{long-int fixed}{ sir@ __mullong_a_1_1}[r0x1000 r0x1001 r0x1002 r0x1003 ]
+0043                  00194 _00112_DS_
+                      00195 ;       .line   43; "../libsdcc/_mullong.c"     if (sizeof (a) > 2 && (a & 0x00010000ul)) result += (b << 16u);
+0043   1600           00196         MOVAR   r0x1003
+0044   1580           00197         MOVRA   r0x100D
+0045   1600           00198         MOVAR   r0x1002
+0046   1580           00199         MOVRA   r0x100E
+0047   1600           00200         MOVAR   r0x1001
+0048   1580           00201         MOVRA   r0x100F
+0049   1600           00202         MOVAR   r0x1000
+004A   1580           00203         MOVRA   r0x1010
+                      00204 ;;[ICODE] ../libsdcc/_mullong.c:43:     iTemp11 [k17 lr22:23 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-long-int register} = iTemp10 [k16 lr21:22 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-long-int register}[r0x100D r0x100E r0x100F r0x1010 ] & 0x10000 {const-unsigned-long-int literal}
+004B   3000           00205         JBSET   r0x100F,0
+004C   2800           00206         GOTO    _00115_DS_
+                      00207 ;;[ICODE] ../libsdcc/_mullong.c:43:     if iTemp11 [k17 lr22:23 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-long-int register} == 0 goto _andif_2($11)
+                      00208 ;;[ICODE] ../libsdcc/_mullong.c:43:     iTemp12 [k18 lr24:25 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{long-int fixed}[r0x100D r0x100E r0x100F r0x1010 ] = iTemp1 [k4 lr4:43 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{long-int fixed}{ sir@ __mullong_b_1_1}[r0x1004 r0x1005 r0x1006 r0x1007 ] << 0x10 {const-unsigned-int literal}
+004D   1600           00209         MOVAR   r0x1006
+004E   1580           00210         MOVRA   r0x1010
+004F   1600           00211         MOVAR   r0x1007
+0050   1580           00212         MOVRA   r0x100F
+0051   1D80           00213         CLRR    r0x100E
+0052   1D80           00214         CLRR    r0x100D
+                      00215 ;;[ICODE] ../libsdcc/_mullong.c:43:     iTemp2 [k6 lr5:44 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{long-int fixed}{ sir@ __mullong_result_1_2}[r0x1008 r0x1009 r0x100A r0x100B ] = iTemp2 [k6 lr5:44 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{long-int fixed}{ sir@ __mullong_result_1_2}[r0x1008 r0x1009 r0x100A r0x100B ] + iTemp12 [k18 lr24:25 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{long-int fixed}[r0x100D r0x100E r0x100F r0x1010 ]
+0053   0B00           00216         MOVAI   0x00
+0054   1F80           00217         ADDRA   r0x1008
+0055   0B00           00218         MOVAI   0x00
+0056   3403           00219         JBCLR   STATUS,0
+0057   1800           00220         JZAR    r0x100E
+0058   1F80           00221         ADDRA   r0x1009
+0059   1600           00222         MOVAR   r0x100F
+005A   3403           00223         JBCLR   STATUS,0
+005B   1800           00224         JZAR    r0x100F
+005C   1F80           00225         ADDRA   r0x100A
+005D   1600           00226         MOVAR   r0x1010
+005E   3403           00227         JBCLR   STATUS,0
+005F   1800           00228         JZAR    r0x1010
+0060   1F80           00229         ADDRA   r0x100B
+                      00230 ;;[ICODE] ../libsdcc/_mullong.c:44:  _andif_2($11) :
+                      00231 ;;[ICODE] ../libsdcc/_mullong.c:44:     iTemp14 [k20 lr28:29 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-long-int register}[r0x100D r0x100E r0x100F r0x1010 ] = (unsigned-long-int register)iTemp0 [k2 lr3:43 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{long-int fixed}{ sir@ __mullong_a_1_1}[r0x1000 r0x1001 r0x1002 r0x1003 ]
+0061                  00232 _00115_DS_
+                      00233 ;       .line   44; "../libsdcc/_mullong.c"     if (sizeof (a) > 3 && (a & 0x01000000ul)) result += (b << 24u);
+0061   1600           00234         MOVAR   r0x1003
+0062   1580           00235         MOVRA   r0x100D
+0063   1600           00236         MOVAR   r0x1002
+0064   1580           00237         MOVRA   r0x100E
+0065   1600           00238         MOVAR   r0x1001
+0066   1580           00239         MOVRA   r0x100F
+0067   1600           00240         MOVAR   r0x1000
+0068   1580           00241         MOVRA   r0x1010
+                      00242 ;;[ICODE] ../libsdcc/_mullong.c:44:     iTemp15 [k21 lr29:30 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-long-int register} = iTemp14 [k20 lr28:29 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-long-int register}[r0x100D r0x100E r0x100F r0x1010 ] & 0x1000000 {const-unsigned-long-int literal}
+0069   3000           00243         JBSET   r0x1010,0
+006A   2800           00244         GOTO    _00114_DS_
+                      00245 ;;[ICODE] ../libsdcc/_mullong.c:44:     if iTemp15 [k21 lr29:30 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-long-int register} == 0 goto _iffalse_3($10)
+                      00246 ;;[ICODE] ../libsdcc/_mullong.c:44:     iTemp16 [k22 lr31:32 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{long-int fixed}[r0x100D r0x100E r0x100F r0x1010 ] = iTemp1 [k4 lr4:43 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{long-int fixed}{ sir@ __mullong_b_1_1}[r0x1004 r0x1005 r0x1006 r0x1007 ] << 0x18 {const-unsigned-int literal}
+006B   1600           00247         MOVAR   r0x1007
+006C   1580           00248         MOVRA   r0x1010
+006D   1D80           00249         CLRR    r0x100F
+006E   1D80           00250         CLRR    r0x100E
+006F   1D80           00251         CLRR    r0x100D
+                      00252 ;;[ICODE] ../libsdcc/_mullong.c:44:     iTemp2 [k6 lr5:44 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{long-int fixed}{ sir@ __mullong_result_1_2}[r0x1008 r0x1009 r0x100A r0x100B ] = iTemp2 [k6 lr5:44 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{long-int fixed}{ sir@ __mullong_result_1_2}[r0x1008 r0x1009 r0x100A r0x100B ] + iTemp16 [k22 lr31:32 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{long-int fixed}[r0x100D r0x100E r0x100F r0x1010 ]
+0070   0B00           00253         MOVAI   0x00
+0071   1F80           00254         ADDRA   r0x1008
+0072   0B00           00255         MOVAI   0x00
+0073   3403           00256         JBCLR   STATUS,0
+0074   1800           00257         JZAR    r0x100E
+0075   1F80           00258         ADDRA   r0x1009
+0076   1600           00259         MOVAR   r0x100F
+0077   3403           00260         JBCLR   STATUS,0
+0078   1800           00261         JZAR    r0x100F
+0079   1F80           00262         ADDRA   r0x100A
+007A   1600           00263         MOVAR   r0x1010
+007B   3403           00264         JBCLR   STATUS,0
+007C   1800           00265         JZAR    r0x1010
+007D   1F80           00266         ADDRA   r0x100B
+                      00267 ;;[ICODE] ../libsdcc/_mullong.c:44:  _iffalse_3($10) :
+                      00268 ;;[ICODE] ../libsdcc/_mullong.c:45:     iTemp18 [k24 lr35:36 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-long-int fixed}[r0x100D r0x100E r0x100F r0x1010 ] = (unsigned-long-int fixed)iTemp0 [k2 lr3:43 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{long-int fixed}{ sir@ __mullong_a_1_1}[r0x1000 r0x1001 r0x1002 r0x1003 ]
+007E                  00269 _00114_DS_
+                      00270 ;       .line   45; "../libsdcc/_mullong.c"     a = ((unsigned long)a) >> 1u;
+007E   1600           00271         MOVAR   r0x1003
+007F   1580           00272         MOVRA   r0x100D
+0080   1600           00273         MOVAR   r0x1002
+0081   1580           00274         MOVRA   r0x100E
+0082   1600           00275         MOVAR   r0x1001
+0083   1580           00276         MOVRA   r0x100F
+0084   1600           00277         MOVAR   r0x1000
+0085   1580           00278         MOVRA   r0x1010
+                      00279 ;;[ICODE] ../libsdcc/_mullong.c:45:     iTemp0 [k2 lr3:43 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{long-int fixed}{ sir@ __mullong_a_1_1}[r0x1000 r0x1001 r0x1002 r0x1003 ] = iTemp18 [k24 lr35:36 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-long-int fixed}[r0x100D r0x100E r0x100F r0x1010 ] >> 0x1 {const-unsigned-int literal}
+                      00280 ;;shiftRight_Left2ResultLit:5278: shCount=1, size=4, sign=0, same=0, offr=0
+0086   3C03           00281         BCLR    STATUS,0
+0087   1300           00282         RRAR    r0x1010
+0088   1580           00283         MOVRA   r0x1000
+0089   1300           00284         RRAR    r0x100F
+008A   1580           00285         MOVRA   r0x1001
+008B   1300           00286         RRAR    r0x100E
+008C   1580           00287         MOVRA   r0x1002
+008D   1300           00288         RRAR    r0x100D
+008E   1580           00289         MOVRA   r0x1003
+                      00290 ;;[ICODE] ../libsdcc/_mullong.c:46:     iTemp1 [k4 lr4:43 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{long-int fixed}{ sir@ __mullong_b_1_1}[r0x1004 r0x1005 r0x1006 r0x1007 ] = iTemp1 [k4 lr4:43 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{long-int fixed}{ sir@ __mullong_b_1_1}[r0x1004 r0x1005 r0x1006 r0x1007 ] << 0x1 {const-unsigned-int literal}
+                      00291 ;       .line   46; "../libsdcc/_mullong.c"     b <<= 1u;
+008F   3C03           00292         BCLR    STATUS,0
+0090   1480           00293         RLR     r0x1007
+0091   1480           00294         RLR     r0x1006
+0092   1480           00295         RLR     r0x1005
+0093   1480           00296         RLR     r0x1004
+                      00297 ;;[ICODE] ../libsdcc/_mullong.c:46:     iTemp21 [k27 lr40:41 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char register}[r0x100D ] = (char register)iTemp3 [k8 lr6:43 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{unsigned-char fixed}{ sir@ __mullong_i_1_2}[r0x100C ]
+0094   1600           00298         MOVAR   r0x100C
+0095   1580           00299         MOVRA   r0x100D
+                      00300 ;;[ICODE] ../libsdcc/_mullong.c:46:     iTemp3 [k8 lr6:43 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{unsigned-char fixed}{ sir@ __mullong_i_1_2}[r0x100C ] = iTemp21 [k27 lr40:41 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char register}[r0x100D ] - 0x1 {const-char literal}
+0096   1B00           00301         DECAR   r0x100D
+0097   1580           00302         MOVRA   r0x100C
+                      00303 ;;[ICODE] ../libsdcc/_mullong.c:39:     if iTemp3 [k8 lr6:43 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{unsigned-char fixed}{ sir@ __mullong_i_1_2}[r0x100C ] != 0 goto _forcontinue_0($14)
+                      00304 ;       .line   39; "../libsdcc/_mullong.c"     for (i = 0; i < 8u; i++) {
+0098   0B00           00305         MOVAI   0x00
+0099   1700           00306         ORAR    r0x100C
+009A   3103           00307         JBSET   STATUS,2
+009B   2800           00308         GOTO    _00118_DS_
+                      00309 ;;[ICODE] ../libsdcc/_mullong.c:49:     ret iTemp2 [k6 lr5:44 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{long-int fixed}{ sir@ __mullong_result_1_2}[r0x1008 r0x1009 r0x100A r0x100B ]
+                      00310 ;       .line   49; "../libsdcc/_mullong.c"     return result;
+009C   1600           00311         MOVAR   r0x1008
+009D   1580           00312         MOVRA   STK02
+009E   1600           00313         MOVAR   r0x1009
+009F   1580           00314         MOVRA   STK01
+00A0   1600           00315         MOVAR   r0x100A
+00A1   1580           00316         MOVRA   STK00
+00A2   1600           00317         MOVAR   r0x100B
+                      00318 ;;[ICODE] ../libsdcc/_mullong.c:49:  _return($15) :
+                      00319 ;;[ICODE] ../libsdcc/_mullong.c:49:     eproc __mullong [k1 lr0:0 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{long-int function ( long-int fixed, long-int fixed) fixed}
+00A3   000C           00320         RETURN  
+                      00321 ; exit point of __mullong
+                      00322 
+                      00323 
+                      00324 ;       code size estimation:
+                      00325 ;         164+    0 =   164 instructions (  328 byte)
+                      00326 
+                      00327         end
+gpasm-1.7.0_beta1 (Jan 22 2015)_mullong.asm       2015-1-22  23:30:21          PAGE  2
+
+
+SYMBOL TABLE
+  LABEL                             VALUE
+
+BUZOUT                            00000005
+C                                 00000000
+DC                                00000001
+DDR0                              00000045
+DDR00                             00000000
+DDR01                             00000001
+DDR02                             00000002
+DDR03                             00000003
+DDR1                              00000046
+DDR10                             00000000
+DDR11                             00000001
+DDR12                             00000002
+DDR14                             00000004
+DDR15                             00000005
+DDR16                             00000006
+DDR17                             00000007
+EIS                               00000006
+FSR                               00000004
+GIE                               00000007
+INDF                              00000000
+INT0IE                            00000002
+INT0IF                            00000002
+INT0M                             00000006
+INTECON                           0000000E
+INTFLAG                           0000000F
+KBIE                              00000001
+KBIF                              00000001
+KBIM                              00000009
+KBIM0                             00000000
+KBIM1                             00000001
+KBIM2                             00000002
+KBIM3                             00000003
+KBIM4                             00000004
+KBIM5                             00000005
+KBIM6                             00000006
+KBIM7                             00000007
+MCR                               00000008
+ODCON                             0000000C
+P0                                00000005
+P00                               00000000
+P00PD                             00000000
+P01                               00000001
+P01PD                             00000001
+P02                               00000002
+P02PD                             00000002
+P03                               00000003
+P03PD                             00000003
+P1                                00000006
+P10                               00000000
+P10OD                             00000000
+P10PD                             00000004
+P10PU                             00000000
+P11                               00000001
+P11OD                             00000001
+P11PD                             00000005
+P11PU                             00000001
+P12                               00000002
+P12OD                             00000002
+P12PD                             00000006
+P12PU                             00000002
+P13                               00000003
+P14                               00000004
+P14OD                             00000004
+P14PU                             00000004
+P15                               00000005
+P15OD                             00000005
+P15PU                             00000005
+P16                               00000006
+P16OD                             00000006
+P16PU                             00000006
+P17                               00000007
+P17OD                             00000007
+P17PU                             00000007
+PCL                               00000002
+PCLATH                            0000000A
+PD                                00000003
+PDCON                             0000000B
+PUCON                             0000000D
+PWMOUT                            00000006
+RST                               00000007
+STATUS                            00000003
+STK00                             00000000
+STK01                             00000000
+STK02                             00000000
+STK03                             00000000
+STK04                             00000000
+STK05                             00000000
+STK06                             00000000
+T0CNT                             00000001
+T0CR                              00000041
+T0IE                              00000000
+T0IF                              00000000
+T0PTA                             00000003
+T0PTS                             00000005
+T0SE                              00000004
+T1CNT                             0000004D
+T1CR                              0000004C
+T1DATA                            0000004F
+T1IE                              00000001
+T1IF                              00000000
+T1LOAD                            0000004E
+TBS                               00000007
+TMCR                              0000004B
+TMR1EN                            00000007
+TO                                00000004
+WDTEN                             00000007
+Z                                 00000002
+_00109_DS_                        00000025
+_00112_DS_                        00000043
+_00114_DS_                        0000007E
+_00115_DS_                        00000061
+_00118_DS_                        00000015
+_CONFIG0                          00002000
+_CONFIG1                          00002001
+_CP_ALL                           00001FFF
+_FCPU_2T                          00003F7F
+_FCPU_4T                          00003FFF
+_IRC_1M                           00003FCF
+_IRC_2M                           00003FDF
+_IRC_444K                         00003FAF
+_IRC_4M                           00003FEF
+_IRC_8M                           00003FFF
+_MCLR_OFF                         00003FF7
+_MCLR_ON                          00003FFF
+_OSC_HXT                          00002FFF
+_OSC_IRC                          000037FF
+_OSC_IRC_RTC                      00003FFF
+_OSC_LXT                          000027FF
+_PWRT_OFF                         00003BFF
+_PWRT_ON                          00003FFF
+_RD_FROM_PIN                      00003FFF
+_RD_FROM_REG                      00003EFF
+_SMT_OFF                          00003FFF
+_SMT_ON                           00003DFF
+_TWDT_18MS                        00003FFF
+_TWDT_288MS                       00003DFF
+_TWDT_4P5MS                       00003EFF
+_TWDT_72MS                        00003CFF
+_VBOR_15                          00003FF8
+_VBOR_18                          00003FF9
+_VBOR_20                          00003FFA
+_VBOR_22                          00003FFB
+_VBOR_24                          00003FFC
+_VBOR_26                          00003FFD
+_VBOR_30                          00003FFE
+_VBOR_36                          00003FFF
+_WDT_OFF                          000037FF
+_WDT_ON                           00003FFF
+__30P011                          00000001
+__mullong                         00000000
+r0x1000                           00000003
+r0x1001                           00000002
+r0x1002                           00000001
+r0x1003                           00000000
+r0x1004                           00000007
+r0x1005                           00000006
+r0x1006                           00000005
+r0x1007                           00000004
+r0x1008                           00000008
+r0x1009                           00000009
+r0x100A                           0000000A
+r0x100B                           0000000B
+r0x100C                           0000000C
+r0x100D                           0000000D
+r0x100E                           0000000E
+r0x100F                           0000000F
+r0x1010                           00000010
+
+Errors   :     0
+Warnings :     0 reported,     0 suppressed
+Messages :     0 reported,     0 suppressed
+
+

@@ -1,0 +1,427 @@
+gpasm-1.7.0_beta1 (Jan 22 2015)fseq.asm           2015-1-22  23:32:13          PAGE  1
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+                      00001 ;--------------------------------------------------------
+                      00002 ; File Created by SN-SDCC : ANSI-C Compiler
+                      00003 ; Version 0.0.4 (Jan 22 2015) (Linux)
+                      00004 ; This file was generated Thu Jan 22 23:32:13 2015
+                      00005 ;--------------------------------------------------------
+                      00006 ; MC3X port for the RISC core
+                      00007 ;--------------------------------------------------------
+                      00008 ;       .file   "../libsdcc/fseq.c"
+                      00009         list    p=32p21
+                      00010         radix dec
+                      00011         include "mc32p21.inc"
+                      00001                 LIST
+                      00002 ;mc32p21.inc    Standard Header File, Version 1.00 by Sinomcu
+                      00261                 LIST
+                      00012 ;--------------------------------------------------------
+                      00013 ; external declarations
+                      00014 ;--------------------------------------------------------
+                      00015         extern  ___uchar2fs
+                      00016         extern  ___schar2fs
+                      00017         extern  ___uint2fs
+                      00018         extern  ___sint2fs
+                      00019         extern  ___ulong2fs
+                      00020         extern  ___slong2fs
+                      00021         extern  ___fs2uchar
+                      00022         extern  ___fs2schar
+                      00023         extern  ___fs2uint
+                      00024         extern  ___fs2sint
+                      00025         extern  ___fs2ulong
+                      00026         extern  ___fs2slong
+                      00027         extern  ___fsadd
+                      00028         extern  ___fssub
+                      00029         extern  ___fsmul
+                      00030         extern  ___fsdiv
+                      00031         extern  ___fslt
+                      00032         extern  ___fsneq
+                      00033         extern  ___fsgt
+                      00034 
+                      00035         extern STK06
+                      00036         extern STK05
+                      00037         extern STK04
+                      00038         extern STK03
+                      00039         extern STK02
+                      00040         extern STK01
+                      00041         extern STK00
+                      00042 ;--------------------------------------------------------
+                      00043 ; global declarations
+                      00044 ;--------------------------------------------------------
+                      00045         global  ___fseq
+                      00046 
+                      00047 ;--------------------------------------------------------
+                      00048 ; global definitions
+                      00049 ;--------------------------------------------------------
+                      00050 ;--------------------------------------------------------
+                      00051 ; absolute symbol definitions
+                      00052 ;--------------------------------------------------------
+                      00053 ;--------------------------------------------------------
+                      00054 ; compiler-defined variables
+                      00055 ;--------------------------------------------------------
+                      00056 UDL_fseq_0      udata
+0000                  00057 r0x100B res     1
+0000                  00058 r0x100A res     1
+0001                  00059 r0x1009 res     1
+0001                  00060 r0x1008 res     1
+0002                  00061 r0x100F res     1
+0002                  00062 r0x100E res     1
+0003                  00063 r0x100D res     1
+0003                  00064 r0x100C res     1
+0004                  00065 ___fseq_fl1_1_22        res     4
+0006                  00066 ___fseq_fl2_1_22        res     4
+                      00067 ;--------------------------------------------------------
+                      00068 ; initialized data
+                      00069 ;--------------------------------------------------------
+                      00070 ;--------------------------------------------------------
+                      00071 ; overlayable items in internal ram 
+                      00072 ;--------------------------------------------------------
+                      00073 ;       udata_ovr
+                      00074 ;--------------------------------------------------------
+                      00075 ; code
+                      00076 ;--------------------------------------------------------
+                      00077 code_fseq       code
+                      00078 ;***
+                      00079 ;  pBlock Stats: dbName = C
+                      00080 ;***
+                      00081 ;entry:  ___fseq        ;Function start
+                      00082 ; 2 exit points
+                      00083 ;has an exit
+                      00084 ;15 compiler assigned registers:
+                      00085 ;   r0x1008
+                      00086 ;   STK00
+                      00087 ;   r0x1009
+                      00088 ;   STK01
+                      00089 ;   r0x100A
+                      00090 ;   STK02
+                      00091 ;   r0x100B
+                      00092 ;   STK03
+                      00093 ;   r0x100C
+                      00094 ;   STK04
+                      00095 ;   r0x100D
+                      00096 ;   STK05
+                      00097 ;   r0x100E
+                      00098 ;   STK06
+                      00099 ;   r0x100F
+                      00100 ;; Starting pCode block
+                      00101 ;;[ICODE] ../libsdcc/fseq.c:55:  _entry($4) :
+                      00102 ;;[ICODE] ../libsdcc/fseq.c:55:         proc ___fseq [k1 lr0:0 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char function ( float fixed, float fixed) fixed}
+0000                  00103 ___fseq ;Function start
+                      00104 ; 2 exit points
+                      00105 ;;[ICODE] ../libsdcc/fseq.c:55: iTemp0 [k2 lr3:6 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{float fixed}{ sir@ ___fseq_a1_1_21}[r0x1000 r0x1001 r0x1002 r0x1003 ] = recv ___fseq [k1 lr0:0 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char function ( float fixed, float fixed) fixed}
+                      00106 ;       .line   55; "../libsdcc/fseq.c" char __fseq (float a1, float a2) _FS_REENTRANT
+0000   5600           00107         MOVRA   r0x1008
+0001   5800           00108         MOVAR   STK00
+0002   5600           00109         MOVRA   r0x1009
+0003   5800           00110         MOVAR   STK01
+0004   5600           00111         MOVRA   r0x100A
+0005   5800           00112         MOVAR   STK02
+0006   5600           00113         MOVRA   (___fseq_fl1_1_22 + 0)
+0007   5600           00114         MOVRA   r0x100B
+                      00115 ;;[ICODE] ../libsdcc/fseq.c:55: iTemp1 [k4 lr4:8 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{float fixed}{ sir@ ___fseq_a2_1_21}[r0x1004 r0x1005 r0x1006 r0x1007 ] = recv ___fseq [k1 lr0:0 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char function ( float fixed, float fixed) fixed}
+0008   5800           00116         MOVAR   STK03
+0009   5600           00117         MOVRA   r0x100C
+000A   5800           00118         MOVAR   STK04
+000B   5600           00119         MOVRA   r0x100D
+000C   5800           00120         MOVAR   STK05
+000D   5600           00121         MOVRA   r0x100E
+000E   5800           00122         MOVAR   STK06
+000F   5600           00123         MOVRA   r0x100F
+                      00124 ;;[ICODE] ../libsdcc/fseq.c:59:         iTemp2 [k7 lr5:6 so:0]{ ia0 a2p0 re0 rm1 nos0 ru0 dp0}{volatile-float near* fixed}[remat] = &[___fseq_fl1_1_22 [k6 lr0:0 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{volatile-struct float_long fixed}]
+                      00125 ;;[ICODE] ../libsdcc/fseq.c:59:         *(iTemp2 [k7 lr5:6 so:0]{ ia1 a2p0 re0 rm1 nos0 ru0 dp0}{volatile-float near* fixed}[remat]) := iTemp0 [k2 lr3:6 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{float fixed}{ sir@ ___fseq_a1_1_21}[r0x1000 r0x1001 r0x1002 r0x1003 ]
+                      00126 ;;gen.c:6444: size=3/4, offset=0, AOP_TYPE(res)=8
+                      00127 ;;99    MOVAR   r0x100B
+                      00128 ;;gen.c:6444: size=2/4, offset=1, AOP_TYPE(res)=8
+                      00129 ;       .line   59; "../libsdcc/fseq.c" fl1.f = a1;
+0010   5800           00130         MOVAR   r0x100A
+0011   5600           00131         MOVRA   (___fseq_fl1_1_22 + 1)
+                      00132 ;;gen.c:6444: size=1/4, offset=2, AOP_TYPE(res)=8
+0012   5800           00133         MOVAR   r0x1009
+0013   5600           00134         MOVRA   (___fseq_fl1_1_22 + 2)
+                      00135 ;;gen.c:6444: size=0/4, offset=3, AOP_TYPE(res)=8
+0014   5800           00136         MOVAR   r0x1008
+0015   5600           00137         MOVRA   (___fseq_fl1_1_22 + 3)
+                      00138 ;;[ICODE] ../libsdcc/fseq.c:60:         iTemp4 [k11 lr7:8 so:0]{ ia0 a2p0 re0 rm1 nos0 ru0 dp0}{volatile-float near* fixed}[remat] = &[___fseq_fl2_1_22 [k10 lr0:0 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{volatile-struct float_long fixed}]
+                      00139 ;;[ICODE] ../libsdcc/fseq.c:60:         *(iTemp4 [k11 lr7:8 so:0]{ ia1 a2p0 re0 rm1 nos0 ru0 dp0}{volatile-float near* fixed}[remat]) := iTemp1 [k4 lr4:8 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{float fixed}{ sir@ ___fseq_a2_1_21}[r0x1004 r0x1005 r0x1006 r0x1007 ]
+                      00140 ;;gen.c:6444: size=3/4, offset=0, AOP_TYPE(res)=8
+                      00141 ;       .line   60; "../libsdcc/fseq.c" fl2.f = a2;
+0016   5800           00142         MOVAR   r0x100F
+0017   5600           00143         MOVRA   (___fseq_fl2_1_22 + 0)
+                      00144 ;;gen.c:6444: size=2/4, offset=1, AOP_TYPE(res)=8
+0018   5800           00145         MOVAR   r0x100E
+0019   5600           00146         MOVRA   (___fseq_fl2_1_22 + 1)
+                      00147 ;;gen.c:6444: size=1/4, offset=2, AOP_TYPE(res)=8
+001A   5800           00148         MOVAR   r0x100D
+001B   5600           00149         MOVRA   (___fseq_fl2_1_22 + 2)
+                      00150 ;;gen.c:6444: size=0/4, offset=3, AOP_TYPE(res)=8
+001C   5800           00151         MOVAR   r0x100C
+001D   5600           00152         MOVRA   (___fseq_fl2_1_22 + 3)
+                      00153 ;;[ICODE] ../libsdcc/fseq.c:62:         iTemp6 [k14 lr9:10 so:0]{ ia0 a2p0 re0 rm1 nos0 ru0 dp0}{volatile-long-int near* fixed}[remat] = &[___fseq_fl1_1_22 [k6 lr0:0 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{volatile-struct float_long fixed}]
+                      00154 ;;[ICODE] ../libsdcc/fseq.c:62:         iTemp8 [k17 lr10:13 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{volatile-long-int fixed}[r0x1000 r0x1001 r0x1002 r0x1003 ] = @[iTemp6 [k14 lr9:10 so:0]{ ia1 a2p0 re0 rm1 nos0 ru0 dp0}{volatile-long-int near* fixed}[remat] + 0x0 {const-unsigned-char literal}]
+                      00155 ;       .line   62; "../libsdcc/fseq.c" if (fl1.l == fl2.l)
+001E   5800           00156         MOVAR   (___fseq_fl1_1_22 + 0)
+001F   5600           00157         MOVRA   r0x100B
+0020   5800           00158         MOVAR   (___fseq_fl1_1_22 + 1)
+0021   5600           00159         MOVRA   r0x100A
+0022   5800           00160         MOVAR   (___fseq_fl1_1_22 + 2)
+0023   5600           00161         MOVRA   r0x1009
+0024   5800           00162         MOVAR   (___fseq_fl1_1_22 + 3)
+0025   5600           00163         MOVRA   r0x1008
+                      00164 ;;[ICODE] ../libsdcc/fseq.c:62:         iTemp9 [k18 lr11:12 so:0]{ ia0 a2p0 re0 rm1 nos0 ru0 dp0}{volatile-long-int near* fixed}[remat] = &[___fseq_fl2_1_22 [k10 lr0:0 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{volatile-struct float_long fixed}]
+                      00165 ;;[ICODE] ../libsdcc/fseq.c:62:         iTemp11 [k21 lr12:13 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{volatile-long-int fixed}[r0x1004 r0x1005 r0x1006 r0x1007 ] = @[iTemp9 [k18 lr11:12 so:0]{ ia1 a2p0 re0 rm1 nos0 ru0 dp0}{volatile-long-int near* fixed}[remat] + 0x0 {const-unsigned-char literal}]
+0026   5800           00166         MOVAR   (___fseq_fl2_1_22 + 0)
+0027   5600           00167         MOVRA   r0x100F
+0028   5800           00168         MOVAR   (___fseq_fl2_1_22 + 1)
+0029   5600           00169         MOVRA   r0x100E
+002A   5800           00170         MOVAR   (___fseq_fl2_1_22 + 2)
+002B   5600           00171         MOVRA   r0x100D
+002C   5800           00172         MOVAR   (___fseq_fl2_1_22 + 3)
+002D   5600           00173         MOVRA   r0x100C
+                      00174 ;;[ICODE] ../libsdcc/fseq.c:62:         iTemp12 [k22 lr13:14 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char fixed} = iTemp8 [k17 lr10:13 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{volatile-long-int fixed}[r0x1000 r0x1001 r0x1002 r0x1003 ] == iTemp11 [k21 lr12:13 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{volatile-long-int fixed}[r0x1004 r0x1005 r0x1006 r0x1007 ]
+002E   5800           00175         MOVAR   r0x100F
+002F   4000           00176         XORAR   r0x100B
+0030   E587           00177         JBSET   STATUS,2
+0031   A000           00178         GOTO    _00106_DS_
+0032   5800           00179         MOVAR   r0x100E
+0033   4000           00180         XORAR   r0x100A
+0034   E587           00181         JBSET   STATUS,2
+0035   A000           00182         GOTO    _00106_DS_
+0036   5800           00183         MOVAR   r0x100D
+0037   4000           00184         XORAR   r0x1009
+0038   E587           00185         JBSET   STATUS,2
+0039   A000           00186         GOTO    _00106_DS_
+003A   5800           00187         MOVAR   r0x100C
+003B   4000           00188         XORAR   r0x1008
+003C   E587           00189         JBSET   STATUS,2
+003D   A000           00190         GOTO    _00106_DS_
+                      00191 ;;[ICODE] ../libsdcc/fseq.c:62:         if iTemp12 [k22 lr13:14 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char fixed} == 0 goto _iffalse_0($2)
+                      00192 ;;[ICODE] ../libsdcc/fseq.c:63:         ret 0x1 {const-unsigned-char literal}
+                      00193 ;       .line   63; "../libsdcc/fseq.c" return (1);
+003E   3C01           00194         MOVAI   0x01
+003F   A000           00195         GOTO    _00107_DS_
+                      00196 ;;[ICODE] ../libsdcc/fseq.c:63:  _iffalse_0($2) :
+                      00197 ;;[ICODE] ../libsdcc/fseq.c:64:         ret 0x0 {const-unsigned-char literal}
+0040                  00198 _00106_DS_
+                      00199 ;       .line   64; "../libsdcc/fseq.c" return (0);
+0040   3C00           00200         MOVAI   0x00
+                      00201 ;;[ICODE] ../libsdcc/fseq.c:64:  _return($3) :
+                      00202 ;;[ICODE] ../libsdcc/fseq.c:64:         eproc ___fseq [k1 lr0:0 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char function ( float fixed, float fixed) fixed}
+0041                  00203 _00107_DS_
+0041   000C           00204         RETURN  
+                      00205 ; exit point of ___fseq
+                      00206 
+                      00207 
+                      00208 ;       code size estimation:
+                      00209 ;          66+    0 =    66 instructions (  132 byte)
+                      00210 
+                      00211         end
+gpasm-1.7.0_beta1 (Jan 22 2015)fseq.asm           2015-1-22  23:32:13          PAGE  2
+
+
+SYMBOL TABLE
+  LABEL                             VALUE
+
+ADCR0                             000001B0
+ADCR1                             000001B1
+ADEOC                             00000001
+ADIE                              00000006
+ADIF                              00000006
+ADON                              00000000
+ADRH                              000001B4
+ADRL                              000001B5
+ANSEL                             00000193
+BUZ0OE                            00000005
+BUZ1OE                            00000005
+C                                 00000000
+CLKS                              00000002
+DC                                00000001
+FSR                               00000184
+FSR0                              00000184
+FSR1                              00000185
+GIE                               00000007
+HFEN                              00000000
+HIBYTE                            00000183
+INDF                              00000180
+INDF0                             00000180
+INDF1                             00000181
+INDF2                             00000182
+INDF3                             00000189
+INT0IE                            00000002
+INT0IF                            00000002
+INT1IE                            00000003
+INT1IF                            00000003
+INTE                              0000018A
+INTF                              0000018B
+IOP0                              00000190
+IOP1                              00000194
+KBIE                              00000004
+KBIF                              00000004
+KBIM                              00000197
+KBIM0                             00000000
+KBIM1                             00000001
+KBIM2                             00000002
+KBIM3                             00000003
+KBIM4                             00000004
+KBIM5                             00000005
+KBIM6                             00000006
+LFEN                              00000001
+LVDCR                             000001AD
+LVDEN                             00000007
+LVDF                              00000000
+MCR                               00000188
+OEP0                              00000191
+OEP1                              00000195
+OSCAL                             000001FB
+OSCM                              000001AE
+P00                               00000000
+P00ANS                            00000000
+P00OE                             00000000
+P00PU                             00000000
+P01                               00000001
+P01ANS                            00000001
+P01OE                             00000001
+P01PU                             00000001
+P02                               00000002
+P02ANS                            00000002
+P02OE                             00000002
+P02PU                             00000002
+P03                               00000003
+P03ANS                            00000003
+P03OE                             00000003
+P03PU                             00000003
+P04                               00000004
+P04ANS                            00000004
+P04OE                             00000004
+P04PU                             00000004
+P10                               00000000
+P10OE                             00000000
+P10PU                             00000000
+P11                               00000001
+P11OE                             00000001
+P11PU                             00000001
+P12                               00000002
+P12ANS                            00000005
+P12OE                             00000002
+P12PU                             00000002
+P13                               00000003
+P13ANS                            00000006
+P13OE                             00000003
+P13PU                             00000003
+P14                               00000004
+P14OE                             00000004
+P14PU                             00000004
+P15                               00000005
+P15OE                             00000005
+P15PU                             00000005
+P16                               00000006
+P16OE                             00000006
+P16PU                             00000006
+PCL                               00000186
+PD                                00000004
+PUP0                              00000192
+PUP1                              00000196
+PWM0OE                            00000006
+PWM1OE                            00000006
+STATUS                            00000187
+STBH                              00000004
+STBL                              00000005
+STK00                             00000000
+STK01                             00000000
+STK02                             00000000
+STK03                             00000000
+STK04                             00000000
+STK05                             00000000
+STK06                             00000000
+T0CNT                             000001A1
+T0CR                              000001A0
+T0DATA                            000001A3
+T0IE                              00000000
+T0IF                              00000000
+T0LOAD                            000001A2
+T1CNT                             000001A5
+T1CR                              000001A4
+T1DATA                            000001A7
+T1IE                              00000001
+T1IF                              00000001
+T1LOAD                            000001A6
+TC0EN                             00000007
+TC1EN                             00000007
+TO                                00000005
+Z                                 00000002
+_00106_DS_                        00000040
+_00107_DS_                        00000041
+_CONFIG0                          00008000
+_CONFIG1                          00008001
+_CP_ALL                           00007FFF
+_FCPU_128T                        0000FFEF
+_FCPU_16T                         0000FFBF
+_FCPU_256T                        0000FFFF
+_FCPU_2T                          0000FF8F
+_FCPU_32T                         0000FFCF
+_FCPU_4T                          0000FF9F
+_FCPU_64T                         0000FFDF
+_FCPU_8T                          0000FFAF
+_HRC_LRC                          0000FCFF
+_HRC_LXT                          0000FDFF
+_HXT_LRC                          0000FEFF
+_MCLR_OFF                         0000FF7F
+_MCLR_ON                          0000FFFF
+_PTWRT_16_1024                    0000FFF7
+_PTWRT_16_16                      0000DFF7
+_PTWRT_256_256                    0000DFFF
+_PTWRT_256_4096                   0000FFFF
+_PTWRT_4_4                        0000DFF3
+_PTWRT_4_512                      0000FFF3
+_PTWRT_64_2048                    0000FFFB
+_PTWRT_64_64                      0000DFFB
+_VLVR_160                         0000E3FF
+_VLVR_185                         0000E7FF
+_VLVR_205                         0000EBFF
+_VLVR_218                         0000EFFF
+_VLVR_232                         0000F3FF
+_VLVR_245                         0000F7FF
+_VLVR_305                         0000FBFF
+_VLVR_360                         0000FFFF
+_WDT_ALWAYS_OFF                   0000FFFC
+_WDT_ALWAYS_ON                    0000FFFF
+_WDT_SLEEP_OFF                    0000FFFD
+__32P21                           00000001
+___fs2schar                       00000000
+___fs2sint                        00000000
+___fs2slong                       00000000
+___fs2uchar                       00000000
+___fs2uint                        00000000
+___fs2ulong                       00000000
+___fsadd                          00000000
+___fsdiv                          00000000
+___fseq                           00000000
+___fseq_fl1_1_22                  00000008
+___fseq_fl2_1_22                  0000000C
+___fsgt                           00000000
+___fslt                           00000000
+___fsmul                          00000000
+___fsneq                          00000000
+___fssub                          00000000
+___schar2fs                       00000000
+___sint2fs                        00000000
+___slong2fs                       00000000
+___uchar2fs                       00000000
+___uint2fs                        00000000
+___ulong2fs                       00000000
+r0x1008                           00000003
+r0x1009                           00000002
+r0x100A                           00000001
+r0x100B                           00000000
+r0x100C                           00000007
+r0x100D                           00000006
+r0x100E                           00000005
+r0x100F                           00000004
+
+Errors   :     0
+Warnings :     0 reported,     0 suppressed
+Messages :     0 reported,     0 suppressed
+
+

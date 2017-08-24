@@ -1,0 +1,461 @@
+gpasm-1.7.0_beta1 (Jan 22 2015)idata.asm          2015-1-22  23:30:20          PAGE  1
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+                      00001 ;--------------------------------------------------------
+                      00002 ; File Created by SN-SDCC : ANSI-C Compiler
+                      00003 ; Version 0.0.4 (Jan 22 2015) (Linux)
+                      00004 ; This file was generated Thu Jan 22 23:30:20 2015
+                      00005 ;--------------------------------------------------------
+                      00006 ; MC3X port for the RISC core
+                      00007 ;--------------------------------------------------------
+                      00008 ;       .file   "../libsdcc/idata.c"
+                      00009         list    p=30p011
+                      00010         radix dec
+                      00011         include "mc30p011.inc"
+                      00001                 LIST
+                      00002 ;mc30p011.inc    Standard Header File, Version 1.00 by Sinomcu
+                      00225                 LIST
+                      00012 ;--------------------------------------------------------
+                      00013 ; external declarations
+                      00014 ;--------------------------------------------------------
+                      00015         extern  _main
+                      00016         extern  _cinit
+                      00017         extern  __gptrget2
+                      00018         extern  __gptrget1
+                      00019 
+                      00020         extern STK06
+                      00021         extern STK05
+                      00022         extern STK04
+                      00023         extern STK03
+                      00024         extern STK02
+                      00025         extern STK01
+                      00026         extern STK00
+                      00027 ;--------------------------------------------------------
+                      00028 ; global declarations
+                      00029 ;--------------------------------------------------------
+                      00030         global  __sdcc_gsinit_startup
+                      00031 
+                      00032 ;--------------------------------------------------------
+                      00033 ; global definitions
+                      00034 ;--------------------------------------------------------
+                      00035 ;--------------------------------------------------------
+                      00036 ; absolute symbol definitions
+                      00037 ;--------------------------------------------------------
+                      00038 ;--------------------------------------------------------
+                      00039 ; compiler-defined variables
+                      00040 ;--------------------------------------------------------
+                      00041 UDL_idata_0     udata
+0000                  00042 r0x1001 res     1
+0000                  00043 r0x1000 res     1
+0001                  00044 r0x1002 res     1
+0001                  00045 r0x1003 res     1
+0002                  00046 r0x1004 res     1
+0002                  00047 r0x1005 res     1
+0003                  00048 r0x1007 res     1
+0003                  00049 r0x1006 res     1
+0004                  00050 r0x1009 res     1
+0004                  00051 r0x1008 res     1
+0005                  00052 r0x100B res     1
+0005                  00053 r0x100A res     1
+                      00054 ;--------------------------------------------------------
+                      00055 ; initialized data
+                      00056 ;--------------------------------------------------------
+                      00057 
+                      00058 ID_idata_0      idata
+0000                  00059 _force_cinit
+0000                  00060         db      0x00
+                      00061 
+                      00062 ;--------------------------------------------------------
+                      00063 ; overlayable items in internal ram 
+                      00064 ;--------------------------------------------------------
+                      00065 ;       udata_ovr
+                      00066 ;--------------------------------------------------------
+                      00067 ; code
+                      00068 ;--------------------------------------------------------
+                      00069 code_idata      code
+                      00070 ;***
+                      00071 ;  pBlock Stats: dbName = C
+                      00072 ;***
+                      00073 ;entry:  __sdcc_gsinit_startup  ;Function start
+                      00074 ; 2 exit points
+                      00075 ;has an exit
+                      00076 ;functions called:
+                      00077 ;   __gptrget2
+                      00078 ;   __gptrget2
+                      00079 ;   __gptrget2
+                      00080 ;   __gptrget2
+                      00081 ;   __gptrget1
+                      00082 ;   __gptrget2
+                      00083 ;   __gptrget2
+                      00084 ;   __gptrget2
+                      00085 ;   __gptrget2
+                      00086 ;   __gptrget1
+                      00087 ;14 compiler assigned registers:
+                      00088 ;   STK01
+                      00089 ;   STK00
+                      00090 ;   r0x1000
+                      00091 ;   r0x1001
+                      00092 ;   r0x1002
+                      00093 ;   r0x1003
+                      00094 ;   r0x1004
+                      00095 ;   r0x1005
+                      00096 ;   r0x1006
+                      00097 ;   r0x1007
+                      00098 ;   r0x1008
+                      00099 ;   r0x1009
+                      00100 ;   r0x100A
+                      00101 ;   r0x100B
+                      00102 ;; Starting pCode block
+                      00103 ;;[ICODE] ../libsdcc/idata.c:68:  _entry($8) :
+                      00104 ;;[ICODE] ../libsdcc/idata.c:68:        proc __sdcc_gsinit_startup [k1 lr0:0 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{void function ( ) fixed}
+0000                  00105 __sdcc_gsinit_startup   ;Function start
+                      00106 ; 2 exit points
+                      00107 ;;[ICODE] ../libsdcc/idata.c:75:        iTemp1 [k5 lr3:4 so:0]{ ia0 a2p0 re0 rm1 nos0 ru0 dp0}{const-unsigned-int code* code}[remat] = &[_cinit [k4 lr0:0 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{const-struct __00000001 code}]
+                      00108 ;;[ICODE] ../libsdcc/idata.c:75:        iTemp9 [k16 lr4:42 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-int fixed}[r0x1000 r0x1001 ] = @[iTemp1 [k5 lr3:4 so:0]{ ia1 a2p0 re0 rm1 nos0 ru0 dp0}{const-unsigned-int code* code}[remat] + 0x0 {const-unsigned-char literal}]
+                      00109 ;       .line   75; "../libsdcc/idata.c"        num = cinit.records;
+0000   0B00           00110         MOVAI   (_cinit + 0)
+0001   1580           00111         MOVRA   STK01
+0002   0B00           00112         MOVAI   high (_cinit + 0)
+0003   1580           00113         MOVRA   STK00
+0004   0B80           00114         MOVAI   0x80
+0005   2000           00115         CALL    __gptrget2
+0006   1580           00116         MOVRA   r0x1000
+0007   1600           00117         MOVAR   STK00
+0008   1580           00118         MOVRA   r0x1001
+                      00119 ;;[ICODE] ../libsdcc/idata.c:76:        iTemp5 [k11 lr6:7 so:0]{ ia0 a2p0 re0 rm1 nos0 ru0 dp0}{const-struct __00000001 code* code}[remat] = &[_cinit [k4 lr0:0 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{const-struct __00000001 code}]
+                      00120 ;;[ICODE] ../libsdcc/idata.c:76:        iTemp34 [k47 lr7:42 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{const-struct __00000000 code* fixed}[r0x1002 r0x1003 ] = iTemp5 [k11 lr6:7 so:0]{ ia0 a2p0 re0 rm1 nos0 ru0 dp0}{const-struct __00000001 code* code}[remat] + 0x2 {const-unsigned-char literal}
+                      00121 ;       .line   76; "../libsdcc/idata.c"        cptr = &cinit.entry[0];
+0009   0B00           00122         MOVAI   (_cinit + 2)
+000A   1580           00123         MOVRA   r0x1002
+000B   0B00           00124         MOVAI   high (_cinit + 2)
+000C   1580           00125         MOVRA   r0x1003
+                      00126 ;;[ICODE] ../libsdcc/idata.c:79:  _whilecontinue_0($4) :
+                      00127 ;;[ICODE] ../libsdcc/idata.c:79:        iTemp8 [k15 lr14:16 so:0]{ ia0 a2p0 re0 rm0 nos1 ru0 dp0}{unsigned-int fixed}[r0x1004 r0x1005 ] := iTemp9 [k16 lr4:42 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-int fixed}[r0x1000 r0x1001 ]
+000D                  00128 _00108_DS_
+                      00129 ;       .line   79; "../libsdcc/idata.c"        while (num--) {
+000D   1600           00130         MOVAR   r0x1001
+000E   1580           00131         MOVRA   r0x1004
+000F   1600           00132         MOVAR   r0x1000
+0010   1580           00133         MOVRA   r0x1005
+                      00134 ;;[ICODE] ../libsdcc/idata.c:79:        iTemp9 [k16 lr4:42 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-int fixed}[r0x1000 r0x1001 ] = iTemp9 [k16 lr4:42 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-int fixed}[r0x1000 r0x1001 ] - 0x1 {const-unsigned-char literal}
+0011   0BFF           00135         MOVAI   0xff
+0012   1F80           00136         ADDRA   r0x1001
+0013   3003           00137         JBSET   STATUS,0
+0014   1B80           00138         DECR    r0x1000
+                      00139 ;;[ICODE] ../libsdcc/idata.c:79:        if iTemp8 [k15 lr14:16 so:0]{ ia0 a2p0 re0 rm0 nos1 ru0 dp0}{unsigned-int fixed}[r0x1004 r0x1005 ] == 0 goto _whilebreak_0($6)
+0015   1600           00140         MOVAR   r0x1004
+0016   1700           00141         ORAR    r0x1005
+0017   3503           00142         JBCLR   STATUS,2
+0018   2800           00143         GOTO    _00110_DS_
+                      00144 ;;[ICODE] ../libsdcc/idata.c:80:        iTemp12 [k21 lr17:18 so:0]{ ia1 a2p0 re0 rm0 nos0 ru1 dp0}{const-unsigned-int code* fixed}[r0x1004 r0x1005 ] = iTemp34 [k47 lr7:42 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{const-struct __00000000 code* fixed}[r0x1002 r0x1003 ] + 0x4 {const-unsigned-char literal}
+                      00145 ;       .line   80; "../libsdcc/idata.c"        size = cptr->size;
+0019   0B04           00146         MOVAI   0x04
+001A   1F00           00147         ADDAR   r0x1002
+001B   1580           00148         MOVRA   r0x1004
+001C   1D80           00149         CLRR    r0x1005
+001D   1480           00150         RLR     r0x1005
+001E   1600           00151         MOVAR   r0x1003
+001F   1F80           00152         ADDRA   r0x1005
+                      00153 ;;[ICODE] ../libsdcc/idata.c:80:        iTemp25 [k38 lr18:39 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-int fixed}[r0x1006 r0x1007 ] = @[iTemp12 [k21 lr17:18 so:0]{ ia1 a2p0 re0 rm0 nos0 ru1 dp0}{const-unsigned-int code* fixed}[r0x1004 r0x1005 ] + 0x0 {const-unsigned-char literal}]
+0020   1600           00154         MOVAR   r0x1004
+0021   1580           00155         MOVRA   STK01
+0022   1600           00156         MOVAR   r0x1005
+0023   1580           00157         MOVRA   STK00
+0024   0B80           00158         MOVAI   0x80
+0025   2000           00159         CALL    __gptrget2
+0026   1580           00160         MOVRA   r0x1006
+0027   1600           00161         MOVAR   STK00
+0028   1580           00162         MOVRA   r0x1007
+                      00163 ;;[ICODE] ../libsdcc/idata.c:81:        iTemp17 [k28 lr20:21 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{const-unsigned-int fixed}[r0x1004 r0x1005 ] = @[iTemp34 [k47 lr7:42 so:0]{ ia1 a2p0 re0 rm0 nos0 ru0 dp0}{const-struct __00000000 code* fixed}[r0x1002 r0x1003 ] + 0x0 {const-unsigned-char literal}]
+                      00164 ;       .line   81; "../libsdcc/idata.c"        src = (__code char *) cptr->src;
+0029   1600           00165         MOVAR   r0x1002
+002A   1580           00166         MOVRA   STK01
+002B   1600           00167         MOVAR   r0x1003
+002C   1580           00168         MOVRA   STK00
+002D   0B80           00169         MOVAI   0x80
+002E   2000           00170         CALL    __gptrget2
+002F   1580           00171         MOVRA   r0x1008
+0030   1580           00172         MOVRA   r0x1005
+0031   1600           00173         MOVAR   STK00
+0032   1580           00174         MOVRA   r0x1009
+0033   1580           00175         MOVRA   r0x1004
+                      00176 ;;[ICODE] ../libsdcc/idata.c:81:        iTemp30 [k43 lr21:39 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{const-char code* fixed}[r0x1008 r0x1009 ] = (const-char code* fixed)iTemp17 [k28 lr20:21 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{const-unsigned-int fixed}[r0x1004 r0x1005 ]
+                      00177 ;;100   MOVAR   r0x1005
+                      00178 ;;99    MOVAR   r0x1004
+                      00179 ;;[ICODE] ../libsdcc/idata.c:82:        iTemp21 [k34 lr23:24 so:0]{ ia1 a2p0 re0 rm0 nos0 ru1 dp0}{const-unsigned-int code* fixed}[r0x1004 r0x1005 ] = iTemp34 [k47 lr7:42 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{const-struct __00000000 code* fixed}[r0x1002 r0x1003 ] + 0x2 {const-unsigned-char literal}
+                      00180 ;       .line   82; "../libsdcc/idata.c"        dst = (__data char *) cptr->dst;
+0034   0B02           00181         MOVAI   0x02
+0035   1F00           00182         ADDAR   r0x1002
+0036   1580           00183         MOVRA   r0x1004
+0037   1D80           00184         CLRR    r0x1005
+0038   1480           00185         RLR     r0x1005
+0039   1600           00186         MOVAR   r0x1003
+003A   1F80           00187         ADDRA   r0x1005
+                      00188 ;;[ICODE] ../libsdcc/idata.c:82:        iTemp22 [k35 lr24:25 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{const-unsigned-int fixed}[r0x100A r0x100B ] = @[iTemp21 [k34 lr23:24 so:0]{ ia1 a2p0 re0 rm0 nos0 ru1 dp0}{const-unsigned-int code* fixed}[r0x1004 r0x1005 ] + 0x0 {const-unsigned-char literal}]
+003B   1600           00189         MOVAR   r0x1004
+003C   1580           00190         MOVRA   STK01
+003D   1600           00191         MOVAR   r0x1005
+003E   1580           00192         MOVRA   STK00
+003F   0B80           00193         MOVAI   0x80
+0040   2000           00194         CALL    __gptrget2
+0041   1580           00195         MOVRA   r0x1005
+0042   1580           00196         MOVRA   r0x100A
+0043   1600           00197         MOVAR   STK00
+0044   1580           00198         MOVRA   r0x1004
+0045   1580           00199         MOVRA   r0x100B
+                      00200 ;;[ICODE] ../libsdcc/idata.c:82:        iTemp32 [k45 lr25:39 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char near* fixed}[r0x1004 r0x1005 ] = (char near* fixed)iTemp22 [k35 lr24:25 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{const-unsigned-int fixed}[r0x100A r0x100B ]
+                      00201 ;;102   MOVAR   r0x100A
+                      00202 ;;101   MOVAR   r0x100B
+                      00203 ;;[ICODE] ../libsdcc/idata.c:85:  _whilecontinue_1($1) :
+                      00204 ;;[ICODE] ../libsdcc/idata.c:85:        iTemp24 [k37 lr32:34 so:0]{ ia0 a2p0 re0 rm0 nos1 ru0 dp0}{unsigned-int fixed}[r0x100A r0x100B ] := iTemp25 [k38 lr18:39 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-int fixed}[r0x1006 r0x1007 ]
+0046                  00205 _00105_DS_
+                      00206 ;       .line   85; "../libsdcc/idata.c"        while (size--) {
+0046   1600           00207         MOVAR   r0x1007
+0047   1580           00208         MOVRA   r0x100B
+0048   1600           00209         MOVAR   r0x1006
+0049   1580           00210         MOVRA   r0x100A
+                      00211 ;;[ICODE] ../libsdcc/idata.c:85:        iTemp25 [k38 lr18:39 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-int fixed}[r0x1006 r0x1007 ] = iTemp25 [k38 lr18:39 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-int fixed}[r0x1006 r0x1007 ] - 0x1 {const-unsigned-char literal}
+004A   0BFF           00212         MOVAI   0xff
+004B   1F80           00213         ADDRA   r0x1007
+004C   3003           00214         JBSET   STATUS,0
+004D   1B80           00215         DECR    r0x1006
+                      00216 ;;[ICODE] ../libsdcc/idata.c:85:        if iTemp24 [k37 lr32:34 so:0]{ ia0 a2p0 re0 rm0 nos1 ru0 dp0}{unsigned-int fixed}[r0x100A r0x100B ] == 0 goto _whilebreak_1($3)
+004E   1600           00217         MOVAR   r0x100B
+004F   1700           00218         ORAR    r0x100A
+0050   3503           00219         JBCLR   STATUS,2
+0051   2800           00220         GOTO    _00107_DS_
+                      00221 ;;[ICODE] ../libsdcc/idata.c:86:        iTemp28 [k41 lr35:36 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{const-char register}[r0x100A ] = @[iTemp30 [k43 lr21:39 so:0]{ ia1 a2p0 re0 rm0 nos0 ru0 dp0}{const-char code* fixed}[r0x1008 r0x1009 ] + 0x0 {const-unsigned-char literal}]
+                      00222 ;       .line   86; "../libsdcc/idata.c"        *dst = *src;
+0052   1600           00223         MOVAR   r0x1009
+0053   1580           00224         MOVRA   STK01
+0054   1600           00225         MOVAR   r0x1008
+0055   1580           00226         MOVRA   STK00
+0056   0B80           00227         MOVAI   0x80
+0057   2000           00228         CALL    __gptrget1
+0058   1580           00229         MOVRA   r0x100B
+                      00230 ;;[ICODE] ../libsdcc/idata.c:86:        *(iTemp32 [k45 lr25:39 so:0]{ ia1 a2p0 re0 rm0 nos0 ru0 dp0}{char near* fixed}[r0x1004 r0x1005 ]) := iTemp28 [k41 lr35:36 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{const-char register}[r0x100A ]
+0059   1600           00231         MOVAR   r0x1004
+005A   1584           00232         MOVRA   FSR
+005B   3F83           00233         BCLR    STATUS,7
+005C   3400           00234         JBCLR   r0x1005,0
+005D   3B83           00235         BSET    STATUS,7
+005E   1600           00236         MOVAR   r0x100B
+005F   1580           00237         MOVRA   INDF
+                      00238 ;;[ICODE] ../libsdcc/idata.c:87:        iTemp30 [k43 lr21:39 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{const-char code* fixed}[r0x1008 r0x1009 ] = iTemp30 [k43 lr21:39 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{const-char code* fixed}[r0x1008 r0x1009 ] + 0x1 {const-unsigned-char literal}
+                      00239 ;       .line   87; "../libsdcc/idata.c"        src++;
+0060   1980           00240         INCR    r0x1009
+0061   3503           00241         JBCLR   STATUS,2
+0062   1980           00242         INCR    r0x1008
+                      00243 ;;[ICODE] ../libsdcc/idata.c:88:        iTemp32 [k45 lr25:39 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char near* fixed}[r0x1004 r0x1005 ] = iTemp32 [k45 lr25:39 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char near* fixed}[r0x1004 r0x1005 ] + 0x1 {const-unsigned-char literal}
+                      00244 ;       .line   88; "../libsdcc/idata.c"        dst++;
+0063   1980           00245         INCR    r0x1004
+0064   3503           00246         JBCLR   STATUS,2
+0065   1980           00247         INCR    r0x1005
+                      00248 ;;[ICODE] ../libsdcc/idata.c:88:         goto _whilecontinue_1($1)
+0066   2800           00249         GOTO    _00105_DS_
+                      00250 ;;[ICODE] ../libsdcc/idata.c:88:  _whilebreak_1($3) :
+                      00251 ;;[ICODE] ../libsdcc/idata.c:92:        iTemp34 [k47 lr7:42 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{const-struct __00000000 code* fixed}[r0x1002 r0x1003 ] = iTemp34 [k47 lr7:42 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{const-struct __00000000 code* fixed}[r0x1002 r0x1003 ] + 0x6 {const-unsigned-char literal}
+0067                  00252 _00107_DS_
+                      00253 ;       .line   92; "../libsdcc/idata.c"        cptr++;
+0067   0B06           00254         MOVAI   0x06
+0068   1F80           00255         ADDRA   r0x1002
+0069   3403           00256         JBCLR   STATUS,0
+006A   1980           00257         INCR    r0x1003
+                      00258 ;;[ICODE] ../libsdcc/idata.c:92:         goto _whilecontinue_0($4)
+006B   2800           00259         GOTO    _00108_DS_
+                      00260 ;;[ICODE] ../libsdcc/idata.c:92:  _whilebreak_0($6) :
+                      00261 ;;[ICODE] ../libsdcc/idata.c:99: inline
+006C                  00262 _00110_DS_
+006C   2800           00263         GOTO _main
+                      00264         
+                      00265 ;;[ICODE] ../libsdcc/idata.c:99:  _return($7) :
+                      00266 ;;[ICODE] ../libsdcc/idata.c:99:        eproc __sdcc_gsinit_startup [k1 lr0:0 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{void function ( ) fixed}
+006D   000C           00267         RETURN  
+                      00268 ; exit point of __sdcc_gsinit_startup
+                      00269 
+                      00270 
+                      00271 ;       code size estimation:
+                      00272 ;         109+    0 =   109 instructions (  218 byte)
+                      00273 
+                      00274         end
+gpasm-1.7.0_beta1 (Jan 22 2015)idata.asm          2015-1-22  23:30:20          PAGE  2
+
+
+SYMBOL TABLE
+  LABEL                             VALUE
+
+BUZOUT                            00000005
+C                                 00000000
+DC                                00000001
+DDR0                              00000045
+DDR00                             00000000
+DDR01                             00000001
+DDR02                             00000002
+DDR03                             00000003
+DDR1                              00000046
+DDR10                             00000000
+DDR11                             00000001
+DDR12                             00000002
+DDR14                             00000004
+DDR15                             00000005
+DDR16                             00000006
+DDR17                             00000007
+EIS                               00000006
+FSR                               00000004
+GIE                               00000007
+INDF                              00000000
+INT0IE                            00000002
+INT0IF                            00000002
+INT0M                             00000006
+INTECON                           0000000E
+INTFLAG                           0000000F
+KBIE                              00000001
+KBIF                              00000001
+KBIM                              00000009
+KBIM0                             00000000
+KBIM1                             00000001
+KBIM2                             00000002
+KBIM3                             00000003
+KBIM4                             00000004
+KBIM5                             00000005
+KBIM6                             00000006
+KBIM7                             00000007
+MCR                               00000008
+ODCON                             0000000C
+P0                                00000005
+P00                               00000000
+P00PD                             00000000
+P01                               00000001
+P01PD                             00000001
+P02                               00000002
+P02PD                             00000002
+P03                               00000003
+P03PD                             00000003
+P1                                00000006
+P10                               00000000
+P10OD                             00000000
+P10PD                             00000004
+P10PU                             00000000
+P11                               00000001
+P11OD                             00000001
+P11PD                             00000005
+P11PU                             00000001
+P12                               00000002
+P12OD                             00000002
+P12PD                             00000006
+P12PU                             00000002
+P13                               00000003
+P14                               00000004
+P14OD                             00000004
+P14PU                             00000004
+P15                               00000005
+P15OD                             00000005
+P15PU                             00000005
+P16                               00000006
+P16OD                             00000006
+P16PU                             00000006
+P17                               00000007
+P17OD                             00000007
+P17PU                             00000007
+PCL                               00000002
+PCLATH                            0000000A
+PD                                00000003
+PDCON                             0000000B
+PUCON                             0000000D
+PWMOUT                            00000006
+RST                               00000007
+STATUS                            00000003
+STK00                             00000000
+STK01                             00000000
+STK02                             00000000
+STK03                             00000000
+STK04                             00000000
+STK05                             00000000
+STK06                             00000000
+T0CNT                             00000001
+T0CR                              00000041
+T0IE                              00000000
+T0IF                              00000000
+T0PTA                             00000003
+T0PTS                             00000005
+T0SE                              00000004
+T1CNT                             0000004D
+T1CR                              0000004C
+T1DATA                            0000004F
+T1IE                              00000001
+T1IF                              00000000
+T1LOAD                            0000004E
+TBS                               00000007
+TMCR                              0000004B
+TMR1EN                            00000007
+TO                                00000004
+WDTEN                             00000007
+Z                                 00000002
+_00105_DS_                        00000046
+_00107_DS_                        00000067
+_00108_DS_                        0000000D
+_00110_DS_                        0000006C
+_CONFIG0                          00002000
+_CONFIG1                          00002001
+_CP_ALL                           00001FFF
+_FCPU_2T                          00003F7F
+_FCPU_4T                          00003FFF
+_IRC_1M                           00003FCF
+_IRC_2M                           00003FDF
+_IRC_444K                         00003FAF
+_IRC_4M                           00003FEF
+_IRC_8M                           00003FFF
+_MCLR_OFF                         00003FF7
+_MCLR_ON                          00003FFF
+_OSC_HXT                          00002FFF
+_OSC_IRC                          000037FF
+_OSC_IRC_RTC                      00003FFF
+_OSC_LXT                          000027FF
+_PWRT_OFF                         00003BFF
+_PWRT_ON                          00003FFF
+_RD_FROM_PIN                      00003FFF
+_RD_FROM_REG                      00003EFF
+_SMT_OFF                          00003FFF
+_SMT_ON                           00003DFF
+_TWDT_18MS                        00003FFF
+_TWDT_288MS                       00003DFF
+_TWDT_4P5MS                       00003EFF
+_TWDT_72MS                        00003CFF
+_VBOR_15                          00003FF8
+_VBOR_18                          00003FF9
+_VBOR_20                          00003FFA
+_VBOR_22                          00003FFB
+_VBOR_24                          00003FFC
+_VBOR_26                          00003FFD
+_VBOR_30                          00003FFE
+_VBOR_36                          00003FFF
+_WDT_OFF                          000037FF
+_WDT_ON                           00003FFF
+__30P011                          00000001
+__gptrget1                        00000000
+__gptrget2                        00000000
+__sdcc_gsinit_startup             00000000
+_cinit                            00000000
+_force_cinit                      00000000
+_main                             00000000
+r0x1000                           00000001
+r0x1001                           00000000
+r0x1002                           00000002
+r0x1003                           00000003
+r0x1004                           00000004
+r0x1005                           00000005
+r0x1006                           00000007
+r0x1007                           00000006
+r0x1008                           00000009
+r0x1009                           00000008
+r0x100A                           0000000B
+r0x100B                           0000000A
+
+Errors   :     0
+Warnings :     0 reported,     0 suppressed
+Messages :     0 reported,     0 suppressed
+
+

@@ -1,0 +1,498 @@
+gpasm-1.7.0_beta1 (Jan 22 2015)_divschar.asm      2015-1-22  23:30:19          PAGE  1
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+                      00001 ;--------------------------------------------------------
+                      00002 ; File Created by SN-SDCC : ANSI-C Compiler
+                      00003 ; Version 0.0.4 (Jan 22 2015) (Linux)
+                      00004 ; This file was generated Thu Jan 22 23:30:19 2015
+                      00005 ;--------------------------------------------------------
+                      00006 ; MC3X port for the RISC core
+                      00007 ;--------------------------------------------------------
+                      00008 ;       .file   "../libsdcc/_divschar.c"
+                      00009         list    p=30p011
+                      00010         radix dec
+                      00011         include "mc30p011.inc"
+                      00001                 LIST
+                      00002 ;mc30p011.inc    Standard Header File, Version 1.00 by Sinomcu
+                      00225                 LIST
+                      00012 ;--------------------------------------------------------
+                      00013 ; external declarations
+                      00014 ;--------------------------------------------------------
+                      00015         extern  __divuchar
+                      00016 
+                      00017         extern STK06
+                      00018         extern STK05
+                      00019         extern STK04
+                      00020         extern STK03
+                      00021         extern STK02
+                      00022         extern STK01
+                      00023         extern STK00
+                      00024 ;--------------------------------------------------------
+                      00025 ; global declarations
+                      00026 ;--------------------------------------------------------
+                      00027         global  __divschar
+                      00028 
+                      00029 ;--------------------------------------------------------
+                      00030 ; global definitions
+                      00031 ;--------------------------------------------------------
+                      00032 ;--------------------------------------------------------
+                      00033 ; absolute symbol definitions
+                      00034 ;--------------------------------------------------------
+                      00035 ;--------------------------------------------------------
+                      00036 ; compiler-defined variables
+                      00037 ;--------------------------------------------------------
+                      00038 UDL__divschar_0 udata
+0000                  00039 r0x1000 res     1
+0000                  00040 r0x1001 res     1
+0001                  00041 r0x1002 res     1
+0001                  00042 r0x1003 res     1
+0002                  00043 r0x1004 res     1
+0002                  00044 r0x1005 res     1
+0003                  00045 r0x1006 res     1
+0003                  00046 r0x1007 res     1
+0004                  00047 r0x1008 res     1
+                      00048 ;--------------------------------------------------------
+                      00049 ; initialized data
+                      00050 ;--------------------------------------------------------
+                      00051 ;--------------------------------------------------------
+                      00052 ; overlayable items in internal ram 
+                      00053 ;--------------------------------------------------------
+                      00054 ;       udata_ovr
+                      00055 ;--------------------------------------------------------
+                      00056 ; code
+                      00057 ;--------------------------------------------------------
+                      00058 code__divschar  code
+                      00059 ;***
+                      00060 ;  pBlock Stats: dbName = C
+                      00061 ;***
+                      00062 ;entry:  __divschar     ;Function start
+                      00063 ; 2 exit points
+                      00064 ;has an exit
+                      00065 ;functions called:
+                      00066 ;   __divuchar
+                      00067 ;   __divuchar
+                      00068 ;   __divuchar
+                      00069 ;   __divuchar
+                      00070 ;   __divuchar
+                      00071 ;   __divuchar
+                      00072 ;   __divuchar
+                      00073 ;   __divuchar
+                      00074 ;11 compiler assigned registers:
+                      00075 ;   r0x1000
+                      00076 ;   STK00
+                      00077 ;   r0x1001
+                      00078 ;   r0x1002
+                      00079 ;   r0x1003
+                      00080 ;   r0x1004
+                      00081 ;   r0x1005
+                      00082 ;   r0x1006
+                      00083 ;   r0x1007
+                      00084 ;   r0x1008
+                      00085 ;   r0x1009
+                      00086 ;; Starting pCode block
+                      00087 ;;[ICODE] ../libsdcc/_divschar.c:32:  _entry($11) :
+                      00088 ;;[ICODE] ../libsdcc/_divschar.c:32:    proc __divschar [k1 lr0:0 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char function ( char fixed, char fixed) fixed}
+0000                  00089 __divschar      ;Function start
+                      00090 ; 2 exit points
+                      00091 ;;[ICODE] ../libsdcc/_divschar.c:32: iTemp0 [k2 lr3:48 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{char fixed}{ sir@ __divschar_a_1_2}[r0x1000 ] = recv __divschar [k1 lr0:0 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char function ( char fixed, char fixed) fixed}
+                      00092 ;       .line   32; "../libsdcc/_divschar.c"    _divschar (signed char a, signed char b)
+0000   1580           00093         MOVRA   r0x1000
+                      00094 ;;[ICODE] ../libsdcc/_divschar.c:32: iTemp1 [k4 lr4:50 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{char fixed}{ sir@ __divschar_b_1_2}[r0x1001 ] = recv __divschar [k1 lr0:0 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char function ( char fixed, char fixed) fixed}
+0001   1600           00095         MOVAR   STK00
+0002   1580           00096         MOVRA   r0x1001
+                      00097 ;;[ICODE] ../libsdcc/_divschar.c:34:    iTemp2 [k6 lr5:6 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char fixed} = iTemp0 [k2 lr3:48 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{char fixed}{ sir@ __divschar_a_1_2}[r0x1000 ] < 0x0 {const-char literal}
+                      00098 ;;signed compare: left < lit(0x0=0), size=1, mask=ff
+                      00099 ;       .line   34; "../libsdcc/_divschar.c"    if (a < 0) {
+0003   3803           00100         BSET    STATUS,0
+0004   3380           00101         JBSET   r0x1000,7
+0005   3C03           00102         BCLR    STATUS,0
+0006   3003           00103         JBSET   STATUS,0
+0007   2800           00104         GOTO    _00112_DS_
+                      00105 ;;genSkipc:3246: created from rifx:0xbffcd270
+                      00106 ;;[ICODE] ../libsdcc/_divschar.c:34:    if iTemp2 [k6 lr5:6 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char fixed} == 0 goto _iffalse_2($8)
+                      00107 ;;[ICODE] ../libsdcc/_divschar.c:36:    iTemp3 [k7 lr7:8 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char fixed} = iTemp1 [k4 lr4:50 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{char fixed}{ sir@ __divschar_b_1_2}[r0x1001 ] < 0x0 {const-char literal}
+                      00108 ;;signed compare: left < lit(0x0=0), size=1, mask=ff
+                      00109 ;       .line   36; "../libsdcc/_divschar.c"    if (b < 0)
+0008   3803           00110         BSET    STATUS,0
+0009   3380           00111         JBSET   r0x1001,7
+000A   3C03           00112         BCLR    STATUS,0
+000B   3003           00113         JBSET   STATUS,0
+000C   2800           00114         GOTO    _00106_DS_
+                      00115 ;;genSkipc:3246: created from rifx:0xbffcd270
+                      00116 ;;[ICODE] ../libsdcc/_divschar.c:36:    if iTemp3 [k7 lr7:8 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char fixed} == 0 goto _iffalse_0($2)
+                      00117 ;;[ICODE] ../libsdcc/_divschar.c:37:    iTemp4 [k9 lr9:10 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{int fixed}[r0x1002 r0x1003 ] = (int fixed)iTemp0 [k2 lr3:48 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{char fixed}{ sir@ __divschar_a_1_2}[r0x1000 ]
+                      00118 ;       .line   37; "../libsdcc/_divschar.c"    return _divuchar ((unsigned int)-a, (unsigned int)-b);
+000D   1600           00119         MOVAR   r0x1000
+000E   1580           00120         MOVRA   r0x1002
+000F   1D80           00121         CLRR    r0x1003
+0010   3780           00122         JBCLR   r0x1002,7
+0011   1B80           00123         DECR    r0x1003
+                      00124 ;;[ICODE] ../libsdcc/_divschar.c:37:    iTemp5 [k10 lr10:11 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{int fixed}[r0x1002 r0x1003 ] = - iTemp4 [k9 lr9:10 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{int fixed}[r0x1002 r0x1003 ]
+0012   1C80           00125         COMR    r0x1002
+0013   1C80           00126         COMR    r0x1003
+0014   1980           00127         INCR    r0x1002
+0015   3503           00128         JBCLR   STATUS,2
+0016   1980           00129         INCR    r0x1003
+                      00130 ;;[ICODE] ../libsdcc/_divschar.c:37:    iTemp6 [k11 lr11:12 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-int fixed}[r0x1004 r0x1005 ] = (unsigned-int fixed)iTemp5 [k10 lr10:11 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{int fixed}[r0x1002 r0x1003 ]
+0017   1600           00131         MOVAR   r0x1002
+0018   1580           00132         MOVRA   r0x1002
+0019   1580           00133         MOVRA   r0x1004
+001A   1600           00134         MOVAR   r0x1003
+001B   1580           00135         MOVRA   r0x1005
+                      00136 ;;[ICODE] ../libsdcc/_divschar.c:37:    iTemp7 [k12 lr12:18 so:0]{ ia0 a2p0 re0 rm0 nos0 ru1 dp0}{unsigned-char fixed}[r0x1002 ] = (unsigned-char fixed)iTemp6 [k11 lr11:12 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-int fixed}[r0x1004 r0x1005 ]
+                      00137 ;;108   MOVAR   r0x1004
+                      00138 ;;[ICODE] ../libsdcc/_divschar.c:37:    iTemp8 [k13 lr13:14 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{int fixed}[r0x1004 r0x1005 ] = (int fixed)iTemp1 [k4 lr4:50 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{char fixed}{ sir@ __divschar_b_1_2}[r0x1001 ]
+001C   1600           00139         MOVAR   r0x1001
+001D   1580           00140         MOVRA   r0x1004
+001E   1D80           00141         CLRR    r0x1005
+001F   3780           00142         JBCLR   r0x1004,7
+0020   1B80           00143         DECR    r0x1005
+                      00144 ;;[ICODE] ../libsdcc/_divschar.c:37:    iTemp9 [k14 lr14:15 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{int fixed}[r0x1004 r0x1005 ] = - iTemp8 [k13 lr13:14 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{int fixed}[r0x1004 r0x1005 ]
+0021   1C80           00145         COMR    r0x1004
+0022   1C80           00146         COMR    r0x1005
+0023   1980           00147         INCR    r0x1004
+0024   3503           00148         JBCLR   STATUS,2
+0025   1980           00149         INCR    r0x1005
+                      00150 ;;[ICODE] ../libsdcc/_divschar.c:37:    iTemp10 [k15 lr15:16 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-int fixed}[r0x1006 r0x1007 ] = (unsigned-int fixed)iTemp9 [k14 lr14:15 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{int fixed}[r0x1004 r0x1005 ]
+                      00151 ;;110   MOVAR   r0x1004
+0026   1600           00152         MOVAR   r0x1005
+0027   1580           00153         MOVRA   r0x1007
+                      00154 ;;[ICODE] ../libsdcc/_divschar.c:37:    iTemp11 [k16 lr16:18 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-char fixed}[r0x1004 ] = (unsigned-char fixed)iTemp10 [k15 lr15:16 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-int fixed}[r0x1006 r0x1007 ]
+                      00155 ;;104   MOVAR   r0x1006
+                      00156 ;;[ICODE] ../libsdcc/_divschar.c:37:    send iTemp7 [k12 lr12:18 so:0]{ ia0 a2p0 re0 rm0 nos0 ru1 dp0}{unsigned-char fixed}[r0x1002 ]{argreg = 1}
+                      00157 ;;[ICODE] ../libsdcc/_divschar.c:37:    send iTemp11 [k16 lr16:18 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-char fixed}[r0x1004 ]{argreg = 1}
+                      00158 ;;[ICODE] ../libsdcc/_divschar.c:37:    iTemp12 [k19 lr19:20 so:0]{ ia0 a2p0 re0 rm0 nos0 ru1 dp0}{unsigned-char fixed}[r0x1002 ] = call __divuchar [k8 lr0:0 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-char function ( unsigned-char fixed, unsigned-char fixed) fixed}
+                      00159 ;;103   MOVAR   r0x1004
+                      00160 ;;109   MOVAR   r0x1006
+0028   1600           00161         MOVAR   r0x1004
+0029   1580           00162         MOVRA   r0x1006
+002A   1580           00163         MOVRA   r0x1004
+002B   1580           00164         MOVRA   STK00
+002C   1600           00165         MOVAR   r0x1002
+002D   2000           00166         CALL    __divuchar
+002E   1580           00167         MOVRA   r0x1002
+                      00168 ;;[ICODE] ../libsdcc/_divschar.c:37:    ret iTemp12 [k19 lr19:20 so:0]{ ia0 a2p0 re0 rm0 nos0 ru1 dp0}{unsigned-char fixed}[r0x1002 ]
+002F   1600           00169         MOVAR   r0x1002
+0030   2800           00170         GOTO    _00114_DS_
+                      00171 ;;[ICODE] ../libsdcc/_divschar.c:37:  _iffalse_0($2) :
+                      00172 ;;[ICODE] ../libsdcc/_divschar.c:39:    iTemp13 [k20 lr22:23 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{int fixed}[r0x1002 r0x1004 ] = (int fixed)iTemp0 [k2 lr3:48 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{char fixed}{ sir@ __divschar_a_1_2}[r0x1000 ]
+0031                  00173 _00106_DS_
+                      00174 ;       .line   39; "../libsdcc/_divschar.c"    return -_divuchar ((unsigned int)-a, (unsigned int)b);
+0031   1600           00175         MOVAR   r0x1000
+0032   1580           00176         MOVRA   r0x1002
+0033   1D80           00177         CLRR    r0x1004
+0034   3780           00178         JBCLR   r0x1002,7
+0035   1B80           00179         DECR    r0x1004
+                      00180 ;;[ICODE] ../libsdcc/_divschar.c:39:    iTemp14 [k21 lr23:24 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{int fixed}[r0x1002 r0x1004 ] = - iTemp13 [k20 lr22:23 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{int fixed}[r0x1002 r0x1004 ]
+0036   1C80           00181         COMR    r0x1002
+0037   1C80           00182         COMR    r0x1004
+0038   1980           00183         INCR    r0x1002
+0039   3503           00184         JBCLR   STATUS,2
+003A   1980           00185         INCR    r0x1004
+                      00186 ;;[ICODE] ../libsdcc/_divschar.c:39:    iTemp15 [k22 lr24:25 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-int fixed}[r0x1006 r0x1007 ] = (unsigned-int fixed)iTemp14 [k21 lr23:24 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{int fixed}[r0x1002 r0x1004 ]
+003B   1600           00187         MOVAR   r0x1002
+003C   1580           00188         MOVRA   r0x1002
+003D   1580           00189         MOVRA   r0x1006
+003E   1600           00190         MOVAR   r0x1004
+003F   1580           00191         MOVRA   r0x1007
+                      00192 ;;[ICODE] ../libsdcc/_divschar.c:39:    iTemp16 [k23 lr25:29 so:0]{ ia0 a2p0 re0 rm0 nos0 ru1 dp0}{unsigned-char fixed}[r0x1002 ] = (unsigned-char fixed)iTemp15 [k22 lr24:25 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-int fixed}[r0x1006 r0x1007 ]
+                      00193 ;;105   MOVAR   r0x1006
+                      00194 ;;[ICODE] ../libsdcc/_divschar.c:39:    iTemp17 [k24 lr26:27 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-int fixed}[r0x1006 r0x1007 ] = (unsigned-int fixed)iTemp1 [k4 lr4:50 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{char fixed}{ sir@ __divschar_b_1_2}[r0x1001 ]
+0040   1600           00195         MOVAR   r0x1001
+0041   1580           00196         MOVRA   r0x1006
+0042   1D80           00197         CLRR    r0x1007
+0043   3780           00198         JBCLR   r0x1006,7
+0044   1B80           00199         DECR    r0x1007
+                      00200 ;;[ICODE] ../libsdcc/_divschar.c:39:    iTemp18 [k25 lr27:29 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-char fixed}[r0x1008 ] = (unsigned-char fixed)iTemp17 [k24 lr26:27 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-int fixed}[r0x1006 r0x1007 ]
+                      00201 ;;107   MOVAR   r0x1006
+                      00202 ;;[ICODE] ../libsdcc/_divschar.c:39:    send iTemp16 [k23 lr25:29 so:0]{ ia0 a2p0 re0 rm0 nos0 ru1 dp0}{unsigned-char fixed}[r0x1002 ]{argreg = 1}
+                      00203 ;;[ICODE] ../libsdcc/_divschar.c:39:    send iTemp18 [k25 lr27:29 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-char fixed}[r0x1008 ]{argreg = 1}
+                      00204 ;;[ICODE] ../libsdcc/_divschar.c:39:    iTemp19 [k26 lr30:31 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-char fixed}[r0x1002 ] = call __divuchar [k8 lr0:0 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-char function ( unsigned-char fixed, unsigned-char fixed) fixed}
+                      00205 ;;106   MOVAR   r0x1008
+0045   1600           00206         MOVAR   r0x1006
+0046   1580           00207         MOVRA   r0x1008
+0047   1580           00208         MOVRA   STK00
+0048   1600           00209         MOVAR   r0x1002
+0049   2000           00210         CALL    __divuchar
+004A   1580           00211         MOVRA   r0x1002
+                      00212 ;;[ICODE] ../libsdcc/_divschar.c:39:    iTemp20 [k27 lr31:32 so:0]{ ia0 a2p0 re0 rm0 nos0 ru1 dp0}{unsigned-char fixed}[r0x1002 ] = - iTemp19 [k26 lr30:31 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-char fixed}[r0x1002 ]
+004B   1C80           00213         COMR    r0x1002
+004C   1980           00214         INCR    r0x1002
+                      00215 ;;[ICODE] ../libsdcc/_divschar.c:39:    ret iTemp20 [k27 lr31:32 so:0]{ ia0 a2p0 re0 rm0 nos0 ru1 dp0}{unsigned-char fixed}[r0x1002 ]
+004D   1600           00216         MOVAR   r0x1002
+004E   2800           00217         GOTO    _00114_DS_
+                      00218 ;;[ICODE] ../libsdcc/_divschar.c:39:  _iffalse_2($8) :
+                      00219 ;;[ICODE] ../libsdcc/_divschar.c:42:    iTemp21 [k28 lr34:35 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char fixed} = iTemp1 [k4 lr4:50 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{char fixed}{ sir@ __divschar_b_1_2}[r0x1001 ] < 0x0 {const-char literal}
+                      00220 ;;signed compare: left < lit(0x0=0), size=1, mask=ff
+004F                  00221 _00112_DS_
+                      00222 ;       .line   42; "../libsdcc/_divschar.c"    if (b < 0)
+004F   3803           00223         BSET    STATUS,0
+0050   3380           00224         JBSET   r0x1001,7
+0051   3C03           00225         BCLR    STATUS,0
+0052   3003           00226         JBSET   STATUS,0
+0053   2800           00227         GOTO    _00109_DS_
+                      00228 ;;genSkipc:3246: created from rifx:0xbffcd270
+                      00229 ;;[ICODE] ../libsdcc/_divschar.c:42:    if iTemp21 [k28 lr34:35 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char fixed} == 0 goto _iffalse_1($5)
+                      00230 ;;[ICODE] ../libsdcc/_divschar.c:43:    iTemp22 [k29 lr36:37 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-int fixed}[r0x1002 r0x1006 ] = (unsigned-int fixed)iTemp0 [k2 lr3:48 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{char fixed}{ sir@ __divschar_a_1_2}[r0x1000 ]
+                      00231 ;       .line   43; "../libsdcc/_divschar.c"    return -_divuchar ((unsigned int)a, (unsigned int)-b);
+0054   1600           00232         MOVAR   r0x1000
+0055   1580           00233         MOVRA   r0x1002
+0056   1D80           00234         CLRR    r0x1006
+0057   3780           00235         JBCLR   r0x1002,7
+0058   1B80           00236         DECR    r0x1006
+                      00237 ;;[ICODE] ../libsdcc/_divschar.c:43:    iTemp23 [k30 lr37:43 so:0]{ ia0 a2p0 re0 rm0 nos0 ru1 dp0}{unsigned-char fixed}[r0x1007 ] = (unsigned-char fixed)iTemp22 [k29 lr36:37 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-int fixed}[r0x1002 r0x1006 ]
+0059   1600           00238         MOVAR   r0x1002
+005A   1580           00239         MOVRA   r0x1007
+                      00240 ;;[ICODE] ../libsdcc/_divschar.c:43:    iTemp24 [k31 lr38:39 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{int fixed}[r0x1002 r0x1006 ] = (int fixed)iTemp1 [k4 lr4:50 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{char fixed}{ sir@ __divschar_b_1_2}[r0x1001 ]
+005B   1600           00241         MOVAR   r0x1001
+005C   1580           00242         MOVRA   r0x1002
+005D   1D80           00243         CLRR    r0x1006
+005E   3780           00244         JBCLR   r0x1002,7
+005F   1B80           00245         DECR    r0x1006
+                      00246 ;;[ICODE] ../libsdcc/_divschar.c:43:    iTemp25 [k32 lr39:40 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{int fixed}[r0x1002 r0x1006 ] = - iTemp24 [k31 lr38:39 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{int fixed}[r0x1002 r0x1006 ]
+0060   1C80           00247         COMR    r0x1002
+0061   1C80           00248         COMR    r0x1006
+0062   1980           00249         INCR    r0x1002
+0063   3503           00250         JBCLR   STATUS,2
+0064   1980           00251         INCR    r0x1006
+                      00252 ;;[ICODE] ../libsdcc/_divschar.c:43:    iTemp26 [k33 lr40:41 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-int fixed}[r0x1008 r0x1009 ] = (unsigned-int fixed)iTemp25 [k32 lr39:40 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{int fixed}[r0x1002 r0x1006 ]
+                      00253 ;;112   MOVAR   r0x1002
+0065   1600           00254         MOVAR   r0x1006
+                      00255 ;;1     MOVRA   r0x1009
+                      00256 ;;[ICODE] ../libsdcc/_divschar.c:43:    iTemp27 [k34 lr41:43 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-char fixed}[r0x1002 ] = (unsigned-char fixed)iTemp26 [k33 lr40:41 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-int fixed}[r0x1008 r0x1009 ]
+                      00257 ;;102   MOVAR   r0x1008
+                      00258 ;;[ICODE] ../libsdcc/_divschar.c:43:    send iTemp23 [k30 lr37:43 so:0]{ ia0 a2p0 re0 rm0 nos0 ru1 dp0}{unsigned-char fixed}[r0x1007 ]{argreg = 1}
+                      00259 ;;[ICODE] ../libsdcc/_divschar.c:43:    send iTemp27 [k34 lr41:43 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-char fixed}[r0x1002 ]{argreg = 1}
+                      00260 ;;[ICODE] ../libsdcc/_divschar.c:43:    iTemp28 [k35 lr44:45 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-char fixed}[r0x1002 ] = call __divuchar [k8 lr0:0 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-char function ( unsigned-char fixed, unsigned-char fixed) fixed}
+                      00261 ;;101   MOVAR   r0x1002
+                      00262 ;;111   MOVAR   r0x1008
+0066   1600           00263         MOVAR   r0x1002
+0067   1580           00264         MOVRA   r0x1008
+0068   1580           00265         MOVRA   r0x1002
+0069   1580           00266         MOVRA   STK00
+006A   1600           00267         MOVAR   r0x1007
+006B   2000           00268         CALL    __divuchar
+006C   1580           00269         MOVRA   r0x1002
+                      00270 ;;[ICODE] ../libsdcc/_divschar.c:43:    iTemp29 [k36 lr45:46 so:0]{ ia0 a2p0 re0 rm0 nos0 ru1 dp0}{unsigned-char fixed}[r0x1002 ] = - iTemp28 [k35 lr44:45 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-char fixed}[r0x1002 ]
+006D   1C80           00271         COMR    r0x1002
+006E   1980           00272         INCR    r0x1002
+                      00273 ;;[ICODE] ../libsdcc/_divschar.c:43:    ret iTemp29 [k36 lr45:46 so:0]{ ia0 a2p0 re0 rm0 nos0 ru1 dp0}{unsigned-char fixed}[r0x1002 ]
+006F   1600           00274         MOVAR   r0x1002
+0070   2800           00275         GOTO    _00114_DS_
+                      00276 ;;[ICODE] ../libsdcc/_divschar.c:43:  _iffalse_1($5) :
+                      00277 ;;[ICODE] ../libsdcc/_divschar.c:45:    iTemp30 [k37 lr48:49 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-int fixed}[r0x1002 r0x1007 ] = (unsigned-int fixed)iTemp0 [k2 lr3:48 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{char fixed}{ sir@ __divschar_a_1_2}[r0x1000 ]
+0071                  00278 _00109_DS_
+                      00279 ;       .line   45; "../libsdcc/_divschar.c"    return _divuchar ((unsigned int)a, (unsigned int)b);
+0071   1600           00280         MOVAR   r0x1000
+0072   1580           00281         MOVRA   r0x1002
+0073   1D80           00282         CLRR    r0x1007
+0074   3780           00283         JBCLR   r0x1002,7
+0075   1B80           00284         DECR    r0x1007
+                      00285 ;;[ICODE] ../libsdcc/_divschar.c:45:    iTemp31 [k38 lr49:53 so:0]{ ia0 a2p0 re0 rm0 nos0 ru1 dp0}{unsigned-char fixed}[r0x1000 ] = (unsigned-char fixed)iTemp30 [k37 lr48:49 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-int fixed}[r0x1002 r0x1007 ]
+0076   1600           00286         MOVAR   r0x1002
+0077   1580           00287         MOVRA   r0x1000
+                      00288 ;;[ICODE] ../libsdcc/_divschar.c:45:    iTemp32 [k39 lr50:51 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-int fixed}[r0x1002 r0x1007 ] = (unsigned-int fixed)iTemp1 [k4 lr4:50 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{char fixed}{ sir@ __divschar_b_1_2}[r0x1001 ]
+0078   1600           00289         MOVAR   r0x1001
+0079   1580           00290         MOVRA   r0x1002
+007A   1D80           00291         CLRR    r0x1007
+007B   3780           00292         JBCLR   r0x1002,7
+007C   1B80           00293         DECR    r0x1007
+                      00294 ;;[ICODE] ../libsdcc/_divschar.c:45:    iTemp33 [k40 lr51:53 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-char fixed}[r0x1001 ] = (unsigned-char fixed)iTemp32 [k39 lr50:51 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-int fixed}[r0x1002 r0x1007 ]
+                      00295 ;;100   MOVAR   r0x1002
+                      00296 ;;[ICODE] ../libsdcc/_divschar.c:45:    send iTemp31 [k38 lr49:53 so:0]{ ia0 a2p0 re0 rm0 nos0 ru1 dp0}{unsigned-char fixed}[r0x1000 ]{argreg = 1}
+                      00297 ;;[ICODE] ../libsdcc/_divschar.c:45:    send iTemp33 [k40 lr51:53 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-char fixed}[r0x1001 ]{argreg = 1}
+                      00298 ;;[ICODE] ../libsdcc/_divschar.c:45:    iTemp34 [k41 lr54:55 so:0]{ ia0 a2p0 re0 rm0 nos0 ru1 dp0}{unsigned-char fixed}[r0x1000 ] = call __divuchar [k8 lr0:0 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-char function ( unsigned-char fixed, unsigned-char fixed) fixed}
+                      00299 ;;99    MOVAR   r0x1001
+007D   1600           00300         MOVAR   r0x1002
+007E   1580           00301         MOVRA   r0x1001
+007F   1580           00302         MOVRA   STK00
+0080   1600           00303         MOVAR   r0x1000
+0081   2000           00304         CALL    __divuchar
+0082   1580           00305         MOVRA   r0x1000
+                      00306 ;;[ICODE] ../libsdcc/_divschar.c:45:    ret iTemp34 [k41 lr54:55 so:0]{ ia0 a2p0 re0 rm0 nos0 ru1 dp0}{unsigned-char fixed}[r0x1000 ]
+0083   1600           00307         MOVAR   r0x1000
+                      00308 ;;[ICODE] ../libsdcc/_divschar.c:45:  _return($10) :
+                      00309 ;;[ICODE] ../libsdcc/_divschar.c:45:    eproc __divschar [k1 lr0:0 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char function ( char fixed, char fixed) fixed}
+0084                  00310 _00114_DS_
+0084   000C           00311         RETURN  
+                      00312 ; exit point of __divschar
+                      00313 
+                      00314 
+                      00315 ;       code size estimation:
+                      00316 ;         133+    0 =   133 instructions (  266 byte)
+                      00317 
+                      00318         end
+gpasm-1.7.0_beta1 (Jan 22 2015)_divschar.asm      2015-1-22  23:30:19          PAGE  2
+
+
+SYMBOL TABLE
+  LABEL                             VALUE
+
+BUZOUT                            00000005
+C                                 00000000
+DC                                00000001
+DDR0                              00000045
+DDR00                             00000000
+DDR01                             00000001
+DDR02                             00000002
+DDR03                             00000003
+DDR1                              00000046
+DDR10                             00000000
+DDR11                             00000001
+DDR12                             00000002
+DDR14                             00000004
+DDR15                             00000005
+DDR16                             00000006
+DDR17                             00000007
+EIS                               00000006
+FSR                               00000004
+GIE                               00000007
+INDF                              00000000
+INT0IE                            00000002
+INT0IF                            00000002
+INT0M                             00000006
+INTECON                           0000000E
+INTFLAG                           0000000F
+KBIE                              00000001
+KBIF                              00000001
+KBIM                              00000009
+KBIM0                             00000000
+KBIM1                             00000001
+KBIM2                             00000002
+KBIM3                             00000003
+KBIM4                             00000004
+KBIM5                             00000005
+KBIM6                             00000006
+KBIM7                             00000007
+MCR                               00000008
+ODCON                             0000000C
+P0                                00000005
+P00                               00000000
+P00PD                             00000000
+P01                               00000001
+P01PD                             00000001
+P02                               00000002
+P02PD                             00000002
+P03                               00000003
+P03PD                             00000003
+P1                                00000006
+P10                               00000000
+P10OD                             00000000
+P10PD                             00000004
+P10PU                             00000000
+P11                               00000001
+P11OD                             00000001
+P11PD                             00000005
+P11PU                             00000001
+P12                               00000002
+P12OD                             00000002
+P12PD                             00000006
+P12PU                             00000002
+P13                               00000003
+P14                               00000004
+P14OD                             00000004
+P14PU                             00000004
+P15                               00000005
+P15OD                             00000005
+P15PU                             00000005
+P16                               00000006
+P16OD                             00000006
+P16PU                             00000006
+P17                               00000007
+P17OD                             00000007
+P17PU                             00000007
+PCL                               00000002
+PCLATH                            0000000A
+PD                                00000003
+PDCON                             0000000B
+PUCON                             0000000D
+PWMOUT                            00000006
+RST                               00000007
+STATUS                            00000003
+STK00                             00000000
+STK01                             00000000
+STK02                             00000000
+STK03                             00000000
+STK04                             00000000
+STK05                             00000000
+STK06                             00000000
+T0CNT                             00000001
+T0CR                              00000041
+T0IE                              00000000
+T0IF                              00000000
+T0PTA                             00000003
+T0PTS                             00000005
+T0SE                              00000004
+T1CNT                             0000004D
+T1CR                              0000004C
+T1DATA                            0000004F
+T1IE                              00000001
+T1IF                              00000000
+T1LOAD                            0000004E
+TBS                               00000007
+TMCR                              0000004B
+TMR1EN                            00000007
+TO                                00000004
+WDTEN                             00000007
+Z                                 00000002
+_00106_DS_                        00000031
+_00109_DS_                        00000071
+_00112_DS_                        0000004F
+_00114_DS_                        00000084
+_CONFIG0                          00002000
+_CONFIG1                          00002001
+_CP_ALL                           00001FFF
+_FCPU_2T                          00003F7F
+_FCPU_4T                          00003FFF
+_IRC_1M                           00003FCF
+_IRC_2M                           00003FDF
+_IRC_444K                         00003FAF
+_IRC_4M                           00003FEF
+_IRC_8M                           00003FFF
+_MCLR_OFF                         00003FF7
+_MCLR_ON                          00003FFF
+_OSC_HXT                          00002FFF
+_OSC_IRC                          000037FF
+_OSC_IRC_RTC                      00003FFF
+_OSC_LXT                          000027FF
+_PWRT_OFF                         00003BFF
+_PWRT_ON                          00003FFF
+_RD_FROM_PIN                      00003FFF
+_RD_FROM_REG                      00003EFF
+_SMT_OFF                          00003FFF
+_SMT_ON                           00003DFF
+_TWDT_18MS                        00003FFF
+_TWDT_288MS                       00003DFF
+_TWDT_4P5MS                       00003EFF
+_TWDT_72MS                        00003CFF
+_VBOR_15                          00003FF8
+_VBOR_18                          00003FF9
+_VBOR_20                          00003FFA
+_VBOR_22                          00003FFB
+_VBOR_24                          00003FFC
+_VBOR_26                          00003FFD
+_VBOR_30                          00003FFE
+_VBOR_36                          00003FFF
+_WDT_OFF                          000037FF
+_WDT_ON                           00003FFF
+__30P011                          00000001
+__divschar                        00000000
+__divuchar                        00000000
+r0x1000                           00000000
+r0x1001                           00000001
+r0x1002                           00000002
+r0x1003                           00000003
+r0x1004                           00000004
+r0x1005                           00000005
+r0x1006                           00000006
+r0x1007                           00000007
+r0x1008                           00000008
+
+Errors   :     0
+Warnings :     0 reported,     0 suppressed
+Messages :     0 reported,     0 suppressed
+
+

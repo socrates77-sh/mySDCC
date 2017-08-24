@@ -1,0 +1,292 @@
+gpasm-1.7.0_beta1 (Jan 22 2015)mc31p11.asm        2015-1-22  23:34:23          PAGE  1
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+                      00001 ;--------------------------------------------------------
+                      00002 ; File Created by SN-SDCC : ANSI-C Compiler
+                      00003 ; Version 0.0.4 (Jan 22 2015) (Linux)
+                      00004 ; This file was generated Thu Jan 22 23:34:23 2015
+                      00005 ;--------------------------------------------------------
+                      00006 ; MC3X port for the RISC core
+                      00007 ;--------------------------------------------------------
+                      00008 ;       .file   "mc31p11.c"
+                      00009         list    p=31p11
+                      00010         radix dec
+                      00011         include "mc31p11.inc"
+                      00001                 LIST
+                      00002 ;mc31p11.inc    Standard Header File, Version 1.00 by Sinomcu
+                      00176                 LIST
+                      00012 ;--------------------------------------------------------
+                      00013 ; external declarations
+                      00014 ;--------------------------------------------------------
+                      00015 
+                      00016         extern STK06
+                      00017         extern STK05
+                      00018         extern STK04
+                      00019         extern STK03
+                      00020         extern STK02
+                      00021         extern STK01
+                      00022         extern STK00
+                      00023 ;--------------------------------------------------------
+                      00024 ; global declarations
+                      00025 ;--------------------------------------------------------
+                      00026         global  _STATUSbits
+                      00027         global  _MCRbits
+                      00028         global  _INTECONbits
+                      00029         global  _INTFLAGbits
+                      00030         global  _IOP0bits
+                      00031         global  _OEP0bits
+                      00032         global  _PUP0bits
+                      00033         global  _DKWP0bits
+                      00034         global  _IOP1bits
+                      00035         global  _OEP1bits
+                      00036         global  _PUP1bits
+                      00037         global  _DKWP1bits
+                      00038         global  _DKWbits
+                      00039         global  _INDF
+                      00040         global  _FSR
+                      00041         global  _PCL
+                      00042         global  _STATUS
+                      00043         global  _MCR
+                      00044         global  _INTECON
+                      00045         global  _INTFLAG
+                      00046         global  _IOP0
+                      00047         global  _OEP0
+                      00048         global  _PUP0
+                      00049         global  _DKWP0
+                      00050         global  _IOP1
+                      00051         global  _OEP1
+                      00052         global  _PUP1
+                      00053         global  _DKWP1
+                      00054         global  _DKW
+                      00055 
+                      00056 ;--------------------------------------------------------
+                      00057 ; global definitions
+                      00058 ;--------------------------------------------------------
+                      00059 ;--------------------------------------------------------
+                      00060 ; absolute symbol definitions
+                      00061 ;--------------------------------------------------------
+                      00062 UD_abs_mc31p11_0        udata_ovr       0x0000
+0000                  00063 _INDF
+0000                  00064         res     1
+                      00065 UD_abs_mc31p11_1        udata_ovr       0x0001
+0000                  00066 _FSR
+0000                  00067         res     1
+                      00068 UD_abs_mc31p11_2        udata_ovr       0x0002
+0001                  00069 _PCL
+0001                  00070         res     1
+                      00071 UD_abs_mc31p11_3        udata_ovr       0x0003
+0001                  00072 _STATUSbits
+0001                  00073 _STATUS
+0001                  00074         res     1
+                      00075 UD_abs_mc31p11_4        udata_ovr       0x0004
+0002                  00076 _MCRbits
+0002                  00077 _MCR
+0002                  00078         res     1
+                      00079 UD_abs_mc31p11_5        udata_ovr       0x0005
+0002                  00080 _INTECONbits
+0002                  00081 _INTECON
+0002                  00082         res     1
+                      00083 UD_abs_mc31p11_6        udata_ovr       0x0006
+0003                  00084 _INTFLAGbits
+0003                  00085 _INTFLAG
+0003                  00086         res     1
+                      00087 UD_abs_mc31p11_7        udata_ovr       0x0007
+0003                  00088 _IOP0bits
+0003                  00089 _IOP0
+0003                  00090         res     1
+                      00091 UD_abs_mc31p11_8        udata_ovr       0x0008
+0004                  00092 _OEP0bits
+0004                  00093 _OEP0
+0004                  00094         res     1
+                      00095 UD_abs_mc31p11_9        udata_ovr       0x0009
+0004                  00096 _PUP0bits
+0004                  00097 _PUP0
+0004                  00098         res     1
+                      00099 UD_abs_mc31p11_a        udata_ovr       0x000a
+0005                  00100 _DKWP0bits
+0005                  00101 _DKWP0
+0005                  00102         res     1
+                      00103 UD_abs_mc31p11_b        udata_ovr       0x000b
+0005                  00104 _IOP1bits
+0005                  00105 _IOP1
+0005                  00106         res     1
+                      00107 UD_abs_mc31p11_c        udata_ovr       0x000c
+0006                  00108 _OEP1bits
+0006                  00109 _OEP1
+0006                  00110         res     1
+                      00111 UD_abs_mc31p11_d        udata_ovr       0x000d
+0006                  00112 _PUP1bits
+0006                  00113 _PUP1
+0006                  00114         res     1
+                      00115 UD_abs_mc31p11_e        udata_ovr       0x000e
+0007                  00116 _DKWP1bits
+0007                  00117 _DKWP1
+0007                  00118         res     1
+                      00119 UD_abs_mc31p11_f        udata_ovr       0x000f
+0007                  00120 _DKWbits
+0007                  00121 _DKW
+0007                  00122         res     1
+                      00123 ;--------------------------------------------------------
+                      00124 ; compiler-defined variables
+                      00125 ;--------------------------------------------------------
+                      00126 ;--------------------------------------------------------
+                      00127 ; initialized data
+                      00128 ;--------------------------------------------------------
+                      00129 ;--------------------------------------------------------
+                      00130 ; overlayable items in internal ram 
+                      00131 ;--------------------------------------------------------
+                      00132 ;       udata_ovr
+                      00133 ;--------------------------------------------------------
+                      00134 ; code
+                      00135 ;--------------------------------------------------------
+                      00136 code_mc31p11    code
+                      00137 
+                      00138 ;       code size estimation:
+                      00139 ;           0+    0 =     0 instructions (    0 byte)
+                      00140 
+                      00141         end
+gpasm-1.7.0_beta1 (Jan 22 2015)mc31p11.asm        2015-1-22  23:34:23          PAGE  2
+
+
+SYMBOL TABLE
+  LABEL                             VALUE
+
+C                                 00000000
+DC                                00000001
+DKW                               0000000F
+DKWE                              00000007
+DKWP0                             0000000A
+DKWP00                            00000000
+DKWP01                            00000001
+DKWP02                            00000002
+DKWP03                            00000003
+DKWP04                            00000004
+DKWP05                            00000005
+DKWP1                             0000000E
+DKWP10                            00000000
+DKWP11                            00000001
+DKWP12                            00000002
+DKWP13                            00000003
+DKWP14                            00000004
+DKWP15                            00000005
+DKWP16                            00000006
+FSR                               00000001
+GIE                               00000007
+INDF                              00000000
+INT0IE                            00000002
+INT0IF                            00000002
+INT1IE                            00000003
+INT1IF                            00000003
+INTECON                           00000005
+INTFLAG                           00000006
+IOP0                              00000007
+IOP00                             00000000
+IOP01                             00000001
+IOP02                             00000002
+IOP03                             00000003
+IOP04                             00000004
+IOP05                             00000005
+IOP06                             00000006
+IOP1                              0000000B
+IOP10                             00000000
+IOP11                             00000001
+IOP12                             00000002
+IOP13                             00000003
+IOP14                             00000004
+IOP15                             00000005
+IOP16                             00000006
+MCR                               00000004
+OEP0                              00000008
+OEP00                             00000000
+OEP01                             00000001
+OEP02                             00000002
+OEP03                             00000003
+OEP04                             00000004
+OEP05                             00000005
+OEP06                             00000006
+OEP1                              0000000C
+OEP10                             00000000
+OEP11                             00000001
+OEP12                             00000002
+OEP13                             00000003
+OEP14                             00000004
+OEP15                             00000005
+OEP16                             00000006
+PCL                               00000002
+PD                                00000004
+PUP0                              00000009
+PUP00                             00000000
+PUP01                             00000001
+PUP02                             00000002
+PUP03                             00000003
+PUP04                             00000004
+PUP05                             00000005
+PUP06                             00000006
+PUP1                              0000000D
+PUP10                             00000000
+PUP11                             00000001
+PUP12                             00000002
+PUP13                             00000003
+PUP14                             00000004
+PUP15                             00000005
+PUP16                             00000006
+RSEL                              00000006
+STATUS                            00000003
+STK00                             00000000
+STK01                             00000000
+STK02                             00000000
+STK03                             00000000
+STK04                             00000000
+STK05                             00000000
+STK06                             00000000
+TO                                00000005
+Z                                 00000002
+_CONFIG0                          00008000
+_CONFIG1                          00008001
+_CP_ALL                           00000FFF
+_DKW                              0000000F
+_DKWP0                            0000000A
+_DKWP0bits                        0000000A
+_DKWP1                            0000000E
+_DKWP1bits                        0000000E
+_DKWbits                          0000000F
+_FCPU_16X                         00001FFF
+_FCPU_2X                          00001FF3
+_FCPU_4X                          00001FF7
+_FCPU_8X                          00001FFB
+_FSR                              00000001
+_INDF                             00000000
+_INTECON                          00000005
+_INTECONbits                      00000005
+_INTFLAG                          00000006
+_INTFLAGbits                      00000006
+_IOP0                             00000007
+_IOP0bits                         00000007
+_IOP1                             0000000B
+_IOP1bits                         0000000B
+_MCR                              00000004
+_MCRbits                          00000004
+_OEP0                             00000008
+_OEP0bits                         00000008
+_OEP1                             0000000C
+_OEP1bits                         0000000C
+_PCL                              00000002
+_PUP0                             00000009
+_PUP0bits                         00000009
+_PUP1                             0000000D
+_PUP1bits                         0000000D
+_STATUS                           00000003
+_STATUSbits                       00000003
+_WDT_ALWAYS_OFF                   00001FFC
+_WDT_ALWAYS_ON                    00001FFF
+_WDT_SLEEP_OFF                    00001FFD
+__31P11                           00000001
+
+Errors   :     0
+Warnings :     0 reported,     0 suppressed
+Messages :     0 reported,     0 suppressed
+
+

@@ -1598,7 +1598,7 @@ void createInterruptVect(struct dbuf_s *vBuf)
 
 char *iComments1 = {
     ";--------------------------------------------------------\n"
-    "; File Created by SDCC : free open source ANSI-C Compiler\n"};
+    "; File Created by SN-SDCC : SinoMCU ANSI-C Compiler\n"}; //zwr 1.0.0
 
 char *iComments2 = {
     ";--------------------------------------------------------\n"};
@@ -1611,7 +1611,8 @@ void initialComments(FILE *afile)
   time_t t;
   time(&t);
   fprintf(afile, "%s", iComments1);
-  fprintf(afile, "; Version " SDCC_VERSION_STR " #%s (%s) (%s)\n", getBuildNumber(), getBuildDate(), getBuildEnvironment());
+  //zwr 1.0.0
+  fprintf(afile, "; Version " SDCC_VERSION_STR " (%s) (%s)\n", getBuildDate(), getBuildEnvironment());
   fprintf(afile, "; This file was generated %s", asctime(localtime(&t)));
   fprintf(afile, "%s", iComments2);
 }

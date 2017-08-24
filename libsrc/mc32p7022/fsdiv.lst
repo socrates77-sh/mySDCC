@@ -1,0 +1,1303 @@
+gpasm-1.7.0_beta1 (Jan 22 2015)fsdiv.asm          2015-1-22  23:36:17          PAGE  1
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+                      00001 ;--------------------------------------------------------
+                      00002 ; File Created by SN-SDCC : ANSI-C Compiler
+                      00003 ; Version 0.0.4 (Jan 22 2015) (Linux)
+                      00004 ; This file was generated Thu Jan 22 23:36:17 2015
+                      00005 ;--------------------------------------------------------
+                      00006 ; MC3X port for the RISC core
+                      00007 ;--------------------------------------------------------
+                      00008 ;       .file   "../libsdcc/fsdiv.c"
+                      00009         list    p=32p7022
+                      00010         radix dec
+                      00011         include "mc32p7022.inc"
+                      00001 
+                      00002 
+                      00003 ;mc32p7022 header file
+                      00004 ;
+                      00005 ; 
+                      00006 
+                      00007 ;define must write at first row
+                      00008 
+  00000180            00009 INDF    EQU     0X180  
+  00000180            00010 INDF0   EQU     0X180
+  00000181            00011 INDF1   EQU     0X181
+  00000182            00012 INDF2   EQU     0X182
+  00000183            00013 HIBYTE  EQU     0X183
+  00000184            00014 FSR     EQU     0X184
+  00000184            00015 FSR0    EQU     0X184
+  00000185            00016 FSR1    EQU     0X185
+  00000186            00017 PCL     EQU     0X186
+  00000187            00018 STATUS  EQU     0X187
+  00000188            00019 MCR     EQU     0X188
+  00000189            00020 INDF3   EQU     0X189   
+  0000018A            00021 INTE    EQU     0X18A
+  0000018B            00022 INTF    EQU     0X18B
+  00000190            00023 IOP0    EQU     0X190
+  00000191            00024 OEP0    EQU     0X191
+  00000192            00025 PUP0    EQU     0X192
+  00000193            00026 PDP0    EQU     0X193
+  00000197            00027 KBCR    EQU     0X197
+  000001A0            00028 T0CR0   EQU     0X1A0
+  000001A1            00029 T0CNT   EQU     0X1A1
+  000001A2            00030 T0LOAD  EQU     0X1A2
+  000001A3            00031 T00DATA EQU     0X1A3
+  000001A4            00032 T1CR    EQU     0X1A4
+  000001A5            00033 T1CNT   EQU     0X1A5
+  000001A6            00034 T1LOAD  EQU     0X1A6
+  000001A7            00035 T1DATA  EQU     0X1A7
+  000001A8            00036 T0CR1   EQU     0X1A8
+  000001A9            00037 T01DATA EQU     0X1A9
+  000001AC            00038 LXTCR   EQU     0X1AC
+  000001AD            00039 LVDCR   EQU     0X1AD
+  000001AE            00040 OSCM    EQU     0X1AE
+  000001B0            00041 ADCR0   EQU     0X1B0
+  000001B1            00042 ADCR1   EQU     0X1B1
+  000001B2            00043 ADCR2   EQU     0X1B2
+  000001B3            00044 ADIOS   EQU     0X1B3
+  000001B4            00045 ADVR0   EQU     0X1B4
+  000001B5            00046 ADVR1   EQU     0X1B5
+  000001B6            00047 ADVR2   EQU     0X1B6
+  000001B8            00048 ADRH    EQU     0X1B8
+  000001B9            00049 ADRL    EQU     0X1B9
+  000001BC            00050 KEYCR0  EQU     0X1BC
+  000001BD            00051 KEYCR1  EQU     0X1BD
+  000001FB            00052 OSCCAL  EQU     0X1FB
+                      00053 
+                      00054 
+                      00055 
+                      00056 ;MCR 
+                      00057 #define         GIE             MCR,7
+                      00058 #define         T0              MCR,5
+                      00059 #define         PD              MCR,4
+                      00060 ;#define         MINT1
+                      00061   
+                      00062 
+                      00063 ;STATUS bit 
+                      00064 #define         Z       STATUS,2
+                      00065 #define         DC      STATUS,1
+                      00066 #define         C       STATUS,0 
+                      00067 
+                      00068 
+                      00069 ;INTE0
+                      00070 ; 1=enable, 0=disable
+                      00071 #define         ADIE    INTE,6
+                      00072 #define         I2CIE   INTE,5
+                      00073 #define         T2IE    INTE,4
+                      00074 #define         INT1IE  INTE,3
+                      00075 #define         INT0IE  INTE,2
+                      00076 #define         T1IE    INTE,1
+                      00077 #define         T0IE    INTE,0
+                      00078 
+                      00079 ;TIME0
+                      00080 #define         TC0EN           T0CR,7
+                      00081 #define         PWM0OUT         T0CR,6
+                      00082 #define         BUZZ0OUT        T0CR,5
+                      00083 #define         T0PS1           T0CR,4
+                      00084 #define         T0PTS0          T0CR,3
+                      00085 ;#define         T0PR2
+                      00086 
+                      00087 ;OSCM
+                      00088 #define         STBL    OSCM,5
+                      00089 #define         STBH    OSCM,4
+                      00090 #define         CLKS    OSCM,2
+                      00091 #define         LFEN    OSCM,1
+                      00092 #define         HFEN    OSCM,0          
+                      00093 
+                      00094 ;TIME0
+                      00095 #define         TC1EN           T1CR,7
+                      00096 #define         PWM1OUT         T1CR,6
+                      00097 #define         BUZZ1OUT        T1CR,5
+                      00098 #define         T1PS1           T1CR,4
+                      00099 #define         T1PTS0          T1CR,3
+                      00100 
+                      00101 ;INTFLAG
+                      00102 ;1=active ,
+                      00103 #define         ADIF    INTFLAG,6 
+                      00104 #define         I2CIF   INTFLAG,5
+                      00105 #define         T2IF    INTFLAG,4
+                      00106 #define         INT1IF  INTFLAG,3
+                      00107 #define         INT0IF  INTFLAG,2
+                      00108 #define         T1IF    INTFLAG,1
+                      00109 #define         T0IF    INTFLAG,0
+                      00110 
+                      00111 
+                      00112 ;-------------------------------------------------------
+                      00113 ;timer2
+                      00114 ;----------------------------
+                      00115 ;T2CR
+                      00116 #define                 TC2EN                           T2CR,7
+                      00117 #define                 T2MODE                  T2CR,6
+                      00118 
+                      00119 
+                      00120 ;TK0CRH
+                      00121 #define                                 TK0JE           TK0CRH,5
+                      00122 #define                                 TK0RCE  TK0CRH,4
+                      00123 #define                                 TK0CLR  TK0CRH,3
+                      00124 ;TK1CRH
+                      00125 #define                                 TK1JE           TK1CRH,5
+                      00126 #define                                 TK1RCE  TK1CRH,4
+                      00127 #define                                 TK1CLR  TK1CRH,3
+                      00128 ;TK2CRH
+                      00129 #define                                 TK2JE           TK2CRH,5
+                      00130 #define                                 TK2RCE  TK2CRH,4
+                      00131 #define                                 TK2CLR  TK2CRH,3
+                      00132 
+                      00133 
+                      00134 ;TKnCRL
+                      00135 #define                                 TK0IF           TK0CRL,7
+                      00136 #define                                 TK0IE           TK0CRL,6
+                      00137                                         
+                      00138 ;TKnCRL
+                      00139 #define                                 TK1IF           TK1CRL,7
+                      00140 #define                                 TK1IE           TK1CRL,6
+                      00141 
+                      00142 ;TKnCRL
+                      00143 #define                                 TK2IF           TK2CRL,7
+                      00144 #define                                 TK2IE           TK2CRL,6
+                      00145 
+                      00146 ;ADCR0
+                      00147 #define         ADEOC   ADCR0,1
+                      00148 #define         ADON    ADCR0,0      
+                      00149 
+                      00150 ;I2CCR
+                      00151 #define                 HCF                     I2CCR,7 ;data send end flag
+                      00152 #define                 HAAS            I2CCR,6      ;addr matching flag 
+                      00153 #define                 HBB                     I2CCR,5                         ;
+                      00154 #define                 HTX                     I2CCR,4
+                      00155 #define                 TXAK            I2CCR,3
+                      00156 #define                 SRW                     I2CCR,2
+                      00157 #define                 HEN                     I2CCR,1
+                      00158 #define                 RXAK            I2CCR,0
+                      00159 
+                      00160 ;-------adc chanal----------------------------------------
+                      00161 #define         AD0     0X00
+                      00162 #define         AD1     0X10
+                      00163 #define         AD2     0X20
+                      00164 #define         AD3     0X30
+                      00165 #define         AD4     0X40
+                      00166 #define         AD5     0X50
+                      00167 #define         AD6     0X60
+                      00168 #define         AD7     0X70
+                      00169 #define         LDO     0X80
+                      00170 #define         AD_VDD          0XD0
+                      00171 #define         AD_VDD_4DIV     0XE0
+                      00172 #define         AD_VDD_2DIV     0XF0
+                      00173 
+                      00012 ;--------------------------------------------------------
+                      00013 ; external declarations
+                      00014 ;--------------------------------------------------------
+                      00015         extern  ___uchar2fs
+                      00016         extern  ___schar2fs
+                      00017         extern  ___uint2fs
+                      00018         extern  ___sint2fs
+                      00019         extern  ___ulong2fs
+                      00020         extern  ___slong2fs
+                      00021         extern  ___fs2uchar
+                      00022         extern  ___fs2schar
+                      00023         extern  ___fs2uint
+                      00024         extern  ___fs2sint
+                      00025         extern  ___fs2ulong
+                      00026         extern  ___fs2slong
+                      00027         extern  ___fsadd
+                      00028         extern  ___fssub
+                      00029         extern  ___fsmul
+                      00030         extern  ___fslt
+                      00031         extern  ___fseq
+                      00032         extern  ___fsneq
+                      00033         extern  ___fsgt
+                      00034 
+                      00035         extern STK06
+                      00036         extern STK05
+                      00037         extern STK04
+                      00038         extern STK03
+                      00039         extern STK02
+                      00040         extern STK01
+                      00041         extern STK00
+                      00042 ;--------------------------------------------------------
+                      00043 ; global declarations
+                      00044 ;--------------------------------------------------------
+                      00045         global  ___fsdiv
+                      00046 
+                      00047 ;--------------------------------------------------------
+                      00048 ; global definitions
+                      00049 ;--------------------------------------------------------
+                      00050 ;--------------------------------------------------------
+                      00051 ; absolute symbol definitions
+                      00052 ;--------------------------------------------------------
+                      00053 ;--------------------------------------------------------
+                      00054 ; compiler-defined variables
+                      00055 ;--------------------------------------------------------
+                      00056 UDL_fsdiv_0     udata
+0000                  00057 r0x100B res     1
+0000                  00058 r0x100A res     1
+0001                  00059 r0x1009 res     1
+0001                  00060 r0x1008 res     1
+0002                  00061 r0x100F res     1
+0002                  00062 r0x100E res     1
+0003                  00063 r0x100D res     1
+0003                  00064 r0x100C res     1
+0004                  00065 r0x1010 res     1
+0004                  00066 r0x1011 res     1
+0005                  00067 r0x1012 res     1
+0005                  00068 r0x1013 res     1
+0006                  00069 r0x1014 res     1
+0006                  00070 r0x1015 res     1
+0007                  00071 r0x1016 res     1
+0007                  00072 r0x1017 res     1
+0008                  00073 r0x1018 res     1
+0008                  00074 r0x1019 res     1
+0009                  00075 r0x101A res     1
+0009                  00076 r0x101B res     1
+000A                  00077 r0x101C res     1
+000A                  00078 r0x101D res     1
+000B                  00079 r0x101E res     1
+000B                  00080 r0x101F res     1
+000C                  00081 r0x1020 res     1
+000C                  00082 r0x1021 res     1
+000D                  00083 r0x1022 res     1
+000D                  00084 r0x1023 res     1
+000E                  00085 r0x1024 res     1
+000E                  00086 ___fsdiv_fl1_1_22       res     4
+0010                  00087 ___fsdiv_fl2_1_22       res     4
+                      00088 ;--------------------------------------------------------
+                      00089 ; initialized data
+                      00090 ;--------------------------------------------------------
+                      00091 ;--------------------------------------------------------
+                      00092 ; overlayable items in internal ram 
+                      00093 ;--------------------------------------------------------
+                      00094 ;       udata_ovr
+                      00095 ;--------------------------------------------------------
+                      00096 ; code
+                      00097 ;--------------------------------------------------------
+                      00098 code_fsdiv      code
+                      00099 ;***
+                      00100 ;  pBlock Stats: dbName = C
+                      00101 ;***
+                      00102 ;entry:  ___fsdiv       ;Function start
+                      00103 ; 2 exit points
+                      00104 ;has an exit
+                      00105 ;36 compiler assigned registers:
+                      00106 ;   r0x1008
+                      00107 ;   STK00
+                      00108 ;   r0x1009
+                      00109 ;   STK01
+                      00110 ;   r0x100A
+                      00111 ;   STK02
+                      00112 ;   r0x100B
+                      00113 ;   STK03
+                      00114 ;   r0x100C
+                      00115 ;   STK04
+                      00116 ;   r0x100D
+                      00117 ;   STK05
+                      00118 ;   r0x100E
+                      00119 ;   STK06
+                      00120 ;   r0x100F
+                      00121 ;   r0x1010
+                      00122 ;   r0x1011
+                      00123 ;   r0x1012
+                      00124 ;   r0x1013
+                      00125 ;   r0x1014
+                      00126 ;   r0x1015
+                      00127 ;   r0x1016
+                      00128 ;   r0x1017
+                      00129 ;   r0x1018
+                      00130 ;   r0x1019
+                      00131 ;   r0x101A
+                      00132 ;   r0x101B
+                      00133 ;   r0x101C
+                      00134 ;   r0x101D
+                      00135 ;   r0x101E
+                      00136 ;   r0x101F
+                      00137 ;   r0x1020
+                      00138 ;   r0x1021
+                      00139 ;   r0x1022
+                      00140 ;   r0x1023
+                      00141 ;   r0x1024
+                      00142 ;; Starting pCode block
+                      00143 ;;[ICODE] ../libsdcc/fsdiv.c:55:  _entry($19) :
+                      00144 ;;[ICODE] ../libsdcc/fsdiv.c:55:        proc ___fsdiv [k1 lr0:0 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{float function ( float fixed, float fixed) fixed}
+0000                  00145 ___fsdiv        ;Function start
+                      00146 ; 2 exit points
+                      00147 ;;[ICODE] ../libsdcc/fsdiv.c:55: iTemp0 [k2 lr3:6 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{float fixed}{ sir@ ___fsdiv_a1_1_21}[r0x1000 r0x1001 r0x1002 r0x1003 ] = recv ___fsdiv [k1 lr0:0 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{float function ( float fixed, float fixed) fixed}
+                      00148 ;       .line   55; "../libsdcc/fsdiv.c"        float __fsdiv (float a1, float a2) _FS_REENTRANT
+0000   5600           00149         MOVRA   r0x1008
+0001   5800           00150         MOVAR   STK00
+0002   5600           00151         MOVRA   r0x1009
+0003   5800           00152         MOVAR   STK01
+0004   5600           00153         MOVRA   r0x100A
+0005   5800           00154         MOVAR   STK02
+0006   5600           00155         MOVRA   (___fsdiv_fl1_1_22 + 0)
+0007   5600           00156         MOVRA   r0x100B
+                      00157 ;;[ICODE] ../libsdcc/fsdiv.c:55: iTemp1 [k4 lr4:8 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{float fixed}{ sir@ ___fsdiv_a2_1_21}[r0x1004 r0x1005 r0x1006 r0x1007 ] = recv ___fsdiv [k1 lr0:0 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{float function ( float fixed, float fixed) fixed}
+0008   5800           00158         MOVAR   STK03
+0009   5600           00159         MOVRA   r0x100C
+000A   5800           00160         MOVAR   STK04
+000B   5600           00161         MOVRA   r0x100D
+000C   5800           00162         MOVAR   STK05
+000D   5600           00163         MOVRA   r0x100E
+000E   5800           00164         MOVAR   STK06
+000F   5600           00165         MOVRA   (___fsdiv_fl2_1_22 + 0)
+0010   5600           00166         MOVRA   r0x100F
+                      00167 ;;[ICODE] ../libsdcc/fsdiv.c:64:        iTemp2 [k7 lr5:6 so:0]{ ia0 a2p0 re0 rm1 nos0 ru0 dp0}{volatile-float near* fixed}[remat] = &[___fsdiv_fl1_1_22 [k6 lr0:0 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{volatile-struct float_long fixed}]
+                      00168 ;;[ICODE] ../libsdcc/fsdiv.c:64:        *(iTemp2 [k7 lr5:6 so:0]{ ia1 a2p0 re0 rm1 nos0 ru0 dp0}{volatile-float near* fixed}[remat]) := iTemp0 [k2 lr3:6 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{float fixed}{ sir@ ___fsdiv_a1_1_21}[r0x1000 r0x1001 r0x1002 r0x1003 ]
+                      00169 ;;gen.c:6444: size=3/4, offset=0, AOP_TYPE(res)=8
+                      00170 ;;136   MOVAR   r0x100B
+                      00171 ;;gen.c:6444: size=2/4, offset=1, AOP_TYPE(res)=8
+                      00172 ;       .line   64; "../libsdcc/fsdiv.c"        fl1.f = a1;
+0011   5800           00173         MOVAR   r0x100A
+0012   5600           00174         MOVRA   (___fsdiv_fl1_1_22 + 1)
+                      00175 ;;gen.c:6444: size=1/4, offset=2, AOP_TYPE(res)=8
+0013   5800           00176         MOVAR   r0x1009
+0014   5600           00177         MOVRA   (___fsdiv_fl1_1_22 + 2)
+                      00178 ;;gen.c:6444: size=0/4, offset=3, AOP_TYPE(res)=8
+0015   5800           00179         MOVAR   r0x1008
+0016   5600           00180         MOVRA   (___fsdiv_fl1_1_22 + 3)
+                      00181 ;;[ICODE] ../libsdcc/fsdiv.c:65:        iTemp4 [k11 lr7:8 so:0]{ ia0 a2p0 re0 rm1 nos0 ru0 dp0}{volatile-float near* fixed}[remat] = &[___fsdiv_fl2_1_22 [k10 lr0:0 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{volatile-struct float_long fixed}]
+                      00182 ;;[ICODE] ../libsdcc/fsdiv.c:65:        *(iTemp4 [k11 lr7:8 so:0]{ ia1 a2p0 re0 rm1 nos0 ru0 dp0}{volatile-float near* fixed}[remat]) := iTemp1 [k4 lr4:8 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{float fixed}{ sir@ ___fsdiv_a2_1_21}[r0x1004 r0x1005 r0x1006 r0x1007 ]
+                      00183 ;;gen.c:6444: size=3/4, offset=0, AOP_TYPE(res)=8
+                      00184 ;;133   MOVAR   r0x100F
+                      00185 ;;gen.c:6444: size=2/4, offset=1, AOP_TYPE(res)=8
+                      00186 ;       .line   65; "../libsdcc/fsdiv.c"        fl2.f = a2;
+0017   5800           00187         MOVAR   r0x100E
+0018   5600           00188         MOVRA   (___fsdiv_fl2_1_22 + 1)
+                      00189 ;;gen.c:6444: size=1/4, offset=2, AOP_TYPE(res)=8
+0019   5800           00190         MOVAR   r0x100D
+001A   5600           00191         MOVRA   (___fsdiv_fl2_1_22 + 2)
+                      00192 ;;gen.c:6444: size=0/4, offset=3, AOP_TYPE(res)=8
+001B   5800           00193         MOVAR   r0x100C
+001C   5600           00194         MOVRA   (___fsdiv_fl2_1_22 + 3)
+                      00195 ;;[ICODE] ../libsdcc/fsdiv.c:68:        iTemp7 [k16 lr9:10 so:0]{ ia0 a2p0 re0 rm1 nos0 ru0 dp0}{volatile-long-int near* fixed}[remat] = &[___fsdiv_fl1_1_22 [k6 lr0:0 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{volatile-struct float_long fixed}]
+                      00196 ;;[ICODE] ../libsdcc/fsdiv.c:68:        iTemp9 [k19 lr10:11 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{volatile-long-int fixed}[r0x1000 r0x1001 r0x1002 r0x1003 ] = @[iTemp7 [k16 lr9:10 so:0]{ ia1 a2p0 re0 rm1 nos0 ru0 dp0}{volatile-long-int near* fixed}[remat] + 0x0 {const-unsigned-char literal}]
+                      00197 ;       .line   68; "../libsdcc/fsdiv.c"        exp = EXP (fl1.l) ;
+001D   5800           00198         MOVAR   (___fsdiv_fl1_1_22 + 0)
+001E   5600           00199         MOVRA   r0x100F
+001F   5600           00200         MOVRA   r0x100B
+0020   5800           00201         MOVAR   (___fsdiv_fl1_1_22 + 1)
+0021   5600           00202         MOVRA   r0x100E
+0022   5600           00203         MOVRA   r0x100A
+0023   5800           00204         MOVAR   (___fsdiv_fl1_1_22 + 2)
+0024   5600           00205         MOVRA   r0x100D
+0025   5600           00206         MOVRA   r0x1009
+0026   5800           00207         MOVAR   (___fsdiv_fl1_1_22 + 3)
+0027   5600           00208         MOVRA   r0x100C
+0028   5600           00209         MOVRA   r0x1008
+                      00210 ;;[ICODE] ../libsdcc/fsdiv.c:68:        iTemp10 [k20 lr11:12 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-long-int fixed}[r0x1004 r0x1005 r0x1006 r0x1007 ] = (unsigned-long-int fixed)iTemp9 [k19 lr10:11 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{volatile-long-int fixed}[r0x1000 r0x1001 r0x1002 r0x1003 ]
+                      00211 ;;130   MOVAR   r0x100B
+                      00212 ;;122   MOVAR   r0x100A
+                      00213 ;;137   MOVAR   r0x1009
+                      00214 ;;132   MOVAR   r0x1008
+                      00215 ;;[ICODE] ../libsdcc/fsdiv.c:68:        iTemp11 [k21 lr12:13 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-long-int fixed}[r0x1000 r0x1001 r0x1002 r0x1003 ] = iTemp10 [k20 lr11:12 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-long-int fixed}[r0x1004 r0x1005 r0x1006 r0x1007 ] >> 0x17 {const-unsigned-char literal}
+0029   5000           00216         RLAR    r0x100D
+002A   5000           00217         RLAR    r0x100C
+002B   5600           00218         MOVRA   r0x100F
+002C   5600           00219         MOVRA   r0x100B
+002D   7600           00220         CLRR    r0x100A
+002E   5200           00221         RLR     r0x100A
+002F   7600           00222         CLRR    r0x1009
+0030   7600           00223         CLRR    r0x1008
+                      00224 ;;[ICODE] ../libsdcc/fsdiv.c:68:        iTemp12 [k22 lr13:14 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-long-int fixed}[r0x1004 r0x1005 r0x1006 r0x1007 ] = iTemp11 [k21 lr12:13 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-long-int fixed}[r0x1000 r0x1001 r0x1002 r0x1003 ] & 0xff {unsigned-long-int literal}
+                      00225 ;;121   MOVAR   r0x100B
+0031   7600           00226         CLRR    r0x100E
+0032   7600           00227         CLRR    r0x100D
+0033   7600           00228         CLRR    r0x100C
+                      00229 ;;[ICODE] ../libsdcc/fsdiv.c:68:        iTemp6 [k14 lr14:124 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{int fixed}{ sir@ ___fsdiv_exp_1_22}[r0x1000 r0x1001 ] = (int fixed)iTemp12 [k22 lr13:14 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-long-int fixed}[r0x1004 r0x1005 r0x1006 r0x1007 ]
+0034   5800           00230         MOVAR   r0x100F
+0035   5600           00231         MOVRA   r0x100B
+0036   3C00           00232         MOVAI   0x00
+0037   5600           00233         MOVRA   r0x100A
+                      00234 ;;[ICODE] ../libsdcc/fsdiv.c:69:        iTemp14 [k24 lr16:17 so:0]{ ia0 a2p0 re0 rm1 nos0 ru0 dp0}{volatile-long-int near* fixed}[remat] = &[___fsdiv_fl2_1_22 [k10 lr0:0 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{volatile-struct float_long fixed}]
+                      00235 ;;[ICODE] ../libsdcc/fsdiv.c:69:        iTemp16 [k27 lr17:18 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{volatile-long-int fixed}[r0x1002 r0x1003 r0x1004 r0x1005 ] = @[iTemp14 [k24 lr16:17 so:0]{ ia1 a2p0 re0 rm1 nos0 ru0 dp0}{volatile-long-int near* fixed}[remat] + 0x0 {const-unsigned-char literal}]
+                      00236 ;       .line   69; "../libsdcc/fsdiv.c"        exp -= EXP (fl2.l);
+0038   5800           00237         MOVAR   (___fsdiv_fl2_1_22 + 0)
+0039   5600           00238         MOVRA   r0x100D
+003A   5600           00239         MOVRA   r0x1009
+003B   5800           00240         MOVAR   (___fsdiv_fl2_1_22 + 1)
+003C   5600           00241         MOVRA   r0x100C
+003D   5600           00242         MOVRA   r0x1008
+003E   5800           00243         MOVAR   (___fsdiv_fl2_1_22 + 2)
+003F   5600           00244         MOVRA   r0x1010
+0040   5600           00245         MOVRA   r0x100F
+0041   5800           00246         MOVAR   (___fsdiv_fl2_1_22 + 3)
+0042   5600           00247         MOVRA   r0x1011
+0043   5600           00248         MOVRA   r0x100E
+                      00249 ;;[ICODE] ../libsdcc/fsdiv.c:69:        iTemp17 [k28 lr18:19 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-long-int fixed}[r0x1006 r0x1007 r0x1008 r0x1009 ] = (unsigned-long-int fixed)iTemp16 [k27 lr17:18 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{volatile-long-int fixed}[r0x1002 r0x1003 r0x1004 r0x1005 ]
+                      00250 ;;131   MOVAR   r0x1009
+                      00251 ;;124   MOVAR   r0x1008
+                      00252 ;;125   MOVAR   r0x100F
+                      00253 ;;126   MOVAR   r0x100E
+                      00254 ;;[ICODE] ../libsdcc/fsdiv.c:69:        iTemp18 [k29 lr19:20 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-long-int fixed}[r0x1002 r0x1003 r0x1004 r0x1005 ] = iTemp17 [k28 lr18:19 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-long-int fixed}[r0x1006 r0x1007 r0x1008 r0x1009 ] >> 0x17 {const-unsigned-char literal}
+0044   5000           00255         RLAR    r0x1010
+0045   5000           00256         RLAR    r0x1011
+0046   5600           00257         MOVRA   r0x100D
+0047   5600           00258         MOVRA   r0x1009
+0048   7600           00259         CLRR    r0x1008
+0049   5200           00260         RLR     r0x1008
+004A   7600           00261         CLRR    r0x100F
+004B   7600           00262         CLRR    r0x100E
+                      00263 ;;[ICODE] ../libsdcc/fsdiv.c:69:        iTemp19 [k30 lr20:22 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-long-int fixed}[r0x1006 r0x1007 r0x1008 r0x1009 ] = iTemp18 [k29 lr19:20 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-long-int fixed}[r0x1002 r0x1003 r0x1004 r0x1005 ] & 0xff {unsigned-long-int literal}
+                      00264 ;;123   MOVAR   r0x1009
+004C   7600           00265         CLRR    r0x100C
+004D   7600           00266         CLRR    r0x1010
+004E   7600           00267         CLRR    r0x1011
+                      00268 ;;[ICODE] ../libsdcc/fsdiv.c:69:        iTemp20 [k31 lr21:22 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-long-int fixed}[r0x1002 r0x1003 r0x1004 r0x1005 ] = (unsigned-long-int fixed)iTemp6 [k14 lr14:124 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{int fixed}{ sir@ ___fsdiv_exp_1_22}[r0x1000 r0x1001 ]
+004F   5800           00269         MOVAR   r0x100B
+0050   5600           00270         MOVRA   r0x1009
+0051   5800           00271         MOVAR   r0x100A
+0052   5600           00272         MOVRA   r0x1008
+0053   3C00           00273         MOVAI   0x00
+0054   FE00           00274         JBCLR   r0x1008,7
+0055   3CFF           00275         MOVAI   0xff
+0056   5600           00276         MOVRA   r0x100E
+0057   5600           00277         MOVRA   r0x100F
+                      00278 ;;[ICODE] ../libsdcc/fsdiv.c:69:        iTemp21 [k32 lr22:23 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-long-int fixed}[r0x1006 r0x1007 r0x1008 r0x1009 ] = iTemp20 [k31 lr21:22 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-long-int fixed}[r0x1002 r0x1003 r0x1004 r0x1005 ] - iTemp19 [k30 lr20:22 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-long-int fixed}[r0x1006 r0x1007 r0x1008 r0x1009 ]
+0058   5800           00279         MOVAR   r0x100D
+0059   4800           00280         RSUBAR  r0x1009
+005A   5600           00281         MOVRA   r0x100D
+005B   5800           00282         MOVAR   r0x100C
+005C   E187           00283         JBSET   STATUS,0
+005D   6000           00284         JZAR    r0x100C
+005E   A000           00285         GOTO    _00148_DS_
+005F   5800           00286         MOVAR   r0x1008
+0060   A000           00287         GOTO    _00149_DS_
+0061                  00288 _00148_DS_
+0061   4800           00289         RSUBAR  r0x1008
+0062                  00290 _00149_DS_
+0062   5600           00291         MOVRA   r0x100C
+0063   5800           00292         MOVAR   r0x1010
+0064   E187           00293         JBSET   STATUS,0
+0065   6000           00294         JZAR    r0x1010
+0066   A000           00295         GOTO    _00150_DS_
+0067   5800           00296         MOVAR   r0x100F
+0068   A000           00297         GOTO    _00151_DS_
+0069                  00298 _00150_DS_
+0069   4800           00299         RSUBAR  r0x100F
+006A                  00300 _00151_DS_
+006A   5600           00301         MOVRA   r0x1010
+006B   5800           00302         MOVAR   r0x1011
+006C   E187           00303         JBSET   STATUS,0
+006D   6400           00304         INCAR   r0x1011
+006E   4800           00305         RSUBAR  r0x100E
+006F   5600           00306         MOVRA   r0x1011
+                      00307 ;;[ICODE] ../libsdcc/fsdiv.c:69:        iTemp6 [k14 lr14:124 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{int fixed}{ sir@ ___fsdiv_exp_1_22}[r0x1000 r0x1001 ] = (int fixed)iTemp21 [k32 lr22:23 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-long-int fixed}[r0x1006 r0x1007 r0x1008 r0x1009 ]
+0070   5800           00308         MOVAR   r0x100D
+0071   5600           00309         MOVRA   r0x100B
+0072   5800           00310         MOVAR   r0x100C
+0073   5600           00311         MOVRA   r0x100A
+                      00312 ;;[ICODE] ../libsdcc/fsdiv.c:70:        iTemp6 [k14 lr14:124 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{int fixed}{ sir@ ___fsdiv_exp_1_22}[r0x1000 r0x1001 ] = iTemp6 [k14 lr14:124 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{int fixed}{ sir@ ___fsdiv_exp_1_22}[r0x1000 r0x1001 ] + 0x7e {int literal}
+                      00313 ;       .line   70; "../libsdcc/fsdiv.c"        exp += EXCESS;
+0074   3C7E           00314         MOVAI   0x7e
+0075   7E00           00315         ADDRA   r0x100B
+0076   F187           00316         JBCLR   STATUS,0
+0077   6600           00317         INCR    r0x100A
+                      00318 ;;[ICODE] ../libsdcc/fsdiv.c:73:        iTemp25 [k37 lr27:28 so:0]{ ia0 a2p0 re0 rm1 nos0 ru0 dp0}{volatile-long-int near* fixed}[remat] = &[___fsdiv_fl1_1_22 [k6 lr0:0 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{volatile-struct float_long fixed}]
+                      00319 ;;[ICODE] ../libsdcc/fsdiv.c:73:        iTemp27 [k40 lr28:29 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{volatile-long-int fixed}[r0x1002 r0x1003 r0x1004 r0x1005 ] = @[iTemp25 [k37 lr27:28 so:0]{ ia1 a2p0 re0 rm1 nos0 ru0 dp0}{volatile-long-int near* fixed}[remat] + 0x0 {const-unsigned-char literal}]
+                      00320 ;       .line   73; "../libsdcc/fsdiv.c"        sign = SIGN (fl1.l) ^ SIGN (fl2.l);
+0078   5800           00321         MOVAR   (___fsdiv_fl1_1_22 + 0)
+0079   5600           00322         MOVRA   r0x100D
+007A   5600           00323         MOVRA   r0x1009
+007B   5800           00324         MOVAR   (___fsdiv_fl1_1_22 + 1)
+007C   5600           00325         MOVRA   r0x100C
+007D   5600           00326         MOVRA   r0x1008
+007E   5800           00327         MOVAR   (___fsdiv_fl1_1_22 + 2)
+007F   5600           00328         MOVRA   r0x1010
+0080   5600           00329         MOVRA   r0x100F
+0081   5800           00330         MOVAR   (___fsdiv_fl1_1_22 + 3)
+0082   5600           00331         MOVRA   r0x1011
+0083   5600           00332         MOVRA   r0x100E
+                      00333 ;;[ICODE] ../libsdcc/fsdiv.c:73:        iTemp28 [k41 lr29:30 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-long-int fixed}[r0x1006 r0x1007 r0x1008 r0x1009 ] = (unsigned-long-int fixed)iTemp27 [k40 lr28:29 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{volatile-long-int fixed}[r0x1002 r0x1003 r0x1004 r0x1005 ]
+                      00334 ;;103   MOVAR   r0x1009
+                      00335 ;;104   MOVAR   r0x1008
+                      00336 ;;105   MOVAR   r0x100F
+                      00337 ;;106   MOVAR   r0x100E
+                      00338 ;;[ICODE] ../libsdcc/fsdiv.c:73:        iTemp29 [k42 lr30:35 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char fixed}[r0x1002 ] = gabit iTemp28 [k41 lr29:30 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-long-int fixed}[r0x1006 r0x1007 r0x1008 r0x1009 ]
+0084   5800           00339         MOVAR   r0x1011
+0085   3E80           00340         ANDAI   0x80
+0086   E587           00341         JBSET   STATUS,2
+0087   3C01           00342         MOVAI   0x01
+0088   5600           00343         MOVRA   r0x1009
+                      00344 ;;[ICODE] ../libsdcc/fsdiv.c:73:        iTemp30 [k43 lr31:32 so:0]{ ia0 a2p0 re0 rm1 nos0 ru0 dp0}{volatile-long-int near* fixed}[remat] = &[___fsdiv_fl2_1_22 [k10 lr0:0 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{volatile-struct float_long fixed}]
+                      00345 ;;[ICODE] ../libsdcc/fsdiv.c:73:        iTemp32 [k46 lr32:33 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{volatile-long-int fixed}[r0x1006 r0x1007 r0x1008 r0x1009 ] = @[iTemp30 [k43 lr31:32 so:0]{ ia1 a2p0 re0 rm1 nos0 ru0 dp0}{volatile-long-int near* fixed}[remat] + 0x0 {const-unsigned-char literal}]
+0089   5800           00346         MOVAR   (___fsdiv_fl2_1_22 + 0)
+008A   5600           00347         MOVRA   r0x1012
+008B   5600           00348         MOVRA   r0x100D
+008C   5800           00349         MOVAR   (___fsdiv_fl2_1_22 + 1)
+008D   5600           00350         MOVRA   r0x1013
+008E   5600           00351         MOVRA   r0x100C
+008F   5800           00352         MOVAR   (___fsdiv_fl2_1_22 + 2)
+0090   5600           00353         MOVRA   r0x1014
+0091   5600           00354         MOVRA   r0x1010
+0092   5800           00355         MOVAR   (___fsdiv_fl2_1_22 + 3)
+0093   5600           00356         MOVRA   r0x1015
+0094   5600           00357         MOVRA   r0x1011
+                      00358 ;;[ICODE] ../libsdcc/fsdiv.c:73:        iTemp33 [k47 lr33:34 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-long-int fixed}[r0x100A r0x100B r0x100C r0x100D ] = (unsigned-long-int fixed)iTemp32 [k46 lr32:33 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{volatile-long-int fixed}[r0x1006 r0x1007 r0x1008 r0x1009 ]
+                      00359 ;;134   MOVAR   r0x100D
+                      00360 ;;108   MOVAR   r0x100C
+                      00361 ;;109   MOVAR   r0x1010
+                      00362 ;;110   MOVAR   r0x1011
+                      00363 ;;[ICODE] ../libsdcc/fsdiv.c:73:        iTemp34 [k48 lr34:35 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char fixed}[r0x1006 ] = gabit iTemp33 [k47 lr33:34 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-long-int fixed}[r0x100A r0x100B r0x100C r0x100D ]
+0095   5800           00364         MOVAR   r0x1015
+0096   3E80           00365         ANDAI   0x80
+0097   E587           00366         JBSET   STATUS,2
+0098   3C01           00367         MOVAI   0x01
+0099   5600           00368         MOVRA   r0x100D
+                      00369 ;;[ICODE] ../libsdcc/fsdiv.c:73:        iTemp24 [k35 lr35:118 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{char fixed}{ sir@ ___fsdiv_sign_1_22}[r0x1002 ] = iTemp29 [k42 lr30:35 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char fixed}[r0x1002 ] ^ iTemp34 [k48 lr34:35 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char fixed}[r0x1006 ]
+009A   5800           00370         MOVAR   r0x100D
+009B   4200           00371         XORRA   r0x1009
+                      00372 ;;[ICODE] ../libsdcc/fsdiv.c:76:        iTemp36 [k50 lr37:38 so:0]{ ia0 a2p0 re0 rm1 nos0 ru0 dp0}{volatile-long-int near* fixed}[remat] = &[___fsdiv_fl2_1_22 [k10 lr0:0 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{volatile-struct float_long fixed}]
+                      00373 ;;[ICODE] ../libsdcc/fsdiv.c:76:        iTemp38 [k53 lr38:39 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{volatile-long-int fixed}[r0x1006 r0x100A r0x100B r0x100C ] = @[iTemp36 [k50 lr37:38 so:0]{ ia1 a2p0 re0 rm1 nos0 ru0 dp0}{volatile-long-int near* fixed}[remat] + 0x0 {const-unsigned-char literal}]
+                      00374 ;       .line   76; "../libsdcc/fsdiv.c"        if (!fl2.l)
+009C   5800           00375         MOVAR   (___fsdiv_fl2_1_22 + 0)
+009D   5600           00376         MOVRA   r0x100D
+009E   5800           00377         MOVAR   (___fsdiv_fl2_1_22 + 1)
+009F   5600           00378         MOVRA   r0x1012
+00A0   5800           00379         MOVAR   (___fsdiv_fl2_1_22 + 2)
+00A1   5600           00380         MOVRA   r0x1013
+00A2   5800           00381         MOVAR   (___fsdiv_fl2_1_22 + 3)
+00A3   5600           00382         MOVRA   r0x1014
+                      00383 ;;[ICODE] ../libsdcc/fsdiv.c:76:        if iTemp38 [k53 lr38:39 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{volatile-long-int fixed}[r0x1006 r0x100A r0x100B r0x100C ] != 0 goto _iffalse_0($2)
+00A4   5800           00384         MOVAR   r0x100D
+00A5   5C00           00385         ORAR    r0x1012
+00A6   5C00           00386         ORAR    r0x1013
+00A7   5C00           00387         ORAR    r0x1014
+00A8   E587           00388         JBSET   STATUS,2
+00A9   A000           00389         GOTO    _00106_DS_
+                      00390 ;;[ICODE] ../libsdcc/fsdiv.c:78:        iTemp39 [k54 lr40:41 so:0]{ ia0 a2p0 re0 rm1 nos0 ru0 dp0}{volatile-long-int near* fixed}[remat] = &[___fsdiv_fl2_1_22 [k10 lr0:0 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{volatile-struct float_long fixed}]
+                      00391 ;;[ICODE] ../libsdcc/fsdiv.c:78:        *(iTemp39 [k54 lr40:41 so:0]{ ia1 a2p0 re0 rm1 nos0 ru0 dp0}{volatile-long-int near* fixed}[remat]) := 0x7fc00000 {const-long-int literal}
+                      00392 ;;gen.c:6444: size=3/4, offset=0, AOP_TYPE(res)=8
+                      00393 ;       .line   78; "../libsdcc/fsdiv.c"        fl2.l = 0x7FC00000;
+00AA   7600           00394         CLRR    (___fsdiv_fl2_1_22 + 0)
+                      00395 ;;gen.c:6444: size=2/4, offset=1, AOP_TYPE(res)=8
+00AB   7600           00396         CLRR    (___fsdiv_fl2_1_22 + 1)
+                      00397 ;;gen.c:6444: size=1/4, offset=2, AOP_TYPE(res)=8
+00AC   3CC0           00398         MOVAI   0xc0
+00AD   5600           00399         MOVRA   (___fsdiv_fl2_1_22 + 2)
+                      00400 ;;gen.c:6444: size=0/4, offset=3, AOP_TYPE(res)=8
+00AE   3C7F           00401         MOVAI   0x7f
+00AF   5600           00402         MOVRA   (___fsdiv_fl2_1_22 + 3)
+                      00403 ;;[ICODE] ../libsdcc/fsdiv.c:79:        iTemp41 [k57 lr42:43 so:0]{ ia0 a2p0 re0 rm1 nos0 ru0 dp0}{volatile-float near* fixed}[remat] = &[___fsdiv_fl2_1_22 [k10 lr0:0 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{volatile-struct float_long fixed}]
+                      00404 ;;[ICODE] ../libsdcc/fsdiv.c:79:        iTemp43 [k60 lr43:44 so:0]{ ia0 a2p0 re0 rm0 nos0 ru1 dp0}{volatile-float fixed}[r0x1006 r0x100A r0x100B r0x100C ] = @[iTemp41 [k57 lr42:43 so:0]{ ia1 a2p0 re0 rm1 nos0 ru0 dp0}{volatile-float near* fixed}[remat] + 0x0 {const-unsigned-char literal}]
+                      00405 ;       .line   79; "../libsdcc/fsdiv.c"        return (fl2.f);
+00B0   5800           00406         MOVAR   (___fsdiv_fl2_1_22 + 0)
+00B1   5600           00407         MOVRA   r0x100D
+00B2   5800           00408         MOVAR   (___fsdiv_fl2_1_22 + 1)
+00B3   5600           00409         MOVRA   r0x1012
+00B4   5800           00410         MOVAR   (___fsdiv_fl2_1_22 + 2)
+00B5   5600           00411         MOVRA   r0x1013
+00B6   5800           00412         MOVAR   (___fsdiv_fl2_1_22 + 3)
+00B7   5600           00413         MOVRA   r0x1014
+                      00414 ;;[ICODE] ../libsdcc/fsdiv.c:79:        ret iTemp43 [k60 lr43:44 so:0]{ ia0 a2p0 re0 rm0 nos0 ru1 dp0}{volatile-float fixed}[r0x1006 r0x100A r0x100B r0x100C ]
+00B8   5800           00415         MOVAR   r0x100D
+00B9   5600           00416         MOVRA   STK02
+00BA   5800           00417         MOVAR   r0x1012
+00BB   5600           00418         MOVRA   STK01
+00BC   5800           00419         MOVAR   r0x1013
+00BD   5600           00420         MOVRA   STK00
+00BE   5800           00421         MOVAR   r0x1014
+00BF   A000           00422         GOTO    _00122_DS_
+                      00423 ;;[ICODE] ../libsdcc/fsdiv.c:79:  _iffalse_0($2) :
+                      00424 ;;[ICODE] ../libsdcc/fsdiv.c:83:        iTemp44 [k61 lr46:47 so:0]{ ia0 a2p0 re0 rm1 nos0 ru0 dp0}{volatile-long-int near* fixed}[remat] = &[___fsdiv_fl1_1_22 [k6 lr0:0 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{volatile-struct float_long fixed}]
+                      00425 ;;[ICODE] ../libsdcc/fsdiv.c:83:        iTemp46 [k64 lr47:48 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{volatile-long-int fixed}[r0x1006 r0x100A r0x100B r0x100C ] = @[iTemp44 [k61 lr46:47 so:0]{ ia1 a2p0 re0 rm1 nos0 ru0 dp0}{volatile-long-int near* fixed}[remat] + 0x0 {const-unsigned-char literal}]
+00C0                  00426 _00106_DS_
+                      00427 ;       .line   83; "../libsdcc/fsdiv.c"        if (!fl1.l)
+00C0   5800           00428         MOVAR   (___fsdiv_fl1_1_22 + 0)
+00C1   5600           00429         MOVRA   r0x100D
+00C2   5800           00430         MOVAR   (___fsdiv_fl1_1_22 + 1)
+00C3   5600           00431         MOVRA   r0x1012
+00C4   5800           00432         MOVAR   (___fsdiv_fl1_1_22 + 2)
+00C5   5600           00433         MOVRA   r0x1013
+00C6   5800           00434         MOVAR   (___fsdiv_fl1_1_22 + 3)
+00C7   5600           00435         MOVRA   r0x1014
+                      00436 ;;[ICODE] ../libsdcc/fsdiv.c:83:        if iTemp46 [k64 lr47:48 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{volatile-long-int fixed}[r0x1006 r0x100A r0x100B r0x100C ] != 0 goto _iffalse_1($4)
+00C8   5800           00437         MOVAR   r0x100D
+00C9   5C00           00438         ORAR    r0x1012
+00CA   5C00           00439         ORAR    r0x1013
+00CB   5C00           00440         ORAR    r0x1014
+00CC   E587           00441         JBSET   STATUS,2
+00CD   A000           00442         GOTO    _00108_DS_
+                      00443 ;;[ICODE] ../libsdcc/fsdiv.c:84:        ret 0 {float literal}
+                      00444 ;       .line   84; "../libsdcc/fsdiv.c"        return (0);
+00CE   3C00           00445         MOVAI   0x00
+00CF   5600           00446         MOVRA   STK02
+00D0   3C00           00447         MOVAI   0x00
+00D1   5600           00448         MOVRA   STK01
+00D2   3C00           00449         MOVAI   0x00
+00D3   5600           00450         MOVRA   STK00
+00D4   3C00           00451         MOVAI   0x00
+00D5   A000           00452         GOTO    _00122_DS_
+                      00453 ;;[ICODE] ../libsdcc/fsdiv.c:84:  _iffalse_1($4) :
+                      00454 ;;[ICODE] ../libsdcc/fsdiv.c:87:        iTemp48 [k67 lr51:52 so:0]{ ia0 a2p0 re0 rm1 nos0 ru0 dp0}{volatile-long-int near* fixed}[remat] = &[___fsdiv_fl1_1_22 [k6 lr0:0 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{volatile-struct float_long fixed}]
+                      00455 ;;[ICODE] ../libsdcc/fsdiv.c:87:        iTemp50 [k70 lr52:53 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{volatile-long-int fixed}[r0x1006 r0x100A r0x100B r0x100C ] = @[iTemp48 [k67 lr51:52 so:0]{ ia1 a2p0 re0 rm1 nos0 ru0 dp0}{volatile-long-int near* fixed}[remat] + 0x0 {const-unsigned-char literal}]
+00D6                  00456 _00108_DS_
+                      00457 ;       .line   87; "../libsdcc/fsdiv.c"        mant1 = MANT (fl1.l);
+00D6   5800           00458         MOVAR   (___fsdiv_fl1_1_22 + 0)
+00D7   5600           00459         MOVRA   r0x1015
+00D8   5600           00460         MOVRA   r0x100D
+00D9   5800           00461         MOVAR   (___fsdiv_fl1_1_22 + 1)
+00DA   5600           00462         MOVRA   r0x1016
+00DB   5600           00463         MOVRA   r0x1012
+00DC   5800           00464         MOVAR   (___fsdiv_fl1_1_22 + 2)
+00DD   5600           00465         MOVRA   r0x1017
+00DE   5600           00466         MOVRA   r0x1013
+00DF   5800           00467         MOVAR   (___fsdiv_fl1_1_22 + 3)
+00E0   5600           00468         MOVRA   r0x1018
+00E1   5600           00469         MOVRA   r0x1014
+                      00470 ;;[ICODE] ../libsdcc/fsdiv.c:87:        iTemp51 [k71 lr53:54 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-long-int register}[r0x100D r0x100E r0x100F r0x1010 ] = (unsigned-long-int register)iTemp50 [k70 lr52:53 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{volatile-long-int fixed}[r0x1006 r0x100A r0x100B r0x100C ]
+                      00471 ;;127   MOVAR   r0x100D
+                      00472 ;;128   MOVAR   r0x1012
+                      00473 ;;112   MOVAR   r0x1013
+                      00474 ;;135   MOVAR   r0x1014
+                      00475 ;;[ICODE] ../libsdcc/fsdiv.c:87:        iTemp52 [k72 lr54:55 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-long-int register}[r0x1006 r0x100A r0x100B r0x100C ] = iTemp51 [k71 lr53:54 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-long-int register}[r0x100D r0x100E r0x100F r0x1010 ] & 0x7fffff {unsigned-long-int literal}
+00E2   5800           00476         MOVAR   r0x1015
+00E3   5600           00477         MOVRA   r0x100D
+00E4   5800           00478         MOVAR   r0x1016
+00E5   5600           00479         MOVRA   r0x1012
+00E6   3C7F           00480         MOVAI   0x7f
+00E7   7800           00481         ANDAR   r0x1017
+00E8   5600           00482         MOVRA   r0x1013
+00E9   7600           00483         CLRR    r0x1014
+                      00484 ;;[ICODE] ../libsdcc/fsdiv.c:87:        iTemp47 [k65 lr55:87 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{long-int fixed}{ sir@ ___fsdiv_mant1_1_22}[r0x1006 r0x100A r0x100B r0x100C ] = iTemp52 [k72 lr54:55 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-long-int register}[r0x1006 r0x100A r0x100B r0x100C ] | 0x800000 {unsigned-long-int literal}
+00EA   CE00           00485         BSET    r0x1013,7
+                      00486 ;;[ICODE] ../libsdcc/fsdiv.c:88:        iTemp55 [k76 lr57:58 so:0]{ ia0 a2p0 re0 rm1 nos0 ru0 dp0}{volatile-long-int near* fixed}[remat] = &[___fsdiv_fl2_1_22 [k10 lr0:0 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{volatile-struct float_long fixed}]
+                      00487 ;;[ICODE] ../libsdcc/fsdiv.c:88:        iTemp57 [k79 lr58:59 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{volatile-long-int fixed}[r0x100D r0x100E r0x100F r0x1010 ] = @[iTemp55 [k76 lr57:58 so:0]{ ia1 a2p0 re0 rm1 nos0 ru0 dp0}{volatile-long-int near* fixed}[remat] + 0x0 {const-unsigned-char literal}]
+                      00488 ;       .line   88; "../libsdcc/fsdiv.c"        mant2 = MANT (fl2.l);
+00EB   5800           00489         MOVAR   (___fsdiv_fl2_1_22 + 0)
+00EC   5600           00490         MOVRA   r0x1015
+00ED   5800           00491         MOVAR   (___fsdiv_fl2_1_22 + 1)
+00EE   5600           00492         MOVRA   r0x101A
+00EF   5600           00493         MOVRA   r0x1016
+00F0   5800           00494         MOVAR   (___fsdiv_fl2_1_22 + 2)
+00F1   5600           00495         MOVRA   r0x101B
+00F2   5600           00496         MOVRA   r0x1017
+00F3   5800           00497         MOVAR   (___fsdiv_fl2_1_22 + 3)
+00F4   5600           00498         MOVRA   r0x101C
+00F5   5600           00499         MOVRA   r0x1018
+                      00500 ;;[ICODE] ../libsdcc/fsdiv.c:88:        iTemp58 [k80 lr59:60 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-long-int register}[r0x1011 r0x1012 r0x1013 r0x1014 ] = (unsigned-long-int register)iTemp57 [k79 lr58:59 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{volatile-long-int fixed}[r0x100D r0x100E r0x100F r0x1010 ]
+00F6   5800           00501         MOVAR   r0x1015
+00F7   5600           00502         MOVRA   r0x1015
+00F8   5600           00503         MOVRA   r0x1019
+                      00504 ;;117   MOVAR   r0x1016
+                      00505 ;;118   MOVAR   r0x1017
+                      00506 ;;119   MOVAR   r0x1018
+                      00507 ;;[ICODE] ../libsdcc/fsdiv.c:88:        iTemp59 [k81 lr60:61 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-long-int register}[r0x100D r0x100E r0x100F r0x1010 ] = iTemp58 [k80 lr59:60 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-long-int register}[r0x1011 r0x1012 r0x1013 r0x1014 ] & 0x7fffff {unsigned-long-int literal}
+                      00508 ;;120   MOVAR   r0x1019
+00F9   5800           00509         MOVAR   r0x101A
+00FA   5600           00510         MOVRA   r0x1016
+00FB   3C7F           00511         MOVAI   0x7f
+00FC   7800           00512         ANDAR   r0x101B
+00FD   5600           00513         MOVRA   r0x1017
+00FE   7600           00514         CLRR    r0x1018
+                      00515 ;;[ICODE] ../libsdcc/fsdiv.c:88:        iTemp54 [k74 lr61:87 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{long-int fixed}{ sir@ ___fsdiv_mant2_1_22}[r0x100D r0x100E r0x100F r0x1010 ] = iTemp59 [k81 lr60:61 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-long-int register}[r0x100D r0x100E r0x100F r0x1010 ] | 0x800000 {unsigned-long-int literal}
+00FF   CE00           00516         BSET    r0x1017,7
+                      00517 ;;[ICODE] ../libsdcc/fsdiv.c:91:        iTemp61 [k83 lr63:64 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char fixed} = iTemp47 [k65 lr55:87 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{long-int fixed}{ sir@ ___fsdiv_mant1_1_22}[r0x1006 r0x100A r0x100B r0x100C ] < iTemp54 [k74 lr61:87 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{long-int fixed}{ sir@ ___fsdiv_mant2_1_22}[r0x100D r0x100E r0x100F r0x1010 ]
+0100   3C00           00518         MOVAI   0x00
+0101   3F80           00519         ADDAI   0x80
+0102   5600           00520         MOVRA   r0x101D
+0103   3C00           00521         MOVAI   0x00
+0104   3F80           00522         ADDAI   0x80
+0105   4800           00523         RSUBAR  r0x101D
+0106   E587           00524         JBSET   STATUS,2
+0107   A000           00525         GOTO    _00152_DS_
+0108   5800           00526         MOVAR   r0x1017
+0109   4800           00527         RSUBAR  r0x1013
+010A   E587           00528         JBSET   STATUS,2
+010B   A000           00529         GOTO    _00152_DS_
+010C   5800           00530         MOVAR   r0x1016
+010D   4800           00531         RSUBAR  r0x1012
+010E   E587           00532         JBSET   STATUS,2
+010F   A000           00533         GOTO    _00152_DS_
+0110   5800           00534         MOVAR   r0x1015
+0111   4800           00535         RSUBAR  r0x100D
+0112                  00536 _00152_DS_
+0112   F187           00537         JBCLR   STATUS,0
+0113   A000           00538         GOTO    _00110_DS_
+                      00539 ;;genSkipc:3246: created from rifx:0xbff92e90
+                      00540 ;;[ICODE] ../libsdcc/fsdiv.c:91:        if iTemp61 [k83 lr63:64 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char fixed} == 0 goto _iffalse_2($6)
+                      00541 ;;[ICODE] ../libsdcc/fsdiv.c:93:        iTemp47 [k65 lr55:87 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{long-int fixed}{ sir@ ___fsdiv_mant1_1_22}[r0x1006 r0x100A r0x100B r0x100C ] = iTemp47 [k65 lr55:87 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{long-int fixed}{ sir@ ___fsdiv_mant1_1_22}[r0x1006 r0x100A r0x100B r0x100C ] << 0x1 {const-unsigned-char literal}
+                      00542 ;       .line   93; "../libsdcc/fsdiv.c"        mant1 <<= 1;
+0114   D187           00543         BCLR    STATUS,0
+0115   5200           00544         RLR     r0x100D
+0116   5200           00545         RLR     r0x1012
+0117   5200           00546         RLR     r0x1013
+0118   5200           00547         RLR     r0x1014
+                      00548 ;;[ICODE] ../libsdcc/fsdiv.c:94:        iTemp6 [k14 lr14:124 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{int fixed}{ sir@ ___fsdiv_exp_1_22}[r0x1000 r0x1001 ] = iTemp6 [k14 lr14:124 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{int fixed}{ sir@ ___fsdiv_exp_1_22}[r0x1000 r0x1001 ] - 0x1 {const-unsigned-char literal}
+                      00549 ;       .line   94; "../libsdcc/fsdiv.c"        exp--;
+0119   3CFF           00550         MOVAI   0xff
+011A   7E00           00551         ADDRA   r0x100B
+011B   E187           00552         JBSET   STATUS,0
+011C   6E00           00553         DECR    r0x100A
+                      00554 ;;[ICODE] ../libsdcc/fsdiv.c:94:  _iffalse_2($6) :
+                      00555 ;;[ICODE] ../libsdcc/fsdiv.c:98:        iTemp65 [k87 lr70:87 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{unsigned-long-int fixed}{ sir@ ___fsdiv_mask_1_22}[r0x1011 r0x1012 r0x1013 r0x1014 ] := 0x1000000 {const-long-int literal}
+011D                  00556 _00110_DS_
+                      00557 ;       .line   98; "../libsdcc/fsdiv.c"        mask = 0x1000000;
+011D   7600           00558         CLRR    r0x1019
+011E   7600           00559         CLRR    r0x101A
+011F   7600           00560         CLRR    r0x101B
+0120   3C01           00561         MOVAI   0x01
+0121   5600           00562         MOVRA   r0x101C
+                      00563 ;;[ICODE] ../libsdcc/fsdiv.c:99:        iTemp66 [k89 lr71:127 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{long-int fixed}{ sir@ ___fsdiv_result_1_22}[r0x1015 r0x1016 r0x1017 r0x1018 ] := 0x0 {long-int literal}
+                      00564 ;       .line   99; "../libsdcc/fsdiv.c"        result = 0;
+0122   7600           00565         CLRR    r0x101D
+0123   7600           00566         CLRR    r0x101E
+0124   7600           00567         CLRR    r0x101F
+0125   7600           00568         CLRR    r0x1020
+                      00569 ;;[ICODE] ../libsdcc/fsdiv.c:100:  _whilecontinue_0($9) :
+                      00570 ;;[ICODE] ../libsdcc/fsdiv.c:100:       if iTemp65 [k87 lr70:87 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{unsigned-long-int fixed}{ sir@ ___fsdiv_mask_1_22}[r0x1011 r0x1012 r0x1013 r0x1014 ] == 0 goto _whilebreak_0($11)
+0126                  00571 _00113_DS_
+                      00572 ;       .line   100; "../libsdcc/fsdiv.c"       while (mask)
+0126   5800           00573         MOVAR   r0x1019
+0127   5C00           00574         ORAR    r0x101A
+0128   5C00           00575         ORAR    r0x101B
+0129   5C00           00576         ORAR    r0x101C
+012A   F587           00577         JBCLR   STATUS,2
+012B   A000           00578         GOTO    _00115_DS_
+                      00579 ;;[ICODE] ../libsdcc/fsdiv.c:102:       iTemp67 [k91 lr75:76 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char fixed} = iTemp47 [k65 lr55:87 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{long-int fixed}{ sir@ ___fsdiv_mant1_1_22}[r0x1006 r0x100A r0x100B r0x100C ] < iTemp54 [k74 lr61:87 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{long-int fixed}{ sir@ ___fsdiv_mant2_1_22}[r0x100D r0x100E r0x100F r0x1010 ]
+                      00580 ;       .line   102; "../libsdcc/fsdiv.c"       if (mant1 >= mant2)
+012C   5800           00581         MOVAR   r0x1014
+012D   3F80           00582         ADDAI   0x80
+012E   5600           00583         MOVRA   r0x1021
+012F   5800           00584         MOVAR   r0x1018
+0130   3F80           00585         ADDAI   0x80
+0131   4800           00586         RSUBAR  r0x1021
+0132   E587           00587         JBSET   STATUS,2
+0133   A000           00588         GOTO    _00153_DS_
+0134   5800           00589         MOVAR   r0x1017
+0135   4800           00590         RSUBAR  r0x1013
+0136   E587           00591         JBSET   STATUS,2
+0137   A000           00592         GOTO    _00153_DS_
+0138   5800           00593         MOVAR   r0x1016
+0139   4800           00594         RSUBAR  r0x1012
+013A   E587           00595         JBSET   STATUS,2
+013B   A000           00596         GOTO    _00153_DS_
+013C   5800           00597         MOVAR   r0x1015
+013D   4800           00598         RSUBAR  r0x100D
+013E                  00599 _00153_DS_
+013E   E187           00600         JBSET   STATUS,0
+013F   A000           00601         GOTO    _00112_DS_
+                      00602 ;;genSkipc:3246: created from rifx:0xbff92e90
+                      00603 ;;[ICODE] ../libsdcc/fsdiv.c:102:       if iTemp67 [k91 lr75:76 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char fixed} != 0 goto _iffalse_3($8)
+                      00604 ;;[ICODE] ../libsdcc/fsdiv.c:104:       iTemp68 [k92 lr77:78 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-long-int fixed}[r0x1019 r0x101A r0x101B r0x101C ] = (unsigned-long-int fixed)iTemp66 [k89 lr71:127 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{long-int fixed}{ sir@ ___fsdiv_result_1_22}[r0x1015 r0x1016 r0x1017 r0x1018 ]
+                      00605 ;       .line   104; "../libsdcc/fsdiv.c"       result |= mask;
+0140   5800           00606         MOVAR   r0x101D
+0141   5600           00607         MOVRA   r0x1021
+0142   5800           00608         MOVAR   r0x101E
+0143   5600           00609         MOVRA   r0x1022
+0144   5800           00610         MOVAR   r0x101F
+0145   5600           00611         MOVRA   r0x1023
+0146   5800           00612         MOVAR   r0x1020
+0147   5600           00613         MOVRA   r0x1024
+                      00614 ;;[ICODE] ../libsdcc/fsdiv.c:104:       iTemp66 [k89 lr71:127 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{long-int fixed}{ sir@ ___fsdiv_result_1_22}[r0x1015 r0x1016 r0x1017 r0x1018 ] = iTemp68 [k92 lr77:78 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-long-int fixed}[r0x1019 r0x101A r0x101B r0x101C ] | iTemp65 [k87 lr70:87 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{unsigned-long-int fixed}{ sir@ ___fsdiv_mask_1_22}[r0x1011 r0x1012 r0x1013 r0x1014 ]
+0148   5800           00615         MOVAR   r0x1019
+0149   5C00           00616         ORAR    r0x1021
+014A   5600           00617         MOVRA   r0x101D
+014B   5800           00618         MOVAR   r0x101A
+014C   5C00           00619         ORAR    r0x1022
+014D   5600           00620         MOVRA   r0x101E
+014E   5800           00621         MOVAR   r0x101B
+014F   5C00           00622         ORAR    r0x1023
+0150   5600           00623         MOVRA   r0x101F
+0151   5800           00624         MOVAR   r0x101C
+0152   5C00           00625         ORAR    r0x1024
+0153   5600           00626         MOVRA   r0x1020
+                      00627 ;;[ICODE] ../libsdcc/fsdiv.c:105:       iTemp47 [k65 lr55:87 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{long-int fixed}{ sir@ ___fsdiv_mant1_1_22}[r0x1006 r0x100A r0x100B r0x100C ] = iTemp47 [k65 lr55:87 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{long-int fixed}{ sir@ ___fsdiv_mant1_1_22}[r0x1006 r0x100A r0x100B r0x100C ] - iTemp54 [k74 lr61:87 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{long-int fixed}{ sir@ ___fsdiv_mant2_1_22}[r0x100D r0x100E r0x100F r0x1010 ]
+                      00628 ;       .line   105; "../libsdcc/fsdiv.c"       mant1 -= mant2;
+0154   5800           00629         MOVAR   r0x1015
+0155   4A00           00630         RSUBRA  r0x100D
+0156   5800           00631         MOVAR   r0x1016
+0157   E187           00632         JBSET   STATUS,0
+0158   6000           00633         JZAR    r0x1016
+0159   4A00           00634         RSUBRA  r0x1012
+015A   5800           00635         MOVAR   r0x1017
+015B   E187           00636         JBSET   STATUS,0
+015C   6000           00637         JZAR    r0x1017
+015D   4A00           00638         RSUBRA  r0x1013
+015E   5800           00639         MOVAR   r0x1018
+015F   E187           00640         JBSET   STATUS,0
+0160   6000           00641         JZAR    r0x1018
+0161   4A00           00642         RSUBRA  r0x1014
+                      00643 ;;[ICODE] ../libsdcc/fsdiv.c:105:  _iffalse_3($8) :
+                      00644 ;;[ICODE] ../libsdcc/fsdiv.c:107:       iTemp47 [k65 lr55:87 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{long-int fixed}{ sir@ ___fsdiv_mant1_1_22}[r0x1006 r0x100A r0x100B r0x100C ] = iTemp47 [k65 lr55:87 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{long-int fixed}{ sir@ ___fsdiv_mant1_1_22}[r0x1006 r0x100A r0x100B r0x100C ] << 0x1 {const-unsigned-char literal}
+0162                  00645 _00112_DS_
+                      00646 ;       .line   107; "../libsdcc/fsdiv.c"       mant1 <<= 1;
+0162   D187           00647         BCLR    STATUS,0
+0163   5200           00648         RLR     r0x100D
+0164   5200           00649         RLR     r0x1012
+0165   5200           00650         RLR     r0x1013
+0166   5200           00651         RLR     r0x1014
+                      00652 ;;[ICODE] ../libsdcc/fsdiv.c:108:       iTemp65 [k87 lr70:87 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{unsigned-long-int fixed}{ sir@ ___fsdiv_mask_1_22}[r0x1011 r0x1012 r0x1013 r0x1014 ] = iTemp65 [k87 lr70:87 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{unsigned-long-int fixed}{ sir@ ___fsdiv_mask_1_22}[r0x1011 r0x1012 r0x1013 r0x1014 ] >> 0x1 {const-unsigned-char literal}
+                      00653 ;;shiftRight_Left2ResultLit:5278: shCount=1, size=4, sign=0, same=1, offr=0
+                      00654 ;       .line   108; "../libsdcc/fsdiv.c"       mask >>= 1;
+0167   D187           00655         BCLR    STATUS,0
+0168   4E00           00656         RRR     r0x101C
+0169   4E00           00657         RRR     r0x101B
+016A   4E00           00658         RRR     r0x101A
+016B   4E00           00659         RRR     r0x1019
+                      00660 ;;[ICODE] ../libsdcc/fsdiv.c:108:        goto _whilecontinue_0($9)
+016C   A000           00661         GOTO    _00113_DS_
+                      00662 ;;[ICODE] ../libsdcc/fsdiv.c:108:  _whilebreak_0($11) :
+                      00663 ;;[ICODE] ../libsdcc/fsdiv.c:112:       iTemp66 [k89 lr71:127 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{long-int fixed}{ sir@ ___fsdiv_result_1_22}[r0x1015 r0x1016 r0x1017 r0x1018 ] = iTemp66 [k89 lr71:127 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{long-int fixed}{ sir@ ___fsdiv_result_1_22}[r0x1015 r0x1016 r0x1017 r0x1018 ] + 0x1 {long-int literal}
+016D                  00664 _00115_DS_
+                      00665 ;       .line   112; "../libsdcc/fsdiv.c"       result += 1;
+016D   6600           00666         INCR    r0x101D
+016E   F587           00667         JBCLR   STATUS,2
+016F   6600           00668         INCR    r0x101E
+0170   F587           00669         JBCLR   STATUS,2
+0171   6600           00670         INCR    r0x101F
+0172   F587           00671         JBCLR   STATUS,2
+0173   6600           00672         INCR    r0x1020
+                      00673 ;;[ICODE] ../libsdcc/fsdiv.c:115:       iTemp6 [k14 lr14:124 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{int fixed}{ sir@ ___fsdiv_exp_1_22}[r0x1000 r0x1001 ] = iTemp6 [k14 lr14:124 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{int fixed}{ sir@ ___fsdiv_exp_1_22}[r0x1000 r0x1001 ] + 0x1 {const-unsigned-char literal}
+                      00674 ;       .line   115; "../libsdcc/fsdiv.c"       exp++;
+0174   6600           00675         INCR    r0x100B
+0175   F587           00676         JBCLR   STATUS,2
+0176   6600           00677         INCR    r0x100A
+                      00678 ;;[ICODE] ../libsdcc/fsdiv.c:116:       iTemp66 [k89 lr71:127 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{long-int fixed}{ sir@ ___fsdiv_result_1_22}[r0x1015 r0x1016 r0x1017 r0x1018 ] = iTemp66 [k89 lr71:127 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{long-int fixed}{ sir@ ___fsdiv_result_1_22}[r0x1015 r0x1016 r0x1017 r0x1018 ] >> 0x1 {const-unsigned-char literal}
+                      00679 ;;shiftRight_Left2ResultLit:5278: shCount=1, size=4, sign=1, same=1, offr=0
+                      00680 ;       .line   116; "../libsdcc/fsdiv.c"       result >>= 1;
+0177   D187           00681         BCLR    STATUS,0
+0178   FE00           00682         JBCLR   r0x1020,7
+0179   C187           00683         BSET    STATUS,0
+017A   4E00           00684         RRR     r0x1020
+017B   4E00           00685         RRR     r0x101F
+017C   4E00           00686         RRR     r0x101E
+017D   4E00           00687         RRR     r0x101D
+                      00688 ;;[ICODE] ../libsdcc/fsdiv.c:118:       iTemp77 [k101 lr95:96 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-long-int register}[r0x1006 r0x100A r0x100B r0x100C ] = (unsigned-long-int register)iTemp66 [k89 lr71:127 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{long-int fixed}{ sir@ ___fsdiv_result_1_22}[r0x1015 r0x1016 r0x1017 r0x1018 ]
+                      00689 ;       .line   118; "../libsdcc/fsdiv.c"       result &= ~HIDDEN;
+017E   5800           00690         MOVAR   r0x101D
+017F   5600           00691         MOVRA   r0x101D
+0180   5600           00692         MOVRA   r0x100D
+0181   5800           00693         MOVAR   r0x101E
+0182   5600           00694         MOVRA   r0x101E
+0183   5600           00695         MOVRA   r0x1012
+0184   5800           00696         MOVAR   r0x101F
+0185   5600           00697         MOVRA   r0x1013
+0186   5800           00698         MOVAR   r0x1020
+0187   5600           00699         MOVRA   r0x1020
+0188   5600           00700         MOVRA   r0x1014
+                      00701 ;;[ICODE] ../libsdcc/fsdiv.c:118:       iTemp66 [k89 lr71:127 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{long-int fixed}{ sir@ ___fsdiv_result_1_22}[r0x1015 r0x1016 r0x1017 r0x1018 ] = iTemp77 [k101 lr95:96 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-long-int register}[r0x1006 r0x100A r0x100B r0x100C ] & 0xff7fffff {unsigned-long-int literal}
+                      00702 ;;107   MOVAR   r0x100D
+                      00703 ;;111   MOVAR   r0x1012
+0189   3C7F           00704         MOVAI   0x7f
+018A   7800           00705         ANDAR   r0x1013
+018B   5600           00706         MOVRA   r0x101F
+                      00707 ;;129   MOVAR   r0x1014
+                      00708 ;;[ICODE] ../libsdcc/fsdiv.c:121:       iTemp79 [k103 lr98:99 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char fixed} = iTemp6 [k14 lr14:124 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{int fixed}{ sir@ ___fsdiv_exp_1_22}[r0x1000 r0x1001 ] < 0x100 {const-int literal}
+                      00709 ;;signed compare: left < lit(0x100=256), size=2, mask=ffff
+                      00710 ;       .line   121; "../libsdcc/fsdiv.c"       if (exp >= 0x100)
+018C   5800           00711         MOVAR   r0x100A
+018D   3F80           00712         ADDAI   0x80
+018E   3F7F           00713         ADDAI   0x7f
+018F   E587           00714         JBSET   STATUS,2
+0190   A000           00715         GOTO    _00154_DS_
+0191   3C00           00716         MOVAI   0x00
+0192   4800           00717         RSUBAR  r0x100B
+0193                  00718 _00154_DS_
+0193   E187           00719         JBSET   STATUS,0
+0194   A000           00720         GOTO    _00120_DS_
+                      00721 ;;genSkipc:3246: created from rifx:0xbff92e90
+                      00722 ;;[ICODE] ../libsdcc/fsdiv.c:121:       if iTemp79 [k103 lr98:99 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char fixed} != 0 goto _iffalse_5($16)
+                      00723 ;;[ICODE] ../libsdcc/fsdiv.c:122:       iTemp80 [k104 lr100:108 so:0]{ ia0 a2p0 re0 rm1 nos0 ru0 dp0}{volatile-long-int near* fixed}[remat] = &[___fsdiv_fl1_1_22 [k6 lr0:0 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{volatile-struct float_long fixed}]
+                      00724 ;;[ICODE] ../libsdcc/fsdiv.c:122:       if iTemp24 [k35 lr35:118 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{char fixed}{ sir@ ___fsdiv_sign_1_22}[r0x1002 ] == 0 goto iTempLbl0($20)
+                      00725 ;       .line   122; "../libsdcc/fsdiv.c"       fl1.l = (sign ? SIGNBIT : 0) | 0x7F800000;
+0195   3C00           00726         MOVAI   0x00
+0196   5C00           00727         ORAR    r0x1009
+0197   F587           00728         JBCLR   STATUS,2
+0198   A000           00729         GOTO    _00124_DS_
+                      00730 ;;[ICODE] ../libsdcc/fsdiv.c:122:       iTemp82 [k107 lr102:107 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-long-int register}[r0x1006 r0x100A r0x100B r0x100C ] := 0x80000000 {unsigned-long-int literal}
+0199   7600           00731         CLRR    r0x100D
+019A   7600           00732         CLRR    r0x1012
+019B   7600           00733         CLRR    r0x1013
+019C   3C80           00734         MOVAI   0x80
+019D   5600           00735         MOVRA   r0x1014
+                      00736 ;;[ICODE] ../libsdcc/fsdiv.c:122:        goto iTempLbl1($21)
+019E   A000           00737         GOTO    _00125_DS_
+                      00738 ;;[ICODE] ../libsdcc/fsdiv.c:122:  iTempLbl0($20) :
+                      00739 ;;[ICODE] ../libsdcc/fsdiv.c:122:       iTemp82 [k107 lr102:107 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-long-int register}[r0x1006 r0x100A r0x100B r0x100C ] := 0x0 {unsigned-long-int literal}
+019F                  00740 _00124_DS_
+019F   7600           00741         CLRR    r0x100D
+01A0   7600           00742         CLRR    r0x1012
+01A1   7600           00743         CLRR    r0x1013
+01A2   7600           00744         CLRR    r0x1014
+                      00745 ;;[ICODE] ../libsdcc/fsdiv.c:122:  iTempLbl1($21) :
+                      00746 ;;[ICODE] ../libsdcc/fsdiv.c:122:       iTemp83 [k108 lr107:108 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-long-int register}[r0x1006 r0x100A r0x100B r0x100C ] = iTemp82 [k107 lr102:107 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-long-int register}[r0x1006 r0x100A r0x100B r0x100C ] | 0x7f800000 {unsigned-long-int literal}
+01A3                  00747 _00125_DS_
+01A3   CE00           00748         BSET    r0x1013,7
+01A4   3C7F           00749         MOVAI   0x7f
+01A5   5E00           00750         ORRA    r0x1014
+                      00751 ;;[ICODE] ../libsdcc/fsdiv.c:122:       *(iTemp80 [k104 lr100:108 so:0]{ ia1 a2p0 re0 rm1 nos0 ru0 dp0}{volatile-long-int near* fixed}[remat]) := iTemp83 [k108 lr107:108 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-long-int register}[r0x1006 r0x100A r0x100B r0x100C ]
+                      00752 ;;gen.c:6444: size=3/4, offset=0, AOP_TYPE(res)=8
+01A6   5800           00753         MOVAR   r0x100D
+01A7   5600           00754         MOVRA   (___fsdiv_fl1_1_22 + 0)
+                      00755 ;;gen.c:6444: size=2/4, offset=1, AOP_TYPE(res)=8
+01A8   5800           00756         MOVAR   r0x1012
+01A9   5600           00757         MOVRA   (___fsdiv_fl1_1_22 + 1)
+                      00758 ;;gen.c:6444: size=1/4, offset=2, AOP_TYPE(res)=8
+01AA   5800           00759         MOVAR   r0x1013
+01AB   5600           00760         MOVRA   (___fsdiv_fl1_1_22 + 2)
+                      00761 ;;gen.c:6444: size=0/4, offset=3, AOP_TYPE(res)=8
+01AC   5800           00762         MOVAR   r0x1014
+01AD   5600           00763         MOVRA   (___fsdiv_fl1_1_22 + 3)
+                      00764 ;;[ICODE] ../libsdcc/fsdiv.c:122:        goto _ifend_5($17)
+01AE   A000           00765         GOTO    _00121_DS_
+                      00766 ;;[ICODE] ../libsdcc/fsdiv.c:122:  _iffalse_5($16) :
+                      00767 ;;[ICODE] ../libsdcc/fsdiv.c:123:       iTemp84 [k109 lr111:112 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char fixed} = iTemp6 [k14 lr14:124 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{int fixed}{ sir@ ___fsdiv_exp_1_22}[r0x1000 r0x1001 ] < 0x0 {int literal}
+                      00768 ;;signed compare: left < lit(0x0=0), size=2, mask=ffff
+01AF                  00769 _00120_DS_
+                      00770 ;       .line   123; "../libsdcc/fsdiv.c"       else if (exp < 0)
+01AF   C187           00771         BSET    STATUS,0
+01B0   EE00           00772         JBSET   r0x100A,7
+01B1   D187           00773         BCLR    STATUS,0
+01B2   E187           00774         JBSET   STATUS,0
+01B3   A000           00775         GOTO    _00117_DS_
+                      00776 ;;genSkipc:3246: created from rifx:0xbff92e90
+                      00777 ;;[ICODE] ../libsdcc/fsdiv.c:123:       if iTemp84 [k109 lr111:112 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char fixed} == 0 goto _iffalse_4($13)
+                      00778 ;;[ICODE] ../libsdcc/fsdiv.c:124:       iTemp85 [k110 lr113:114 so:0]{ ia0 a2p0 re0 rm1 nos0 ru0 dp0}{volatile-long-int near* fixed}[remat] = &[___fsdiv_fl1_1_22 [k6 lr0:0 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{volatile-struct float_long fixed}]
+                      00779 ;;[ICODE] ../libsdcc/fsdiv.c:124:       *(iTemp85 [k110 lr113:114 so:0]{ ia1 a2p0 re0 rm1 nos0 ru0 dp0}{volatile-long-int near* fixed}[remat]) := 0x0 {volatile-long-int literal}
+                      00780 ;;gen.c:6444: size=3/4, offset=0, AOP_TYPE(res)=8
+                      00781 ;       .line   124; "../libsdcc/fsdiv.c"       fl1.l = 0;
+01B4   7600           00782         CLRR    (___fsdiv_fl1_1_22 + 0)
+                      00783 ;;gen.c:6444: size=2/4, offset=1, AOP_TYPE(res)=8
+01B5   7600           00784         CLRR    (___fsdiv_fl1_1_22 + 1)
+                      00785 ;;gen.c:6444: size=1/4, offset=2, AOP_TYPE(res)=8
+01B6   7600           00786         CLRR    (___fsdiv_fl1_1_22 + 2)
+                      00787 ;;gen.c:6444: size=0/4, offset=3, AOP_TYPE(res)=8
+01B7   7600           00788         CLRR    (___fsdiv_fl1_1_22 + 3)
+                      00789 ;;[ICODE] ../libsdcc/fsdiv.c:124:        goto _ifend_5($17)
+01B8   A000           00790         GOTO    _00121_DS_
+                      00791 ;;[ICODE] ../libsdcc/fsdiv.c:124:  _iffalse_4($13) :
+                      00792 ;;[ICODE] ../libsdcc/fsdiv.c:126:       iTemp87 [k113 lr117:129 so:0]{ ia0 a2p0 re0 rm1 nos0 ru0 dp0}{volatile-long-int near* fixed}[remat] = &[___fsdiv_fl1_1_22 [k6 lr0:0 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{volatile-struct float_long fixed}]
+                      00793 ;;[ICODE] ../libsdcc/fsdiv.c:126:       if iTemp24 [k35 lr35:118 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{char fixed}{ sir@ ___fsdiv_sign_1_22}[r0x1002 ] == 0 goto iTempLbl2($22)
+01B9                  00794 _00117_DS_
+                      00795 ;       .line   126; "../libsdcc/fsdiv.c"       fl1.l = PACK (sign ? SIGNBIT : 0 , exp, result);
+01B9   3C00           00796         MOVAI   0x00
+01BA   5C00           00797         ORAR    r0x1009
+01BB   F587           00798         JBCLR   STATUS,2
+01BC   A000           00799         GOTO    _00126_DS_
+                      00800 ;;[ICODE] ../libsdcc/fsdiv.c:126:       iTemp89 [k116 lr119:126 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-long-int register}[r0x1002 r0x1006 r0x100A r0x100B ] := 0x80000000 {unsigned-long-int literal}
+01BD   7600           00801         CLRR    r0x1009
+01BE   7600           00802         CLRR    r0x100D
+01BF   7600           00803         CLRR    r0x1012
+01C0   3C80           00804         MOVAI   0x80
+01C1   5600           00805         MOVRA   r0x1013
+                      00806 ;;[ICODE] ../libsdcc/fsdiv.c:126:        goto iTempLbl3($23)
+01C2   A000           00807         GOTO    _00127_DS_
+                      00808 ;;[ICODE] ../libsdcc/fsdiv.c:126:  iTempLbl2($22) :
+                      00809 ;;[ICODE] ../libsdcc/fsdiv.c:126:       iTemp89 [k116 lr119:126 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-long-int register}[r0x1002 r0x1006 r0x100A r0x100B ] := 0x0 {unsigned-long-int literal}
+01C3                  00810 _00126_DS_
+01C3   7600           00811         CLRR    r0x1009
+01C4   7600           00812         CLRR    r0x100D
+01C5   7600           00813         CLRR    r0x1012
+01C6   7600           00814         CLRR    r0x1013
+                      00815 ;;[ICODE] ../libsdcc/fsdiv.c:126:  iTempLbl3($23) :
+                      00816 ;;[ICODE] ../libsdcc/fsdiv.c:126:       iTemp90 [k117 lr124:125 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-long-int fixed}[r0x100C r0x100D r0x100E r0x100F ] = (unsigned-long-int fixed)iTemp6 [k14 lr14:124 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{int fixed}{ sir@ ___fsdiv_exp_1_22}[r0x1000 r0x1001 ]
+01C7                  00817 _00127_DS_
+01C7   5800           00818         MOVAR   r0x100B
+01C8   5600           00819         MOVRA   r0x1014
+01C9   5800           00820         MOVAR   r0x100A
+01CA   5600           00821         MOVRA   r0x1015
+01CB   3C00           00822         MOVAI   0x00
+01CC   FE00           00823         JBCLR   r0x1015,7
+01CD   3CFF           00824         MOVAI   0xff
+01CE   5600           00825         MOVRA   r0x1017
+01CF   5600           00826         MOVRA   r0x1016
+                      00827 ;;[ICODE] ../libsdcc/fsdiv.c:126:       iTemp91 [k118 lr125:126 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-long-int fixed}[r0x1000 r0x1001 r0x1010 r0x1011 ] = iTemp90 [k117 lr124:125 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-long-int fixed}[r0x100C r0x100D r0x100E r0x100F ] << 0x17 {const-unsigned-char literal}
+01D0   4C00           00828         RRAR    r0x1015
+01D1   4C00           00829         RRAR    r0x1014
+01D2   5600           00830         MOVRA   r0x1019
+01D3   7600           00831         CLRR    r0x1018
+01D4   4E00           00832         RRR     r0x1018
+01D5   7600           00833         CLRR    r0x100A
+01D6   7600           00834         CLRR    r0x100B
+                      00835 ;;[ICODE] ../libsdcc/fsdiv.c:126:       iTemp92 [k119 lr126:128 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-long-int fixed}[r0x1002 r0x1006 r0x100A r0x100B ] = iTemp89 [k116 lr119:126 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-long-int register}[r0x1002 r0x1006 r0x100A r0x100B ] | iTemp91 [k118 lr125:126 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-long-int fixed}[r0x1000 r0x1001 r0x1010 r0x1011 ]
+01D7   3C00           00836         MOVAI   0x00
+01D8   5E00           00837         ORRA    r0x1009
+01D9   3C00           00838         MOVAI   0x00
+01DA   5E00           00839         ORRA    r0x100D
+01DB   5800           00840         MOVAR   r0x1018
+01DC   5E00           00841         ORRA    r0x1012
+01DD   5800           00842         MOVAR   r0x1019
+01DE   5E00           00843         ORRA    r0x1013
+                      00844 ;;[ICODE] ../libsdcc/fsdiv.c:126:       iTemp93 [k120 lr127:128 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-long-int fixed}[r0x1000 r0x1001 r0x100C r0x100D ] = (unsigned-long-int fixed)iTemp66 [k89 lr71:127 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{long-int fixed}{ sir@ ___fsdiv_result_1_22}[r0x1015 r0x1016 r0x1017 r0x1018 ]
+                      00845 ;;100   MOVAR   r0x101D
+                      00846 ;;102   MOVAR   r0x101E
+                      00847 ;;114   MOVAR   r0x101F
+                      00848 ;;116   MOVAR   r0x1020
+                      00849 ;;[ICODE] ../libsdcc/fsdiv.c:126:       iTemp94 [k121 lr128:129 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-long-int fixed}[r0x1015 r0x1016 r0x1017 r0x1018 ] = iTemp92 [k119 lr126:128 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-long-int fixed}[r0x1002 r0x1006 r0x100A r0x100B ] | iTemp93 [k120 lr127:128 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-long-int fixed}[r0x1000 r0x1001 r0x100C r0x100D ]
+                      00850 ;;99    MOVAR   r0x100B
+01DF   5800           00851         MOVAR   r0x101D
+01E0   5600           00852         MOVRA   r0x100B
+01E1   5C00           00853         ORAR    r0x1009
+01E2   5600           00854         MOVRA   r0x101D
+                      00855 ;;101   MOVAR   r0x100A
+01E3   5800           00856         MOVAR   r0x101E
+01E4   5600           00857         MOVRA   r0x100A
+01E5   5C00           00858         ORAR    r0x100D
+01E6   5600           00859         MOVRA   r0x101E
+                      00860 ;;113   MOVAR   r0x1014
+01E7   5800           00861         MOVAR   r0x101F
+01E8   5600           00862         MOVRA   r0x1014
+01E9   5C00           00863         ORAR    r0x1012
+01EA   5600           00864         MOVRA   r0x101F
+                      00865 ;;115   MOVAR   r0x1015
+01EB   5800           00866         MOVAR   r0x1020
+01EC   5600           00867         MOVRA   r0x1015
+01ED   5C00           00868         ORAR    r0x1013
+01EE   5600           00869         MOVRA   r0x1020
+                      00870 ;;[ICODE] ../libsdcc/fsdiv.c:126:       *(iTemp87 [k113 lr117:129 so:0]{ ia1 a2p0 re0 rm1 nos0 ru0 dp0}{volatile-long-int near* fixed}[remat]) := iTemp94 [k121 lr128:129 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-long-int fixed}[r0x1015 r0x1016 r0x1017 r0x1018 ]
+                      00871 ;;gen.c:6444: size=3/4, offset=0, AOP_TYPE(res)=8
+01EF   5800           00872         MOVAR   r0x101D
+01F0   5600           00873         MOVRA   (___fsdiv_fl1_1_22 + 0)
+                      00874 ;;gen.c:6444: size=2/4, offset=1, AOP_TYPE(res)=8
+01F1   5800           00875         MOVAR   r0x101E
+01F2   5600           00876         MOVRA   (___fsdiv_fl1_1_22 + 1)
+                      00877 ;;gen.c:6444: size=1/4, offset=2, AOP_TYPE(res)=8
+01F3   5800           00878         MOVAR   r0x101F
+01F4   5600           00879         MOVRA   (___fsdiv_fl1_1_22 + 2)
+                      00880 ;;gen.c:6444: size=0/4, offset=3, AOP_TYPE(res)=8
+01F5   5800           00881         MOVAR   r0x1020
+01F6   5600           00882         MOVRA   (___fsdiv_fl1_1_22 + 3)
+                      00883 ;;[ICODE] ../libsdcc/fsdiv.c:126:  _ifend_5($17) :
+                      00884 ;;[ICODE] ../libsdcc/fsdiv.c:127:       iTemp95 [k122 lr131:132 so:0]{ ia0 a2p0 re0 rm1 nos0 ru0 dp0}{volatile-float near* fixed}[remat] = &[___fsdiv_fl1_1_22 [k6 lr0:0 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{volatile-struct float_long fixed}]
+                      00885 ;;[ICODE] ../libsdcc/fsdiv.c:127:       iTemp97 [k125 lr132:133 so:0]{ ia0 a2p0 re0 rm0 nos0 ru1 dp0}{volatile-float fixed}[r0x1000 r0x1001 r0x1002 r0x1006 ] = @[iTemp95 [k122 lr131:132 so:0]{ ia1 a2p0 re0 rm1 nos0 ru0 dp0}{volatile-float near* fixed}[remat] + 0x0 {const-unsigned-char literal}]
+01F7                  00886 _00121_DS_
+                      00887 ;       .line   127; "../libsdcc/fsdiv.c"       return (fl1.f);
+01F7   5800           00888         MOVAR   (___fsdiv_fl1_1_22 + 0)
+01F8   5600           00889         MOVRA   r0x100B
+01F9   5800           00890         MOVAR   (___fsdiv_fl1_1_22 + 1)
+01FA   5600           00891         MOVRA   r0x100A
+01FB   5800           00892         MOVAR   (___fsdiv_fl1_1_22 + 2)
+01FC   5600           00893         MOVRA   r0x1009
+01FD   5800           00894         MOVAR   (___fsdiv_fl1_1_22 + 3)
+01FE   5600           00895         MOVRA   r0x100D
+                      00896 ;;[ICODE] ../libsdcc/fsdiv.c:127:       ret iTemp97 [k125 lr132:133 so:0]{ ia0 a2p0 re0 rm0 nos0 ru1 dp0}{volatile-float fixed}[r0x1000 r0x1001 r0x1002 r0x1006 ]
+01FF   5800           00897         MOVAR   r0x100B
+0200   5600           00898         MOVRA   STK02
+0201   5800           00899         MOVAR   r0x100A
+0202   5600           00900         MOVRA   STK01
+0203   5800           00901         MOVAR   r0x1009
+0204   5600           00902         MOVRA   STK00
+0205   5800           00903         MOVAR   r0x100D
+                      00904 ;;[ICODE] ../libsdcc/fsdiv.c:127:  _return($18) :
+                      00905 ;;[ICODE] ../libsdcc/fsdiv.c:127:       eproc ___fsdiv [k1 lr0:0 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{float function ( float fixed, float fixed) fixed}
+0206                  00906 _00122_DS_
+0206   000C           00907         RETURN  
+                      00908 ; exit point of ___fsdiv
+                      00909 
+                      00910 
+                      00911 ;       code size estimation:
+                      00912 ;         519+    0 =   519 instructions ( 1038 byte)
+                      00913 
+                      00914         end
+gpasm-1.7.0_beta1 (Jan 22 2015)fsdiv.asm          2015-1-22  23:36:17          PAGE  2
+
+
+SYMBOL TABLE
+  LABEL                             VALUE
+
+ADCR0                             000001B0
+ADCR1                             000001B1
+ADCR2                             000001B2
+ADIOS                             000001B3
+ADRH                              000001B8
+ADRL                              000001B9
+ADVR0                             000001B4
+ADVR1                             000001B5
+ADVR2                             000001B6
+FSR                               00000184
+FSR0                              00000184
+FSR1                              00000185
+HIBYTE                            00000183
+INDF                              00000180
+INDF0                             00000180
+INDF1                             00000181
+INDF2                             00000182
+INDF3                             00000189
+INTE                              0000018A
+INTF                              0000018B
+IOP0                              00000190
+KBCR                              00000197
+KEYCR0                            000001BC
+KEYCR1                            000001BD
+LVDCR                             000001AD
+LXTCR                             000001AC
+MCR                               00000188
+OEP0                              00000191
+OSCCAL                            000001FB
+OSCM                              000001AE
+PCL                               00000186
+PDP0                              00000193
+PUP0                              00000192
+STATUS                            00000187
+STK00                             00000000
+STK01                             00000000
+STK02                             00000000
+STK03                             00000000
+STK04                             00000000
+STK05                             00000000
+STK06                             00000000
+T00DATA                           000001A3
+T01DATA                           000001A9
+T0CNT                             000001A1
+T0CR0                             000001A0
+T0CR1                             000001A8
+T0LOAD                            000001A2
+T1CNT                             000001A5
+T1CR                              000001A4
+T1DATA                            000001A7
+T1LOAD                            000001A6
+_00106_DS_                        000000C0
+_00108_DS_                        000000D6
+_00110_DS_                        0000011D
+_00112_DS_                        00000162
+_00113_DS_                        00000126
+_00115_DS_                        0000016D
+_00117_DS_                        000001B9
+_00120_DS_                        000001AF
+_00121_DS_                        000001F7
+_00122_DS_                        00000206
+_00124_DS_                        0000019F
+_00125_DS_                        000001A3
+_00126_DS_                        000001C3
+_00127_DS_                        000001C7
+_00148_DS_                        00000061
+_00149_DS_                        00000062
+_00150_DS_                        00000069
+_00151_DS_                        0000006A
+_00152_DS_                        00000112
+_00153_DS_                        0000013E
+_00154_DS_                        00000193
+__32P7022                         00000001
+___fs2schar                       00000000
+___fs2sint                        00000000
+___fs2slong                       00000000
+___fs2uchar                       00000000
+___fs2uint                        00000000
+___fs2ulong                       00000000
+___fsadd                          00000000
+___fsdiv                          00000000
+___fsdiv_fl1_1_22                 0000001D
+___fsdiv_fl2_1_22                 00000021
+___fseq                           00000000
+___fsgt                           00000000
+___fslt                           00000000
+___fsmul                          00000000
+___fsneq                          00000000
+___fssub                          00000000
+___schar2fs                       00000000
+___sint2fs                        00000000
+___slong2fs                       00000000
+___uchar2fs                       00000000
+___uint2fs                        00000000
+___ulong2fs                       00000000
+r0x1008                           00000003
+r0x1009                           00000002
+r0x100A                           00000001
+r0x100B                           00000000
+r0x100C                           00000007
+r0x100D                           00000006
+r0x100E                           00000005
+r0x100F                           00000004
+r0x1010                           00000008
+r0x1011                           00000009
+r0x1012                           0000000A
+r0x1013                           0000000B
+r0x1014                           0000000C
+r0x1015                           0000000D
+r0x1016                           0000000E
+r0x1017                           0000000F
+r0x1018                           00000010
+r0x1019                           00000011
+r0x101A                           00000012
+r0x101B                           00000013
+r0x101C                           00000014
+r0x101D                           00000015
+r0x101E                           00000016
+r0x101F                           00000017
+r0x1020                           00000018
+r0x1021                           00000019
+r0x1022                           0000001A
+r0x1023                           0000001B
+r0x1024                           0000001C
+AD0                               0X00
+AD1                               0X10
+AD2                               0X20
+AD3                               0X30
+AD4                               0X40
+AD5                               0X50
+AD6                               0X60
+AD7                               0X70
+ADEOC                             ADCR0,1
+ADIE                              INTE,6
+ADIF                              INTFLAG,6
+ADON                              ADCR0,0
+AD_VDD                            0XD0
+AD_VDD_2DIV                       0XF0
+AD_VDD_4DIV                       0XE0
+BUZZ0OUT                          T0CR,5
+BUZZ1OUT                          T1CR,5
+C                                 STATUS,0
+CLKS                              OSCM,2
+DC                                STATUS,1
+GIE                               MCR,7
+HAAS                              I2CCR,6
+HBB                               I2CCR,5
+HCF                               I2CCR,7
+HEN                               I2CCR,1
+HFEN                              OSCM,0
+HTX                               I2CCR,4
+I2CIE                             INTE,5
+I2CIF                             INTFLAG,5
+INT0IE                            INTE,2
+INT0IF                            INTFLAG,2
+INT1IE                            INTE,3
+INT1IF                            INTFLAG,3
+LDO                               0X80
+LFEN                              OSCM,1
+PD                                MCR,4
+PWM0OUT                           T0CR,6
+PWM1OUT                           T1CR,6
+RXAK                              I2CCR,0
+SRW                               I2CCR,2
+STBH                              OSCM,4
+STBL                              OSCM,5
+T0                                MCR,5
+T0IE                              INTE,0
+T0IF                              INTFLAG,0
+T0PS1                             T0CR,4
+T0PTS0                            T0CR,3
+T1IE                              INTE,1
+T1IF                              INTFLAG,1
+T1PS1                             T1CR,4
+T1PTS0                            T1CR,3
+T2IE                              INTE,4
+T2IF                              INTFLAG,4
+T2MODE                            T2CR,6
+TC0EN                             T0CR,7
+TC1EN                             T1CR,7
+TC2EN                             T2CR,7
+TK0CLR                            TK0CRH,3
+TK0IE                             TK0CRL,6
+TK0IF                             TK0CRL,7
+TK0JE                             TK0CRH,5
+TK0RCE                            TK0CRH,4
+TK1CLR                            TK1CRH,3
+TK1IE                             TK1CRL,6
+TK1IF                             TK1CRL,7
+TK1JE                             TK1CRH,5
+TK1RCE                            TK1CRH,4
+TK2CLR                            TK2CRH,3
+TK2IE                             TK2CRL,6
+TK2IF                             TK2CRL,7
+TK2JE                             TK2CRH,5
+TK2RCE                            TK2CRH,4
+TXAK                              I2CCR,3
+Z                                 STATUS,2
+
+Errors   :     0
+Warnings :     0 reported,     0 suppressed
+Messages :     0 reported,     0 suppressed
+
+
