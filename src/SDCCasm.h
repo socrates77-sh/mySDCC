@@ -23,16 +23,15 @@
 
 #include "dbuf.h"
 
-void tfprintf (FILE * fp, const char *szFormat, ...);
-void dbuf_tprintf (struct dbuf_s *dbuf, const char *szFormat, ...);
-void dbuf_tvprintf (struct dbuf_s *dbuf, const char *szFormat, va_list ap);
+void tfprintf(FILE *fp, const char *szFormat, ...);
+void dbuf_tprintf(struct dbuf_s *dbuf, const char *szFormat, ...);
+void dbuf_tvprintf(struct dbuf_s *dbuf, const char *szFormat, va_list ap);
 
 typedef struct
 {
   const char *szKey;
   const char *szValue;
-}
-ASM_MAPPING;
+} ASM_MAPPING;
 
 typedef struct _ASM_MAPPINGS ASM_MAPPINGS;
 
@@ -53,10 +52,10 @@ extern const ASM_MAPPINGS asm_xa_asm_mapping;
 
 /** Last entry has szKey = NULL.
  */
-void asm_addTree (const ASM_MAPPINGS * pMappings);
+void asm_addTree(const ASM_MAPPINGS *pMappings);
 
-const char *FileBaseName (const char *fileFullName);
+const char *FileBaseName(const char *fileFullName);
 
-const char *printILine (iCode * ic);
-const char *printCLine (const char *srcFile, int lineno);
+const char *printILine(iCode *ic);
+const char *printCLine(const char *srcFile, int lineno);
 #endif

@@ -4,10 +4,10 @@
 
 # Version
 PACKAGE         = sdcc
-VERSION         = 0.0.4
-VERSIONHI       = 0
+VERSION         = 1.0.0
+VERSIONHI       = 1
 VERSIONLO       = 0
-VERSIONP        = 4
+VERSIONP        = 0
 
 # Programs
 SHELL           = /bin/sh
@@ -45,7 +45,7 @@ OPT_DISABLE_DS400       = 1
 OPT_DISABLE_GBZ80       = 1
 OPT_DISABLE_HC08        = 1
 OPT_DISABLE_MCS51       = 1
-OPT_DISABLE_PIC14       = 1
+OPT_DISABLE_PIC14       = 0
 OPT_DISABLE_PIC16       = 1
 OPT_DISABLE_R2K         = 1
 OPT_DISABLE_XA51        = 1
@@ -55,7 +55,7 @@ OPT_DISABLE_Z80         = 1
 OPT_ENABLE_DOC          = 0
 
 OPT_DISABLE_DEVICE_LIB  = 1
-OPT_DISABLE_PACKIHX     = 0
+OPT_DISABLE_PACKIHX     = 1
 OPT_DISABLE_SDBINUTILS  = 1
 OPT_DISABLE_SDCPP       = 0
 OPT_DISABLE_UCSIM       = 1

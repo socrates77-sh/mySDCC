@@ -32,8 +32,6 @@ extern hTab *labelRef;
 extern hTab *labelDef;
 extern int labelKey;
 
-iCode *iCodeLabelOptimize (iCode *);
-
+iCode *iCodeLabelOptimize(iCode *);
 
 #endif
-

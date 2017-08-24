@@ -31,9 +31,9 @@
 
 #include "pcoderegs.h"
 
-
-enum {
-  REG_PTR=1,
+enum
+{
+  REG_PTR = 1,
   REG_GPR,
   REG_CND,
   REG_SFR,
@@ -44,29 +44,28 @@ enum {
 /* definition for the registers */
 typedef struct reg_info
 {
-  short type;  /* can have value 
+  short type;    /* can have value 
                 * REG_GPR, REG_PTR or REG_CND 
                 * This like the "meta-type" */
   short pc_type; /* pcode type */
   short rIdx;    /* index into register table */
   char *name;    /* name */
 
-  unsigned isFree:1;          /* is currently unassigned  */
-  unsigned wasUsed:1;         /* becomes true if register has been used */
-  unsigned isFixed:1;         /* True if address can't change */
-  unsigned isMapped:1;        /* The Register's address has been mapped to physical RAM */
-  unsigned isBitField:1;      /* True if reg is type bit OR is holder for several bits */
-  unsigned isEmitted:1;       /* True if the reg has been written to a .asm file */
-  unsigned isPublic:1;        /* True if the reg is not static and can be modified in another module (ie a another c or asm file) */
-  unsigned isExtern:1;        /* True if the reg is in another module */
+  unsigned isFree : 1;        /* is currently unassigned  */
+  unsigned wasUsed : 1;       /* becomes true if register has been used */
+  unsigned isFixed : 1;       /* True if address can't change */
+  unsigned isMapped : 1;      /* The Register's address has been mapped to physical RAM */
+  unsigned isBitField : 1;    /* True if reg is type bit OR is holder for several bits */
+  unsigned isEmitted : 1;     /* True if the reg has been written to a .asm file */
+  unsigned isPublic : 1;      /* True if the reg is not static and can be modified in another module (ie a another c or asm file) */
+  unsigned isExtern : 1;      /* True if the reg is in another module */
   unsigned address;           /* reg's address if isFixed | isMapped is true */
   unsigned size;              /* 0 for byte, 1 for int, 4 for long */
   unsigned alias;             /* Alias mask if register appears in multiple banks */
   struct reg_info *reg_alias; /* If more than one register share the same address 
                                * then they'll point to each other. (primarily for bits)*/
   pCodeRegLives reglives;     /* live range mapping */
-}
-reg_info;
+} reg_info;
 extern reg_info regspic14[];
 extern int Gstack_base_addr;
 
@@ -82,41 +81,40 @@ extern set *dynDirectRegs;
 extern set *dynDirectBitRegs;
 extern set *dynInternalRegs;
 
-
 void initStack(int base_address, int size, int shared);
-reg_info *pic14_regWithIdx (int);
-reg_info *dirregWithName (char *name );
-void pic14_assignRegisters (ebbIndex *ebbi);
+reg_info *pic14_regWithIdx(int);
+reg_info *dirregWithName(char *name);
+void pic14_assignRegisters(ebbIndex *ebbi);
 reg_info *pic14_findFreeReg(short type);
-reg_info *pic14_allocWithIdx (int idx);
-reg_info *typeRegWithIdx (int idx, int type, int fixed);
-reg_info *regFindWithName (const char *name);
+reg_info *pic14_allocWithIdx(int idx);
+reg_info *typeRegWithIdx(int idx, int type, int fixed);
+reg_info *regFindWithName(const char *name);
 
 void pic14_debugLogClose(void);
 void writeUsedRegs(FILE *of);
 
-reg_info *allocDirReg (operand *op );
-reg_info *allocInternalRegister(int rIdx, char * name, PIC_OPTYPE po_type, int alias);
-reg_info *allocProcessorRegister(int rIdx, char * name, short po_type, int alias);
-reg_info *allocRegByName (char *name, int size );
-reg_info *allocNewDirReg (sym_link *symlnk,const char *name);
+reg_info *allocDirReg(operand *op);
+reg_info *allocInternalRegister(int rIdx, char *name, PIC_OPTYPE po_type, int alias);
+reg_info *allocProcessorRegister(int rIdx, char *name, short po_type, int alias);
+reg_info *allocRegByName(char *name, int size);
+reg_info *allocNewDirReg(sym_link *symlnk, const char *name);
 
 /* Define register address that are constant across PIC family */
-#define IDX_INDF    0
-#define IDX_INDF0   0
-#define IDX_TMR0    1
-#define IDX_PCL     2
-#define IDX_STATUS  3
-#define IDX_FSR     4
-#define IDX_FSR0L   4
-#define IDX_FSR0H   5
-#define IDX_PCLATH  0x0a
-#define IDX_INTCON  0x0b
+#define IDX_INDF 0
+#define IDX_INDF0 0
+#define IDX_TMR0 1
+#define IDX_PCL 2
+#define IDX_STATUS 3
+#define IDX_FSR 4
+#define IDX_FSR0L 4
+#define IDX_FSR0H 5
+#define IDX_PCLATH 0x0a
+#define IDX_INTCON 0x0b
 
-#define IDX_KZ      0x7fff   /* Known zero - actually just a general purpose reg. */
-#define IDX_WSAVE   0x7ffe
-#define IDX_SSAVE   0x7ffd
-#define IDX_PSAVE   0x7ffc
+#define IDX_KZ 0x7fff /* Known zero - actually just a general purpose reg. */
+#define IDX_WSAVE 0x7ffe
+#define IDX_SSAVE 0x7ffd
+#define IDX_PSAVE 0x7ffc
 
 #define pic14_nRegs 128
 

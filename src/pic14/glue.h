@@ -30,7 +30,7 @@
 extern int pic14_hasInterrupt;
 extern set *pic14_localFunctions;
 
-void picglue (void);
+void picglue(void);
 int pic14_stringInSet(const char *str, set **world, int autoAdd);
 
 #endif

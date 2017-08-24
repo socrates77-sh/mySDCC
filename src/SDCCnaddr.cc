@@ -21,8 +21,7 @@
 
 #include "SDCCnaddr.hpp"
 
-int
-switchAddressSpacesOptimally (iCode *ic, ebbIndex *ebbi)
+int switchAddressSpacesOptimally(iCode *ic, ebbIndex *ebbi)
 {
   cfg_t control_flow_graph;
   tree_dec_naddr_t tree_decomposition;
@@ -31,12 +30,11 @@ switchAddressSpacesOptimally (iCode *ic, ebbIndex *ebbi)
   create_cfg_naddr(control_flow_graph, ic, ebbi);
   annotate_cfg_naddr(control_flow_graph, addrspaces);
 
-  if(options.dump_graphs)
+  if (options.dump_graphs)
     dump_cfg_naddr(control_flow_graph);
 
   thorup_tree_decomposition(tree_decomposition, control_flow_graph);
   nicify(tree_decomposition);
 
-  return(tree_dec_address_switch(tree_decomposition, control_flow_graph, addrspaces));
+  return (tree_dec_address_switch(tree_decomposition, control_flow_graph, addrspaces));
 }
-

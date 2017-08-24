@@ -19,7 +19,7 @@
   Foundation, 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 -------------------------------------------------------------------------*/
 
-#ifndef  SDCCPEEPH_H
+#ifndef SDCCPEEPH_H
 #define SDCCPEEPH_H 1
 
 #include "SDCCgen.h"
@@ -27,34 +27,32 @@
 #define MAX_PATTERN_LEN 256
 
 typedef struct peepRule
-  {
-    lineNode *match;
-    lineNode *replace;
-    unsigned int restart:1;
-    unsigned int barrier:1;
-    char *cond;
-    hTab *vars;
-    struct peepRule *next;
-  }
-peepRule;
+{
+  lineNode *match;
+  lineNode *replace;
+  unsigned int restart : 1;
+  unsigned int barrier : 1;
+  char *cond;
+  hTab *vars;
+  struct peepRule *next;
+} peepRule;
 
 typedef struct
-  {
-    char name[SDCC_NAME_MAX + 1];
-    int refCount;
-    /* needed for deadMove: */
-    bool passedLabel;
-    int jmpToCount;
-  }
-labelHashEntry;
+{
+  char name[SDCC_NAME_MAX + 1];
+  int refCount;
+  /* needed for deadMove: */
+  bool passedLabel;
+  int jmpToCount;
+} labelHashEntry;
 
-bool isLabelDefinition (const char *line, const char **start, int *len,
-                        bool isPeepRule);
+bool isLabelDefinition(const char *line, const char **start, int *len,
+                       bool isPeepRule);
 
 extern hTab *labelHash;
-labelHashEntry *getLabelRef (const char *label, lineNode *head);
+labelHashEntry *getLabelRef(const char *label, lineNode *head);
 
-void initPeepHole (void);
-void peepHole (lineNode **);
+void initPeepHole(void);
+void peepHole(lineNode **);
 
 #endif

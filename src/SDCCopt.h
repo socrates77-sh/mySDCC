@@ -27,14 +27,13 @@
 #ifndef SDCCOPT_H
 #define SDCCOPT_H 1
 
-
 /*----------------------------------------------------------------------------*/
-eBBlock **eBBlockFromiCode (iCode *);
-void printEbbs (eBBlock **);
-iCode *iCodeLabelOptimize (iCode *);
-eBBlock *iCode2eBBlock (iCode * ic);
-int switchAddressSpacesOptimally (iCode *ic, ebbIndex *ebbi);
-const symbol *getAddrspaceiCode (const iCode *ic);
-void switchAddressSpaceAt (iCode *ic, const symbol *const addrspace);
+eBBlock **eBBlockFromiCode(iCode *);
+void printEbbs(eBBlock **);
+iCode *iCodeLabelOptimize(iCode *);
+eBBlock *iCode2eBBlock(iCode *ic);
+int switchAddressSpacesOptimally(iCode *ic, ebbIndex *ebbi);
+const symbol *getAddrspaceiCode(const iCode *ic);
+void switchAddressSpaceAt(iCode *ic, const symbol *const addrspace);
 
 #endif

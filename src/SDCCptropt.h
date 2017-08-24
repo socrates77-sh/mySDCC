@@ -26,10 +26,10 @@
 #ifndef SDCCPTROPT_H
 #define SDCCPTROPT_H 1
 
-void ptrPostIncDecOpt (iCode *);
-int ptrAddition (iCode *);
-symbol *ptrBaseRematSym (symbol *);
-int ptrPseudoSymSafe (symbol *, iCode *);
-void ptrPseudoSymConvert (symbol *, iCode *, const char *);
+void ptrPostIncDecOpt(iCode *);
+int ptrAddition(iCode *);
+symbol *ptrBaseRematSym(symbol *);
+int ptrPseudoSymSafe(symbol *, iCode *);
+void ptrPseudoSymConvert(symbol *, iCode *, const char *);
 
 #endif

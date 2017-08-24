@@ -100,10 +100,10 @@ struct i_assignment_t
   void add_var(var_t v, reg_t r)
   {
     if (registers[r][1] < v)
-      {
-        registers[r][0] = registers[r][1];
-        registers[r][1] = v;
-      }
+    {
+      registers[r][0] = registers[r][1];
+      registers[r][1] = v;
+    }
     else
       registers[r][0] = v;
   }
@@ -111,15 +111,15 @@ struct i_assignment_t
   void remove_var(var_t v)
   {
     for (reg_t r = 0; r < NUM_REGS; r++)
+    {
+      if (registers[r][1] == v)
       {
-        if (registers[r][1] == v)
-          {
-            registers[r][1] = registers[r][0];
-            registers[r][0] = -1;
-          }
-        else if (registers[r][0] == v)
-          registers[r][0] = -1;
+        registers[r][1] = registers[r][0];
+        registers[r][0] = -1;
       }
+      else if (registers[r][0] == v)
+        registers[r][0] = -1;
+    }
   }
 };
 
@@ -141,14 +141,14 @@ struct assignment
 {
   float s;
 
-  varset_t local;	// Entries: var
-  std::vector<reg_t> global;	// Entries: global[var] = reg (-1 if no reg assigned)
-  icosts_t i_costs;  // Costs for all instructions in bag (needed to avoid double counting costs at join nodes)
+  varset_t local;              // Entries: var
+  std::vector<reg_t> global;   // Entries: global[var] = reg (-1 if no reg assigned)
+  icosts_t i_costs;            // Costs for all instructions in bag (needed to avoid double counting costs at join nodes)
   i_assignment_t i_assignment; // Assignment at the instruction currently being added in an introduce node;
 
   bool marked;
 
-  bool operator<(const assignment& a) const
+  bool operator<(const assignment &a) const
   {
     varset_t::const_iterator i, ai, i_end, ai_end;
 
@@ -156,22 +156,22 @@ struct assignment
     ai_end = a.local.end();
 
     for (i = local.begin(), ai = a.local.begin();; ++i, ++ai)
-      {
-        if (i == i_end)
-          return(true);
-        if (ai == ai_end)
-          return(false);
+    {
+      if (i == i_end)
+        return (true);
+      if (ai == ai_end)
+        return (false);
 
-        if (*i < *ai)
-          return(true);
-        if (*i > *ai)
-          return(false);
+      if (*i < *ai)
+        return (true);
+      if (*i > *ai)
+        return (false);
 
-        if (global[*i] < a.global[*ai])
-          return(true);
-        if (global[*i] > a.global[*ai])
-          return(false);
-      }
+      if (global[*i] < a.global[*ai])
+        return (true);
+      if (global[*i] > a.global[*ai])
+        return (false);
+    }
   }
 };
 
@@ -251,11 +251,11 @@ add_operand_to_cfg_node(cfg_node &n, operand *o, std::map<std::pair<int, reg_t>,
 {
   reg_t k;
   if (o && IS_SYMOP(o) && sym_to_index.find(std::pair<int, reg_t>(OP_SYMBOL_CONST(o)->key, 0)) != sym_to_index.end())
-    {
-      if (n.operands.find(OP_SYMBOL_CONST(o)->key) == n.operands.end())
-        for (k = 0; k < OP_SYMBOL_CONST(o)->nRegs; k++)
-          n.operands.insert(std::pair<const int, var_t>(OP_SYMBOL_CONST(o)->key, sym_to_index[std::pair<int, reg_t>(OP_SYMBOL_CONST(o)->key, k)]));
-    }
+  {
+    if (n.operands.find(OP_SYMBOL_CONST(o)->key) == n.operands.end())
+      for (k = 0; k < OP_SYMBOL_CONST(o)->nRegs; k++)
+        n.operands.insert(std::pair<const int, var_t>(OP_SYMBOL_CONST(o)->key, sym_to_index[std::pair<int, reg_t>(OP_SYMBOL_CONST(o)->key, k)]));
+  }
 }
 
 // A quick-and-dirty function to get the CFG from sdcc.
@@ -269,131 +269,131 @@ create_cfg(cfg_t &cfg, con_t &con, ebbIndex *ebbi)
   std::map<int, unsigned int> key_to_index;
   std::map<std::pair<int, reg_t>, var_t> sym_to_index;
 
-  start_ic = iCodeLabelOptimize(iCodeFromeBBlock (ebbs, ebbi->count));
+  start_ic = iCodeLabelOptimize(iCodeFromeBBlock(ebbs, ebbi->count));
   //start_ic = joinPushes(start_ic);
   {
     int i;
     var_t j;
-    wassertl (!boost::num_vertices(cfg), "CFG non-empty before creation.");
+    wassertl(!boost::num_vertices(cfg), "CFG non-empty before creation.");
     for (ic = start_ic, i = 0, j = 0; ic; ic = ic->next, i++)
+    {
+#ifdef DEBUG_SEGV
+      default_constructor_of_cfg_node_called = false;
+#endif
+      boost::add_vertex(cfg);
+
+#ifdef DEBUG_SEGV
+      wassertl(default_constructor_of_cfg_node_called, "add_vertex failed to call default constructor of cfg_node!");
+#endif
+      wassertl(cfg[i].alive.empty(), "Alive set non-empty upon creation.");
+      key_to_index[ic->key] = i;
+
+      if (ic->op == SEND && ic->builtinSEND) // Ensure that only the very first send iCode is active.
       {
-#ifdef DEBUG_SEGV
-        default_constructor_of_cfg_node_called = false;
-#endif
-        boost::add_vertex(cfg);
-
-#ifdef DEBUG_SEGV
-        wassertl (default_constructor_of_cfg_node_called, "add_vertex failed to call default constructor of cfg_node!");
-#endif
-        wassertl (cfg[i].alive.empty(), "Alive set non-empty upon creation.");
-        key_to_index[ic->key] = i;
-
-        if(ic->op == SEND && ic->builtinSEND) // Ensure that only the very first send iCode is active.
-          {
-            operand *bi_parms[MAX_BUILTIN_ARGS];
-            int nbi_parms;
-            getBuiltinParms(ic, &nbi_parms, bi_parms);
-          }
-
-        extra_ic_generated(ic);
-
-        cfg[i].ic = ic;
-
-        for (int j2 = 0; j2 <= operandKey; j2++)
-          {
-            if (bitVectBitValue(ic->rlive, j2))
-              {
-                symbol *sym = (symbol *)(hTabItemWithKey(liveRanges, j2));
-
-                if (!sym->for_newralloc)
-                  continue;
-
-                // Add node to conflict graph:
-                if (sym_to_index.find(std::pair<int, reg_t>(j2, 0)) != sym_to_index.end())
-                  continue;
-
-                // Other parts of the allocator may rely on the variables corresponding to bytes from the same sdcc variable to have subsequent numbers.
-                for (reg_t k = 0; k < sym->nRegs; k++)
-                  {
-                    boost::add_vertex(con);
-                    con[j].v = j2;
-                    con[j].byte = k;
-                    con[j].size = sym->nRegs;
-                    con[j].name = sym->name;
-                    sym_to_index[std::pair<int, reg_t>(j2, k)] = j;
-                    for (reg_t l = 0; l < k; l++)
-                      boost::add_edge(j - l - 1, j, con);
-                    j++;
-                  }
-              }
-          }
+        operand *bi_parms[MAX_BUILTIN_ARGS];
+        int nbi_parms;
+        getBuiltinParms(ic, &nbi_parms, bi_parms);
       }
+
+      extra_ic_generated(ic);
+
+      cfg[i].ic = ic;
+
+      for (int j2 = 0; j2 <= operandKey; j2++)
+      {
+        if (bitVectBitValue(ic->rlive, j2))
+        {
+          symbol *sym = (symbol *)(hTabItemWithKey(liveRanges, j2));
+
+          if (!sym->for_newralloc)
+            continue;
+
+          // Add node to conflict graph:
+          if (sym_to_index.find(std::pair<int, reg_t>(j2, 0)) != sym_to_index.end())
+            continue;
+
+          // Other parts of the allocator may rely on the variables corresponding to bytes from the same sdcc variable to have subsequent numbers.
+          for (reg_t k = 0; k < sym->nRegs; k++)
+          {
+            boost::add_vertex(con);
+            con[j].v = j2;
+            con[j].byte = k;
+            con[j].size = sym->nRegs;
+            con[j].name = sym->name;
+            sym_to_index[std::pair<int, reg_t>(j2, k)] = j;
+            for (reg_t l = 0; l < k; l++)
+              boost::add_edge(j - l - 1, j, con);
+            j++;
+          }
+        }
+      }
+    }
   }
 
   // Get control flow graph from sdcc.
   for (ic = start_ic; ic; ic = ic->next)
+  {
+    wassertl(key_to_index[ic->key] < boost::num_vertices(cfg), "Node not in CFG.");
+
+    if (ic->op != GOTO && ic->op != RETURN && ic->op != JUMPTABLE && ic->next)
     {
-      wassertl (key_to_index[ic->key] < boost::num_vertices(cfg), "Node not in CFG.");
-
-      if (ic->op != GOTO && ic->op != RETURN && ic->op != JUMPTABLE && ic->next)
-        {
-          wassertl (key_to_index[ic->next->key] < boost::num_vertices(cfg), "Next node not in CFG.");
-          boost::add_edge(key_to_index[ic->key], key_to_index[ic->next->key], cfg);
-        }
-
-      if (ic->op == GOTO)
-        {
-          wassertl (key_to_index[eBBWithEntryLabel(ebbi, ic->label)->sch->key] < boost::num_vertices(cfg), "GOTO target not in CFG.");
-          boost::add_edge(key_to_index[ic->key], key_to_index[eBBWithEntryLabel(ebbi, ic->label)->sch->key], cfg);
-        }
-      else if (ic->op == RETURN)
-        {
-          wassertl (key_to_index[eBBWithEntryLabel(ebbi, returnLabel)->sch->key] < boost::num_vertices(cfg), "RETURN target not in CFG.");
-          boost::add_edge(key_to_index[ic->key], key_to_index[eBBWithEntryLabel(ebbi, returnLabel)->sch->key], cfg);
-        }
-      else if (ic->op == IFX)
-        {
-          wassertl (key_to_index[eBBWithEntryLabel(ebbi, IC_TRUE(ic) ? IC_TRUE(ic) : IC_FALSE(ic))->sch->key] < boost::num_vertices(cfg), "IFX target not in CFG.");
-          boost::add_edge(key_to_index[ic->key], key_to_index[eBBWithEntryLabel(ebbi, IC_TRUE(ic) ? IC_TRUE(ic) : IC_FALSE(ic))->sch->key], cfg);
-        }
-      else if (ic->op == JUMPTABLE)
-        for (symbol *lbl = (symbol *)(setFirstItem (IC_JTLABELS (ic))); lbl; lbl = (symbol *)(setNextItem (IC_JTLABELS (ic))))
-          {
-            wassertl (key_to_index[eBBWithEntryLabel(ebbi, lbl)->sch->key] < boost::num_vertices(cfg), "GOTO target not in CFG.");
-            boost::add_edge(key_to_index[ic->key], key_to_index[eBBWithEntryLabel(ebbi, lbl)->sch->key], cfg);
-          }
-
-      for (int i = 0; i <= operandKey; i++)
-        {
-          if (sym_to_index.find(std::pair<int, reg_t>(i, 0)) == sym_to_index.end())
-            continue;
-
-          if (bitVectBitValue(ic->rlive, i))
-            {
-              symbol *isym = (symbol *)(hTabItemWithKey(liveRanges, i));
-              for (reg_t k = 0; k < isym->nRegs; k++)
-                {
-                  wassert (key_to_index.find(ic->key) != key_to_index.end());
-                  wassert (sym_to_index.find(std::pair<int, int>(i, k)) != sym_to_index.end());
-                  wassertl (key_to_index[ic->key] < boost::num_vertices(cfg), "Node not in CFG.");
-                  cfg[key_to_index[ic->key]].alive.insert(sym_to_index[std::pair<int, int>(i, k)]);
-                }
-            }
-        }
-
-      if (ic->op == IFX)
-        add_operand_to_cfg_node(cfg[key_to_index[ic->key]], IC_COND(ic), sym_to_index);
-      else if (ic->op == JUMPTABLE)
-        add_operand_to_cfg_node(cfg[key_to_index[ic->key]], IC_JTCOND(ic), sym_to_index);
-      else
-        {
-          add_operand_to_cfg_node(cfg[key_to_index[ic->key]], IC_RESULT(ic), sym_to_index);
-          add_operand_to_cfg_node(cfg[key_to_index[ic->key]], IC_LEFT(ic), sym_to_index);
-          add_operand_to_cfg_node(cfg[key_to_index[ic->key]], IC_RIGHT(ic), sym_to_index);
-        }
-
-      add_operand_conflicts_in_node(cfg[key_to_index[ic->key]], con);
+      wassertl(key_to_index[ic->next->key] < boost::num_vertices(cfg), "Next node not in CFG.");
+      boost::add_edge(key_to_index[ic->key], key_to_index[ic->next->key], cfg);
     }
+
+    if (ic->op == GOTO)
+    {
+      wassertl(key_to_index[eBBWithEntryLabel(ebbi, ic->label)->sch->key] < boost::num_vertices(cfg), "GOTO target not in CFG.");
+      boost::add_edge(key_to_index[ic->key], key_to_index[eBBWithEntryLabel(ebbi, ic->label)->sch->key], cfg);
+    }
+    else if (ic->op == RETURN)
+    {
+      wassertl(key_to_index[eBBWithEntryLabel(ebbi, returnLabel)->sch->key] < boost::num_vertices(cfg), "RETURN target not in CFG.");
+      boost::add_edge(key_to_index[ic->key], key_to_index[eBBWithEntryLabel(ebbi, returnLabel)->sch->key], cfg);
+    }
+    else if (ic->op == IFX)
+    {
+      wassertl(key_to_index[eBBWithEntryLabel(ebbi, IC_TRUE(ic) ? IC_TRUE(ic) : IC_FALSE(ic))->sch->key] < boost::num_vertices(cfg), "IFX target not in CFG.");
+      boost::add_edge(key_to_index[ic->key], key_to_index[eBBWithEntryLabel(ebbi, IC_TRUE(ic) ? IC_TRUE(ic) : IC_FALSE(ic))->sch->key], cfg);
+    }
+    else if (ic->op == JUMPTABLE)
+      for (symbol *lbl = (symbol *)(setFirstItem(IC_JTLABELS(ic))); lbl; lbl = (symbol *)(setNextItem(IC_JTLABELS(ic))))
+      {
+        wassertl(key_to_index[eBBWithEntryLabel(ebbi, lbl)->sch->key] < boost::num_vertices(cfg), "GOTO target not in CFG.");
+        boost::add_edge(key_to_index[ic->key], key_to_index[eBBWithEntryLabel(ebbi, lbl)->sch->key], cfg);
+      }
+
+    for (int i = 0; i <= operandKey; i++)
+    {
+      if (sym_to_index.find(std::pair<int, reg_t>(i, 0)) == sym_to_index.end())
+        continue;
+
+      if (bitVectBitValue(ic->rlive, i))
+      {
+        symbol *isym = (symbol *)(hTabItemWithKey(liveRanges, i));
+        for (reg_t k = 0; k < isym->nRegs; k++)
+        {
+          wassert(key_to_index.find(ic->key) != key_to_index.end());
+          wassert(sym_to_index.find(std::pair<int, int>(i, k)) != sym_to_index.end());
+          wassertl(key_to_index[ic->key] < boost::num_vertices(cfg), "Node not in CFG.");
+          cfg[key_to_index[ic->key]].alive.insert(sym_to_index[std::pair<int, int>(i, k)]);
+        }
+      }
+    }
+
+    if (ic->op == IFX)
+      add_operand_to_cfg_node(cfg[key_to_index[ic->key]], IC_COND(ic), sym_to_index);
+    else if (ic->op == JUMPTABLE)
+      add_operand_to_cfg_node(cfg[key_to_index[ic->key]], IC_JTCOND(ic), sym_to_index);
+    else
+    {
+      add_operand_to_cfg_node(cfg[key_to_index[ic->key]], IC_RESULT(ic), sym_to_index);
+      add_operand_to_cfg_node(cfg[key_to_index[ic->key]], IC_LEFT(ic), sym_to_index);
+      add_operand_to_cfg_node(cfg[key_to_index[ic->key]], IC_RIGHT(ic), sym_to_index);
+    }
+
+    add_operand_conflicts_in_node(cfg[key_to_index[ic->key]], con);
+  }
 
 #if 0
   // Get conflict graph from sdcc
@@ -417,102 +417,101 @@ create_cfg(cfg_t &cfg, con_t &con, ebbIndex *ebbi)
   // Todo: Improve efficiency, e.g. using subgraph or filtered_graph.
   // Todo: Split live ranges instead?
   for (var_t i = boost::num_vertices(con) - 1; i >= 0; i--)
+  {
+    cfg_sym_t cfg2;
+    boost::copy_graph(cfg, cfg2);
+    for (int j = boost::num_vertices(cfg) - 1; j >= 0; j--)
     {
+      if (cfg[j].alive.find(i) == cfg[j].alive.end())
+      {
+        boost::clear_vertex(j, cfg2);
+        boost::remove_vertex(j, cfg2);
+      }
+    }
+    std::vector<boost::graph_traits<cfg_t>::vertices_size_type> component(num_vertices(cfg2));
+    if (boost::connected_components(cfg2, &component[0]) > 1)
+    {
+#ifdef DEBUG_RALLOC_DEC
+      std::cerr << "Non-connected liverange found and extended to connected component of the CFG:" << con[i].name << "\n";
+#endif
+      // Non-connected CFGs shouldn't exist either. Another problem with dead code eliminarion.
       cfg_sym_t cfg2;
       boost::copy_graph(cfg, cfg2);
-      for (int j = boost::num_vertices(cfg) - 1; j >= 0; j--)
-        {
-          if (cfg[j].alive.find(i) == cfg[j].alive.end())
-            {
-              boost::clear_vertex(j, cfg2);
-              boost::remove_vertex(j, cfg2);
-            }
-        }
       std::vector<boost::graph_traits<cfg_t>::vertices_size_type> component(num_vertices(cfg2));
-      if (boost::connected_components(cfg2, &component[0]) > 1)
-        {
-#ifdef DEBUG_RALLOC_DEC
-          std::cerr << "Non-connected liverange found and extended to connected component of the CFG:" << con[i].name << "\n";
-#endif
-          // Non-connected CFGs shouldn't exist either. Another problem with dead code eliminarion.
-          cfg_sym_t cfg2;
-          boost::copy_graph(cfg, cfg2);
-          std::vector<boost::graph_traits<cfg_t>::vertices_size_type> component(num_vertices(cfg2));
-          boost::connected_components(cfg2, &component[0]);
+      boost::connected_components(cfg2, &component[0]);
 
-          for (boost::graph_traits<cfg_t>::vertices_size_type j = 0; j < boost::num_vertices(cfg) - 1; j++)
-            {
-              if(cfg[j].alive.find(i) != cfg[j].alive.end())
-                {
-                  for (boost::graph_traits<cfg_t>::vertices_size_type k = 0; k < boost::num_vertices(cfg) - 1; k++)
-                    {
-                      if(component[j] == component[k])
-                        cfg[k].alive.insert(i);
-                    }
-                }
-            }
+      for (boost::graph_traits<cfg_t>::vertices_size_type j = 0; j < boost::num_vertices(cfg) - 1; j++)
+      {
+        if (cfg[j].alive.find(i) != cfg[j].alive.end())
+        {
+          for (boost::graph_traits<cfg_t>::vertices_size_type k = 0; k < boost::num_vertices(cfg) - 1; k++)
+          {
+            if (component[j] == component[k])
+              cfg[k].alive.insert(i);
+          }
         }
+      }
     }
+  }
 
   for (boost::graph_traits<cfg_t>::vertices_size_type i = 0; i < num_vertices(cfg); i++)
-    {
-      cfg[i].dying = cfg[i].alive;
-      typedef boost::graph_traits<cfg_t>::adjacency_iterator adjacency_iter_t;
-      adjacency_iter_t j, j_end;
-      for (boost::tie(j, j_end) = adjacent_vertices(i, cfg); j != j_end; ++j)
-        {
-          std::set<var_t>::const_iterator v, v_end;
-          for (v = cfg[*j].alive.begin(), v_end = cfg[*j].alive.end(); v != v_end; ++v)
-            cfg[i].dying.erase(*v);
-        }
-    }
-    
-  // Construct conflict graph
-  for (boost::graph_traits<cfg_t>::vertices_size_type i = 0; i < num_vertices(cfg); i++)
+  {
+    cfg[i].dying = cfg[i].alive;
+    typedef boost::graph_traits<cfg_t>::adjacency_iterator adjacency_iter_t;
+    adjacency_iter_t j, j_end;
+    for (boost::tie(j, j_end) = adjacent_vertices(i, cfg); j != j_end; ++j)
     {
       std::set<var_t>::const_iterator v, v_end;
-      const iCode *ic = cfg[i].ic;
-      
-      for (v = cfg[i].alive.begin(), v_end = cfg[i].alive.end(); v != v_end; ++v)
-        {
-          std::set<var_t>::const_iterator v2, v2_end;
-          
-          // Conflict between operands are handled by add_operand_conflicts_in_node().
-          if (cfg[i].dying.find (*v) != cfg[i].dying.end())
-            continue;
-          if (ic->op != IFX && ic->op != JUMPTABLE && IC_RESULT(ic) && IS_SYMOP(IC_RESULT(ic)))
-            {
-              operand_map_t::const_iterator oi, oi_end; 
-              for(boost::tie(oi, oi_end) = cfg[i].operands.equal_range(OP_SYMBOL_CONST(IC_RESULT(ic))->key); oi != oi_end; ++oi)
-                if(oi->second == *v)
-                  goto next_var;
-            }
-          
-          // Here, v is a variable that survives cfg[i].
-          for (v2 = cfg[i].alive.begin(), v2_end = cfg[i].alive.end(); v2 != v2_end; ++v2)
-            if(*v != *v2)
-              boost::add_edge(*v, *v2, con);
-          
-          next_var:
-            ;
-        }
+      for (v = cfg[*j].alive.begin(), v_end = cfg[*j].alive.end(); v != v_end; ++v)
+        cfg[i].dying.erase(*v);
     }
-  
-  return(start_ic);
+  }
+
+  // Construct conflict graph
+  for (boost::graph_traits<cfg_t>::vertices_size_type i = 0; i < num_vertices(cfg); i++)
+  {
+    std::set<var_t>::const_iterator v, v_end;
+    const iCode *ic = cfg[i].ic;
+
+    for (v = cfg[i].alive.begin(), v_end = cfg[i].alive.end(); v != v_end; ++v)
+    {
+      std::set<var_t>::const_iterator v2, v2_end;
+
+      // Conflict between operands are handled by add_operand_conflicts_in_node().
+      if (cfg[i].dying.find(*v) != cfg[i].dying.end())
+        continue;
+      if (ic->op != IFX && ic->op != JUMPTABLE && IC_RESULT(ic) && IS_SYMOP(IC_RESULT(ic)))
+      {
+        operand_map_t::const_iterator oi, oi_end;
+        for (boost::tie(oi, oi_end) = cfg[i].operands.equal_range(OP_SYMBOL_CONST(IC_RESULT(ic))->key); oi != oi_end; ++oi)
+          if (oi->second == *v)
+            goto next_var;
+      }
+
+      // Here, v is a variable that survives cfg[i].
+      for (v2 = cfg[i].alive.begin(), v2_end = cfg[i].alive.end(); v2 != v2_end; ++v2)
+        if (*v != *v2)
+          boost::add_edge(*v, *v2, con);
+
+    next_var:;
+    }
+  }
+
+  return (start_ic);
 }
 
 // Computes live ranges for tree decomposition from live ranges from cfg.
 inline void alive_tree_dec(tree_dec_t &tree_dec, const cfg_t &cfg)
 {
   for (unsigned int i = 0; i < num_vertices(tree_dec); i++)
-    {
-      std::set<unsigned int>::const_iterator v;
-      for (v = tree_dec[i].bag.begin(); v != tree_dec[i].bag.end(); ++v)
-        tree_dec[i].alive.insert(cfg[*v].alive.begin(), cfg[*v].alive.end());
-    }
+  {
+    std::set<unsigned int>::const_iterator v;
+    for (v = tree_dec[i].bag.begin(); v != tree_dec[i].bag.end(); ++v)
+      tree_dec[i].alive.insert(cfg[*v].alive.begin(), cfg[*v].alive.end());
+  }
 }
 
-#if defined(DEBUG_RALLOC_DEC) || defined (DEBUG_RALLOC_DEC_ASS)
+#if defined(DEBUG_RALLOC_DEC) || defined(DEBUG_RALLOC_DEC_ASS)
 void print_assignment(const assignment &a)
 {
   varset_t::const_iterator i;
@@ -529,36 +528,36 @@ bool assignment_conflict(const assignment &a, const I_t &I, var_t v, reg_t r)
   varset_t::const_iterator i, i_end;
 
   for (i = a.local.begin(), i_end = a.local.end(); i != i_end; ++i)
-    {
-      if (a.global[*i] != r)
-        continue;
-      if (boost::edge(*i, v, I).second)
-        return(true);
-    }
-    
-  return(false);
+  {
+    if (a.global[*i] != r)
+      continue;
+    if (boost::edge(*i, v, I).second)
+      return (true);
+  }
+
+  return (false);
 }
 
-template<class G_t>
+template <class G_t>
 void assignments_introduce_instruction(assignment_list_t &alist, unsigned short int i, const G_t &G)
 {
   assignment_list_t::iterator ai, ai_end;
 
   for (ai = alist.begin(), ai_end = alist.end(); ai != ai_end; ++ai)
-    {
-      std::set<var_t> i_variables;
+  {
+    std::set<var_t> i_variables;
 
-      std::set_intersection(ai->local.begin(), ai->local.end(), G[i].alive.begin(), G[i].alive.end(), std::inserter(i_variables, i_variables.end()));
+    std::set_intersection(ai->local.begin(), ai->local.end(), G[i].alive.begin(), G[i].alive.end(), std::inserter(i_variables, i_variables.end()));
 
-      i_assignment_t ia;
+    i_assignment_t ia;
 
-      std::set<var_t>::const_iterator v, v_end;
-      for (v = i_variables.begin(), v_end = i_variables.end(); v != v_end; ++v)
-        if (ai->global[*v] >= 0)
-          ia.add_var(*v, ai->global[*v]);
+    std::set<var_t>::const_iterator v, v_end;
+    for (v = i_variables.begin(), v_end = i_variables.end(); v != v_end; ++v)
+      if (ai->global[*v] >= 0)
+        ia.add_var(*v, ai->global[*v]);
 
-      ai->i_assignment = ia;
-    }
+    ai->i_assignment = ia;
+  }
 }
 
 template <class G_t, class I_t>
@@ -570,28 +569,28 @@ static void assignments_introduce_variable(assignment_list_t &alist, unsigned sh
   size_t c, c_end;
 
   for (ai = alist.begin(), c = 0, c_end = alist.size(); c < c_end; c++, ai++)
-    {
-      a_initialized = false;
+  {
+    a_initialized = false;
 
-      for (reg_t r = 0; r < NUM_REGS; r++)
+    for (reg_t r = 0; r < NUM_REGS; r++)
+    {
+      if (!assignment_conflict(*ai, I, v, r))
+      {
+        if (!a_initialized)
         {
-          if (!assignment_conflict(*ai, I, v, r))
-            {
-              if(!a_initialized)
-                {
-                  a = *ai;
-                  ai->marked = true;
-                  a.marked = false;
-                  a.local.insert(v);
-                }
-              a.global[v] = r;
-              a.i_assignment.add_var(v, r);
-              if(!assignment_hopeless(a, i, G, I, v))
-                alist.push_back(a);
-              a.i_assignment.remove_var(v);
-            }
+          a = *ai;
+          ai->marked = true;
+          a.marked = false;
+          a.local.insert(v);
         }
+        a.global[v] = r;
+        a.i_assignment.add_var(v, r);
+        if (!assignment_hopeless(a, i, G, I, v))
+          alist.push_back(a);
+        a.i_assignment.remove_var(v);
+      }
     }
+  }
 }
 
 struct assignment_rep
@@ -599,46 +598,46 @@ struct assignment_rep
   assignment_list_t::iterator i;
   float s;
 
-  bool operator<(const assignment_rep& a) const
+  bool operator<(const assignment_rep &a) const
   {
-    return(s < a.s);
+    return (s < a.s);
   }
 };
 
 template <class I_t>
-float compability_cost(const assignment& a, const assignment& ac, const I_t &I)
+float compability_cost(const assignment &a, const assignment &ac, const I_t &I)
 {
   typedef typename boost::graph_traits<I_t>::adjacency_iterator adjacency_iter_t;
-  
+
   float c = 0.0f;
-  
+
   varset_t::const_iterator vi, vi_end;
-  
-  for(vi = ac.local.begin(), vi_end = ac.local.end(); vi != vi_end; ++vi)
+
+  for (vi = ac.local.begin(), vi_end = ac.local.end(); vi != vi_end; ++vi)
+  {
+    const var_t v = *vi;
+    if (a.global[v] != ac.global[v])
     {
-      const var_t v = *vi;
-      if(a.global[v] != ac.global[v])
+      c += 1000.0f;
+      continue;
+    }
+
+    adjacency_iter_t j, j_end;
+    for (boost::tie(j, j_end) = adjacent_vertices(v, I); j != j_end; ++j)
+      if (ac.global[v] != -1 && a.global[*j] == ac.global[v])
       {
         c += 1000.0f;
-        continue;
+        break;
       }
-        
-      adjacency_iter_t j, j_end;
-      for (boost::tie(j, j_end) = adjacent_vertices(v, I); j != j_end; ++j)
-        if(ac.global[v] != -1 && a.global[*j] == ac.global[v])
-        {
-          c += 1000.0f;
-          break;
-        }
-    }
-  
-  return(c);
+  }
+
+  return (c);
 }
 
 // Ensure that we never get more than options.max_allocs_per_node assignments at a single node of the tree decomposition.
 // Tries to drop the worst ones first (but never drop the empty assignment, as it's the only one guaranteed to be always valid).
 template <class G_t, class I_t>
-static void drop_worst_assignments(assignment_list_t &alist, unsigned short int i, const G_t &G, const I_t &I, const assignment& ac, bool *const assignment_optimal)
+static void drop_worst_assignments(assignment_list_t &alist, unsigned short int i, const G_t &G, const I_t &I, const assignment &ac, bool *const assignment_optimal)
 {
   unsigned int n;
   size_t alist_size;
@@ -650,16 +649,17 @@ static void drop_worst_assignments(assignment_list_t &alist, unsigned short int 
   *assignment_optimal = false;
 
 #ifdef DEBUG_RALLOC_DEC
-  std::cout << "Too many assignments here (" << i << "):" << alist_size << " > " << options.max_allocs_per_node / NUM_REGS << ". Dropping some.\n"; std::cout.flush();
+  std::cout << "Too many assignments here (" << i << "):" << alist_size << " > " << options.max_allocs_per_node / NUM_REGS << ". Dropping some.\n";
+  std::cout.flush();
 #endif
 
   assignment_rep *arep = new assignment_rep[alist_size];
 
   for (n = 0, ai = alist.begin(); n < alist_size; ++ai, n++)
-    {
-      arep[n].i = ai;
-      arep[n].s = ai->s + rough_cost_estimate(*ai, i, G, I) + compability_cost(*ai, ac, I);
-    }
+  {
+    arep[n].i = ai;
+    arep[n].s = ai->s + rough_cost_estimate(*ai, i, G, I) + compability_cost(*ai, ac, I);
+  }
 
   std::nth_element(arep + 1, arep + options.max_allocs_per_node / NUM_REGS, arep + alist_size);
 
@@ -667,7 +667,7 @@ static void drop_worst_assignments(assignment_list_t &alist, unsigned short int 
 
   for (n = options.max_allocs_per_node / NUM_REGS + 1; n < alist_size; n++)
     alist.erase(arep[n].i);
-    
+
   delete[] arep;
 }
 
@@ -676,7 +676,8 @@ template <class T_t, class G_t, class I_t>
 static void tree_dec_ralloc_leaf(T_t &T, typename boost::graph_traits<T_t>::vertex_descriptor t, const G_t &G, const I_t &I)
 {
 #ifdef DEBUG_RALLOC_DEC
-  std::cout << "Leaf (" << t << "):\n"; std::cout.flush();
+  std::cout << "Leaf (" << t << "):\n";
+  std::cout.flush();
 #endif
 
   assignment a;
@@ -685,20 +686,22 @@ static void tree_dec_ralloc_leaf(T_t &T, typename boost::graph_traits<T_t>::vert
   a.s = 0;
   a.global.resize(boost::num_vertices(I), -1);
   alist.push_back(a);
-  
+
 #ifdef DEBUG_RALLOC_DEC_ASS
   assignment_list_t::iterator ai;
-  for(ai = alist.begin(); ai != alist.end(); ++ai)
-  	print_assignment(*ai);
+  for (ai = alist.begin(); ai != alist.end(); ++ai)
+    print_assignment(*ai);
   assignment best;
   get_best_local_assignment(best, t, T);
-  std::cout << "Best: "; print_assignment(best); std::cout << "\n";
+  std::cout << "Best: ";
+  print_assignment(best);
+  std::cout << "\n";
 #endif
 }
 
 // Handle introduce nodes in the nice tree decomposition
 template <class T_t, class G_t, class I_t>
-static void tree_dec_ralloc_introduce(T_t &T, typename boost::graph_traits<T_t>::vertex_descriptor t, const G_t &G, const I_t &I, const assignment& ac, bool *const assignment_optimal)
+static void tree_dec_ralloc_introduce(T_t &T, typename boost::graph_traits<T_t>::vertex_descriptor t, const G_t &G, const I_t &I, const assignment &ac, bool *const assignment_optimal)
 {
   typedef typename boost::graph_traits<T_t>::adjacency_iterator adjacency_iter_t;
   adjacency_iter_t c, c_end;
@@ -706,8 +709,11 @@ static void tree_dec_ralloc_introduce(T_t &T, typename boost::graph_traits<T_t>:
   boost::tie(c, c_end) = adjacent_vertices(t, T);
 
 #ifdef DEBUG_RALLOC_DEC
-  std::cout << "Introduce (" << t << "):\n"; std::cout.flush();
-  std::cout << "ac: "; print_assignment(ac); std::cout << "\n";
+  std::cout << "Introduce (" << t << "):\n";
+  std::cout.flush();
+  std::cout << "ac: ";
+  print_assignment(ac);
+  std::cout << "\n";
 #endif
 
   assignment_list_t &alist = T[t].assignments;
@@ -726,43 +732,45 @@ static void tree_dec_ralloc_introduce(T_t &T, typename boost::graph_traits<T_t>:
 
   std::set<var_t>::const_iterator v;
   for (v = new_vars.begin(); v != new_vars.end(); ++v)
-    {
-      drop_worst_assignments(alist, i, G, I, ac, assignment_optimal);
-      assignments_introduce_variable(alist, i, *v, G, I);
-    }
+  {
+    drop_worst_assignments(alist, i, G, I, ac, assignment_optimal);
+    assignments_introduce_variable(alist, i, *v, G, I);
+  }
 
   // Summation of costs and early removal of assignments.
   for (ai = alist.begin(); ai != alist.end();)
-    {
-      if ((ai->s += (ai->i_costs[i] = instruction_cost(*ai, i, G, I))) == std::numeric_limits<float>::infinity())
-        ai = alist.erase(ai);
-      else
-        ++ai;
-    }
+  {
+    if ((ai->s += (ai->i_costs[i] = instruction_cost(*ai, i, G, I))) == std::numeric_limits<float>::infinity())
+      ai = alist.erase(ai);
+    else
+      ++ai;
+  }
 
-  // Free memory in the std::set<var_t, boost::pool_allocator<var_t> > that live in the assignments in the list.
-  //boost::singleton_pool<boost::fast_pool_allocator_tag, sizeof(var_t)>::release_memory();
+// Free memory in the std::set<var_t, boost::pool_allocator<var_t> > that live in the assignments in the list.
+//boost::singleton_pool<boost::fast_pool_allocator_tag, sizeof(var_t)>::release_memory();
 
 #ifdef DEBUG_RALLOC_DEC_ASS
-  for(ai = alist.begin(); ai != alist.end(); ++ai)
-  	print_assignment(*ai);
+  for (ai = alist.begin(); ai != alist.end(); ++ai)
+    print_assignment(*ai);
   assignment best;
   get_best_local_assignment(best, t, T);
-  std::cout << "Best: "; print_assignment(best); std::cout << "\n";
+  std::cout << "Best: ";
+  print_assignment(best);
+  std::cout << "\n";
 #endif
 }
 
 static bool assignments_locally_same(const assignment &a1, const assignment &a2)
 {
   if (a1.local != a2.local)
-    return(false);
+    return (false);
 
   varset_t::const_iterator i, i_end;
   for (i = a1.local.begin(), i_end = a1.local.end(); i != i_end; ++i)
     if (a1.global[*i] != a2.global[*i])
-      return(false);
+      return (false);
 
-  return(true);
+  return (true);
 }
 
 // Handle forget nodes in the nice tree decomposition
@@ -774,7 +782,8 @@ static void tree_dec_ralloc_forget(T_t &T, typename boost::graph_traits<T_t>::ve
   boost::tie(c, c_end) = adjacent_vertices(t, T);
 
 #ifdef DEBUG_RALLOC_DEC
-  std::cout << "Forget (" << t << "):\n"; std::cout.flush();
+  std::cout << "Forget (" << t << "):\n";
+  std::cout.flush();
 #endif
 
   assignment_list_t &alist = T[t].assignments;
@@ -792,55 +801,58 @@ static void tree_dec_ralloc_forget(T_t &T, typename boost::graph_traits<T_t>::ve
 
   // Restrict assignments (locally) to current variables.
   for (ai = alist.begin(); ai != alist.end(); ++ai)
-    {
-      // Erasing by iterators doesn't work with B-Trees, and erasing by value invalidates iterators.
-      std::set<var_t>::const_iterator oi, oi_end;
-      for (oi = old_vars.begin(), oi_end = old_vars.end(); oi != oi_end; ++oi)
-        ai->local.erase(*oi);
+  {
+    // Erasing by iterators doesn't work with B-Trees, and erasing by value invalidates iterators.
+    std::set<var_t>::const_iterator oi, oi_end;
+    for (oi = old_vars.begin(), oi_end = old_vars.end(); oi != oi_end; ++oi)
+      ai->local.erase(*oi);
 
-      ai->i_costs.erase(i);
-    }
+    ai->i_costs.erase(i);
+  }
 
   alist.sort();
   //std::sort(alist.begin(), alist.end());
 
   // Collapse (locally) identical assignments.
   for (ai = alist.begin(); ai != alist.end();)
+  {
+    aif = ai;
+
+    for (++ai; ai != alist.end() && assignments_locally_same(*aif, *ai);)
     {
-      aif = ai;
-
-      for (++ai; ai != alist.end() && assignments_locally_same(*aif, *ai);)
-        {
-          if (aif->s > ai->s)
-            {
-              alist.erase(aif);
-              aif = ai;
-              ++ai;
-            }
-          else
-            {
-              alist.erase(ai);
-              ai = aif;
-              ++ai;
-            }
-        }
+      if (aif->s > ai->s)
+      {
+        alist.erase(aif);
+        aif = ai;
+        ++ai;
+      }
+      else
+      {
+        alist.erase(ai);
+        ai = aif;
+        ++ai;
+      }
     }
+  }
 
-  // Free memory in the std::set<var_t, boost::pool_allocator<var_t> > that live in the assignments in the list.
-  //boost::singleton_pool<boost::fast_pool_allocator_tag, sizeof(var_t)>::release_memory();
+// Free memory in the std::set<var_t, boost::pool_allocator<var_t> > that live in the assignments in the list.
+//boost::singleton_pool<boost::fast_pool_allocator_tag, sizeof(var_t)>::release_memory();
 
 #ifdef DEBUG_RALLOC_DEC
-  std::cout << "Remaining assignments: " << alist.size() << "\n"; std::cout.flush();
+  std::cout << "Remaining assignments: " << alist.size() << "\n";
+  std::cout.flush();
 #endif
 
 #ifdef DEBUG_RALLOC_DEC_ASS
-  for(ai = alist.begin(); ai != alist.end(); ++ai)
-  	print_assignment(*ai);
+  for (ai = alist.begin(); ai != alist.end(); ++ai)
+    print_assignment(*ai);
   std::cout << "\n";
-  
+
   assignment best;
   get_best_local_assignment(best, t, T);
-  std::cout << "Best: "; print_assignment(best); std::cout << "\n";
+  std::cout << "Best: ";
+  print_assignment(best);
+  std::cout << "\n";
 #endif
 }
 
@@ -853,7 +865,8 @@ static void tree_dec_ralloc_join(T_t &T, typename boost::graph_traits<T_t>::vert
   boost::tie(c, c_end) = adjacent_vertices(t, T);
 
 #ifdef DEBUG_RALLOC_DEC
-  std::cout << "Join (" << t << "):\n"; std::cout.flush();
+  std::cout << "Join (" << t << "):\n";
+  std::cout.flush();
 #endif
 
   c2 = c;
@@ -871,43 +884,44 @@ static void tree_dec_ralloc_join(T_t &T, typename boost::graph_traits<T_t>::vert
 
   assignment_list_t::iterator ai2, ai3;
   for (ai2 = alist2.begin(), ai3 = alist3.begin(); ai2 != alist2.end() && ai3 != alist3.end();)
+  {
+    if (assignments_locally_same(*ai2, *ai3))
     {
-      if (assignments_locally_same(*ai2, *ai3))
-        {
-          ai2->s += ai3->s;
-          // Avoid double-counting instruction costs.
-          std::set<unsigned int>::iterator bi;
-          for (bi = T[t].bag.begin(); bi != T[t].bag.end(); ++bi)
-            ai2->s -= ai2->i_costs[*bi];
-          for (size_t i = 0; i < ai2->global.size(); i++)
-            ai2->global[i] = ((ai2->global[i] != -1) ? ai2->global[i] : ai3->global[i]);
-          alist1.push_back(*ai2);
-          ++ai2;
-          ++ai3;
-        }
-      else if (*ai2 < *ai3)
-        {
-          ++ai2;
-          continue;
-        }
-      else if (*ai3 < *ai2)
-        {
-          ++ai3;
-          continue;
-        }
+      ai2->s += ai3->s;
+      // Avoid double-counting instruction costs.
+      std::set<unsigned int>::iterator bi;
+      for (bi = T[t].bag.begin(); bi != T[t].bag.end(); ++bi)
+        ai2->s -= ai2->i_costs[*bi];
+      for (size_t i = 0; i < ai2->global.size(); i++)
+        ai2->global[i] = ((ai2->global[i] != -1) ? ai2->global[i] : ai3->global[i]);
+      alist1.push_back(*ai2);
+      ++ai2;
+      ++ai3;
     }
+    else if (*ai2 < *ai3)
+    {
+      ++ai2;
+      continue;
+    }
+    else if (*ai3 < *ai2)
+    {
+      ++ai3;
+      continue;
+    }
+  }
 
   alist2.clear();
   alist3.clear();
 
 #ifdef DEBUG_RALLOC_DEC
-  std::cout << "Remaining assignments: " << alist1.size() << "\n"; std::cout.flush();
+  std::cout << "Remaining assignments: " << alist1.size() << "\n";
+  std::cout.flush();
 #endif
 
 #ifdef DEBUG_RALLOC_DEC_ASS
   std::list<assignment>::iterator ai;
-  for(ai = alist1.begin(); ai != alist1.end(); ++ai)
-  	print_assignment(*ai);
+  for (ai = alist1.begin(); ai != alist1.end(); ++ai)
+    print_assignment(*ai);
   std::cout << "\n";
 #endif
 }
@@ -918,16 +932,16 @@ void get_best_local_assignment(assignment &a, typename boost::graph_traits<T_t>:
   const assignment_list_t &alist = T[t].assignments;
 
   assignment_list_t::const_iterator ai, ai_end, ai_best;
-  for(ai = ai_best = alist.begin(), ai_end = alist.end(); ai != ai_end; ++ai)
-    if(ai->s < ai_best->s)
+  for (ai = ai_best = alist.begin(), ai_end = alist.end(); ai != ai_end; ++ai)
+    if (ai->s < ai_best->s)
       ai_best = ai;
-	
+
   a = *ai_best;
 }
 
 // Handle nodes in the tree decomposition, by detecting their type and calling the appropriate function. Recurses.
 template <class T_t, class G_t, class I_t>
-static void tree_dec_ralloc_nodes(T_t &T, typename boost::graph_traits<T_t>::vertex_descriptor t, const G_t &G, const I_t &I, const assignment& ac, bool *const assignment_optimal)
+static void tree_dec_ralloc_nodes(T_t &T, typename boost::graph_traits<T_t>::vertex_descriptor t, const G_t &G, const I_t &I, const assignment &ac, bool *const assignment_optimal)
 {
   typedef typename boost::graph_traits<T_t>::adjacency_iterator adjacency_iter_t;
 
@@ -937,31 +951,31 @@ static void tree_dec_ralloc_nodes(T_t &T, typename boost::graph_traits<T_t>::ver
   boost::tie(c, c_end) = adjacent_vertices(t, T);
 
   switch (out_degree(t, T))
+  {
+  case 0:
+    tree_dec_ralloc_leaf(T, t, G, I);
+    break;
+  case 1:
+    c0 = *c;
+    tree_dec_ralloc_nodes(T, c0, G, I, ac, assignment_optimal);
+    T[c0].bag.size() < T[t].bag.size() ? tree_dec_ralloc_introduce(T, t, G, I, ac, assignment_optimal) : tree_dec_ralloc_forget(T, t, G, I);
+    break;
+  case 2:
+    c0 = *c++;
+    c1 = *c;
+    tree_dec_ralloc_nodes(T, c0, G, I, ac, assignment_optimal);
     {
-    case 0:
-      tree_dec_ralloc_leaf(T, t, G, I);
-      break;
-    case 1:
-      c0 = *c;
-      tree_dec_ralloc_nodes(T, c0, G, I, ac, assignment_optimal);
-      T[c0].bag.size() < T[t].bag.size() ? tree_dec_ralloc_introduce(T, t, G, I, ac, assignment_optimal) : tree_dec_ralloc_forget(T, t, G, I);
-      break;
-    case 2:
-      c0 = *c++;
-      c1 = *c;
-      tree_dec_ralloc_nodes(T, c0, G, I, ac, assignment_optimal);
-      {
-        assignment *ac2 = new assignment;
-        get_best_local_assignment_biased(*ac2, c0, T);
-        tree_dec_ralloc_nodes(T, c1, G, I, *ac2, assignment_optimal);
-        delete ac2;
-      }
-      tree_dec_ralloc_join(T, t, G, I);
-      break;
-    default:
-      std::cerr << "Not nice.\n";
-      break;
+      assignment *ac2 = new assignment;
+      get_best_local_assignment_biased(*ac2, c0, T);
+      tree_dec_ralloc_nodes(T, c1, G, I, *ac2, assignment_optimal);
+      delete ac2;
     }
+    tree_dec_ralloc_join(T, t, G, I);
+    break;
+  default:
+    std::cerr << "Not nice.\n";
+    break;
+  }
 }
 
 // Find the best root selecting from t_old and the leafs under t.
@@ -976,23 +990,23 @@ static std::pair<typename boost::graph_traits<T_t>::vertex_descriptor, size_t> f
   boost::tie(c, c_end) = adjacent_vertices(t, T);
 
   switch (out_degree(t, T))
-    {
-    case 0:
-      return(t_s > t_old_s ? std::pair<typename boost::graph_traits<T_t>::vertex_descriptor, size_t>(t, t_s) : std::pair<typename boost::graph_traits<T_t>::vertex_descriptor, size_t>(t_old, t_old_s));
-    case 1:
-      return(find_best_root(T, *c, T[*c].alive.size() ? T[*c].alive.size() : t_s, t_old, t_old_s));
-    case 2:
-      c0 = *c++;
-      c1 = *c;
-      boost::tie(t0, t0_s) = find_best_root(T, c0, T[c0].alive.size() ? T[c0].alive.size() : t_s, t_old, t_old_s);
-      return(find_best_root(T, c1, T[c1].alive.size() ? T[c1].alive.size() : t_s, t0_s > t_old_s ? t0 : t_old, t0_s > t_old_s ? t0_s : t_old_s));
-      break;
-    default:
-      std::cerr << "Not nice.\n";
-      break;
-    }
+  {
+  case 0:
+    return (t_s > t_old_s ? std::pair<typename boost::graph_traits<T_t>::vertex_descriptor, size_t>(t, t_s) : std::pair<typename boost::graph_traits<T_t>::vertex_descriptor, size_t>(t_old, t_old_s));
+  case 1:
+    return (find_best_root(T, *c, T[*c].alive.size() ? T[*c].alive.size() : t_s, t_old, t_old_s));
+  case 2:
+    c0 = *c++;
+    c1 = *c;
+    boost::tie(t0, t0_s) = find_best_root(T, c0, T[c0].alive.size() ? T[c0].alive.size() : t_s, t_old, t_old_s);
+    return (find_best_root(T, c1, T[c1].alive.size() ? T[c1].alive.size() : t_s, t0_s > t_old_s ? t0 : t_old, t0_s > t_old_s ? t0_s : t_old_s));
+    break;
+  default:
+    std::cerr << "Not nice.\n";
+    break;
+  }
 
-  return(std::pair<typename boost::graph_traits<T_t>::vertex_descriptor, size_t>(t_old, t_old_s));
+  return (std::pair<typename boost::graph_traits<T_t>::vertex_descriptor, size_t>(t_old, t_old_s));
 }
 
 // Change the root to t.
@@ -1010,13 +1024,13 @@ static void re_root(T_t &T, typename boost::graph_traits<T_t>::vertex_descriptor
   s1 = boost::source(*e, T);
 
   for (boost::tie(e, e_end) = boost::in_edges(s1, T); e != e_end; boost::tie(e, e_end) = boost::in_edges(s1, T))
-    {
-      s2 = boost::source(*e, T);
-      boost::remove_edge(s1, s0, T);
-      boost::add_edge(s0, s1, T);
-      s0 = s1;
-      s1 = s2;
-    }
+  {
+    s2 = boost::source(*e, T);
+    boost::remove_edge(s1, s0, T);
+    boost::add_edge(s0, s1, T);
+    s0 = s1;
+    s1 = s2;
+  }
   boost::remove_edge(s1, s0, T);
   boost::add_edge(s0, s1, T);
 }
@@ -1039,10 +1053,10 @@ static void good_re_root(T_t &T)
   t = find_best_root(T, t, t_s, t, t_s).first;
 
   if (T[t].alive.size())
-    {
-      std::cout << "Error: Invalid root.\n";
-      return;
-    }
+  {
+    std::cout << "Error: Invalid root.\n";
+    return;
+  }
 
   re_root(T, t);
 }
@@ -1054,13 +1068,13 @@ static void dump_con(const con_t &con)
 
   std::string *name = new std::string[num_vertices(con)];
   for (var_t i = 0; static_cast<boost::graph_traits<cfg_t>::vertices_size_type>(i) < boost::num_vertices(con); i++)
-    {
-      std::ostringstream os;
-      os << i;
-      if (con[i].name)
-        os << " : " << con[i].name << ":" << con[i].byte;
-      name[i] = os.str();
-    }
+  {
+    std::ostringstream os;
+    os << i;
+    if (con[i].name)
+      os << " : " << con[i].name << ":" << con[i].byte;
+    name[i] = os.str();
+  }
   boost::write_graphviz(dump_file, con, boost::make_label_writer(name));
   delete[] name;
 }
@@ -1072,14 +1086,14 @@ static void dump_cfg(const cfg_t &cfg)
 
   std::string *name = new std::string[num_vertices(cfg)];
   for (unsigned int i = 0; i < boost::num_vertices(cfg); i++)
-    {
-      std::ostringstream os;
-      os << i << ", " << cfg[i].ic->key << ": ";
-      std::set<var_t>::const_iterator v;
-      for (v = cfg[i].alive.begin(); v != cfg[i].alive.end(); ++v)
-        os << *v << " ";
-      name[i] = os.str();
-    }
+  {
+    std::ostringstream os;
+    os << i << ", " << cfg[i].ic->key << ": ";
+    std::set<var_t>::const_iterator v;
+    for (v = cfg[i].alive.begin(); v != cfg[i].alive.end(); ++v)
+      os << *v << " ";
+    name[i] = os.str();
+  }
   boost::write_graphviz(dump_file, cfg, boost::make_label_writer(name));
   delete[] name;
 }
@@ -1093,27 +1107,26 @@ static void dump_tree_decomposition(const tree_dec_t &tree_dec)
 
   std::string *name = new std::string[num_vertices(tree_dec)];
   for (unsigned int i = 0; i < boost::num_vertices(tree_dec); i++)
-    {
-      if (tree_dec[i].bag.size() > w)
-        w = tree_dec[i].bag.size();
-      std::ostringstream os;
-      std::set<unsigned int>::const_iterator v1;
-      os << i << " | ";
-      for (v1 = tree_dec[i].bag.begin(); v1 != tree_dec[i].bag.end(); ++v1)
-        os << *v1 << " ";
-      os << ": ";
-      std::set<var_t>::const_iterator v2;
-      for (v2 = tree_dec[i].alive.begin(); v2 != tree_dec[i].alive.end(); ++v2)
-        os << *v2 << " ";
-      name[i] = os.str();
-    }
+  {
+    if (tree_dec[i].bag.size() > w)
+      w = tree_dec[i].bag.size();
+    std::ostringstream os;
+    std::set<unsigned int>::const_iterator v1;
+    os << i << " | ";
+    for (v1 = tree_dec[i].bag.begin(); v1 != tree_dec[i].bag.end(); ++v1)
+      os << *v1 << " ";
+    os << ": ";
+    std::set<var_t>::const_iterator v2;
+    for (v2 = tree_dec[i].alive.begin(); v2 != tree_dec[i].alive.end(); ++v2)
+      os << *v2 << " ";
+    name[i] = os.str();
+  }
   boost::write_graphviz(dump_file, tree_dec, boost::make_label_writer(name));
   delete[] name;
 
 #ifdef D_RALLOC_DEC
-  std::cout << "Width: " << (w  - 1) << "(" << currFunc->name << ")\n";
+  std::cout << "Width: " << (w - 1) << "(" << currFunc->name << ")\n";
 #endif
 }
 
 #endif
-

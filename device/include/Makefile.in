@@ -42,10 +42,9 @@ all:
 
 # Compiling and installing everything and running test
 # ----------------------------------------------------
-# zwr
 install: all installdirs
 	$(CP) -r $(srcdir)/asm $(srcdir)/*.h $(sdcc_includedir)
-	for target in mcs51 ds390 ds400 pic14 pic16 mc30 z80 z180 hc08; \
+	for target in mcs51 ds390 ds400 pic14 pic16 z80 z180 hc08; \
 	do \
 	  if [ "`grep $${target} $(top_builddir)/ports.build`" = "$${target}" ]; \
 	  then \
@@ -95,10 +94,9 @@ installcheck:
 
 # Creating installation directories
 # ---------------------------------
-# zwr
 installdirs:
 	mkdir -p $(sdcc_includedir)
-	for target in mcs51 ds390 ds400 pic14 pic16 mc30 z80 z180 gbz80 hc08; \
+	for target in mcs51 ds390 ds400 pic14 pic16 z80 z180 gbz80 hc08; \
 	do \
 	  if [ -d $(srcdir)/$${target} ]; \
 	  then \

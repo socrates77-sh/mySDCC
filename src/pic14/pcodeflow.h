@@ -47,22 +47,21 @@
  * in the program flow.
  *************************************************/
 
-#define  PCC_NONE          0
-#define  PCC_REGISTER      (1<<0)
-#define  PCC_C             (1<<1)
-#define  PCC_Z             (1<<2)
-#define  PCC_DC            (1<<3)
-#define  PCC_W             (1<<4)
-#define  PCC_EXAMINE_PCOP  (1<<5)
-#define  PCC_REG_BANK0     (1<<6)
-#define  PCC_REG_BANK1     (1<<7)
-#define  PCC_REG_BANK2     (1<<8)
-#define  PCC_REG_BANK3     (1<<9)
-#define  PCC_LITERAL       (1<<10)
+#define PCC_NONE 0
+#define PCC_REGISTER (1 << 0)
+#define PCC_C (1 << 1)
+#define PCC_Z (1 << 2)
+#define PCC_DC (1 << 3)
+#define PCC_W (1 << 4)
+#define PCC_EXAMINE_PCOP (1 << 5)
+#define PCC_REG_BANK0 (1 << 6)
+#define PCC_REG_BANK1 (1 << 7)
+#define PCC_REG_BANK2 (1 << 8)
+#define PCC_REG_BANK3 (1 << 9)
+#define PCC_LITERAL (1 << 10)
 
 /*------------------------------------------------------------*/
 
 void BuildFlowTree(pBlock *pb);
 
 #endif // __PCODEFLOW_H__
-

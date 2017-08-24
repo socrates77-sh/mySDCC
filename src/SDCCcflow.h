@@ -28,8 +28,8 @@
 #ifndef SDCCCFLOW_H
 #define SDCCCFLOW_H 1
 
-eBBlock *immedDom (ebbIndex *, eBBlock *);
-void computeControlFlow (ebbIndex *);
-void disconBBlock (eBBlock *, ebbIndex *);
-int returnAtEnd (eBBlock *) ;
+eBBlock *immedDom(ebbIndex *, eBBlock *);
+void computeControlFlow(ebbIndex *);
+void disconBBlock(eBBlock *, ebbIndex *);
+int returnAtEnd(eBBlock *);
 #endif

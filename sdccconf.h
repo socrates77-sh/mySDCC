@@ -126,10 +126,10 @@
 #define OPT_DISABLE_MCS51 1
 
 /* XXX */
-#define OPT_DISABLE_PACKIHX 0
+#define OPT_DISABLE_PACKIHX 1
 
 /* XXX */
-#define OPT_DISABLE_PIC14 1
+#define OPT_DISABLE_PIC14 0
 
 /* XXX */
 #define OPT_DISABLE_PIC16 1
@@ -147,7 +147,7 @@
 #define OPT_DISABLE_SDBINUTILS 1
 
 /* XXX */
-#define OPT_DISABLE_SDCDB 0
+#define OPT_DISABLE_SDCDB 1
 
 /* XXX */
 #define OPT_DISABLE_SDCPP 0
@@ -213,16 +213,16 @@
 #define SDCC_LIB_NAME "SDCC_LIB"
 
 /* XXX */
-#define SDCC_VERSION_HI 0
+#define SDCC_VERSION_HI 1
 
 /* XXX */
 #define SDCC_VERSION_LO 0
 
 /* XXX */
-#define SDCC_VERSION_P 4
+#define SDCC_VERSION_P 0
 
 /* XXX */
-#define SDCC_VERSION_STR "0.0.4"
+#define SDCC_VERSION_STR "1.0.0"
 
 /* The size of `char', as computed by sizeof. */
 #define SIZEOF_CHAR 1

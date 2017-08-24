@@ -35,10 +35,11 @@
 
 **************************************************/
 
-typedef struct pCodeRegLives {
-	set *usedpFlows;       /* set of pFlow objects that use this register */
-	set *assignedpFlows;   /* set of pFlow objects that assign values to this register */
-	set *usedpCodes;       /* set of all instructions that use this register */
+typedef struct pCodeRegLives
+{
+  set *usedpFlows;     /* set of pFlow objects that use this register */
+  set *assignedpFlows; /* set of pFlow objects that assign values to this register */
+  set *usedpCodes;     /* set of all instructions that use this register */
 
 } pCodeRegLives;
 

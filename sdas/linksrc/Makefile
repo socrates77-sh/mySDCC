@@ -2,10 +2,10 @@
 #
 #
 
-VERSION         = 0.0.4
-VERSIONHI       = 0
+VERSION         = 1.0.0
+VERSIONHI       = 1
 VERSIONLO       = 0
-VERSIONP        = 4
+VERSIONP        = 0
 
 SHELL           = /bin/sh
 CC              = gcc

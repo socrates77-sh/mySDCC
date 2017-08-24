@@ -2,13 +2,13 @@
 #
 #
 
-VERSION         = 0.0.4
-VERSIONHI       = 0
-VERSIONLO       = 0
-VERSIONP        = 4
+VERSION         = 3.2.0
+VERSIONHI       = 3
+VERSIONLO       = 2
+VERSIONP        = 0
 
 SHELL           = /bin/sh
-INSTALL         = /usr/bin/install -c
+INSTALL         = /bin/install -c
 CP              = cp
 
 LIB_TYPE        = RANLIB
@@ -58,20 +58,19 @@ PORTDIR         = $(BUILDDIR)/$(PORT)
 endif
 
 OPT_DISABLE_AVR   = 1
-OPT_DISABLE_DS390 = 0
-OPT_DISABLE_DS400 = 0
-OPT_DISABLE_HC08  = 0
-OPT_DISABLE_S08   = 0
-OPT_DISABLE_MCS51 = 0
-OPT_DISABLE_MC30 = @OPT_DISABLE_MC30@
+OPT_DISABLE_DS390 = 1
+OPT_DISABLE_DS400 = 1
+OPT_DISABLE_HC08  = 1
+OPT_DISABLE_S08   = 1
+OPT_DISABLE_MCS51 = 1
 OPT_DISABLE_PIC14 = 0
-OPT_DISABLE_PIC16 = 0
+OPT_DISABLE_PIC16 = 1
 OPT_DISABLE_XA51  = 1
-OPT_DISABLE_Z80   = 0
-OPT_DISABLE_Z180  = 0
-OPT_DISABLE_R2K   = 0
-OPT_DISABLE_R3KA  = 0
-OPT_DISABLE_GBZ80 = 0
+OPT_DISABLE_Z80   = 1
+OPT_DISABLE_Z180  = 1
+OPT_DISABLE_R2K   = 1
+OPT_DISABLE_R3KA  = 1
+OPT_DISABLE_GBZ80 = 1
 
 SOURCES_FLOAT = $(COMMON_FLOAT) \
   _fscmp.c \
@@ -183,10 +182,6 @@ endif
 
 ifeq ($(OPT_DISABLE_MCS51), 0)
 TARGETS        += models small-mcs51-stack-auto
-endif
-
-ifeq ($(OPT_DISABLE_MC30), 0)
-TARGETS        += model-mc30
 endif
 
 ifeq ($(OPT_DISABLE_PIC14), 0)
@@ -358,20 +353,10 @@ model-pic14:
 	  $(MAKE) PORT=pic14 objects-pic14; \
 	fi
 
-model-mc30:
-	if grep '^mc30\>' $(top_builddir)/ports.build > /dev/null; then \
-	  $(MAKE) PORT=mc30 objects-mc30; \
-	fi
-
 objects-pic14:
 	$(MAKE) build-dir
 	$(MAKE) port-specific-objects-pic14
 	$(MAKE) clean_intermediate-pic14
-
-objects-mc30:
-	$(MAKE) build-dir
-	$(MAKE) port-specific-objects-mc30
-	$(MAKE) clean_intermediate-mc30
 
 build-dir:
 	$(MAKE) $(PORTDIR)
@@ -402,15 +387,6 @@ port-specific-objects-pic14:
             cp -f "$$i" $(PORTDIR)/`basename "$$i" .a`.lib; \
           done; \
 	fi
-
-port-specific-objects-mc30:
-	-if [ -f $(PORT)/Makefile ]; then \
-	  $(MAKE) -C $(PORT); \
-          find $(PORT) -name 'lib*.a' | while read i; do \
-            cp -f "$$i" $(PORTDIR)/`basename "$$i" .a`.lib; \
-          done; \
-	fi
-
 
 ifeq ($(LIB_TYPE), SDCCLIB)
 
@@ -505,9 +481,6 @@ clean_intermediate-pic16:
 clean_intermediate-pic14:
 	$(MAKE) -C $(PORT) clean-intermediate
 
-clean_intermediate-mc30:
-	$(MAKE) -C $(PORT) clean-intermediate
-
 # Compiling and installing everything and runing test
 # ---------------------------------------------------
 install: all installdirs
@@ -515,10 +488,10 @@ install: all installdirs
 	$(CP_U) -r $(MODELS) $(srcdir)/mcs51 $(srcdir)/ds390 $(srcdir)/ds400 \
 	                     $(srcdir)/z80 $(srcdir)/z180 $(srcdir)/r2k $(srcdir)/r3ka $(srcdir)/gbz80 \
                          $(srcdir)/hc08 $(srcdir)/s08 \
-	                     $(srcdir)/mc30 $(srcdir)/pic14 $(srcdir)/pic16 $(srcdir)/*.c $(sdcc_libdir)/src
+	                     $(srcdir)/pic14 $(srcdir)/pic16 $(srcdir)/*.c $(sdcc_libdir)/src
 	$(CP_U) -r $(MODELS) mcs51 ds390 ds400 z80 z180 r2k r3ka gbz80 hc08 s08 $(sdcc_libdir)/src
 
-	for src in $(MODELS) ds390 ds400 z80 z180 r2k r3ka gbz80 hc08 s08 mc30 pic14 pic16; do \
+	for src in $(MODELS) ds390 ds400 z80 z180 r2k r3ka gbz80 hc08 s08 pic14 pic16; do \
 	  find $(sdcc_libdir)/src/$$src -depth \
 	    \( -name '*.rel' -o -name '*.dump*' -o -name '*.sym' -o -name '*.o' -o -name '*.lib' -o \
 	    -name '*.lst' -o -name '*.asm' -o -name '.svn' -o -name 'autom4te.cache' -o \
@@ -554,7 +527,7 @@ installdirs:
 	for model in $(MODELS); do \
 	  mkdir -p $(sdcc_libdir)/$$model; \
 	done
-	for libdir in small-stack-auto ds390 ds400 hc08 s08 pic16 pic14 mc30; do \
+	for libdir in small-stack-auto ds390 ds400 hc08 s08 pic16 pic14; do \
 	  mkdir -p $(sdcc_libdir)/$$libdir; \
 	done
 	mkdir -p $(sdcc_libdir)/src

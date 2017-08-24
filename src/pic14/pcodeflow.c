@@ -160,67 +160,67 @@ static void BuildFlowSegment(pCodeFlow *pcflow)
 void BuildFlowTree(pBlock *pb)
 {
 	pCodeFlow *first_pcflow, *pcflow;
-	
-	
+
 	//  fprintf(stderr,"BuildFlowTree \n");
-	
+
 	first_pcflow = PCFL(findNextpCode(pb->pcHead, PC_FLOW));
-	if(!first_pcflow)
+	if (!first_pcflow)
 		return;
-	
-		/* The very first node is like Adam, it's its own ancestor (i.e. 
+
+	/* The very first node is like Adam, it's its own ancestor (i.e. 
 		* there are no other flows in this pBlock prior to the first one).
 	*/
-	
+
 	first_pcflow->ancestor = first_pcflow;
-	
+
 	/* For each flow that has only one predecessor, it's easy to 
 	identify the ancestor */
 	pcflow = PCFL(findNextpCode(first_pcflow->pc.next, PC_FLOW));
-	
-	while(pcflow) {
-		if(elementsInSet(pcflow->from) == 1) {
+
+	while (pcflow)
+	{
+		if (elementsInSet(pcflow->from) == 1)
+		{
 			pCodeFlowLink *from = PCFLINK(setFirstItem(pcflow->from));
-			
+
 			pcflow->ancestor = from->pcflow;
 			/*
 			fprintf(stderr,"Assigning ancestor 0x%x to flow 0x%x\n",
 			pcflow->ancestor->pc.seq, pcflow->pc.seq);
 			*/
 		}
-		
+
 		pcflow = PCFL(findNextpCode(pcflow->pc.next, PC_FLOW));
-		
 	}
-	
+
 	pcflow = PCFL(findNextpCode(first_pcflow->pc.next, PC_FLOW));
-	
-	while(pcflow) {
-		if(elementsInSet(pcflow->from) > 1) {
+
+	while (pcflow)
+	{
+		if (elementsInSet(pcflow->from) > 1)
+		{
 			pCodeFlow *min_pcflow;
 			pCodeFlowLink *from = PCFLINK(setFirstItem(pcflow->from));
-			
+
 			min_pcflow = from->pcflow;
-			
-			while( (from = setNextItem(pcflow->from)) != NULL) {
-				if(from->pcflow->pc.seq < min_pcflow->pc.seq)
+
+			while ((from = setNextItem(pcflow->from)) != NULL)
+			{
+				if (from->pcflow->pc.seq < min_pcflow->pc.seq)
 					min_pcflow = from->pcflow;
 			}
-			
+
 			pcflow->ancestor = min_pcflow;
 			/*
 			fprintf(stderr,"Assigning ancestor 0x%x to flow 0x%x from multiple\n",
 			pcflow->ancestor->pc.seq, pcflow->pc.seq);
 			*/
-			
 		}
-		
+
 		pcflow = PCFL(findNextpCode(pcflow->pc.next, PC_FLOW));
-		
 	}
-	
+
 	//  BuildFlowSegment(pcflow);
-	
+
 	//dbg_dumpFlow(pb);
-	
 }

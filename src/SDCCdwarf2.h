@@ -302,32 +302,31 @@
 #define DW_CFA_lo_user 0x1c
 #define DW_CFA_hi_user 0x3f
 
-
 typedef struct dwloc
 {
   int opcode;
   struct
   {
-    symbol * sym;
-    const char * label;
+    symbol *sym;
+    const char *label;
     int offset;
   } operand;
-  struct dwloc * next;
+  struct dwloc *next;
 } dwloc;
 
 typedef struct dwlocregion
 {
-  char * startLabel;
-  char * endLabel;
-  dwloc * loc;
-  struct dwlocregion * next;
+  char *startLabel;
+  char *endLabel;
+  dwloc *loc;
+  struct dwlocregion *next;
 } dwlocregion;
 
 typedef struct dwloclist
 {
   int baseOffset;
-  dwlocregion * region;
-  struct dwloclist * next;
+  dwlocregion *region;
+  struct dwloclist *next;
 } dwloclist;
 
 struct dwtag;
@@ -336,25 +335,24 @@ typedef struct dwattr
 {
   int attr;
   int form;
-  union
-  {
+  union {
     struct
     {
-      char * label;
+      char *label;
       int offset;
     } symaddr;
     struct
     {
-      unsigned char * data;
+      unsigned char *data;
       int length;
     } block;
     int data;
-    const char * string;
-    struct dwtag * ref;
-    struct dwloc * loc;
-    struct dwloclist * loclist;
+    const char *string;
+    struct dwtag *ref;
+    struct dwloc *loc;
+    struct dwloclist *loclist;
   } val;
-  struct dwattr * next;
+  struct dwattr *next;
 } dwattr;
 
 typedef struct dwtag
@@ -362,16 +360,16 @@ typedef struct dwtag
   int tag;
   int abbrev;
   int baseOffset;
-  struct dwattr * attribs;
-  struct dwtag * parent;
-  struct dwtag * firstChild;
-  struct dwtag * lastChild;
-  struct dwtag * siblings;
+  struct dwattr *attribs;
+  struct dwtag *parent;
+  struct dwtag *firstChild;
+  struct dwtag *lastChild;
+  struct dwtag *siblings;
 } dwtag;
 
 typedef struct dwfile
 {
-  char * name;
+  char *name;
   int dirIndex;
   int timestamp;
   int length;
@@ -379,15 +377,15 @@ typedef struct dwfile
 
 typedef struct dwline
 {
-  char * label;
+  char *label;
   int offset;
   int fileIndex;
   int line;
-  unsigned is_stmt:1;
-  unsigned basic_block:1;
-  unsigned end_sequence:1;
-  unsigned begin_sequence:1;
-  struct dwline * next;
+  unsigned is_stmt : 1;
+  unsigned basic_block : 1;
+  unsigned end_sequence : 1;
+  unsigned begin_sequence : 1;
+  struct dwline *next;
 } dwline;
 
 #if 0
@@ -420,6 +418,5 @@ typedef struct dwfde
   dwcfins * ins;
 } dwfde;
 #endif
-
 
 #endif

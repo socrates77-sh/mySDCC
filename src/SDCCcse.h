@@ -29,35 +29,33 @@
 #define SDCCCSE_H 1
 
 typedef struct cseDef
-  {
+{
 
-    int key;
-    operand *sym;		/* defining symbol */
-    iCode *diCode;		/* defining instruction */
-    bitVect *ancestors;		/* keys of the symbol's ancestors */
-    int fromGlobal;		/* defining symbol's value computed from a global */
-    int fromAddrTaken:1;	/* defining symbol's value computed from a */
-				/*   symbol whose address was taken */
-  }
-cseDef;
+  int key;
+  operand *sym;          /* defining symbol */
+  iCode *diCode;         /* defining instruction */
+  bitVect *ancestors;    /* keys of the symbol's ancestors */
+  int fromGlobal;        /* defining symbol's value computed from a global */
+  int fromAddrTaken : 1; /* defining symbol's value computed from a */
+  /*   symbol whose address was taken */
+} cseDef;
 
-
-cseDef *newCseDef (operand *, iCode *);
-int isCseDefEqual (void *, void *);
-int pcseDef (void *, va_list);
-DEFSETFUNC (ifDiCodeIsX);
-int ifDiCodeIs (set *, iCode *);
-DEFSETFUNC (ifDefSymIsX);
-int ifDefSymIs (set *, operand *);
-DEFSETFUNC (findPrevIc);
-DEFSETFUNC (ifOperandsHave);
-DEFSETFUNC (findCheaperOp);
-int cseBBlock (eBBlock *, int, ebbIndex *);
-int cseAllBlocks (ebbIndex *, int computeOnly);
-void unsetDefsAndUses (iCode *);
-void updateSpillLocation (iCode * ic,int);
-void setUsesDefs (operand *, bitVect *, bitVect *, bitVect **);
-void replaceAllSymBySym (iCode *, operand *, operand *, bitVect **);
-iCode *findBackwardDef(operand *,iCode *);
+cseDef *newCseDef(operand *, iCode *);
+int isCseDefEqual(void *, void *);
+int pcseDef(void *, va_list);
+DEFSETFUNC(ifDiCodeIsX);
+int ifDiCodeIs(set *, iCode *);
+DEFSETFUNC(ifDefSymIsX);
+int ifDefSymIs(set *, operand *);
+DEFSETFUNC(findPrevIc);
+DEFSETFUNC(ifOperandsHave);
+DEFSETFUNC(findCheaperOp);
+int cseBBlock(eBBlock *, int, ebbIndex *);
+int cseAllBlocks(ebbIndex *, int computeOnly);
+void unsetDefsAndUses(iCode *);
+void updateSpillLocation(iCode *ic, int);
+void setUsesDefs(operand *, bitVect *, bitVect *, bitVect **);
+void replaceAllSymBySym(iCode *, operand *, operand *, bitVect **);
+iCode *findBackwardDef(operand *, iCode *);
 void ReplaceOpWithCheaperOp(operand **op, operand *cop);
 #endif

@@ -30,33 +30,31 @@
 
 /* bitvector */
 typedef struct bitVect
-  {
-    int size;
-    int bSize;
-    unsigned char *vect;
-  }
-bitVect;
-
+{
+  int size;
+  int bSize;
+  unsigned char *vect;
+} bitVect;
 
 extern int bitVectDefault;
 /*-----------------------------------------------------------------*/
 /*           Forward   definition    for   functions               */
 /*-----------------------------------------------------------------*/
 /* bitvector related functions */
-bitVect *newBitVect (int);
-void freeBitVect (bitVect *);
-bitVect *bitVectResize (bitVect *, int);
-bitVect *bitVectSetBit (bitVect *, int);
-void bitVectUnSetBit (const bitVect *, int);
-int bitVectBitValue (const bitVect *, int);
-bitVect *bitVectUnion (bitVect *, bitVect *);
-bitVect *bitVectIntersect (bitVect *, bitVect *);
-int bitVectBitsInCommon (bitVect *, bitVect *);
-bitVect *bitVectCplAnd (bitVect *, bitVect *);
-int bitVectEqual (bitVect *, bitVect *);
-bitVect *bitVectCopy (bitVect *);
-int bitVectIsZero (bitVect *);
-int bitVectnBitsOn (bitVect *);
-int bitVectFirstBit (bitVect *);
-void bitVectDebugOn (bitVect *, FILE *);
+bitVect *newBitVect(int);
+void freeBitVect(bitVect *);
+bitVect *bitVectResize(bitVect *, int);
+bitVect *bitVectSetBit(bitVect *, int);
+void bitVectUnSetBit(const bitVect *, int);
+int bitVectBitValue(const bitVect *, int);
+bitVect *bitVectUnion(bitVect *, bitVect *);
+bitVect *bitVectIntersect(bitVect *, bitVect *);
+int bitVectBitsInCommon(bitVect *, bitVect *);
+bitVect *bitVectCplAnd(bitVect *, bitVect *);
+int bitVectEqual(bitVect *, bitVect *);
+bitVect *bitVectCopy(bitVect *);
+int bitVectIsZero(bitVect *);
+int bitVectnBitsOn(bitVect *);
+int bitVectFirstBit(bitVect *);
+void bitVectDebugOn(bitVect *, FILE *);
 #endif

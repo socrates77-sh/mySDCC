@@ -2,13 +2,13 @@
 #
 #
 
-VERSION         = 0.0.4
-VERSIONHI       = 0
-VERSIONLO       = 0
-VERSIONP        = 4
+VERSION         = 3.2.0
+VERSIONHI       = 3
+VERSIONLO       = 2
+VERSIONP        = 0
 
 SHELL           = /bin/sh
-INSTALL         = /usr/bin/install -c
+INSTALL         = /bin/install -c
 CP              = cp
 AR_S            = ar @AR_S_FLAG@
 
@@ -59,15 +59,15 @@ PORTDIR         = $(BUILDDIR)/$(PORT)
 endif
 
 OPT_DISABLE_AVR   = 1
-OPT_DISABLE_DS390 = 0
-OPT_DISABLE_DS400 = 0
-OPT_DISABLE_GBZ80 = 0
-OPT_DISABLE_HC08  = 0
-OPT_DISABLE_MCS51 = 0
+OPT_DISABLE_DS390 = 1
+OPT_DISABLE_DS400 = 1
+OPT_DISABLE_GBZ80 = 1
+OPT_DISABLE_HC08  = 1
+OPT_DISABLE_MCS51 = 1
 OPT_DISABLE_PIC14 = 0
-OPT_DISABLE_PIC16 = 0
+OPT_DISABLE_PIC16 = 1
 OPT_DISABLE_XA51  = 1
-OPT_DISABLE_Z80   = 0
+OPT_DISABLE_Z80   = 1
 
 OBJECTS_FLOAT = $(SOURCES_FLOAT:%.c=$(PORT)/%.rel)
 OBJECTS_INT = $(SOURCES_INT:%.c=$(PORT)/%.rel)
