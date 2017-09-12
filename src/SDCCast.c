@@ -72,6 +72,9 @@ int inInitMode = 0;
 memmap *GcurMemmap = NULL; /* points to the memmap that's currently active */
 struct dbuf_s *codeOutBuf;
 
+//zwr 1.0.0
+struct dbuf_s *ValLog;
+
 int ptt(ast *tree)
 {
   printTypeChain(tree->ftype, stdout);
@@ -6604,6 +6607,12 @@ ast *createFunction(symbol *name, ast *body)
   name->lastLine = lexLineno;
   currFunc = name;
 
+  //zwr 1.0.0
+  if (!ValLog)
+  {
+    ValLog = dbuf_new(102400);
+    //dbuf_init(ValLog,10240);
+  }
   /* set the stack pointer */
   stackPtr = -port->stack.direction * port->stack.call_overhead;
   xstackPtr = 0;
@@ -6658,7 +6667,6 @@ ast *createFunction(symbol *name, ast *body)
     name->xstack = SPEC_STAK(fetype) = stack;
   else
     name->stack = SPEC_STAK(fetype) = stack;
-
   ex = newAst_VALUE(symbolVal(name)); /* create name */
   ex = newNode(FUNCTION, ex, body);
   ex->values.args = FUNC_ARGS(name->type);
@@ -6667,7 +6675,6 @@ ast *createFunction(symbol *name, ast *body)
     PA(ex);
   if (fatalError)
     goto skipall;
-
 /* Do not generate code for inline functions unless extern also. */
 #if 0
   if (FUNC_ISINLINE (name->type) && !IS_EXTERN (fetype))
@@ -6678,11 +6685,12 @@ ast *createFunction(symbol *name, ast *body)
   if (FUNC_ISINLINE(name->type) && !IS_EXTERN(fetype) && !IS_STATIC(fetype))
     goto skipall;
 #endif
-
   /* create the node & generate intermediate code */
   GcurMemmap = code;
   codeOutBuf = &code->oBuf;
+
   piCode = iCodeFromAst(ex);
+
   name->generated = 1;
 
   if (fatalError)

@@ -43,7 +43,7 @@
 ;   void _gptrput4 (void *ptr, unsigned long val);
 
 include macros.inc
-include mc3xf_common.inc
+include mc30f_common.inc
 
 	global	__gptrget
 	global	__gptrget1
@@ -64,15 +64,15 @@ __dataptrget1:
 
 __codeptrget1:
 	; call the RETLW instruction at the given address
-	;movar	STK00
-	;movra	_PCLATH
-	;movar	STK01
-	;movra	_PCL
 	movar	STK00
-	movra	_FSR1
+	movra	_PCLATH
 	movar	STK01
-	movra	_FSR0
-	movar _INDF2
+	movra	_PCL
+	;movar	STK00
+	;movra	_FSR1
+	;movar	STK01
+	;movra	_FSR0
+	;movar _INDF2
 	return	; should never be executed...
 
 	END

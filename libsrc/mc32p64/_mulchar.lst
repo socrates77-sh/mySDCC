@@ -1,0 +1,438 @@
+gpasm-2.0.0_beta2 (Aug 27 2017)_mulchar.asm       2017-9-12  18:09:56          PAGE  1
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+                      00001 ;--------------------------------------------------------
+                      00002 ; File Created by SN-SDCC : SinoMCU ANSI-C Compiler
+                      00003 ; Version 1.0.0 (Sep 11 2017) (MINGW32)
+                      00004 ; This file was generated Tue Sep 12 18:09:56 2017
+                      00005 ;--------------------------------------------------------
+                      00006 ; MC30/MC32 port for the RISC core
+                      00007 ;--------------------------------------------------------
+                      00008 ;       .file   "../libsdcc/_mulchar.c"
+                      00009         list    p=3264
+                      00010         radix dec
+                      00011         include "3264.inc"
+                      00001                 LIST
+                      00002 ;mc32p64.inc    Standard Header File, Version 1.00 by Sinomcu
+                      00374                 LIST
+                      00012 ;--------------------------------------------------------
+                      00013 ; external declarations
+                      00014 ;--------------------------------------------------------
+                      00015 
+                      00016         extern PSAVE
+                      00017         extern SSAVE
+                      00018         extern WSAVE
+                      00019         extern STK12
+                      00020         extern STK11
+                      00021         extern STK10
+                      00022         extern STK09
+                      00023         extern STK08
+                      00024         extern STK07
+                      00025         extern STK06
+                      00026         extern STK05
+                      00027         extern STK04
+                      00028         extern STK03
+                      00029         extern STK02
+                      00030         extern STK01
+                      00031         extern STK00
+                      00032 ;--------------------------------------------------------
+                      00033 ; global declarations
+                      00034 ;--------------------------------------------------------
+                      00035         global  __mulchar
+                      00036 
+                      00037 ;--------------------------------------------------------
+                      00038 ; global definitions
+                      00039 ;--------------------------------------------------------
+                      00040 ;--------------------------------------------------------
+                      00041 ; absolute symbol definitions
+                      00042 ;--------------------------------------------------------
+                      00043 ;--------------------------------------------------------
+                      00044 ; compiler-defined variables
+                      00045 ;--------------------------------------------------------
+                      00046 UDL__mulchar_0  udata
+0000                  00047 r0x1000 res     1
+0000                  00048 r0x1001 res     1
+0001                  00049 r0x1002 res     1
+0001                  00050 r0x1003 res     1
+0002                  00051 r0x1004 res     1
+                      00052 ;--------------------------------------------------------
+                      00053 ; initialized data
+                      00054 ;--------------------------------------------------------
+                      00055 
+                      00056 ;@Allocation info for local variables in function '_mulchar'
+                      00057 ;@_mulchar _mulchar                  Allocated to registers ;size:2
+                      00058 ;@_mulchar b                         Allocated to registers r0x1001 ;size:1
+                      00059 ;@_mulchar a                         Allocated to registers r0x1000 ;size:1
+                      00060 ;@_mulchar result                    Allocated to registers r0x1002 ;size:1
+                      00061 ;@_mulchar i                         Allocated to registers r0x1003 ;size:1
+                      00062 ;@end Allocation info for local variables in function '_mulchar';
+                      00063 
+                      00064 ;--------------------------------------------------------
+                      00065 ; overlayable items in internal ram 
+                      00066 ;--------------------------------------------------------
+                      00067 ;       udata_ovr
+                      00068 ;--------------------------------------------------------
+                      00069 ; code
+                      00070 ;--------------------------------------------------------
+                      00071 code__mulchar   code
+                      00072 ;***
+                      00073 ;  pBlock Stats: dbName = C
+                      00074 ;***
+                      00075 ;entry:  __mulchar      ;Function start
+                      00076 ; 2 exit points
+                      00077 ;has an exit
+                      00078 ;6 compiler assigned registers:
+                      00079 ;   r0x1000
+                      00080 ;   STK00
+                      00081 ;   r0x1001
+                      00082 ;   r0x1002
+                      00083 ;   r0x1003
+                      00084 ;   r0x1004
+                      00085 ;; Starting pCode block
+                      00086 ;;[ICODE] ../libsdcc/_mulchar.c:33:  _entry($16) :
+                      00087 ;;[ICODE] ../libsdcc/_mulchar.c:33:     proc __mulchar [k1 lr0:0 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char function ( char fixed, char fixed) fixed}
+0000                  00088 __mulchar       ;Function start
+                      00089 ; 2 exit points
+                      00090 ;;[ICODE] ../libsdcc/_mulchar.c:33: iTemp0 [k2 lr3:23 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{char fixed}{ sir@ __mulchar_a_1_1}[r0x1000 ] = recv __mulchar [k1 lr0:0 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char function ( char fixed, char fixed) fixed}
+                      00091 ;       .line   33; "../libsdcc/_mulchar.c"     _mulchar (char a, char b)
+0000   5600           00092         MOVRA   r0x1000
+                      00093 ;;[ICODE] ../libsdcc/_mulchar.c:33: iTemp1 [k4 lr4:23 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{char fixed}{ sir@ __mulchar_b_1_1}[r0x1001 ] = recv __mulchar [k1 lr0:0 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char function ( char fixed, char fixed) fixed}
+0001   5800           00094         MOVAR   STK00
+0002   5600           00095         MOVRA   r0x1001
+                      00096 ;;[ICODE] ../libsdcc/_mulchar.c:35:     iTemp2 [k6 lr5:24 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{char fixed}{ sir@ __mulchar_result_1_2}[r0x1002 ] := 0x0 {const-unsigned-char literal}
+                      00097 ;       .line   35; "../libsdcc/_mulchar.c"     char result = 0;
+0003   7600           00098         CLRR    r0x1002
+                      00099 ;;[ICODE] ../libsdcc/_mulchar.c:39:     iTemp3 [k8 lr6:23 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{unsigned-char fixed}{ sir@ __mulchar_i_1_2}[r0x1003 ] := 0x8 {unsigned-char literal}
+                      00100 ;       .line   39; "../libsdcc/_mulchar.c"     for (i = 0; i < 8u; i++) {
+0004   3C08           00101         MOVAI   0x08
+0005   5600           00102         MOVRA   r0x1003
+                      00103 ;;[ICODE] ../libsdcc/_mulchar.c:39:  _forcontinue_0($14) :
+                      00104 ;;[ICODE] ../libsdcc/_mulchar.c:41:     iTemp4 [k10 lr9:10 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char register} = iTemp0 [k2 lr3:23 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{char fixed}{ sir@ __mulchar_a_1_1}[r0x1000 ] & 0x1 {char literal}
+0006                  00105 _00118_DS_
+                      00106 ;       .line   41; "../libsdcc/_mulchar.c"     if (a & (unsigned char)0x0001u) result += b;
+0006   E000           00107         JBSET   r0x1000,0
+0007   A000           00108         GOTO    _00114_DS_
+                      00109 ;;[ICODE] ../libsdcc/_mulchar.c:41:     if iTemp4 [k10 lr9:10 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char register} == 0 goto _iffalse_3($10)
+                      00110 ;;[ICODE] ../libsdcc/_mulchar.c:41:     iTemp2 [k6 lr5:24 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{char fixed}{ sir@ __mulchar_result_1_2}[r0x1002 ] = iTemp2 [k6 lr5:24 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{char fixed}{ sir@ __mulchar_result_1_2}[r0x1002 ] + iTemp1 [k4 lr4:23 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{char fixed}{ sir@ __mulchar_b_1_1}[r0x1001 ]
+0008   5800           00111         MOVAR   r0x1001
+0009   7E00           00112         ADDRA   r0x1002
+                      00113 ;;[ICODE] ../libsdcc/_mulchar.c:44:  _iffalse_3($10) :
+                      00114 ;;[ICODE] ../libsdcc/_mulchar.c:45:     iTemp12 [k18 lr14:15 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-char fixed}[r0x1004 ] = (unsigned-char fixed)iTemp0 [k2 lr3:23 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{char fixed}{ sir@ __mulchar_a_1_1}[r0x1000 ]
+000A                  00115 _00114_DS_
+                      00116 ;       .line   45; "../libsdcc/_mulchar.c"     a = ((unsigned char)a) >> 1u;
+000A   5800           00117         MOVAR   r0x1000
+000B   5600           00118         MOVRA   r0x1004
+                      00119 ;;[ICODE] ../libsdcc/_mulchar.c:45:     iTemp0 [k2 lr3:23 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{char fixed}{ sir@ __mulchar_a_1_1}[r0x1000 ] = iTemp12 [k18 lr14:15 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-char fixed}[r0x1004 ] >> 0x1 {const-unsigned-int literal}
+                      00120 ;;shiftRight_Left2ResultLit:5213: shCount=1, size=1, sign=0, same=0, offr=0
+000C   D1B7           00121         BCLR    STATUS,0
+000D   4C00           00122         RRAR    r0x1004
+000E   5600           00123         MOVRA   r0x1000
+                      00124 ;;[ICODE] ../libsdcc/_mulchar.c:46:     iTemp15 [k21 lr17:18 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-int register}[r0x1004 r0x1005 ] = iTemp1 [k4 lr4:23 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{char fixed}{ sir@ __mulchar_b_1_1}[r0x1001 ] << 0x1 {const-unsigned-int literal}
+                      00125 ;       .line   46; "../libsdcc/_mulchar.c"     b <<= 1u;
+000F   D1B7           00126         BCLR    STATUS,0
+0010   5000           00127         RLAR    r0x1001
+0011   5600           00128         MOVRA   r0x1001
+0012   5600           00129         MOVRA   r0x1004
+                      00130 ;;[ICODE] ../libsdcc/_mulchar.c:46:     iTemp1 [k4 lr4:23 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{char fixed}{ sir@ __mulchar_b_1_1}[r0x1001 ] = (char fixed)iTemp15 [k21 lr17:18 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-int register}[r0x1004 r0x1005 ]
+                      00131 ;;99    MOVAR   r0x1004
+                      00132 ;;[ICODE] ../libsdcc/_mulchar.c:46:     iTemp17 [k23 lr20:21 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char register}[r0x1004 ] = (char register)iTemp3 [k8 lr6:23 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{unsigned-char fixed}{ sir@ __mulchar_i_1_2}[r0x1003 ]
+0013   5800           00133         MOVAR   r0x1003
+0014   5600           00134         MOVRA   r0x1004
+                      00135 ;;[ICODE] ../libsdcc/_mulchar.c:46:     iTemp3 [k8 lr6:23 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{unsigned-char fixed}{ sir@ __mulchar_i_1_2}[r0x1003 ] = iTemp17 [k23 lr20:21 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char register}[r0x1004 ] - 0x1 {const-char literal}
+0015   6C00           00136         DECAR   r0x1004
+0016   5600           00137         MOVRA   r0x1003
+                      00138 ;;[ICODE] ../libsdcc/_mulchar.c:39:     if iTemp3 [k8 lr6:23 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{unsigned-char fixed}{ sir@ __mulchar_i_1_2}[r0x1003 ] != 0 goto _forcontinue_0($14)
+                      00139 ;       .line   39; "../libsdcc/_mulchar.c"     for (i = 0; i < 8u; i++) {
+0017   3C00           00140         MOVAI   0x00
+0018   5C00           00141         ORAR    r0x1003
+0019   E5B7           00142         JBSET   STATUS,2
+001A   A000           00143         GOTO    _00118_DS_
+                      00144 ;;[ICODE] ../libsdcc/_mulchar.c:49:     ret iTemp2 [k6 lr5:24 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{char fixed}{ sir@ __mulchar_result_1_2}[r0x1002 ]
+                      00145 ;       .line   49; "../libsdcc/_mulchar.c"     return result;
+001B   5800           00146         MOVAR   r0x1002
+                      00147 ;;[ICODE] ../libsdcc/_mulchar.c:49:  _return($15) :
+                      00148 ;;[ICODE] ../libsdcc/_mulchar.c:49:     eproc __mulchar [k1 lr0:0 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char function ( char fixed, char fixed) fixed}
+001C   000C           00149         RETURN  
+                      00150 ; exit point of __mulchar
+                      00151 
+                      00152 
+                      00153 ;       code size estimation:
+                      00154 ;          29+    0 =    29 instructions (   58 byte)
+                      00155 
+                      00156         end
+gpasm-2.0.0_beta2 (Aug 27 2017)_mulchar.asm       2017-9-12  18:09:56          PAGE  2
+
+
+SYMBOL TABLE
+  LABEL                             VALUE
+
+ADCR0                             000001EC
+ADCR1                             000001ED
+ADEOC                             00000001
+ADIE                              00000006
+ADIF                              00000006
+ADIOS0                            00000000
+ADIOS1                            00000001
+ADIOS3                            00000003
+ADIOS4                            00000004
+ADIOS5                            00000005
+ADIOS7                            00000007
+ADOIS2                            00000002
+ADOIS6                            00000006
+ADON                              00000000
+ADRH                              000001EE
+ADRL                              000001EF
+BUZ0OE                            00000005
+BUZ1OE                            00000005
+C                                 00000000
+CLKS                              00000002
+DC                                00000001
+FSR                               000001B4
+FSR0                              000001B4
+FSR1                              000001B5
+GIE                               00000007
+HAAS                              00000006
+HBB                               00000005
+HCF                               00000007
+HEN                               00000001
+HFEN                              00000000
+HIBYTE                            000001B3
+HTX                               00000004
+I2CADDR                           000001F1
+I2CCR                             000001F0
+I2CDATA                           000001F2
+I2CIE                             00000005
+I2CIF                             00000005
+INDF                              000001B0
+INDF0                             000001B0
+INDF1                             000001B1
+INDF2                             000001B2
+INDF3                             000001B9
+INT0IE                            00000002
+INT0IF                            00000002
+INT1IE                            00000003
+INT1IF                            00000003
+INTE                              000001BA
+INTF                              000001BB
+IOP0                              000001C0
+IOP1                              000001C4
+IOP2                              000001C8
+IOP3                              000001CC
+LFEN                              00000001
+MCR                               000001B8
+OEP0                              000001C1
+OEP1                              000001C5
+OEP2                              000001C9
+OEP3                              000001CD
+OSCM                              000001BC
+P00                               00000000
+P00OE                             00000000
+P00PU                             00000000
+P01                               00000001
+P01OE                             00000001
+P01PU                             00000001
+P02                               00000002
+P02OE                             00000002
+P02PU                             00000002
+P03                               00000003
+P03OE                             00000003
+P03PU                             00000003
+P04                               00000004
+P04OE                             00000004
+P04PU                             00000004
+P05                               00000005
+P05OE                             00000005
+P05PU                             00000005
+P06                               00000006
+P06OE                             00000006
+P07                               00000007
+P07OE                             00000007
+P10                               00000000
+P10OE                             00000000
+P10PU                             00000000
+P11                               00000001
+P11OE                             00000001
+P11PU                             00000001
+P12                               00000002
+P12OE                             00000002
+P12PU                             00000002
+P13                               00000003
+P13OE                             00000003
+P13PU                             00000003
+P14                               00000004
+P14OE                             00000004
+P14PU                             00000004
+P15                               00000005
+P15OE                             00000005
+P15PU                             00000005
+P16                               00000006
+P16OE                             00000006
+P16PU                             00000006
+P17                               00000007
+P17OE                             00000007
+P17PU                             00000007
+P20                               00000000
+P20OE                             00000000
+P20PU                             00000000
+P21                               00000001
+P21OE                             00000001
+P21PU                             00000001
+P22                               00000002
+P22OE                             00000002
+P22PU                             00000002
+P23                               00000003
+P23OE                             00000003
+P23PU                             00000003
+P24                               00000004
+P24OE                             00000004
+P24PU                             00000004
+P25                               00000005
+P25OE                             00000005
+P25PU                             00000005
+P26                               00000006
+P26OE                             00000006
+P26PU                             00000006
+P27                               00000007
+P27OE                             00000007
+P27PU                             00000007
+P30                               00000000
+P30OE                             00000000
+P30PU                             00000000
+P31                               00000001
+P31OE                             00000001
+P31PU                             00000001
+PCL                               000001B6
+PD                                00000004
+PSAVE                             00000000
+PUP0                              000001C2
+PUP1                              000001C6
+PUP2                              000001CA
+PUP3                              000001CE
+PWM0OE                            00000006
+PWM1OE                            00000006
+RXAK                              00000000
+SRW                               00000002
+SSAVE                             00000000
+STATUS                            000001B7
+STBH                              00000004
+STBL                              00000005
+STK00                             00000000
+STK01                             00000000
+STK02                             00000000
+STK03                             00000000
+STK04                             00000000
+STK05                             00000000
+STK06                             00000000
+STK07                             00000000
+STK08                             00000000
+STK09                             00000000
+STK10                             00000000
+STK11                             00000000
+STK12                             00000000
+T0CNT                             000001D1
+T0CR                              000001D0
+T0DATA                            000001D3
+T0IE                              00000000
+T0IF                              00000000
+T0LOAD                            000001D2
+T1CNT                             000001D5
+T1CR                              000001D4
+T1DATA                            000001D7
+T1IE                              00000001
+T1IF                              00000001
+T1LOAD                            000001D6
+T2CNTH                            000001D9
+T2CNTL                            000001DA
+T2CR                              000001D8
+T2IE                              00000004
+T2IF                              00000004
+T2LOADH                           000001DB
+T2LOADL                           000001DC
+T2MOD                             00000005
+TC0EN                             00000007
+TC1EN                             00000007
+TC2EN                             00000007
+TK0CLR                            00000003
+TK0CNTH                           000001E2
+TK0CNTL                           000001E3
+TK0CRH                            000001E0
+TK0CRL                            000001E1
+TK0IE                             00000006
+TK0IF                             00000007
+TK0JE                             00000005
+TK0RCE                            00000004
+TK1CLR                            00000003
+TK1CNTH                           000001E6
+TK1CNTL                           000001E7
+TK1CRH                            000001E4
+TK1CRL                            000001E5
+TK1IE                             00000006
+TK1IF                             00000007
+TK1JE                             00000005
+TK1RCE                            00000004
+TK2CLR                            00000003
+TK2CNTH                           000001EA
+TK2CNTL                           000001EB
+TK2CRH                            000001E8
+TK2CRL                            000001E9
+TK2IE                             00000006
+TK2IF                             00000007
+TK2JE                             00000005
+TK2RCE                            00000004
+TO                                00000005
+TXAK                              00000003
+WSAVE                             00000000
+Z                                 00000002
+_00114_DS_                        0000000A
+_00118_DS_                        00000006
+_CONFIG0                          00008000
+_CONFIG1                          00008001
+_CP_ALL                           00007FFF
+_FCPU_128T                        0000FFEF
+_FCPU_16T                         0000FFBF
+_FCPU_256T                        0000FFFF
+_FCPU_2T                          0000FF8F
+_FCPU_32T                         0000FFCF
+_FCPU_4T                          0000FF9F
+_FCPU_64T                         0000FFDF
+_FCPU_8T                          0000FFAF
+_HRC_LRC                          0000FCFF
+_HRC_LXT                          0000FDFF
+_HXT_LRC                          0000FEFF
+_MCLR_OFF                         0000FF7F
+_MCLR_ON                          0000FFFF
+_PTWRT_16_1024                    0000FFF7
+_PTWRT_16_16                      0000DFF7
+_PTWRT_256_256                    0000DFFF
+_PTWRT_256_4096                   0000FFFF
+_PTWRT_4_4                        0000DFF3
+_PTWRT_4_512                      0000FFF3
+_PTWRT_64_2048                    0000FFFB
+_PTWRT_64_64                      0000DFFB
+_VLVR_160                         0000E3FF
+_VLVR_185                         0000E7FF
+_VLVR_205                         0000EBFF
+_VLVR_218                         0000EFFF
+_VLVR_232                         0000F3FF
+_VLVR_245                         0000F7FF
+_VLVR_305                         0000FBFF
+_VLVR_360                         0000FFFF
+_WDT_ALWAYS_OFF                   0000FFFC
+_WDT_ALWAYS_ON                    0000FFFF
+_WDT_SLEEP_OFF                    0000FFFD
+__32P64                           00000001
+__mulchar                         00000000
+r0x1000                           00000000
+r0x1001                           00000001
+r0x1002                           00000002
+r0x1003                           00000003
+r0x1004                           00000004
+
+Errors   :     0
+Warnings :     0 reported,     0 suppressed
+Messages :     0 reported,     0 suppressed
+
+

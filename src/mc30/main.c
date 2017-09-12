@@ -157,7 +157,7 @@ _pic14_finaliseOptions(void)
     {
       *p2 = toupper(*p1);
     }
-    dbuf_append(&dbuf, "-D__SDCC_PIC", sizeof("-D__SDCC_PIC") - 1);
+    dbuf_append(&dbuf, "-D__SDCC_MC", sizeof("-D__SDCC_MC") - 1);  //zwr 1.0.0
     dbuf_append(&dbuf, upperProc, len);
     addSet(&preArgvSet, dbuf_detach_c_str(&dbuf));
   }
@@ -190,7 +190,7 @@ _pic14_genAssemblerPreamble(FILE *of)
 
   fprintf(of, "\tlist\tp=%s\n", name);
   fprintf(of, "\tradix dec\n");
-  fprintf(of, "\tinclude \"p%s.inc\"\n", name);
+  fprintf(of, "\tinclude \"%s.inc\"\n", name); //zwr 1.0.0
 }
 
 /* Generate interrupt vector table. */
@@ -298,7 +298,7 @@ _pic14_do_link(void)
   {
     addSet(&libFilesSet, Safe_strdup("libsdcc.lib"));
   }
-  SNPRINTF(temp, sizeof(temp), "pic%s.lib", procName);
+  SNPRINTF(temp, sizeof(temp), "%s.lib", procName);  //zwr 1.0.0
   addSet(&libFilesSet, Safe_strdup(temp));
   shash_add(&linkValues, "libs", joinStrSet(appendStrSet(libFilesSet, "\"", "\"")));
 
@@ -316,9 +316,9 @@ _pic14_do_link(void)
 PORT mc30_port =
     {
         TARGET_ID_PIC14,
-        "mc30",             //zwr 1.0.0
+        "mc30",              //zwr 1.0.0
         "SinoMCU mc30/mc32", /* Target name */
-        "",        /* Processor */
+        "",                  /* Processor */
         {
             picglue,
             TRUE, /* Emit glue around main */

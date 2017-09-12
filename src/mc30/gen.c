@@ -39,12 +39,17 @@
 #include "gen.h"
 #include "glue.h"
 #include "dbuf_string.h"
+#include "ralloc.h" //zwr 1.0.0
 
 /*
  * Imports
  */
 extern struct dbuf_s *codeOutBuf;
 extern set *externs;
+
+//zwr 1.0.0
+extern struct QValList *ValList;
+extern struct dbuf_s *ValLog;
 
 static pCodeOp *popGetImmd(char *name, unsigned int offset, int index, int is_func);
 static pCodeOp *popRegFromString(char *str, int size, int offset);
@@ -1395,12 +1400,13 @@ call_libraryfunc(char *name)
 {
   symbol *sym;
 
+  //zwr 1.0.0
   /* library code might reside in different page... */
-  emitpcode(POC_PAGESEL, popGetWithString(name, 1));
+  //emitpcode(POC_PAGESEL, popGetWithString(name, 1));
   /* call the library function */
   emitpcode(POC_CALL, popGetExternal(name, 0));
   /* might return from different page... */
-  emitpcode(POC_PAGESEL, popGetWithString("$", 0));
+  //emitpcode(POC_PAGESEL, popGetWithString("$", 0));
 
   /* create symbol, mark it as `extern' */
   sym = findSym(SymbolTab, NULL, name);
@@ -2124,7 +2130,7 @@ genCall(iCode *ic)
   {
     /* Extern functions and ISRs maybe on a different page;
        * must call pagesel */
-    emitpcode(POC_PAGESEL, popGetWithString(name, 1));
+    //emitpcode(POC_PAGESEL, popGetWithString(name, 1));    //zwr 1.0.0
   }
   emitpcode(POC_CALL, popGetWithString(name, isExtern));
   if (isExtern)
@@ -2132,7 +2138,7 @@ genCall(iCode *ic)
     /* May have returned from a different page;
        * must use pagesel to restore PCLATH before next
        * goto or call instruction */
-    emitpcode(POC_PAGESEL, popGetWithString("$", 0));
+    //emitpcode(POC_PAGESEL, popGetWithString("$", 0));   //zwr 1.0.0
   }
   GpsuedoStkPtr = 0;
   /* if we need assign a result value */
@@ -2404,7 +2410,8 @@ genFunction(iCode *ic)
     genCritical(NULL);
     if (IFFUNC_ARGS(sym->type))
     {
-      fprintf(stderr, "PIC14: Functions with __critical (%s) must not have arguments for now.\n", sym->name);
+      //zwr 1.0.0
+      fprintf(stderr, "MC30/MC32: Functions with __critical (%s) must not have arguments for now.\n", sym->name);
       exit(1);
     } // if
   }   // if
@@ -7295,6 +7302,32 @@ genDummyRead(iCode *ic)
   ic = ic;
 }
 
+//zwr 1.0.0
+void newVal()
+{
+  QValList *tempval;
+
+  tempval = (struct QValList *)malloc(sizeof(struct QValList));
+  tempval->firstval = NULL;
+  tempval->val = NULL;
+  tempval->next = NULL;
+
+  if (!ValList)
+  {
+    ValList = tempval;
+    ValList->firstItem = ValList;
+    ValList->next = NULL;
+  }
+  else
+  {
+    tempval->firstItem = ValList->firstItem;
+    ValList->next = tempval;
+    ValList = tempval;
+  }
+  tempval->funname = (char *)malloc(50);
+  strcpy(tempval->funname, currFunc->name);
+}
+
 /*-----------------------------------------------------------------*/
 /* genpic14Code - generate code for pic14 based controllers        */
 /*-----------------------------------------------------------------*/
@@ -7312,6 +7345,19 @@ void genpic14Code(iCode *lic)
   iCode *ic;
   int cln = 0;
   const char *cline;
+
+  //zwr 1.0.0
+  /* print the allocation information */
+  if (currFunc)
+  {
+    if (!ValLog)
+    {
+      ValLog = dbuf_new(102400);
+    }
+    newVal();
+    SaveAllocInfo(currFunc, ValList);
+    //printAllocInfo(currFunc,ValLog);
+  }
 
   FENTRY;
 

@@ -1,15 +1,25 @@
 {
     "version": "0.2.0",
     "configurations": [
-
         {
             "name": "(gdb) Launch",
             "type": "cppdbg",
             "request": "launch",
             "program": "E:\\tools\\sn-sdcc\\bin\\sdcc.exe",
-            "args": ["-V", "-S", "--verbose", "--use-non-free", "-mmc30", "-p0311", "-I\"e:\\tools\\sn-sdcc\\share\\include\"", "-Wa\"-Ie:\\tools\\sn-sdcc\\share\\header", "-Wl\"-Ie:\\tools\\sn-sdcc\\share\\lkr\\mc30p011.lkr", "main.c"],
+            "args": [
+                "-V",
+                "--verbose",
+                "-mmc30",
+                "-p3264",
+                "-I\"e:\\tools\\sn-sdcc\\share\\include\"",
+                "-Wa\"-Ie:\\tools\\sn-sdcc\\share\\header\"",
+                "--std-c99",
+                "--i-code-in-asm",
+                "-c",
+                "mc32p64.c"
+            ],
             "stopAtEntry": false,
-            "cwd": "E:\\tools\\demo\\try",
+            "cwd": "E:\\tools\\demo\\lib",
             "environment": [],
             "externalConsole": true,
             "MIMode": "gdb",

@@ -37,6 +37,10 @@ extern set *externs;
 extern symbol *mainf;
 extern struct dbuf_s *codeOutBuf;
 
+//zwr 1.0.0
+extern struct dbuf_s *ValLog;
+extern struct QValList *ValList;
+
 extern void initialComments(FILE *afile);
 extern operand *operandFromAst(ast *tree, int lvl);
 extern value *initPointer(initList *ilist, sym_link *toType);
@@ -282,9 +286,11 @@ pic14createInterruptVect(struct dbuf_s *vBuf)
     dbuf_printf(vBuf, "; reset vector \n");
     dbuf_printf(vBuf, "%s", iComments2);
     // Lkr file should place section STARTUP at address 0x0, but does not ...
+
+    //zwr 1.0.0
     dbuf_printf(vBuf, "STARTUP\t%s 0x0000\n", CODE_NAME);
-    dbuf_printf(vBuf, "\tnop\n"); /* first location for used by incircuit debugger */
-    dbuf_printf(vBuf, "\tpagesel __sdcc_gsinit_startup\n");
+    //dbuf_printf(vBuf, "\tnop\n"); /* first location for used by incircuit debugger */
+    //dbuf_printf(vBuf, "\tpagesel __sdcc_gsinit_startup\n");
     dbuf_printf(vBuf, "\tgoto\t__sdcc_gsinit_startup\n");
     popGetExternal("__sdcc_gsinit_startup", 0);
 }
@@ -495,7 +501,9 @@ pic14_emitInterruptHandler(FILE *asmFile)
         // Note - for mplink may have to enlarge section vectors in .lnk file
         // Note: Do NOT name this code_interrupt to avoid nameclashes with
         //       source files's code segment (interrupt.c -> code_interrupt)
-        fprintf(asmFile, "c_interrupt\t%s\t0x4\n", CODE_NAME);
+
+        //zwr 1.0.0
+        fprintf(asmFile, "c_interrupt\t%s\t0x8\n", CODE_NAME);
 
         /* interrupt service routine */
         fprintf(asmFile, "__sdcc_interrupt\n");
@@ -604,6 +612,13 @@ void picglue()
     /* emit initialized data */
     showAllMemmaps(asmFile);
 
+    //zwr 1.0.0
+    if (ValList)
+    {
+        printValsInfo(ValList, ValLog);
+        fprintf(asmFile, "\n%s\n", ValLog->buf);
+    }
+    
     /* print the locally defined variables in this module */
     writeUsedRegs(asmFile);
 
@@ -815,7 +830,8 @@ emitIvals(struct dbuf_s *oBuf, symbol *sym, initList *list, long lit, int size)
         {
             if (in_code)
             {
-                dbuf_printf(oBuf, "\tretlw 0x%02x\n", (int)(lit & 0xff));
+                //zwr 1.0.0
+                dbuf_printf(oBuf, "\tretai 0x%02x\n", (int)(lit & 0xff));
                 // dbuf_printf (oBuf, "\tretlw 0x00\n"); // conflict from merge of sf-patch-2991122 ?
             }
             else
@@ -878,7 +894,8 @@ emitIvals(struct dbuf_s *oBuf, symbol *sym, initList *list, long lit, int size)
         } // if
         if (in_code)
         {
-            dbuf_printf(oBuf, "\tretlw %s\n", text);
+            //zwr 1.0.0
+            dbuf_printf(oBuf, "\tretai %s\n", text);
         }
         else
         {
@@ -1041,7 +1058,8 @@ emitInitVal(struct dbuf_s *oBuf, symbol *topsym, sym_link *my_type, initList *li
         emitIvalLabel(oBuf, topsym);
         do
         {
-            dbuf_printf(oBuf, "\tretlw 0x%02x ; '%c'\n", str[0], (str[0] >= 0x20 && str[0] < 128) ? str[0] : '.');
+            //zwr 1.0.0
+            dbuf_printf(oBuf, "\tretai 0x%02x ; '%c'\n", str[0], (str[0] >= 0x20 && str[0] < 128) ? str[0] : '.');
         } while (*(str++));
         return;
     }

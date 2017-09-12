@@ -35,6 +35,10 @@ set *dynDirectRegs = NULL;
 set *dynDirectBitRegs = NULL;
 set *dynInternalRegs = NULL;
 
+//zwr 1.0.0
+extern struct dbuf_s *ValLog;
+struct QValList *ValList;
+
 #ifdef DEBUG_FENTRY2
 #define FENTRY2 printf
 #else
@@ -2108,7 +2112,8 @@ reassignLR(operand *op)
 
         debugLog("%s\n", __FUNCTION__);
         /* not spilt any more */
-        sym->isspilt = sym->blockSpil = sym->remainSpil = 0;
+        //zwr 1.0.0
+        sym->isspilt = sym->spillA = sym->blockSpil = sym->remainSpil = 0;
         bitVectUnSetBit(_G.spiltSet, sym->key);
 
         _G.regAssigned = bitVectSetBit(_G.regAssigned, sym->key);
@@ -2314,6 +2319,11 @@ serialRegAssign(eBBlock **ebbs, int count)
                                 or this one is rematerializable then
                                 spill this one */
                                 willCS = willCauseSpill(sym->nRegs, sym->regType);
+
+                                //zwr 1.0.0
+                                /* explicit turn off register spilling */
+                                willCS = 0;
+
                                 spillable = computeSpillable(ic);
                                 if (sym->remat ||
                                     (willCS && bitVectIsZero(spillable)))

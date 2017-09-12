@@ -2442,8 +2442,8 @@ void initPeepHole(void)
 
 //zwr 1.0.0
 #if !OPT_DISABLE_MC30
-  if (TARGET_IS_PIC14)
-    peepRules2pCode(rootRules);
+  // if (TARGET_IS_PIC14)
+  //   peepRules2pCode(rootRules);
 #endif
 
 #if !OPT_DISABLE_PIC14

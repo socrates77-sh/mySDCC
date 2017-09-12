@@ -1,6 +1,8 @@
-sdcc_bin=/home/sinomcu/temp/sn-sdcc/bin/sdcc
-gpasm_bin=/home/sinomcu/temp/snutils/gpasm/gpasm
-gplib_bin=/home/sinomcu/temp/snutils/gputils/gplib
+SDCC_HOME=/e/tools/sn-sdcc
+GPUTILS_HOME=/e/tools/snutils
+sdcc_bin=$SDCC_HOME/bin/sdcc
+gpasm_bin=$GPUTILS_HOME/gpasm/gpasm
+gplib_bin=$GPUTILS_HOME/gputils/gplib
 out=Makefile
 
 processor=3264
@@ -115,12 +117,12 @@ done
 echo >> $out
 echo >> $out
 
-echo 'SDCC_ARG = -V --verbose -mmc3x -p'$processor' -Wa-I$(SDCC_HOME)/share/header \' >> $out
-echo '    -I$(SDCC_HOME)/share/include \' >> $out
+echo 'SDCC_ARG = -V --verbose -mmc30 -p'$processor' -Wa-I'$SDCC_HOME'/share/header \' >> $out
+echo '    -I'$SDCC_HOME'/share/include \' >> $out
 echo '    --std-c99 --i-code-in-asm  -c -o ' >> $out
 echo >> $out
 
-echo 'ASM_ARG = -p mc'$processor' -I$(SDCC_HOME)/share/include -I. -I../libsdcc -c -o ' >> $out
+echo 'ASM_ARG = -p mc'$processor' -I'$SDCC_HOME'/share/include -I. -I../libsdcc -c -o ' >> $out
 echo >> $out
 
 echo 'all : $(OBJ) $(LIB)' >> $out

@@ -1,6 +1,6 @@
-sdcc_bin=/home/zwr/work/tool/sn-sdcc/bin/sdcc
-gpasm_bin=/home/zwr/work/tool/snutils/gpasm/gpasm
-gplib_bin=/home/zwr/work/tool/snutils/gputils/gplib
+sdcc_bin=/e/tools/sn-sdcc/bin/sdcc
+gpasm_bin=/e/tools/snutils/gpasm/gpasm
+gplib_bin=/e/tools/snutils/gputils/gplib
 out=Makefile
 
 c_file=" \
@@ -83,7 +83,7 @@ _gptrput4"
 echo "SDCC_EXE = $sdcc_bin" > $out
 echo "ASM_EXE = $gpasm_bin" >> $out
 echo "LIB_EXE = $gplib_bin" >> $out
-echo "LIB = libsdcc-mc30.lib" >> $out
+echo "LIB = libsdcc-mc32.lib" >> $out
 #printf "OBJ = shadowregs.o " >> $out
 printf "OBJ = " >> $out
 
@@ -102,12 +102,12 @@ done
 echo >> $out
 echo >> $out
 
-echo 'SDCC_ARG = -V --verbose -mmc30 -p30p011 -Wa-I$(SDCC_HOME)/share/header \' >> $out
+echo 'SDCC_ARG = -V --verbose -mmc30 -p32p64 -Wa-I$(SDCC_HOME)/share/header \' >> $out
 echo '    -I$(SDCC_HOME)/share/include \' >> $out
 echo '    --std-c99 --i-code-in-asm  -c -o ' >> $out
 echo >> $out
 
-echo 'ASM_ARG = -p mc30p011 -I$(SDCC_HOME)/share/include -I. -c -o ' >> $out
+echo 'ASM_ARG = -p mc32p64 -I$(SDCC_HOME)/share/include -I. -c -o ' >> $out
 echo >> $out
 
 echo 'all : $(OBJ) $(LIB)' >> $out

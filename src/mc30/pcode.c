@@ -94,20 +94,20 @@ static pBlock *newpBlock(void);
 /****************************************************************/
 /*                    PIC Instructions                          */
 /****************************************************************/
-
+//zwr 1.0.0
 static pCodeInstruction pciADDWF = {
 	{PC_OPCODE, NULL, NULL, 0, 0, NULL,
 	 genericDestruct,
 	 genericPrint},
 	POC_ADDWF,
-	"ADDWF",
+	"ADDRA",
 	NULL, // from branch
 	NULL, // to branch
 	NULL, // label
 	NULL, // operand
 	NULL, // flow block
 	NULL, // C source
-	2,	// num ops
+	1,	// num ops
 	1,
 	0, // dest, bit instruction
 	0,
@@ -123,14 +123,14 @@ static pCodeInstruction pciADDFW = {
 	 genericDestruct,
 	 genericPrint},
 	POC_ADDFW,
-	"ADDWF",
+	"ADDAR",
 	NULL, // from branch
 	NULL, // to branch
 	NULL, // label
 	NULL, // operand
 	NULL, // flow block
 	NULL, // C source
-	2,	// num ops
+	1,	// num ops
 	0,
 	0, // dest, bit instruction
 	0,
@@ -146,7 +146,7 @@ static pCodeInstruction pciADDLW = {
 	 genericDestruct,
 	 genericPrint},
 	POC_ADDLW,
-	"ADDLW",
+	"ADDAI",
 	NULL, // from branch
 	NULL, // to branch
 	NULL, // label
@@ -169,7 +169,7 @@ static pCodeInstruction pciANDLW = {
 	 genericDestruct,
 	 genericPrint},
 	POC_ANDLW,
-	"ANDLW",
+	"ANDAI",
 	NULL, // from branch
 	NULL, // to branch
 	NULL, // label
@@ -192,14 +192,14 @@ static pCodeInstruction pciANDWF = {
 	 genericDestruct,
 	 genericPrint},
 	POC_ANDWF,
-	"ANDWF",
+	"ANDRA",
 	NULL, // from branch
 	NULL, // to branch
 	NULL, // label
 	NULL, // operand
 	NULL, // flow block
 	NULL, // C source
-	2,	// num ops
+	1,	// num ops
 	1,
 	0, // dest, bit instruction
 	0,
@@ -215,14 +215,14 @@ static pCodeInstruction pciANDFW = {
 	 genericDestruct,
 	 genericPrint},
 	POC_ANDFW,
-	"ANDWF",
+	"ANDAR",
 	NULL, // from branch
 	NULL, // to branch
 	NULL, // label
 	NULL, // operand
 	NULL, // flow block
 	NULL, // C source
-	2,	// num ops
+	1,	// num ops
 	0,
 	0, // dest, bit instruction
 	0,
@@ -238,7 +238,7 @@ static pCodeInstruction pciBCF = {
 	 genericDestruct,
 	 genericPrint},
 	POC_BCF,
-	"BCF",
+	"BCLR",
 	NULL, // from branch
 	NULL, // to branch
 	NULL, // label
@@ -261,7 +261,7 @@ static pCodeInstruction pciBSF = {
 	 genericDestruct,
 	 genericPrint},
 	POC_BSF,
-	"BSF",
+	"BSET",
 	NULL, // from branch
 	NULL, // to branch
 	NULL, // label
@@ -284,7 +284,7 @@ static pCodeInstruction pciBTFSC = {
 	 genericDestruct,
 	 genericPrint},
 	POC_BTFSC,
-	"BTFSC",
+	"JBCLR",
 	NULL, // from branch
 	NULL, // to branch
 	NULL, // label
@@ -307,7 +307,7 @@ static pCodeInstruction pciBTFSS = {
 	 genericDestruct,
 	 genericPrint},
 	POC_BTFSS,
-	"BTFSS",
+	"JBSET",
 	NULL, // from branch
 	NULL, // to branch
 	NULL, // label
@@ -353,14 +353,14 @@ static pCodeInstruction pciCOMF = {
 	 genericDestruct,
 	 genericPrint},
 	POC_COMF,
-	"COMF",
+	"COMR",
 	NULL, // from branch
 	NULL, // to branch
 	NULL, // label
 	NULL, // operand
 	NULL, // flow block
 	NULL, // C source
-	2,	// num ops
+	1,	// num ops
 	1,
 	0, // dest, bit instruction
 	0,
@@ -376,14 +376,14 @@ static pCodeInstruction pciCOMFW = {
 	 genericDestruct,
 	 genericPrint},
 	POC_COMFW,
-	"COMF",
+	"COMAR",
 	NULL, // from branch
 	NULL, // to branch
 	NULL, // label
 	NULL, // operand
 	NULL, // flow block
 	NULL, // C source
-	2,	// num ops
+	1,	// num ops
 	0,
 	0, // dest, bit instruction
 	0,
@@ -399,7 +399,7 @@ static pCodeInstruction pciCLRF = {
 	 genericDestruct,
 	 genericPrint},
 	POC_CLRF,
-	"CLRF",
+	"CLRR",
 	NULL, // from branch
 	NULL, // to branch
 	NULL, // label
@@ -422,7 +422,7 @@ static pCodeInstruction pciCLRW = {
 	 genericDestruct,
 	 genericPrint},
 	POC_CLRW,
-	"CLRW",
+	"CLRA",
 	NULL, // from branch
 	NULL, // to branch
 	NULL, // label
@@ -468,14 +468,14 @@ static pCodeInstruction pciDECF = {
 	 genericDestruct,
 	 genericPrint},
 	POC_DECF,
-	"DECF",
+	"DECR",
 	NULL, // from branch
 	NULL, // to branch
 	NULL, // label
 	NULL, // operand
 	NULL, // flow block
 	NULL, // C source
-	2,	// num ops
+	1,	// num ops
 	1,
 	0, // dest, bit instruction
 	0,
@@ -491,14 +491,14 @@ static pCodeInstruction pciDECFW = {
 	 genericDestruct,
 	 genericPrint},
 	POC_DECFW,
-	"DECF",
+	"DECAR",
 	NULL, // from branch
 	NULL, // to branch
 	NULL, // label
 	NULL, // operand
 	NULL, // flow block
 	NULL, // C source
-	2,	// num ops
+	1,	// num ops
 	0,
 	0, // dest, bit instruction
 	0,
@@ -514,14 +514,14 @@ static pCodeInstruction pciDECFSZ = {
 	 genericDestruct,
 	 genericPrint},
 	POC_DECFSZ,
-	"DECFSZ",
+	"DJZR",
 	NULL, // from branch
 	NULL, // to branch
 	NULL, // label
 	NULL, // operand
 	NULL, // flow block
 	NULL, // C source
-	2,	// num ops
+	1,	// num ops
 	1,
 	0, // dest, bit instruction
 	1,
@@ -537,14 +537,14 @@ static pCodeInstruction pciDECFSZW = {
 	 genericDestruct,
 	 genericPrint},
 	POC_DECFSZW,
-	"DECFSZ",
+	"DJZAR",
 	NULL, // from branch
 	NULL, // to branch
 	NULL, // label
 	NULL, // operand
 	NULL, // flow block
 	NULL, // C source
-	2,	// num ops
+	1,	// num ops
 	0,
 	0, // dest, bit instruction
 	1,
@@ -583,14 +583,14 @@ static pCodeInstruction pciINCF = {
 	 genericDestruct,
 	 genericPrint},
 	POC_INCF,
-	"INCF",
+	"INCR",
 	NULL, // from branch
 	NULL, // to branch
 	NULL, // label
 	NULL, // operand
 	NULL, // flow block
 	NULL, // C source
-	2,	// num ops
+	1,	// num ops
 	1,
 	0, // dest, bit instruction
 	0,
@@ -606,14 +606,14 @@ static pCodeInstruction pciINCFW = {
 	 genericDestruct,
 	 genericPrint},
 	POC_INCFW,
-	"INCF",
+	"INCAR",
 	NULL, // from branch
 	NULL, // to branch
 	NULL, // label
 	NULL, // operand
 	NULL, // flow block
 	NULL, // C source
-	2,	// num ops
+	1,	// num ops
 	0,
 	0, // dest, bit instruction
 	0,
@@ -629,14 +629,14 @@ static pCodeInstruction pciINCFSZ = {
 	 genericDestruct,
 	 genericPrint},
 	POC_INCFSZ,
-	"INCFSZ",
+	"JZR",
 	NULL, // from branch
 	NULL, // to branch
 	NULL, // label
 	NULL, // operand
 	NULL, // flow block
 	NULL, // C source
-	2,	// num ops
+	1,	// num ops
 	1,
 	0, // dest, bit instruction
 	1,
@@ -652,14 +652,14 @@ static pCodeInstruction pciINCFSZW = {
 	 genericDestruct,
 	 genericPrint},
 	POC_INCFSZW,
-	"INCFSZ",
+	"JZAR",
 	NULL, // from branch
 	NULL, // to branch
 	NULL, // label
 	NULL, // operand
 	NULL, // flow block
 	NULL, // C source
-	2,	// num ops
+	1,	// num ops
 	0,
 	0, // dest, bit instruction
 	1,
@@ -675,14 +675,14 @@ static pCodeInstruction pciIORWF = {
 	 genericDestruct,
 	 genericPrint},
 	POC_IORWF,
-	"IORWF",
+	"ORRA",
 	NULL, // from branch
 	NULL, // to branch
 	NULL, // label
 	NULL, // operand
 	NULL, // flow block
 	NULL, // C source
-	2,	// num ops
+	1,	// num ops
 	1,
 	0, // dest, bit instruction
 	0,
@@ -698,14 +698,14 @@ static pCodeInstruction pciIORFW = {
 	 genericDestruct,
 	 genericPrint},
 	POC_IORFW,
-	"IORWF",
+	"ORAR",
 	NULL, // from branch
 	NULL, // to branch
 	NULL, // label
 	NULL, // operand
 	NULL, // flow block
 	NULL, // C source
-	2,	// num ops
+	1,	// num ops
 	0,
 	0, // dest, bit instruction
 	0,
@@ -721,7 +721,7 @@ static pCodeInstruction pciIORLW = {
 	 genericDestruct,
 	 genericPrint},
 	POC_IORLW,
-	"IORLW",
+	"ORAI",
 	NULL, // from branch
 	NULL, // to branch
 	NULL, // label
@@ -744,14 +744,14 @@ static pCodeInstruction pciMOVF = {
 	 genericDestruct,
 	 genericPrint},
 	POC_MOVF,
-	"MOVF",
+	"MOVR",
 	NULL, // from branch
 	NULL, // to branch
 	NULL, // label
 	NULL, // operand
 	NULL, // flow block
 	NULL, // C source
-	2,	// num ops
+	1,	// num ops
 	1,
 	0, // dest, bit instruction
 	0,
@@ -767,14 +767,14 @@ static pCodeInstruction pciMOVFW = {
 	 genericDestruct,
 	 genericPrint},
 	POC_MOVFW,
-	"MOVF",
+	"MOVAR",
 	NULL, // from branch
 	NULL, // to branch
 	NULL, // label
 	NULL, // operand
 	NULL, // flow block
 	NULL, // C source
-	2,	// num ops
+	1,	// num ops
 	0,
 	0, // dest, bit instruction
 	0,
@@ -790,7 +790,7 @@ static pCodeInstruction pciMOVWF = {
 	 genericDestruct,
 	 genericPrint},
 	POC_MOVWF,
-	"MOVWF",
+	"MOVRA",
 	NULL, // from branch
 	NULL, // to branch
 	NULL, // label
@@ -813,7 +813,7 @@ static pCodeInstruction pciMOVLW = {
 	 genericDestruct,
 	 genericPrint},
 	POC_MOVLW,
-	"MOVLW",
+	"MOVAI",
 	NULL, // from branch
 	NULL, // to branch
 	NULL, // label
@@ -859,7 +859,7 @@ static pCodeInstruction pciRETFIE = {
 	 genericDestruct,
 	 genericPrint},
 	POC_RETFIE,
-	"RETFIE",
+	"RETIE",
 	NULL, // from branch
 	NULL, // to branch
 	NULL, // label
@@ -882,7 +882,7 @@ static pCodeInstruction pciRETLW = {
 	 genericDestruct,
 	 genericPrint},
 	POC_RETLW,
-	"RETLW",
+	"RETAI",
 	NULL, // from branch
 	NULL, // to branch
 	NULL, // label
@@ -928,14 +928,14 @@ static pCodeInstruction pciRLF = {
 	 genericDestruct,
 	 genericPrint},
 	POC_RLF,
-	"RLF",
+	"RLR",
 	NULL, // from branch
 	NULL, // to branch
 	NULL, // label
 	NULL, // operand
 	NULL, // flow block
 	NULL, // C source
-	2,	// num ops
+	1,	// num ops
 	1,
 	0, // dest, bit instruction
 	0,
@@ -951,14 +951,14 @@ static pCodeInstruction pciRLFW = {
 	 genericDestruct,
 	 genericPrint},
 	POC_RLFW,
-	"RLF",
+	"RLAR",
 	NULL, // from branch
 	NULL, // to branch
 	NULL, // label
 	NULL, // operand
 	NULL, // flow block
 	NULL, // C source
-	2,	// num ops
+	1,	// num ops
 	0,
 	0, // dest, bit instruction
 	0,
@@ -974,14 +974,14 @@ static pCodeInstruction pciRRF = {
 	 genericDestruct,
 	 genericPrint},
 	POC_RRF,
-	"RRF",
+	"RRR",
 	NULL, // from branch
 	NULL, // to branch
 	NULL, // label
 	NULL, // operand
 	NULL, // flow block
 	NULL, // C source
-	2,	// num ops
+	1,	// num ops
 	1,
 	0, // dest, bit instruction
 	0,
@@ -997,14 +997,14 @@ static pCodeInstruction pciRRFW = {
 	 genericDestruct,
 	 genericPrint},
 	POC_RRFW,
-	"RRF",
+	"RRAR",
 	NULL, // from branch
 	NULL, // to branch
 	NULL, // label
 	NULL, // operand
 	NULL, // flow block
 	NULL, // C source
-	2,	// num ops
+	1,	// num ops
 	0,
 	0, // dest, bit instruction
 	0,
@@ -1020,14 +1020,14 @@ static pCodeInstruction pciSUBWF = {
 	 genericDestruct,
 	 genericPrint},
 	POC_SUBWF,
-	"SUBWF",
+	"RSUBRA",
 	NULL, // from branch
 	NULL, // to branch
 	NULL, // label
 	NULL, // operand
 	NULL, // flow block
 	NULL, // C source
-	2,	// num ops
+	1,	// num ops
 	1,
 	0, // dest, bit instruction
 	0,
@@ -1043,14 +1043,14 @@ static pCodeInstruction pciSUBFW = {
 	 genericDestruct,
 	 genericPrint},
 	POC_SUBFW,
-	"SUBWF",
+	"RSUBAR",
 	NULL, // from branch
 	NULL, // to branch
 	NULL, // label
 	NULL, // operand
 	NULL, // flow block
 	NULL, // C source
-	2,	// num ops
+	1,	// num ops
 	0,
 	0, // dest, bit instruction
 	0,
@@ -1066,7 +1066,7 @@ static pCodeInstruction pciSUBLW = {
 	 genericDestruct,
 	 genericPrint},
 	POC_SUBLW,
-	"SUBLW",
+	"ISUBAI",
 	NULL, // from branch
 	NULL, // to branch
 	NULL, // label
@@ -1089,14 +1089,14 @@ static pCodeInstruction pciSWAPF = {
 	 genericDestruct,
 	 genericPrint},
 	POC_SWAPF,
-	"SWAPF",
+	"SWAPR",
 	NULL, // from branch
 	NULL, // to branch
 	NULL, // label
 	NULL, // operand
 	NULL, // flow block
 	NULL, // C source
-	2,	// num ops
+	1,	// num ops
 	1,
 	0, // dest, bit instruction
 	0,
@@ -1112,14 +1112,14 @@ static pCodeInstruction pciSWAPFW = {
 	 genericDestruct,
 	 genericPrint},
 	POC_SWAPFW,
-	"SWAPF",
+	"SWAPAR",
 	NULL, // from branch
 	NULL, // to branch
 	NULL, // label
 	NULL, // operand
 	NULL, // flow block
 	NULL, // C source
-	2,	// num ops
+	1,	// num ops
 	0,
 	0, // dest, bit instruction
 	0,
@@ -1158,14 +1158,14 @@ static pCodeInstruction pciXORWF = {
 	 genericDestruct,
 	 genericPrint},
 	POC_XORWF,
-	"XORWF",
+	"XORRA",
 	NULL, // from branch
 	NULL, // to branch
 	NULL, // label
 	NULL, // operand
 	NULL, // flow block
 	NULL, // C source
-	2,	// num ops
+	1,	// num ops
 	1,
 	0, // dest, bit instruction
 	0,
@@ -1181,14 +1181,14 @@ static pCodeInstruction pciXORFW = {
 	 genericDestruct,
 	 genericPrint},
 	POC_XORFW,
-	"XORWF",
+	"XORAR",
 	NULL, // from branch
 	NULL, // to branch
 	NULL, // label
 	NULL, // operand
 	NULL, // flow block
 	NULL, // C source
-	2,	// num ops
+	1,	// num ops
 	0,
 	0, // dest, bit instruction
 	0,
@@ -1204,7 +1204,7 @@ static pCodeInstruction pciXORLW = {
 	 genericDestruct,
 	 genericPrint},
 	POC_XORLW,
-	"XORLW",
+	"XORAI",
 	NULL, // from branch
 	NULL, // to branch
 	NULL, // label
@@ -3236,6 +3236,10 @@ static void genericPrint(FILE *of, pCode *pc)
 			pbl = pbl->next;
 		}
 	}
+		//zwr 1.0.0
+		if (PCAD(pc)->pci.cline)
+			genericPrint(of, PCODE(PCAD(pc)->pci.cline));
+
 		if (PCAD(pc)->directive)
 		{
 			fprintf(of, "\t%s%s%s\n", PCAD(pc)->directive, PCAD(pc)->arg ? "\t" : "", PCAD(pc)->arg ? PCAD(pc)->arg : "");

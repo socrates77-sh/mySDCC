@@ -23,6 +23,7 @@
 
 #include "common.h"
 #include "dbuf_string.h"
+#include "mc30\ralloc.h" //zwr 1.0.0
 
 /* memory segments */
 memmap *xstack = NULL;             /* xternal stack data          */
@@ -53,7 +54,8 @@ namedspacemap *namedspacemaps = 0; /* memory segments for named address spaces *
    symbols in a single overlay */
 set *ovrSetSets = NULL;
 
-int fatalError = 0; /* fatal error flag            */
+int fatalError = 0;          /* fatal error flag            */
+static int isSavedGloab = 0; //zwr 1.0.0
 
 /*-----------------------------------------------------------------*/
 /* allocMap - allocates a memory map                               */
@@ -1089,14 +1091,16 @@ printAllocInfoSeg(memmap *map, symbol *func, struct dbuf_s *oBuf)
     if (sym->localof != func)
       continue;
 
-    dbuf_printf(oBuf, ";%-25s Allocated ", sym->name);
+    //zwr 1.0.0
+    dbuf_printf(oBuf, ";@%s %-25s Allocated ", func->name, sym->name);
     flg = TRUE;
 
     /* if assigned to registers */
     if (!sym->allocreq && sym->reqv)
     {
       int i;
-
+      if (strcmp(currFunc->name, "IRSbr4") == 0)
+        ;
       sym = OP_SYMBOL(sym->reqv);
       if (!sym->isspilt || sym->remat)
       {
@@ -1209,6 +1213,156 @@ void doOverlays(eBBlock **ebbs, int count)
     overlay2data();
 }
 
+//zwr 1.0.0
+void SaveGloabInfo(memmap *map, symbol *func, QValList *desvals)
+{
+  symbol *sym;
+  symbol *tempsym;
+  symbol *ev;
+  int testSize = 0;
+  if (!map || !map->syms)
+    return 0;
+
+  for (sym = setFirstItem(map->syms); sym;
+       sym = setNextItem(map->syms))
+  {
+    if (!((sym->level == 0) || (sym->localof != func)))
+      continue;
+
+    tempsym = (struct symbol *)malloc(sizeof(struct symbol));
+    tempsym->next = NULL;
+
+    if (!(desvals->firstval))
+      desvals->firstval = tempsym;
+    if (!(desvals->val))
+      desvals->val = tempsym;
+    else
+      desvals->val->next = tempsym;
+    desvals->val = tempsym;
+    strcpy(tempsym->name, sym->name);
+    tempsym->nRegs = 0;
+    tempsym->type = sym->type;
+
+    if (!sym->allocreq && sym->reqv)
+    {
+      int i;
+
+      sym = OP_SYMBOL(sym->reqv);
+      if (!sym->isspilt || sym->remat)
+      {
+        tempsym->nRegs = sym->nRegs;
+        for (i = 0; i < 4 && sym->regs[i]; i++)
+          tempsym->regs[i] = sym->regs[i];
+        //tempsym->nreg=i ;
+        continue;
+      }
+    }
+  }
+}
+
+void Saveinfo(memmap *map, symbol *func, QValList *desvals)
+{
+  symbol *sym;
+  symbol *tempsym;
+  symbol *ev;
+  if (!map || !map->syms)
+    return 0;
+
+  for (sym = setFirstItem(map->syms); sym;
+       sym = setNextItem(map->syms))
+  {
+    if ((sym->level == 0) || (sym->localof != func))
+    {
+      if (isSavedGloab == 1)
+        continue;
+    }
+    tempsym = (struct symbol *)malloc(sizeof(struct symbol));
+    tempsym->next = NULL;
+
+    if (!(desvals->firstval))
+      desvals->firstval = tempsym;
+    if (!(desvals->val))
+      desvals->val = tempsym;
+    else
+      desvals->val->next = tempsym;
+    desvals->val = tempsym;
+    strcpy(tempsym->name, sym->name);
+    tempsym->nRegs = 0;
+    tempsym->type = sym->type;
+    /*
+	   sym->type=(struct sym_link*)malloc(sizeof(struct sym_link));
+	   if (sym->type)
+	   {  
+			tempsym->type->funcAttrs.hasVargs           =       sym->type->funcAttrs.hasVargs                  ;            
+			tempsym->type->funcAttrs.calleeSaves        =       sym->type->funcAttrs.calleeSaves               ;                       
+			tempsym->type->funcAttrs.hasbody            =       sym->type->funcAttrs.hasbody                   ;                       
+			tempsym->type->funcAttrs.hasFcall           =       sym->type->funcAttrs.hasFcall                  ;                       
+			tempsym->type->funcAttrs.reent              =       sym->type->funcAttrs.reent                     ;                       
+			tempsym->type->funcAttrs.naked              =       sym->type->funcAttrs.naked                     ;                       
+
+			tempsym->type->funcAttrs.shadowregs        =        sym->type->funcAttrs.shadowregs               ;                        
+			tempsym->type->funcAttrs.wparam             =       sym->type->funcAttrs.wparam                    ;                       
+			tempsym->type->funcAttrs.nonbanked          =       sym->type->funcAttrs.nonbanked                 ;                       
+			tempsym->type->funcAttrs.banked             =       sym->type->funcAttrs.banked                    ;                       
+			tempsym->type->funcAttrs.critical          =        sym->type->funcAttrs.critical                 ;                        
+			tempsym->type->funcAttrs.intrtn            =        sym->type->funcAttrs.intrtn                   ;                        
+			tempsym->type->funcAttrs.rbank              =       sym->type->funcAttrs.rbank                     ;                       
+			tempsym->type->funcAttrs.inlinereq          =       sym->type->funcAttrs.inlinereq                 ;                       
+			tempsym->type->funcAttrs.noreturn           =       sym->type->funcAttrs.noreturn                  ;                       
+			tempsym->type->funcAttrs.smallc             =       sym->type->funcAttrs.smallc                    ;                       
+			tempsym->type->funcAttrs.intno              =	  sym->type->funcAttrs.intno;       		       ;	
+			tempsym->type->funcAttrs.regbank           =       sym->type->funcAttrs.regbank               ;                        
+			tempsym->type->funcAttrs.builtin            =       sym->type->funcAttrs.builtin                   ;                       
+			tempsym->type->funcAttrs.javaNative         =       sym->type->funcAttrs.javaNative                ;                       
+			tempsym->type->funcAttrs.overlay            =       sym->type->funcAttrs.overlay                   ;                                       
+			tempsym->type->funcAttrs.hasStackParms      =       sym->type->funcAttrs.hasStackParms             ;                                       
+	   }
+		*/
+    //testSize=getSize (sym->etype);//*DCL_ELEM (sym->type);
+    if (!sym->allocreq && sym->reqv)
+    {
+      int i;
+
+      sym = OP_SYMBOL(sym->reqv);
+      if (!sym->isspilt || sym->remat)
+      {
+        tempsym->nRegs = sym->nRegs;
+        for (i = 0; i < 4 && sym->regs[i]; i++)
+          tempsym->regs[i] = sym->regs[i];
+        //tempsym->nreg=i ;
+        continue;
+      }
+    }
+  }
+}
+
+void SaveAllocInfo(symbol *func, QValList *desvals)
+{
+  set *ovrset;
+  set *tempOverlaySyms;
+
+  Saveinfo(xstack, func, desvals);
+  Saveinfo(istack, func, desvals);
+  Saveinfo(code, func, desvals);
+  Saveinfo(data, func, desvals);
+  Saveinfo(xdata, func, desvals);
+  Saveinfo(idata, func, desvals);
+  Saveinfo(sfr, func, desvals);
+  Saveinfo(sfrbit, func, desvals);
+
+  tempOverlaySyms = overlay->syms;
+
+  for (ovrset = setFirstItem(ovrSetSets); ovrset;
+       ovrset = setNextItem(ovrSetSets))
+  {
+    overlay->syms = ovrset;
+    Saveinfo(overlay, func, desvals);
+  }
+  overlay->syms = tempOverlaySyms;
+  if (isSavedGloab == 0)
+    isSavedGloab = 1;
+}
+
 /*-----------------------------------------------------------------*/
 /* printAllocInfo - prints allocation information for a function   */
 /*-----------------------------------------------------------------*/
@@ -1224,7 +1378,8 @@ void printAllocInfo(symbol *func, struct dbuf_s *oBuf)
 
   /* must be called after register allocation is complete */
   dbuf_append_str(oBuf, BREAKLINE);
-  dbuf_printf(oBuf, ";Allocation info for local variables in function '%s'\n", func->name);
+  //zwr 1.0.0
+  dbuf_printf(oBuf, ";@Allocation info for local variables in function '%s'\n", func->name);
   dbuf_append_str(oBuf, BREAKLINE);
 
   cnt += printAllocInfoSeg(xstack, func, oBuf);
@@ -1247,6 +1402,46 @@ void printAllocInfo(symbol *func, struct dbuf_s *oBuf)
   }
   overlay->syms = tempOverlaySyms;
 
+  //zwr 1.0.0
+  dbuf_append_str(oBuf, ";@end Allocation info for local variables in function '");
+  dbuf_append_str(oBuf, func->name);
+  dbuf_append_str(oBuf, "';\n");
+
   if (cnt)
+  {
     dbuf_append_str(oBuf, BREAKLINE);
+  }
+}
+
+//zwr 1.0.0
+void printValsInfo(QValList *desvals, struct dbuf_s *oBuf)
+{
+  QValList *tempval;
+  symbol *sym;
+  if ((!desvals) || (!desvals->firstItem))
+    return;
+  else
+    tempval = (QValList *)(desvals->firstItem);
+
+  while (tempval)
+  {
+    dbuf_printf(oBuf, ";@Allocation info for local variables in function '%s'\n", tempval->funname);
+    for (sym = tempval->firstval; sym; sym = sym->next)
+    {
+      int i;
+      dbuf_printf(oBuf, ";@%s %-25s Allocated to registers ", tempval->funname, sym->name);
+      for (i = 0; (i < sym->nRegs && sym->regs[i]); i++)
+      {
+        if (sym->regs[i]->name)
+          dbuf_printf(oBuf, "%s ", sym->regs[i]->name);
+      }
+      if (sym->type)
+        dbuf_printf(oBuf, ";size:%d", getSize(sym->type));
+      dbuf_append_char(oBuf, '\n');
+    }
+    dbuf_append_str(oBuf, ";@end Allocation info for local variables in function '");
+    dbuf_append_str(oBuf, tempval->funname);
+    dbuf_append_str(oBuf, "';\n");
+    tempval = tempval->next;
+  }
 }

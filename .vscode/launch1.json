@@ -1,0 +1,37 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "(gdb) Launch",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "E:\\tools\\sn-sdcc\\bin\\sdcc.exe",
+            "args": [
+                "--stack-size 10",
+                "-V",
+                "-S",
+                "--verbose",
+                "--use-non-free",
+                "-mmc30",
+                "-p0311",
+                "-I\"e:\\tools\\sn-sdcc\\share\\include\"",
+                "-Wa\"-Ie:\\tools\\sn-sdcc\\share\\header",
+                "-Wl\"-Ie:\\tools\\sn-sdcc\\share\\lkr\\mc30p011.lkr",
+                "main.c"
+            ],
+            "stopAtEntry": false,
+            "cwd": "E:\\tools\\demo\\try",
+            "environment": [],
+            "externalConsole": true,
+            "MIMode": "gdb",
+            "miDebuggerPath": "e:\\MinGW\\bin\\gdb.exe",
+            "setupCommands": [
+                {
+                    "description": "Enable pretty-printing for gdb",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                }
+            ]
+        }
+    ]
+}

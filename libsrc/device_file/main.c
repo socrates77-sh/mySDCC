@@ -154,7 +154,7 @@ void h_header()
 
 	fprintf(hH, "#ifndef %s_H\n", sTmp);
 	fprintf(hH, "#define %s_H\n\n", sTmp);
-	fprintf(hH, "#include <mc3x-common.h>\n\n");
+	fprintf(hH, "#include <mc30-common.h>\n\n");
 }
 
 void h_reg_address()

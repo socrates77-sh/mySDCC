@@ -43,7 +43,7 @@
 ;   void _gptrput4 (void *ptr, unsigned long val);
 
 include macros.inc
-include mc3xf_common.inc
+include mc30f_common.inc
 
 	global	__gptrput2
 	

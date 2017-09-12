@@ -81,6 +81,16 @@ extern set *dynDirectRegs;
 extern set *dynDirectBitRegs;
 extern set *dynInternalRegs;
 
+//zwr 1.0.0
+typedef struct QValList
+{
+  char *funname;
+  symbol *firstval;
+  symbol *val;
+  set *next;
+  set *firstItem;
+} QValList;
+
 void initStack(int base_address, int size, int shared);
 reg_info *pic14_regWithIdx(int);
 reg_info *dirregWithName(char *name);
