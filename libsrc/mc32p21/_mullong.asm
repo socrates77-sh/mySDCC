@@ -1,14 +1,14 @@
 ;--------------------------------------------------------
-; File Created by SN-SDCC : ANSI-C Compiler
-; Version 0.0.4 (Jan 22 2015) (Linux)
-; This file was generated Thu Jan 22 23:32:14 2015
+; File Created by SN-SDCC : SinoMCU ANSI-C Compiler
+; Version 1.0.0 (Sep 11 2017) (MINGW32)
+; This file was generated Mon Sep 18 19:57:25 2017
 ;--------------------------------------------------------
-; MC3X port for the RISC core
+; MC30/MC32 port for the RISC core
 ;--------------------------------------------------------
 ;	.file	"../libsdcc/_mullong.c"
-	list	p=32p21
+	list	p=3221
 	radix dec
-	include "mc32p21.inc"
+	include "3221.inc"
 ;--------------------------------------------------------
 ; external declarations
 ;--------------------------------------------------------
@@ -55,6 +55,14 @@ r0x1010	res	1
 ;--------------------------------------------------------
 ; initialized data
 ;--------------------------------------------------------
+
+;@Allocation info for local variables in function '_mullong'
+;@_mullong b                         Allocated to registers r0x1007 r0x1006 r0x1005 r0x1004 ;size:4
+;@_mullong a                         Allocated to registers r0x1003 r0x1002 r0x1001 r0x1000 ;size:4
+;@_mullong result                    Allocated to registers r0x1008 r0x1009 r0x100A r0x100B ;size:4
+;@_mullong i                         Allocated to registers r0x100C ;size:1
+;@end Allocation info for local variables in function '_mullong';
+
 ;--------------------------------------------------------
 ; overlayable items in internal ram 
 ;--------------------------------------------------------
@@ -277,7 +285,7 @@ _00114_DS_
 	MOVAR	r0x1000
 	MOVRA	r0x1010
 ;;[ICODE] ../libsdcc/_mullong.c:45: 	iTemp0 [k2 lr3:43 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{long-int fixed}{ sir@ __mullong_a_1_1}[r0x1000 r0x1001 r0x1002 r0x1003 ] = iTemp18 [k24 lr35:36 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-long-int fixed}[r0x100D r0x100E r0x100F r0x1010 ] >> 0x1 {const-unsigned-int literal}
-;;shiftRight_Left2ResultLit:5278: shCount=1, size=4, sign=0, same=0, offr=0
+;;shiftRight_Left2ResultLit:5215: shCount=1, size=4, sign=0, same=0, offr=0
 	BCLR	STATUS,0
 	RRAR	r0x1010
 	MOVRA	r0x1000

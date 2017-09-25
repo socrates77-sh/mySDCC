@@ -1,14 +1,14 @@
 ;--------------------------------------------------------
-; File Created by SN-SDCC : ANSI-C Compiler
-; Version 0.0.4 (Jan 22 2015) (Linux)
-; This file was generated Thu Jan 22 23:32:12 2015
+; File Created by SN-SDCC : SinoMCU ANSI-C Compiler
+; Version 1.0.0 (Sep 11 2017) (MINGW32)
+; This file was generated Mon Sep 18 19:57:18 2017
 ;--------------------------------------------------------
-; MC3X port for the RISC core
+; MC30/MC32 port for the RISC core
 ;--------------------------------------------------------
 ;	.file	"../libsdcc/_divuint.c"
-	list	p=32p21
+	list	p=3221
 	radix dec
-	include "mc32p21.inc"
+	include "3221.inc"
 ;--------------------------------------------------------
 ; external declarations
 ;--------------------------------------------------------
@@ -47,6 +47,14 @@ r0x1009	res	1
 ;--------------------------------------------------------
 ; initialized data
 ;--------------------------------------------------------
+
+;@Allocation info for local variables in function '_divuint'
+;@_divuint b                         Allocated to registers r0x1003 r0x1002 ;size:2
+;@_divuint a                         Allocated to registers r0x1001 r0x1000 ;size:2
+;@_divuint result                    Allocated to registers r0x1004 r0x1005 ;size:2
+;@_divuint mask                      Allocated to registers r0x1006 r0x1007 ;size:2
+;@end Allocation info for local variables in function '_divuint';
+
 ;--------------------------------------------------------
 ; overlayable items in internal ram 
 ;--------------------------------------------------------
@@ -157,7 +165,7 @@ _00112_DS_
 _00129_DS_
 	JBSET	STATUS,0
 	GOTO	_00111_DS_
-;;genSkipc:3246: created from rifx:0xbff70ec0
+;;genSkipc:3194: created from rifx:00CC608C
 ;;[ICODE] ../libsdcc/_divuint.c:48: 	if iTemp8 [k14 lr22:23 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char fixed} != 0 goto _iffalse_1($7)
 ;;[ICODE] ../libsdcc/_divuint.c:49: 	iTemp2 [k6 lr5:35 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{unsigned-int fixed}{ sir@ __divuint_result_1_2}[r0x1004 r0x1005 ] = iTemp2 [k6 lr5:35 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{unsigned-int fixed}{ sir@ __divuint_result_1_2}[r0x1004 r0x1005 ] + iTemp3 [k8 lr6:33 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{unsigned-int fixed}{ sir@ __divuint_mask_1_2}[r0x1006 r0x1007 ]
 ;	.line	49; "../libsdcc/_divuint.c"	result += mask;
@@ -177,14 +185,14 @@ _00129_DS_
 	RSUBRA	r0x1000
 ;;[ICODE] ../libsdcc/_divuint.c:50:  _iffalse_1($7) :
 ;;[ICODE] ../libsdcc/_divuint.c:52: 	iTemp1 [k4 lr4:33 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{unsigned-int fixed}{ sir@ __divuint_b_1_1}[r0x1002 r0x1003 ] = iTemp1 [k4 lr4:33 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{unsigned-int fixed}{ sir@ __divuint_b_1_1}[r0x1002 r0x1003 ] >> 0x1 {const-unsigned-char literal}
-;;shiftRight_Left2ResultLit:5278: shCount=1, size=2, sign=0, same=1, offr=0
+;;shiftRight_Left2ResultLit:5215: shCount=1, size=2, sign=0, same=1, offr=0
 _00111_DS_
 ;	.line	52; "../libsdcc/_divuint.c"	b >>= 1;
 	BCLR	STATUS,0
 	RRR	r0x1002
 	RRR	r0x1003
 ;;[ICODE] ../libsdcc/_divuint.c:53: 	iTemp3 [k8 lr6:33 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{unsigned-int fixed}{ sir@ __divuint_mask_1_2}[r0x1006 r0x1007 ] = iTemp3 [k8 lr6:33 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{unsigned-int fixed}{ sir@ __divuint_mask_1_2}[r0x1006 r0x1007 ] >> 0x1 {const-unsigned-char literal}
-;;shiftRight_Left2ResultLit:5278: shCount=1, size=2, sign=0, same=1, offr=0
+;;shiftRight_Left2ResultLit:5215: shCount=1, size=2, sign=0, same=1, offr=0
 ;	.line	53; "../libsdcc/_divuint.c"	mask >>= 1;
 	BCLR	STATUS,0
 	RRR	r0x1007

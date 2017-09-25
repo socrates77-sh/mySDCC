@@ -1,14 +1,14 @@
 ;--------------------------------------------------------
-; File Created by SN-SDCC : ANSI-C Compiler
-; Version 0.0.4 (Jan 22 2015) (Linux)
-; This file was generated Thu Jan 22 23:32:12 2015
+; File Created by SN-SDCC : SinoMCU ANSI-C Compiler
+; Version 1.0.0 (Sep 11 2017) (MINGW32)
+; This file was generated Mon Sep 18 19:57:16 2017
 ;--------------------------------------------------------
-; MC3X port for the RISC core
+; MC30/MC32 port for the RISC core
 ;--------------------------------------------------------
 ;	.file	"mc32p21.c"
-	list	p=32p21
+	list	p=3221
 	radix dec
-	include "mc32p21.inc"
+	include "3221.inc"
 ;--------------------------------------------------------
 ; external declarations
 ;--------------------------------------------------------

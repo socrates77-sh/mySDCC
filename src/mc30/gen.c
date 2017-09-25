@@ -2359,22 +2359,23 @@ genFunction(iCode *ic)
     }
     else
     {
-      emitpcode(POC_MOVWF, popCopyReg(&pc_wsave));
-      emitpcode(POC_SWAPFW, popCopyReg(&pc_status));
-      /* XXX: Why? Does this assume that ssave and psave reside
-           * in a shared bank or bank0? We cannot guarantee the
-           * latter...
-           */
-      emitpcode(POC_CLRF, popCopyReg(&pc_status));
-      emitpcode(POC_MOVWF, popCopyReg(&pc_ssave));
-      //emitpcode(POC_MOVWF,  popGetExternal("___sdcc_saved_status",1 ));
-      emitpcode(POC_MOVFW, popCopyReg(&pc_pclath));
-      /* during an interrupt PCLATH must be cleared before a goto or call statement */
-      emitpcode(POC_CLRF, popCopyReg(&pc_pclath));
-      emitpcode(POC_MOVWF, popCopyReg(&pc_psave));
-      //emitpcode(POC_MOVWF,  popGetExternal("___sdcc_saved_pclath", 1));
-      emitpcode(POC_MOVFW, popCopyReg(&pc_fsr));
-      emitpcode(POC_MOVWF, popGetExternal("___sdcc_saved_fsr", 1));
+      //zwr 1.0.0
+      // emitpcode(POC_MOVWF, popCopyReg(&pc_wsave));
+      // emitpcode(POC_SWAPFW, popCopyReg(&pc_status));
+      // /* XXX: Why? Does this assume that ssave and psave reside
+      //      * in a shared bank or bank0? We cannot guarantee the
+      //      * latter...
+      //      */
+      // emitpcode(POC_CLRF, popCopyReg(&pc_status));
+      // emitpcode(POC_MOVWF, popCopyReg(&pc_ssave));
+      // //emitpcode(POC_MOVWF,  popGetExternal("___sdcc_saved_status",1 ));
+      // emitpcode(POC_MOVFW, popCopyReg(&pc_pclath));
+      // /* during an interrupt PCLATH must be cleared before a goto or call statement */
+      // emitpcode(POC_CLRF, popCopyReg(&pc_pclath));
+      // emitpcode(POC_MOVWF, popCopyReg(&pc_psave));
+      // //emitpcode(POC_MOVWF,  popGetExternal("___sdcc_saved_pclath", 1));
+      // emitpcode(POC_MOVFW, popCopyReg(&pc_fsr));
+      // emitpcode(POC_MOVWF, popGetExternal("___sdcc_saved_fsr", 1));
     } // if
 
     pBlockConvert2ISR(pb);
@@ -2573,17 +2574,18 @@ genEndFunction(iCode *ic)
     }
     else
     {
-      emitpcode(POC_MOVFW, popGetExternal("___sdcc_saved_fsr", 1));
-      emitpcode(POC_MOVWF, popCopyReg(&pc_fsr));
-      //emitpcode(POC_MOVFW,  popGetExternal("___sdcc_saved_pclath", 1));
-      emitpcode(POC_MOVFW, popCopyReg(&pc_psave));
-      emitpcode(POC_MOVWF, popCopyReg(&pc_pclath));
-      emitpcode(POC_CLRF, popCopyReg(&pc_status)); // see genFunction
-      //emitpcode(POC_SWAPFW, popGetExternal("___sdcc_saved_status", 1));
-      emitpcode(POC_SWAPFW, popCopyReg(&pc_ssave));
-      emitpcode(POC_MOVWF, popCopyReg(&pc_status));
-      emitpcode(POC_SWAPF, popCopyReg(&pc_wsave));
-      emitpcode(POC_SWAPFW, popCopyReg(&pc_wsave));
+      //zwr 1.0.0
+      // emitpcode(POC_MOVFW, popGetExternal("___sdcc_saved_fsr", 1));
+      // emitpcode(POC_MOVWF, popCopyReg(&pc_fsr));
+      // //emitpcode(POC_MOVFW,  popGetExternal("___sdcc_saved_pclath", 1));
+      // emitpcode(POC_MOVFW, popCopyReg(&pc_psave));
+      // emitpcode(POC_MOVWF, popCopyReg(&pc_pclath));
+      // emitpcode(POC_CLRF, popCopyReg(&pc_status)); // see genFunction
+      // //emitpcode(POC_SWAPFW, popGetExternal("___sdcc_saved_status", 1));
+      // emitpcode(POC_SWAPFW, popCopyReg(&pc_ssave));
+      // emitpcode(POC_MOVWF, popCopyReg(&pc_status));
+      // emitpcode(POC_SWAPF, popCopyReg(&pc_wsave));
+      // emitpcode(POC_SWAPFW, popCopyReg(&pc_wsave));
     } // if
     addpCode2pBlock(pb, newpCodeLabel("END_OF_INTERRUPT", -1));
     emitpcodeNULLop(POC_RETFIE);
@@ -6988,13 +6990,18 @@ genJumpTab(iCode *ic)
   pic14_emitcode("jmp", "@a+dptr");
   pic14_emitcode("", "%05d_DS_:", labelKey2num(jtab->key));
 
-  emitpcode(POC_MOVLW, popGetHighLabel(jtab->key));
-  emitpcode(POC_MOVWF, popCopyReg(&pc_pclath));
-  emitpcode(POC_MOVLW, popGetLabel(jtab->key));
-  emitpcode(POC_ADDFW, popGet(AOP(IC_JTCOND(ic)), 0));
-  emitSKPNC;
-  emitpcode(POC_INCF, popCopyReg(&pc_pclath));
-  emitpcode(POC_MOVWF, popCopyReg(&pc_pcl));
+  //zwr 1.0.0, revise for switch
+
+  // //emitpcode(POC_MOVLW, popGetHighLabel(jtab->key));
+  // //emitpcode(POC_MOVWF, popCopyReg(&pc_pclath));
+  // emitpcode(POC_MOVLW, popGetLabel(jtab->key));
+  // emitpcode(POC_ADDFW, popGet(AOP(IC_JTCOND(ic)), 0));
+  // //emitSKPNC;
+  // //emitpcode(POC_INCF, popCopyReg(&pc_pclath));
+  // emitpcode(POC_MOVWF, popCopyReg(&pc_pcl));
+  emitpcode(POC_MOVFW, popGet(AOP(IC_JTCOND(ic)), 0));
+  emitpcode(POC_ADDWF, popCopyReg(&pc_pcl));
+
   emitpLabel(jtab->key);
 
   freeAsmop(IC_JTCOND(ic), NULL, ic, TRUE);

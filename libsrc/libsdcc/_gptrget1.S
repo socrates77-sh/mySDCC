@@ -58,21 +58,27 @@ __gptrget1:
 	retai	0x00
 
 __dataptrget1:
-	setup_fsr
-	movar	_INDF
+	;setup_fsr
+	;movar	_INDF
+	movar	STK00
+	movra	_FSR1
+	movar	STK01
+	movra	_FSR0
+	movar 	_INDF2
+	
 	return
 
 __codeptrget1:
 	; call the RETLW instruction at the given address
-	movar	STK00
-	movra	_PCLATH
-	movar	STK01
-	movra	_PCL
 	;movar	STK00
-	;movra	_FSR1
+	;movra	_PCLATH
 	;movar	STK01
-	;movra	_FSR0
-	;movar _INDF2
+	;movra	_PCL
+	movar	STK00
+	movra	_FSR1
+	movar	STK01
+	movra	_FSR0
+	movar 	_INDF3
 	return	; should never be executed...
 
 	END

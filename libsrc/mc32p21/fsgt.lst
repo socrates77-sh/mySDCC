@@ -1,23 +1,402 @@
-gpasm-1.7.0_beta1 (Jan 22 2015)fsgt.asm           2015-1-22  23:32:13          PAGE  1
+gpasm-2.0.0_beta2 (Aug 27 2017)fsgt.asm           2017-9-18  19:57:21          PAGE  1
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
   VALUE
 
                       00001 ;--------------------------------------------------------
-                      00002 ; File Created by SN-SDCC : ANSI-C Compiler
-                      00003 ; Version 0.0.4 (Jan 22 2015) (Linux)
-                      00004 ; This file was generated Thu Jan 22 23:32:13 2015
+                      00002 ; File Created by SN-SDCC : SinoMCU ANSI-C Compiler
+                      00003 ; Version 1.0.0 (Sep 11 2017) (MINGW32)
+                      00004 ; This file was generated Mon Sep 18 19:57:21 2017
                       00005 ;--------------------------------------------------------
-                      00006 ; MC3X port for the RISC core
+                      00006 ; MC30/MC32 port for the RISC core
                       00007 ;--------------------------------------------------------
                       00008 ;       .file   "../libsdcc/fsgt.c"
-                      00009         list    p=32p21
+                      00009         list    p=3221
                       00010         radix dec
-                      00011         include "mc32p21.inc"
-                      00001                 LIST
-                      00002 ;mc32p21.inc    Standard Header File, Version 1.00 by Sinomcu
-                      00261                 LIST
+                      00011         include "3221.inc"
+                      00001 
+                      00002 ;==========================================================================
+                      00003 ;
+                      00004 ;       Revision History
+                      00005 ;
+                      00006 ;==========================================================================
+                      00007 
+                      00008 ;Rev:   Date:    Reason:
+                      00009 
+                      00010 ;1.00   12/06/21 Initial Release
+                      00011 
+                      00012 ;==========================================================================
+                      00013 ;
+                      00014 ;       Register Definitions
+                      00015 ;
+                      00016 ;==========================================================================
+                      00017 
+                      00018 ;W                            EQU     H'0000'
+                      00019 ;F                            EQU     H'0001'
+                      00020 
+                      00021 ;----- Register Files------------------------------------------------------
+  00000180            00022 INDF0              EQU     0x180
+  00000181            00023 INDF1                    EQU       0x181
+  00000182            00024 INDF2                    EQU       0x182
+  00000183            00025 HIBYTE           EQU       0x183        
+  00000184            00026 FSR0                     EQU       0x184
+  00000185            00027 FSR1                     EQU       0x185
+  00000186            00028 PCL                        EQU     0x186
+  00000187            00029 PFLAG                    EQU       0x187
+                      00030 ;----0x188
+  00000188            00031 MCR                        EQU     0x188
+  00000189            00032 INDF3                    EQU       0x189
+  0000018A            00033 INTE                     EQU       0x18a
+  0000018B            00034 INTF                     EQU       0x18b                
+                      00035 ;----0x190
+  00000190            00036 IOP0                     EQU     0x190
+  00000191            00037 OEP0       EQU     0x191
+  00000192            00038 PUP0       EQU     0x192    
+  00000193            00039 ANSEL      EQU     0x193
+  00000194            00040 IOP1       EQU     0x194               
+  00000195            00041 OEP1       EQU     0x195             
+  00000196            00042 PUP1       EQU     0x196
+  00000197            00043 KBCR       EQU     0x197              
+                      00044 ;-----0x1a0
+  000001A0            00045 T0CR                     EQU     0x1a0
+  000001A1            00046 T0CNT      EQU     0x1a1             
+  000001A2            00047 T0LOAD     EQU     0x1a2             
+  000001A3            00048 T0DATA     EQU     0x1a3             
+  000001A4            00049 T1CR       EQU     0x1a4             
+  000001A5            00050 T1CNT      EQU     0x1a5             
+  000001A6            00051 T1LOAD     EQU     0x1a6             
+  000001A7            00052 T1DATA     EQU     0x1a7             
+                      00053 ;-----0x1a8
+  000001AE            00054 OSCM       EQU     0x1ae
+  000001AF            00055 LVDCR      EQU     0x1af                           
+                      00056 ;-----0x1b0
+  000001B0            00057 ADCR0                    EQU     0x1b0
+  000001B1            00058 ADCR1      EQU     0x1b1             
+  000001B4            00059 ADRH       EQU     0x1b4                               
+  000001B5            00060 ADRL       EQU     0x1b5          
+                      00061 ;----0x1f8                 
+  000001FB            00062 OSCCAL           EQU       0x1fb
+                      00063 
+                      00064 #define         STATUS          PFLAG
+                      00065 #define         INDF              INDF0
+                      00066 #define         FSR                 FSR0
+                      00067 #define         P0HCON          PUP0
+                      00068 #define         P1HCON          PUP1
+                      00069 #define         INTECON         INTE
+                      00070 #define         INTFLAG   INTF
+                      00071 
+                      00072 ;INDF0 
+                      00073 #define         INDF07          INDF0,7
+                      00074 #define         INDF06          INDF0,6
+                      00075 #define         INDF05          INDF0,5
+                      00076 #define         INDF04          INDF0,4
+                      00077 #define         INDF03          INDF0,3
+                      00078 #define         INDF02          INDF0,2
+                      00079 #define         INDF01          INDF0,1
+                      00080 #define         INDF00          INDF0,0 
+                      00081 
+                      00082 ;INDF1 
+                      00083 #define         INDF17          INDF1,7
+                      00084 #define         INDF16          INDF1,6
+                      00085 #define         INDF15          INDF1,5
+                      00086 #define         INDF14          INDF1,4
+                      00087 #define         INDF13          INDF1,3
+                      00088 #define         INDF12          INDF1,2
+                      00089 #define         INDF11          INDF1,1
+                      00090 #define         INDF10          INDF1,0
+                      00091 
+                      00092 ;INDF2 
+                      00093 #define         INDF27          INDF2,7
+                      00094 #define         INDF26          INDF2,6
+                      00095 #define         INDF25          INDF2,5
+                      00096 #define         INDF24          INDF2,4
+                      00097 #define         INDF23          INDF2,3
+                      00098 #define         INDF22          INDF2,2
+                      00099 #define         INDF21          INDF2,1
+                      00100 #define         INDF20          INDF2,0 
+                      00101 
+                      00102 ;HIBYTE
+                      00103 #define         HIBYTE7         HIBYTE,7
+                      00104 #define         HIBYTE6         HIBYTE,6
+                      00105 #define         HIBYTE5         HIBYTE,5
+                      00106 #define         HIBYTE4         HIBYTE,4
+                      00107 #define         HIBYTE3         HIBYTE,3
+                      00108 #define         HIBYTE2         HIBYTE,2
+                      00109 #define         HIBYTE1         HIBYTE,1
+                      00110 #define         HIBYTE0         HIBYTE,0
+                      00111 
+                      00112 ;FSR0 
+                      00113 #define         FSR07           FSR0,7
+                      00114 #define         FSR06           FSR0,6
+                      00115 #define         FSR05           FSR0,5
+                      00116 #define         FSR04           FSR0,4
+                      00117 #define         FSR03           FSR0,3
+                      00118 #define         FSR02           FSR0,2
+                      00119 #define         FSR01           FSR0,1
+                      00120 #define         FSR00           FSR0,0 
+                      00121 
+                      00122 ;FSR1
+                      00123 #define         FSR17           FSR1,7
+                      00124 #define         FSR16           FSR1,6
+                      00125 #define         FSR15           FSR1,5
+                      00126 #define         FSR14           FSR1,4
+                      00127 #define         FSR13           FSR1,3
+                      00128 #define         FSR12           FSR1,2
+                      00129 #define         FSR11           FSR1,1
+                      00130 #define         FSR10           FSR1,0
+                      00131 
+                      00132 ;PCL 
+                      00133 #define         PC7             PCL,7
+                      00134 #define         PC6             PCL,6
+                      00135 #define         PC5             PCL,5
+                      00136 #define         PC4             PCL,4
+                      00137 #define         PC3             PCL,3
+                      00138 #define         PC2             PCL,2
+                      00139 #define         PC1             PCL,1
+                      00140 #define         PC0             PCL,0   
+                      00141 
+                      00142 ;----- STATUS Bits --------------------------
+                      00143 #define Z         STATUS,2
+                      00144 #define DC      STATUS,1
+                      00145 #define C         STATUS,0
+                      00146 
+                      00147 ;----- MCR Bits --------------------------
+                      00148 #define GIE         MCR,7
+                      00149 #define TO          MCR,5
+                      00150 #define PD          MCR,4
+                      00151 #define MINT11  MCR,3
+                      00152 #define MINT10  MCR,2
+                      00153 #define MINT01  MCR,1
+                      00154 #define MINT00  MCR,0
+                      00155 
+                      00156 ;INDF3 
+                      00157 #define         INDF37          INDF3,7
+                      00158 #define         INDF36          INDF3,6
+                      00159 #define         INDF35          INDF3,5
+                      00160 #define         INDF34          INDF3,4
+                      00161 #define         INDF33          INDF3,3
+                      00162 #define         INDF32          INDF3,2
+                      00163 #define         INDF31          INDF3,1
+                      00164 #define         INDF30          INDF3,0 
+                      00165 
+                      00166 ;----- INTE Bits --------------------------
+                      00167 #define ADIE      INTE,6
+                      00168 #define KBIE      INTE,4
+                      00169 #define INT1IE  INTE,3
+                      00170 #define INT0IE  INTE,2
+                      00171 #define T1IE      INTE,1
+                      00172 #define T0IE      INTE,0
+                      00173 
+                      00174 ;----- INTF Bits --------------------------
+                      00175 #define ADIF      INTF,6
+                      00176 #define KBIF      INTF,4
+                      00177 #define INT1IF  INTF,3
+                      00178 #define INT0IF  INTF,2
+                      00179 #define T1IF      INTF,1
+                      00180 #define T0IF      INTF,0
+                      00181 
+                      00182 ;IOP0
+                      00183 #define         P04D            IOP0,4
+                      00184 #define         P03D            IOP0,3
+                      00185 #define         P02D            IOP0,2
+                      00186 #define         P01D            IOP0,1
+                      00187 #define         P00D              IOP0,0
+                      00188 
+                      00189 ;OEP0
+                      00190 #define         P04OE           OEP0,4
+                      00191 #define         P03OE           OEP0,3
+                      00192 #define         P02OE           OEP0,2
+                      00193 #define         P01OE           OEP0,1
+                      00194 #define         P00OE           OEP0,0
+                      00195 
+                      00196 ;PUP0
+                      00197 #define         P04PU           PUP0,4
+                      00198 #define         P03PU           PUP0,3
+                      00199 #define         P02PU           PUP0,2
+                      00200 #define         P01PU           PUP0,1
+                      00201 #define         P00PU           PUP0,0
+                      00202 
+                      00203 ;ANSEL
+                      00204 #define         P13ANS          ANSEL,6
+                      00205 #define         P12ANS          ANSEL,5
+                      00206 #define         P04ANS          ANSEL,4
+                      00207 #define         P03ANS          ANSEL,3
+                      00208 #define         P02ANS          ANSEL,2
+                      00209 #define         P01ANS          ANSEL,1
+                      00210 #define         P00ANS          ANSEL,0
+                      00211 
+                      00212 ;IOP1
+                      00213 #define         P16D            IOP1,6
+                      00214 #define         P15D            IOP1,5
+                      00215 #define         P14D              IOP1,4
+                      00216 #define         P13D            IOP1,3
+                      00217 #define         P12D            IOP1,2
+                      00218 #define         P11D            IOP1,1
+                      00219 #define         P10D              IOP1,0
+                      00220 
+                      00221 ;OEP1
+                      00222 #define         P16OE           OEP1,6
+                      00223 #define         P15OE           OEP1,5
+                      00224 #define         P14OE           OEP1,4
+                      00225 #define         P13OE           OEP1,3
+                      00226 #define         P12OE           OEP1,2
+                      00227 #define         P11OE           OEP1,1
+                      00228 #define         P10OE           OEP1,0
+                      00229 
+                      00230 ;PUP1
+                      00231 #define         P16PU           PUP1,6
+                      00232 #define         P15PU           PUP1,5
+                      00233 #define         P14PU           PUP1,4
+                      00234 #define         P13PU           PUP1,3
+                      00235 #define         P12PU           PUP1,2
+                      00236 #define         P11PU           PUP1,1
+                      00237 #define         P10PU           PUP1,0
+                      00238 
+                      00239 ;KBCR
+                      00240 #define         KBCR6           KBCR,6
+                      00241 #define         KBCR5           KBCR,5
+                      00242 #define         KBCR4           KBCR,4
+                      00243 #define         KBCR3           KBCR,3
+                      00244 #define         KBCR2           KBCR,2
+                      00245 #define         KBCR1           KBCR,1
+                      00246 #define         KBCR0           KBCR,0
+                      00247 
+                      00248 ;----- T0CR  Bits ----------------
+                      00249 #define TC0EN     T0CR,7
+                      00250 #define PWM0OE  T0CR,6
+                      00251 #define BUZ0OE  T0CR,5
+                      00252 #define T0PTS1  T0CR,4
+                      00253 #define T0PTS0  T0CR,3
+                      00254 #define T0PR2     T0CR,2
+                      00255 #define T0PR1     T0CR,1
+                      00256 #define T0PR0     T0CR,0
+                      00257 
+                      00258 ;T0CNT
+                      00259 #define         T0C7            T0CNT,7
+                      00260 #define         T0C6            T0CNT,6
+                      00261 #define         T0C5            T0CNT,5
+                      00262 #define         T0C4            T0CNT,4
+                      00263 #define         T0C3            T0CNT,3
+                      00264 #define         T0C2            T0CNT,2
+                      00265 #define         T0C1            T0CNT,1
+                      00266 #define         T0C0            T0CNT,0
+                      00267 
+                      00268 ;T0LOAD
+                      00269 #define         T0LOAD7         T0LOAD,7
+                      00270 #define         T0LOAD6         T0LOAD,6
+                      00271 #define         T0LOAD5         T0LOAD,5
+                      00272 #define         T0LOAD4         T0LOAD,4
+                      00273 #define         T0LOAD3         T0LOAD,3
+                      00274 #define         T0LOAD2         T0LOAD,2
+                      00275 #define         T0LOAD1         T0LOAD,1
+                      00276 #define         T0LOAD0         T0LOAD,0
+                      00277 
+                      00278 ;T0DATA
+                      00279 #define         T0DATA7         T0DATA,7
+                      00280 #define         T0DATA6         T0DATA,6
+                      00281 #define         T0DATA5         T0DATA,5
+                      00282 #define         T0DATA4         T0DATA,4
+                      00283 #define         T0DATA3         T0DATA,3
+                      00284 #define         T0DATA2         T0DATA,2
+                      00285 #define         T0DATA1         T0DATA,1
+                      00286 #define         T0DATA0         T0DATA,0
+                      00287 
+                      00288 ;----- T1CR  Bits ----------------
+                      00289 #define TC1EN     T1CR,7
+                      00290 #define PWM1OE  T1CR,6
+                      00291 #define BUZ1OE  T1CR,5
+                      00292 #define T1PTS1  T1CR,4
+                      00293 #define T1PTS0  T1CR,3
+                      00294 #define T1PR2   T1CR,2
+                      00295 #define T1PR1   T1CR,1
+                      00296 #define T1PR0   T1CR,0
+                      00297 
+                      00298 ;T1CNT
+                      00299 #define         T1C7            T1CNT,7
+                      00300 #define         T1C6            T1CNT,6
+                      00301 #define         T1C5            T1CNT,5
+                      00302 #define         T1C4            T1CNT,4
+                      00303 #define         T1C3            T1CNT,3
+                      00304 #define         T1C2            T1CNT,2
+                      00305 #define         T1C1            T1CNT,1
+                      00306 #define         T1C0            T1CNT,0
+                      00307 
+                      00308 ;T1LOAD
+                      00309 #define         T1LOAD7         T1LOAD,7
+                      00310 #define         T1LOAD6         T1LOAD,6
+                      00311 #define         T1LOAD5         T1LOAD,5
+                      00312 #define         T1LOAD4         T1LOAD,4
+                      00313 #define         T1LOAD3         T1LOAD,3
+                      00314 #define         T1LOAD2         T1LOAD,2
+                      00315 #define         T1LOAD1         T1LOAD,1
+                      00316 #define         T1LOAD0         T1LOAD,0
+                      00317 
+                      00318 ;T1DATA
+                      00319 #define         T1DATA7         T1DATA,7
+                      00320 #define         T1DATA6         T1DATA,6
+                      00321 #define         T1DATA5         T1DATA,5
+                      00322 #define         T1DATA4         T1DATA,4
+                      00323 #define         T1DATA3         T1DATA,3
+                      00324 #define         T1DATA2         T1DATA,2
+                      00325 #define         T1DATA1         T1DATA,1
+                      00326 #define         T1DATA0         T1DATA,0
+                      00327 
+                      00328 ;----- OSCM  Bits ----------------
+                      00329 #define STBL    OSCM,5
+                      00330 #define STBH    OSCM,4
+                      00331 #define CLKS    OSCM,2
+                      00332 #define LFEN    OSCM,1
+                      00333 #define HFEN    OSCM,0
+                      00334 
+                      00335 ;-----  LVDCR Bits -------
+                      00336 #define LVDEN   PLVDCR,7
+                      00337 #define LVDS2   PLVDCR,6
+                      00338 #define LVDS1   PLVDCR,5
+                      00339 #define LVDS0   PLVDCR,4
+                      00340 #define LVDF    PLVDCR,0
+                      00341 
+                      00342 ;---- ADCR0 Bits -----------------
+                      00343 #define ADCHS3  ADCR0,7
+                      00344 #define ADCHS2  ADCR0,6
+                      00345 #define ADCHS1  ADCR0,5
+                      00346 #define ADCHS0  ADCR0,4
+                      00347 #define ADCKS1  ADCR0,3
+                      00348 #define ADCKS0  ADCR0,2
+                      00349 #define ADEOC     ADCR0,1
+                      00350 #define ADON      ADCR0,0
+                      00351 
+                      00352 ;---- ADCR1 Bits -----------------
+                      00353 #define VRS2    ADCR1,2
+                      00354 #define VRS1      ADCR1,1
+                      00355 #define VRS0      ADCR1,0
+                      00356 
+                      00357 ;ADRH
+                      00358 #define         ADR11           ADRH,7
+                      00359 #define         ADR10           ADRH,6
+                      00360 #define         ADR9            ADRH,5
+                      00361 #define         ADR8            ADRH,4
+                      00362 #define         ADR7            ADRH,3
+                      00363 #define         ADR6            ADRH,2
+                      00364 #define         ADR5            ADRH,1
+                      00365 #define         ADR4            ADRH,0
+                      00366 
+                      00367 ;ADRL
+                      00368 #define         ADR3            ADRL,3
+                      00369 #define         ADR2            ADRL,2
+                      00370 #define         ADR1            ADRL,1
+                      00371 #define         ADR0            ADRL,0
+                      00372 
+                      00373 ;OSCCAL
+                      00374 #define         OSCCAL7         OSCCAL,7
+                      00375 #define         OSCCAL6         OSCCAL,6
+                      00376 #define         OSCCAL5         OSCCAL,5
+                      00377 #define         OSCCAL4         OSCCAL,4
+                      00378 #define         OSCCAL3         OSCCAL,3
+                      00379 #define         OSCCAL2         OSCCAL,2
+                      00380 #define         OSCCAL1         OSCCAL,1
+                      00381 #define         OSCCAL0         OSCCAL,0
+                      00382 
                       00012 ;--------------------------------------------------------
                       00013 ; external declarations
                       00014 ;--------------------------------------------------------
@@ -77,252 +456,279 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
                       00068 ;--------------------------------------------------------
                       00069 ; initialized data
                       00070 ;--------------------------------------------------------
-                      00071 ;--------------------------------------------------------
-                      00072 ; overlayable items in internal ram 
-                      00073 ;--------------------------------------------------------
-                      00074 ;       udata_ovr
-                      00075 ;--------------------------------------------------------
-                      00076 ; code
-                      00077 ;--------------------------------------------------------
-                      00078 code_fsgt       code
-                      00079 ;***
-                      00080 ;  pBlock Stats: dbName = C
-                      00081 ;***
-                      00082 ;entry:  ___fsgt        ;Function start
-                      00083 ; 2 exit points
-                      00084 ;has an exit
-                      00085 ;16 compiler assigned registers:
-                      00086 ;   r0x1008
-                      00087 ;   STK00
-                      00088 ;   r0x1009
-                      00089 ;   STK01
-                      00090 ;   r0x100A
-                      00091 ;   STK02
-                      00092 ;   r0x100B
-                      00093 ;   STK03
-                      00094 ;   r0x100C
-                      00095 ;   STK04
-                      00096 ;   r0x100D
-                      00097 ;   STK05
-                      00098 ;   r0x100E
-                      00099 ;   STK06
-                      00100 ;   r0x100F
-                      00101 ;   r0x1010
-                      00102 ;; Starting pCode block
-                      00103 ;;[ICODE] ../libsdcc/fsgt.c:55:  _entry($9) :
-                      00104 ;;[ICODE] ../libsdcc/fsgt.c:55:         proc ___fsgt [k1 lr0:0 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char function ( float fixed, float fixed) fixed}
-0000                  00105 ___fsgt ;Function start
-                      00106 ; 2 exit points
-                      00107 ;;[ICODE] ../libsdcc/fsgt.c:55: iTemp0 [k2 lr3:6 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{float fixed}{ sir@ ___fsgt_a1_1_21}[r0x1000 r0x1001 r0x1002 r0x1003 ] = recv ___fsgt [k1 lr0:0 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char function ( float fixed, float fixed) fixed}
-                      00108 ;       .line   55; "../libsdcc/fsgt.c" char __fsgt (float a1, float a2) _FS_REENTRANT
-0000   5600           00109         MOVRA   r0x1008
-0001   5800           00110         MOVAR   STK00
-0002   5600           00111         MOVRA   r0x1009
-0003   5800           00112         MOVAR   STK01
-0004   5600           00113         MOVRA   r0x100A
-0005   5800           00114         MOVAR   STK02
-0006   5600           00115         MOVRA   (___fsgt_fl1_1_22 + 0)
-0007   5600           00116         MOVRA   r0x100B
-                      00117 ;;[ICODE] ../libsdcc/fsgt.c:55: iTemp1 [k4 lr4:8 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{float fixed}{ sir@ ___fsgt_a2_1_21}[r0x1004 r0x1005 r0x1006 r0x1007 ] = recv ___fsgt [k1 lr0:0 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char function ( float fixed, float fixed) fixed}
-0008   5800           00118         MOVAR   STK03
-0009   5600           00119         MOVRA   r0x100C
-000A   5800           00120         MOVAR   STK04
-000B   5600           00121         MOVRA   r0x100D
-000C   5800           00122         MOVAR   STK05
-000D   5600           00123         MOVRA   r0x100E
-000E   5800           00124         MOVAR   STK06
-000F   5600           00125         MOVRA   r0x100F
-                      00126 ;;[ICODE] ../libsdcc/fsgt.c:59:         iTemp2 [k7 lr5:6 so:0]{ ia0 a2p0 re0 rm1 nos0 ru0 dp0}{volatile-float near* fixed}[remat] = &[___fsgt_fl1_1_22 [k6 lr0:0 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{volatile-struct float_long fixed}]
-                      00127 ;;[ICODE] ../libsdcc/fsgt.c:59:         *(iTemp2 [k7 lr5:6 so:0]{ ia1 a2p0 re0 rm1 nos0 ru0 dp0}{volatile-float near* fixed}[remat]) := iTemp0 [k2 lr3:6 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{float fixed}{ sir@ ___fsgt_a1_1_21}[r0x1000 r0x1001 r0x1002 r0x1003 ]
-                      00128 ;;gen.c:6444: size=3/4, offset=0, AOP_TYPE(res)=8
-                      00129 ;;99    MOVAR   r0x100B
-                      00130 ;;gen.c:6444: size=2/4, offset=1, AOP_TYPE(res)=8
-                      00131 ;       .line   59; "../libsdcc/fsgt.c" fl1.f = a1;
-0010   5800           00132         MOVAR   r0x100A
-0011   5600           00133         MOVRA   (___fsgt_fl1_1_22 + 1)
-                      00134 ;;gen.c:6444: size=1/4, offset=2, AOP_TYPE(res)=8
-0012   5800           00135         MOVAR   r0x1009
-0013   5600           00136         MOVRA   (___fsgt_fl1_1_22 + 2)
-                      00137 ;;gen.c:6444: size=0/4, offset=3, AOP_TYPE(res)=8
-0014   5800           00138         MOVAR   r0x1008
-0015   5600           00139         MOVRA   (___fsgt_fl1_1_22 + 3)
-                      00140 ;;[ICODE] ../libsdcc/fsgt.c:60:         iTemp4 [k11 lr7:8 so:0]{ ia0 a2p0 re0 rm1 nos0 ru0 dp0}{volatile-float near* fixed}[remat] = &[___fsgt_fl2_1_22 [k10 lr0:0 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{volatile-struct float_long fixed}]
-                      00141 ;;[ICODE] ../libsdcc/fsgt.c:60:         *(iTemp4 [k11 lr7:8 so:0]{ ia1 a2p0 re0 rm1 nos0 ru0 dp0}{volatile-float near* fixed}[remat]) := iTemp1 [k4 lr4:8 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{float fixed}{ sir@ ___fsgt_a2_1_21}[r0x1004 r0x1005 r0x1006 r0x1007 ]
-                      00142 ;;gen.c:6444: size=3/4, offset=0, AOP_TYPE(res)=8
-                      00143 ;       .line   60; "../libsdcc/fsgt.c" fl2.f = a2;
-0016   5800           00144         MOVAR   r0x100F
-0017   5600           00145         MOVRA   (___fsgt_fl2_1_22 + 0)
-                      00146 ;;gen.c:6444: size=2/4, offset=1, AOP_TYPE(res)=8
-0018   5800           00147         MOVAR   r0x100E
-0019   5600           00148         MOVRA   (___fsgt_fl2_1_22 + 1)
-                      00149 ;;gen.c:6444: size=1/4, offset=2, AOP_TYPE(res)=8
-001A   5800           00150         MOVAR   r0x100D
-001B   5600           00151         MOVRA   (___fsgt_fl2_1_22 + 2)
-                      00152 ;;gen.c:6444: size=0/4, offset=3, AOP_TYPE(res)=8
-001C   5800           00153         MOVAR   r0x100C
-001D   5600           00154         MOVRA   (___fsgt_fl2_1_22 + 3)
-                      00155 ;;[ICODE] ../libsdcc/fsgt.c:62:         iTemp6 [k14 lr9:10 so:0]{ ia0 a2p0 re0 rm1 nos0 ru0 dp0}{volatile-long-int near* fixed}[remat] = &[___fsgt_fl1_1_22 [k6 lr0:0 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{volatile-struct float_long fixed}]
-                      00156 ;;[ICODE] ../libsdcc/fsgt.c:62:         iTemp8 [k17 lr10:11 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{volatile-long-int fixed}[r0x1000 r0x1001 r0x1002 r0x1003 ] = @[iTemp6 [k14 lr9:10 so:0]{ ia1 a2p0 re0 rm1 nos0 ru0 dp0}{volatile-long-int near* fixed}[remat] + 0x0 {const-unsigned-char literal}]
-                      00157 ;       .line   62; "../libsdcc/fsgt.c" if (fl1.l<0 && fl2.l<0) {
-001E   5800           00158         MOVAR   (___fsgt_fl1_1_22 + 0)
-001F   5600           00159         MOVRA   r0x100B
-0020   5800           00160         MOVAR   (___fsgt_fl1_1_22 + 1)
-0021   5600           00161         MOVRA   r0x100A
-0022   5800           00162         MOVAR   (___fsgt_fl1_1_22 + 2)
-0023   5600           00163         MOVRA   r0x1009
-0024   5800           00164         MOVAR   (___fsgt_fl1_1_22 + 3)
-0025   5600           00165         MOVRA   r0x1008
-                      00166 ;;[ICODE] ../libsdcc/fsgt.c:62:         iTemp9 [k18 lr11:12 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char fixed} = iTemp8 [k17 lr10:11 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{volatile-long-int fixed}[r0x1000 r0x1001 r0x1002 r0x1003 ] < 0x0 {volatile-long-int literal}
-                      00167 ;;signed compare: left < lit(0x0=0), size=4, mask=ffffffff
-0026   C187           00168         BSET    STATUS,0
-0027   EE00           00169         JBSET   r0x1008,7
-0028   D187           00170         BCLR    STATUS,0
-0029   E187           00171         JBSET   STATUS,0
-002A   A000           00172         GOTO    _00108_DS_
-                      00173 ;;genSkipc:3246: created from rifx:0xbff48c20
-                      00174 ;;[ICODE] ../libsdcc/fsgt.c:62:         if iTemp9 [k18 lr11:12 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char fixed} == 0 goto _iffalse_1($4)
-                      00175 ;;[ICODE] ../libsdcc/fsgt.c:62:         iTemp10 [k19 lr13:14 so:0]{ ia0 a2p0 re0 rm1 nos0 ru0 dp0}{volatile-long-int near* fixed}[remat] = &[___fsgt_fl2_1_22 [k10 lr0:0 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{volatile-struct float_long fixed}]
-                      00176 ;;[ICODE] ../libsdcc/fsgt.c:62:         iTemp12 [k22 lr14:15 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{volatile-long-int fixed}[r0x1000 r0x1001 r0x1002 r0x1003 ] = @[iTemp10 [k19 lr13:14 so:0]{ ia1 a2p0 re0 rm1 nos0 ru0 dp0}{volatile-long-int near* fixed}[remat] + 0x0 {const-unsigned-char literal}]
-002B   5800           00177         MOVAR   (___fsgt_fl2_1_22 + 0)
-002C   5600           00178         MOVRA   r0x100B
-002D   5800           00179         MOVAR   (___fsgt_fl2_1_22 + 1)
-002E   5600           00180         MOVRA   r0x100A
-002F   5800           00181         MOVAR   (___fsgt_fl2_1_22 + 2)
-0030   5600           00182         MOVRA   r0x1009
-0031   5800           00183         MOVAR   (___fsgt_fl2_1_22 + 3)
-0032   5600           00184         MOVRA   r0x1008
-                      00185 ;;[ICODE] ../libsdcc/fsgt.c:62:         iTemp13 [k23 lr15:16 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char fixed} = iTemp12 [k22 lr14:15 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{volatile-long-int fixed}[r0x1000 r0x1001 r0x1002 r0x1003 ] < 0x0 {volatile-long-int literal}
-                      00186 ;;signed compare: left < lit(0x0=0), size=4, mask=ffffffff
-0033   C187           00187         BSET    STATUS,0
-0034   EE00           00188         JBSET   r0x1008,7
-0035   D187           00189         BCLR    STATUS,0
-0036   E187           00190         JBSET   STATUS,0
-0037   A000           00191         GOTO    _00108_DS_
-                      00192 ;;genSkipc:3246: created from rifx:0xbff48c20
-                      00193 ;;[ICODE] ../libsdcc/fsgt.c:62:         if iTemp13 [k23 lr15:16 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char fixed} == 0 goto _iffalse_1($4)
-                      00194 ;;[ICODE] ../libsdcc/fsgt.c:63:         iTemp14 [k24 lr17:18 so:0]{ ia0 a2p0 re0 rm1 nos0 ru0 dp0}{volatile-long-int near* fixed}[remat] = &[___fsgt_fl2_1_22 [k10 lr0:0 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{volatile-struct float_long fixed}]
-                      00195 ;;[ICODE] ../libsdcc/fsgt.c:63:         iTemp16 [k27 lr18:21 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{volatile-long-int fixed}[r0x1000 r0x1001 r0x1002 r0x1003 ] = @[iTemp14 [k24 lr17:18 so:0]{ ia1 a2p0 re0 rm1 nos0 ru0 dp0}{volatile-long-int near* fixed}[remat] + 0x0 {const-unsigned-char literal}]
-                      00196 ;       .line   63; "../libsdcc/fsgt.c" if (fl2.l > fl1.l)
-0038   5800           00197         MOVAR   (___fsgt_fl2_1_22 + 0)
-0039   5600           00198         MOVRA   r0x100B
-003A   5800           00199         MOVAR   (___fsgt_fl2_1_22 + 1)
-003B   5600           00200         MOVRA   r0x100A
-003C   5800           00201         MOVAR   (___fsgt_fl2_1_22 + 2)
-003D   5600           00202         MOVRA   r0x1009
-003E   5800           00203         MOVAR   (___fsgt_fl2_1_22 + 3)
-003F   5600           00204         MOVRA   r0x1008
-                      00205 ;;[ICODE] ../libsdcc/fsgt.c:63:         iTemp17 [k28 lr19:20 so:0]{ ia0 a2p0 re0 rm1 nos0 ru0 dp0}{volatile-long-int near* fixed}[remat] = &[___fsgt_fl1_1_22 [k6 lr0:0 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{volatile-struct float_long fixed}]
-                      00206 ;;[ICODE] ../libsdcc/fsgt.c:63:         iTemp19 [k31 lr20:21 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{volatile-long-int fixed}[r0x1004 r0x1005 r0x1006 r0x1007 ] = @[iTemp17 [k28 lr19:20 so:0]{ ia1 a2p0 re0 rm1 nos0 ru0 dp0}{volatile-long-int near* fixed}[remat] + 0x0 {const-unsigned-char literal}]
-0040   5800           00207         MOVAR   (___fsgt_fl1_1_22 + 0)
-0041   5600           00208         MOVRA   r0x100F
-0042   5800           00209         MOVAR   (___fsgt_fl1_1_22 + 1)
-0043   5600           00210         MOVRA   r0x100E
-0044   5800           00211         MOVAR   (___fsgt_fl1_1_22 + 2)
-0045   5600           00212         MOVRA   r0x100D
-0046   5800           00213         MOVAR   (___fsgt_fl1_1_22 + 3)
-0047   5600           00214         MOVRA   r0x100C
-                      00215 ;;[ICODE] ../libsdcc/fsgt.c:63:         iTemp20 [k32 lr21:22 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char fixed} = iTemp16 [k27 lr18:21 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{volatile-long-int fixed}[r0x1000 r0x1001 r0x1002 r0x1003 ] > iTemp19 [k31 lr20:21 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{volatile-long-int fixed}[r0x1004 r0x1005 r0x1006 r0x1007 ]
-0048   5800           00216         MOVAR   r0x100C
-0049   3F80           00217         ADDAI   0x80
-004A   5600           00218         MOVRA   r0x1010
-004B   5800           00219         MOVAR   r0x1008
-004C   3F80           00220         ADDAI   0x80
-004D   4800           00221         RSUBAR  r0x1010
-004E   E587           00222         JBSET   STATUS,2
-004F   A000           00223         GOTO    _00122_DS_
-0050   5800           00224         MOVAR   r0x1009
-0051   4800           00225         RSUBAR  r0x100D
-0052   E587           00226         JBSET   STATUS,2
-0053   A000           00227         GOTO    _00122_DS_
-0054   5800           00228         MOVAR   r0x100A
-0055   4800           00229         RSUBAR  r0x100E
-0056   E587           00230         JBSET   STATUS,2
-0057   A000           00231         GOTO    _00122_DS_
-0058   5800           00232         MOVAR   r0x100B
-0059   4800           00233         RSUBAR  r0x100F
-005A                  00234 _00122_DS_
-005A   F187           00235         JBCLR   STATUS,0
-005B   A000           00236         GOTO    _00106_DS_
-                      00237 ;;genSkipc:3246: created from rifx:0xbff48c20
-                      00238 ;;[ICODE] ../libsdcc/fsgt.c:63:         if iTemp20 [k32 lr21:22 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char fixed} == 0 goto _iffalse_0($2)
-                      00239 ;;[ICODE] ../libsdcc/fsgt.c:64:         ret 0x1 {const-unsigned-char literal}
-                      00240 ;       .line   64; "../libsdcc/fsgt.c" return (1);
-005C   3C01           00241         MOVAI   0x01
-005D   A000           00242         GOTO    _00112_DS_
-                      00243 ;;[ICODE] ../libsdcc/fsgt.c:64:  _iffalse_0($2) :
-                      00244 ;;[ICODE] ../libsdcc/fsgt.c:65:         ret 0x0 {const-unsigned-char literal}
-005E                  00245 _00106_DS_
-                      00246 ;       .line   65; "../libsdcc/fsgt.c" return (0);
-005E   3C00           00247         MOVAI   0x00
-005F   A000           00248         GOTO    _00112_DS_
-                      00249 ;;[ICODE] ../libsdcc/fsgt.c:65:  _iffalse_1($4) :
-                      00250 ;;[ICODE] ../libsdcc/fsgt.c:68:         iTemp21 [k33 lr27:28 so:0]{ ia0 a2p0 re0 rm1 nos0 ru0 dp0}{volatile-long-int near* fixed}[remat] = &[___fsgt_fl1_1_22 [k6 lr0:0 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{volatile-struct float_long fixed}]
-                      00251 ;;[ICODE] ../libsdcc/fsgt.c:68:         iTemp23 [k36 lr28:31 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{volatile-long-int fixed}[r0x1000 r0x1001 r0x1002 r0x1003 ] = @[iTemp21 [k33 lr27:28 so:0]{ ia1 a2p0 re0 rm1 nos0 ru0 dp0}{volatile-long-int near* fixed}[remat] + 0x0 {const-unsigned-char literal}]
-0060                  00252 _00108_DS_
-                      00253 ;       .line   68; "../libsdcc/fsgt.c" if (fl1.l > fl2.l)
-0060   5800           00254         MOVAR   (___fsgt_fl1_1_22 + 0)
-0061   5600           00255         MOVRA   r0x100B
-0062   5800           00256         MOVAR   (___fsgt_fl1_1_22 + 1)
-0063   5600           00257         MOVRA   r0x100A
-0064   5800           00258         MOVAR   (___fsgt_fl1_1_22 + 2)
-0065   5600           00259         MOVRA   r0x1009
-0066   5800           00260         MOVAR   (___fsgt_fl1_1_22 + 3)
-0067   5600           00261         MOVRA   r0x1008
-                      00262 ;;[ICODE] ../libsdcc/fsgt.c:68:         iTemp24 [k37 lr29:30 so:0]{ ia0 a2p0 re0 rm1 nos0 ru0 dp0}{volatile-long-int near* fixed}[remat] = &[___fsgt_fl2_1_22 [k10 lr0:0 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{volatile-struct float_long fixed}]
-                      00263 ;;[ICODE] ../libsdcc/fsgt.c:68:         iTemp26 [k40 lr30:31 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{volatile-long-int fixed}[r0x1004 r0x1005 r0x1006 r0x1007 ] = @[iTemp24 [k37 lr29:30 so:0]{ ia1 a2p0 re0 rm1 nos0 ru0 dp0}{volatile-long-int near* fixed}[remat] + 0x0 {const-unsigned-char literal}]
-0068   5800           00264         MOVAR   (___fsgt_fl2_1_22 + 0)
-0069   5600           00265         MOVRA   r0x100F
-006A   5800           00266         MOVAR   (___fsgt_fl2_1_22 + 1)
-006B   5600           00267         MOVRA   r0x100E
-006C   5800           00268         MOVAR   (___fsgt_fl2_1_22 + 2)
-006D   5600           00269         MOVRA   r0x100D
-006E   5800           00270         MOVAR   (___fsgt_fl2_1_22 + 3)
-006F   5600           00271         MOVRA   r0x100C
-                      00272 ;;[ICODE] ../libsdcc/fsgt.c:68:         iTemp27 [k41 lr31:32 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char fixed} = iTemp23 [k36 lr28:31 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{volatile-long-int fixed}[r0x1000 r0x1001 r0x1002 r0x1003 ] > iTemp26 [k40 lr30:31 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{volatile-long-int fixed}[r0x1004 r0x1005 r0x1006 r0x1007 ]
-0070   5800           00273         MOVAR   r0x100C
-0071   3F80           00274         ADDAI   0x80
-0072   5600           00275         MOVRA   r0x1010
-0073   5800           00276         MOVAR   r0x1008
-0074   3F80           00277         ADDAI   0x80
-0075   4800           00278         RSUBAR  r0x1010
-0076   E587           00279         JBSET   STATUS,2
-0077   A000           00280         GOTO    _00123_DS_
-0078   5800           00281         MOVAR   r0x1009
-0079   4800           00282         RSUBAR  r0x100D
-007A   E587           00283         JBSET   STATUS,2
-007B   A000           00284         GOTO    _00123_DS_
-007C   5800           00285         MOVAR   r0x100A
-007D   4800           00286         RSUBAR  r0x100E
-007E   E587           00287         JBSET   STATUS,2
-007F   A000           00288         GOTO    _00123_DS_
-0080   5800           00289         MOVAR   r0x100B
-0081   4800           00290         RSUBAR  r0x100F
-0082                  00291 _00123_DS_
-0082   F187           00292         JBCLR   STATUS,0
-0083   A000           00293         GOTO    _00111_DS_
-                      00294 ;;genSkipc:3246: created from rifx:0xbff48c20
-                      00295 ;;[ICODE] ../libsdcc/fsgt.c:68:         if iTemp27 [k41 lr31:32 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char fixed} == 0 goto _iffalse_2($7)
-                      00296 ;;[ICODE] ../libsdcc/fsgt.c:69:         ret 0x1 {const-unsigned-char literal}
-                      00297 ;       .line   69; "../libsdcc/fsgt.c" return (1);
-0084   3C01           00298         MOVAI   0x01
-0085   A000           00299         GOTO    _00112_DS_
-                      00300 ;;[ICODE] ../libsdcc/fsgt.c:69:  _iffalse_2($7) :
-                      00301 ;;[ICODE] ../libsdcc/fsgt.c:70:         ret 0x0 {const-unsigned-char literal}
-0086                  00302 _00111_DS_
-                      00303 ;       .line   70; "../libsdcc/fsgt.c" return (0);
-0086   3C00           00304         MOVAI   0x00
-                      00305 ;;[ICODE] ../libsdcc/fsgt.c:70:  _return($8) :
-                      00306 ;;[ICODE] ../libsdcc/fsgt.c:70:         eproc ___fsgt [k1 lr0:0 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char function ( float fixed, float fixed) fixed}
-0087                  00307 _00112_DS_
-0087   000C           00308         RETURN  
-                      00309 ; exit point of ___fsgt
-                      00310 
-                      00311 
-                      00312 ;       code size estimation:
-                      00313 ;         136+    0 =   136 instructions (  272 byte)
-                      00314 
-                      00315         end
-gpasm-1.7.0_beta1 (Jan 22 2015)fsgt.asm           2015-1-22  23:32:13          PAGE  2
+                      00071 
+                      00072 ;@Allocation info for local variables in function '__fsgt'
+                      00073 ;@__fsgt __uchar2fs                Allocated to registers ;size:2
+                      00074 ;@__fsgt __schar2fs                Allocated to registers ;size:2
+                      00075 ;@__fsgt __uint2fs                 Allocated to registers ;size:2
+                      00076 ;@__fsgt __sint2fs                 Allocated to registers ;size:2
+                      00077 ;@__fsgt __ulong2fs                Allocated to registers ;size:2
+                      00078 ;@__fsgt __slong2fs                Allocated to registers ;size:2
+                      00079 ;@__fsgt __fs2uchar                Allocated to registers ;size:2
+                      00080 ;@__fsgt __fs2schar                Allocated to registers ;size:2
+                      00081 ;@__fsgt __fs2uint                 Allocated to registers ;size:2
+                      00082 ;@__fsgt __fs2sint                 Allocated to registers ;size:2
+                      00083 ;@__fsgt __fs2ulong                Allocated to registers ;size:2
+                      00084 ;@__fsgt __fs2slong                Allocated to registers ;size:2
+                      00085 ;@__fsgt __fsadd                   Allocated to registers ;size:2
+                      00086 ;@__fsgt __fssub                   Allocated to registers ;size:2
+                      00087 ;@__fsgt __fsmul                   Allocated to registers ;size:2
+                      00088 ;@__fsgt __fsdiv                   Allocated to registers ;size:2
+                      00089 ;@__fsgt __fslt                    Allocated to registers ;size:2
+                      00090 ;@__fsgt __fseq                    Allocated to registers ;size:2
+                      00091 ;@__fsgt __fsneq                   Allocated to registers ;size:2
+                      00092 ;@__fsgt a2                        Allocated to registers r0x100F r0x100E r0x100D r0x100C ;size:4
+                      00093 ;@__fsgt a1                        Allocated to registers r0x100B r0x100A r0x1009 r0x1008 ;size:4
+                      00094 ;@__fsgt fl1                       Allocated to registers ;size:4
+                      00095 ;@__fsgt fl2                       Allocated to registers ;size:4
+                      00096 ;@end Allocation info for local variables in function '__fsgt';
+                      00097 
+                      00098 ;--------------------------------------------------------
+                      00099 ; overlayable items in internal ram 
+                      00100 ;--------------------------------------------------------
+                      00101 ;       udata_ovr
+                      00102 ;--------------------------------------------------------
+                      00103 ; code
+                      00104 ;--------------------------------------------------------
+                      00105 code_fsgt       code
+                      00106 ;***
+                      00107 ;  pBlock Stats: dbName = C
+                      00108 ;***
+                      00109 ;entry:  ___fsgt        ;Function start
+                      00110 ; 2 exit points
+                      00111 ;has an exit
+                      00112 ;16 compiler assigned registers:
+                      00113 ;   r0x1008
+                      00114 ;   STK00
+                      00115 ;   r0x1009
+                      00116 ;   STK01
+                      00117 ;   r0x100A
+                      00118 ;   STK02
+                      00119 ;   r0x100B
+                      00120 ;   STK03
+                      00121 ;   r0x100C
+                      00122 ;   STK04
+                      00123 ;   r0x100D
+                      00124 ;   STK05
+                      00125 ;   r0x100E
+                      00126 ;   STK06
+                      00127 ;   r0x100F
+                      00128 ;   r0x1010
+                      00129 ;; Starting pCode block
+                      00130 ;;[ICODE] ../libsdcc/fsgt.c:55:  _entry($9) :
+                      00131 ;;[ICODE] ../libsdcc/fsgt.c:55:         proc ___fsgt [k1 lr0:0 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char function ( float fixed, float fixed) fixed}
+0000                  00132 ___fsgt ;Function start
+                      00133 ; 2 exit points
+                      00134 ;;[ICODE] ../libsdcc/fsgt.c:55: iTemp0 [k2 lr3:6 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{float fixed}{ sir@ ___fsgt_a1_1_21}[r0x1000 r0x1001 r0x1002 r0x1003 ] = recv ___fsgt [k1 lr0:0 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char function ( float fixed, float fixed) fixed}
+                      00135 ;       .line   55; "../libsdcc/fsgt.c" char __fsgt (float a1, float a2) _FS_REENTRANT
+0000   5600           00136         MOVRA   r0x1008
+0001   5800           00137         MOVAR   STK00
+0002   5600           00138         MOVRA   r0x1009
+0003   5800           00139         MOVAR   STK01
+0004   5600           00140         MOVRA   r0x100A
+0005   5800           00141         MOVAR   STK02
+0006   5600           00142         MOVRA   (___fsgt_fl1_1_22 + 0)
+0007   5600           00143         MOVRA   r0x100B
+                      00144 ;;[ICODE] ../libsdcc/fsgt.c:55: iTemp1 [k4 lr4:8 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{float fixed}{ sir@ ___fsgt_a2_1_21}[r0x1004 r0x1005 r0x1006 r0x1007 ] = recv ___fsgt [k1 lr0:0 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char function ( float fixed, float fixed) fixed}
+0008   5800           00145         MOVAR   STK03
+0009   5600           00146         MOVRA   r0x100C
+000A   5800           00147         MOVAR   STK04
+000B   5600           00148         MOVRA   r0x100D
+000C   5800           00149         MOVAR   STK05
+000D   5600           00150         MOVRA   r0x100E
+000E   5800           00151         MOVAR   STK06
+000F   5600           00152         MOVRA   r0x100F
+                      00153 ;;[ICODE] ../libsdcc/fsgt.c:59:         iTemp2 [k7 lr5:6 so:0]{ ia0 a2p0 re0 rm1 nos0 ru0 dp0}{volatile-float near* fixed}[remat] = &[___fsgt_fl1_1_22 [k6 lr0:0 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{volatile-struct float_long fixed}]
+                      00154 ;;[ICODE] ../libsdcc/fsgt.c:59:         *(iTemp2 [k7 lr5:6 so:0]{ ia1 a2p0 re0 rm1 nos0 ru0 dp0}{volatile-float near* fixed}[remat]) := iTemp0 [k2 lr3:6 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{float fixed}{ sir@ ___fsgt_a1_1_21}[r0x1000 r0x1001 r0x1002 r0x1003 ]
+                      00155 ;;gen.c:6373: size=3/4, offset=0, AOP_TYPE(res)=8
+                      00156 ;;99    MOVAR   r0x100B
+                      00157 ;;gen.c:6373: size=2/4, offset=1, AOP_TYPE(res)=8
+                      00158 ;       .line   59; "../libsdcc/fsgt.c" fl1.f = a1;
+0010   5800           00159         MOVAR   r0x100A
+0011   5600           00160         MOVRA   (___fsgt_fl1_1_22 + 1)
+                      00161 ;;gen.c:6373: size=1/4, offset=2, AOP_TYPE(res)=8
+0012   5800           00162         MOVAR   r0x1009
+0013   5600           00163         MOVRA   (___fsgt_fl1_1_22 + 2)
+                      00164 ;;gen.c:6373: size=0/4, offset=3, AOP_TYPE(res)=8
+0014   5800           00165         MOVAR   r0x1008
+0015   5600           00166         MOVRA   (___fsgt_fl1_1_22 + 3)
+                      00167 ;;[ICODE] ../libsdcc/fsgt.c:60:         iTemp4 [k11 lr7:8 so:0]{ ia0 a2p0 re0 rm1 nos0 ru0 dp0}{volatile-float near* fixed}[remat] = &[___fsgt_fl2_1_22 [k10 lr0:0 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{volatile-struct float_long fixed}]
+                      00168 ;;[ICODE] ../libsdcc/fsgt.c:60:         *(iTemp4 [k11 lr7:8 so:0]{ ia1 a2p0 re0 rm1 nos0 ru0 dp0}{volatile-float near* fixed}[remat]) := iTemp1 [k4 lr4:8 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{float fixed}{ sir@ ___fsgt_a2_1_21}[r0x1004 r0x1005 r0x1006 r0x1007 ]
+                      00169 ;;gen.c:6373: size=3/4, offset=0, AOP_TYPE(res)=8
+                      00170 ;       .line   60; "../libsdcc/fsgt.c" fl2.f = a2;
+0016   5800           00171         MOVAR   r0x100F
+0017   5600           00172         MOVRA   (___fsgt_fl2_1_22 + 0)
+                      00173 ;;gen.c:6373: size=2/4, offset=1, AOP_TYPE(res)=8
+0018   5800           00174         MOVAR   r0x100E
+0019   5600           00175         MOVRA   (___fsgt_fl2_1_22 + 1)
+                      00176 ;;gen.c:6373: size=1/4, offset=2, AOP_TYPE(res)=8
+001A   5800           00177         MOVAR   r0x100D
+001B   5600           00178         MOVRA   (___fsgt_fl2_1_22 + 2)
+                      00179 ;;gen.c:6373: size=0/4, offset=3, AOP_TYPE(res)=8
+001C   5800           00180         MOVAR   r0x100C
+001D   5600           00181         MOVRA   (___fsgt_fl2_1_22 + 3)
+                      00182 ;;[ICODE] ../libsdcc/fsgt.c:62:         iTemp6 [k14 lr9:10 so:0]{ ia0 a2p0 re0 rm1 nos0 ru0 dp0}{volatile-long-int near* fixed}[remat] = &[___fsgt_fl1_1_22 [k6 lr0:0 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{volatile-struct float_long fixed}]
+                      00183 ;;[ICODE] ../libsdcc/fsgt.c:62:         iTemp8 [k17 lr10:11 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{volatile-long-int fixed}[r0x1000 r0x1001 r0x1002 r0x1003 ] = @[iTemp6 [k14 lr9:10 so:0]{ ia1 a2p0 re0 rm1 nos0 ru0 dp0}{volatile-long-int near* fixed}[remat] + 0x0 {const-unsigned-char literal}]
+                      00184 ;       .line   62; "../libsdcc/fsgt.c" if (fl1.l<0 && fl2.l<0) {
+001E   5800           00185         MOVAR   (___fsgt_fl1_1_22 + 0)
+001F   5600           00186         MOVRA   r0x100B
+0020   5800           00187         MOVAR   (___fsgt_fl1_1_22 + 1)
+0021   5600           00188         MOVRA   r0x100A
+0022   5800           00189         MOVAR   (___fsgt_fl1_1_22 + 2)
+0023   5600           00190         MOVRA   r0x1009
+0024   5800           00191         MOVAR   (___fsgt_fl1_1_22 + 3)
+0025   5600           00192         MOVRA   r0x1008
+                      00193 ;;[ICODE] ../libsdcc/fsgt.c:62:         iTemp9 [k18 lr11:12 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char fixed} = iTemp8 [k17 lr10:11 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{volatile-long-int fixed}[r0x1000 r0x1001 r0x1002 r0x1003 ] < 0x0 {volatile-long-int literal}
+                      00194 ;;signed compare: left < lit(0x0=0), size=4, mask=ffffffff
+0026   C187           00195         BSET    STATUS,0
+0027   EE00           00196         JBSET   r0x1008,7
+0028   D187           00197         BCLR    STATUS,0
+0029   E187           00198         JBSET   STATUS,0
+002A   A000           00199         GOTO    _00108_DS_
+                      00200 ;;genSkipc:3194: created from rifx:00CC608C
+                      00201 ;;[ICODE] ../libsdcc/fsgt.c:62:         if iTemp9 [k18 lr11:12 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char fixed} == 0 goto _iffalse_1($4)
+                      00202 ;;[ICODE] ../libsdcc/fsgt.c:62:         iTemp10 [k19 lr13:14 so:0]{ ia0 a2p0 re0 rm1 nos0 ru0 dp0}{volatile-long-int near* fixed}[remat] = &[___fsgt_fl2_1_22 [k10 lr0:0 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{volatile-struct float_long fixed}]
+                      00203 ;;[ICODE] ../libsdcc/fsgt.c:62:         iTemp12 [k22 lr14:15 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{volatile-long-int fixed}[r0x1000 r0x1001 r0x1002 r0x1003 ] = @[iTemp10 [k19 lr13:14 so:0]{ ia1 a2p0 re0 rm1 nos0 ru0 dp0}{volatile-long-int near* fixed}[remat] + 0x0 {const-unsigned-char literal}]
+002B   5800           00204         MOVAR   (___fsgt_fl2_1_22 + 0)
+002C   5600           00205         MOVRA   r0x100B
+002D   5800           00206         MOVAR   (___fsgt_fl2_1_22 + 1)
+002E   5600           00207         MOVRA   r0x100A
+002F   5800           00208         MOVAR   (___fsgt_fl2_1_22 + 2)
+0030   5600           00209         MOVRA   r0x1009
+0031   5800           00210         MOVAR   (___fsgt_fl2_1_22 + 3)
+0032   5600           00211         MOVRA   r0x1008
+                      00212 ;;[ICODE] ../libsdcc/fsgt.c:62:         iTemp13 [k23 lr15:16 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char fixed} = iTemp12 [k22 lr14:15 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{volatile-long-int fixed}[r0x1000 r0x1001 r0x1002 r0x1003 ] < 0x0 {volatile-long-int literal}
+                      00213 ;;signed compare: left < lit(0x0=0), size=4, mask=ffffffff
+0033   C187           00214         BSET    STATUS,0
+0034   EE00           00215         JBSET   r0x1008,7
+0035   D187           00216         BCLR    STATUS,0
+0036   E187           00217         JBSET   STATUS,0
+0037   A000           00218         GOTO    _00108_DS_
+                      00219 ;;genSkipc:3194: created from rifx:00CC608C
+                      00220 ;;[ICODE] ../libsdcc/fsgt.c:62:         if iTemp13 [k23 lr15:16 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char fixed} == 0 goto _iffalse_1($4)
+                      00221 ;;[ICODE] ../libsdcc/fsgt.c:63:         iTemp14 [k24 lr17:18 so:0]{ ia0 a2p0 re0 rm1 nos0 ru0 dp0}{volatile-long-int near* fixed}[remat] = &[___fsgt_fl2_1_22 [k10 lr0:0 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{volatile-struct float_long fixed}]
+                      00222 ;;[ICODE] ../libsdcc/fsgt.c:63:         iTemp16 [k27 lr18:21 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{volatile-long-int fixed}[r0x1000 r0x1001 r0x1002 r0x1003 ] = @[iTemp14 [k24 lr17:18 so:0]{ ia1 a2p0 re0 rm1 nos0 ru0 dp0}{volatile-long-int near* fixed}[remat] + 0x0 {const-unsigned-char literal}]
+                      00223 ;       .line   63; "../libsdcc/fsgt.c" if (fl2.l > fl1.l)
+0038   5800           00224         MOVAR   (___fsgt_fl2_1_22 + 0)
+0039   5600           00225         MOVRA   r0x100B
+003A   5800           00226         MOVAR   (___fsgt_fl2_1_22 + 1)
+003B   5600           00227         MOVRA   r0x100A
+003C   5800           00228         MOVAR   (___fsgt_fl2_1_22 + 2)
+003D   5600           00229         MOVRA   r0x1009
+003E   5800           00230         MOVAR   (___fsgt_fl2_1_22 + 3)
+003F   5600           00231         MOVRA   r0x1008
+                      00232 ;;[ICODE] ../libsdcc/fsgt.c:63:         iTemp17 [k28 lr19:20 so:0]{ ia0 a2p0 re0 rm1 nos0 ru0 dp0}{volatile-long-int near* fixed}[remat] = &[___fsgt_fl1_1_22 [k6 lr0:0 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{volatile-struct float_long fixed}]
+                      00233 ;;[ICODE] ../libsdcc/fsgt.c:63:         iTemp19 [k31 lr20:21 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{volatile-long-int fixed}[r0x1004 r0x1005 r0x1006 r0x1007 ] = @[iTemp17 [k28 lr19:20 so:0]{ ia1 a2p0 re0 rm1 nos0 ru0 dp0}{volatile-long-int near* fixed}[remat] + 0x0 {const-unsigned-char literal}]
+0040   5800           00234         MOVAR   (___fsgt_fl1_1_22 + 0)
+0041   5600           00235         MOVRA   r0x100F
+0042   5800           00236         MOVAR   (___fsgt_fl1_1_22 + 1)
+0043   5600           00237         MOVRA   r0x100E
+0044   5800           00238         MOVAR   (___fsgt_fl1_1_22 + 2)
+0045   5600           00239         MOVRA   r0x100D
+0046   5800           00240         MOVAR   (___fsgt_fl1_1_22 + 3)
+0047   5600           00241         MOVRA   r0x100C
+                      00242 ;;[ICODE] ../libsdcc/fsgt.c:63:         iTemp20 [k32 lr21:22 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char fixed} = iTemp16 [k27 lr18:21 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{volatile-long-int fixed}[r0x1000 r0x1001 r0x1002 r0x1003 ] > iTemp19 [k31 lr20:21 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{volatile-long-int fixed}[r0x1004 r0x1005 r0x1006 r0x1007 ]
+0048   5800           00243         MOVAR   r0x100C
+0049   3F80           00244         ADDAI   0x80
+004A   5600           00245         MOVRA   r0x1010
+004B   5800           00246         MOVAR   r0x1008
+004C   3F80           00247         ADDAI   0x80
+004D   4800           00248         RSUBAR  r0x1010
+004E   E587           00249         JBSET   STATUS,2
+004F   A000           00250         GOTO    _00122_DS_
+0050   5800           00251         MOVAR   r0x1009
+0051   4800           00252         RSUBAR  r0x100D
+0052   E587           00253         JBSET   STATUS,2
+0053   A000           00254         GOTO    _00122_DS_
+0054   5800           00255         MOVAR   r0x100A
+0055   4800           00256         RSUBAR  r0x100E
+0056   E587           00257         JBSET   STATUS,2
+0057   A000           00258         GOTO    _00122_DS_
+0058   5800           00259         MOVAR   r0x100B
+0059   4800           00260         RSUBAR  r0x100F
+005A                  00261 _00122_DS_
+005A   F187           00262         JBCLR   STATUS,0
+005B   A000           00263         GOTO    _00106_DS_
+                      00264 ;;genSkipc:3194: created from rifx:00CC608C
+                      00265 ;;[ICODE] ../libsdcc/fsgt.c:63:         if iTemp20 [k32 lr21:22 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char fixed} == 0 goto _iffalse_0($2)
+                      00266 ;;[ICODE] ../libsdcc/fsgt.c:64:         ret 0x1 {const-unsigned-char literal}
+                      00267 ;       .line   64; "../libsdcc/fsgt.c" return (1);
+005C   3C01           00268         MOVAI   0x01
+005D   A000           00269         GOTO    _00112_DS_
+                      00270 ;;[ICODE] ../libsdcc/fsgt.c:64:  _iffalse_0($2) :
+                      00271 ;;[ICODE] ../libsdcc/fsgt.c:65:         ret 0x0 {const-unsigned-char literal}
+005E                  00272 _00106_DS_
+                      00273 ;       .line   65; "../libsdcc/fsgt.c" return (0);
+005E   3C00           00274         MOVAI   0x00
+005F   A000           00275         GOTO    _00112_DS_
+                      00276 ;;[ICODE] ../libsdcc/fsgt.c:65:  _iffalse_1($4) :
+                      00277 ;;[ICODE] ../libsdcc/fsgt.c:68:         iTemp21 [k33 lr27:28 so:0]{ ia0 a2p0 re0 rm1 nos0 ru0 dp0}{volatile-long-int near* fixed}[remat] = &[___fsgt_fl1_1_22 [k6 lr0:0 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{volatile-struct float_long fixed}]
+                      00278 ;;[ICODE] ../libsdcc/fsgt.c:68:         iTemp23 [k36 lr28:31 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{volatile-long-int fixed}[r0x1000 r0x1001 r0x1002 r0x1003 ] = @[iTemp21 [k33 lr27:28 so:0]{ ia1 a2p0 re0 rm1 nos0 ru0 dp0}{volatile-long-int near* fixed}[remat] + 0x0 {const-unsigned-char literal}]
+0060                  00279 _00108_DS_
+                      00280 ;       .line   68; "../libsdcc/fsgt.c" if (fl1.l > fl2.l)
+0060   5800           00281         MOVAR   (___fsgt_fl1_1_22 + 0)
+0061   5600           00282         MOVRA   r0x100B
+0062   5800           00283         MOVAR   (___fsgt_fl1_1_22 + 1)
+0063   5600           00284         MOVRA   r0x100A
+0064   5800           00285         MOVAR   (___fsgt_fl1_1_22 + 2)
+0065   5600           00286         MOVRA   r0x1009
+0066   5800           00287         MOVAR   (___fsgt_fl1_1_22 + 3)
+0067   5600           00288         MOVRA   r0x1008
+                      00289 ;;[ICODE] ../libsdcc/fsgt.c:68:         iTemp24 [k37 lr29:30 so:0]{ ia0 a2p0 re0 rm1 nos0 ru0 dp0}{volatile-long-int near* fixed}[remat] = &[___fsgt_fl2_1_22 [k10 lr0:0 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{volatile-struct float_long fixed}]
+                      00290 ;;[ICODE] ../libsdcc/fsgt.c:68:         iTemp26 [k40 lr30:31 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{volatile-long-int fixed}[r0x1004 r0x1005 r0x1006 r0x1007 ] = @[iTemp24 [k37 lr29:30 so:0]{ ia1 a2p0 re0 rm1 nos0 ru0 dp0}{volatile-long-int near* fixed}[remat] + 0x0 {const-unsigned-char literal}]
+0068   5800           00291         MOVAR   (___fsgt_fl2_1_22 + 0)
+0069   5600           00292         MOVRA   r0x100F
+006A   5800           00293         MOVAR   (___fsgt_fl2_1_22 + 1)
+006B   5600           00294         MOVRA   r0x100E
+006C   5800           00295         MOVAR   (___fsgt_fl2_1_22 + 2)
+006D   5600           00296         MOVRA   r0x100D
+006E   5800           00297         MOVAR   (___fsgt_fl2_1_22 + 3)
+006F   5600           00298         MOVRA   r0x100C
+                      00299 ;;[ICODE] ../libsdcc/fsgt.c:68:         iTemp27 [k41 lr31:32 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char fixed} = iTemp23 [k36 lr28:31 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{volatile-long-int fixed}[r0x1000 r0x1001 r0x1002 r0x1003 ] > iTemp26 [k40 lr30:31 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{volatile-long-int fixed}[r0x1004 r0x1005 r0x1006 r0x1007 ]
+0070   5800           00300         MOVAR   r0x100C
+0071   3F80           00301         ADDAI   0x80
+0072   5600           00302         MOVRA   r0x1010
+0073   5800           00303         MOVAR   r0x1008
+0074   3F80           00304         ADDAI   0x80
+0075   4800           00305         RSUBAR  r0x1010
+0076   E587           00306         JBSET   STATUS,2
+0077   A000           00307         GOTO    _00123_DS_
+0078   5800           00308         MOVAR   r0x1009
+0079   4800           00309         RSUBAR  r0x100D
+007A   E587           00310         JBSET   STATUS,2
+007B   A000           00311         GOTO    _00123_DS_
+007C   5800           00312         MOVAR   r0x100A
+007D   4800           00313         RSUBAR  r0x100E
+007E   E587           00314         JBSET   STATUS,2
+007F   A000           00315         GOTO    _00123_DS_
+0080   5800           00316         MOVAR   r0x100B
+0081   4800           00317         RSUBAR  r0x100F
+0082                  00318 _00123_DS_
+0082   F187           00319         JBCLR   STATUS,0
+0083   A000           00320         GOTO    _00111_DS_
+                      00321 ;;genSkipc:3194: created from rifx:00CC608C
+                      00322 ;;[ICODE] ../libsdcc/fsgt.c:68:         if iTemp27 [k41 lr31:32 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char fixed} == 0 goto _iffalse_2($7)
+                      00323 ;;[ICODE] ../libsdcc/fsgt.c:69:         ret 0x1 {const-unsigned-char literal}
+                      00324 ;       .line   69; "../libsdcc/fsgt.c" return (1);
+0084   3C01           00325         MOVAI   0x01
+0085   A000           00326         GOTO    _00112_DS_
+                      00327 ;;[ICODE] ../libsdcc/fsgt.c:69:  _iffalse_2($7) :
+                      00328 ;;[ICODE] ../libsdcc/fsgt.c:70:         ret 0x0 {const-unsigned-char literal}
+0086                  00329 _00111_DS_
+                      00330 ;       .line   70; "../libsdcc/fsgt.c" return (0);
+0086   3C00           00331         MOVAI   0x00
+                      00332 ;;[ICODE] ../libsdcc/fsgt.c:70:  _return($8) :
+                      00333 ;;[ICODE] ../libsdcc/fsgt.c:70:         eproc ___fsgt [k1 lr0:0 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char function ( float fixed, float fixed) fixed}
+0087                  00334 _00112_DS_
+0087   000C           00335         RETURN  
+                      00336 ; exit point of ___fsgt
+                      00337 
+                      00338 
+                      00339 ;       code size estimation:
+                      00340 ;         136+    0 =   136 instructions (  272 byte)
+                      00341 
+                      00342         end
+gpasm-2.0.0_beta2 (Aug 27 2017)fsgt.asm           2017-9-18  19:57:21          PAGE  2
 
 
 SYMBOL TABLE
@@ -330,108 +736,31 @@ SYMBOL TABLE
 
 ADCR0                             000001B0
 ADCR1                             000001B1
-ADEOC                             00000001
-ADIE                              00000006
-ADIF                              00000006
-ADON                              00000000
 ADRH                              000001B4
 ADRL                              000001B5
 ANSEL                             00000193
-BUZ0OE                            00000005
-BUZ1OE                            00000005
-C                                 00000000
-CLKS                              00000002
-DC                                00000001
-FSR                               00000184
 FSR0                              00000184
 FSR1                              00000185
-GIE                               00000007
-HFEN                              00000000
 HIBYTE                            00000183
-INDF                              00000180
 INDF0                             00000180
 INDF1                             00000181
 INDF2                             00000182
 INDF3                             00000189
-INT0IE                            00000002
-INT0IF                            00000002
-INT1IE                            00000003
-INT1IF                            00000003
 INTE                              0000018A
 INTF                              0000018B
 IOP0                              00000190
 IOP1                              00000194
-KBIE                              00000004
-KBIF                              00000004
-KBIM                              00000197
-KBIM0                             00000000
-KBIM1                             00000001
-KBIM2                             00000002
-KBIM3                             00000003
-KBIM4                             00000004
-KBIM5                             00000005
-KBIM6                             00000006
-LFEN                              00000001
-LVDCR                             000001AD
-LVDEN                             00000007
-LVDF                              00000000
+KBCR                              00000197
+LVDCR                             000001AF
 MCR                               00000188
 OEP0                              00000191
 OEP1                              00000195
-OSCAL                             000001FB
+OSCCAL                            000001FB
 OSCM                              000001AE
-P00                               00000000
-P00ANS                            00000000
-P00OE                             00000000
-P00PU                             00000000
-P01                               00000001
-P01ANS                            00000001
-P01OE                             00000001
-P01PU                             00000001
-P02                               00000002
-P02ANS                            00000002
-P02OE                             00000002
-P02PU                             00000002
-P03                               00000003
-P03ANS                            00000003
-P03OE                             00000003
-P03PU                             00000003
-P04                               00000004
-P04ANS                            00000004
-P04OE                             00000004
-P04PU                             00000004
-P10                               00000000
-P10OE                             00000000
-P10PU                             00000000
-P11                               00000001
-P11OE                             00000001
-P11PU                             00000001
-P12                               00000002
-P12ANS                            00000005
-P12OE                             00000002
-P12PU                             00000002
-P13                               00000003
-P13ANS                            00000006
-P13OE                             00000003
-P13PU                             00000003
-P14                               00000004
-P14OE                             00000004
-P14PU                             00000004
-P15                               00000005
-P15OE                             00000005
-P15PU                             00000005
-P16                               00000006
-P16OE                             00000006
-P16PU                             00000006
 PCL                               00000186
-PD                                00000004
+PFLAG                             00000187
 PUP0                              00000192
 PUP1                              00000196
-PWM0OE                            00000006
-PWM1OE                            00000006
-STATUS                            00000187
-STBH                              00000004
-STBL                              00000005
 STK00                             00000000
 STK01                             00000000
 STK02                             00000000
@@ -442,60 +771,17 @@ STK06                             00000000
 T0CNT                             000001A1
 T0CR                              000001A0
 T0DATA                            000001A3
-T0IE                              00000000
-T0IF                              00000000
 T0LOAD                            000001A2
 T1CNT                             000001A5
 T1CR                              000001A4
 T1DATA                            000001A7
-T1IE                              00000001
-T1IF                              00000001
 T1LOAD                            000001A6
-TC0EN                             00000007
-TC1EN                             00000007
-TO                                00000005
-Z                                 00000002
 _00106_DS_                        0000005E
 _00108_DS_                        00000060
 _00111_DS_                        00000086
 _00112_DS_                        00000087
 _00122_DS_                        0000005A
 _00123_DS_                        00000082
-_CONFIG0                          00008000
-_CONFIG1                          00008001
-_CP_ALL                           00007FFF
-_FCPU_128T                        0000FFEF
-_FCPU_16T                         0000FFBF
-_FCPU_256T                        0000FFFF
-_FCPU_2T                          0000FF8F
-_FCPU_32T                         0000FFCF
-_FCPU_4T                          0000FF9F
-_FCPU_64T                         0000FFDF
-_FCPU_8T                          0000FFAF
-_HRC_LRC                          0000FCFF
-_HRC_LXT                          0000FDFF
-_HXT_LRC                          0000FEFF
-_MCLR_OFF                         0000FF7F
-_MCLR_ON                          0000FFFF
-_PTWRT_16_1024                    0000FFF7
-_PTWRT_16_16                      0000DFF7
-_PTWRT_256_256                    0000DFFF
-_PTWRT_256_4096                   0000FFFF
-_PTWRT_4_4                        0000DFF3
-_PTWRT_4_512                      0000FFF3
-_PTWRT_64_2048                    0000FFFB
-_PTWRT_64_64                      0000DFFB
-_VLVR_160                         0000E3FF
-_VLVR_185                         0000E7FF
-_VLVR_205                         0000EBFF
-_VLVR_218                         0000EFFF
-_VLVR_232                         0000F3FF
-_VLVR_245                         0000F7FF
-_VLVR_305                         0000FBFF
-_VLVR_360                         0000FFFF
-_WDT_ALWAYS_OFF                   0000FFFC
-_WDT_ALWAYS_ON                    0000FFFF
-_WDT_SLEEP_OFF                    0000FFFD
 __32P21                           00000001
 ___fs2schar                       00000000
 ___fs2sint                        00000000
@@ -528,6 +814,254 @@ r0x100D                           00000006
 r0x100E                           00000005
 r0x100F                           00000004
 r0x1010                           00000008
+ADCHS0                            ADCR0,4
+ADCHS1                            ADCR0,5
+ADCHS2                            ADCR0,6
+ADCHS3                            ADCR0,7
+ADCKS0                            ADCR0,2
+ADCKS1                            ADCR0,3
+ADEOC                             ADCR0,1
+ADIE                              INTE,6
+ADIF                              INTF,6
+ADON                              ADCR0,0
+ADR0                              ADRL,0
+ADR1                              ADRL,1
+ADR10                             ADRH,6
+ADR11                             ADRH,7
+ADR2                              ADRL,2
+ADR3                              ADRL,3
+ADR4                              ADRH,0
+ADR5                              ADRH,1
+ADR6                              ADRH,2
+ADR7                              ADRH,3
+ADR8                              ADRH,4
+ADR9                              ADRH,5
+BUZ0OE                            T0CR,5
+BUZ1OE                            T1CR,5
+C                                 STATUS,0
+CLKS                              OSCM,2
+DC                                STATUS,1
+FSR                               FSR0
+FSR00                             FSR0,0
+FSR01                             FSR0,1
+FSR02                             FSR0,2
+FSR03                             FSR0,3
+FSR04                             FSR0,4
+FSR05                             FSR0,5
+FSR06                             FSR0,6
+FSR07                             FSR0,7
+FSR10                             FSR1,0
+FSR11                             FSR1,1
+FSR12                             FSR1,2
+FSR13                             FSR1,3
+FSR14                             FSR1,4
+FSR15                             FSR1,5
+FSR16                             FSR1,6
+FSR17                             FSR1,7
+GIE                               MCR,7
+HFEN                              OSCM,0
+HIBYTE0                           HIBYTE,0
+HIBYTE1                           HIBYTE,1
+HIBYTE2                           HIBYTE,2
+HIBYTE3                           HIBYTE,3
+HIBYTE4                           HIBYTE,4
+HIBYTE5                           HIBYTE,5
+HIBYTE6                           HIBYTE,6
+HIBYTE7                           HIBYTE,7
+INDF                              INDF0
+INDF00                            INDF0,0
+INDF01                            INDF0,1
+INDF02                            INDF0,2
+INDF03                            INDF0,3
+INDF04                            INDF0,4
+INDF05                            INDF0,5
+INDF06                            INDF0,6
+INDF07                            INDF0,7
+INDF10                            INDF1,0
+INDF11                            INDF1,1
+INDF12                            INDF1,2
+INDF13                            INDF1,3
+INDF14                            INDF1,4
+INDF15                            INDF1,5
+INDF16                            INDF1,6
+INDF17                            INDF1,7
+INDF20                            INDF2,0
+INDF21                            INDF2,1
+INDF22                            INDF2,2
+INDF23                            INDF2,3
+INDF24                            INDF2,4
+INDF25                            INDF2,5
+INDF26                            INDF2,6
+INDF27                            INDF2,7
+INDF30                            INDF3,0
+INDF31                            INDF3,1
+INDF32                            INDF3,2
+INDF33                            INDF3,3
+INDF34                            INDF3,4
+INDF35                            INDF3,5
+INDF36                            INDF3,6
+INDF37                            INDF3,7
+INT0IE                            INTE,2
+INT0IF                            INTF,2
+INT1IE                            INTE,3
+INT1IF                            INTF,3
+INTECON                           INTE
+INTFLAG                           INTF
+KBCR0                             KBCR,0
+KBCR1                             KBCR,1
+KBCR2                             KBCR,2
+KBCR3                             KBCR,3
+KBCR4                             KBCR,4
+KBCR5                             KBCR,5
+KBCR6                             KBCR,6
+KBIE                              INTE,4
+KBIF                              INTF,4
+LFEN                              OSCM,1
+LVDEN                             PLVDCR,7
+LVDF                              PLVDCR,0
+LVDS0                             PLVDCR,4
+LVDS1                             PLVDCR,5
+LVDS2                             PLVDCR,6
+MINT00                            MCR,0
+MINT01                            MCR,1
+MINT10                            MCR,2
+MINT11                            MCR,3
+OSCCAL0                           OSCCAL,0
+OSCCAL1                           OSCCAL,1
+OSCCAL2                           OSCCAL,2
+OSCCAL3                           OSCCAL,3
+OSCCAL4                           OSCCAL,4
+OSCCAL5                           OSCCAL,5
+OSCCAL6                           OSCCAL,6
+OSCCAL7                           OSCCAL,7
+P00ANS                            ANSEL,0
+P00D                              IOP0,0
+P00OE                             OEP0,0
+P00PU                             PUP0,0
+P01ANS                            ANSEL,1
+P01D                              IOP0,1
+P01OE                             OEP0,1
+P01PU                             PUP0,1
+P02ANS                            ANSEL,2
+P02D                              IOP0,2
+P02OE                             OEP0,2
+P02PU                             PUP0,2
+P03ANS                            ANSEL,3
+P03D                              IOP0,3
+P03OE                             OEP0,3
+P03PU                             PUP0,3
+P04ANS                            ANSEL,4
+P04D                              IOP0,4
+P04OE                             OEP0,4
+P04PU                             PUP0,4
+P0HCON                            PUP0
+P10D                              IOP1,0
+P10OE                             OEP1,0
+P10PU                             PUP1,0
+P11D                              IOP1,1
+P11OE                             OEP1,1
+P11PU                             PUP1,1
+P12ANS                            ANSEL,5
+P12D                              IOP1,2
+P12OE                             OEP1,2
+P12PU                             PUP1,2
+P13ANS                            ANSEL,6
+P13D                              IOP1,3
+P13OE                             OEP1,3
+P13PU                             PUP1,3
+P14D                              IOP1,4
+P14OE                             OEP1,4
+P14PU                             PUP1,4
+P15D                              IOP1,5
+P15OE                             OEP1,5
+P15PU                             PUP1,5
+P16D                              IOP1,6
+P16OE                             OEP1,6
+P16PU                             PUP1,6
+P1HCON                            PUP1
+PC0                               PCL,0
+PC1                               PCL,1
+PC2                               PCL,2
+PC3                               PCL,3
+PC4                               PCL,4
+PC5                               PCL,5
+PC6                               PCL,6
+PC7                               PCL,7
+PD                                MCR,4
+PWM0OE                            T0CR,6
+PWM1OE                            T1CR,6
+STATUS                            PFLAG
+STBH                              OSCM,4
+STBL                              OSCM,5
+T0C0                              T0CNT,0
+T0C1                              T0CNT,1
+T0C2                              T0CNT,2
+T0C3                              T0CNT,3
+T0C4                              T0CNT,4
+T0C5                              T0CNT,5
+T0C6                              T0CNT,6
+T0C7                              T0CNT,7
+T0DATA0                           T0DATA,0
+T0DATA1                           T0DATA,1
+T0DATA2                           T0DATA,2
+T0DATA3                           T0DATA,3
+T0DATA4                           T0DATA,4
+T0DATA5                           T0DATA,5
+T0DATA6                           T0DATA,6
+T0DATA7                           T0DATA,7
+T0IE                              INTE,0
+T0IF                              INTF,0
+T0LOAD0                           T0LOAD,0
+T0LOAD1                           T0LOAD,1
+T0LOAD2                           T0LOAD,2
+T0LOAD3                           T0LOAD,3
+T0LOAD4                           T0LOAD,4
+T0LOAD5                           T0LOAD,5
+T0LOAD6                           T0LOAD,6
+T0LOAD7                           T0LOAD,7
+T0PR0                             T0CR,0
+T0PR1                             T0CR,1
+T0PR2                             T0CR,2
+T0PTS0                            T0CR,3
+T0PTS1                            T0CR,4
+T1C0                              T1CNT,0
+T1C1                              T1CNT,1
+T1C2                              T1CNT,2
+T1C3                              T1CNT,3
+T1C4                              T1CNT,4
+T1C5                              T1CNT,5
+T1C6                              T1CNT,6
+T1C7                              T1CNT,7
+T1DATA0                           T1DATA,0
+T1DATA1                           T1DATA,1
+T1DATA2                           T1DATA,2
+T1DATA3                           T1DATA,3
+T1DATA4                           T1DATA,4
+T1DATA5                           T1DATA,5
+T1DATA6                           T1DATA,6
+T1DATA7                           T1DATA,7
+T1IE                              INTE,1
+T1IF                              INTF,1
+T1LOAD0                           T1LOAD,0
+T1LOAD1                           T1LOAD,1
+T1LOAD2                           T1LOAD,2
+T1LOAD3                           T1LOAD,3
+T1LOAD4                           T1LOAD,4
+T1LOAD5                           T1LOAD,5
+T1LOAD6                           T1LOAD,6
+T1LOAD7                           T1LOAD,7
+T1PR0                             T1CR,0
+T1PR1                             T1CR,1
+T1PR2                             T1CR,2
+T1PTS0                            T1CR,3
+T1PTS1                            T1CR,4
+TC0EN                             T0CR,7
+TC1EN                             T1CR,7
+TO                                MCR,5
+VRS0                              ADCR1,0
+VRS1                              ADCR1,1
+VRS2                              ADCR1,2
+Z                                 STATUS,2
 
 Errors   :     0
 Warnings :     0 reported,     0 suppressed

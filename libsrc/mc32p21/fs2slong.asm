@@ -1,14 +1,14 @@
 ;--------------------------------------------------------
-; File Created by SN-SDCC : ANSI-C Compiler
-; Version 0.0.4 (Jan 22 2015) (Linux)
-; This file was generated Thu Jan 22 23:32:12 2015
+; File Created by SN-SDCC : SinoMCU ANSI-C Compiler
+; Version 1.0.0 (Sep 11 2017) (MINGW32)
+; This file was generated Mon Sep 18 19:57:19 2017
 ;--------------------------------------------------------
-; MC3X port for the RISC core
+; MC30/MC32 port for the RISC core
 ;--------------------------------------------------------
 ;	.file	"../libsdcc/fs2slong.c"
-	list	p=32p21
+	list	p=3221
 	radix dec
-	include "mc32p21.inc"
+	include "3221.inc"
 ;--------------------------------------------------------
 ; external declarations
 ;--------------------------------------------------------
@@ -65,6 +65,31 @@ r0x1005	res	1
 ;--------------------------------------------------------
 ; initialized data
 ;--------------------------------------------------------
+
+;@Allocation info for local variables in function '__fs2slong'
+;@__fs2slong __uchar2fs                Allocated to registers ;size:2
+;@__fs2slong __schar2fs                Allocated to registers ;size:2
+;@__fs2slong __uint2fs                 Allocated to registers ;size:2
+;@__fs2slong __sint2fs                 Allocated to registers ;size:2
+;@__fs2slong __ulong2fs                Allocated to registers ;size:2
+;@__fs2slong __slong2fs                Allocated to registers ;size:2
+;@__fs2slong __fs2uchar                Allocated to registers ;size:2
+;@__fs2slong __fs2schar                Allocated to registers ;size:2
+;@__fs2slong __fs2uint                 Allocated to registers ;size:2
+;@__fs2slong __fs2sint                 Allocated to registers ;size:2
+;@__fs2slong __fs2ulong                Allocated to registers ;size:2
+;@__fs2slong __fsadd                   Allocated to registers ;size:2
+;@__fs2slong __fssub                   Allocated to registers ;size:2
+;@__fs2slong __fsmul                   Allocated to registers ;size:2
+;@__fs2slong __fsdiv                   Allocated to registers ;size:2
+;@__fs2slong __fslt                    Allocated to registers ;size:2
+;@__fs2slong __fseq                    Allocated to registers ;size:2
+;@__fs2slong __fsneq                   Allocated to registers ;size:2
+;@__fs2slong __fsgt                    Allocated to registers ;size:2
+;@__fs2slong __fslt                    Allocated to registers ;size:2
+;@__fs2slong f                         Allocated to registers r0x1003 r0x1002 r0x1001 r0x1000 ;size:4
+;@end Allocation info for local variables in function '__fs2slong';
+
 ;--------------------------------------------------------
 ; overlayable items in internal ram 
 ;--------------------------------------------------------

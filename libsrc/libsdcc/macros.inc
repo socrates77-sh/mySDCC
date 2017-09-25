@@ -2,10 +2,17 @@
 ; --- extern declared SFRs
 ; -----------------------------------------------
 	extern _STATUS
+	extern _FSR0
+	extern _FSR1
+	extern _INDF0
+	extern _INDF1
+	extern _INDF2
+	extern _INDF3
 	extern _FSR
 	extern _INDF
 	extern _PCLATH
 	extern _PCL
+	
 
 C	EQU	0
 DC	EQU	1

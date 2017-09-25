@@ -1,14 +1,14 @@
 ;--------------------------------------------------------
-; File Created by SN-SDCC : ANSI-C Compiler
-; Version 0.0.4 (Jan 22 2015) (Linux)
-; This file was generated Thu Jan 22 23:32:14 2015
+; File Created by SN-SDCC : SinoMCU ANSI-C Compiler
+; Version 1.0.0 (Sep 11 2017) (MINGW32)
+; This file was generated Mon Sep 18 19:57:26 2017
 ;--------------------------------------------------------
-; MC3X port for the RISC core
+; MC30/MC32 port for the RISC core
 ;--------------------------------------------------------
 ;	.file	"../libsdcc/slong2fs.c"
-	list	p=32p21
+	list	p=3221
 	radix dec
-	include "mc32p21.inc"
+	include "3221.inc"
 ;--------------------------------------------------------
 ; external declarations
 ;--------------------------------------------------------
@@ -65,6 +65,30 @@ r0x1007	res	1
 ;--------------------------------------------------------
 ; initialized data
 ;--------------------------------------------------------
+
+;@Allocation info for local variables in function '__slong2fs'
+;@__slong2fs __uchar2fs                Allocated to registers ;size:2
+;@__slong2fs __schar2fs                Allocated to registers ;size:2
+;@__slong2fs __uint2fs                 Allocated to registers ;size:2
+;@__slong2fs __sint2fs                 Allocated to registers ;size:2
+;@__slong2fs __ulong2fs                Allocated to registers ;size:2
+;@__slong2fs __fs2uchar                Allocated to registers ;size:2
+;@__slong2fs __fs2schar                Allocated to registers ;size:2
+;@__slong2fs __fs2uint                 Allocated to registers ;size:2
+;@__slong2fs __fs2sint                 Allocated to registers ;size:2
+;@__slong2fs __fs2ulong                Allocated to registers ;size:2
+;@__slong2fs __fs2slong                Allocated to registers ;size:2
+;@__slong2fs __fsadd                   Allocated to registers ;size:2
+;@__slong2fs __fssub                   Allocated to registers ;size:2
+;@__slong2fs __fsmul                   Allocated to registers ;size:2
+;@__slong2fs __fsdiv                   Allocated to registers ;size:2
+;@__slong2fs __fslt                    Allocated to registers ;size:2
+;@__slong2fs __fseq                    Allocated to registers ;size:2
+;@__slong2fs __fsneq                   Allocated to registers ;size:2
+;@__slong2fs __fsgt                    Allocated to registers ;size:2
+;@__slong2fs sl                        Allocated to registers r0x1003 r0x1002 r0x1001 r0x1000 ;size:4
+;@end Allocation info for local variables in function '__slong2fs';
+
 ;--------------------------------------------------------
 ; overlayable items in internal ram 
 ;--------------------------------------------------------
@@ -118,7 +142,7 @@ ___slong2fs	;Function start
 	BCLR	STATUS,0
 	JBSET	STATUS,0
 	GOTO	_00106_DS_
-;;genSkipc:3246: created from rifx:0xbff2eac0
+;;genSkipc:3194: created from rifx:00CC608C
 ;;[ICODE] ../libsdcc/slong2fs.c:35: 	if iTemp1 [k4 lr4:5 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char fixed} == 0 goto _iffalse_0($2)
 ;;[ICODE] ../libsdcc/slong2fs.c:36: 	iTemp2 [k6 lr6:7 so:0]{ ia0 a2p0 re0 rm0 nos0 ru1 dp0}{long-int fixed}[r0x1004 r0x1005 r0x1006 r0x1007 ] = - iTemp0 [k2 lr3:12 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{long-int fixed}{ sir@ ___slong2fs_sl_1_21}[r0x1000 r0x1001 r0x1002 r0x1003 ]
 ;	.line	36; "../libsdcc/slong2fs.c"	return -__ulong2fs(-sl);

@@ -1,11 +1,14 @@
-sdcc_bin=/home/sinomcu/aaa/sn-sdcc/bin/sdcc
-gpasm_bin=/home/sinomcu/aaa/snutils/gpasm/gpasm
-gplib_bin=/home/sinomcu/aaa/snutils/gputils/gplib
+SDCC_HOME=/e/tools/sn-sdcc
+GPUTILS_HOME=/e/tools/snutils
+path="$GPUTILS_HOME/gpasm"
+sdcc_bin=$SDCC_HOME/bin/sdcc
+gpasm_bin=$GPUTILS_HOME/gpasm/gpasm
+gplib_bin=$GPUTILS_HOME/gputils/gplib
 out=Makefile
 
-processor=32p21
+processor=3221
 
-p_file="mc$processor"
+p_file="mc32p21"
 
 c_file=" \
 _divschar \
@@ -74,10 +77,11 @@ tancotf \
 tanf \
 tanhf"
 
-ss_file="\
-_gptrget1"
+#ss_file="\
+#_gptrget1"
 
 s_file="\
+_gptrget1 \
 _gptrget2 \
 _gptrget3 \
 _gptrget4 \
@@ -86,10 +90,11 @@ _gptrput2 \
 _gptrput3 \
 _gptrput4"
 
-echo "SDCC_EXE = $sdcc_bin" > $out
+echo "PATH = $path" > $out
+echo "SDCC_EXE = $sdcc_bin" >> $out
 echo "ASM_EXE = $gpasm_bin" >> $out
 echo "LIB_EXE = $gplib_bin" >> $out
-echo "LIB = mc$processor.lib" >> $out
+echo "LIB = $p_file.lib" >> $out
 
 printf "OBJ = " >> $out
 for file in $p_file; do
@@ -115,12 +120,12 @@ done
 echo >> $out
 echo >> $out
 
-echo 'SDCC_ARG = -V --verbose -mmc3x -p'$processor' -Wa-I$(SDCC_HOME)/share/header \' >> $out
-echo '    -I$(SDCC_HOME)/share/include \' >> $out
+echo 'SDCC_ARG = -V --verbose -mmc3x -p'$processor' -Wa-Ie:\tools\sn-sdcc\share\header \' >> $out
+echo '    -I'$SDCC_HOME'/share/include \' >> $out
 echo '    --std-c99 --i-code-in-asm  -c -o ' >> $out
 echo >> $out
 
-echo 'ASM_ARG = -p mc'$processor' -I$(SDCC_HOME)/share/include -I. -I../libsdcc -c -o ' >> $out
+echo 'ASM_ARG = -p '$processor' -I'$SDCC_HOME'/share/include -I. -I../libsdcc -c -o ' >> $out
 echo >> $out
 
 echo 'all : $(OBJ) $(LIB)' >> $out
@@ -129,7 +134,7 @@ echo >> $out
 
 printf '$(LIB) : $(OBJ)\n' >> $out
 printf '\t$(LIB_EXE) -c $(LIB) *.o\n' >> $out
-printf '\tcp -av $(LIB) $(SDCC_HOME)/share/lib\n' >> $out
+printf '\t/bin/cp -av $(LIB) '$SDCC_HOME'/share/lib \n' >> $out
 echo >> $out
 
 for file in $p_file; do
@@ -147,10 +152,10 @@ done
 #   printf '\t$(SDCC_EXE) $(SDCC_ARG) '$file'.o '$file'.c\n' >> $out
 #done
 
-for file in $ss_file; do
-	printf "$file.o : $file.S\n" >> $out
-	printf '\t$(ASM_EXE) $(ASM_ARG) '$file'.o '$file'.S\n' >> $out
-done
+#for file in $ss_file; do
+#	printf "$file.o : $file.S\n" >> $out
+#	printf '\t$(ASM_EXE) $(ASM_ARG) '$file'.o '$file'.S\n' >> $out
+#done
 
 for file in $s_file; do
 	printf "$file.o : ../libsdcc/$file.S\n" >> $out
@@ -160,5 +165,5 @@ done
 echo >> $out
 
 echo "clean:" >> $out
-printf "\trm -f *.o *.lst *.asm *.lib" >> $out
+printf "\t/bin/rm -f *.o *.lst *.asm *.lib" >> $out
 

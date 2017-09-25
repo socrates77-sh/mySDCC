@@ -1,14 +1,14 @@
 ;--------------------------------------------------------
-; File Created by SN-SDCC : ANSI-C Compiler
-; Version 0.0.4 (Jan 22 2015) (Linux)
-; This file was generated Thu Jan 22 23:32:13 2015
+; File Created by SN-SDCC : SinoMCU ANSI-C Compiler
+; Version 1.0.0 (Sep 11 2017) (MINGW32)
+; This file was generated Mon Sep 18 19:57:21 2017
 ;--------------------------------------------------------
-; MC3X port for the RISC core
+; MC30/MC32 port for the RISC core
 ;--------------------------------------------------------
 ;	.file	"../libsdcc/fsmul.c"
-	list	p=32p21
+	list	p=3221
 	radix dec
-	include "mc32p21.inc"
+	include "3221.inc"
 ;--------------------------------------------------------
 ; external declarations
 ;--------------------------------------------------------
@@ -79,6 +79,37 @@ ___fsmul_fl2_1_22	res	4
 ;--------------------------------------------------------
 ; initialized data
 ;--------------------------------------------------------
+
+;@Allocation info for local variables in function '__fsmul'
+;@__fsmul __uchar2fs                Allocated to registers ;size:2
+;@__fsmul __schar2fs                Allocated to registers ;size:2
+;@__fsmul __uint2fs                 Allocated to registers ;size:2
+;@__fsmul __sint2fs                 Allocated to registers ;size:2
+;@__fsmul __ulong2fs                Allocated to registers ;size:2
+;@__fsmul __slong2fs                Allocated to registers ;size:2
+;@__fsmul __fs2uchar                Allocated to registers ;size:2
+;@__fsmul __fs2schar                Allocated to registers ;size:2
+;@__fsmul __fs2uint                 Allocated to registers ;size:2
+;@__fsmul __fs2sint                 Allocated to registers ;size:2
+;@__fsmul __fs2ulong                Allocated to registers ;size:2
+;@__fsmul __fs2slong                Allocated to registers ;size:2
+;@__fsmul __fsadd                   Allocated to registers ;size:2
+;@__fsmul __fssub                   Allocated to registers ;size:2
+;@__fsmul __fsdiv                   Allocated to registers ;size:2
+;@__fsmul __fslt                    Allocated to registers ;size:2
+;@__fsmul __fseq                    Allocated to registers ;size:2
+;@__fsmul __fsneq                   Allocated to registers ;size:2
+;@__fsmul __fsgt                    Allocated to registers ;size:2
+;@__fsmul _mullong                  Allocated to registers ;size:2
+;@__fsmul a2                        Allocated to registers r0x100F r0x100E r0x100D r0x100C ;size:4
+;@__fsmul a1                        Allocated to registers r0x100B r0x100A r0x1009 r0x1008 ;size:4
+;@__fsmul fl1                       Allocated to registers ;size:4
+;@__fsmul fl2                       Allocated to registers ;size:4
+;@__fsmul result                    Allocated to registers r0x100A r0x1009 r0x1008 r0x100F ;size:4
+;@__fsmul exp                       Allocated to registers r0x100E r0x100D ;size:2
+;@__fsmul sign                      Allocated to registers r0x100B ;size:1
+;@end Allocation info for local variables in function '__fsmul';
+
 ;--------------------------------------------------------
 ; overlayable items in internal ram 
 ;--------------------------------------------------------
@@ -154,30 +185,30 @@ ___fsmul	;Function start
 	MOVRA	r0x100F
 ;;[ICODE] ../libsdcc/fsmul.c:62: 	iTemp2 [k7 lr5:6 so:0]{ ia0 a2p0 re0 rm1 nos0 ru0 dp0}{volatile-float near* fixed}[remat] = &[___fsmul_fl1_1_22 [k6 lr0:0 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{volatile-struct float_long fixed}]
 ;;[ICODE] ../libsdcc/fsmul.c:62: 	*(iTemp2 [k7 lr5:6 so:0]{ ia1 a2p0 re0 rm1 nos0 ru0 dp0}{volatile-float near* fixed}[remat]) := iTemp0 [k2 lr3:6 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{float fixed}{ sir@ ___fsmul_a1_1_21}[r0x1000 r0x1001 r0x1002 r0x1003 ]
-;;gen.c:6444: size=3/4, offset=0, AOP_TYPE(res)=8
+;;gen.c:6373: size=3/4, offset=0, AOP_TYPE(res)=8
 ;;99	MOVAR	r0x100B
-;;gen.c:6444: size=2/4, offset=1, AOP_TYPE(res)=8
+;;gen.c:6373: size=2/4, offset=1, AOP_TYPE(res)=8
 ;	.line	62; "../libsdcc/fsmul.c"	fl1.f = a1;
 	MOVAR	r0x100A
 	MOVRA	(___fsmul_fl1_1_22 + 1)
-;;gen.c:6444: size=1/4, offset=2, AOP_TYPE(res)=8
+;;gen.c:6373: size=1/4, offset=2, AOP_TYPE(res)=8
 	MOVAR	r0x1009
 	MOVRA	(___fsmul_fl1_1_22 + 2)
-;;gen.c:6444: size=0/4, offset=3, AOP_TYPE(res)=8
+;;gen.c:6373: size=0/4, offset=3, AOP_TYPE(res)=8
 	MOVAR	r0x1008
 	MOVRA	(___fsmul_fl1_1_22 + 3)
 ;;[ICODE] ../libsdcc/fsmul.c:63: 	iTemp4 [k11 lr7:8 so:0]{ ia0 a2p0 re0 rm1 nos0 ru0 dp0}{volatile-float near* fixed}[remat] = &[___fsmul_fl2_1_22 [k10 lr0:0 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{volatile-struct float_long fixed}]
 ;;[ICODE] ../libsdcc/fsmul.c:63: 	*(iTemp4 [k11 lr7:8 so:0]{ ia1 a2p0 re0 rm1 nos0 ru0 dp0}{volatile-float near* fixed}[remat]) := iTemp1 [k4 lr4:8 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{float fixed}{ sir@ ___fsmul_a2_1_21}[r0x1004 r0x1005 r0x1006 r0x1007 ]
-;;gen.c:6444: size=3/4, offset=0, AOP_TYPE(res)=8
+;;gen.c:6373: size=3/4, offset=0, AOP_TYPE(res)=8
 ;;125	MOVAR	r0x100F
-;;gen.c:6444: size=2/4, offset=1, AOP_TYPE(res)=8
+;;gen.c:6373: size=2/4, offset=1, AOP_TYPE(res)=8
 ;	.line	63; "../libsdcc/fsmul.c"	fl2.f = a2;
 	MOVAR	r0x100E
 	MOVRA	(___fsmul_fl2_1_22 + 1)
-;;gen.c:6444: size=1/4, offset=2, AOP_TYPE(res)=8
+;;gen.c:6373: size=1/4, offset=2, AOP_TYPE(res)=8
 	MOVAR	r0x100D
 	MOVRA	(___fsmul_fl2_1_22 + 2)
-;;gen.c:6444: size=0/4, offset=3, AOP_TYPE(res)=8
+;;gen.c:6373: size=0/4, offset=3, AOP_TYPE(res)=8
 	MOVAR	r0x100C
 	MOVRA	(___fsmul_fl2_1_22 + 3)
 ;;[ICODE] ../libsdcc/fsmul.c:65: 	iTemp6 [k14 lr9:10 so:0]{ ia0 a2p0 re0 rm1 nos0 ru0 dp0}{volatile-unsigned-long-int near* fixed}[remat] = &[___fsmul_fl1_1_22 [k6 lr0:0 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{volatile-struct float_long fixed}]
@@ -382,16 +413,16 @@ _00106_DS_
 ;;[ICODE] ../libsdcc/fsmul.c:73: 	iTemp44 [k62 lr45:46 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-long-int register}[r0x1001 r0x1002 r0x1003 r0x1004 ] = iTemp43 [k61 lr44:45 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-long-int register}[r0x1001 r0x1002 r0x1003 r0x1004 ] | 0x800000 {unsigned-long-int literal}
 	BSET	r0x1008,7
 ;;[ICODE] ../libsdcc/fsmul.c:73: 	*(iTemp38 [k54 lr41:46 so:0]{ ia1 a2p0 re0 rm1 nos0 ru0 dp0}{volatile-unsigned-long-int near* fixed}[remat]) := iTemp44 [k62 lr45:46 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-long-int register}[r0x1001 r0x1002 r0x1003 r0x1004 ]
-;;gen.c:6444: size=3/4, offset=0, AOP_TYPE(res)=8
+;;gen.c:6373: size=3/4, offset=0, AOP_TYPE(res)=8
 	MOVAR	r0x100A
 	MOVRA	(___fsmul_fl1_1_22 + 0)
-;;gen.c:6444: size=2/4, offset=1, AOP_TYPE(res)=8
+;;gen.c:6373: size=2/4, offset=1, AOP_TYPE(res)=8
 	MOVAR	r0x1009
 	MOVRA	(___fsmul_fl1_1_22 + 1)
-;;gen.c:6444: size=1/4, offset=2, AOP_TYPE(res)=8
+;;gen.c:6373: size=1/4, offset=2, AOP_TYPE(res)=8
 	MOVAR	r0x1008
 	MOVRA	(___fsmul_fl1_1_22 + 2)
-;;gen.c:6444: size=0/4, offset=3, AOP_TYPE(res)=8
+;;gen.c:6373: size=0/4, offset=3, AOP_TYPE(res)=8
 	MOVAI	0x00
 	MOVRA	(___fsmul_fl1_1_22 + 3)
 ;;[ICODE] ../libsdcc/fsmul.c:74: 	iTemp45 [k63 lr47:52 so:0]{ ia0 a2p0 re0 rm1 nos0 ru0 dp0}{volatile-unsigned-long-int near* fixed}[remat] = &[___fsmul_fl2_1_22 [k10 lr0:0 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{volatile-struct float_long fixed}]
@@ -412,16 +443,16 @@ _00106_DS_
 ;;[ICODE] ../libsdcc/fsmul.c:74: 	iTemp51 [k71 lr51:52 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-long-int register}[r0x1001 r0x1002 r0x1003 r0x1004 ] = iTemp50 [k70 lr50:51 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-long-int register}[r0x1001 r0x1002 r0x1003 r0x1004 ] | 0x800000 {unsigned-long-int literal}
 	BSET	r0x1008,7
 ;;[ICODE] ../libsdcc/fsmul.c:74: 	*(iTemp45 [k63 lr47:52 so:0]{ ia1 a2p0 re0 rm1 nos0 ru0 dp0}{volatile-unsigned-long-int near* fixed}[remat]) := iTemp51 [k71 lr51:52 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-long-int register}[r0x1001 r0x1002 r0x1003 r0x1004 ]
-;;gen.c:6444: size=3/4, offset=0, AOP_TYPE(res)=8
+;;gen.c:6373: size=3/4, offset=0, AOP_TYPE(res)=8
 	MOVAR	r0x100A
 	MOVRA	(___fsmul_fl2_1_22 + 0)
-;;gen.c:6444: size=2/4, offset=1, AOP_TYPE(res)=8
+;;gen.c:6373: size=2/4, offset=1, AOP_TYPE(res)=8
 	MOVAR	r0x1009
 	MOVRA	(___fsmul_fl2_1_22 + 1)
-;;gen.c:6444: size=1/4, offset=2, AOP_TYPE(res)=8
+;;gen.c:6373: size=1/4, offset=2, AOP_TYPE(res)=8
 	MOVAR	r0x1008
 	MOVRA	(___fsmul_fl2_1_22 + 2)
-;;gen.c:6444: size=0/4, offset=3, AOP_TYPE(res)=8
+;;gen.c:6373: size=0/4, offset=3, AOP_TYPE(res)=8
 	MOVAI	0x00
 	MOVRA	(___fsmul_fl2_1_22 + 3)
 ;;[ICODE] ../libsdcc/fsmul.c:77: 	iTemp53 [k74 lr53:54 so:0]{ ia0 a2p0 re0 rm1 nos0 ru0 dp0}{volatile-unsigned-long-int near* fixed}[remat] = &[___fsmul_fl1_1_22 [k6 lr0:0 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{volatile-struct float_long fixed}]
@@ -729,7 +760,7 @@ _00110_DS_
 _00135_DS_
 	JBSET	STATUS,0
 	GOTO	_00115_DS_
-;;genSkipc:3246: created from rifx:0xbff34ef0
+;;genSkipc:3194: created from rifx:00CC608C
 ;;[ICODE] ../libsdcc/fsmul.c:99: 	if iTemp92 [k119 lr104:105 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char fixed} != 0 goto _iffalse_3($11)
 ;;[ICODE] ../libsdcc/fsmul.c:100: 	iTemp93 [k120 lr106:114 so:0]{ ia0 a2p0 re0 rm1 nos0 ru0 dp0}{volatile-unsigned-long-int near* fixed}[remat] = &[___fsmul_fl1_1_22 [k6 lr0:0 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{volatile-struct float_long fixed}]
 ;;[ICODE] ../libsdcc/fsmul.c:100: 	if iTemp12 [k22 lr24:124 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{char fixed}{ sir@ ___fsmul_sign_1_22}[r0x1000 ] == 0 goto iTempLbl0($15)
@@ -760,16 +791,16 @@ _00120_DS_
 	MOVAI	0x7f
 	ORRA	r0x1012
 ;;[ICODE] ../libsdcc/fsmul.c:100: 	*(iTemp93 [k120 lr106:114 so:0]{ ia1 a2p0 re0 rm1 nos0 ru0 dp0}{volatile-unsigned-long-int near* fixed}[remat]) := iTemp96 [k124 lr113:114 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-long-int register}[r0x1007 r0x1008 r0x1009 r0x100A ]
-;;gen.c:6444: size=3/4, offset=0, AOP_TYPE(res)=8
+;;gen.c:6373: size=3/4, offset=0, AOP_TYPE(res)=8
 	MOVAR	r0x100C
 	MOVRA	(___fsmul_fl1_1_22 + 0)
-;;gen.c:6444: size=2/4, offset=1, AOP_TYPE(res)=8
+;;gen.c:6373: size=2/4, offset=1, AOP_TYPE(res)=8
 	MOVAR	r0x1010
 	MOVRA	(___fsmul_fl1_1_22 + 1)
-;;gen.c:6444: size=1/4, offset=2, AOP_TYPE(res)=8
+;;gen.c:6373: size=1/4, offset=2, AOP_TYPE(res)=8
 	MOVAR	r0x1011
 	MOVRA	(___fsmul_fl1_1_22 + 2)
-;;gen.c:6444: size=0/4, offset=3, AOP_TYPE(res)=8
+;;gen.c:6373: size=0/4, offset=3, AOP_TYPE(res)=8
 	MOVAR	r0x1012
 	MOVRA	(___fsmul_fl1_1_22 + 3)
 ;;[ICODE] ../libsdcc/fsmul.c:100: 	 goto _ifend_3($12)
@@ -784,18 +815,18 @@ _00115_DS_
 	BCLR	STATUS,0
 	JBSET	STATUS,0
 	GOTO	_00112_DS_
-;;genSkipc:3246: created from rifx:0xbff34ef0
+;;genSkipc:3194: created from rifx:00CC608C
 ;;[ICODE] ../libsdcc/fsmul.c:101: 	if iTemp97 [k125 lr117:118 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char fixed} == 0 goto _iffalse_2($8)
 ;;[ICODE] ../libsdcc/fsmul.c:102: 	iTemp98 [k126 lr119:120 so:0]{ ia0 a2p0 re0 rm1 nos0 ru0 dp0}{volatile-unsigned-long-int near* fixed}[remat] = &[___fsmul_fl1_1_22 [k6 lr0:0 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{volatile-struct float_long fixed}]
 ;;[ICODE] ../libsdcc/fsmul.c:102: 	*(iTemp98 [k126 lr119:120 so:0]{ ia1 a2p0 re0 rm1 nos0 ru0 dp0}{volatile-unsigned-long-int near* fixed}[remat]) := 0x0 {volatile-unsigned-long-int literal}
-;;gen.c:6444: size=3/4, offset=0, AOP_TYPE(res)=8
+;;gen.c:6373: size=3/4, offset=0, AOP_TYPE(res)=8
 ;	.line	102; "../libsdcc/fsmul.c"	fl1.l = 0;
 	CLRR	(___fsmul_fl1_1_22 + 0)
-;;gen.c:6444: size=2/4, offset=1, AOP_TYPE(res)=8
+;;gen.c:6373: size=2/4, offset=1, AOP_TYPE(res)=8
 	CLRR	(___fsmul_fl1_1_22 + 1)
-;;gen.c:6444: size=1/4, offset=2, AOP_TYPE(res)=8
+;;gen.c:6373: size=1/4, offset=2, AOP_TYPE(res)=8
 	CLRR	(___fsmul_fl1_1_22 + 2)
-;;gen.c:6444: size=0/4, offset=3, AOP_TYPE(res)=8
+;;gen.c:6373: size=0/4, offset=3, AOP_TYPE(res)=8
 	CLRR	(___fsmul_fl1_1_22 + 3)
 ;;[ICODE] ../libsdcc/fsmul.c:102: 	 goto _ifend_3($12)
 	GOTO	_00116_DS_
@@ -862,16 +893,16 @@ _00122_DS_
 	MOVAR	r0x1011
 	ORRA	r0x100F
 ;;[ICODE] ../libsdcc/fsmul.c:104: 	*(iTemp100 [k129 lr123:134 so:0]{ ia1 a2p0 re0 rm1 nos0 ru0 dp0}{volatile-unsigned-long-int near* fixed}[remat]) := iTemp106 [k136 lr133:134 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-long-int fixed}[r0x1001 r0x1002 r0x1003 r0x1004 ]
-;;gen.c:6444: size=3/4, offset=0, AOP_TYPE(res)=8
+;;gen.c:6373: size=3/4, offset=0, AOP_TYPE(res)=8
 	MOVAR	r0x100A
 	MOVRA	(___fsmul_fl1_1_22 + 0)
-;;gen.c:6444: size=2/4, offset=1, AOP_TYPE(res)=8
+;;gen.c:6373: size=2/4, offset=1, AOP_TYPE(res)=8
 	MOVAR	r0x1009
 	MOVRA	(___fsmul_fl1_1_22 + 1)
-;;gen.c:6444: size=1/4, offset=2, AOP_TYPE(res)=8
+;;gen.c:6373: size=1/4, offset=2, AOP_TYPE(res)=8
 	MOVAR	r0x1008
 	MOVRA	(___fsmul_fl1_1_22 + 2)
-;;gen.c:6444: size=0/4, offset=3, AOP_TYPE(res)=8
+;;gen.c:6373: size=0/4, offset=3, AOP_TYPE(res)=8
 	MOVAR	r0x100F
 	MOVRA	(___fsmul_fl1_1_22 + 3)
 ;;[ICODE] ../libsdcc/fsmul.c:104:  _ifend_3($12) :

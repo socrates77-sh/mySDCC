@@ -1,23 +1,402 @@
-gpasm-1.7.0_beta1 (Jan 22 2015)uchar2fs.asm       2015-1-22  23:32:14          PAGE  1
+gpasm-2.0.0_beta2 (Aug 27 2017)uchar2fs.asm       2017-9-18  19:57:26          PAGE  1
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
   VALUE
 
                       00001 ;--------------------------------------------------------
-                      00002 ; File Created by SN-SDCC : ANSI-C Compiler
-                      00003 ; Version 0.0.4 (Jan 22 2015) (Linux)
-                      00004 ; This file was generated Thu Jan 22 23:32:14 2015
+                      00002 ; File Created by SN-SDCC : SinoMCU ANSI-C Compiler
+                      00003 ; Version 1.0.0 (Sep 11 2017) (MINGW32)
+                      00004 ; This file was generated Mon Sep 18 19:57:26 2017
                       00005 ;--------------------------------------------------------
-                      00006 ; MC3X port for the RISC core
+                      00006 ; MC30/MC32 port for the RISC core
                       00007 ;--------------------------------------------------------
                       00008 ;       .file   "../libsdcc/uchar2fs.c"
-                      00009         list    p=32p21
+                      00009         list    p=3221
                       00010         radix dec
-                      00011         include "mc32p21.inc"
-                      00001                 LIST
-                      00002 ;mc32p21.inc    Standard Header File, Version 1.00 by Sinomcu
-                      00261                 LIST
+                      00011         include "3221.inc"
+                      00001 
+                      00002 ;==========================================================================
+                      00003 ;
+                      00004 ;       Revision History
+                      00005 ;
+                      00006 ;==========================================================================
+                      00007 
+                      00008 ;Rev:   Date:    Reason:
+                      00009 
+                      00010 ;1.00   12/06/21 Initial Release
+                      00011 
+                      00012 ;==========================================================================
+                      00013 ;
+                      00014 ;       Register Definitions
+                      00015 ;
+                      00016 ;==========================================================================
+                      00017 
+                      00018 ;W                            EQU     H'0000'
+                      00019 ;F                            EQU     H'0001'
+                      00020 
+                      00021 ;----- Register Files------------------------------------------------------
+  00000180            00022 INDF0              EQU     0x180
+  00000181            00023 INDF1                    EQU       0x181
+  00000182            00024 INDF2                    EQU       0x182
+  00000183            00025 HIBYTE           EQU       0x183        
+  00000184            00026 FSR0                     EQU       0x184
+  00000185            00027 FSR1                     EQU       0x185
+  00000186            00028 PCL                        EQU     0x186
+  00000187            00029 PFLAG                    EQU       0x187
+                      00030 ;----0x188
+  00000188            00031 MCR                        EQU     0x188
+  00000189            00032 INDF3                    EQU       0x189
+  0000018A            00033 INTE                     EQU       0x18a
+  0000018B            00034 INTF                     EQU       0x18b                
+                      00035 ;----0x190
+  00000190            00036 IOP0                     EQU     0x190
+  00000191            00037 OEP0       EQU     0x191
+  00000192            00038 PUP0       EQU     0x192    
+  00000193            00039 ANSEL      EQU     0x193
+  00000194            00040 IOP1       EQU     0x194               
+  00000195            00041 OEP1       EQU     0x195             
+  00000196            00042 PUP1       EQU     0x196
+  00000197            00043 KBCR       EQU     0x197              
+                      00044 ;-----0x1a0
+  000001A0            00045 T0CR                     EQU     0x1a0
+  000001A1            00046 T0CNT      EQU     0x1a1             
+  000001A2            00047 T0LOAD     EQU     0x1a2             
+  000001A3            00048 T0DATA     EQU     0x1a3             
+  000001A4            00049 T1CR       EQU     0x1a4             
+  000001A5            00050 T1CNT      EQU     0x1a5             
+  000001A6            00051 T1LOAD     EQU     0x1a6             
+  000001A7            00052 T1DATA     EQU     0x1a7             
+                      00053 ;-----0x1a8
+  000001AE            00054 OSCM       EQU     0x1ae
+  000001AF            00055 LVDCR      EQU     0x1af                           
+                      00056 ;-----0x1b0
+  000001B0            00057 ADCR0                    EQU     0x1b0
+  000001B1            00058 ADCR1      EQU     0x1b1             
+  000001B4            00059 ADRH       EQU     0x1b4                               
+  000001B5            00060 ADRL       EQU     0x1b5          
+                      00061 ;----0x1f8                 
+  000001FB            00062 OSCCAL           EQU       0x1fb
+                      00063 
+                      00064 #define         STATUS          PFLAG
+                      00065 #define         INDF              INDF0
+                      00066 #define         FSR                 FSR0
+                      00067 #define         P0HCON          PUP0
+                      00068 #define         P1HCON          PUP1
+                      00069 #define         INTECON         INTE
+                      00070 #define         INTFLAG   INTF
+                      00071 
+                      00072 ;INDF0 
+                      00073 #define         INDF07          INDF0,7
+                      00074 #define         INDF06          INDF0,6
+                      00075 #define         INDF05          INDF0,5
+                      00076 #define         INDF04          INDF0,4
+                      00077 #define         INDF03          INDF0,3
+                      00078 #define         INDF02          INDF0,2
+                      00079 #define         INDF01          INDF0,1
+                      00080 #define         INDF00          INDF0,0 
+                      00081 
+                      00082 ;INDF1 
+                      00083 #define         INDF17          INDF1,7
+                      00084 #define         INDF16          INDF1,6
+                      00085 #define         INDF15          INDF1,5
+                      00086 #define         INDF14          INDF1,4
+                      00087 #define         INDF13          INDF1,3
+                      00088 #define         INDF12          INDF1,2
+                      00089 #define         INDF11          INDF1,1
+                      00090 #define         INDF10          INDF1,0
+                      00091 
+                      00092 ;INDF2 
+                      00093 #define         INDF27          INDF2,7
+                      00094 #define         INDF26          INDF2,6
+                      00095 #define         INDF25          INDF2,5
+                      00096 #define         INDF24          INDF2,4
+                      00097 #define         INDF23          INDF2,3
+                      00098 #define         INDF22          INDF2,2
+                      00099 #define         INDF21          INDF2,1
+                      00100 #define         INDF20          INDF2,0 
+                      00101 
+                      00102 ;HIBYTE
+                      00103 #define         HIBYTE7         HIBYTE,7
+                      00104 #define         HIBYTE6         HIBYTE,6
+                      00105 #define         HIBYTE5         HIBYTE,5
+                      00106 #define         HIBYTE4         HIBYTE,4
+                      00107 #define         HIBYTE3         HIBYTE,3
+                      00108 #define         HIBYTE2         HIBYTE,2
+                      00109 #define         HIBYTE1         HIBYTE,1
+                      00110 #define         HIBYTE0         HIBYTE,0
+                      00111 
+                      00112 ;FSR0 
+                      00113 #define         FSR07           FSR0,7
+                      00114 #define         FSR06           FSR0,6
+                      00115 #define         FSR05           FSR0,5
+                      00116 #define         FSR04           FSR0,4
+                      00117 #define         FSR03           FSR0,3
+                      00118 #define         FSR02           FSR0,2
+                      00119 #define         FSR01           FSR0,1
+                      00120 #define         FSR00           FSR0,0 
+                      00121 
+                      00122 ;FSR1
+                      00123 #define         FSR17           FSR1,7
+                      00124 #define         FSR16           FSR1,6
+                      00125 #define         FSR15           FSR1,5
+                      00126 #define         FSR14           FSR1,4
+                      00127 #define         FSR13           FSR1,3
+                      00128 #define         FSR12           FSR1,2
+                      00129 #define         FSR11           FSR1,1
+                      00130 #define         FSR10           FSR1,0
+                      00131 
+                      00132 ;PCL 
+                      00133 #define         PC7             PCL,7
+                      00134 #define         PC6             PCL,6
+                      00135 #define         PC5             PCL,5
+                      00136 #define         PC4             PCL,4
+                      00137 #define         PC3             PCL,3
+                      00138 #define         PC2             PCL,2
+                      00139 #define         PC1             PCL,1
+                      00140 #define         PC0             PCL,0   
+                      00141 
+                      00142 ;----- STATUS Bits --------------------------
+                      00143 #define Z         STATUS,2
+                      00144 #define DC      STATUS,1
+                      00145 #define C         STATUS,0
+                      00146 
+                      00147 ;----- MCR Bits --------------------------
+                      00148 #define GIE         MCR,7
+                      00149 #define TO          MCR,5
+                      00150 #define PD          MCR,4
+                      00151 #define MINT11  MCR,3
+                      00152 #define MINT10  MCR,2
+                      00153 #define MINT01  MCR,1
+                      00154 #define MINT00  MCR,0
+                      00155 
+                      00156 ;INDF3 
+                      00157 #define         INDF37          INDF3,7
+                      00158 #define         INDF36          INDF3,6
+                      00159 #define         INDF35          INDF3,5
+                      00160 #define         INDF34          INDF3,4
+                      00161 #define         INDF33          INDF3,3
+                      00162 #define         INDF32          INDF3,2
+                      00163 #define         INDF31          INDF3,1
+                      00164 #define         INDF30          INDF3,0 
+                      00165 
+                      00166 ;----- INTE Bits --------------------------
+                      00167 #define ADIE      INTE,6
+                      00168 #define KBIE      INTE,4
+                      00169 #define INT1IE  INTE,3
+                      00170 #define INT0IE  INTE,2
+                      00171 #define T1IE      INTE,1
+                      00172 #define T0IE      INTE,0
+                      00173 
+                      00174 ;----- INTF Bits --------------------------
+                      00175 #define ADIF      INTF,6
+                      00176 #define KBIF      INTF,4
+                      00177 #define INT1IF  INTF,3
+                      00178 #define INT0IF  INTF,2
+                      00179 #define T1IF      INTF,1
+                      00180 #define T0IF      INTF,0
+                      00181 
+                      00182 ;IOP0
+                      00183 #define         P04D            IOP0,4
+                      00184 #define         P03D            IOP0,3
+                      00185 #define         P02D            IOP0,2
+                      00186 #define         P01D            IOP0,1
+                      00187 #define         P00D              IOP0,0
+                      00188 
+                      00189 ;OEP0
+                      00190 #define         P04OE           OEP0,4
+                      00191 #define         P03OE           OEP0,3
+                      00192 #define         P02OE           OEP0,2
+                      00193 #define         P01OE           OEP0,1
+                      00194 #define         P00OE           OEP0,0
+                      00195 
+                      00196 ;PUP0
+                      00197 #define         P04PU           PUP0,4
+                      00198 #define         P03PU           PUP0,3
+                      00199 #define         P02PU           PUP0,2
+                      00200 #define         P01PU           PUP0,1
+                      00201 #define         P00PU           PUP0,0
+                      00202 
+                      00203 ;ANSEL
+                      00204 #define         P13ANS          ANSEL,6
+                      00205 #define         P12ANS          ANSEL,5
+                      00206 #define         P04ANS          ANSEL,4
+                      00207 #define         P03ANS          ANSEL,3
+                      00208 #define         P02ANS          ANSEL,2
+                      00209 #define         P01ANS          ANSEL,1
+                      00210 #define         P00ANS          ANSEL,0
+                      00211 
+                      00212 ;IOP1
+                      00213 #define         P16D            IOP1,6
+                      00214 #define         P15D            IOP1,5
+                      00215 #define         P14D              IOP1,4
+                      00216 #define         P13D            IOP1,3
+                      00217 #define         P12D            IOP1,2
+                      00218 #define         P11D            IOP1,1
+                      00219 #define         P10D              IOP1,0
+                      00220 
+                      00221 ;OEP1
+                      00222 #define         P16OE           OEP1,6
+                      00223 #define         P15OE           OEP1,5
+                      00224 #define         P14OE           OEP1,4
+                      00225 #define         P13OE           OEP1,3
+                      00226 #define         P12OE           OEP1,2
+                      00227 #define         P11OE           OEP1,1
+                      00228 #define         P10OE           OEP1,0
+                      00229 
+                      00230 ;PUP1
+                      00231 #define         P16PU           PUP1,6
+                      00232 #define         P15PU           PUP1,5
+                      00233 #define         P14PU           PUP1,4
+                      00234 #define         P13PU           PUP1,3
+                      00235 #define         P12PU           PUP1,2
+                      00236 #define         P11PU           PUP1,1
+                      00237 #define         P10PU           PUP1,0
+                      00238 
+                      00239 ;KBCR
+                      00240 #define         KBCR6           KBCR,6
+                      00241 #define         KBCR5           KBCR,5
+                      00242 #define         KBCR4           KBCR,4
+                      00243 #define         KBCR3           KBCR,3
+                      00244 #define         KBCR2           KBCR,2
+                      00245 #define         KBCR1           KBCR,1
+                      00246 #define         KBCR0           KBCR,0
+                      00247 
+                      00248 ;----- T0CR  Bits ----------------
+                      00249 #define TC0EN     T0CR,7
+                      00250 #define PWM0OE  T0CR,6
+                      00251 #define BUZ0OE  T0CR,5
+                      00252 #define T0PTS1  T0CR,4
+                      00253 #define T0PTS0  T0CR,3
+                      00254 #define T0PR2     T0CR,2
+                      00255 #define T0PR1     T0CR,1
+                      00256 #define T0PR0     T0CR,0
+                      00257 
+                      00258 ;T0CNT
+                      00259 #define         T0C7            T0CNT,7
+                      00260 #define         T0C6            T0CNT,6
+                      00261 #define         T0C5            T0CNT,5
+                      00262 #define         T0C4            T0CNT,4
+                      00263 #define         T0C3            T0CNT,3
+                      00264 #define         T0C2            T0CNT,2
+                      00265 #define         T0C1            T0CNT,1
+                      00266 #define         T0C0            T0CNT,0
+                      00267 
+                      00268 ;T0LOAD
+                      00269 #define         T0LOAD7         T0LOAD,7
+                      00270 #define         T0LOAD6         T0LOAD,6
+                      00271 #define         T0LOAD5         T0LOAD,5
+                      00272 #define         T0LOAD4         T0LOAD,4
+                      00273 #define         T0LOAD3         T0LOAD,3
+                      00274 #define         T0LOAD2         T0LOAD,2
+                      00275 #define         T0LOAD1         T0LOAD,1
+                      00276 #define         T0LOAD0         T0LOAD,0
+                      00277 
+                      00278 ;T0DATA
+                      00279 #define         T0DATA7         T0DATA,7
+                      00280 #define         T0DATA6         T0DATA,6
+                      00281 #define         T0DATA5         T0DATA,5
+                      00282 #define         T0DATA4         T0DATA,4
+                      00283 #define         T0DATA3         T0DATA,3
+                      00284 #define         T0DATA2         T0DATA,2
+                      00285 #define         T0DATA1         T0DATA,1
+                      00286 #define         T0DATA0         T0DATA,0
+                      00287 
+                      00288 ;----- T1CR  Bits ----------------
+                      00289 #define TC1EN     T1CR,7
+                      00290 #define PWM1OE  T1CR,6
+                      00291 #define BUZ1OE  T1CR,5
+                      00292 #define T1PTS1  T1CR,4
+                      00293 #define T1PTS0  T1CR,3
+                      00294 #define T1PR2   T1CR,2
+                      00295 #define T1PR1   T1CR,1
+                      00296 #define T1PR0   T1CR,0
+                      00297 
+                      00298 ;T1CNT
+                      00299 #define         T1C7            T1CNT,7
+                      00300 #define         T1C6            T1CNT,6
+                      00301 #define         T1C5            T1CNT,5
+                      00302 #define         T1C4            T1CNT,4
+                      00303 #define         T1C3            T1CNT,3
+                      00304 #define         T1C2            T1CNT,2
+                      00305 #define         T1C1            T1CNT,1
+                      00306 #define         T1C0            T1CNT,0
+                      00307 
+                      00308 ;T1LOAD
+                      00309 #define         T1LOAD7         T1LOAD,7
+                      00310 #define         T1LOAD6         T1LOAD,6
+                      00311 #define         T1LOAD5         T1LOAD,5
+                      00312 #define         T1LOAD4         T1LOAD,4
+                      00313 #define         T1LOAD3         T1LOAD,3
+                      00314 #define         T1LOAD2         T1LOAD,2
+                      00315 #define         T1LOAD1         T1LOAD,1
+                      00316 #define         T1LOAD0         T1LOAD,0
+                      00317 
+                      00318 ;T1DATA
+                      00319 #define         T1DATA7         T1DATA,7
+                      00320 #define         T1DATA6         T1DATA,6
+                      00321 #define         T1DATA5         T1DATA,5
+                      00322 #define         T1DATA4         T1DATA,4
+                      00323 #define         T1DATA3         T1DATA,3
+                      00324 #define         T1DATA2         T1DATA,2
+                      00325 #define         T1DATA1         T1DATA,1
+                      00326 #define         T1DATA0         T1DATA,0
+                      00327 
+                      00328 ;----- OSCM  Bits ----------------
+                      00329 #define STBL    OSCM,5
+                      00330 #define STBH    OSCM,4
+                      00331 #define CLKS    OSCM,2
+                      00332 #define LFEN    OSCM,1
+                      00333 #define HFEN    OSCM,0
+                      00334 
+                      00335 ;-----  LVDCR Bits -------
+                      00336 #define LVDEN   PLVDCR,7
+                      00337 #define LVDS2   PLVDCR,6
+                      00338 #define LVDS1   PLVDCR,5
+                      00339 #define LVDS0   PLVDCR,4
+                      00340 #define LVDF    PLVDCR,0
+                      00341 
+                      00342 ;---- ADCR0 Bits -----------------
+                      00343 #define ADCHS3  ADCR0,7
+                      00344 #define ADCHS2  ADCR0,6
+                      00345 #define ADCHS1  ADCR0,5
+                      00346 #define ADCHS0  ADCR0,4
+                      00347 #define ADCKS1  ADCR0,3
+                      00348 #define ADCKS0  ADCR0,2
+                      00349 #define ADEOC     ADCR0,1
+                      00350 #define ADON      ADCR0,0
+                      00351 
+                      00352 ;---- ADCR1 Bits -----------------
+                      00353 #define VRS2    ADCR1,2
+                      00354 #define VRS1      ADCR1,1
+                      00355 #define VRS0      ADCR1,0
+                      00356 
+                      00357 ;ADRH
+                      00358 #define         ADR11           ADRH,7
+                      00359 #define         ADR10           ADRH,6
+                      00360 #define         ADR9            ADRH,5
+                      00361 #define         ADR8            ADRH,4
+                      00362 #define         ADR7            ADRH,3
+                      00363 #define         ADR6            ADRH,2
+                      00364 #define         ADR5            ADRH,1
+                      00365 #define         ADR4            ADRH,0
+                      00366 
+                      00367 ;ADRL
+                      00368 #define         ADR3            ADRL,3
+                      00369 #define         ADR2            ADRL,2
+                      00370 #define         ADR1            ADRL,1
+                      00371 #define         ADR0            ADRL,0
+                      00372 
+                      00373 ;OSCCAL
+                      00374 #define         OSCCAL7         OSCCAL,7
+                      00375 #define         OSCCAL6         OSCCAL,6
+                      00376 #define         OSCCAL5         OSCCAL,5
+                      00377 #define         OSCCAL4         OSCCAL,4
+                      00378 #define         OSCCAL3         OSCCAL,3
+                      00379 #define         OSCCAL2         OSCCAL,2
+                      00380 #define         OSCCAL1         OSCCAL,1
+                      00381 #define         OSCCAL0         OSCCAL,0
+                      00382 
                       00012 ;--------------------------------------------------------
                       00013 ; external declarations
                       00014 ;--------------------------------------------------------
@@ -70,83 +449,107 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
                       00061 ;--------------------------------------------------------
                       00062 ; initialized data
                       00063 ;--------------------------------------------------------
-                      00064 ;--------------------------------------------------------
-                      00065 ; overlayable items in internal ram 
-                      00066 ;--------------------------------------------------------
-                      00067 ;       udata_ovr
-                      00068 ;--------------------------------------------------------
-                      00069 ; code
-                      00070 ;--------------------------------------------------------
-                      00071 code_uchar2fs   code
-                      00072 ;***
-                      00073 ;  pBlock Stats: dbName = C
-                      00074 ;***
-                      00075 ;entry:  ___uchar2fs    ;Function start
-                      00076 ; 2 exit points
-                      00077 ;has an exit
-                      00078 ;functions called:
-                      00079 ;   ___ulong2fs
-                      00080 ;   ___ulong2fs
-                      00081 ;8 compiler assigned registers:
-                      00082 ;   r0x1000
-                      00083 ;   r0x1001
-                      00084 ;   r0x1002
-                      00085 ;   r0x1003
-                      00086 ;   r0x1004
-                      00087 ;   STK02
-                      00088 ;   STK01
-                      00089 ;   STK00
-                      00090 ;; Starting pCode block
-                      00091 ;;[ICODE] ../libsdcc/uchar2fs.c:33:  _entry($2) :
-                      00092 ;;[ICODE] ../libsdcc/uchar2fs.c:33:     proc ___uchar2fs [k1 lr0:0 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{float function ( unsigned-char fixed) fixed}
-0000                  00093 ___uchar2fs     ;Function start
-                      00094 ; 2 exit points
-                      00095 ;;[ICODE] ../libsdcc/uchar2fs.c:33: iTemp0 [k2 lr3:4 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{unsigned-char fixed}{ sir@ ___uchar2fs_uc_1_21}[r0x1000 ] = recv ___uchar2fs [k1 lr0:0 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{float function ( unsigned-char fixed) fixed}
-0000   5600           00096         MOVRA   r0x1001
-                      00097 ;       .line   33; "../libsdcc/uchar2fs.c"     float __uchar2fs (unsigned char uc) _FS_REENTRANT
-0001   5600           00098         MOVRA   r0x1000
-                      00099 ;;[ICODE] ../libsdcc/uchar2fs.c:35:     iTemp1 [k5 lr4:5 so:0]{ ia0 a2p0 re0 rm0 nos0 ru1 dp0}{unsigned-long-int fixed}[r0x1001 r0x1002 r0x1003 r0x1004 ] = (unsigned-long-int fixed)iTemp0 [k2 lr3:4 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{unsigned-char fixed}{ sir@ ___uchar2fs_uc_1_21}[r0x1000 ]
-                      00100 ;;99    MOVAR   r0x1000
-                      00101 ;       .line   35; "../libsdcc/uchar2fs.c"     return __ulong2fs(uc);
-0002   7600           00102         CLRR    r0x1002
-0003   7600           00103         CLRR    r0x1003
-                      00104 ;;1     CLRR    r0x1004
-                      00105 ;;[ICODE] ../libsdcc/uchar2fs.c:35:     send iTemp1 [k5 lr4:5 so:0]{ ia0 a2p0 re0 rm0 nos0 ru1 dp0}{unsigned-long-int fixed}[r0x1001 r0x1002 r0x1003 r0x1004 ]{argreg = 1}
-                      00106 ;;[ICODE] ../libsdcc/uchar2fs.c:35:     iTemp2 [k7 lr6:7 so:0]{ ia0 a2p0 re0 rm0 nos0 ru1 dp0}{float fixed}[r0x1000 r0x1001 r0x1002 r0x1003 ] = call ___ulong2fs [k4 lr0:0 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{float function ( unsigned-long-int fixed) fixed}
-0004   5800           00107         MOVAR   r0x1001
-0005   5600           00108         MOVRA   STK02
-0006   3C00           00109         MOVAI   0x00
-0007   5600           00110         MOVRA   STK01
-0008   3C00           00111         MOVAI   0x00
-0009   5600           00112         MOVRA   STK00
-000A   3C00           00113         MOVAI   0x00
-000B   8000           00114         CALL    ___ulong2fs
-000C   5600           00115         MOVRA   r0x1003
-000D   5800           00116         MOVAR   STK00
-000E   5600           00117         MOVRA   r0x1002
-000F   5800           00118         MOVAR   STK01
-0010   5600           00119         MOVRA   r0x1001
-0011   5800           00120         MOVAR   STK02
-0012   5600           00121         MOVRA   r0x1000
-                      00122 ;;[ICODE] ../libsdcc/uchar2fs.c:35:     ret iTemp2 [k7 lr6:7 so:0]{ ia0 a2p0 re0 rm0 nos0 ru1 dp0}{float fixed}[r0x1000 r0x1001 r0x1002 r0x1003 ]
-0013   5800           00123         MOVAR   r0x1000
-0014   5600           00124         MOVRA   STK02
-0015   5800           00125         MOVAR   r0x1001
-0016   5600           00126         MOVRA   STK01
-0017   5800           00127         MOVAR   r0x1002
-0018   5600           00128         MOVRA   STK00
-0019   5800           00129         MOVAR   r0x1003
-                      00130 ;;[ICODE] ../libsdcc/uchar2fs.c:35:  _return($1) :
-                      00131 ;;[ICODE] ../libsdcc/uchar2fs.c:35:     eproc ___uchar2fs [k1 lr0:0 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{float function ( unsigned-char fixed) fixed}
-001A   000C           00132         RETURN  
-                      00133 ; exit point of ___uchar2fs
-                      00134 
-                      00135 
-                      00136 ;       code size estimation:
-                      00137 ;          27+    0 =    27 instructions (   54 byte)
-                      00138 
-                      00139         end
-gpasm-1.7.0_beta1 (Jan 22 2015)uchar2fs.asm       2015-1-22  23:32:14          PAGE  2
+                      00064 
+                      00065 ;@Allocation info for local variables in function '__uchar2fs'
+                      00066 ;@__uchar2fs __schar2fs                Allocated to registers ;size:2
+                      00067 ;@__uchar2fs __uint2fs                 Allocated to registers ;size:2
+                      00068 ;@__uchar2fs __sint2fs                 Allocated to registers ;size:2
+                      00069 ;@__uchar2fs __ulong2fs                Allocated to registers ;size:2
+                      00070 ;@__uchar2fs __slong2fs                Allocated to registers ;size:2
+                      00071 ;@__uchar2fs __fs2uchar                Allocated to registers ;size:2
+                      00072 ;@__uchar2fs __fs2schar                Allocated to registers ;size:2
+                      00073 ;@__uchar2fs __fs2uint                 Allocated to registers ;size:2
+                      00074 ;@__uchar2fs __fs2sint                 Allocated to registers ;size:2
+                      00075 ;@__uchar2fs __fs2ulong                Allocated to registers ;size:2
+                      00076 ;@__uchar2fs __fs2slong                Allocated to registers ;size:2
+                      00077 ;@__uchar2fs __fsadd                   Allocated to registers ;size:2
+                      00078 ;@__uchar2fs __fssub                   Allocated to registers ;size:2
+                      00079 ;@__uchar2fs __fsmul                   Allocated to registers ;size:2
+                      00080 ;@__uchar2fs __fsdiv                   Allocated to registers ;size:2
+                      00081 ;@__uchar2fs __fslt                    Allocated to registers ;size:2
+                      00082 ;@__uchar2fs __fseq                    Allocated to registers ;size:2
+                      00083 ;@__uchar2fs __fsneq                   Allocated to registers ;size:2
+                      00084 ;@__uchar2fs __fsgt                    Allocated to registers ;size:2
+                      00085 ;@__uchar2fs uc                        Allocated to registers r0x1000 ;size:1
+                      00086 ;@end Allocation info for local variables in function '__uchar2fs';
+                      00087 
+                      00088 ;--------------------------------------------------------
+                      00089 ; overlayable items in internal ram 
+                      00090 ;--------------------------------------------------------
+                      00091 ;       udata_ovr
+                      00092 ;--------------------------------------------------------
+                      00093 ; code
+                      00094 ;--------------------------------------------------------
+                      00095 code_uchar2fs   code
+                      00096 ;***
+                      00097 ;  pBlock Stats: dbName = C
+                      00098 ;***
+                      00099 ;entry:  ___uchar2fs    ;Function start
+                      00100 ; 2 exit points
+                      00101 ;has an exit
+                      00102 ;functions called:
+                      00103 ;   ___ulong2fs
+                      00104 ;   ___ulong2fs
+                      00105 ;8 compiler assigned registers:
+                      00106 ;   r0x1000
+                      00107 ;   r0x1001
+                      00108 ;   r0x1002
+                      00109 ;   r0x1003
+                      00110 ;   r0x1004
+                      00111 ;   STK02
+                      00112 ;   STK01
+                      00113 ;   STK00
+                      00114 ;; Starting pCode block
+                      00115 ;;[ICODE] ../libsdcc/uchar2fs.c:33:  _entry($2) :
+                      00116 ;;[ICODE] ../libsdcc/uchar2fs.c:33:     proc ___uchar2fs [k1 lr0:0 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{float function ( unsigned-char fixed) fixed}
+0000                  00117 ___uchar2fs     ;Function start
+                      00118 ; 2 exit points
+                      00119 ;;[ICODE] ../libsdcc/uchar2fs.c:33: iTemp0 [k2 lr3:4 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{unsigned-char fixed}{ sir@ ___uchar2fs_uc_1_21}[r0x1000 ] = recv ___uchar2fs [k1 lr0:0 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{float function ( unsigned-char fixed) fixed}
+0000   5600           00120         MOVRA   r0x1001
+                      00121 ;       .line   33; "../libsdcc/uchar2fs.c"     float __uchar2fs (unsigned char uc) _FS_REENTRANT
+0001   5600           00122         MOVRA   r0x1000
+                      00123 ;;[ICODE] ../libsdcc/uchar2fs.c:35:     iTemp1 [k5 lr4:5 so:0]{ ia0 a2p0 re0 rm0 nos0 ru1 dp0}{unsigned-long-int fixed}[r0x1001 r0x1002 r0x1003 r0x1004 ] = (unsigned-long-int fixed)iTemp0 [k2 lr3:4 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{unsigned-char fixed}{ sir@ ___uchar2fs_uc_1_21}[r0x1000 ]
+                      00124 ;;99    MOVAR   r0x1000
+                      00125 ;       .line   35; "../libsdcc/uchar2fs.c"     return __ulong2fs(uc);
+0002   7600           00126         CLRR    r0x1002
+0003   7600           00127         CLRR    r0x1003
+                      00128 ;;1     CLRR    r0x1004
+                      00129 ;;[ICODE] ../libsdcc/uchar2fs.c:35:     send iTemp1 [k5 lr4:5 so:0]{ ia0 a2p0 re0 rm0 nos0 ru1 dp0}{unsigned-long-int fixed}[r0x1001 r0x1002 r0x1003 r0x1004 ]{argreg = 1}
+                      00130 ;;[ICODE] ../libsdcc/uchar2fs.c:35:     iTemp2 [k7 lr6:7 so:0]{ ia0 a2p0 re0 rm0 nos0 ru1 dp0}{float fixed}[r0x1000 r0x1001 r0x1002 r0x1003 ] = call ___ulong2fs [k4 lr0:0 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{float function ( unsigned-long-int fixed) fixed}
+0004   5800           00131         MOVAR   r0x1001
+0005   5600           00132         MOVRA   STK02
+0006   3C00           00133         MOVAI   0x00
+0007   5600           00134         MOVRA   STK01
+0008   3C00           00135         MOVAI   0x00
+0009   5600           00136         MOVRA   STK00
+000A   3C00           00137         MOVAI   0x00
+000B   8000           00138         CALL    ___ulong2fs
+000C   5600           00139         MOVRA   r0x1003
+000D   5800           00140         MOVAR   STK00
+000E   5600           00141         MOVRA   r0x1002
+000F   5800           00142         MOVAR   STK01
+0010   5600           00143         MOVRA   r0x1001
+0011   5800           00144         MOVAR   STK02
+0012   5600           00145         MOVRA   r0x1000
+                      00146 ;;[ICODE] ../libsdcc/uchar2fs.c:35:     ret iTemp2 [k7 lr6:7 so:0]{ ia0 a2p0 re0 rm0 nos0 ru1 dp0}{float fixed}[r0x1000 r0x1001 r0x1002 r0x1003 ]
+0013   5800           00147         MOVAR   r0x1000
+0014   5600           00148         MOVRA   STK02
+0015   5800           00149         MOVAR   r0x1001
+0016   5600           00150         MOVRA   STK01
+0017   5800           00151         MOVAR   r0x1002
+0018   5600           00152         MOVRA   STK00
+0019   5800           00153         MOVAR   r0x1003
+                      00154 ;;[ICODE] ../libsdcc/uchar2fs.c:35:  _return($1) :
+                      00155 ;;[ICODE] ../libsdcc/uchar2fs.c:35:     eproc ___uchar2fs [k1 lr0:0 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{float function ( unsigned-char fixed) fixed}
+001A   000C           00156         RETURN  
+                      00157 ; exit point of ___uchar2fs
+                      00158 
+                      00159 
+                      00160 ;       code size estimation:
+                      00161 ;          27+    0 =    27 instructions (   54 byte)
+                      00162 
+                      00163         end
+gpasm-2.0.0_beta2 (Aug 27 2017)uchar2fs.asm       2017-9-18  19:57:26          PAGE  2
 
 
 SYMBOL TABLE
@@ -154,108 +557,31 @@ SYMBOL TABLE
 
 ADCR0                             000001B0
 ADCR1                             000001B1
-ADEOC                             00000001
-ADIE                              00000006
-ADIF                              00000006
-ADON                              00000000
 ADRH                              000001B4
 ADRL                              000001B5
 ANSEL                             00000193
-BUZ0OE                            00000005
-BUZ1OE                            00000005
-C                                 00000000
-CLKS                              00000002
-DC                                00000001
-FSR                               00000184
 FSR0                              00000184
 FSR1                              00000185
-GIE                               00000007
-HFEN                              00000000
 HIBYTE                            00000183
-INDF                              00000180
 INDF0                             00000180
 INDF1                             00000181
 INDF2                             00000182
 INDF3                             00000189
-INT0IE                            00000002
-INT0IF                            00000002
-INT1IE                            00000003
-INT1IF                            00000003
 INTE                              0000018A
 INTF                              0000018B
 IOP0                              00000190
 IOP1                              00000194
-KBIE                              00000004
-KBIF                              00000004
-KBIM                              00000197
-KBIM0                             00000000
-KBIM1                             00000001
-KBIM2                             00000002
-KBIM3                             00000003
-KBIM4                             00000004
-KBIM5                             00000005
-KBIM6                             00000006
-LFEN                              00000001
-LVDCR                             000001AD
-LVDEN                             00000007
-LVDF                              00000000
+KBCR                              00000197
+LVDCR                             000001AF
 MCR                               00000188
 OEP0                              00000191
 OEP1                              00000195
-OSCAL                             000001FB
+OSCCAL                            000001FB
 OSCM                              000001AE
-P00                               00000000
-P00ANS                            00000000
-P00OE                             00000000
-P00PU                             00000000
-P01                               00000001
-P01ANS                            00000001
-P01OE                             00000001
-P01PU                             00000001
-P02                               00000002
-P02ANS                            00000002
-P02OE                             00000002
-P02PU                             00000002
-P03                               00000003
-P03ANS                            00000003
-P03OE                             00000003
-P03PU                             00000003
-P04                               00000004
-P04ANS                            00000004
-P04OE                             00000004
-P04PU                             00000004
-P10                               00000000
-P10OE                             00000000
-P10PU                             00000000
-P11                               00000001
-P11OE                             00000001
-P11PU                             00000001
-P12                               00000002
-P12ANS                            00000005
-P12OE                             00000002
-P12PU                             00000002
-P13                               00000003
-P13ANS                            00000006
-P13OE                             00000003
-P13PU                             00000003
-P14                               00000004
-P14OE                             00000004
-P14PU                             00000004
-P15                               00000005
-P15OE                             00000005
-P15PU                             00000005
-P16                               00000006
-P16OE                             00000006
-P16PU                             00000006
 PCL                               00000186
-PD                                00000004
+PFLAG                             00000187
 PUP0                              00000192
 PUP1                              00000196
-PWM0OE                            00000006
-PWM1OE                            00000006
-STATUS                            00000187
-STBH                              00000004
-STBL                              00000005
 STK00                             00000000
 STK01                             00000000
 STK02                             00000000
@@ -266,54 +592,11 @@ STK06                             00000000
 T0CNT                             000001A1
 T0CR                              000001A0
 T0DATA                            000001A3
-T0IE                              00000000
-T0IF                              00000000
 T0LOAD                            000001A2
 T1CNT                             000001A5
 T1CR                              000001A4
 T1DATA                            000001A7
-T1IE                              00000001
-T1IF                              00000001
 T1LOAD                            000001A6
-TC0EN                             00000007
-TC1EN                             00000007
-TO                                00000005
-Z                                 00000002
-_CONFIG0                          00008000
-_CONFIG1                          00008001
-_CP_ALL                           00007FFF
-_FCPU_128T                        0000FFEF
-_FCPU_16T                         0000FFBF
-_FCPU_256T                        0000FFFF
-_FCPU_2T                          0000FF8F
-_FCPU_32T                         0000FFCF
-_FCPU_4T                          0000FF9F
-_FCPU_64T                         0000FFDF
-_FCPU_8T                          0000FFAF
-_HRC_LRC                          0000FCFF
-_HRC_LXT                          0000FDFF
-_HXT_LRC                          0000FEFF
-_MCLR_OFF                         0000FF7F
-_MCLR_ON                          0000FFFF
-_PTWRT_16_1024                    0000FFF7
-_PTWRT_16_16                      0000DFF7
-_PTWRT_256_256                    0000DFFF
-_PTWRT_256_4096                   0000FFFF
-_PTWRT_4_4                        0000DFF3
-_PTWRT_4_512                      0000FFF3
-_PTWRT_64_2048                    0000FFFB
-_PTWRT_64_64                      0000DFFB
-_VLVR_160                         0000E3FF
-_VLVR_185                         0000E7FF
-_VLVR_205                         0000EBFF
-_VLVR_218                         0000EFFF
-_VLVR_232                         0000F3FF
-_VLVR_245                         0000F7FF
-_VLVR_305                         0000FBFF
-_VLVR_360                         0000FFFF
-_WDT_ALWAYS_OFF                   0000FFFC
-_WDT_ALWAYS_ON                    0000FFFF
-_WDT_SLEEP_OFF                    0000FFFD
 __32P21                           00000001
 ___fs2schar                       00000000
 ___fs2sint                        00000000
@@ -339,6 +622,254 @@ r0x1000                           00000000
 r0x1001                           00000001
 r0x1002                           00000002
 r0x1003                           00000003
+ADCHS0                            ADCR0,4
+ADCHS1                            ADCR0,5
+ADCHS2                            ADCR0,6
+ADCHS3                            ADCR0,7
+ADCKS0                            ADCR0,2
+ADCKS1                            ADCR0,3
+ADEOC                             ADCR0,1
+ADIE                              INTE,6
+ADIF                              INTF,6
+ADON                              ADCR0,0
+ADR0                              ADRL,0
+ADR1                              ADRL,1
+ADR10                             ADRH,6
+ADR11                             ADRH,7
+ADR2                              ADRL,2
+ADR3                              ADRL,3
+ADR4                              ADRH,0
+ADR5                              ADRH,1
+ADR6                              ADRH,2
+ADR7                              ADRH,3
+ADR8                              ADRH,4
+ADR9                              ADRH,5
+BUZ0OE                            T0CR,5
+BUZ1OE                            T1CR,5
+C                                 STATUS,0
+CLKS                              OSCM,2
+DC                                STATUS,1
+FSR                               FSR0
+FSR00                             FSR0,0
+FSR01                             FSR0,1
+FSR02                             FSR0,2
+FSR03                             FSR0,3
+FSR04                             FSR0,4
+FSR05                             FSR0,5
+FSR06                             FSR0,6
+FSR07                             FSR0,7
+FSR10                             FSR1,0
+FSR11                             FSR1,1
+FSR12                             FSR1,2
+FSR13                             FSR1,3
+FSR14                             FSR1,4
+FSR15                             FSR1,5
+FSR16                             FSR1,6
+FSR17                             FSR1,7
+GIE                               MCR,7
+HFEN                              OSCM,0
+HIBYTE0                           HIBYTE,0
+HIBYTE1                           HIBYTE,1
+HIBYTE2                           HIBYTE,2
+HIBYTE3                           HIBYTE,3
+HIBYTE4                           HIBYTE,4
+HIBYTE5                           HIBYTE,5
+HIBYTE6                           HIBYTE,6
+HIBYTE7                           HIBYTE,7
+INDF                              INDF0
+INDF00                            INDF0,0
+INDF01                            INDF0,1
+INDF02                            INDF0,2
+INDF03                            INDF0,3
+INDF04                            INDF0,4
+INDF05                            INDF0,5
+INDF06                            INDF0,6
+INDF07                            INDF0,7
+INDF10                            INDF1,0
+INDF11                            INDF1,1
+INDF12                            INDF1,2
+INDF13                            INDF1,3
+INDF14                            INDF1,4
+INDF15                            INDF1,5
+INDF16                            INDF1,6
+INDF17                            INDF1,7
+INDF20                            INDF2,0
+INDF21                            INDF2,1
+INDF22                            INDF2,2
+INDF23                            INDF2,3
+INDF24                            INDF2,4
+INDF25                            INDF2,5
+INDF26                            INDF2,6
+INDF27                            INDF2,7
+INDF30                            INDF3,0
+INDF31                            INDF3,1
+INDF32                            INDF3,2
+INDF33                            INDF3,3
+INDF34                            INDF3,4
+INDF35                            INDF3,5
+INDF36                            INDF3,6
+INDF37                            INDF3,7
+INT0IE                            INTE,2
+INT0IF                            INTF,2
+INT1IE                            INTE,3
+INT1IF                            INTF,3
+INTECON                           INTE
+INTFLAG                           INTF
+KBCR0                             KBCR,0
+KBCR1                             KBCR,1
+KBCR2                             KBCR,2
+KBCR3                             KBCR,3
+KBCR4                             KBCR,4
+KBCR5                             KBCR,5
+KBCR6                             KBCR,6
+KBIE                              INTE,4
+KBIF                              INTF,4
+LFEN                              OSCM,1
+LVDEN                             PLVDCR,7
+LVDF                              PLVDCR,0
+LVDS0                             PLVDCR,4
+LVDS1                             PLVDCR,5
+LVDS2                             PLVDCR,6
+MINT00                            MCR,0
+MINT01                            MCR,1
+MINT10                            MCR,2
+MINT11                            MCR,3
+OSCCAL0                           OSCCAL,0
+OSCCAL1                           OSCCAL,1
+OSCCAL2                           OSCCAL,2
+OSCCAL3                           OSCCAL,3
+OSCCAL4                           OSCCAL,4
+OSCCAL5                           OSCCAL,5
+OSCCAL6                           OSCCAL,6
+OSCCAL7                           OSCCAL,7
+P00ANS                            ANSEL,0
+P00D                              IOP0,0
+P00OE                             OEP0,0
+P00PU                             PUP0,0
+P01ANS                            ANSEL,1
+P01D                              IOP0,1
+P01OE                             OEP0,1
+P01PU                             PUP0,1
+P02ANS                            ANSEL,2
+P02D                              IOP0,2
+P02OE                             OEP0,2
+P02PU                             PUP0,2
+P03ANS                            ANSEL,3
+P03D                              IOP0,3
+P03OE                             OEP0,3
+P03PU                             PUP0,3
+P04ANS                            ANSEL,4
+P04D                              IOP0,4
+P04OE                             OEP0,4
+P04PU                             PUP0,4
+P0HCON                            PUP0
+P10D                              IOP1,0
+P10OE                             OEP1,0
+P10PU                             PUP1,0
+P11D                              IOP1,1
+P11OE                             OEP1,1
+P11PU                             PUP1,1
+P12ANS                            ANSEL,5
+P12D                              IOP1,2
+P12OE                             OEP1,2
+P12PU                             PUP1,2
+P13ANS                            ANSEL,6
+P13D                              IOP1,3
+P13OE                             OEP1,3
+P13PU                             PUP1,3
+P14D                              IOP1,4
+P14OE                             OEP1,4
+P14PU                             PUP1,4
+P15D                              IOP1,5
+P15OE                             OEP1,5
+P15PU                             PUP1,5
+P16D                              IOP1,6
+P16OE                             OEP1,6
+P16PU                             PUP1,6
+P1HCON                            PUP1
+PC0                               PCL,0
+PC1                               PCL,1
+PC2                               PCL,2
+PC3                               PCL,3
+PC4                               PCL,4
+PC5                               PCL,5
+PC6                               PCL,6
+PC7                               PCL,7
+PD                                MCR,4
+PWM0OE                            T0CR,6
+PWM1OE                            T1CR,6
+STATUS                            PFLAG
+STBH                              OSCM,4
+STBL                              OSCM,5
+T0C0                              T0CNT,0
+T0C1                              T0CNT,1
+T0C2                              T0CNT,2
+T0C3                              T0CNT,3
+T0C4                              T0CNT,4
+T0C5                              T0CNT,5
+T0C6                              T0CNT,6
+T0C7                              T0CNT,7
+T0DATA0                           T0DATA,0
+T0DATA1                           T0DATA,1
+T0DATA2                           T0DATA,2
+T0DATA3                           T0DATA,3
+T0DATA4                           T0DATA,4
+T0DATA5                           T0DATA,5
+T0DATA6                           T0DATA,6
+T0DATA7                           T0DATA,7
+T0IE                              INTE,0
+T0IF                              INTF,0
+T0LOAD0                           T0LOAD,0
+T0LOAD1                           T0LOAD,1
+T0LOAD2                           T0LOAD,2
+T0LOAD3                           T0LOAD,3
+T0LOAD4                           T0LOAD,4
+T0LOAD5                           T0LOAD,5
+T0LOAD6                           T0LOAD,6
+T0LOAD7                           T0LOAD,7
+T0PR0                             T0CR,0
+T0PR1                             T0CR,1
+T0PR2                             T0CR,2
+T0PTS0                            T0CR,3
+T0PTS1                            T0CR,4
+T1C0                              T1CNT,0
+T1C1                              T1CNT,1
+T1C2                              T1CNT,2
+T1C3                              T1CNT,3
+T1C4                              T1CNT,4
+T1C5                              T1CNT,5
+T1C6                              T1CNT,6
+T1C7                              T1CNT,7
+T1DATA0                           T1DATA,0
+T1DATA1                           T1DATA,1
+T1DATA2                           T1DATA,2
+T1DATA3                           T1DATA,3
+T1DATA4                           T1DATA,4
+T1DATA5                           T1DATA,5
+T1DATA6                           T1DATA,6
+T1DATA7                           T1DATA,7
+T1IE                              INTE,1
+T1IF                              INTF,1
+T1LOAD0                           T1LOAD,0
+T1LOAD1                           T1LOAD,1
+T1LOAD2                           T1LOAD,2
+T1LOAD3                           T1LOAD,3
+T1LOAD4                           T1LOAD,4
+T1LOAD5                           T1LOAD,5
+T1LOAD6                           T1LOAD,6
+T1LOAD7                           T1LOAD,7
+T1PR0                             T1CR,0
+T1PR1                             T1CR,1
+T1PR2                             T1CR,2
+T1PTS0                            T1CR,3
+T1PTS1                            T1CR,4
+TC0EN                             T0CR,7
+TC1EN                             T1CR,7
+TO                                MCR,5
+VRS0                              ADCR1,0
+VRS1                              ADCR1,1
+VRS2                              ADCR1,2
+Z                                 STATUS,2
 
 Errors   :     0
 Warnings :     0 reported,     0 suppressed

@@ -1,4 +1,4 @@
-DEVICE=mc30p011
+DEVICE=mc32p21
 
 dev_$DEVICE
 mv $DEVICE.inc ../../share/header

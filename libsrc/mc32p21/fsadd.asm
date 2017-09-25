@@ -1,14 +1,14 @@
 ;--------------------------------------------------------
-; File Created by SN-SDCC : ANSI-C Compiler
-; Version 0.0.4 (Jan 22 2015) (Linux)
-; This file was generated Thu Jan 22 23:32:13 2015
+; File Created by SN-SDCC : SinoMCU ANSI-C Compiler
+; Version 1.0.0 (Sep 11 2017) (MINGW32)
+; This file was generated Mon Sep 18 19:57:20 2017
 ;--------------------------------------------------------
-; MC3X port for the RISC core
+; MC30/MC32 port for the RISC core
 ;--------------------------------------------------------
 ;	.file	"../libsdcc/fsadd.c"
-	list	p=32p21
+	list	p=3221
 	radix dec
-	include "mc32p21.inc"
+	include "3221.inc"
 ;--------------------------------------------------------
 ; external declarations
 ;--------------------------------------------------------
@@ -83,6 +83,38 @@ ___fsadd_fl2_1_22	res	4
 ;--------------------------------------------------------
 ; initialized data
 ;--------------------------------------------------------
+
+;@Allocation info for local variables in function '__fsadd'
+;@__fsadd __uchar2fs                Allocated to registers ;size:2
+;@__fsadd __schar2fs                Allocated to registers ;size:2
+;@__fsadd __uint2fs                 Allocated to registers ;size:2
+;@__fsadd __sint2fs                 Allocated to registers ;size:2
+;@__fsadd __ulong2fs                Allocated to registers ;size:2
+;@__fsadd __slong2fs                Allocated to registers ;size:2
+;@__fsadd __fs2uchar                Allocated to registers ;size:2
+;@__fsadd __fs2schar                Allocated to registers ;size:2
+;@__fsadd __fs2uint                 Allocated to registers ;size:2
+;@__fsadd __fs2sint                 Allocated to registers ;size:2
+;@__fsadd __fs2ulong                Allocated to registers ;size:2
+;@__fsadd __fs2slong                Allocated to registers ;size:2
+;@__fsadd __fssub                   Allocated to registers ;size:2
+;@__fsadd __fsmul                   Allocated to registers ;size:2
+;@__fsadd __fsdiv                   Allocated to registers ;size:2
+;@__fsadd __fslt                    Allocated to registers ;size:2
+;@__fsadd __fseq                    Allocated to registers ;size:2
+;@__fsadd __fsneq                   Allocated to registers ;size:2
+;@__fsadd __fsgt                    Allocated to registers ;size:2
+;@__fsadd a2                        Allocated to registers r0x100F r0x100E r0x100D r0x100C ;size:4
+;@__fsadd a1                        Allocated to registers r0x100B r0x100A r0x1009 r0x1008 ;size:4
+;@__fsadd fl1                       Allocated to registers ;size:4
+;@__fsadd fl2                       Allocated to registers ;size:4
+;@__fsadd mant1                     Allocated to registers r0x100B r0x100A r0x1014 r0x1015 ;size:4
+;@__fsadd mant2                     Allocated to registers r0x1016 r0x1017 r0x1018 r0x1019 ;size:4
+;@__fsadd exp1                      Allocated to registers r0x100F r0x100E ;size:2
+;@__fsadd exp2                      Allocated to registers r0x100D r0x100C ;size:2
+;@__fsadd sign                      Allocated to registers r0x1010 r0x1011 r0x1012 r0x1013 ;size:4
+;@end Allocation info for local variables in function '__fsadd';
+
 ;--------------------------------------------------------
 ; overlayable items in internal ram 
 ;--------------------------------------------------------
@@ -162,30 +194,30 @@ ___fsadd	;Function start
 	CLRR	r0x1013
 ;;[ICODE] ../libsdcc/fsadd.c:60: 	iTemp3 [k9 lr6:7 so:0]{ ia0 a2p0 re0 rm1 nos0 ru0 dp0}{volatile-float near* fixed}[remat] = &[___fsadd_fl1_1_22 [k8 lr0:0 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{volatile-struct float_long fixed}]
 ;;[ICODE] ../libsdcc/fsadd.c:60: 	*(iTemp3 [k9 lr6:7 so:0]{ ia1 a2p0 re0 rm1 nos0 ru0 dp0}{volatile-float near* fixed}[remat]) := iTemp0 [k2 lr3:7 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{float fixed}{ sir@ ___fsadd_a1_1_21}[r0x1000 r0x1001 r0x1002 r0x1003 ]
-;;gen.c:6444: size=3/4, offset=0, AOP_TYPE(res)=8
+;;gen.c:6373: size=3/4, offset=0, AOP_TYPE(res)=8
 ;;117	MOVAR	r0x100B
-;;gen.c:6444: size=2/4, offset=1, AOP_TYPE(res)=8
+;;gen.c:6373: size=2/4, offset=1, AOP_TYPE(res)=8
 ;	.line	60; "../libsdcc/fsadd.c"	fl1.f = a1;
 	MOVAR	r0x100A
 	MOVRA	(___fsadd_fl1_1_22 + 1)
-;;gen.c:6444: size=1/4, offset=2, AOP_TYPE(res)=8
+;;gen.c:6373: size=1/4, offset=2, AOP_TYPE(res)=8
 	MOVAR	r0x1009
 	MOVRA	(___fsadd_fl1_1_22 + 2)
-;;gen.c:6444: size=0/4, offset=3, AOP_TYPE(res)=8
+;;gen.c:6373: size=0/4, offset=3, AOP_TYPE(res)=8
 	MOVAR	r0x1008
 	MOVRA	(___fsadd_fl1_1_22 + 3)
 ;;[ICODE] ../libsdcc/fsadd.c:61: 	iTemp5 [k13 lr8:9 so:0]{ ia0 a2p0 re0 rm1 nos0 ru0 dp0}{volatile-float near* fixed}[remat] = &[___fsadd_fl2_1_22 [k12 lr0:0 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{volatile-struct float_long fixed}]
 ;;[ICODE] ../libsdcc/fsadd.c:61: 	*(iTemp5 [k13 lr8:9 so:0]{ ia1 a2p0 re0 rm1 nos0 ru0 dp0}{volatile-float near* fixed}[remat]) := iTemp1 [k4 lr4:9 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{float fixed}{ sir@ ___fsadd_a2_1_21}[r0x1004 r0x1005 r0x1006 r0x1007 ]
-;;gen.c:6444: size=3/4, offset=0, AOP_TYPE(res)=8
+;;gen.c:6373: size=3/4, offset=0, AOP_TYPE(res)=8
 ;;118	MOVAR	r0x100F
-;;gen.c:6444: size=2/4, offset=1, AOP_TYPE(res)=8
+;;gen.c:6373: size=2/4, offset=1, AOP_TYPE(res)=8
 ;	.line	61; "../libsdcc/fsadd.c"	fl2.f = a2;
 	MOVAR	r0x100E
 	MOVRA	(___fsadd_fl2_1_22 + 1)
-;;gen.c:6444: size=1/4, offset=2, AOP_TYPE(res)=8
+;;gen.c:6373: size=1/4, offset=2, AOP_TYPE(res)=8
 	MOVAR	r0x100D
 	MOVRA	(___fsadd_fl2_1_22 + 2)
-;;gen.c:6444: size=0/4, offset=3, AOP_TYPE(res)=8
+;;gen.c:6373: size=0/4, offset=3, AOP_TYPE(res)=8
 	MOVAR	r0x100C
 	MOVRA	(___fsadd_fl2_1_22 + 3)
 ;;[ICODE] ../libsdcc/fsadd.c:64: 	iTemp7 [k16 lr10:11 so:0]{ ia0 a2p0 re0 rm1 nos0 ru0 dp0}{volatile-unsigned-long-int near* fixed}[remat] = &[___fsadd_fl1_1_22 [k8 lr0:0 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{volatile-struct float_long fixed}]
@@ -351,7 +383,7 @@ _00108_DS_
 _00165_DS_
 	JBCLR	STATUS,0
 	GOTO	_00110_DS_
-;;genSkipc:3246: created from rifx:0xbfec9450
+;;genSkipc:3194: created from rifx:00CC608C
 ;;[ICODE] ../libsdcc/fsadd.c:72: 	if iTemp34 [k51 lr37:38 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char fixed} == 0 goto _iffalse_2($6)
 ;;[ICODE] ../libsdcc/fsadd.c:73: 	iTemp35 [k52 lr39:40 so:0]{ ia0 a2p0 re0 rm1 nos0 ru0 dp0}{volatile-float near* fixed}[remat] = &[___fsadd_fl1_1_22 [k8 lr0:0 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{volatile-struct float_long fixed}]
 ;;[ICODE] ../libsdcc/fsadd.c:73: 	iTemp37 [k55 lr40:41 so:0]{ ia0 a2p0 re0 rm0 nos0 ru1 dp0}{volatile-float fixed}[r0x1000 r0x1001 r0x100C r0x100D ] = @[iTemp35 [k52 lr39:40 so:0]{ ia1 a2p0 re0 rm1 nos0 ru0 dp0}{volatile-float near* fixed}[remat] + 0x0 {const-unsigned-char literal}]
@@ -398,7 +430,7 @@ _00110_DS_
 _00166_DS_
 	JBCLR	STATUS,0
 	GOTO	_00112_DS_
-;;genSkipc:3246: created from rifx:0xbfec9450
+;;genSkipc:3194: created from rifx:00CC608C
 ;;[ICODE] ../libsdcc/fsadd.c:74: 	if iTemp39 [k57 lr44:45 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char fixed} == 0 goto _iffalse_3($8)
 ;;[ICODE] ../libsdcc/fsadd.c:75: 	iTemp40 [k58 lr46:47 so:0]{ ia0 a2p0 re0 rm1 nos0 ru0 dp0}{volatile-float near* fixed}[remat] = &[___fsadd_fl2_1_22 [k12 lr0:0 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{volatile-struct float_long fixed}]
 ;;[ICODE] ../libsdcc/fsadd.c:75: 	iTemp42 [k61 lr47:48 so:0]{ ia0 a2p0 re0 rm0 nos0 ru1 dp0}{volatile-float fixed}[r0x1000 r0x1001 r0x100C r0x100D ] = @[iTemp40 [k58 lr46:47 so:0]{ ia1 a2p0 re0 rm1 nos0 ru0 dp0}{volatile-float near* fixed}[remat] + 0x0 {const-unsigned-char literal}]
@@ -543,7 +575,7 @@ _00116_DS_
 _00167_DS_
 	JBCLR	STATUS,0
 	GOTO	_00118_DS_
-;;genSkipc:3246: created from rifx:0xbfec9450
+;;genSkipc:3194: created from rifx:00CC608C
 ;;[ICODE] ../libsdcc/fsadd.c:85: 	if iTemp65 [k90 lr74:75 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char fixed} == 0 goto _iffalse_6($14)
 ;;[ICODE] ../libsdcc/fsadd.c:87: 	iTemp66 [k91 lr76:77 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{int fixed}[r0x1012 r0x1013 ] = iTemp19 [k32 lr28:98 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{int fixed}{ sir@ ___fsadd_exp1_1_22}[r0x1004 r0x1005 ] - iTemp26 [k41 lr34:84 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{int fixed}{ sir@ ___fsadd_exp2_1_22}[r0x1006 r0x1007 ]
 ;	.line	87; "../libsdcc/fsadd.c"	mant2 >>= exp1 - exp2;
@@ -661,7 +693,7 @@ _00119_DS_
 	BCLR	STATUS,0
 	JBSET	STATUS,0
 	GOTO	_00123_DS_
-;;genSkipc:3246: created from rifx:0xbfec9450
+;;genSkipc:3194: created from rifx:00CC608C
 ;;[ICODE] ../libsdcc/fsadd.c:96: 	if iTemp71 [k96 lr88:89 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char fixed} == 0 goto _iffalse_8($19)
 ;;[ICODE] ../libsdcc/fsadd.c:98: 	iTemp43 [k62 lr53:131 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{long-int fixed}{ sir@ ___fsadd_mant1_1_22}[r0x1000 r0x1001 r0x100C r0x100D ] = - iTemp43 [k62 lr53:131 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{long-int fixed}{ sir@ ___fsadd_mant1_1_22}[r0x1000 r0x1001 r0x100C r0x100D ]
 ;	.line	98; "../libsdcc/fsadd.c"	mant1 = -mant1;
@@ -782,7 +814,7 @@ _00130_DS_
 	INCR	r0x1015
 ;;[ICODE] ../libsdcc/fsadd.c:113:  _iffalse_9($25) :
 ;;[ICODE] ../libsdcc/fsadd.c:114: 	iTemp43 [k62 lr53:131 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{long-int fixed}{ sir@ ___fsadd_mant1_1_22}[r0x1000 r0x1001 r0x100C r0x100D ] = iTemp43 [k62 lr53:131 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{long-int fixed}{ sir@ ___fsadd_mant1_1_22}[r0x1000 r0x1001 r0x100C r0x100D ] >> 0x1 {const-unsigned-char literal}
-;;shiftRight_Left2ResultLit:5278: shCount=1, size=4, sign=1, same=1, offr=0
+;;shiftRight_Left2ResultLit:5215: shCount=1, size=4, sign=1, same=1, offr=0
 _00129_DS_
 ;	.line	114; "../libsdcc/fsadd.c"	mant1 >>= 1 ;
 	BCLR	STATUS,0
@@ -872,13 +904,13 @@ _00132_DS_
 	MOVRA	(___fsadd_fl1_1_22 + 3)
 	MOVRA	r0x1015
 ;;[ICODE] ../libsdcc/fsadd.c:122: 	*(iTemp87 [k112 lr127:133 so:0]{ ia1 a2p0 re0 rm1 nos0 ru0 dp0}{volatile-unsigned-long-int near* fixed}[remat]) := iTemp93 [k119 lr132:133 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-long-int fixed}[r0x1000 r0x1001 r0x100C r0x100D ]
-;;gen.c:6444: size=3/4, offset=0, AOP_TYPE(res)=8
+;;gen.c:6373: size=3/4, offset=0, AOP_TYPE(res)=8
 ;;99	MOVAR	r0x100B
-;;gen.c:6444: size=2/4, offset=1, AOP_TYPE(res)=8
+;;gen.c:6373: size=2/4, offset=1, AOP_TYPE(res)=8
 ;;100	MOVAR	r0x100A
-;;gen.c:6444: size=1/4, offset=2, AOP_TYPE(res)=8
+;;gen.c:6373: size=1/4, offset=2, AOP_TYPE(res)=8
 ;;109	MOVAR	r0x1014
-;;gen.c:6444: size=0/4, offset=3, AOP_TYPE(res)=8
+;;gen.c:6373: size=0/4, offset=3, AOP_TYPE(res)=8
 ;;110	MOVAR	r0x1015
 ;;[ICODE] ../libsdcc/fsadd.c:124: 	iTemp94 [k120 lr134:135 so:0]{ ia0 a2p0 re0 rm1 nos0 ru0 dp0}{volatile-float near* fixed}[remat] = &[___fsadd_fl1_1_22 [k8 lr0:0 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{volatile-struct float_long fixed}]
 ;;[ICODE] ../libsdcc/fsadd.c:124: 	iTemp96 [k123 lr135:136 so:0]{ ia0 a2p0 re0 rm0 nos0 ru1 dp0}{volatile-float fixed}[r0x1000 r0x1001 r0x1004 r0x1005 ] = @[iTemp94 [k120 lr134:135 so:0]{ ia1 a2p0 re0 rm1 nos0 ru0 dp0}{volatile-float near* fixed}[remat] + 0x0 {const-unsigned-char literal}]

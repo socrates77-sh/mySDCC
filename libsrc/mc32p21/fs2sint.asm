@@ -1,14 +1,14 @@
 ;--------------------------------------------------------
-; File Created by SN-SDCC : ANSI-C Compiler
-; Version 0.0.4 (Jan 22 2015) (Linux)
-; This file was generated Thu Jan 22 23:32:12 2015
+; File Created by SN-SDCC : SinoMCU ANSI-C Compiler
+; Version 1.0.0 (Sep 11 2017) (MINGW32)
+; This file was generated Mon Sep 18 19:57:19 2017
 ;--------------------------------------------------------
-; MC3X port for the RISC core
+; MC30/MC32 port for the RISC core
 ;--------------------------------------------------------
 ;	.file	"../libsdcc/fs2sint.c"
-	list	p=32p21
+	list	p=3221
 	radix dec
-	include "mc32p21.inc"
+	include "3221.inc"
 ;--------------------------------------------------------
 ; external declarations
 ;--------------------------------------------------------
@@ -61,6 +61,31 @@ r0x1000	res	1
 ;--------------------------------------------------------
 ; initialized data
 ;--------------------------------------------------------
+
+;@Allocation info for local variables in function '__fs2sint'
+;@__fs2sint __uchar2fs                Allocated to registers ;size:2
+;@__fs2sint __schar2fs                Allocated to registers ;size:2
+;@__fs2sint __uint2fs                 Allocated to registers ;size:2
+;@__fs2sint __sint2fs                 Allocated to registers ;size:2
+;@__fs2sint __ulong2fs                Allocated to registers ;size:2
+;@__fs2sint __slong2fs                Allocated to registers ;size:2
+;@__fs2sint __fs2uchar                Allocated to registers ;size:2
+;@__fs2sint __fs2schar                Allocated to registers ;size:2
+;@__fs2sint __fs2uint                 Allocated to registers ;size:2
+;@__fs2sint __fs2ulong                Allocated to registers ;size:2
+;@__fs2sint __fs2slong                Allocated to registers ;size:2
+;@__fs2sint __fsadd                   Allocated to registers ;size:2
+;@__fs2sint __fssub                   Allocated to registers ;size:2
+;@__fs2sint __fsmul                   Allocated to registers ;size:2
+;@__fs2sint __fsdiv                   Allocated to registers ;size:2
+;@__fs2sint __fslt                    Allocated to registers ;size:2
+;@__fs2sint __fseq                    Allocated to registers ;size:2
+;@__fs2sint __fsneq                   Allocated to registers ;size:2
+;@__fs2sint __fsgt                    Allocated to registers ;size:2
+;@__fs2sint f                         Allocated to registers r0x1003 r0x1002 r0x1001 r0x1000 ;size:4
+;@__fs2sint sl                        Allocated to registers r0x1003 r0x1002 r0x1001 r0x1000 ;size:4
+;@end Allocation info for local variables in function '__fs2sint';
+
 ;--------------------------------------------------------
 ; overlayable items in internal ram 
 ;--------------------------------------------------------
@@ -141,7 +166,7 @@ ___fs2sint	;Function start
 _00115_DS_
 	JBSET	STATUS,0
 	GOTO	_00106_DS_
-;;genSkipc:3246: created from rifx:0xbfebca90
+;;genSkipc:3194: created from rifx:00CC608C
 ;;[ICODE] ../libsdcc/fs2sint.c:36: 	if iTemp3 [k9 lr7:8 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char fixed} != 0 goto _iffalse_0($2)
 ;;[ICODE] ../libsdcc/fs2sint.c:37: 	ret 0x7fff {const-int literal}
 ;	.line	37; "../libsdcc/fs2sint.c"	return INT_MAX;
@@ -173,7 +198,7 @@ _00106_DS_
 _00116_DS_
 	JBCLR	STATUS,0
 	GOTO	_00108_DS_
-;;genSkipc:3246: created from rifx:0xbfebca90
+;;genSkipc:3194: created from rifx:00CC608C
 ;;[ICODE] ../libsdcc/fs2sint.c:38: 	if iTemp4 [k10 lr11:12 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char fixed} != 0 goto _iffalse_1($4)
 ;;[ICODE] ../libsdcc/fs2sint.c:39: 	ret 0xffff8000 {int literal}
 ;	.line	39; "../libsdcc/fs2sint.c"	return -INT_MIN;

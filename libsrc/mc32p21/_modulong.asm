@@ -1,14 +1,14 @@
 ;--------------------------------------------------------
-; File Created by SN-SDCC : ANSI-C Compiler
-; Version 0.0.4 (Jan 22 2015) (Linux)
-; This file was generated Thu Jan 22 23:32:14 2015
+; File Created by SN-SDCC : SinoMCU ANSI-C Compiler
+; Version 1.0.0 (Sep 11 2017) (MINGW32)
+; This file was generated Mon Sep 18 19:57:24 2017
 ;--------------------------------------------------------
-; MC3X port for the RISC core
+; MC30/MC32 port for the RISC core
 ;--------------------------------------------------------
 ;	.file	"../libsdcc/_modulong.c"
-	list	p=32p21
+	list	p=3221
 	radix dec
-	include "mc32p21.inc"
+	include "3221.inc"
 ;--------------------------------------------------------
 ; external declarations
 ;--------------------------------------------------------
@@ -47,6 +47,13 @@ r0x1008	res	1
 ;--------------------------------------------------------
 ; initialized data
 ;--------------------------------------------------------
+
+;@Allocation info for local variables in function '_modulong'
+;@_modulong b                         Allocated to registers r0x1007 r0x1006 r0x1005 r0x1004 ;size:4
+;@_modulong a                         Allocated to registers r0x1003 r0x1002 r0x1001 r0x1000 ;size:4
+;@_modulong count                     Allocated to registers r0x1008 ;size:1
+;@end Allocation info for local variables in function '_modulong';
+
 ;--------------------------------------------------------
 ; overlayable items in internal ram 
 ;--------------------------------------------------------
@@ -171,7 +178,7 @@ _00112_DS_
 _00131_DS_
 	JBSET	STATUS,0
 	GOTO	_00111_DS_
-;;genSkipc:3246: created from rifx:0xbfe80ca0
+;;genSkipc:3194: created from rifx:00CC608C
 ;;[ICODE] ../libsdcc/_modulong.c:46: 	if iTemp6 [k11 lr22:23 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char fixed} != 0 goto _iffalse_1($7)
 ;;[ICODE] ../libsdcc/_modulong.c:47: 	iTemp0 [k2 lr3:32 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{unsigned-long-int fixed}{ sir@ __modulong_a_1_1}[r0x1000 r0x1001 r0x1002 r0x1003 ] = iTemp0 [k2 lr3:32 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{unsigned-long-int fixed}{ sir@ __modulong_a_1_1}[r0x1000 r0x1001 r0x1002 r0x1003 ] - iTemp1 [k4 lr4:30 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{unsigned-long-int fixed}{ sir@ __modulong_b_1_1}[r0x1004 r0x1005 r0x1006 r0x1007 ]
 ;	.line	47; "../libsdcc/_modulong.c"	a -= b;
@@ -191,7 +198,7 @@ _00131_DS_
 	RSUBRA	r0x1000
 ;;[ICODE] ../libsdcc/_modulong.c:47:  _iffalse_1($7) :
 ;;[ICODE] ../libsdcc/_modulong.c:49: 	iTemp1 [k4 lr4:30 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{unsigned-long-int fixed}{ sir@ __modulong_b_1_1}[r0x1004 r0x1005 r0x1006 r0x1007 ] = iTemp1 [k4 lr4:30 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{unsigned-long-int fixed}{ sir@ __modulong_b_1_1}[r0x1004 r0x1005 r0x1006 r0x1007 ] >> 0x1 {const-unsigned-char literal}
-;;shiftRight_Left2ResultLit:5278: shCount=1, size=4, sign=0, same=1, offr=0
+;;shiftRight_Left2ResultLit:5215: shCount=1, size=4, sign=0, same=1, offr=0
 _00111_DS_
 ;	.line	49; "../libsdcc/_modulong.c"	b >>= 1;
 	BCLR	STATUS,0

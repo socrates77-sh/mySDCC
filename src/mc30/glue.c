@@ -82,10 +82,14 @@ emitPseudoStack(struct dbuf_s *oBuf, struct dbuf_s *oBufExt)
     if (!pic14_options.isLibrarySource)
     {
         dbuf_printf(oBuf, "\n");
-        dbuf_printf(oBuf, "\tglobal PSAVE\n");
-        dbuf_printf(oBuf, "\tglobal SSAVE\n");
-        dbuf_printf(oBuf, "\tglobal WSAVE\n");
-        for (i = size - 4; i >= 0; i--)
+        //zwr 1.0.0
+        // dbuf_printf(oBuf, "\tglobal PSAVE\n");
+        // dbuf_printf(oBuf, "\tglobal SSAVE\n");
+        // dbuf_printf(oBuf, "\tglobal WSAVE\n");
+        
+        //zwr 1.0.0
+        // for (i = size - 4; i >= 0; i--)
+        for (i = 6; i >= 0; i--)
         {
             dbuf_printf(oBuf, "\tglobal STK%02d\n", i);
         } // for i
@@ -103,11 +107,15 @@ emitPseudoStack(struct dbuf_s *oBuf, struct dbuf_s *oBufExt)
             // for devices with at least two banks, require a sharebank section
             dbuf_printf(oBuf, "sharebank udata_shr\n");
         }
-        dbuf_printf(oBuf, "PSAVE\tres 1\n");
-        dbuf_printf(oBuf, "SSAVE\tres 1\n");
-        dbuf_printf(oBuf, "WSAVE\tres 1\n"); // WSAVE *must* be in sharebank (IRQ handlers)
+        
+        //zwr 1.0.0
+        // dbuf_printf(oBuf, "PSAVE\tres 1\n");
+        // dbuf_printf(oBuf, "SSAVE\tres 1\n");
+        // dbuf_printf(oBuf, "WSAVE\tres 1\n"); // WSAVE *must* be in sharebank (IRQ handlers)
         /* fill rest of sharebank with stack STKxx .. STK00 */
-        for (i = size - 4; i >= 0; i--)
+        //zwr 1.0.0
+        // for (i = size - 4; i >= 0; i--)
+        for (i = 6; i >= 0; i--)
         {
             dbuf_printf(oBuf, "STK%02d\tres 1\n", i);
         } // for i
@@ -117,10 +125,15 @@ emitPseudoStack(struct dbuf_s *oBuf, struct dbuf_s *oBufExt)
         /* declare STKxx as extern for all files
          * except the one containing main() */
         dbuf_printf(oBufExt, "\n");
-        dbuf_printf(oBufExt, "\textern PSAVE\n");
-        dbuf_printf(oBufExt, "\textern SSAVE\n");
-        dbuf_printf(oBufExt, "\textern WSAVE\n");
-        for (i = size - 4; i >= 0; i--)
+
+        //zwr 1.0.0
+        // dbuf_printf(oBufExt, "\textern PSAVE\n");
+        // dbuf_printf(oBufExt, "\textern SSAVE\n");
+        // dbuf_printf(oBufExt, "\textern WSAVE\n");
+
+        //zwr 1.0.0
+        // for (i = size - 4; i >= 0; i--)
+        for (i = 6; i >= 0; i--)
         {
             char buffer[128];
             SNPRINTF(&buffer[0], 127, "STK%02d", i);
@@ -291,8 +304,10 @@ pic14createInterruptVect(struct dbuf_s *vBuf)
     dbuf_printf(vBuf, "STARTUP\t%s 0x0000\n", CODE_NAME);
     //dbuf_printf(vBuf, "\tnop\n"); /* first location for used by incircuit debugger */
     //dbuf_printf(vBuf, "\tpagesel __sdcc_gsinit_startup\n");
-    dbuf_printf(vBuf, "\tgoto\t__sdcc_gsinit_startup\n");
-    popGetExternal("__sdcc_gsinit_startup", 0);
+    // dbuf_printf(vBuf, "\tgoto\t__sdcc_gsinit_startup\n");
+    // popGetExternal("__sdcc_gsinit_startup", 0);
+    dbuf_printf(vBuf, "\tgoto\t_main\n");
+    popGetExternal("_main", 0);
 }
 
 /*-----------------------------------------------------------------*/

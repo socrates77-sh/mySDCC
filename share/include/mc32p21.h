@@ -1,7 +1,7 @@
 #ifndef MC32P21_H
 #define MC32P21_H
 
-#include <mc3x-common.h>
+#include <mc30-common.h>
 
 //
 // Register addresses.

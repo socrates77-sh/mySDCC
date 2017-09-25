@@ -1,14 +1,14 @@
 ;--------------------------------------------------------
-; File Created by SN-SDCC : ANSI-C Compiler
-; Version 0.0.4 (Jan 22 2015) (Linux)
-; This file was generated Thu Jan 22 23:32:13 2015
+; File Created by SN-SDCC : SinoMCU ANSI-C Compiler
+; Version 1.0.0 (Sep 11 2017) (MINGW32)
+; This file was generated Mon Sep 18 19:57:21 2017
 ;--------------------------------------------------------
-; MC3X port for the RISC core
+; MC30/MC32 port for the RISC core
 ;--------------------------------------------------------
 ;	.file	"../libsdcc/fslt.c"
-	list	p=32p21
+	list	p=3221
 	radix dec
-	include "mc32p21.inc"
+	include "3221.inc"
 ;--------------------------------------------------------
 ; external declarations
 ;--------------------------------------------------------
@@ -68,6 +68,33 @@ ___fslt_fl2_1_22	res	4
 ;--------------------------------------------------------
 ; initialized data
 ;--------------------------------------------------------
+
+;@Allocation info for local variables in function '__fslt'
+;@__fslt __uchar2fs                Allocated to registers ;size:2
+;@__fslt __schar2fs                Allocated to registers ;size:2
+;@__fslt __uint2fs                 Allocated to registers ;size:2
+;@__fslt __sint2fs                 Allocated to registers ;size:2
+;@__fslt __ulong2fs                Allocated to registers ;size:2
+;@__fslt __slong2fs                Allocated to registers ;size:2
+;@__fslt __fs2uchar                Allocated to registers ;size:2
+;@__fslt __fs2schar                Allocated to registers ;size:2
+;@__fslt __fs2uint                 Allocated to registers ;size:2
+;@__fslt __fs2sint                 Allocated to registers ;size:2
+;@__fslt __fs2ulong                Allocated to registers ;size:2
+;@__fslt __fs2slong                Allocated to registers ;size:2
+;@__fslt __fsadd                   Allocated to registers ;size:2
+;@__fslt __fssub                   Allocated to registers ;size:2
+;@__fslt __fsmul                   Allocated to registers ;size:2
+;@__fslt __fsdiv                   Allocated to registers ;size:2
+;@__fslt __fseq                    Allocated to registers ;size:2
+;@__fslt __fsneq                   Allocated to registers ;size:2
+;@__fslt __fsgt                    Allocated to registers ;size:2
+;@__fslt a2                        Allocated to registers r0x100F r0x100E r0x100D r0x100C ;size:4
+;@__fslt a1                        Allocated to registers r0x100B r0x100A r0x1009 r0x1008 ;size:4
+;@__fslt fl1                       Allocated to registers ;size:4
+;@__fslt fl2                       Allocated to registers ;size:4
+;@end Allocation info for local variables in function '__fslt';
+
 ;--------------------------------------------------------
 ; overlayable items in internal ram 
 ;--------------------------------------------------------
@@ -125,31 +152,31 @@ ___fslt	;Function start
 	MOVRA	r0x100F
 ;;[ICODE] ../libsdcc/fslt.c:59: 	iTemp2 [k7 lr5:6 so:0]{ ia0 a2p0 re0 rm1 nos0 ru0 dp0}{volatile-float near* fixed}[remat] = &[___fslt_fl1_1_22 [k6 lr0:0 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{volatile-struct float_long fixed}]
 ;;[ICODE] ../libsdcc/fslt.c:59: 	*(iTemp2 [k7 lr5:6 so:0]{ ia1 a2p0 re0 rm1 nos0 ru0 dp0}{volatile-float near* fixed}[remat]) := iTemp0 [k2 lr3:6 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{float fixed}{ sir@ ___fslt_a1_1_21}[r0x1000 r0x1001 r0x1002 r0x1003 ]
-;;gen.c:6444: size=3/4, offset=0, AOP_TYPE(res)=8
+;;gen.c:6373: size=3/4, offset=0, AOP_TYPE(res)=8
 ;;99	MOVAR	r0x100B
-;;gen.c:6444: size=2/4, offset=1, AOP_TYPE(res)=8
+;;gen.c:6373: size=2/4, offset=1, AOP_TYPE(res)=8
 ;	.line	59; "../libsdcc/fslt.c"	fl1.f = a1;
 	MOVAR	r0x100A
 	MOVRA	(___fslt_fl1_1_22 + 1)
-;;gen.c:6444: size=1/4, offset=2, AOP_TYPE(res)=8
+;;gen.c:6373: size=1/4, offset=2, AOP_TYPE(res)=8
 	MOVAR	r0x1009
 	MOVRA	(___fslt_fl1_1_22 + 2)
-;;gen.c:6444: size=0/4, offset=3, AOP_TYPE(res)=8
+;;gen.c:6373: size=0/4, offset=3, AOP_TYPE(res)=8
 	MOVAR	r0x1008
 	MOVRA	(___fslt_fl1_1_22 + 3)
 ;;[ICODE] ../libsdcc/fslt.c:60: 	iTemp4 [k11 lr7:8 so:0]{ ia0 a2p0 re0 rm1 nos0 ru0 dp0}{volatile-float near* fixed}[remat] = &[___fslt_fl2_1_22 [k10 lr0:0 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{volatile-struct float_long fixed}]
 ;;[ICODE] ../libsdcc/fslt.c:60: 	*(iTemp4 [k11 lr7:8 so:0]{ ia1 a2p0 re0 rm1 nos0 ru0 dp0}{volatile-float near* fixed}[remat]) := iTemp1 [k4 lr4:8 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{float fixed}{ sir@ ___fslt_a2_1_21}[r0x1004 r0x1005 r0x1006 r0x1007 ]
-;;gen.c:6444: size=3/4, offset=0, AOP_TYPE(res)=8
+;;gen.c:6373: size=3/4, offset=0, AOP_TYPE(res)=8
 ;	.line	60; "../libsdcc/fslt.c"	fl2.f = a2;
 	MOVAR	r0x100F
 	MOVRA	(___fslt_fl2_1_22 + 0)
-;;gen.c:6444: size=2/4, offset=1, AOP_TYPE(res)=8
+;;gen.c:6373: size=2/4, offset=1, AOP_TYPE(res)=8
 	MOVAR	r0x100E
 	MOVRA	(___fslt_fl2_1_22 + 1)
-;;gen.c:6444: size=1/4, offset=2, AOP_TYPE(res)=8
+;;gen.c:6373: size=1/4, offset=2, AOP_TYPE(res)=8
 	MOVAR	r0x100D
 	MOVRA	(___fslt_fl2_1_22 + 2)
-;;gen.c:6444: size=0/4, offset=3, AOP_TYPE(res)=8
+;;gen.c:6373: size=0/4, offset=3, AOP_TYPE(res)=8
 	MOVAR	r0x100C
 	MOVRA	(___fslt_fl2_1_22 + 3)
 ;;[ICODE] ../libsdcc/fslt.c:62: 	iTemp6 [k14 lr9:10 so:0]{ ia0 a2p0 re0 rm1 nos0 ru0 dp0}{volatile-long-int near* fixed}[remat] = &[___fslt_fl1_1_22 [k6 lr0:0 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{volatile-struct float_long fixed}]
@@ -170,7 +197,7 @@ ___fslt	;Function start
 	BCLR	STATUS,0
 	JBSET	STATUS,0
 	GOTO	_00108_DS_
-;;genSkipc:3246: created from rifx:0xbffed2b0
+;;genSkipc:3194: created from rifx:00CC608C
 ;;[ICODE] ../libsdcc/fslt.c:62: 	if iTemp9 [k18 lr11:12 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char fixed} == 0 goto _iffalse_1($4)
 ;;[ICODE] ../libsdcc/fslt.c:62: 	iTemp10 [k19 lr13:14 so:0]{ ia0 a2p0 re0 rm1 nos0 ru0 dp0}{volatile-long-int near* fixed}[remat] = &[___fslt_fl2_1_22 [k10 lr0:0 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{volatile-struct float_long fixed}]
 ;;[ICODE] ../libsdcc/fslt.c:62: 	iTemp12 [k22 lr14:15 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{volatile-long-int fixed}[r0x1000 r0x1001 r0x1002 r0x1003 ] = @[iTemp10 [k19 lr13:14 so:0]{ ia1 a2p0 re0 rm1 nos0 ru0 dp0}{volatile-long-int near* fixed}[remat] + 0x0 {const-unsigned-char literal}]
@@ -189,7 +216,7 @@ ___fslt	;Function start
 	BCLR	STATUS,0
 	JBSET	STATUS,0
 	GOTO	_00108_DS_
-;;genSkipc:3246: created from rifx:0xbffed2b0
+;;genSkipc:3194: created from rifx:00CC608C
 ;;[ICODE] ../libsdcc/fslt.c:62: 	if iTemp13 [k23 lr15:16 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char fixed} == 0 goto _iffalse_1($4)
 ;;[ICODE] ../libsdcc/fslt.c:63: 	iTemp14 [k24 lr17:18 so:0]{ ia0 a2p0 re0 rm1 nos0 ru0 dp0}{volatile-long-int near* fixed}[remat] = &[___fslt_fl2_1_22 [k10 lr0:0 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{volatile-struct float_long fixed}]
 ;;[ICODE] ../libsdcc/fslt.c:63: 	iTemp16 [k27 lr18:21 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{volatile-long-int fixed}[r0x1000 r0x1001 r0x1002 r0x1003 ] = @[iTemp14 [k24 lr17:18 so:0]{ ia1 a2p0 re0 rm1 nos0 ru0 dp0}{volatile-long-int near* fixed}[remat] + 0x0 {const-unsigned-char literal}]
@@ -234,7 +261,7 @@ ___fslt	;Function start
 _00122_DS_
 	JBCLR	STATUS,0
 	GOTO	_00106_DS_
-;;genSkipc:3246: created from rifx:0xbffed2b0
+;;genSkipc:3194: created from rifx:00CC608C
 ;;[ICODE] ../libsdcc/fslt.c:63: 	if iTemp20 [k32 lr21:22 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char fixed} == 0 goto _iffalse_0($2)
 ;;[ICODE] ../libsdcc/fslt.c:64: 	ret 0x1 {const-unsigned-char literal}
 ;	.line	64; "../libsdcc/fslt.c"	return (1);
@@ -291,7 +318,7 @@ _00108_DS_
 _00123_DS_
 	JBCLR	STATUS,0
 	GOTO	_00111_DS_
-;;genSkipc:3246: created from rifx:0xbffed2b0
+;;genSkipc:3194: created from rifx:00CC608C
 ;;[ICODE] ../libsdcc/fslt.c:68: 	if iTemp27 [k41 lr31:32 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char fixed} == 0 goto _iffalse_2($7)
 ;;[ICODE] ../libsdcc/fslt.c:69: 	ret 0x1 {const-unsigned-char literal}
 ;	.line	69; "../libsdcc/fslt.c"	return (1);

@@ -1,14 +1,14 @@
 ;--------------------------------------------------------
-; File Created by SN-SDCC : ANSI-C Compiler
-; Version 0.0.4 (Jan 22 2015) (Linux)
-; This file was generated Thu Jan 22 23:32:13 2015
+; File Created by SN-SDCC : SinoMCU ANSI-C Compiler
+; Version 1.0.0 (Sep 11 2017) (MINGW32)
+; This file was generated Mon Sep 18 19:57:22 2017
 ;--------------------------------------------------------
-; MC3X port for the RISC core
+; MC30/MC32 port for the RISC core
 ;--------------------------------------------------------
 ;	.file	"../libsdcc/fssub.c"
-	list	p=32p21
+	list	p=3221
 	radix dec
-	include "mc32p21.inc"
+	include "3221.inc"
 ;--------------------------------------------------------
 ; external declarations
 ;--------------------------------------------------------
@@ -67,6 +67,34 @@ ___fssub_fl2_1_22	res	4
 ;--------------------------------------------------------
 ; initialized data
 ;--------------------------------------------------------
+
+;@Allocation info for local variables in function '__fssub'
+;@__fssub __uchar2fs                Allocated to registers ;size:2
+;@__fssub __schar2fs                Allocated to registers ;size:2
+;@__fssub __uint2fs                 Allocated to registers ;size:2
+;@__fssub __sint2fs                 Allocated to registers ;size:2
+;@__fssub __ulong2fs                Allocated to registers ;size:2
+;@__fssub __slong2fs                Allocated to registers ;size:2
+;@__fssub __fs2uchar                Allocated to registers ;size:2
+;@__fssub __fs2schar                Allocated to registers ;size:2
+;@__fssub __fs2uint                 Allocated to registers ;size:2
+;@__fssub __fs2sint                 Allocated to registers ;size:2
+;@__fssub __fs2ulong                Allocated to registers ;size:2
+;@__fssub __fs2slong                Allocated to registers ;size:2
+;@__fssub __fsadd                   Allocated to registers ;size:2
+;@__fssub __fsmul                   Allocated to registers ;size:2
+;@__fssub __fsdiv                   Allocated to registers ;size:2
+;@__fssub __fslt                    Allocated to registers ;size:2
+;@__fssub __fseq                    Allocated to registers ;size:2
+;@__fssub __fsneq                   Allocated to registers ;size:2
+;@__fssub __fsgt                    Allocated to registers ;size:2
+;@__fssub __fsadd                   Allocated to registers ;size:2
+;@__fssub a2                        Allocated to registers r0x100F r0x100E r0x100D r0x100C ;size:4
+;@__fssub a1                        Allocated to registers r0x100B r0x100A r0x1009 r0x1008 ;size:4
+;@__fssub fl1                       Allocated to registers ;size:4
+;@__fssub fl2                       Allocated to registers ;size:4
+;@end Allocation info for local variables in function '__fssub';
+
 ;--------------------------------------------------------
 ; overlayable items in internal ram 
 ;--------------------------------------------------------
@@ -126,31 +154,31 @@ ___fssub	;Function start
 	MOVRA	r0x100F
 ;;[ICODE] ../libsdcc/fssub.c:59: 	iTemp2 [k7 lr5:6 so:0]{ ia0 a2p0 re0 rm1 nos0 ru0 dp0}{volatile-float near* fixed}[remat] = &[___fssub_fl1_1_22 [k6 lr0:0 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{volatile-struct float_long fixed}]
 ;;[ICODE] ../libsdcc/fssub.c:59: 	*(iTemp2 [k7 lr5:6 so:0]{ ia1 a2p0 re0 rm1 nos0 ru0 dp0}{volatile-float near* fixed}[remat]) := iTemp0 [k2 lr3:6 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{float fixed}{ sir@ ___fssub_a1_1_21}[r0x1000 r0x1001 r0x1002 r0x1003 ]
-;;gen.c:6444: size=3/4, offset=0, AOP_TYPE(res)=8
+;;gen.c:6373: size=3/4, offset=0, AOP_TYPE(res)=8
 ;;109	MOVAR	r0x100B
-;;gen.c:6444: size=2/4, offset=1, AOP_TYPE(res)=8
+;;gen.c:6373: size=2/4, offset=1, AOP_TYPE(res)=8
 ;	.line	59; "../libsdcc/fssub.c"	fl1.f = a1;
 	MOVAR	r0x100A
 	MOVRA	(___fssub_fl1_1_22 + 1)
-;;gen.c:6444: size=1/4, offset=2, AOP_TYPE(res)=8
+;;gen.c:6373: size=1/4, offset=2, AOP_TYPE(res)=8
 	MOVAR	r0x1009
 	MOVRA	(___fssub_fl1_1_22 + 2)
-;;gen.c:6444: size=0/4, offset=3, AOP_TYPE(res)=8
+;;gen.c:6373: size=0/4, offset=3, AOP_TYPE(res)=8
 	MOVAR	r0x1008
 	MOVRA	(___fssub_fl1_1_22 + 3)
 ;;[ICODE] ../libsdcc/fssub.c:60: 	iTemp4 [k11 lr7:8 so:0]{ ia0 a2p0 re0 rm1 nos0 ru0 dp0}{volatile-float near* fixed}[remat] = &[___fssub_fl2_1_22 [k10 lr0:0 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{volatile-struct float_long fixed}]
 ;;[ICODE] ../libsdcc/fssub.c:60: 	*(iTemp4 [k11 lr7:8 so:0]{ ia1 a2p0 re0 rm1 nos0 ru0 dp0}{volatile-float near* fixed}[remat]) := iTemp1 [k4 lr4:8 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{float fixed}{ sir@ ___fssub_a2_1_21}[r0x1004 r0x1005 r0x1006 r0x1007 ]
-;;gen.c:6444: size=3/4, offset=0, AOP_TYPE(res)=8
+;;gen.c:6373: size=3/4, offset=0, AOP_TYPE(res)=8
 ;	.line	60; "../libsdcc/fssub.c"	fl2.f = a2;
 	MOVAR	r0x100F
 	MOVRA	(___fssub_fl2_1_22 + 0)
-;;gen.c:6444: size=2/4, offset=1, AOP_TYPE(res)=8
+;;gen.c:6373: size=2/4, offset=1, AOP_TYPE(res)=8
 	MOVAR	r0x100E
 	MOVRA	(___fssub_fl2_1_22 + 1)
-;;gen.c:6444: size=1/4, offset=2, AOP_TYPE(res)=8
+;;gen.c:6373: size=1/4, offset=2, AOP_TYPE(res)=8
 	MOVAR	r0x100D
 	MOVRA	(___fssub_fl2_1_22 + 2)
-;;gen.c:6444: size=0/4, offset=3, AOP_TYPE(res)=8
+;;gen.c:6373: size=0/4, offset=3, AOP_TYPE(res)=8
 	MOVAR	r0x100C
 	MOVRA	(___fssub_fl2_1_22 + 3)
 ;;[ICODE] ../libsdcc/fssub.c:63: 	iTemp6 [k14 lr9:10 so:0]{ ia0 a2p0 re0 rm1 nos0 ru0 dp0}{volatile-long-int near* fixed}[remat] = &[___fssub_fl2_1_22 [k10 lr0:0 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{volatile-struct float_long fixed}]
@@ -272,22 +300,22 @@ _00108_DS_
 	XORAR	r0x100C
 	MOVRA	r0x1008
 ;;[ICODE] ../libsdcc/fssub.c:69: 	*(iTemp19 [k31 lr24:29 so:0]{ ia1 a2p0 re0 rm1 nos0 ru0 dp0}{volatile-long-int near* fixed}[remat]) := iTemp25 [k39 lr28:29 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-long-int register}[r0x1000 r0x1001 r0x1002 r0x1003 ]
-;;gen.c:6444: size=3/4, offset=0, AOP_TYPE(res)=8
+;;gen.c:6373: size=3/4, offset=0, AOP_TYPE(res)=8
 ;;99	MOVAR	r0x100B
 	MOVAR	r0x100F
 	MOVRA	r0x100B
 	MOVRA	(___fssub_fl2_1_22 + 0)
-;;gen.c:6444: size=2/4, offset=1, AOP_TYPE(res)=8
+;;gen.c:6373: size=2/4, offset=1, AOP_TYPE(res)=8
 ;;101	MOVAR	r0x100A
 	MOVAR	r0x100E
 	MOVRA	r0x100A
 	MOVRA	(___fssub_fl2_1_22 + 1)
-;;gen.c:6444: size=1/4, offset=2, AOP_TYPE(res)=8
+;;gen.c:6373: size=1/4, offset=2, AOP_TYPE(res)=8
 ;;103	MOVAR	r0x1009
 	MOVAR	r0x100D
 	MOVRA	r0x1009
 	MOVRA	(___fssub_fl2_1_22 + 2)
-;;gen.c:6444: size=0/4, offset=3, AOP_TYPE(res)=8
+;;gen.c:6373: size=0/4, offset=3, AOP_TYPE(res)=8
 	MOVAR	r0x1008
 	MOVRA	(___fssub_fl2_1_22 + 3)
 ;;[ICODE] ../libsdcc/fssub.c:70: 	iTemp26 [k40 lr30:31 so:0]{ ia0 a2p0 re0 rm1 nos0 ru0 dp0}{volatile-float near* fixed}[remat] = &[___fssub_fl1_1_22 [k6 lr0:0 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{volatile-struct float_long fixed}]

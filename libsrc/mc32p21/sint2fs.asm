@@ -1,14 +1,14 @@
 ;--------------------------------------------------------
-; File Created by SN-SDCC : ANSI-C Compiler
-; Version 0.0.4 (Jan 22 2015) (Linux)
-; This file was generated Thu Jan 22 23:32:14 2015
+; File Created by SN-SDCC : SinoMCU ANSI-C Compiler
+; Version 1.0.0 (Sep 11 2017) (MINGW32)
+; This file was generated Mon Sep 18 19:57:25 2017
 ;--------------------------------------------------------
-; MC3X port for the RISC core
+; MC30/MC32 port for the RISC core
 ;--------------------------------------------------------
 ;	.file	"../libsdcc/sint2fs.c"
-	list	p=32p21
+	list	p=3221
 	radix dec
-	include "mc32p21.inc"
+	include "3221.inc"
 ;--------------------------------------------------------
 ; external declarations
 ;--------------------------------------------------------
@@ -63,6 +63,30 @@ r0x1004	res	1
 ;--------------------------------------------------------
 ; initialized data
 ;--------------------------------------------------------
+
+;@Allocation info for local variables in function '__sint2fs'
+;@__sint2fs __uchar2fs                Allocated to registers ;size:2
+;@__sint2fs __schar2fs                Allocated to registers ;size:2
+;@__sint2fs __uint2fs                 Allocated to registers ;size:2
+;@__sint2fs __ulong2fs                Allocated to registers ;size:2
+;@__sint2fs __slong2fs                Allocated to registers ;size:2
+;@__sint2fs __fs2uchar                Allocated to registers ;size:2
+;@__sint2fs __fs2schar                Allocated to registers ;size:2
+;@__sint2fs __fs2uint                 Allocated to registers ;size:2
+;@__sint2fs __fs2sint                 Allocated to registers ;size:2
+;@__sint2fs __fs2ulong                Allocated to registers ;size:2
+;@__sint2fs __fs2slong                Allocated to registers ;size:2
+;@__sint2fs __fsadd                   Allocated to registers ;size:2
+;@__sint2fs __fssub                   Allocated to registers ;size:2
+;@__sint2fs __fsmul                   Allocated to registers ;size:2
+;@__sint2fs __fsdiv                   Allocated to registers ;size:2
+;@__sint2fs __fslt                    Allocated to registers ;size:2
+;@__sint2fs __fseq                    Allocated to registers ;size:2
+;@__sint2fs __fsneq                   Allocated to registers ;size:2
+;@__sint2fs __fsgt                    Allocated to registers ;size:2
+;@__sint2fs si                        Allocated to registers r0x1001 r0x1000 ;size:2
+;@end Allocation info for local variables in function '__sint2fs';
+
 ;--------------------------------------------------------
 ; overlayable items in internal ram 
 ;--------------------------------------------------------

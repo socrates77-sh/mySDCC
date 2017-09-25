@@ -1,14 +1,14 @@
 ;--------------------------------------------------------
-; File Created by SN-SDCC : ANSI-C Compiler
-; Version 0.0.4 (Jan 22 2015) (Linux)
-; This file was generated Thu Jan 22 23:32:12 2015
+; File Created by SN-SDCC : SinoMCU ANSI-C Compiler
+; Version 1.0.0 (Sep 11 2017) (MINGW32)
+; This file was generated Mon Sep 18 19:57:17 2017
 ;--------------------------------------------------------
-; MC3X port for the RISC core
+; MC30/MC32 port for the RISC core
 ;--------------------------------------------------------
 ;	.file	"../libsdcc/_divschar.c"
-	list	p=32p21
+	list	p=3221
 	radix dec
-	include "mc32p21.inc"
+	include "3221.inc"
 ;--------------------------------------------------------
 ; external declarations
 ;--------------------------------------------------------
@@ -48,6 +48,13 @@ r0x1008	res	1
 ;--------------------------------------------------------
 ; initialized data
 ;--------------------------------------------------------
+
+;@Allocation info for local variables in function '_divschar'
+;@_divschar _divuchar                 Allocated to registers ;size:2
+;@_divschar b                         Allocated to registers r0x1001 ;size:1
+;@_divschar a                         Allocated to registers r0x1000 ;size:1
+;@end Allocation info for local variables in function '_divschar';
+
 ;--------------------------------------------------------
 ; overlayable items in internal ram 
 ;--------------------------------------------------------
@@ -102,7 +109,7 @@ __divschar	;Function start
 	BCLR	STATUS,0
 	JBSET	STATUS,0
 	GOTO	_00112_DS_
-;;genSkipc:3246: created from rifx:0xbff52c50
+;;genSkipc:3194: created from rifx:00CC608C
 ;;[ICODE] ../libsdcc/_divschar.c:34: 	if iTemp2 [k6 lr5:6 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char fixed} == 0 goto _iffalse_2($8)
 ;;[ICODE] ../libsdcc/_divschar.c:36: 	iTemp3 [k7 lr7:8 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char fixed} = iTemp1 [k4 lr4:50 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{char fixed}{ sir@ __divschar_b_1_2}[r0x1001 ] < 0x0 {const-char literal}
 ;;signed compare: left < lit(0x0=0), size=1, mask=ff
@@ -112,7 +119,7 @@ __divschar	;Function start
 	BCLR	STATUS,0
 	JBSET	STATUS,0
 	GOTO	_00106_DS_
-;;genSkipc:3246: created from rifx:0xbff52c50
+;;genSkipc:3194: created from rifx:00CC608C
 ;;[ICODE] ../libsdcc/_divschar.c:36: 	if iTemp3 [k7 lr7:8 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char fixed} == 0 goto _iffalse_0($2)
 ;;[ICODE] ../libsdcc/_divschar.c:37: 	iTemp4 [k9 lr9:10 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{int fixed}[r0x1002 r0x1003 ] = (int fixed)iTemp0 [k2 lr3:48 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{char fixed}{ sir@ __divschar_a_1_2}[r0x1000 ]
 ;	.line	37; "../libsdcc/_divschar.c"	return _divuchar ((unsigned int)-a, (unsigned int)-b);
@@ -225,7 +232,7 @@ _00112_DS_
 	BCLR	STATUS,0
 	JBSET	STATUS,0
 	GOTO	_00109_DS_
-;;genSkipc:3246: created from rifx:0xbff52c50
+;;genSkipc:3194: created from rifx:00CC608C
 ;;[ICODE] ../libsdcc/_divschar.c:42: 	if iTemp21 [k28 lr34:35 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char fixed} == 0 goto _iffalse_1($5)
 ;;[ICODE] ../libsdcc/_divschar.c:43: 	iTemp22 [k29 lr36:37 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-int fixed}[r0x1002 r0x1006 ] = (unsigned-int fixed)iTemp0 [k2 lr3:48 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{char fixed}{ sir@ __divschar_a_1_2}[r0x1000 ]
 ;	.line	43; "../libsdcc/_divschar.c"	return -_divuchar ((unsigned int)a, (unsigned int)-b);

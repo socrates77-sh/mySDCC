@@ -1,14 +1,14 @@
 ;--------------------------------------------------------
-; File Created by SN-SDCC : ANSI-C Compiler
-; Version 0.0.4 (Jan 22 2015) (Linux)
-; This file was generated Thu Jan 22 23:32:13 2015
+; File Created by SN-SDCC : SinoMCU ANSI-C Compiler
+; Version 1.0.0 (Sep 11 2017) (MINGW32)
+; This file was generated Mon Sep 18 19:57:20 2017
 ;--------------------------------------------------------
-; MC3X port for the RISC core
+; MC30/MC32 port for the RISC core
 ;--------------------------------------------------------
 ;	.file	"../libsdcc/fs2ulong.c"
-	list	p=32p21
+	list	p=3221
 	radix dec
-	include "mc32p21.inc"
+	include "3221.inc"
 ;--------------------------------------------------------
 ; external declarations
 ;--------------------------------------------------------
@@ -70,6 +70,33 @@ ___fs2ulong_fl1_1_22	res	4
 ;--------------------------------------------------------
 ; initialized data
 ;--------------------------------------------------------
+
+;@Allocation info for local variables in function '__fs2ulong'
+;@__fs2ulong __uchar2fs                Allocated to registers ;size:2
+;@__fs2ulong __schar2fs                Allocated to registers ;size:2
+;@__fs2ulong __uint2fs                 Allocated to registers ;size:2
+;@__fs2ulong __sint2fs                 Allocated to registers ;size:2
+;@__fs2ulong __ulong2fs                Allocated to registers ;size:2
+;@__fs2ulong __slong2fs                Allocated to registers ;size:2
+;@__fs2ulong __fs2uchar                Allocated to registers ;size:2
+;@__fs2ulong __fs2schar                Allocated to registers ;size:2
+;@__fs2ulong __fs2uint                 Allocated to registers ;size:2
+;@__fs2ulong __fs2sint                 Allocated to registers ;size:2
+;@__fs2ulong __fs2slong                Allocated to registers ;size:2
+;@__fs2ulong __fsadd                   Allocated to registers ;size:2
+;@__fs2ulong __fssub                   Allocated to registers ;size:2
+;@__fs2ulong __fsmul                   Allocated to registers ;size:2
+;@__fs2ulong __fsdiv                   Allocated to registers ;size:2
+;@__fs2ulong __fslt                    Allocated to registers ;size:2
+;@__fs2ulong __fseq                    Allocated to registers ;size:2
+;@__fs2ulong __fsneq                   Allocated to registers ;size:2
+;@__fs2ulong __fsgt                    Allocated to registers ;size:2
+;@__fs2ulong a1                        Allocated to registers r0x1007 r0x1006 r0x1005 r0x1004 ;size:4
+;@__fs2ulong fl1                       Allocated to registers ;size:4
+;@__fs2ulong exp                       Allocated to registers r0x1007 r0x1008 ;size:2
+;@__fs2ulong l                         Allocated to registers r0x1009 r0x100A r0x100B r0x100C ;size:4
+;@end Allocation info for local variables in function '__fs2ulong';
+
 ;--------------------------------------------------------
 ; overlayable items in internal ram 
 ;--------------------------------------------------------
@@ -118,16 +145,16 @@ ___fs2ulong	;Function start
 	MOVRA	r0x1007
 ;;[ICODE] ../libsdcc/fs2ulong.c:61: 	iTemp1 [k5 lr4:5 so:0]{ ia0 a2p0 re0 rm1 nos0 ru0 dp0}{volatile-float near* fixed}[remat] = &[___fs2ulong_fl1_1_22 [k4 lr0:0 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{volatile-struct float_long fixed}]
 ;;[ICODE] ../libsdcc/fs2ulong.c:61: 	*(iTemp1 [k5 lr4:5 so:0]{ ia1 a2p0 re0 rm1 nos0 ru0 dp0}{volatile-float near* fixed}[remat]) := iTemp0 [k2 lr3:5 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{float fixed}{ sir@ ___fs2ulong_a1_1_21}[r0x1000 r0x1001 r0x1002 r0x1003 ]
-;;gen.c:6444: size=3/4, offset=0, AOP_TYPE(res)=8
+;;gen.c:6373: size=3/4, offset=0, AOP_TYPE(res)=8
 ;;110	MOVAR	r0x1007
-;;gen.c:6444: size=2/4, offset=1, AOP_TYPE(res)=8
+;;gen.c:6373: size=2/4, offset=1, AOP_TYPE(res)=8
 ;	.line	61; "../libsdcc/fs2ulong.c"	fl1.f = a1;
 	MOVAR	r0x1006
 	MOVRA	(___fs2ulong_fl1_1_22 + 1)
-;;gen.c:6444: size=1/4, offset=2, AOP_TYPE(res)=8
+;;gen.c:6373: size=1/4, offset=2, AOP_TYPE(res)=8
 	MOVAR	r0x1005
 	MOVRA	(___fs2ulong_fl1_1_22 + 2)
-;;gen.c:6444: size=0/4, offset=3, AOP_TYPE(res)=8
+;;gen.c:6373: size=0/4, offset=3, AOP_TYPE(res)=8
 	MOVAR	r0x1004
 	MOVRA	(___fs2ulong_fl1_1_22 + 3)
 ;;[ICODE] ../libsdcc/fs2ulong.c:63: 	iTemp3 [k8 lr6:7 so:0]{ ia0 a2p0 re0 rm1 nos0 ru0 dp0}{volatile-long-int near* fixed}[remat] = &[___fs2ulong_fl1_1_22 [k4 lr0:0 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{volatile-struct float_long fixed}]

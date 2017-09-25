@@ -1,14 +1,14 @@
 ;--------------------------------------------------------
-; File Created by SN-SDCC : ANSI-C Compiler
-; Version 0.0.4 (Jan 22 2015) (Linux)
-; This file was generated Thu Jan 22 23:32:13 2015
+; File Created by SN-SDCC : SinoMCU ANSI-C Compiler
+; Version 1.0.0 (Sep 11 2017) (MINGW32)
+; This file was generated Mon Sep 18 19:57:22 2017
 ;--------------------------------------------------------
-; MC3X port for the RISC core
+; MC30/MC32 port for the RISC core
 ;--------------------------------------------------------
 ;	.file	"../libsdcc/idata.c"
-	list	p=32p21
+	list	p=3221
 	radix dec
-	include "mc32p21.inc"
+	include "3221.inc"
 ;--------------------------------------------------------
 ; external declarations
 ;--------------------------------------------------------
@@ -58,6 +58,18 @@ r0x100A	res	1
 ID_idata_0	idata
 _force_cinit
 	db	0x00
+
+
+;@Allocation info for local variables in function '_sdcc_gsinit_startup'
+;@_sdcc_gsinit_startup main                      Allocated to registers ;size:2
+;@_sdcc_gsinit_startup _sdcc_gsinit_startup      Allocated to registers ;size:2
+;@_sdcc_gsinit_startup force_cinit               Allocated to registers ;size:1
+;@_sdcc_gsinit_startup num                       Allocated to registers ;size:2
+;@_sdcc_gsinit_startup size                      Allocated to registers ;size:2
+;@_sdcc_gsinit_startup cptr                      Allocated to registers ;size:2
+;@_sdcc_gsinit_startup src                       Allocated to registers ;size:2
+;@_sdcc_gsinit_startup dst                       Allocated to registers ;size:2
+;@end Allocation info for local variables in function '_sdcc_gsinit_startup';
 
 ;--------------------------------------------------------
 ; overlayable items in internal ram 
@@ -260,6 +272,7 @@ _00107_DS_
 ;;[ICODE] ../libsdcc/idata.c:92:  _whilebreak_0($6) :
 ;;[ICODE] ../libsdcc/idata.c:99: inline
 _00110_DS_
+;	.line	99; "../libsdcc/idata.c"	__endasm;
 	GOTO _main
 	
 ;;[ICODE] ../libsdcc/idata.c:99:  _return($7) :

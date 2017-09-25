@@ -1,20 +1,21 @@
-SDCC_EXE = /home/sinomcu/aaa/sn-sdcc/bin/sdcc
-ASM_EXE = /home/sinomcu/aaa/snutils/gpasm/gpasm
-LIB_EXE = /home/sinomcu/aaa/snutils/gputils/gplib
+PATH = /e/tools/snutils/gpasm
+SDCC_EXE = /e/tools/sn-sdcc/bin/sdcc
+ASM_EXE = /e/tools/snutils/gpasm/gpasm
+LIB_EXE = /e/tools/snutils/gputils/gplib
 LIB = mc32p21.lib
 OBJ = mc32p21.o _divschar.o _divsint.o _divslong.o _divuchar.o _divuint.o _divulong.o fs2schar.o fs2sint.o fs2slong.o fs2uchar.o fs2uint.o fs2ulong.o fsadd.o fsdiv.o fseq.o fsgt.o fslt.o fsmul.o fsneq.o fssub.o idata.o _modschar.o _modsint.o _modslong.o _moduchar.o _moduint.o _modulong.o _mulchar.o _mulint.o _mullong.o schar2fs.o sint2fs.o slong2fs.o uchar2fs.o uint2fs.o ulong2fs.o _gptrget1.o _gptrget2.o _gptrget3.o _gptrget4.o _gptrput1.o _gptrput2.o _gptrput3.o _gptrput4.o 
 
-SDCC_ARG = -V --verbose -mmc3x -p32p21 -Wa-I$(SDCC_HOME)/share/header \
-    -I$(SDCC_HOME)/share/include \
+SDCC_ARG = -V --verbose -mmc3x -p3221 -Wa-Ie:\tools\sn-sdcc\share\header \
+    -I/e/tools/sn-sdcc/share/include \
     --std-c99 --i-code-in-asm  -c -o 
 
-ASM_ARG = -p mc32p21 -I$(SDCC_HOME)/share/include -I. -I../libsdcc -c -o 
+ASM_ARG = -p 3221 -I/e/tools/sn-sdcc/share/include -I. -I../libsdcc -c -o 
 
 all : $(OBJ) $(LIB)
 
 $(LIB) : $(OBJ)
 	$(LIB_EXE) -c $(LIB) *.o
-	cp -av $(LIB) $(SDCC_HOME)/share/lib
+	/bin/cp -av $(LIB) /e/tools/sn-sdcc/share/lib 
 
 mc32p21.o : mc32p21.c
 	$(SDCC_EXE) $(SDCC_ARG) mc32p21.o mc32p21.c
@@ -90,8 +91,8 @@ uint2fs.o : ../libsdcc/uint2fs.c
 	$(SDCC_EXE) $(SDCC_ARG) uint2fs.o ../libsdcc/uint2fs.c
 ulong2fs.o : ../libsdcc/ulong2fs.c
 	$(SDCC_EXE) $(SDCC_ARG) ulong2fs.o ../libsdcc/ulong2fs.c
-_gptrget1.o : _gptrget1.S
-	$(ASM_EXE) $(ASM_ARG) _gptrget1.o _gptrget1.S
+_gptrget1.o : ../libsdcc/_gptrget1.S
+	$(ASM_EXE) $(ASM_ARG) _gptrget1.o ../libsdcc/_gptrget1.S
 _gptrget2.o : ../libsdcc/_gptrget2.S
 	$(ASM_EXE) $(ASM_ARG) _gptrget2.o ../libsdcc/_gptrget2.S
 _gptrget3.o : ../libsdcc/_gptrget3.S
@@ -108,4 +109,4 @@ _gptrput4.o : ../libsdcc/_gptrput4.S
 	$(ASM_EXE) $(ASM_ARG) _gptrput4.o ../libsdcc/_gptrput4.S
 
 clean:
-	rm -f *.o *.lst *.asm *.lib
+	/bin/rm -f *.o *.lst *.asm *.lib
