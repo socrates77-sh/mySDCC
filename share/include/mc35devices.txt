@@ -1,0 +1,184 @@
+# dev = device name
+# program = program memory in 14 bit words
+# data = data memory in bytes
+# eeprom = eeprom storage
+# enhanced = 0 | 1
+#   0: regular device (default)
+#   1: indicate that this is an enhanced core (automatic context saving on IRQ)
+# io = io lines
+# maxram = maximum memmap address for unique general purpose registers
+# bankmsk = mask for memmap bank selecting. 0x80 for two banks usable, 
+#           0x180 for four.
+# config = white-space separated list of config word addresses
+# regmap = registers duplicated in multiple banks. First value is a bank bitmask,
+#          following values are register addresses
+# memmap <start> <end> <alias>
+#	<start> - <end> mirrored in all banks set in <alias>
+#	<alias> is a bitmask of bank bits (0x80, 0x100, 0x180)
+#	Make sure to always provide at least one non-full (<alias> = <bankmsk>)
+#	record or SDCC will assume that all usable memory is shared across all
+#	banks!
+#
+#
+
+#
+# MC30 series
+#
+processor 0311
+	program		1K
+	data		49
+	eeprom		0
+	io		12
+	maxram		0x4f
+	bankmsk		0x00
+	config		0x2000 0x2001
+	memmap		0x07 0x07 0x000
+	memmap		0x10 0x3f 0x000
+
+processor 6060
+	program		1K
+	data		49
+	eeprom		0
+	io		12
+	maxram		0x4f
+	bankmsk		0x00
+	config		0x2000 0x2001
+	memmap		0x07 0x07 0x000
+	memmap		0x10 0x3f 0x000
+
+#
+# MC31 series
+#
+processor 3111
+	program		1K
+	data		48
+	eeprom		0
+	io		14
+	maxram		0x3f
+	bankmsk		0x00
+	config		0x8000 0x8001
+	memmap		0x10 0x3f 0x000
+
+#
+# MC32 series
+#
+processor 3221
+	program		1K
+	data		128
+	eeprom		0
+	io		12
+	maxram		0x1ff
+	bankmsk		0x00
+	config		0x8000 0x8001
+	memmap		0x00 0x7f 0x000
+
+processor 3264
+	program		4K
+	data		320
+	eeprom		0
+	io		26
+	maxram		0x1ff
+	bankmsk		0x00
+	config		0x8000 0x8001
+	memmap		0x00 0x13f 0x000
+
+processor 5312
+        program         4K
+        data            256
+        eeprom          0
+        io              15
+        maxram          0x1d7
+        bankmsk         0x00
+        config          0x8000 0x8001 0x8002
+        memmap          0x00 0xff 0x000
+
+processor 3316
+        program         16K
+        data            512
+        eeprom          0
+        io              46
+        maxram          0x1ff
+        bankmsk         0x00
+        config          0x8000 0x8001
+        memmap          0x00 0xff 0x000
+
+processor 3378
+        program         8K
+        data            256
+        eeprom          0
+        io              16
+        maxram          0x1ff
+        bankmsk         0x00
+        config          0x8000 0x8001
+        memmap          0x00 0xff 0x000
+        
+processor 5222
+        program         4K
+        data            256
+        eeprom          0
+        io              14
+        maxram          0x1ff
+        bankmsk         0x00
+        config          0x8000 0x8001
+        memmap          0x00 0xff 0x000
+
+processor 7022
+        program         4K
+        data            128
+        eeprom          0
+        io              8
+        maxram          0x1ff
+        bankmsk         0x00
+        config          0x8000 0x8001
+        memmap          0x00 0x7f 0x000
+        
+processor 7212
+        program         4K
+        data            128
+        eeprom          0
+        io              12
+        maxram          0x1ff
+        bankmsk         0x00
+        config          0x8000 0x8001
+        memmap          0x00 0x7f 0x000        
+        
+processor 7311
+        program         2K
+        data            256
+        eeprom          0
+        io              14
+        maxram          0x1ff
+        bankmsk         0x00
+        config          0x8000 0x8001
+        memmap          0x00 0x7f 0x000         
+        
+processor 7510
+        program         1K
+        data            128
+        eeprom          0
+        io              8
+        maxram          0x1ff
+        bankmsk         0x00
+        config          0x8000 0x8001
+        memmap          0x00 0x7f 0x000  
+        
+processor 7511
+        program         2K
+        data            128
+        eeprom          0
+        io              8
+        maxram          0x1ff
+        bankmsk         0x00
+        config          0x8000 0x8001
+        memmap          0x00 0x7f 0x000      
+        
+processor 8132
+        program         4K
+        data            256
+        eeprom          0
+        io              26
+        maxram          0x1ff
+        bankmsk         0x00
+        config          0x8000 0x8001 0x8002 0x8003 0x8004
+        memmap          0x00 0xff 0x13f        
+

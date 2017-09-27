@@ -393,7 +393,7 @@ on `(hostname || uname -n) 2>/dev/null | sed 1q`
 "
 
 # Files that config.status was made for.
-config_files=" doc/Makefile src/mc30/Makefile main.mk:main_in.mk src/Makefile device/include/Makefile device/non-free/include/Makefile sdas/linksrc/Makefile support/librarian/Makefile support/makebin/Makefile support/regression/Makefile support/valdiag/Makefile support/scripts/Makefile support/regression/ports/host/spec.mk:support/regression/ports/host/spec.mk.in Makefile Makefile.common:Makefile.common.in"
+config_files=" doc/Makefile src/mc30/Makefile src/mc35/Makefile main.mk:main_in.mk src/Makefile device/include/Makefile device/non-free/include/Makefile sdas/linksrc/Makefile support/librarian/Makefile support/makebin/Makefile support/regression/Makefile support/valdiag/Makefile support/scripts/Makefile support/regression/ports/host/spec.mk:support/regression/ports/host/spec.mk.in Makefile Makefile.common:Makefile.common.in"
 config_headers=" sdccconf.h:sdccconf_in.h sdas/linksrc/asxxxx_config.h"
 
 ac_cs_usage="\
@@ -556,6 +556,7 @@ do
     "device/lib/large/Makefile") CONFIG_FILES="$CONFIG_FILES device/lib/large/Makefile" ;;
     "device/lib/huge/Makefile") CONFIG_FILES="$CONFIG_FILES device/lib/huge/Makefile" ;;
     "src/mc30/Makefile") CONFIG_FILES="$CONFIG_FILES src/mc30/Makefile" ;;
+    "src/mc35/Makefile") CONFIG_FILES="$CONFIG_FILES src/mc35/Makefile" ;;
     "src/pic14/Makefile") CONFIG_FILES="$CONFIG_FILES src/pic14/Makefile" ;;
     "src/pic16/Makefile") CONFIG_FILES="$CONFIG_FILES src/pic16/Makefile" ;;
     "src/xa51/Makefile") CONFIG_FILES="$CONFIG_FILES src/xa51/Makefile" ;;
@@ -879,6 +880,7 @@ D["OPT_DISABLE_DS390"]=" 1"
 D["OPT_DISABLE_TININative"]=" 1"
 D["OPT_DISABLE_DS400"]=" 1"
 D["OPT_DISABLE_MC30"]=" 0"
+D["OPT_DISABLE_MC35"]=" 0"
 D["OPT_DISABLE_PIC14"]=" 1"
 D["OPT_DISABLE_PIC16"]=" 1"
 D["OPT_DISABLE_HC08"]=" 1"

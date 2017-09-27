@@ -2446,6 +2446,12 @@ void initPeepHole(void)
   //   peepRules2pCode(rootRules);
 #endif
 
+//zwr 1.0.0
+#if !OPT_DISABLE_MC35
+// if (TARGET_IS_PIC14)
+//   peepRules2pCode(rootRules);
+#endif
+
 #if !OPT_DISABLE_PIC14
   /* Convert the peep rules into pcode.
      NOTE: this is only support in the PIC port (at the moment)

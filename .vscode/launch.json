@@ -9,17 +9,17 @@
             "args": [
                 "-V",
                 "--verbose",
-                "-mmc30",
-                "-p3264",
+                "-mmc35",
+                "-p3221",
                 "-I\"e:\\tools\\sn-sdcc\\share\\include\"",
                 "-Wa\"-Ie:\\tools\\sn-sdcc\\share\\header\"",
                 "--std-c99",
                 "--i-code-in-asm",
                 "-c",
-                "mc32p64.c"
+                "main.c"
             ],
             "stopAtEntry": false,
-            "cwd": "E:\\tools\\demo\\lib",
+            "cwd": "E:\\tools\\demo\\try_mc35",
             "environment": [],
             "externalConsole": true,
             "MIMode": "gdb",
