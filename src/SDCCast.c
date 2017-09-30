@@ -72,7 +72,7 @@ int inInitMode = 0;
 memmap *GcurMemmap = NULL; /* points to the memmap that's currently active */
 struct dbuf_s *codeOutBuf;
 
-//zwr 1.0.0
+// zwr 1.0.0
 struct dbuf_s *ValLog;
 
 int ptt(ast *tree)
@@ -6607,7 +6607,7 @@ ast *createFunction(symbol *name, ast *body)
   name->lastLine = lexLineno;
   currFunc = name;
 
-  //zwr 1.0.0
+  // zwr 1.0.0
   if (!ValLog)
   {
     ValLog = dbuf_new(102400);

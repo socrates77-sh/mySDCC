@@ -2440,13 +2440,13 @@ void initPeepHole(void)
     options.nopeep = 0;
   }
 
-//zwr 1.0.0
+// zwr 1.0.0
 #if !OPT_DISABLE_MC30
   // if (TARGET_IS_PIC14)
   //   peepRules2pCode(rootRules);
 #endif
 
-//zwr 1.0.0
+// zwr 1.0.0
 #if !OPT_DISABLE_MC35
 // if (TARGET_IS_PIC14)
 //   peepRules2pCode(rootRules);

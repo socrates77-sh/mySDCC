@@ -25,7 +25,7 @@ extern set *libPathsSet;
 extern set *linkOptionsSet;
 
 mc35_options_t mc35_options;
-//int debug_verbose = 0;  //zwr 1.0.0 for duplicate with mc30
+//int debug_verbose = 0;  // zwr 1.0.0 for duplicate with mc30
 
 #define OPTION_STACK_SIZE "--stack-size"
 
@@ -157,7 +157,7 @@ _mc35_finaliseOptions(void)
     {
       *p2 = toupper(*p1);
     }
-    dbuf_append(&dbuf, "-D__SDCC_MC", sizeof("-D__SDCC_MC") - 1); //zwr 1.0.0
+    dbuf_append(&dbuf, "-D__SDCC_MC", sizeof("-D__SDCC_MC") - 1); // zwr 1.0.0
     dbuf_append(&dbuf, upperProc, len);
     addSet(&preArgvSet, dbuf_detach_c_str(&dbuf));
   }
@@ -190,7 +190,7 @@ _mc35_genAssemblerPreamble(FILE *of)
 
   fprintf(of, "\tlist\tp=%s\n", name);
   fprintf(of, "\tradix dec\n");
-  fprintf(of, "\tinclude \"%s.inc\"\n", name); //zwr 1.0.0
+  fprintf(of, "\tinclude \"%s.inc\"\n", name); // zwr 1.0.0
 }
 
 /* Generate interrupt vector table. */
@@ -259,7 +259,7 @@ _mc35_do_link(void)
    *
    */
 
-  //zwr 1.0.0
+  // zwr 1.0.0
   // sprintf(lfrm, "{linker} {incdirs} {sysincdirs} {lflags} -w -r -o \"{outfile}\" \"{user_ofile}\" {spec_ofiles} {ofiles} {libs}");
   sprintf(lfrm, "{linker} {incdirs} {sysincdirs} {lflags} -w -r -m -o \"{outfile}\" \"{user_ofile}\" {spec_ofiles} {ofiles} {libs}");
 
@@ -300,7 +300,7 @@ _mc35_do_link(void)
   {
     addSet(&libFilesSet, Safe_strdup("libsdcc.lib"));
   }
-  SNPRINTF(temp, sizeof(temp), "%s.lib", procName); //zwr 1.0.0
+  SNPRINTF(temp, sizeof(temp), "%s.lib", procName); // zwr 1.0.0
   addSet(&libFilesSet, Safe_strdup(temp));
   shash_add(&linkValues, "libs", joinStrSet(appendStrSet(libFilesSet, "\"", "\"")));
 
@@ -318,7 +318,7 @@ _mc35_do_link(void)
 PORT mc35_port =
     {
         TARGET_ID_PIC14,
-        "mc35",         //zwr 1.0.0
+        "mc35",         // zwr 1.0.0
         "SinoMCU mc35", /* Target name */
         "",             /* Processor */
         {

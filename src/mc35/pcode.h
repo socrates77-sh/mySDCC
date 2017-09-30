@@ -196,6 +196,7 @@ typedef enum {
 	POC_MOVLW,
 	POC_MOVWF,
 	POC_NOP,
+	POC_XCH,	// zwr 1.0.0 inst
 	POC_RETLW,
 	POC_RETURN,
 	POC_RETFIE,

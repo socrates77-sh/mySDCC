@@ -415,10 +415,10 @@ extern PORT avr_port;
 #if !OPT_DISABLE_DS390
 extern PORT ds390_port;
 #endif
-#if !OPT_DISABLE_MC30     //zwr 1.0.0
+#if !OPT_DISABLE_MC30     // zwr 1.0.0
 extern PORT mc30_port;
 #endif
-#if !OPT_DISABLE_MC35     //zwr 1.0.0
+#if !OPT_DISABLE_MC35     // zwr 1.0.0
 extern PORT mc35_port;
 #endif
 #if !OPT_DISABLE_PIC14

@@ -35,7 +35,7 @@ static PIC_device *pic = NULL;
 static int num_of_supported_PICS = 0;
 static int maxRAMaddress = 0;
 
-#define DEVICE_FILE_NAME "mc30devices.txt" //zwr 1.0.0
+#define DEVICE_FILE_NAME "mc30devices.txt" // zwr 1.0.0
 #define PIC14_STRING_LEN 256
 #define SPLIT_WORDS_MAX 16
 
@@ -515,7 +515,7 @@ list_valid_pics(int ncols)
 
 #if 1
   /* heading */
-  fprintf(stderr, "\nMC30/MC32 processors and their characteristics:\n\n"); //zwr 1.0.0
+  fprintf(stderr, "\nMC30/MC32 processors and their characteristics:\n\n"); // zwr 1.0.0
   fprintf(stderr, " processor");
   for (k = 0; k < longest - 1; k++)
     fputc(' ', stderr);
@@ -541,7 +541,7 @@ list_valid_pics(int ncols)
 
   col = 0;
 
-  fprintf(stderr, "\nMC30/MC32 processors supported:\n"); //zwr 1.0.0
+  fprintf(stderr, "\nMC30/MC32 processors supported:\n"); // zwr 1.0.0
   for (i = 0; i < num_of_supported_PICS; i++)
   {
 

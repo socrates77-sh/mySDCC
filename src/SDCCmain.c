@@ -331,10 +331,10 @@ static PORT *_ports[] = {
 #if !OPT_DISABLE_PIC14
     &pic_port,
 #endif
-#if !OPT_DISABLE_MC30 //zwr 1.0.0
+#if !OPT_DISABLE_MC30 // zwr 1.0.0
     &mc30_port,
 #endif
-#if !OPT_DISABLE_MC35 //zwr 1.0.0
+#if !OPT_DISABLE_MC35 // zwr 1.0.0
     &mc35_port,
 #endif
 #if !OPT_DISABLE_TININative
@@ -491,7 +491,7 @@ void printVersionInfo(FILE *stream)
 #ifdef SDCC_SUB_VERSION_STR
                   "/" SDCC_SUB_VERSION_STR
 #endif
-                  " (%s) (%s)\n", //zwr 1.0.0
+                  " (%s) (%s)\n", // zwr 1.0.0
           getBuildDate(), getBuildEnvironment());
 }
 

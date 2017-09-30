@@ -37,7 +37,7 @@ extern set *externs;
 extern symbol *mainf;
 extern struct dbuf_s *codeOutBuf;
 
-//zwr 1.0.0
+// zwr 1.0.0
 extern struct dbuf_s *ValLog;
 extern struct QValList *ValList;
 
@@ -82,12 +82,12 @@ emitPseudoStack(struct dbuf_s *oBuf, struct dbuf_s *oBufExt)
     if (!pic14_options.isLibrarySource)
     {
         dbuf_printf(oBuf, "\n");
-        //zwr 1.0.0
+        // zwr 1.0.0
         // dbuf_printf(oBuf, "\tglobal PSAVE\n");
         // dbuf_printf(oBuf, "\tglobal SSAVE\n");
         // dbuf_printf(oBuf, "\tglobal WSAVE\n");
         
-        //zwr 1.0.0
+        // zwr 1.0.0
         // for (i = size - 4; i >= 0; i--)
         for (i = 6; i >= 0; i--)
         {
@@ -108,12 +108,12 @@ emitPseudoStack(struct dbuf_s *oBuf, struct dbuf_s *oBufExt)
             dbuf_printf(oBuf, "sharebank udata_shr\n");
         }
         
-        //zwr 1.0.0
+        // zwr 1.0.0
         // dbuf_printf(oBuf, "PSAVE\tres 1\n");
         // dbuf_printf(oBuf, "SSAVE\tres 1\n");
         // dbuf_printf(oBuf, "WSAVE\tres 1\n"); // WSAVE *must* be in sharebank (IRQ handlers)
         /* fill rest of sharebank with stack STKxx .. STK00 */
-        //zwr 1.0.0
+        // zwr 1.0.0
         // for (i = size - 4; i >= 0; i--)
         for (i = 6; i >= 0; i--)
         {
@@ -126,12 +126,12 @@ emitPseudoStack(struct dbuf_s *oBuf, struct dbuf_s *oBufExt)
          * except the one containing main() */
         dbuf_printf(oBufExt, "\n");
 
-        //zwr 1.0.0
+        // zwr 1.0.0
         // dbuf_printf(oBufExt, "\textern PSAVE\n");
         // dbuf_printf(oBufExt, "\textern SSAVE\n");
         // dbuf_printf(oBufExt, "\textern WSAVE\n");
 
-        //zwr 1.0.0
+        // zwr 1.0.0
         // for (i = size - 4; i >= 0; i--)
         for (i = 6; i >= 0; i--)
         {
@@ -300,7 +300,7 @@ pic14createInterruptVect(struct dbuf_s *vBuf)
     dbuf_printf(vBuf, "%s", iComments2);
     // Lkr file should place section STARTUP at address 0x0, but does not ...
 
-    //zwr 1.0.0
+    // zwr 1.0.0
     dbuf_printf(vBuf, "STARTUP\t%s 0x0000\n", CODE_NAME);
     //dbuf_printf(vBuf, "\tnop\n"); /* first location for used by incircuit debugger */
     //dbuf_printf(vBuf, "\tpagesel __sdcc_gsinit_startup\n");
@@ -317,7 +317,7 @@ static void
 pic14initialComments(FILE *afile)
 {
     initialComments(afile);
-    fprintf(afile, "; MC30/MC32 port for the RISC core\n"); //zwr 1.0.0
+    fprintf(afile, "; MC30/MC32 port for the RISC core\n"); // zwr 1.0.0
     fprintf(afile, "%s", iComments2);
 }
 
@@ -517,7 +517,7 @@ pic14_emitInterruptHandler(FILE *asmFile)
         // Note: Do NOT name this code_interrupt to avoid nameclashes with
         //       source files's code segment (interrupt.c -> code_interrupt)
 
-        //zwr 1.0.0
+        // zwr 1.0.0
         fprintf(asmFile, "c_interrupt\t%s\t0x8\n", CODE_NAME);
 
         /* interrupt service routine */
@@ -627,7 +627,7 @@ void picglue()
     /* emit initialized data */
     showAllMemmaps(asmFile);
 
-    //zwr 1.0.0
+    // zwr 1.0.0
     if (ValList)
     {
         printValsInfo(ValList, ValLog);
@@ -845,7 +845,7 @@ emitIvals(struct dbuf_s *oBuf, symbol *sym, initList *list, long lit, int size)
         {
             if (in_code)
             {
-                //zwr 1.0.0
+                // zwr 1.0.0
                 dbuf_printf(oBuf, "\tretai 0x%02x\n", (int)(lit & 0xff));
                 // dbuf_printf (oBuf, "\tretlw 0x00\n"); // conflict from merge of sf-patch-2991122 ?
             }
@@ -909,7 +909,7 @@ emitIvals(struct dbuf_s *oBuf, symbol *sym, initList *list, long lit, int size)
         } // if
         if (in_code)
         {
-            //zwr 1.0.0
+            // zwr 1.0.0
             dbuf_printf(oBuf, "\tretai %s\n", text);
         }
         else
@@ -1073,7 +1073,7 @@ emitInitVal(struct dbuf_s *oBuf, symbol *topsym, sym_link *my_type, initList *li
         emitIvalLabel(oBuf, topsym);
         do
         {
-            //zwr 1.0.0
+            // zwr 1.0.0
             dbuf_printf(oBuf, "\tretai 0x%02x ; '%c'\n", str[0], (str[0] >= 0x20 && str[0] < 128) ? str[0] : '.');
         } while (*(str++));
         return;

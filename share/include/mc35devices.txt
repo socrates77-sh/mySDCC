@@ -62,7 +62,7 @@ processor 3111
 #
 # MC32 series
 #
-processor 3221
+processor 7030
 	program		1K
 	data		128
 	eeprom		0

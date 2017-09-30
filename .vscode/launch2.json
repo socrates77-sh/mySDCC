@@ -9,13 +9,14 @@
             "args": [
                 "-V",
                 "--verbose",
-                "--use-non-free",
                 "-mmc35",
-                "-p7030",
+                "-p3221",
                 "-I\"e:\\tools\\sn-sdcc\\share\\include\"",
                 "-Wa\"-Ie:\\tools\\sn-sdcc\\share\\header\"",
+                "--std-c99",
+                "--i-code-in-asm",
                 "-c",
-                "incar.c"
+                "main.c"
             ],
             "stopAtEntry": false,
             "cwd": "E:\\tools\\demo\\try_mc35",

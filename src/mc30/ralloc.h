@@ -81,7 +81,7 @@ extern set *dynDirectRegs;
 extern set *dynDirectBitRegs;
 extern set *dynInternalRegs;
 
-//zwr 1.0.0
+// zwr 1.0.0
 typedef struct QValList
 {
   char *funname;

@@ -35,7 +35,7 @@ set *dynDirectRegs = NULL;
 set *dynDirectBitRegs = NULL;
 set *dynInternalRegs = NULL;
 
-//zwr 1.0.0
+// zwr 1.0.0
 extern struct dbuf_s *ValLog;
 struct QValList *ValList;
 
@@ -2112,7 +2112,7 @@ reassignLR(operand *op)
 
         debugLog("%s\n", __FUNCTION__);
         /* not spilt any more */
-        //zwr 1.0.0
+        // zwr 1.0.0
         sym->isspilt = sym->spillA = sym->blockSpil = sym->remainSpil = 0;
         bitVectUnSetBit(_G.spiltSet, sym->key);
 
@@ -2320,7 +2320,7 @@ serialRegAssign(eBBlock **ebbs, int count)
                                 spill this one */
                                 willCS = willCauseSpill(sym->nRegs, sym->regType);
 
-                                //zwr 1.0.0
+                                // zwr 1.0.0
                                 /* explicit turn off register spilling */
                                 willCS = 0;
 

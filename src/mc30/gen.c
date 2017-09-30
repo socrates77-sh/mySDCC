@@ -39,7 +39,7 @@
 #include "gen.h"
 #include "glue.h"
 #include "dbuf_string.h"
-#include "ralloc.h" //zwr 1.0.0
+#include "ralloc.h" // zwr 1.0.0
 
 /*
  * Imports
@@ -47,7 +47,7 @@
 extern struct dbuf_s *codeOutBuf;
 extern set *externs;
 
-//zwr 1.0.0
+// zwr 1.0.0
 extern struct QValList *ValList;
 extern struct dbuf_s *ValLog;
 
@@ -1400,7 +1400,7 @@ call_libraryfunc(char *name)
 {
   symbol *sym;
 
-  //zwr 1.0.0
+  // zwr 1.0.0
   /* library code might reside in different page... */
   //emitpcode(POC_PAGESEL, popGetWithString(name, 1));
   /* call the library function */
@@ -2130,7 +2130,7 @@ genCall(iCode *ic)
   {
     /* Extern functions and ISRs maybe on a different page;
        * must call pagesel */
-    //emitpcode(POC_PAGESEL, popGetWithString(name, 1));    //zwr 1.0.0
+    //emitpcode(POC_PAGESEL, popGetWithString(name, 1));    // zwr 1.0.0
   }
   emitpcode(POC_CALL, popGetWithString(name, isExtern));
   if (isExtern)
@@ -2138,7 +2138,7 @@ genCall(iCode *ic)
     /* May have returned from a different page;
        * must use pagesel to restore PCLATH before next
        * goto or call instruction */
-    //emitpcode(POC_PAGESEL, popGetWithString("$", 0));   //zwr 1.0.0
+    //emitpcode(POC_PAGESEL, popGetWithString("$", 0));   // zwr 1.0.0
   }
   GpsuedoStkPtr = 0;
   /* if we need assign a result value */
@@ -2359,7 +2359,7 @@ genFunction(iCode *ic)
     }
     else
     {
-      //zwr 1.0.0
+      // zwr 1.0.0
       // emitpcode(POC_MOVWF, popCopyReg(&pc_wsave));
       // emitpcode(POC_SWAPFW, popCopyReg(&pc_status));
       // /* XXX: Why? Does this assume that ssave and psave reside
@@ -2411,7 +2411,7 @@ genFunction(iCode *ic)
     genCritical(NULL);
     if (IFFUNC_ARGS(sym->type))
     {
-      //zwr 1.0.0
+      // zwr 1.0.0
       fprintf(stderr, "MC30/MC32: Functions with __critical (%s) must not have arguments for now.\n", sym->name);
       exit(1);
     } // if
@@ -2574,7 +2574,7 @@ genEndFunction(iCode *ic)
     }
     else
     {
-      //zwr 1.0.0
+      // zwr 1.0.0
       // emitpcode(POC_MOVFW, popGetExternal("___sdcc_saved_fsr", 1));
       // emitpcode(POC_MOVWF, popCopyReg(&pc_fsr));
       // //emitpcode(POC_MOVFW,  popGetExternal("___sdcc_saved_pclath", 1));
@@ -6990,7 +6990,7 @@ genJumpTab(iCode *ic)
   pic14_emitcode("jmp", "@a+dptr");
   pic14_emitcode("", "%05d_DS_:", labelKey2num(jtab->key));
 
-  //zwr 1.0.0, revise for switch
+  // zwr 1.0.0, revise for switch
 
   // //emitpcode(POC_MOVLW, popGetHighLabel(jtab->key));
   // //emitpcode(POC_MOVWF, popCopyReg(&pc_pclath));
@@ -7309,7 +7309,7 @@ genDummyRead(iCode *ic)
   ic = ic;
 }
 
-//zwr 1.0.0
+// zwr 1.0.0
 void newVal()
 {
   QValList *tempval;
@@ -7353,7 +7353,7 @@ void genpic14Code(iCode *lic)
   int cln = 0;
   const char *cline;
 
-  //zwr 1.0.0
+  // zwr 1.0.0
   /* print the allocation information */
   if (currFunc)
   {

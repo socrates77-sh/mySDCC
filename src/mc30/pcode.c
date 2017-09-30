@@ -94,7 +94,7 @@ static pBlock *newpBlock(void);
 /****************************************************************/
 /*                    PIC Instructions                          */
 /****************************************************************/
-//zwr 1.0.0
+// zwr 1.0.0
 static pCodeInstruction pciADDWF = {
 	{PC_OPCODE, NULL, NULL, 0, 0, NULL,
 	 genericDestruct,
@@ -3236,7 +3236,7 @@ static void genericPrint(FILE *of, pCode *pc)
 			pbl = pbl->next;
 		}
 	}
-		//zwr 1.0.0
+		// zwr 1.0.0
 		if (PCAD(pc)->pci.cline)
 			genericPrint(of, PCODE(PCAD(pc)->pci.cline));
 
@@ -4985,7 +4985,7 @@ void AnalyzeBanking(void)
 	AnalyzeFlow(0);
 	AnalyzeFlow(1);
 
-	//zwr 1.0.0
+	// zwr 1.0.0
 	// for (pb = the_pFile->pbHead; pb; pb = pb->next)
 	// 	FixRegisterBanking(pb);
 

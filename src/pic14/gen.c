@@ -2404,7 +2404,7 @@ genFunction(iCode *ic)
     genCritical(NULL);
     if (IFFUNC_ARGS(sym->type))
     {
-      //zwr 1.0.0
+      // zwr 1.0.0
       fprintf(stderr, "MC30/MC32: Functions with __critical (%s) must not have arguments for now.\n", sym->name);
       exit(1);
     } // if

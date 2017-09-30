@@ -138,6 +138,8 @@ extern unsigned mc35_fReturnSizePic;
 #define mc35_emitSETDC mc35_emitpcode(POC_BSF, mc35_popCopyGPR2Bit(PCOP(&mc35_pc_status), PIC_DC_BIT))
 #define mc35_emitSETIRP mc35_emitpcode(POC_BSF, mc35_popCopyGPR2Bit(PCOP(&mc35_pc_status), PIC_IRP_BIT))
 
+// zwr 1.0.0
+void mc35_emitpcodeNULLop(PIC_OPCODE poc);
 int mc35_getDataSize(operand *op);
 void mc35_emitpcode_real(PIC_OPCODE poc, pCodeOp *pcop);
 #define mc35_emitpcode(poc, pcop)                                                             \

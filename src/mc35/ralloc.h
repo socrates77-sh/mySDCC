@@ -81,7 +81,7 @@ extern set *mc35_dynDirectRegs;
 extern set *mc35_dynDirectBitRegs;
 extern set *mc35_dynInternalRegs;
 
-//zwr 1.0.0
+// zwr 1.0.0
 typedef struct Q_ValList
 {
   char *funname;

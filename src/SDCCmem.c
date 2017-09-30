@@ -23,7 +23,7 @@
 
 #include "common.h"
 #include "dbuf_string.h"
-#include "mc30\ralloc.h" //zwr 1.0.0
+#include "mc30\ralloc.h" // zwr 1.0.0
 
 /* memory segments */
 memmap *xstack = NULL;             /* xternal stack data          */
@@ -55,7 +55,7 @@ namedspacemap *namedspacemaps = 0; /* memory segments for named address spaces *
 set *ovrSetSets = NULL;
 
 int fatalError = 0;          /* fatal error flag            */
-static int isSavedGloab = 0; //zwr 1.0.0
+static int isSavedGloab = 0; // zwr 1.0.0
 
 /*-----------------------------------------------------------------*/
 /* allocMap - allocates a memory map                               */
@@ -1091,7 +1091,7 @@ printAllocInfoSeg(memmap *map, symbol *func, struct dbuf_s *oBuf)
     if (sym->localof != func)
       continue;
 
-    //zwr 1.0.0
+    // zwr 1.0.0
     dbuf_printf(oBuf, ";@%s %-25s Allocated ", func->name, sym->name);
     flg = TRUE;
 
@@ -1213,7 +1213,7 @@ void doOverlays(eBBlock **ebbs, int count)
     overlay2data();
 }
 
-//zwr 1.0.0
+// zwr 1.0.0
 void SaveGloabInfo(memmap *map, symbol *func, QValList *desvals)
 {
   symbol *sym;
@@ -1378,7 +1378,7 @@ void printAllocInfo(symbol *func, struct dbuf_s *oBuf)
 
   /* must be called after register allocation is complete */
   dbuf_append_str(oBuf, BREAKLINE);
-  //zwr 1.0.0
+  // zwr 1.0.0
   dbuf_printf(oBuf, ";@Allocation info for local variables in function '%s'\n", func->name);
   dbuf_append_str(oBuf, BREAKLINE);
 
@@ -1402,7 +1402,7 @@ void printAllocInfo(symbol *func, struct dbuf_s *oBuf)
   }
   overlay->syms = tempOverlaySyms;
 
-  //zwr 1.0.0
+  // zwr 1.0.0
   dbuf_append_str(oBuf, ";@end Allocation info for local variables in function '");
   dbuf_append_str(oBuf, func->name);
   dbuf_append_str(oBuf, "';\n");
@@ -1413,7 +1413,7 @@ void printAllocInfo(symbol *func, struct dbuf_s *oBuf)
   }
 }
 
-//zwr 1.0.0
+// zwr 1.0.0
 void printValsInfo(QValList *desvals, struct dbuf_s *oBuf)
 {
   QValList *tempval;
