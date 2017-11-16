@@ -1,4 +1,4 @@
-gpasm-2.0.0_beta2 (Aug 27 2017)fsgt.asm           2017-9-18  19:57:21          PAGE  1
+gpasm-2.0.0_beta2 (Nov  6 2017)fsgt.asm           2017-11-14  18:37:51         PAGE  1
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
@@ -6,8 +6,8 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
 
                       00001 ;--------------------------------------------------------
                       00002 ; File Created by SN-SDCC : SinoMCU ANSI-C Compiler
-                      00003 ; Version 1.0.0 (Sep 11 2017) (MINGW32)
-                      00004 ; This file was generated Mon Sep 18 19:57:21 2017
+                      00003 ; Version 1.0.0 (Sep 28 2017) (MINGW32)
+                      00004 ; This file was generated Tue Nov 14 18:37:51 2017
                       00005 ;--------------------------------------------------------
                       00006 ; MC30/MC32 port for the RISC core
                       00007 ;--------------------------------------------------------
@@ -585,7 +585,7 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
 0028   D187           00197         BCLR    STATUS,0
 0029   E187           00198         JBSET   STATUS,0
 002A   A000           00199         GOTO    _00108_DS_
-                      00200 ;;genSkipc:3194: created from rifx:00CC608C
+                      00200 ;;genSkipc:3194: created from rifx:00D5608C
                       00201 ;;[ICODE] ../libsdcc/fsgt.c:62:         if iTemp9 [k18 lr11:12 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char fixed} == 0 goto _iffalse_1($4)
                       00202 ;;[ICODE] ../libsdcc/fsgt.c:62:         iTemp10 [k19 lr13:14 so:0]{ ia0 a2p0 re0 rm1 nos0 ru0 dp0}{volatile-long-int near* fixed}[remat] = &[___fsgt_fl2_1_22 [k10 lr0:0 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{volatile-struct float_long fixed}]
                       00203 ;;[ICODE] ../libsdcc/fsgt.c:62:         iTemp12 [k22 lr14:15 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{volatile-long-int fixed}[r0x1000 r0x1001 r0x1002 r0x1003 ] = @[iTemp10 [k19 lr13:14 so:0]{ ia1 a2p0 re0 rm1 nos0 ru0 dp0}{volatile-long-int near* fixed}[remat] + 0x0 {const-unsigned-char literal}]
@@ -604,7 +604,7 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
 0035   D187           00216         BCLR    STATUS,0
 0036   E187           00217         JBSET   STATUS,0
 0037   A000           00218         GOTO    _00108_DS_
-                      00219 ;;genSkipc:3194: created from rifx:00CC608C
+                      00219 ;;genSkipc:3194: created from rifx:00D5608C
                       00220 ;;[ICODE] ../libsdcc/fsgt.c:62:         if iTemp13 [k23 lr15:16 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char fixed} == 0 goto _iffalse_1($4)
                       00221 ;;[ICODE] ../libsdcc/fsgt.c:63:         iTemp14 [k24 lr17:18 so:0]{ ia0 a2p0 re0 rm1 nos0 ru0 dp0}{volatile-long-int near* fixed}[remat] = &[___fsgt_fl2_1_22 [k10 lr0:0 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{volatile-struct float_long fixed}]
                       00222 ;;[ICODE] ../libsdcc/fsgt.c:63:         iTemp16 [k27 lr18:21 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{volatile-long-int fixed}[r0x1000 r0x1001 r0x1002 r0x1003 ] = @[iTemp14 [k24 lr17:18 so:0]{ ia1 a2p0 re0 rm1 nos0 ru0 dp0}{volatile-long-int near* fixed}[remat] + 0x0 {const-unsigned-char literal}]
@@ -649,7 +649,7 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
 005A                  00261 _00122_DS_
 005A   F187           00262         JBCLR   STATUS,0
 005B   A000           00263         GOTO    _00106_DS_
-                      00264 ;;genSkipc:3194: created from rifx:00CC608C
+                      00264 ;;genSkipc:3194: created from rifx:00D5608C
                       00265 ;;[ICODE] ../libsdcc/fsgt.c:63:         if iTemp20 [k32 lr21:22 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char fixed} == 0 goto _iffalse_0($2)
                       00266 ;;[ICODE] ../libsdcc/fsgt.c:64:         ret 0x1 {const-unsigned-char literal}
                       00267 ;       .line   64; "../libsdcc/fsgt.c" return (1);
@@ -706,7 +706,7 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
 0082                  00318 _00123_DS_
 0082   F187           00319         JBCLR   STATUS,0
 0083   A000           00320         GOTO    _00111_DS_
-                      00321 ;;genSkipc:3194: created from rifx:00CC608C
+                      00321 ;;genSkipc:3194: created from rifx:00D5608C
                       00322 ;;[ICODE] ../libsdcc/fsgt.c:68:         if iTemp27 [k41 lr31:32 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char fixed} == 0 goto _iffalse_2($7)
                       00323 ;;[ICODE] ../libsdcc/fsgt.c:69:         ret 0x1 {const-unsigned-char literal}
                       00324 ;       .line   69; "../libsdcc/fsgt.c" return (1);
@@ -728,7 +728,7 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
                       00340 ;         136+    0 =   136 instructions (  272 byte)
                       00341 
                       00342         end
-gpasm-2.0.0_beta2 (Aug 27 2017)fsgt.asm           2017-9-18  19:57:21          PAGE  2
+gpasm-2.0.0_beta2 (Nov  6 2017)fsgt.asm           2017-11-14  18:37:51         PAGE  2
 
 
 SYMBOL TABLE

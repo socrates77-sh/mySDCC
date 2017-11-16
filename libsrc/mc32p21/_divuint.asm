@@ -1,7 +1,7 @@
 ;--------------------------------------------------------
 ; File Created by SN-SDCC : SinoMCU ANSI-C Compiler
-; Version 1.0.0 (Sep 11 2017) (MINGW32)
-; This file was generated Mon Sep 18 19:57:18 2017
+; Version 1.0.0 (Sep 28 2017) (MINGW32)
+; This file was generated Tue Nov 14 18:37:41 2017
 ;--------------------------------------------------------
 ; MC30/MC32 port for the RISC core
 ;--------------------------------------------------------
@@ -165,7 +165,7 @@ _00112_DS_
 _00129_DS_
 	JBSET	STATUS,0
 	GOTO	_00111_DS_
-;;genSkipc:3194: created from rifx:00CC608C
+;;genSkipc:3194: created from rifx:00D5608C
 ;;[ICODE] ../libsdcc/_divuint.c:48: 	if iTemp8 [k14 lr22:23 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char fixed} != 0 goto _iffalse_1($7)
 ;;[ICODE] ../libsdcc/_divuint.c:49: 	iTemp2 [k6 lr5:35 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{unsigned-int fixed}{ sir@ __divuint_result_1_2}[r0x1004 r0x1005 ] = iTemp2 [k6 lr5:35 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{unsigned-int fixed}{ sir@ __divuint_result_1_2}[r0x1004 r0x1005 ] + iTemp3 [k8 lr6:33 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{unsigned-int fixed}{ sir@ __divuint_mask_1_2}[r0x1006 r0x1007 ]
 ;	.line	49; "../libsdcc/_divuint.c"	result += mask;

@@ -1,4 +1,4 @@
-gpasm-2.0.0_beta2 (Aug 27 2017)fs2schar.asm       2017-9-18  19:57:18          PAGE  1
+gpasm-2.0.0_beta2 (Nov  6 2017)fs2schar.asm       2017-11-14  18:37:47         PAGE  1
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
@@ -6,8 +6,8 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
 
                       00001 ;--------------------------------------------------------
                       00002 ; File Created by SN-SDCC : SinoMCU ANSI-C Compiler
-                      00003 ; Version 1.0.0 (Sep 11 2017) (MINGW32)
-                      00004 ; This file was generated Mon Sep 18 19:57:18 2017
+                      00003 ; Version 1.0.0 (Sep 28 2017) (MINGW32)
+                      00004 ; This file was generated Tue Nov 14 18:37:47 2017
                       00005 ;--------------------------------------------------------
                       00006 ; MC30/MC32 port for the RISC core
                       00007 ;--------------------------------------------------------
@@ -553,7 +553,7 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
 0025                  00165 _00115_DS_
 0025   E187           00166         JBSET   STATUS,0
 0026   A000           00167         GOTO    _00106_DS_
-                      00168 ;;genSkipc:3194: created from rifx:00CC608C
+                      00168 ;;genSkipc:3194: created from rifx:00D5608C
                       00169 ;;[ICODE] ../libsdcc/fs2schar.c:36:     if iTemp3 [k9 lr7:8 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char fixed} != 0 goto _iffalse_0($2)
                       00170 ;;[ICODE] ../libsdcc/fs2schar.c:37:     ret 0x7f {const-unsigned-char literal}
                       00171 ;       .line   37; "../libsdcc/fs2schar.c"     return SCHAR_MAX;
@@ -583,7 +583,7 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
 0038                  00195 _00116_DS_
 0038   F187           00196         JBCLR   STATUS,0
 0039   A000           00197         GOTO    _00108_DS_
-                      00198 ;;genSkipc:3194: created from rifx:00CC608C
+                      00198 ;;genSkipc:3194: created from rifx:00D5608C
                       00199 ;;[ICODE] ../libsdcc/fs2schar.c:38:     if iTemp4 [k10 lr11:12 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char fixed} != 0 goto _iffalse_1($4)
                       00200 ;;[ICODE] ../libsdcc/fs2schar.c:39:     ret 0x80 {const-unsigned-char literal}
                       00201 ;       .line   39; "../libsdcc/fs2schar.c"     return -SCHAR_MIN;
@@ -609,7 +609,7 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
                       00221 ;          62+    0 =    62 instructions (  124 byte)
                       00222 
                       00223         end
-gpasm-2.0.0_beta2 (Aug 27 2017)fs2schar.asm       2017-9-18  19:57:18          PAGE  2
+gpasm-2.0.0_beta2 (Nov  6 2017)fs2schar.asm       2017-11-14  18:37:47         PAGE  2
 
 
 SYMBOL TABLE

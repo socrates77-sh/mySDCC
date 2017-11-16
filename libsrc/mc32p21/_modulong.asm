@@ -1,7 +1,7 @@
 ;--------------------------------------------------------
 ; File Created by SN-SDCC : SinoMCU ANSI-C Compiler
-; Version 1.0.0 (Sep 11 2017) (MINGW32)
-; This file was generated Mon Sep 18 19:57:24 2017
+; Version 1.0.0 (Sep 28 2017) (MINGW32)
+; This file was generated Tue Nov 14 18:37:55 2017
 ;--------------------------------------------------------
 ; MC30/MC32 port for the RISC core
 ;--------------------------------------------------------
@@ -178,7 +178,7 @@ _00112_DS_
 _00131_DS_
 	JBSET	STATUS,0
 	GOTO	_00111_DS_
-;;genSkipc:3194: created from rifx:00CC608C
+;;genSkipc:3194: created from rifx:00D5608C
 ;;[ICODE] ../libsdcc/_modulong.c:46: 	if iTemp6 [k11 lr22:23 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char fixed} != 0 goto _iffalse_1($7)
 ;;[ICODE] ../libsdcc/_modulong.c:47: 	iTemp0 [k2 lr3:32 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{unsigned-long-int fixed}{ sir@ __modulong_a_1_1}[r0x1000 r0x1001 r0x1002 r0x1003 ] = iTemp0 [k2 lr3:32 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{unsigned-long-int fixed}{ sir@ __modulong_a_1_1}[r0x1000 r0x1001 r0x1002 r0x1003 ] - iTemp1 [k4 lr4:30 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{unsigned-long-int fixed}{ sir@ __modulong_b_1_1}[r0x1004 r0x1005 r0x1006 r0x1007 ]
 ;	.line	47; "../libsdcc/_modulong.c"	a -= b;

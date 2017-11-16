@@ -1,7 +1,7 @@
 ;--------------------------------------------------------
 ; File Created by SN-SDCC : SinoMCU ANSI-C Compiler
-; Version 1.0.0 (Sep 11 2017) (MINGW32)
-; This file was generated Mon Sep 18 19:57:20 2017
+; Version 1.0.0 (Sep 28 2017) (MINGW32)
+; This file was generated Tue Nov 14 18:37:49 2017
 ;--------------------------------------------------------
 ; MC30/MC32 port for the RISC core
 ;--------------------------------------------------------
@@ -383,7 +383,7 @@ _00108_DS_
 _00165_DS_
 	JBCLR	STATUS,0
 	GOTO	_00110_DS_
-;;genSkipc:3194: created from rifx:00CC608C
+;;genSkipc:3194: created from rifx:00D5608C
 ;;[ICODE] ../libsdcc/fsadd.c:72: 	if iTemp34 [k51 lr37:38 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char fixed} == 0 goto _iffalse_2($6)
 ;;[ICODE] ../libsdcc/fsadd.c:73: 	iTemp35 [k52 lr39:40 so:0]{ ia0 a2p0 re0 rm1 nos0 ru0 dp0}{volatile-float near* fixed}[remat] = &[___fsadd_fl1_1_22 [k8 lr0:0 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{volatile-struct float_long fixed}]
 ;;[ICODE] ../libsdcc/fsadd.c:73: 	iTemp37 [k55 lr40:41 so:0]{ ia0 a2p0 re0 rm0 nos0 ru1 dp0}{volatile-float fixed}[r0x1000 r0x1001 r0x100C r0x100D ] = @[iTemp35 [k52 lr39:40 so:0]{ ia1 a2p0 re0 rm1 nos0 ru0 dp0}{volatile-float near* fixed}[remat] + 0x0 {const-unsigned-char literal}]
@@ -430,7 +430,7 @@ _00110_DS_
 _00166_DS_
 	JBCLR	STATUS,0
 	GOTO	_00112_DS_
-;;genSkipc:3194: created from rifx:00CC608C
+;;genSkipc:3194: created from rifx:00D5608C
 ;;[ICODE] ../libsdcc/fsadd.c:74: 	if iTemp39 [k57 lr44:45 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char fixed} == 0 goto _iffalse_3($8)
 ;;[ICODE] ../libsdcc/fsadd.c:75: 	iTemp40 [k58 lr46:47 so:0]{ ia0 a2p0 re0 rm1 nos0 ru0 dp0}{volatile-float near* fixed}[remat] = &[___fsadd_fl2_1_22 [k12 lr0:0 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{volatile-struct float_long fixed}]
 ;;[ICODE] ../libsdcc/fsadd.c:75: 	iTemp42 [k61 lr47:48 so:0]{ ia0 a2p0 re0 rm0 nos0 ru1 dp0}{volatile-float fixed}[r0x1000 r0x1001 r0x100C r0x100D ] = @[iTemp40 [k58 lr46:47 so:0]{ ia1 a2p0 re0 rm1 nos0 ru0 dp0}{volatile-float near* fixed}[remat] + 0x0 {const-unsigned-char literal}]
@@ -575,7 +575,7 @@ _00116_DS_
 _00167_DS_
 	JBCLR	STATUS,0
 	GOTO	_00118_DS_
-;;genSkipc:3194: created from rifx:00CC608C
+;;genSkipc:3194: created from rifx:00D5608C
 ;;[ICODE] ../libsdcc/fsadd.c:85: 	if iTemp65 [k90 lr74:75 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char fixed} == 0 goto _iffalse_6($14)
 ;;[ICODE] ../libsdcc/fsadd.c:87: 	iTemp66 [k91 lr76:77 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{int fixed}[r0x1012 r0x1013 ] = iTemp19 [k32 lr28:98 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{int fixed}{ sir@ ___fsadd_exp1_1_22}[r0x1004 r0x1005 ] - iTemp26 [k41 lr34:84 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{int fixed}{ sir@ ___fsadd_exp2_1_22}[r0x1006 r0x1007 ]
 ;	.line	87; "../libsdcc/fsadd.c"	mant2 >>= exp1 - exp2;
@@ -693,7 +693,7 @@ _00119_DS_
 	BCLR	STATUS,0
 	JBSET	STATUS,0
 	GOTO	_00123_DS_
-;;genSkipc:3194: created from rifx:00CC608C
+;;genSkipc:3194: created from rifx:00D5608C
 ;;[ICODE] ../libsdcc/fsadd.c:96: 	if iTemp71 [k96 lr88:89 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char fixed} == 0 goto _iffalse_8($19)
 ;;[ICODE] ../libsdcc/fsadd.c:98: 	iTemp43 [k62 lr53:131 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{long-int fixed}{ sir@ ___fsadd_mant1_1_22}[r0x1000 r0x1001 r0x100C r0x100D ] = - iTemp43 [k62 lr53:131 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{long-int fixed}{ sir@ ___fsadd_mant1_1_22}[r0x1000 r0x1001 r0x100C r0x100D ]
 ;	.line	98; "../libsdcc/fsadd.c"	mant1 = -mant1;

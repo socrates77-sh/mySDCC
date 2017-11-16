@@ -1,4 +1,4 @@
-gpasm-2.0.0_beta2 (Aug 27 2017)fsmul.asm          2017-9-18  19:57:22          PAGE  1
+gpasm-2.0.0_beta2 (Nov  6 2017)fsmul.asm          2017-11-14  18:37:52         PAGE  1
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
@@ -6,8 +6,8 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
 
                       00001 ;--------------------------------------------------------
                       00002 ; File Created by SN-SDCC : SinoMCU ANSI-C Compiler
-                      00003 ; Version 1.0.0 (Sep 11 2017) (MINGW32)
-                      00004 ; This file was generated Mon Sep 18 19:57:21 2017
+                      00003 ; Version 1.0.0 (Sep 28 2017) (MINGW32)
+                      00004 ; This file was generated Tue Nov 14 18:37:52 2017
                       00005 ;--------------------------------------------------------
                       00006 ; MC30/MC32 port for the RISC core
                       00007 ;--------------------------------------------------------
@@ -1148,7 +1148,7 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
 01B3                  00760 _00135_DS_
 01B3   E187           00761         JBSET   STATUS,0
 01B4   A000           00762         GOTO    _00115_DS_
-                      00763 ;;genSkipc:3194: created from rifx:00CC608C
+                      00763 ;;genSkipc:3194: created from rifx:00D5608C
                       00764 ;;[ICODE] ../libsdcc/fsmul.c:99:        if iTemp92 [k119 lr104:105 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char fixed} != 0 goto _iffalse_3($11)
                       00765 ;;[ICODE] ../libsdcc/fsmul.c:100:       iTemp93 [k120 lr106:114 so:0]{ ia0 a2p0 re0 rm1 nos0 ru0 dp0}{volatile-unsigned-long-int near* fixed}[remat] = &[___fsmul_fl1_1_22 [k6 lr0:0 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{volatile-struct float_long fixed}]
                       00766 ;;[ICODE] ../libsdcc/fsmul.c:100:       if iTemp12 [k22 lr24:124 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{char fixed}{ sir@ ___fsmul_sign_1_22}[r0x1000 ] == 0 goto iTempLbl0($15)
@@ -1203,7 +1203,7 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
 01D1   D187           00815         BCLR    STATUS,0
 01D2   E187           00816         JBSET   STATUS,0
 01D3   A000           00817         GOTO    _00112_DS_
-                      00818 ;;genSkipc:3194: created from rifx:00CC608C
+                      00818 ;;genSkipc:3194: created from rifx:00D5608C
                       00819 ;;[ICODE] ../libsdcc/fsmul.c:101:       if iTemp97 [k125 lr117:118 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char fixed} == 0 goto _iffalse_2($8)
                       00820 ;;[ICODE] ../libsdcc/fsmul.c:102:       iTemp98 [k126 lr119:120 so:0]{ ia0 a2p0 re0 rm1 nos0 ru0 dp0}{volatile-unsigned-long-int near* fixed}[remat] = &[___fsmul_fl1_1_22 [k6 lr0:0 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{volatile-struct float_long fixed}]
                       00821 ;;[ICODE] ../libsdcc/fsmul.c:102:       *(iTemp98 [k126 lr119:120 so:0]{ ia1 a2p0 re0 rm1 nos0 ru0 dp0}{volatile-unsigned-long-int near* fixed}[remat]) := 0x0 {volatile-unsigned-long-int literal}
@@ -1325,7 +1325,7 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
                       00937 ;         543+    0 =   543 instructions ( 1086 byte)
                       00938 
                       00939         end
-gpasm-2.0.0_beta2 (Aug 27 2017)fsmul.asm          2017-9-18  19:57:22          PAGE  2
+gpasm-2.0.0_beta2 (Nov  6 2017)fsmul.asm          2017-11-14  18:37:52         PAGE  2
 
 
 SYMBOL TABLE

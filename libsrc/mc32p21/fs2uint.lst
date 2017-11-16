@@ -1,4 +1,4 @@
-gpasm-2.0.0_beta2 (Aug 27 2017)fs2uint.asm        2017-9-18  19:57:19          PAGE  1
+gpasm-2.0.0_beta2 (Nov  6 2017)fs2uint.asm        2017-11-14  18:37:49         PAGE  1
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
@@ -6,8 +6,8 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
 
                       00001 ;--------------------------------------------------------
                       00002 ; File Created by SN-SDCC : SinoMCU ANSI-C Compiler
-                      00003 ; Version 1.0.0 (Sep 11 2017) (MINGW32)
-                      00004 ; This file was generated Mon Sep 18 19:57:19 2017
+                      00003 ; Version 1.0.0 (Sep 28 2017) (MINGW32)
+                      00004 ; This file was generated Tue Nov 14 18:37:49 2017
                       00005 ;--------------------------------------------------------
                       00006 ; MC30/MC32 port for the RISC core
                       00007 ;--------------------------------------------------------
@@ -553,7 +553,7 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
 0024                  00165 _00111_DS_
 0024   E187           00166         JBSET   STATUS,0
 0025   A000           00167         GOTO    _00106_DS_
-                      00168 ;;genSkipc:3194: created from rifx:00CC608C
+                      00168 ;;genSkipc:3194: created from rifx:00D5608C
                       00169 ;;[ICODE] ../libsdcc/fs2uint.c:38:      if iTemp3 [k9 lr7:8 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char fixed} != 0 goto _iffalse_0($2)
                       00170 ;;[ICODE] ../libsdcc/fs2uint.c:38:      ret 0xffff {const-unsigned-int literal}
 0026   3CFF           00171         MOVAI   0xff
@@ -585,7 +585,7 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
                       00197 ;          46+    0 =    46 instructions (   92 byte)
                       00198 
                       00199         end
-gpasm-2.0.0_beta2 (Aug 27 2017)fs2uint.asm        2017-9-18  19:57:19          PAGE  2
+gpasm-2.0.0_beta2 (Nov  6 2017)fs2uint.asm        2017-11-14  18:37:49         PAGE  2
 
 
 SYMBOL TABLE

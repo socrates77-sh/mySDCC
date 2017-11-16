@@ -1,0 +1,134 @@
+gpasm-2.0.0_beta2 (Nov  6 2017)mc35p7041.asm      2017-11-14  18:38:33         PAGE  1
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+                      00001 ;--------------------------------------------------------
+                      00002 ; File Created by SN-SDCC : SinoMCU ANSI-C Compiler
+                      00003 ; Version 1.0.0 (Sep 28 2017) (MINGW32)
+                      00004 ; This file was generated Tue Nov 14 18:38:33 2017
+                      00005 ;--------------------------------------------------------
+                      00006 ; MC35 port for the RISC core
+                      00007 ;--------------------------------------------------------
+                      00008 ;       .file   "mc35p7041.c"
+                      00009         list    p=2K7041
+                      00010         radix dec
+                      00011         include "2K7041.inc"
+                      00001                 LIST
+                      00002 ;mc35p7041.inc    Standard Header File, Version 1.00 by Sinomcu
+                      00076                 LIST
+                      00012 ;--------------------------------------------------------
+                      00013 ; external declarations
+                      00014 ;--------------------------------------------------------
+                      00015 
+                      00016         extern STK06
+                      00017         extern STK05
+                      00018         extern STK04
+                      00019         extern STK03
+                      00020         extern STK02
+                      00021         extern STK01
+                      00022         extern STK00
+                      00023 ;--------------------------------------------------------
+                      00024 ; global declarations
+                      00025 ;--------------------------------------------------------
+                      00026         global  _STATUSbits
+                      00027         global  _INDF
+                      00028         global  _HIBYTE
+                      00029         global  _FSR
+                      00030         global  _FSR0
+                      00031         global  _FSR1
+                      00032         global  _PCH
+                      00033         global  _PCL
+                      00034         global  _STATUS
+                      00035 
+                      00036 ;--------------------------------------------------------
+                      00037 ; global definitions
+                      00038 ;--------------------------------------------------------
+                      00039 ;--------------------------------------------------------
+                      00040 ; absolute symbol definitions
+                      00041 ;--------------------------------------------------------
+                      00042 UD_abs_mc35p7041_82     udata_ovr       0x0082
+0041                  00043 _HIBYTE
+0041                  00044         res     1
+                      00045 UD_abs_mc35p7041_83     udata_ovr       0x0083
+0041                  00046 _FSR
+0041                  00047 _FSR0
+0041                  00048         res     1
+                      00049 UD_abs_mc35p7041_84     udata_ovr       0x0084
+0042                  00050 _FSR1
+0042                  00051         res     1
+                      00052 UD_abs_mc35p7041_86     udata_ovr       0x0086
+0043                  00053 _STATUSbits
+0043                  00054 _STATUS
+0043                  00055         res     1
+                      00056 UD_abs_mc35p7041_ce     udata_ovr       0x00ce
+0067                  00057 _PCL
+0067                  00058         res     1
+                      00059 UD_abs_mc35p7041_cf     udata_ovr       0x00cf
+0067                  00060 _PCH
+0067                  00061         res     1
+                      00062 UD_abs_mc35p7041_e7     udata_ovr       0x00e7
+0073                  00063 _INDF
+0073                  00064         res     1
+                      00065 ;--------------------------------------------------------
+                      00066 ; compiler-defined variables
+                      00067 ;--------------------------------------------------------
+                      00068 ;--------------------------------------------------------
+                      00069 ; initialized data
+                      00070 ;--------------------------------------------------------
+                      00071 ;--------------------------------------------------------
+                      00072 ; overlayable items in internal ram 
+                      00073 ;--------------------------------------------------------
+                      00074 ;       udata_ovr
+                      00075 ;--------------------------------------------------------
+                      00076 ; code
+                      00077 ;--------------------------------------------------------
+                      00078 code_mc35p7041  code
+                      00079 
+                      00080 ;       code size estimation:
+                      00081 ;           0+    0 =     0 instructions (    0 byte)
+                      00082 
+                      00083         end
+gpasm-2.0.0_beta2 (Nov  6 2017)mc35p7041.asm      2017-11-14  18:38:33         PAGE  2
+
+
+SYMBOL TABLE
+  LABEL                             VALUE
+
+C                                 00000002
+DC                                00000001
+FSR                               00000083
+FSR0                              00000083
+FSR1                              00000084
+HIBYTE                            00000082
+INDF                              000000E7
+PCH                               000000CF
+PCL                               000000CE
+STATUS                            00000086
+STK00                             00000000
+STK01                             00000000
+STK02                             00000000
+STK03                             00000000
+STK04                             00000000
+STK05                             00000000
+STK06                             00000000
+Z                                 00000000
+_CONFIG0                          00008000
+_CONFIG1                          00008001
+_FSR                              00000083
+_FSR0                             00000083
+_FSR1                             00000084
+_HIBYTE                           00000082
+_INDF                             000000E7
+_PCH                              000000CF
+_PCL                              000000CE
+_STATUS                           00000086
+_STATUSbits                       00000086
+__2K7041                          00000001
+
+Errors   :     0
+Warnings :     0 reported,     0 suppressed
+Messages :     0 reported,     0 suppressed
+
+

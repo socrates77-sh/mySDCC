@@ -1,4 +1,4 @@
-gpasm-2.0.0_beta2 (Aug 27 2017)fs2sint.asm        2017-9-18  19:57:19          PAGE  1
+gpasm-2.0.0_beta2 (Nov  6 2017)fs2sint.asm        2017-11-14  18:37:48         PAGE  1
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
@@ -6,8 +6,8 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
 
                       00001 ;--------------------------------------------------------
                       00002 ; File Created by SN-SDCC : SinoMCU ANSI-C Compiler
-                      00003 ; Version 1.0.0 (Sep 11 2017) (MINGW32)
-                      00004 ; This file was generated Mon Sep 18 19:57:19 2017
+                      00003 ; Version 1.0.0 (Sep 28 2017) (MINGW32)
+                      00004 ; This file was generated Tue Nov 14 18:37:47 2017
                       00005 ;--------------------------------------------------------
                       00006 ; MC30/MC32 port for the RISC core
                       00007 ;--------------------------------------------------------
@@ -554,7 +554,7 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
 0025                  00166 _00115_DS_
 0025   E187           00167         JBSET   STATUS,0
 0026   A000           00168         GOTO    _00106_DS_
-                      00169 ;;genSkipc:3194: created from rifx:00CC608C
+                      00169 ;;genSkipc:3194: created from rifx:00D5608C
                       00170 ;;[ICODE] ../libsdcc/fs2sint.c:36:      if iTemp3 [k9 lr7:8 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char fixed} != 0 goto _iffalse_0($2)
                       00171 ;;[ICODE] ../libsdcc/fs2sint.c:37:      ret 0x7fff {const-int literal}
                       00172 ;       .line   37; "../libsdcc/fs2sint.c"      return INT_MAX;
@@ -586,7 +586,7 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
 003A                  00198 _00116_DS_
 003A   F187           00199         JBCLR   STATUS,0
 003B   A000           00200         GOTO    _00108_DS_
-                      00201 ;;genSkipc:3194: created from rifx:00CC608C
+                      00201 ;;genSkipc:3194: created from rifx:00D5608C
                       00202 ;;[ICODE] ../libsdcc/fs2sint.c:38:      if iTemp4 [k10 lr11:12 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char fixed} != 0 goto _iffalse_1($4)
                       00203 ;;[ICODE] ../libsdcc/fs2sint.c:39:      ret 0xffff8000 {int literal}
                       00204 ;       .line   39; "../libsdcc/fs2sint.c"      return -INT_MIN;
@@ -619,7 +619,7 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
                       00231 ;          68+    0 =    68 instructions (  136 byte)
                       00232 
                       00233         end
-gpasm-2.0.0_beta2 (Aug 27 2017)fs2sint.asm        2017-9-18  19:57:19          PAGE  2
+gpasm-2.0.0_beta2 (Nov  6 2017)fs2sint.asm        2017-11-14  18:37:48         PAGE  2
 
 
 SYMBOL TABLE

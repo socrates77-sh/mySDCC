@@ -1,4 +1,4 @@
-gpasm-2.0.0_beta2 (Aug 27 2017)../libsdcc/_gptrget1.S2017-9-18  19:57:27          PAGE  1
+gpasm-2.0.0_beta2 (Nov  6 2017)../libsdcc/_gptrget1.S2017-11-14  18:37:59         PAGE  1
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
@@ -59,9 +59,9 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
                       00008         extern _INDF1
                       00009         extern _INDF2
                       00010         extern _INDF3
-                      00011         ;extern _FSR
-                      00012         ;extern _INDF
-                      00013         ;extern _PCLATH
+                      00011         extern _FSR
+                      00012         extern _INDF
+                      00013         extern _PCLATH
                       00014         extern _PCL
                       00015         
                       00016 
@@ -194,7 +194,7 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
 0012   000C           00082         return  ; should never be executed...
                       00083 
                       00084         END
-gpasm-2.0.0_beta2 (Aug 27 2017)../libsdcc/_gptrget1.S2017-9-18  19:57:27          PAGE  2
+gpasm-2.0.0_beta2 (Nov  6 2017)../libsdcc/_gptrget1.S2017-11-14  18:37:59         PAGE  2
 
 
 SYMBOL TABLE
@@ -212,13 +212,16 @@ STK03                             00000000
 STK04                             00000000
 STK05                             00000000
 Z                                 00000002
+_FSR                              00000000
 _FSR0                             00000000
 _FSR1                             00000000
+_INDF                             00000000
 _INDF0                            00000000
 _INDF1                            00000000
 _INDF2                            00000000
 _INDF3                            00000000
 _PCL                              00000000
+_PCLATH                           00000000
 _STATUS                           00000000
 __32P21                           00000001
 __codeptrget1                     0000000D

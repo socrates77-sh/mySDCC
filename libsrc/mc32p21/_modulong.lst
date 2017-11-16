@@ -1,4 +1,4 @@
-gpasm-2.0.0_beta2 (Aug 27 2017)_modulong.asm      2017-9-18  19:57:24          PAGE  1
+gpasm-2.0.0_beta2 (Nov  6 2017)_modulong.asm      2017-11-14  18:37:55         PAGE  1
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
@@ -6,8 +6,8 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
 
                       00001 ;--------------------------------------------------------
                       00002 ; File Created by SN-SDCC : SinoMCU ANSI-C Compiler
-                      00003 ; Version 1.0.0 (Sep 11 2017) (MINGW32)
-                      00004 ; This file was generated Mon Sep 18 19:57:24 2017
+                      00003 ; Version 1.0.0 (Sep 28 2017) (MINGW32)
+                      00004 ; This file was generated Tue Nov 14 18:37:55 2017
                       00005 ;--------------------------------------------------------
                       00006 ; MC30/MC32 port for the RISC core
                       00007 ;--------------------------------------------------------
@@ -566,7 +566,7 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
 003A                  00178 _00131_DS_
 003A   E187           00179         JBSET   STATUS,0
 003B   A000           00180         GOTO    _00111_DS_
-                      00181 ;;genSkipc:3194: created from rifx:00CC608C
+                      00181 ;;genSkipc:3194: created from rifx:00D5608C
                       00182 ;;[ICODE] ../libsdcc/_modulong.c:46:    if iTemp6 [k11 lr22:23 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char fixed} != 0 goto _iffalse_1($7)
                       00183 ;;[ICODE] ../libsdcc/_modulong.c:47:    iTemp0 [k2 lr3:32 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{unsigned-long-int fixed}{ sir@ __modulong_a_1_1}[r0x1000 r0x1001 r0x1002 r0x1003 ] = iTemp0 [k2 lr3:32 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{unsigned-long-int fixed}{ sir@ __modulong_a_1_1}[r0x1000 r0x1001 r0x1002 r0x1003 ] - iTemp1 [k4 lr4:30 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{unsigned-long-int fixed}{ sir@ __modulong_b_1_1}[r0x1004 r0x1005 r0x1006 r0x1007 ]
                       00184 ;       .line   47; "../libsdcc/_modulong.c"    a -= b;
@@ -621,7 +621,7 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
                       00233 ;          89+    0 =    89 instructions (  178 byte)
                       00234 
                       00235         end
-gpasm-2.0.0_beta2 (Aug 27 2017)_modulong.asm      2017-9-18  19:57:24          PAGE  2
+gpasm-2.0.0_beta2 (Nov  6 2017)_modulong.asm      2017-11-14  18:37:55         PAGE  2
 
 
 SYMBOL TABLE

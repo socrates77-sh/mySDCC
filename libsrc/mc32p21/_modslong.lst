@@ -1,4 +1,4 @@
-gpasm-2.0.0_beta2 (Aug 27 2017)_modslong.asm      2017-9-18  19:57:23          PAGE  1
+gpasm-2.0.0_beta2 (Nov  6 2017)_modslong.asm      2017-11-14  18:37:54         PAGE  1
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
@@ -6,8 +6,8 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
 
                       00001 ;--------------------------------------------------------
                       00002 ; File Created by SN-SDCC : SinoMCU ANSI-C Compiler
-                      00003 ; Version 1.0.0 (Sep 11 2017) (MINGW32)
-                      00004 ; This file was generated Mon Sep 18 19:57:23 2017
+                      00003 ; Version 1.0.0 (Sep 28 2017) (MINGW32)
+                      00004 ; This file was generated Tue Nov 14 18:37:54 2017
                       00005 ;--------------------------------------------------------
                       00006 ; MC30/MC32 port for the RISC core
                       00007 ;--------------------------------------------------------
@@ -536,7 +536,7 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
 0011   D187           00148         BCLR    STATUS,0
 0012   E187           00149         JBSET   STATUS,0
 0013   A000           00150         GOTO    _00112_DS_
-                      00151 ;;genSkipc:3194: created from rifx:00CC608C
+                      00151 ;;genSkipc:3194: created from rifx:00D5608C
                       00152 ;;[ICODE] ../libsdcc/_modslong.c:34:    if iTemp2 [k6 lr5:6 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char fixed} == 0 goto _iffalse_2($8)
                       00153 ;;[ICODE] ../libsdcc/_modslong.c:35:    iTemp3 [k7 lr7:8 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char fixed} = iTemp1 [k4 lr4:37 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{long-int fixed}{ sir@ __modslong_b_1_2}[r0x1004 r0x1005 r0x1006 r0x1007 ] < 0x0 {long-int literal}
                       00154 ;;signed compare: left < lit(0x0=0), size=4, mask=ffffffff
@@ -546,7 +546,7 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
 0016   D187           00158         BCLR    STATUS,0
 0017   E187           00159         JBSET   STATUS,0
 0018   A000           00160         GOTO    _00106_DS_
-                      00161 ;;genSkipc:3194: created from rifx:00CC608C
+                      00161 ;;genSkipc:3194: created from rifx:00D5608C
                       00162 ;;[ICODE] ../libsdcc/_modslong.c:35:    if iTemp3 [k7 lr7:8 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char fixed} == 0 goto _iffalse_0($2)
                       00163 ;;[ICODE] ../libsdcc/_modslong.c:36:    iTemp4 [k9 lr9:10 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{long-int fixed}[r0x1008 r0x1009 r0x100A r0x100B ] = - iTemp0 [k2 lr3:36 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{long-int fixed}{ sir@ __modslong_a_1_2}[r0x1000 r0x1001 r0x1002 r0x1003 ]
                       00164 ;       .line   36; "../libsdcc/_modslong.c"    return _modulong ((unsigned long)-a, (unsigned long)-b);
@@ -724,7 +724,7 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
 009E   D187           00336         BCLR    STATUS,0
 009F   E187           00337         JBSET   STATUS,0
 00A0   A000           00338         GOTO    _00109_DS_
-                      00339 ;;genSkipc:3194: created from rifx:00CC608C
+                      00339 ;;genSkipc:3194: created from rifx:00D5608C
                       00340 ;;[ICODE] ../libsdcc/_modslong.c:40:    if iTemp13 [k20 lr26:27 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char fixed} == 0 goto _iffalse_1($5)
                       00341 ;;[ICODE] ../libsdcc/_modslong.c:41:    iTemp14 [k21 lr28:32 so:0]{ ia0 a2p0 re0 rm0 nos0 ru1 dp0}{unsigned-long-int fixed}[r0x1008 r0x1009 r0x100A r0x100B ] = (unsigned-long-int fixed)iTemp0 [k2 lr3:36 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{long-int fixed}{ sir@ __modslong_a_1_2}[r0x1000 r0x1001 r0x1002 r0x1003 ]
                       00342 ;       .line   41; "../libsdcc/_modslong.c"    return _modulong ((unsigned long)a, (unsigned long)-b);
@@ -870,7 +870,7 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
                       00482 ;         262+    0 =   262 instructions (  524 byte)
                       00483 
                       00484         end
-gpasm-2.0.0_beta2 (Aug 27 2017)_modslong.asm      2017-9-18  19:57:23          PAGE  2
+gpasm-2.0.0_beta2 (Nov  6 2017)_modslong.asm      2017-11-14  18:37:54         PAGE  2
 
 
 SYMBOL TABLE

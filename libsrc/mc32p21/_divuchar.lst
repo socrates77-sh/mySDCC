@@ -1,4 +1,4 @@
-gpasm-2.0.0_beta2 (Aug 27 2017)_divuchar.asm      2017-9-18  19:57:18          PAGE  1
+gpasm-2.0.0_beta2 (Nov  6 2017)_divuchar.asm      2017-11-14  18:37:41         PAGE  1
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
@@ -6,8 +6,8 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
 
                       00001 ;--------------------------------------------------------
                       00002 ; File Created by SN-SDCC : SinoMCU ANSI-C Compiler
-                      00003 ; Version 1.0.0 (Sep 11 2017) (MINGW32)
-                      00004 ; This file was generated Mon Sep 18 19:57:18 2017
+                      00003 ; Version 1.0.0 (Sep 28 2017) (MINGW32)
+                      00004 ; This file was generated Tue Nov 14 18:37:41 2017
                       00005 ;--------------------------------------------------------
                       00006 ; MC30/MC32 port for the RISC core
                       00007 ;--------------------------------------------------------
@@ -527,7 +527,7 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
 001A   4800           00139         RSUBAR  r0x1000
 001B   E187           00140         JBSET   STATUS,0
 001C   A000           00141         GOTO    _00111_DS_
-                      00142 ;;genSkipc:3194: created from rifx:00CC608C
+                      00142 ;;genSkipc:3194: created from rifx:00D5608C
                       00143 ;;[ICODE] ../libsdcc/_divuchar.c:48:    if iTemp8 [k14 lr22:23 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char fixed} != 0 goto _iffalse_1($7)
                       00144 ;;[ICODE] ../libsdcc/_divuchar.c:49:    iTemp2 [k6 lr5:35 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{unsigned-char fixed}{ sir@ __divuchar_result_1_2}[r0x1002 ] = iTemp2 [k6 lr5:35 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{unsigned-char fixed}{ sir@ __divuchar_result_1_2}[r0x1002 ] + iTemp3 [k8 lr6:33 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{unsigned-char fixed}{ sir@ __divuchar_mask_1_2}[r0x1003 ]
                       00145 ;       .line   49; "../libsdcc/_divuchar.c"    result += mask;
@@ -567,7 +567,7 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
                       00179 ;          40+    0 =    40 instructions (   80 byte)
                       00180 
                       00181         end
-gpasm-2.0.0_beta2 (Aug 27 2017)_divuchar.asm      2017-9-18  19:57:18          PAGE  2
+gpasm-2.0.0_beta2 (Nov  6 2017)_divuchar.asm      2017-11-14  18:37:41         PAGE  2
 
 
 SYMBOL TABLE

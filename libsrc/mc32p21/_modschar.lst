@@ -1,4 +1,4 @@
-gpasm-2.0.0_beta2 (Aug 27 2017)_modschar.asm      2017-9-18  19:57:23          PAGE  1
+gpasm-2.0.0_beta2 (Nov  6 2017)_modschar.asm      2017-11-14  18:37:53         PAGE  1
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
@@ -6,8 +6,8 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
 
                       00001 ;--------------------------------------------------------
                       00002 ; File Created by SN-SDCC : SinoMCU ANSI-C Compiler
-                      00003 ; Version 1.0.0 (Sep 11 2017) (MINGW32)
-                      00004 ; This file was generated Mon Sep 18 19:57:23 2017
+                      00003 ; Version 1.0.0 (Sep 28 2017) (MINGW32)
+                      00004 ; This file was generated Tue Nov 14 18:37:53 2017
                       00005 ;--------------------------------------------------------
                       00006 ; MC30/MC32 port for the RISC core
                       00007 ;--------------------------------------------------------
@@ -497,7 +497,7 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
 0005   D187           00109         BCLR    STATUS,0
 0006   E187           00110         JBSET   STATUS,0
 0007   A000           00111         GOTO    _00112_DS_
-                      00112 ;;genSkipc:3194: created from rifx:00CC608C
+                      00112 ;;genSkipc:3194: created from rifx:00D5608C
                       00113 ;;[ICODE] ../libsdcc/_modschar.c:34:    if iTemp2 [k6 lr5:6 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char fixed} == 0 goto _iffalse_2($8)
                       00114 ;;[ICODE] ../libsdcc/_modschar.c:36:    iTemp3 [k7 lr7:8 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char fixed} = iTemp1 [k4 lr4:50 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{char fixed}{ sir@ __modschar_b_1_2}[r0x1001 ] < 0x0 {const-char literal}
                       00115 ;;signed compare: left < lit(0x0=0), size=1, mask=ff
@@ -507,7 +507,7 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
 000A   D187           00119         BCLR    STATUS,0
 000B   E187           00120         JBSET   STATUS,0
 000C   A000           00121         GOTO    _00106_DS_
-                      00122 ;;genSkipc:3194: created from rifx:00CC608C
+                      00122 ;;genSkipc:3194: created from rifx:00D5608C
                       00123 ;;[ICODE] ../libsdcc/_modschar.c:36:    if iTemp3 [k7 lr7:8 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char fixed} == 0 goto _iffalse_0($2)
                       00124 ;;[ICODE] ../libsdcc/_modschar.c:37:    iTemp4 [k9 lr9:10 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{int fixed}[r0x1002 r0x1003 ] = (int fixed)iTemp0 [k2 lr3:48 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{char fixed}{ sir@ __modschar_a_1_2}[r0x1000 ]
                       00125 ;       .line   37; "../libsdcc/_modschar.c"    return _moduchar ((unsigned int)-a, (unsigned int)-b);
@@ -620,7 +620,7 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
 0051   D187           00232         BCLR    STATUS,0
 0052   E187           00233         JBSET   STATUS,0
 0053   A000           00234         GOTO    _00109_DS_
-                      00235 ;;genSkipc:3194: created from rifx:00CC608C
+                      00235 ;;genSkipc:3194: created from rifx:00D5608C
                       00236 ;;[ICODE] ../libsdcc/_modschar.c:42:    if iTemp21 [k28 lr34:35 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char fixed} == 0 goto _iffalse_1($5)
                       00237 ;;[ICODE] ../libsdcc/_modschar.c:43:    iTemp22 [k29 lr36:37 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-int fixed}[r0x1002 r0x1006 ] = (unsigned-int fixed)iTemp0 [k2 lr3:48 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{char fixed}{ sir@ __modschar_a_1_2}[r0x1000 ]
                       00238 ;       .line   43; "../libsdcc/_modschar.c"    return -_moduchar ((unsigned int)a, (unsigned int)-b);
@@ -711,7 +711,7 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
                       00323 ;         133+    0 =   133 instructions (  266 byte)
                       00324 
                       00325         end
-gpasm-2.0.0_beta2 (Aug 27 2017)_modschar.asm      2017-9-18  19:57:23          PAGE  2
+gpasm-2.0.0_beta2 (Nov  6 2017)_modschar.asm      2017-11-14  18:37:53         PAGE  2
 
 
 SYMBOL TABLE

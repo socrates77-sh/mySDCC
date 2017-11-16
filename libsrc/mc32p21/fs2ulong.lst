@@ -1,4 +1,4 @@
-gpasm-2.0.0_beta2 (Aug 27 2017)fs2ulong.asm       2017-9-18  19:57:20          PAGE  1
+gpasm-2.0.0_beta2 (Nov  6 2017)fs2ulong.asm       2017-11-14  18:37:49         PAGE  1
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
@@ -6,8 +6,8 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
 
                       00001 ;--------------------------------------------------------
                       00002 ; File Created by SN-SDCC : SinoMCU ANSI-C Compiler
-                      00003 ; Version 1.0.0 (Sep 11 2017) (MINGW32)
-                      00004 ; This file was generated Mon Sep 18 19:57:20 2017
+                      00003 ; Version 1.0.0 (Sep 28 2017) (MINGW32)
+                      00004 ; This file was generated Tue Nov 14 18:37:49 2017
                       00005 ;--------------------------------------------------------
                       00006 ; MC30/MC32 port for the RISC core
                       00007 ;--------------------------------------------------------
@@ -743,7 +743,7 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
                       00355 ;         152+    0 =   152 instructions (  304 byte)
                       00356 
                       00357         end
-gpasm-2.0.0_beta2 (Aug 27 2017)fs2ulong.asm       2017-9-18  19:57:20          PAGE  2
+gpasm-2.0.0_beta2 (Nov  6 2017)fs2ulong.asm       2017-11-14  18:37:49         PAGE  2
 
 
 SYMBOL TABLE

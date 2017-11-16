@@ -1,4 +1,4 @@
-gpasm-2.0.0_beta2 (Aug 27 2017)_divsint.asm       2017-9-18  19:57:17          PAGE  1
+gpasm-2.0.0_beta2 (Nov  6 2017)_divsint.asm       2017-11-14  18:37:41         PAGE  1
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
@@ -6,8 +6,8 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
 
                       00001 ;--------------------------------------------------------
                       00002 ; File Created by SN-SDCC : SinoMCU ANSI-C Compiler
-                      00003 ; Version 1.0.0 (Sep 11 2017) (MINGW32)
-                      00004 ; This file was generated Mon Sep 18 19:57:17 2017
+                      00003 ; Version 1.0.0 (Sep 28 2017) (MINGW32)
+                      00004 ; This file was generated Tue Nov 14 18:37:40 2017
                       00005 ;--------------------------------------------------------
                       00006 ; MC30/MC32 port for the RISC core
                       00007 ;--------------------------------------------------------
@@ -504,7 +504,7 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
 0009   D187           00116         BCLR    STATUS,0
 000A   E187           00117         JBSET   STATUS,0
 000B   A000           00118         GOTO    _00112_DS_
-                      00119 ;;genSkipc:3194: created from rifx:00CC608C
+                      00119 ;;genSkipc:3194: created from rifx:00D5608C
                       00120 ;;[ICODE] ../libsdcc/_divsint.c:34:     if iTemp2 [k6 lr5:6 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char fixed} == 0 goto _iffalse_2($8)
                       00121 ;;[ICODE] ../libsdcc/_divsint.c:36:     iTemp3 [k7 lr7:8 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char fixed} = iTemp1 [k4 lr4:39 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{int fixed}{ sir@ __divsint_b_1_2}[r0x1002 r0x1003 ] < 0x0 {int literal}
                       00122 ;;signed compare: left < lit(0x0=0), size=2, mask=ffff
@@ -514,7 +514,7 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
 000E   D187           00126         BCLR    STATUS,0
 000F   E187           00127         JBSET   STATUS,0
 0010   A000           00128         GOTO    _00106_DS_
-                      00129 ;;genSkipc:3194: created from rifx:00CC608C
+                      00129 ;;genSkipc:3194: created from rifx:00D5608C
                       00130 ;;[ICODE] ../libsdcc/_divsint.c:36:     if iTemp3 [k7 lr7:8 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char fixed} == 0 goto _iffalse_0($2)
                       00131 ;;[ICODE] ../libsdcc/_divsint.c:37:     iTemp4 [k9 lr9:10 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{int fixed}[r0x1004 r0x1005 ] = - iTemp0 [k2 lr3:38 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{int fixed}{ sir@ __divsint_a_1_2}[r0x1000 r0x1001 ]
                       00132 ;       .line   37; "../libsdcc/_divsint.c"     return _divuint ((unsigned int)-a, (unsigned int)-b);
@@ -622,7 +622,7 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
 0057   D187           00234         BCLR    STATUS,0
 0058   E187           00235         JBSET   STATUS,0
 0059   A000           00236         GOTO    _00109_DS_
-                      00237 ;;genSkipc:3194: created from rifx:00CC608C
+                      00237 ;;genSkipc:3194: created from rifx:00D5608C
                       00238 ;;[ICODE] ../libsdcc/_divsint.c:42:     if iTemp14 [k21 lr27:28 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char fixed} == 0 goto _iffalse_1($5)
                       00239 ;;[ICODE] ../libsdcc/_divsint.c:43:     iTemp15 [k22 lr29:33 so:0]{ ia0 a2p0 re0 rm0 nos0 ru1 dp0}{unsigned-int fixed}[r0x1004 r0x1005 ] = (unsigned-int fixed)iTemp0 [k2 lr3:38 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{int fixed}{ sir@ __divsint_a_1_2}[r0x1000 r0x1001 ]
                       00240 ;       .line   43; "../libsdcc/_divsint.c"     return -_divuint ((unsigned int)a, (unsigned int)-b);
@@ -714,7 +714,7 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
                       00326 ;         144+    0 =   144 instructions (  288 byte)
                       00327 
                       00328         end
-gpasm-2.0.0_beta2 (Aug 27 2017)_divsint.asm       2017-9-18  19:57:17          PAGE  2
+gpasm-2.0.0_beta2 (Nov  6 2017)_divsint.asm       2017-11-14  18:37:41         PAGE  2
 
 
 SYMBOL TABLE

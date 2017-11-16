@@ -1,7 +1,7 @@
 ;--------------------------------------------------------
 ; File Created by SN-SDCC : SinoMCU ANSI-C Compiler
-; Version 1.0.0 (Sep 11 2017) (MINGW32)
-; This file was generated Mon Sep 18 19:57:21 2017
+; Version 1.0.0 (Sep 28 2017) (MINGW32)
+; This file was generated Tue Nov 14 18:37:52 2017
 ;--------------------------------------------------------
 ; MC30/MC32 port for the RISC core
 ;--------------------------------------------------------
@@ -760,7 +760,7 @@ _00110_DS_
 _00135_DS_
 	JBSET	STATUS,0
 	GOTO	_00115_DS_
-;;genSkipc:3194: created from rifx:00CC608C
+;;genSkipc:3194: created from rifx:00D5608C
 ;;[ICODE] ../libsdcc/fsmul.c:99: 	if iTemp92 [k119 lr104:105 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char fixed} != 0 goto _iffalse_3($11)
 ;;[ICODE] ../libsdcc/fsmul.c:100: 	iTemp93 [k120 lr106:114 so:0]{ ia0 a2p0 re0 rm1 nos0 ru0 dp0}{volatile-unsigned-long-int near* fixed}[remat] = &[___fsmul_fl1_1_22 [k6 lr0:0 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{volatile-struct float_long fixed}]
 ;;[ICODE] ../libsdcc/fsmul.c:100: 	if iTemp12 [k22 lr24:124 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{char fixed}{ sir@ ___fsmul_sign_1_22}[r0x1000 ] == 0 goto iTempLbl0($15)
@@ -815,7 +815,7 @@ _00115_DS_
 	BCLR	STATUS,0
 	JBSET	STATUS,0
 	GOTO	_00112_DS_
-;;genSkipc:3194: created from rifx:00CC608C
+;;genSkipc:3194: created from rifx:00D5608C
 ;;[ICODE] ../libsdcc/fsmul.c:101: 	if iTemp97 [k125 lr117:118 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char fixed} == 0 goto _iffalse_2($8)
 ;;[ICODE] ../libsdcc/fsmul.c:102: 	iTemp98 [k126 lr119:120 so:0]{ ia0 a2p0 re0 rm1 nos0 ru0 dp0}{volatile-unsigned-long-int near* fixed}[remat] = &[___fsmul_fl1_1_22 [k6 lr0:0 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{volatile-struct float_long fixed}]
 ;;[ICODE] ../libsdcc/fsmul.c:102: 	*(iTemp98 [k126 lr119:120 so:0]{ ia1 a2p0 re0 rm1 nos0 ru0 dp0}{volatile-unsigned-long-int near* fixed}[remat]) := 0x0 {volatile-unsigned-long-int literal}
