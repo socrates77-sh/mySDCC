@@ -1,5 +1,5 @@
 ; -------------------------------------------------------------------------
-;  _gptrput4.S : write four bytes pointed to by a generic pointer
+;  _gptrget1.S - read one byte pointed to by a generic pointer
 ;
 ;  Copyright (C) 2005, Raphael Neider <rneider AT web.de>
 ;
@@ -45,28 +45,25 @@
 include macros.inc
 include mc30f_common.inc
 
-	global	__gptrput4
+	global	__gptrget
+	global	__gptrget1
+	global	__codeptrget1
 	
 	CODE
 
-__gptrput4:
-	check_data	__dataptrput4
-	; cannot write to __code space
+__gptrget:
+__gptrget1:
+	select_routine __dataptrget1, __codeptrget1
+
+
+__dataptrget1:
+	setup_fsr
+	movar _INDF		; data in ACC
 	return
 
-__dataptrput4:
+__codeptrget1:
 	setup_fsr
-	movar	STK05	; get LSB(val)
-	movra	_INDF
-	inc_fsr
-	movar	STK04	; get 2nd byte of val
-	movra	_INDF
-	inc_fsr
-	movar	STK03	; get 3rd byte of val
-	movra	_INDF
-	inc_fsr
-	movar	STK02	; get MSB(val)
-	movra	_INDF
+	movc			; data in ACC
 	return
 
 	END

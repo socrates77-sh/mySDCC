@@ -154,13 +154,13 @@ done
 #done
 
 #for file in $ss_file; do
-#	printf "$file.o : $file.S\n" >> $out
-#	printf '\t$(ASM_EXE) $(ASM_ARG) '$file'.o '$file'.S\n' >> $out
+#	printf "$file.o : $file.asm\n" >> $out
+#	printf '\t$(ASM_EXE) $(ASM_ARG) '$file'.o '$file'.asm\n' >> $out
 #done
 
 for file in $s_file; do
-	printf "$file.o : $generic_lib/$file.S\n" >> $out
-	printf '\t$(ASM_EXE) $(ASM_ARG) '$file'.o '$generic_lib'/'$file'.S\n' >> $out
+	printf "$file.o : $generic_lib/$file.asm\n" >> $out
+	printf '\t$(ASM_EXE) $(ASM_ARG) '$file'.o '$generic_lib'/'$file'.asm\n' >> $out
 done
 
 echo >> $out

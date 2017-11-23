@@ -1,4 +1,4 @@
-gpasm-2.0.0_beta2 (Nov  6 2017)_divuint.asm       2017-11-14  18:38:35         PAGE  1
+gpasm-2.0.0_beta2 (Nov  6 2017)_divuint.asm       2017-11-23  16:21:04         PAGE  1
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
@@ -7,7 +7,7 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
                       00001 ;--------------------------------------------------------
                       00002 ; File Created by SN-SDCC : SinoMCU ANSI-C Compiler
                       00003 ; Version 1.0.0 (Sep 28 2017) (MINGW32)
-                      00004 ; This file was generated Tue Nov 14 18:38:34 2017
+                      00004 ; This file was generated Thu Nov 23 16:21:04 2017
                       00005 ;--------------------------------------------------------
                       00006 ; MC35 port for the RISC core
                       00007 ;--------------------------------------------------------
@@ -122,7 +122,7 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
                       00113 ;       .line   36; "../libsdcc_mc35/_divuint.c"        if (!b) return (unsigned int)-1;
 000C   1E00           00114         MOVAR   r0x1003
 000D   1800           00115         ORAR    r0x1002
-000E   5A86           00116         JBSET   STATUS,2
+000E   5886           00116         JBSET   STATUS,0
 000F   8000           00117         GOTO    _00107_DS_
                       00118 ;;[ICODE] ../libsdcc_mc35/_divuint.c:36:        ret 0xffff {unsigned-int literal}
 0010   2DFF           00119         MOVAI   0xff
@@ -145,12 +145,12 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
                       00136 ;;[ICODE] ../libsdcc_mc35/_divuint.c:40:        if iTemp5 [k11 lr12:13 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-long-int register} != 0 goto _whilecontinue_1($8)
                       00137 ;;[ICODE] ../libsdcc_mc35/_divuint.c:41:        iTemp1 [k4 lr4:33 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{unsigned-int fixed}{ sir@ __divuint_b_1_1}[r0x1002 r0x1003 ] = iTemp1 [k4 lr4:33 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{unsigned-int fixed}{ sir@ __divuint_b_1_1}[r0x1002 r0x1003 ] << 0x1 {const-unsigned-char literal}
                       00138 ;       .line   41; "../libsdcc_mc35/_divuint.c"        b <<= 1;
-0019   4086           00139         BCLR    STATUS,0
+0019   4286           00139         BCLR    STATUS,2
 001A   0B00           00140         RLR     r0x1003
 001B   0B00           00141         RLR     r0x1002
                       00142 ;;[ICODE] ../libsdcc_mc35/_divuint.c:42:        iTemp3 [k8 lr6:33 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{unsigned-int fixed}{ sir@ __divuint_mask_1_2}[r0x1006 r0x1007 ] = iTemp3 [k8 lr6:33 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{unsigned-int fixed}{ sir@ __divuint_mask_1_2}[r0x1006 r0x1007 ] << 0x1 {const-unsigned-char literal}
                       00143 ;       .line   42; "../libsdcc_mc35/_divuint.c"        mask <<= 1;
-001C   4086           00144         BCLR    STATUS,0
+001C   4286           00144         BCLR    STATUS,2
 001D   0B00           00145         RLR     r0x1006
 001E   0B00           00146         RLR     r0x1007
                       00147 ;;[ICODE] ../libsdcc_mc35/_divuint.c:42:         goto _whilecontinue_0($3)
@@ -161,7 +161,7 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
                       00152 ;       .line   47; "../libsdcc_mc35/_divuint.c"        while (mask) {
 0020   1E00           00153         MOVAR   r0x1006
 0021   1800           00154         ORAR    r0x1007
-0022   5286           00155         JBCLR   STATUS,2
+0022   5086           00155         JBCLR   STATUS,0
 0023   8000           00156         GOTO    _00114_DS_
                       00157 ;;[ICODE] ../libsdcc_mc35/_divuint.c:48:        iTemp8 [k14 lr22:23 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char fixed} = iTemp0 [k2 lr3:33 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{unsigned-int fixed}{ sir@ __divuint_a_1_1}[r0x1000 r0x1001 ] < iTemp1 [k4 lr4:33 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{unsigned-int fixed}{ sir@ __divuint_b_1_1}[r0x1002 r0x1003 ]
                       00158 ;       .line   48; "../libsdcc_mc35/_divuint.c"        if (a >= b) {
@@ -169,14 +169,14 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
 0025   2C00           00160         XCH     r0x1000
 0026   2300           00161         ASUBRA  r0x1000
 0027   2C00           00162         XCH     r0x1000
-0028   5A86           00163         JBSET   STATUS,2
+0028   5886           00163         JBSET   STATUS,0
 0029   8000           00164         GOTO    _00129_DS_
 002A   1E00           00165         MOVAR   r0x1003
 002B   2C00           00166         XCH     r0x1001
 002C   2300           00167         ASUBRA  r0x1001
 002D   2C00           00168         XCH     r0x1001
 002E                  00169 _00129_DS_
-002E   5886           00170         JBSET   STATUS,0
+002E   5A86           00170         JBSET   STATUS,2
 002F   8000           00171         GOTO    _00111_DS_
                       00172 ;;genSkipc:3223: created from rifx:00D5608C
                       00173 ;;[ICODE] ../libsdcc_mc35/_divuint.c:48:        if iTemp8 [k14 lr22:23 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char fixed} != 0 goto _iffalse_1($7)
@@ -185,7 +185,7 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
 0030   1E00           00176         MOVAR   r0x1006
 0031   1300           00177         ADDRA   r0x1004
 0032   1E00           00178         MOVAR   r0x1007
-0033   5086           00179         JBCLR   STATUS,0
+0033   5286           00179         JBCLR   STATUS,2
 0034   1500           00180         JZAR    r0x1007
 0035   1300           00181         ADDRA   r0x1005
                       00182 ;;[ICODE] ../libsdcc_mc35/_divuint.c:50:        iTemp0 [k2 lr3:33 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{unsigned-int fixed}{ sir@ __divuint_a_1_1}[r0x1000 r0x1001 ] = iTemp0 [k2 lr3:33 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{unsigned-int fixed}{ sir@ __divuint_a_1_1}[r0x1000 r0x1001 ] - iTemp1 [k4 lr4:33 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{unsigned-int fixed}{ sir@ __divuint_b_1_1}[r0x1002 r0x1003 ]
@@ -196,7 +196,7 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
 0039   2C00           00187         XCH     r0x1001
 003A   1E00           00188         MOVAR   r0x1002
 003B   2C00           00189         XCH     r0x1000
-003C   5886           00190         JBSET   STATUS,0
+003C   5A86           00190         JBSET   STATUS,2
 003D   1600           00191         JZR     r0x1000
 003E   2200           00192         ASUBAR  r0x1000
 003F   2C00           00193         XCH     r0x1000
@@ -205,13 +205,13 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
                       00196 ;;shiftRight_Left2ResultLit:5270: shCount=1, size=2, sign=0, same=1, offr=0
 0040                  00197 _00111_DS_
                       00198 ;       .line   52; "../libsdcc_mc35/_divuint.c"        b >>= 1;
-0040   4086           00199         BCLR    STATUS,0
+0040   4286           00199         BCLR    STATUS,2
 0041   0900           00200         RRR     r0x1002
 0042   0900           00201         RRR     r0x1003
                       00202 ;;[ICODE] ../libsdcc_mc35/_divuint.c:53:        iTemp3 [k8 lr6:33 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{unsigned-int fixed}{ sir@ __divuint_mask_1_2}[r0x1006 r0x1007 ] = iTemp3 [k8 lr6:33 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{unsigned-int fixed}{ sir@ __divuint_mask_1_2}[r0x1006 r0x1007 ] >> 0x1 {const-unsigned-char literal}
                       00203 ;;shiftRight_Left2ResultLit:5270: shCount=1, size=2, sign=0, same=1, offr=0
                       00204 ;       .line   53; "../libsdcc_mc35/_divuint.c"        mask >>= 1;
-0043   4086           00205         BCLR    STATUS,0
+0043   4286           00205         BCLR    STATUS,2
 0044   0900           00206         RRR     r0x1007
 0045   0900           00207         RRR     r0x1006
                       00208 ;;[ICODE] ../libsdcc_mc35/_divuint.c:53:         goto _whilecontinue_1($8)
@@ -234,7 +234,7 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
                       00225 ;          75+    0 =    75 instructions (  150 byte)
                       00226 
                       00227         end
-gpasm-2.0.0_beta2 (Nov  6 2017)_divuint.asm       2017-11-14  18:38:35         PAGE  2
+gpasm-2.0.0_beta2 (Nov  6 2017)_divuint.asm       2017-11-23  16:21:04         PAGE  2
 
 
 SYMBOL TABLE

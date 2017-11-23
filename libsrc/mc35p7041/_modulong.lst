@@ -1,4 +1,4 @@
-gpasm-2.0.0_beta2 (Nov  6 2017)_modulong.asm      2017-11-14  18:38:43         PAGE  1
+gpasm-2.0.0_beta2 (Nov  6 2017)_modulong.asm      2017-11-23  16:21:13         PAGE  1
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
@@ -7,7 +7,7 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
                       00001 ;--------------------------------------------------------
                       00002 ; File Created by SN-SDCC : SinoMCU ANSI-C Compiler
                       00003 ; Version 1.0.0 (Sep 28 2017) (MINGW32)
-                      00004 ; This file was generated Tue Nov 14 18:38:42 2017
+                      00004 ; This file was generated Thu Nov 23 16:21:13 2017
                       00005 ;--------------------------------------------------------
                       00006 ; MC35 port for the RISC core
                       00007 ;--------------------------------------------------------
@@ -123,7 +123,7 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
 0010   1800           00114         ORAR    r0x1006
 0011   1800           00115         ORAR    r0x1005
 0012   1800           00116         ORAR    r0x1004
-0013   5A86           00117         JBSET   STATUS,2
+0013   5886           00117         JBSET   STATUS,0
 0014   8000           00118         GOTO    _00119_DS_
                       00119 ;;[ICODE] ../libsdcc_mc35/_modulong.c:35:       ret 0xffffffff {unsigned-long-int literal}
 0015   2DFF           00120         MOVAI   0xff
@@ -148,7 +148,7 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
                       00139 ;;[ICODE] ../libsdcc_mc35/_modulong.c:39:       if iTemp3 [k8 lr11:12 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-long-int register} != 0 goto preHeaderLbl1($18)
                       00140 ;;[ICODE] ../libsdcc_mc35/_modulong.c:40:       iTemp1 [k4 lr4:30 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{unsigned-long-int fixed}{ sir@ __modulong_b_1_1}[r0x1004 r0x1005 r0x1006 r0x1007 ] = iTemp1 [k4 lr4:30 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{unsigned-long-int fixed}{ sir@ __modulong_b_1_1}[r0x1004 r0x1005 r0x1006 r0x1007 ] << 0x1 {const-unsigned-char literal}
                       00141 ;       .line   40; "../libsdcc_mc35/_modulong.c"       b <<= 1;
-0021   4086           00142         BCLR    STATUS,0
+0021   4286           00142         BCLR    STATUS,2
 0022   0B00           00143         RLR     r0x1007
 0023   0B00           00144         RLR     r0x1006
 0024   0B00           00145         RLR     r0x1005
@@ -167,7 +167,7 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
                       00158 ;       .line   45; "../libsdcc_mc35/_modulong.c"       while (count) {
 0029   2D00           00159         MOVAI   0x00
 002A   1800           00160         ORAR    r0x1008
-002B   5286           00161         JBCLR   STATUS,2
+002B   5086           00161         JBCLR   STATUS,0
 002C   8000           00162         GOTO    _00114_DS_
                       00163 ;;[ICODE] ../libsdcc_mc35/_modulong.c:46:       iTemp6 [k11 lr22:23 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char fixed} = iTemp0 [k2 lr3:32 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{unsigned-long-int fixed}{ sir@ __modulong_a_1_1}[r0x1000 r0x1001 r0x1002 r0x1003 ] < iTemp1 [k4 lr4:30 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{unsigned-long-int fixed}{ sir@ __modulong_b_1_1}[r0x1004 r0x1005 r0x1006 r0x1007 ]
                       00164 ;       .line   46; "../libsdcc_mc35/_modulong.c"       if (a >= b) {
@@ -175,26 +175,26 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
 002E   2C00           00166         XCH     r0x1000
 002F   2300           00167         ASUBRA  r0x1000
 0030   2C00           00168         XCH     r0x1000
-0031   5A86           00169         JBSET   STATUS,2
+0031   5886           00169         JBSET   STATUS,0
 0032   8000           00170         GOTO    _00131_DS_
 0033   1E00           00171         MOVAR   r0x1005
 0034   2C00           00172         XCH     r0x1001
 0035   2300           00173         ASUBRA  r0x1001
 0036   2C00           00174         XCH     r0x1001
-0037   5A86           00175         JBSET   STATUS,2
+0037   5886           00175         JBSET   STATUS,0
 0038   8000           00176         GOTO    _00131_DS_
 0039   1E00           00177         MOVAR   r0x1006
 003A   2C00           00178         XCH     r0x1002
 003B   2300           00179         ASUBRA  r0x1002
 003C   2C00           00180         XCH     r0x1002
-003D   5A86           00181         JBSET   STATUS,2
+003D   5886           00181         JBSET   STATUS,0
 003E   8000           00182         GOTO    _00131_DS_
 003F   1E00           00183         MOVAR   r0x1007
 0040   2C00           00184         XCH     r0x1003
 0041   2300           00185         ASUBRA  r0x1003
 0042   2C00           00186         XCH     r0x1003
 0043                  00187 _00131_DS_
-0043   5886           00188         JBSET   STATUS,0
+0043   5A86           00188         JBSET   STATUS,2
 0044   8000           00189         GOTO    _00111_DS_
                       00190 ;;genSkipc:3223: created from rifx:00D5608C
                       00191 ;;[ICODE] ../libsdcc_mc35/_modulong.c:46:       if iTemp6 [k11 lr22:23 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char fixed} != 0 goto _iffalse_1($7)
@@ -206,19 +206,19 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
 0048   2C00           00197         XCH     r0x1003
 0049   1E00           00198         MOVAR   r0x1006
 004A   2C00           00199         XCH     r0x1002
-004B   5886           00200         JBSET   STATUS,0
+004B   5A86           00200         JBSET   STATUS,2
 004C   1600           00201         JZR     r0x1002
 004D   2200           00202         ASUBAR  r0x1002
 004E   2C00           00203         XCH     r0x1002
 004F   1E00           00204         MOVAR   r0x1005
 0050   2C00           00205         XCH     r0x1001
-0051   5886           00206         JBSET   STATUS,0
+0051   5A86           00206         JBSET   STATUS,2
 0052   1600           00207         JZR     r0x1001
 0053   2200           00208         ASUBAR  r0x1001
 0054   2C00           00209         XCH     r0x1001
 0055   1E00           00210         MOVAR   r0x1004
 0056   2C00           00211         XCH     r0x1000
-0057   5886           00212         JBSET   STATUS,0
+0057   5A86           00212         JBSET   STATUS,2
 0058   1600           00213         JZR     r0x1000
 0059   2200           00214         ASUBAR  r0x1000
 005A   2C00           00215         XCH     r0x1000
@@ -227,7 +227,7 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
                       00218 ;;shiftRight_Left2ResultLit:5270: shCount=1, size=4, sign=0, same=1, offr=0
 005B                  00219 _00111_DS_
                       00220 ;       .line   49; "../libsdcc_mc35/_modulong.c"       b >>= 1;
-005B   4086           00221         BCLR    STATUS,0
+005B   4286           00221         BCLR    STATUS,2
 005C   0900           00222         RRR     r0x1004
 005D   0900           00223         RRR     r0x1005
 005E   0900           00224         RRR     r0x1006
@@ -260,7 +260,7 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
                       00251 ;         107+    0 =   107 instructions (  214 byte)
                       00252 
                       00253         end
-gpasm-2.0.0_beta2 (Nov  6 2017)_modulong.asm      2017-11-14  18:38:43         PAGE  2
+gpasm-2.0.0_beta2 (Nov  6 2017)_modulong.asm      2017-11-23  16:21:13         PAGE  2
 
 
 SYMBOL TABLE

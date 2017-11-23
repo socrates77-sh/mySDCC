@@ -1,7 +1,7 @@
 ;--------------------------------------------------------
 ; File Created by SN-SDCC : SinoMCU ANSI-C Compiler
 ; Version 1.0.0 (Sep 28 2017) (MINGW32)
-; This file was generated Tue Nov 14 18:38:40 2017
+; This file was generated Thu Nov 23 16:21:10 2017
 ;--------------------------------------------------------
 ; MC35 port for the RISC core
 ;--------------------------------------------------------
@@ -146,13 +146,13 @@ _00108_DS_
 ;;[ICODE] ../libsdcc_mc35/idata.c:79: 	iTemp9 [k16 lr4:42 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-int fixed}[r0x1000 r0x1001 ] = iTemp9 [k16 lr4:42 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-int fixed}[r0x1000 r0x1001 ] - 0x1 {const-unsigned-char literal}
 	MOVAI	0xff
 	ADDRA	r0x1001
-	JBSET	STATUS,0
+	JBSET	STATUS,2
 	DJZR	r0x1000
 	NOP	
 ;;[ICODE] ../libsdcc_mc35/idata.c:79: 	if iTemp8 [k15 lr14:16 so:0]{ ia0 a2p0 re0 rm0 nos1 ru0 dp0}{unsigned-int fixed}[r0x1004 r0x1005 ] == 0 goto _whilebreak_0($6)
 	MOVAR	r0x1004
 	ORAR	r0x1005
-	JBCLR	STATUS,2
+	JBCLR	STATUS,0
 	GOTO	_00110_DS_
 ;;[ICODE] ../libsdcc_mc35/idata.c:80: 	iTemp12 [k21 lr17:18 so:0]{ ia1 a2p0 re0 rm0 nos0 ru1 dp0}{const-unsigned-int code* fixed}[r0x1004 r0x1005 ] = iTemp34 [k47 lr7:42 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{const-struct __00000000 code* fixed}[r0x1002 r0x1003 ] + 0x4 {const-unsigned-char literal}
 ;	.line	80; "../libsdcc_mc35/idata.c"	size = cptr->size;
@@ -224,13 +224,13 @@ _00105_DS_
 ;;[ICODE] ../libsdcc_mc35/idata.c:85: 	iTemp25 [k38 lr18:39 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-int fixed}[r0x1006 r0x1007 ] = iTemp25 [k38 lr18:39 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-int fixed}[r0x1006 r0x1007 ] - 0x1 {const-unsigned-char literal}
 	MOVAI	0xff
 	ADDRA	r0x1007
-	JBSET	STATUS,0
+	JBSET	STATUS,2
 	DJZR	r0x1006
 	NOP	
 ;;[ICODE] ../libsdcc_mc35/idata.c:85: 	if iTemp24 [k37 lr32:34 so:0]{ ia0 a2p0 re0 rm0 nos1 ru0 dp0}{unsigned-int fixed}[r0x100A r0x100B ] == 0 goto _whilebreak_1($3)
 	MOVAR	r0x100B
 	ORAR	r0x100A
-	JBCLR	STATUS,2
+	JBCLR	STATUS,0
 	GOTO	_00107_DS_
 ;;[ICODE] ../libsdcc_mc35/idata.c:86: 	iTemp28 [k41 lr35:36 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{const-char register}[r0x100A ] = @[iTemp30 [k43 lr21:39 so:0]{ ia1 a2p0 re0 rm0 nos0 ru0 dp0}{const-char code* fixed}[r0x1008 r0x1009 ] + 0x0 {const-unsigned-char literal}]
 ;	.line	86; "../libsdcc_mc35/idata.c"	*dst = *src;
@@ -253,13 +253,13 @@ _00105_DS_
 ;	.line	87; "../libsdcc_mc35/idata.c"	src++;
 	MOVAI	0x01
 	ADDRA	r0x1009
-	JBCLR	STATUS,2
+	JBCLR	STATUS,0
 	ADDRA	r0x1008
 ;;[ICODE] ../libsdcc_mc35/idata.c:88: 	iTemp32 [k45 lr25:39 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char near* fixed}[r0x1004 r0x1005 ] = iTemp32 [k45 lr25:39 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char near* fixed}[r0x1004 r0x1005 ] + 0x1 {const-unsigned-char literal}
 ;	.line	88; "../libsdcc_mc35/idata.c"	dst++;
 	MOVAI	0x01
 	ADDRA	r0x1004
-	JBCLR	STATUS,2
+	JBCLR	STATUS,0
 	ADDRA	r0x1005
 ;;[ICODE] ../libsdcc_mc35/idata.c:88: 	 goto _whilecontinue_1($1)
 	GOTO	_00105_DS_
@@ -269,7 +269,7 @@ _00107_DS_
 ;	.line	92; "../libsdcc_mc35/idata.c"	cptr++;
 	MOVAI	0x06
 	ADDRA	r0x1002
-	JBCLR	STATUS,0
+	JBCLR	STATUS,2
 	JZR	r0x1003
 	NOP	
 ;;[ICODE] ../libsdcc_mc35/idata.c:92: 	 goto _whilecontinue_0($4)

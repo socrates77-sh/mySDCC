@@ -1,5 +1,5 @@
 ; -------------------------------------------------------------------------
-;  _gptrget1.S - read one byte pointed to by a generic pointer
+;  _gptrget2.S - read two bytes pointed to by a generic pointer
 ;
 ;  Copyright (C) 2005, Raphael Neider <rneider AT web.de>
 ;
@@ -29,56 +29,57 @@
 ; calling conventions:
 ;   3 byte generic pointer is passed in via (WREG STK00 STK01).
 ;   The result is returned in (WREG (STK00 (STK01 (STK02)))).
-;
+
+; 	param:
+;		ACC: data/code flag
+;		(STK00:STK01) 16bit address
+;	return:
+;		(ACC[:STK00[:STK01[:STK02]]]): data (MSB left)
+
 ;   unsigned char _gptrget  (void *gptr);
 ;   unsigned char _gptrget1 (void *gptr);
 ;   unsigned int  _gptrget2 (void *gptr);
 ;   void *        _gptrget3 (void *gptr);
 ;   unsigned long _gptrget4 (void *gptr);
-;
+
+
+; 	param:
+;		ACC: data/code flag
+;		(STK00:STK01) 16bit address
+;		(STK02[:STK03[:STK04[:STK05]]]): data (MSB left)
+
 ;   void _gptrput  (void *ptr, unsigned char val);
 ;   void _gptrput1 (void *ptr, unsigned char val);
 ;   void _gptrput2 (void *ptr, unsigned int  val);
 ;   void _gptrput3 (void *ptr, unsigned int  val);
 ;   void _gptrput4 (void *ptr, unsigned long val);
 
+
 include macros.inc
 include mc30f_common.inc
 
-	global	__gptrget
-	global	__gptrget1
-	global	__codeptrget1
+	global	__gptrget2
 	
 	CODE
 
-__gptrget:
-__gptrget1:
-	select_routine __dataptrget1, __codeptrget1
-	; invalid tag -- return 0x00
-	;;retai	0x00
+__gptrget2:
+	select_routine __dataptrget2, __codeptrget2
 
-__dataptrget1:
-	;setup_fsr
-	;movar	_INDF
-	movar	STK00
-	movra	_FSR1
-	movar	STK01
-	movra	_FSR0
-	movar 	_INDF2
-	
+__dataptrget2:
+	setup_fsr
+	movar _INDF
+	movra STK00		; LSB in STK00
+	inc_fsr
+	movar _INDF		; MSB in ACC
 	return
 
-__codeptrget1:
-	; call the RETLW instruction at the given address
-	;movar	STK00
-	;movra	_PCLATH
-	;movar	STK01
-	;movra	_PCL
-	movar	STK00
-	movra	_FSR1
-	movar	STK01
-	movra	_FSR0
-	movar 	_INDF3
-	return	; should never be executed...
 
+__codeptrget2:
+	setup_fsr
+	movc
+	movra STK00		; LSB in STK00
+	inc_fsr
+	movc			; MSB in ACC
+	return
+	
 	END

@@ -1,7 +1,7 @@
 ;--------------------------------------------------------
 ; File Created by SN-SDCC : SinoMCU ANSI-C Compiler
 ; Version 1.0.0 (Sep 28 2017) (MINGW32)
-; This file was generated Tue Nov 14 18:38:37 2017
+; This file was generated Thu Nov 23 16:21:07 2017
 ;--------------------------------------------------------
 ; MC35 port for the RISC core
 ;--------------------------------------------------------
@@ -173,7 +173,7 @@ ___fs2ulong	;Function start
 	ORAR	r0x1006
 	ORAR	r0x1005
 	ORAR	r0x1004
-	JBCLR	STATUS,2
+	JBCLR	STATUS,0
 	GOTO	_00105_DS_
 ;;[ICODE] ../libsdcc_mc35/fs2ulong.c:63: 	iTemp6 [k12 lr9:10 so:0]{ ia0 a2p0 re0 rm1 nos0 ru0 dp0}{volatile-long-int near* fixed}[remat] = &[___fs2ulong_fl1_1_22 [k4 lr0:0 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{volatile-struct float_long fixed}]
 ;;[ICODE] ../libsdcc_mc35/fs2ulong.c:63: 	iTemp8 [k15 lr10:11 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{volatile-long-int fixed}[r0x1000 r0x1001 r0x1002 r0x1003 ] = @[iTemp6 [k12 lr9:10 so:0]{ ia1 a2p0 re0 rm1 nos0 ru0 dp0}{volatile-long-int near* fixed}[remat] + 0x0 {const-unsigned-char literal}]
@@ -197,13 +197,13 @@ ___fs2ulong	;Function start
 ;;[ICODE] ../libsdcc_mc35/fs2ulong.c:63: 	iTemp10 [k17 lr12:13 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char fixed}[r0x1000 ] = gabit iTemp9 [k16 lr11:12 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-long-int fixed}[r0x1004 r0x1005 r0x1006 r0x1007 ]
 	MOVAR	r0x100B
 	ANDAI	0x80
-	JBSET	STATUS,2
+	JBSET	STATUS,0
 	MOVAI	0x01
 	MOVRA	r0x1007
 ;;[ICODE] ../libsdcc_mc35/fs2ulong.c:63: 	if iTemp10 [k17 lr12:13 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char fixed}[r0x1000 ] == 0 goto _iffalse_0($2)
 	MOVAI	0x00
 	ORAR	r0x1007
-	JBCLR	STATUS,2
+	JBCLR	STATUS,0
 	GOTO	_00106_DS_
 ;;[ICODE] ../libsdcc_mc35/fs2ulong.c:63:  _iftrue_0($1) :
 ;;[ICODE] ../libsdcc_mc35/fs2ulong.c:64: 	ret 0x0 {unsigned-long-int literal}
@@ -257,13 +257,13 @@ _00106_DS_
 	MOVAI	0x6a
 	ADDRA	r0x100B
 	MOVAI	0xff
-	JBSET	STATUS,0
+	JBSET	STATUS,2
 	ADDRA	r0x100C
 	MOVAI	0xff
-	JBSET	STATUS,0
+	JBSET	STATUS,2
 	ADDRA	r0x100D
 	MOVAI	0xff
-	JBSET	STATUS,0
+	JBSET	STATUS,2
 	ADDRA	r0x100E
 ;;[ICODE] ../libsdcc_mc35/fs2ulong.c:66: 	iTemp11 [k18 lr23:31 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{int fixed}{ sir@ ___fs2ulong_exp_1_22}[r0x1000 r0x1004 ] = (int fixed)iTemp18 [k27 lr22:23 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-long-int fixed}[r0x1007 r0x1008 r0x1009 r0x100A ]
 	MOVAR	r0x100B
@@ -309,7 +309,7 @@ _00106_DS_
 	XORRA	r0x1008
 	MOVAI	0x01
 	ADDRA	r0x1007
-	JBCLR	STATUS,2
+	JBCLR	STATUS,0
 	ADDRA	r0x1008
 ;;[ICODE] ../libsdcc_mc35/fs2ulong.c:69: 	iTemp20 [k29 lr29:34 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{unsigned-long-int fixed}{ sir@ ___fs2ulong_l_1_22}[r0x1005 r0x1006 r0x1007 r0x1008 ] = iTemp20 [k29 lr29:34 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{unsigned-long-int fixed}{ sir@ ___fs2ulong_l_1_22}[r0x1005 r0x1006 r0x1007 r0x1008 ] >> iTemp27 [k38 lr31:32 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{int fixed}[r0x1000 r0x1004 ]
 	MOVAR	r0x1007
@@ -317,7 +317,7 @@ _00106_DS_
 	GOTO	_00114_DS_
 	XORAI	0xff
 	ADDAI	0x01
-	JBCLR	STATUS,2
+	JBCLR	STATUS,0
 	GOTO	_00113_DS_
 _00112_DS_
 	RRR	r0x100C
@@ -325,18 +325,18 @@ _00112_DS_
 	RRR	r0x100A
 	RRR	r0x1009
 	ADDAI	0x01
-	JBSET	STATUS,0
+	JBSET	STATUS,2
 	GOTO	_00112_DS_
 	GOTO	_00113_DS_
 _00114_DS_
-	BCLR	STATUS,0
+	BCLR	STATUS,2
 _00115_DS_
 	RLR	r0x1009
 	RLR	r0x100A
 	RLR	r0x100B
 	RLR	r0x100C
 	ADDAI	0x01
-	JBSET	STATUS,0
+	JBSET	STATUS,2
 	GOTO	_00115_DS_
 ;;[ICODE] ../libsdcc_mc35/fs2ulong.c:71: 	ret iTemp20 [k29 lr29:34 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{unsigned-long-int fixed}{ sir@ ___fs2ulong_l_1_22}[r0x1005 r0x1006 r0x1007 r0x1008 ]
 _00113_DS_

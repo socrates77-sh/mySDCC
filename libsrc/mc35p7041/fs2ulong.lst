@@ -1,4 +1,4 @@
-gpasm-2.0.0_beta2 (Nov  6 2017)fs2ulong.asm       2017-11-14  18:38:37         PAGE  1
+gpasm-2.0.0_beta2 (Nov  6 2017)fs2ulong.asm       2017-11-23  16:21:07         PAGE  1
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
@@ -7,7 +7,7 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
                       00001 ;--------------------------------------------------------
                       00002 ; File Created by SN-SDCC : SinoMCU ANSI-C Compiler
                       00003 ; Version 1.0.0 (Sep 28 2017) (MINGW32)
-                      00004 ; This file was generated Tue Nov 14 18:38:37 2017
+                      00004 ; This file was generated Thu Nov 23 16:21:07 2017
                       00005 ;--------------------------------------------------------
                       00006 ; MC35 port for the RISC core
                       00007 ;--------------------------------------------------------
@@ -182,7 +182,7 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
 0017   1800           00173         ORAR    r0x1006
 0018   1800           00174         ORAR    r0x1005
 0019   1800           00175         ORAR    r0x1004
-001A   5286           00176         JBCLR   STATUS,2
+001A   5086           00176         JBCLR   STATUS,0
 001B   8000           00177         GOTO    _00105_DS_
                       00178 ;;[ICODE] ../libsdcc_mc35/fs2ulong.c:63:        iTemp6 [k12 lr9:10 so:0]{ ia0 a2p0 re0 rm1 nos0 ru0 dp0}{volatile-long-int near* fixed}[remat] = &[___fs2ulong_fl1_1_22 [k4 lr0:0 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{volatile-struct float_long fixed}]
                       00179 ;;[ICODE] ../libsdcc_mc35/fs2ulong.c:63:        iTemp8 [k15 lr10:11 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{volatile-long-int fixed}[r0x1000 r0x1001 r0x1002 r0x1003 ] = @[iTemp6 [k12 lr9:10 so:0]{ ia1 a2p0 re0 rm1 nos0 ru0 dp0}{volatile-long-int near* fixed}[remat] + 0x0 {const-unsigned-char literal}]
@@ -206,13 +206,13 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
                       00197 ;;[ICODE] ../libsdcc_mc35/fs2ulong.c:63:        iTemp10 [k17 lr12:13 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char fixed}[r0x1000 ] = gabit iTemp9 [k16 lr11:12 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-long-int fixed}[r0x1004 r0x1005 r0x1006 r0x1007 ]
 0028   1E00           00198         MOVAR   r0x100B
 0029   2A80           00199         ANDAI   0x80
-002A   5A86           00200         JBSET   STATUS,2
+002A   5886           00200         JBSET   STATUS,0
 002B   2D01           00201         MOVAI   0x01
 002C   1F00           00202         MOVRA   r0x1007
                       00203 ;;[ICODE] ../libsdcc_mc35/fs2ulong.c:63:        if iTemp10 [k17 lr12:13 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char fixed}[r0x1000 ] == 0 goto _iffalse_0($2)
 002D   2D00           00204         MOVAI   0x00
 002E   1800           00205         ORAR    r0x1007
-002F   5286           00206         JBCLR   STATUS,2
+002F   5086           00206         JBCLR   STATUS,0
 0030   8000           00207         GOTO    _00106_DS_
                       00208 ;;[ICODE] ../libsdcc_mc35/fs2ulong.c:63:  _iftrue_0($1) :
                       00209 ;;[ICODE] ../libsdcc_mc35/fs2ulong.c:64:        ret 0x0 {unsigned-long-int literal}
@@ -266,13 +266,13 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
 0051   2D6A           00257         MOVAI   0x6a
 0052   1300           00258         ADDRA   r0x100B
 0053   2DFF           00259         MOVAI   0xff
-0054   5886           00260         JBSET   STATUS,0
+0054   5A86           00260         JBSET   STATUS,2
 0055   1300           00261         ADDRA   r0x100C
 0056   2DFF           00262         MOVAI   0xff
-0057   5886           00263         JBSET   STATUS,0
+0057   5A86           00263         JBSET   STATUS,2
 0058   1300           00264         ADDRA   r0x100D
 0059   2DFF           00265         MOVAI   0xff
-005A   5886           00266         JBSET   STATUS,0
+005A   5A86           00266         JBSET   STATUS,2
 005B   1300           00267         ADDRA   r0x100E
                       00268 ;;[ICODE] ../libsdcc_mc35/fs2ulong.c:66:        iTemp11 [k18 lr23:31 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{int fixed}{ sir@ ___fs2ulong_exp_1_22}[r0x1000 r0x1004 ] = (int fixed)iTemp18 [k27 lr22:23 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-long-int fixed}[r0x1007 r0x1008 r0x1009 r0x100A ]
 005C   1E00           00269         MOVAR   r0x100B
@@ -318,7 +318,7 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
 0078   1C00           00309         XORRA   r0x1008
 0079   2D01           00310         MOVAI   0x01
 007A   1300           00311         ADDRA   r0x1007
-007B   5286           00312         JBCLR   STATUS,2
+007B   5086           00312         JBCLR   STATUS,0
 007C   1300           00313         ADDRA   r0x1008
                       00314 ;;[ICODE] ../libsdcc_mc35/fs2ulong.c:69:        iTemp20 [k29 lr29:34 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{unsigned-long-int fixed}{ sir@ ___fs2ulong_l_1_22}[r0x1005 r0x1006 r0x1007 r0x1008 ] = iTemp20 [k29 lr29:34 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{unsigned-long-int fixed}{ sir@ ___fs2ulong_l_1_22}[r0x1005 r0x1006 r0x1007 r0x1008 ] >> iTemp27 [k38 lr31:32 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{int fixed}[r0x1000 r0x1004 ]
 007D   1E00           00315         MOVAR   r0x1007
@@ -326,7 +326,7 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
 007F   8000           00317         GOTO    _00114_DS_
 0080   1DFF           00318         XORAI   0xff
 0081   1401           00319         ADDAI   0x01
-0082   5286           00320         JBCLR   STATUS,2
+0082   5086           00320         JBCLR   STATUS,0
 0083   8000           00321         GOTO    _00113_DS_
 0084                  00322 _00112_DS_
 0084   0900           00323         RRR     r0x100C
@@ -334,18 +334,18 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
 0086   0900           00325         RRR     r0x100A
 0087   0900           00326         RRR     r0x1009
 0088   1401           00327         ADDAI   0x01
-0089   5886           00328         JBSET   STATUS,0
+0089   5A86           00328         JBSET   STATUS,2
 008A   8000           00329         GOTO    _00112_DS_
 008B   8000           00330         GOTO    _00113_DS_
 008C                  00331 _00114_DS_
-008C   4086           00332         BCLR    STATUS,0
+008C   4286           00332         BCLR    STATUS,2
 008D                  00333 _00115_DS_
 008D   0B00           00334         RLR     r0x1009
 008E   0B00           00335         RLR     r0x100A
 008F   0B00           00336         RLR     r0x100B
 0090   0B00           00337         RLR     r0x100C
 0091   1401           00338         ADDAI   0x01
-0092   5886           00339         JBSET   STATUS,0
+0092   5A86           00339         JBSET   STATUS,2
 0093   8000           00340         GOTO    _00115_DS_
                       00341 ;;[ICODE] ../libsdcc_mc35/fs2ulong.c:71:        ret iTemp20 [k29 lr29:34 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{unsigned-long-int fixed}{ sir@ ___fs2ulong_l_1_22}[r0x1005 r0x1006 r0x1007 r0x1008 ]
 0094                  00342 _00113_DS_
@@ -368,7 +368,7 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
                       00359 ;         156+    0 =   156 instructions (  312 byte)
                       00360 
                       00361         end
-gpasm-2.0.0_beta2 (Nov  6 2017)fs2ulong.asm       2017-11-14  18:38:37         PAGE  2
+gpasm-2.0.0_beta2 (Nov  6 2017)fs2ulong.asm       2017-11-23  16:21:07         PAGE  2
 
 
 SYMBOL TABLE

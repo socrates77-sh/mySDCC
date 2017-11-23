@@ -1,5 +1,5 @@
 ; -------------------------------------------------------------------------
-;  _gptrget4.S - read four bytes pointed to by a generic pointer
+;  _gptrget3.S - read three bytes pointed to by a generic pointer
 ;
 ;  Copyright (C) 2005, Raphael Neider <rneider AT web.de>
 ;
@@ -29,78 +29,64 @@
 ; calling conventions:
 ;   3 byte generic pointer is passed in via (WREG STK00 STK01).
 ;   The result is returned in (WREG (STK00 (STK01 (STK02)))).
-; 
+
+; 	param:
+;		ACC: data/code flag
+;		(STK00:STK01) 16bit address
+;	return:
+;		(ACC[:STK00[:STK01[:STK02]]]): data (MSB left)
+
 ;   unsigned char _gptrget  (void *gptr);
 ;   unsigned char _gptrget1 (void *gptr);
 ;   unsigned int  _gptrget2 (void *gptr);
 ;   void *        _gptrget3 (void *gptr);
 ;   unsigned long _gptrget4 (void *gptr);
-; 
+
+
+; 	param:
+;		ACC: data/code flag
+;		(STK00:STK01) 16bit address
+;		(STK02[:STK03[:STK04[:STK05]]]): data (MSB left)
+
 ;   void _gptrput  (void *ptr, unsigned char val);
 ;   void _gptrput1 (void *ptr, unsigned char val);
 ;   void _gptrput2 (void *ptr, unsigned int  val);
 ;   void _gptrput3 (void *ptr, unsigned int  val);
 ;   void _gptrput4 (void *ptr, unsigned long val);
 
+
 include macros.inc
 include mc30f_common.inc
 
-	global	__gptrget4
-	extern	__codeptrget1
+	global	__gptrget3
 	
 	CODE
 
-__gptrget4:
-	select_routine __dataptrget4, __codeptrget4
-	; invalid tag -- return 0x00000000
-	clrr	STK02
-	clrr	STK01
-	clrr	STK00
-	;;retai	0x00
+__gptrget3:
+	select_routine __dataptrget3, __codeptrget3
 
-__dataptrget4:
+
+__dataptrget3:
 	setup_fsr
-	movar	_INDF
-	movra	STK02		; LSB in STK02
+	movar _INDF
+	movra STK01		; LSB in STK01
 	inc_fsr
-	movar	_INDF
-	movra	STK01		; 2nd byte in STK01
+	movar _INDF
+	movra STK00		; 2nd byte in STK00
 	inc_fsr
-	movar	_INDF
-	movra	STK00		; 3rd byte in STK00
-	inc_fsr
-	movar	_INDF		; MSB in WREG
+	movar _INDF		; MSB in ACC
 	return
+	
 
-__codeptrget4:
-	;pagesel	__codeptrget1	; might reside in different page
-	call	__codeptrget1
-	movra	STK02		; temporarily store LSB
-	jzr		STK01	; increment low address byte
-	;;decr	STK00	; undo increment of high address byte if low byte did not overflow
-	;;incr	STK00	; increment high address byte
-	;pagesel	__codeptrget1	; might reside in different page
-	call	__codeptrget1
-	movra	STK03		; temporarily store 2nd byte
-	jzr		STK01	; increment low address byte
-	;;decr	STK00	; undo increment of high address byte if low byte did not overflow
-	;;incr	STK00	; increment high address byte
-	;pagesel	__codeptrget1	; might reside in different page
-	call	__codeptrget1
-	movra	STK04		; temporarily store 3rd byte
-	jzr		STK01	; increment low address byte
-	;;decr	STK00	; undo increment of high address byte if low byte did not overflow
-	;;incr	STK00	; increment high address byte
-	;pagesel	__codeptrget1	; might reside in different page
-	call	__codeptrget1
-	movra	STK05		; temporarily store MSB
-	movar	STK02
-	movra	STK02		; LSB in STK02
-	movar	STK03
-	movra	STK01		; 2nd byte in STK01
-	movar	STK04
-	movra	STK00		; 3rd byte in STK00
-	movar	STK05		; MSB in WREG
+__codeptrget3:
+	setup_fsr
+	movc
+	movra STK01		; LSB in STK01
+	inc_fsr
+	movc
+	movra STK00		; 2nd byte in STK00
+	inc_fsr
+	movc			; MSB in ACC
 	return
 
 	END

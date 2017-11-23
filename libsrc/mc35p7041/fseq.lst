@@ -1,4 +1,4 @@
-gpasm-2.0.0_beta2 (Nov  6 2017)fseq.asm           2017-11-14  18:38:38         PAGE  1
+gpasm-2.0.0_beta2 (Nov  6 2017)fseq.asm           2017-11-23  16:21:08         PAGE  1
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
@@ -7,7 +7,7 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
                       00001 ;--------------------------------------------------------
                       00002 ; File Created by SN-SDCC : SinoMCU ANSI-C Compiler
                       00003 ; Version 1.0.0 (Sep 28 2017) (MINGW32)
-                      00004 ; This file was generated Tue Nov 14 18:38:38 2017
+                      00004 ; This file was generated Thu Nov 23 16:21:08 2017
                       00005 ;--------------------------------------------------------
                       00006 ; MC35 port for the RISC core
                       00007 ;--------------------------------------------------------
@@ -210,19 +210,19 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
                       00201 ;;[ICODE] ../libsdcc_mc35/fseq.c:62:    iTemp12 [k22 lr13:14 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char fixed} = iTemp8 [k17 lr10:13 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{volatile-long-int fixed}[r0x1000 r0x1001 r0x1002 r0x1003 ] == iTemp11 [k21 lr12:13 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{volatile-long-int fixed}[r0x1004 r0x1005 r0x1006 r0x1007 ]
 002E   1E00           00202         MOVAR   r0x100F
 002F   1B00           00203         XORAR   r0x100B
-0030   5A86           00204         JBSET   STATUS,2
+0030   5886           00204         JBSET   STATUS,0
 0031   8000           00205         GOTO    _00106_DS_
 0032   1E00           00206         MOVAR   r0x100E
 0033   1B00           00207         XORAR   r0x100A
-0034   5A86           00208         JBSET   STATUS,2
+0034   5886           00208         JBSET   STATUS,0
 0035   8000           00209         GOTO    _00106_DS_
 0036   1E00           00210         MOVAR   r0x100D
 0037   1B00           00211         XORAR   r0x1009
-0038   5A86           00212         JBSET   STATUS,2
+0038   5886           00212         JBSET   STATUS,0
 0039   8000           00213         GOTO    _00106_DS_
 003A   1E00           00214         MOVAR   r0x100C
 003B   1B00           00215         XORAR   r0x1008
-003C   5A86           00216         JBSET   STATUS,2
+003C   5886           00216         JBSET   STATUS,0
 003D   8000           00217         GOTO    _00106_DS_
                       00218 ;;[ICODE] ../libsdcc_mc35/fseq.c:62:    if iTemp12 [k22 lr13:14 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char fixed} == 0 goto _iffalse_0($2)
                       00219 ;;[ICODE] ../libsdcc_mc35/fseq.c:63:    ret 0x1 {const-unsigned-char literal}
@@ -245,7 +245,7 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
                       00236 ;          66+    0 =    66 instructions (  132 byte)
                       00237 
                       00238         end
-gpasm-2.0.0_beta2 (Nov  6 2017)fseq.asm           2017-11-14  18:38:38         PAGE  2
+gpasm-2.0.0_beta2 (Nov  6 2017)fseq.asm           2017-11-23  16:21:08         PAGE  2
 
 
 SYMBOL TABLE

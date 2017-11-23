@@ -1,5 +1,5 @@
 ; -------------------------------------------------------------------------
-;  _gptrput3.S : write three bytes pointed to by a generic pointer
+;  _gptrput4.S : write four bytes pointed to by a generic pointer
 ;
 ;  Copyright (C) 2005, Raphael Neider <rneider AT web.de>
 ;
@@ -29,41 +29,56 @@
 ; calling conventions:
 ;   3 byte generic pointer is passed in via (WREG STK00 STK01).
 ;   The result is returned in (WREG (STK00 (STK01 (STK02)))).
-;
+
+; 	param:
+;		ACC: data/code flag
+;		(STK00:STK01) 16bit address
+;	return:
+;		(ACC[:STK00[:STK01[:STK02]]]): data (MSB left)
+
 ;   unsigned char _gptrget  (void *gptr);
 ;   unsigned char _gptrget1 (void *gptr);
 ;   unsigned int  _gptrget2 (void *gptr);
 ;   void *        _gptrget3 (void *gptr);
 ;   unsigned long _gptrget4 (void *gptr);
-;
+
+
+; 	param:
+;		ACC: data/code flag
+;		(STK00:STK01) 16bit address
+;		(STK02[:STK03[:STK04[:STK05]]]): data (MSB left)
+
 ;   void _gptrput  (void *ptr, unsigned char val);
 ;   void _gptrput1 (void *ptr, unsigned char val);
 ;   void _gptrput2 (void *ptr, unsigned int  val);
 ;   void _gptrput3 (void *ptr, unsigned int  val);
 ;   void _gptrput4 (void *ptr, unsigned long val);
 
+
 include macros.inc
 include mc30f_common.inc
 
-	global	__gptrput3
+	global	__gptrput4
 	
 	CODE
 
-__gptrput3:
-	check_data	__dataptrput3
-	; cannot write to __code space
-	return
+__gptrput4:
+	check_data	__dataptrput4
 
-__dataptrput3:
+
+__dataptrput4:
 	setup_fsr
-	movar	STK04	; get LSB(val)
-	movra	_INDF
+	movar STK05		; get LSB(val) from STK05
+	movra _INDF
 	inc_fsr
-	movar	STK03	; get 2nd byte of val
-	movra	_INDF
+	movar STK04		; get 2nd byte of val from STK04
+	movra _INDF
 	inc_fsr
-	movar	STK02	; get MSB(val)
-	movra	_INDF
+	movar STK03		; get 3rd byte of val from STK03
+	movra _INDF
+	inc_fsr
+	movar STK02		; get MSB(val) from STK02
+	movra _INDF
 	return
 
 	END

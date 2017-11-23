@@ -1,4 +1,4 @@
-gpasm-2.0.0_beta2 (Nov  6 2017)_mulchar.asm       2017-11-14  18:38:43         PAGE  1
+gpasm-2.0.0_beta2 (Nov  6 2017)_mulchar.asm       2017-11-23  16:21:13         PAGE  1
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
@@ -7,7 +7,7 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
                       00001 ;--------------------------------------------------------
                       00002 ; File Created by SN-SDCC : SinoMCU ANSI-C Compiler
                       00003 ; Version 1.0.0 (Sep 28 2017) (MINGW32)
-                      00004 ; This file was generated Tue Nov 14 18:38:43 2017
+                      00004 ; This file was generated Thu Nov 23 16:21:13 2017
                       00005 ;--------------------------------------------------------
                       00006 ; MC35 port for the RISC core
                       00007 ;--------------------------------------------------------
@@ -118,12 +118,12 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
 000B   1F00           00109         MOVRA   r0x1004
                       00110 ;;[ICODE] ../libsdcc_mc35/_mulchar.c:45:        iTemp0 [k2 lr3:23 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{char fixed}{ sir@ __mulchar_a_1_1}[r0x1000 ] = iTemp12 [k18 lr14:15 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-char fixed}[r0x1004 ] >> 0x1 {const-unsigned-int literal}
                       00111 ;;shiftRight_Left2ResultLit:5270: shCount=1, size=1, sign=0, same=0, offr=0
-000C   4086           00112         BCLR    STATUS,0
+000C   4286           00112         BCLR    STATUS,2
 000D   0800           00113         RRAR    r0x1004
 000E   1F00           00114         MOVRA   r0x1000
                       00115 ;;[ICODE] ../libsdcc_mc35/_mulchar.c:46:        iTemp15 [k21 lr17:18 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-int register}[r0x1004 r0x1005 ] = iTemp1 [k4 lr4:23 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{char fixed}{ sir@ __mulchar_b_1_1}[r0x1001 ] << 0x1 {const-unsigned-int literal}
                       00116 ;       .line   46; "../libsdcc_mc35/_mulchar.c"        b <<= 1u;
-000F   4086           00117         BCLR    STATUS,0
+000F   4286           00117         BCLR    STATUS,2
 0010   0A00           00118         RLAR    r0x1001
 0011   1F00           00119         MOVRA   r0x1001
 0012   1F00           00120         MOVRA   r0x1004
@@ -140,7 +140,7 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
                       00131 ;       .line   39; "../libsdcc_mc35/_mulchar.c"        for (i = 0; i < 8u; i++) {
 0018   2D00           00132         MOVAI   0x00
 0019   1800           00133         ORAR    r0x1003
-001A   5A86           00134         JBSET   STATUS,2
+001A   5886           00134         JBSET   STATUS,0
 001B   8000           00135         GOTO    _00118_DS_
                       00136 ;;[ICODE] ../libsdcc_mc35/_mulchar.c:49:        ret iTemp2 [k6 lr5:24 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{char fixed}{ sir@ __mulchar_result_1_2}[r0x1002 ]
                       00137 ;       .line   49; "../libsdcc_mc35/_mulchar.c"        return result;
@@ -155,7 +155,7 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
                       00146 ;          30+    0 =    30 instructions (   60 byte)
                       00147 
                       00148         end
-gpasm-2.0.0_beta2 (Nov  6 2017)_mulchar.asm       2017-11-14  18:38:43         PAGE  2
+gpasm-2.0.0_beta2 (Nov  6 2017)_mulchar.asm       2017-11-23  16:21:13         PAGE  2
 
 
 SYMBOL TABLE

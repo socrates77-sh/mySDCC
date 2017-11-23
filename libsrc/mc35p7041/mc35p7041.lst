@@ -1,4 +1,4 @@
-gpasm-2.0.0_beta2 (Nov  6 2017)mc35p7041.asm      2017-11-14  18:38:33         PAGE  1
+gpasm-2.0.0_beta2 (Nov  6 2017)mc35p7041.asm      2017-11-23  16:21:02         PAGE  1
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
@@ -7,7 +7,7 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
                       00001 ;--------------------------------------------------------
                       00002 ; File Created by SN-SDCC : SinoMCU ANSI-C Compiler
                       00003 ; Version 1.0.0 (Sep 28 2017) (MINGW32)
-                      00004 ; This file was generated Tue Nov 14 18:38:33 2017
+                      00004 ; This file was generated Thu Nov 23 16:21:02 2017
                       00005 ;--------------------------------------------------------
                       00006 ; MC35 port for the RISC core
                       00007 ;--------------------------------------------------------
@@ -33,64 +33,346 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
                       00024 ; global declarations
                       00025 ;--------------------------------------------------------
                       00026         global  _STATUSbits
-                      00027         global  _INDF
-                      00028         global  _HIBYTE
-                      00029         global  _FSR
-                      00030         global  _FSR0
-                      00031         global  _FSR1
-                      00032         global  _PCH
-                      00033         global  _PCL
-                      00034         global  _STATUS
-                      00035 
-                      00036 ;--------------------------------------------------------
-                      00037 ; global definitions
-                      00038 ;--------------------------------------------------------
-                      00039 ;--------------------------------------------------------
-                      00040 ; absolute symbol definitions
-                      00041 ;--------------------------------------------------------
-                      00042 UD_abs_mc35p7041_82     udata_ovr       0x0082
-0041                  00043 _HIBYTE
-0041                  00044         res     1
-                      00045 UD_abs_mc35p7041_83     udata_ovr       0x0083
-0041                  00046 _FSR
-0041                  00047 _FSR0
-0041                  00048         res     1
-                      00049 UD_abs_mc35p7041_84     udata_ovr       0x0084
-0042                  00050 _FSR1
-0042                  00051         res     1
-                      00052 UD_abs_mc35p7041_86     udata_ovr       0x0086
-0043                  00053 _STATUSbits
-0043                  00054 _STATUS
-0043                  00055         res     1
-                      00056 UD_abs_mc35p7041_ce     udata_ovr       0x00ce
-0067                  00057 _PCL
-0067                  00058         res     1
-                      00059 UD_abs_mc35p7041_cf     udata_ovr       0x00cf
-0067                  00060 _PCH
-0067                  00061         res     1
-                      00062 UD_abs_mc35p7041_e7     udata_ovr       0x00e7
-0073                  00063 _INDF
-0073                  00064         res     1
-                      00065 ;--------------------------------------------------------
-                      00066 ; compiler-defined variables
-                      00067 ;--------------------------------------------------------
-                      00068 ;--------------------------------------------------------
-                      00069 ; initialized data
-                      00070 ;--------------------------------------------------------
-                      00071 ;--------------------------------------------------------
-                      00072 ; overlayable items in internal ram 
-                      00073 ;--------------------------------------------------------
-                      00074 ;       udata_ovr
-                      00075 ;--------------------------------------------------------
-                      00076 ; code
-                      00077 ;--------------------------------------------------------
-                      00078 code_mc35p7041  code
-                      00079 
-                      00080 ;       code size estimation:
-                      00081 ;           0+    0 =     0 instructions (    0 byte)
-                      00082 
-                      00083         end
-gpasm-2.0.0_beta2 (Nov  6 2017)mc35p7041.asm      2017-11-14  18:38:33         PAGE  2
+                      00027         global  _PFLAGbits
+                      00028         global  _ZEROTRbits
+                      00029         global  _WKCR0bits
+                      00030         global  _WKCR5bits
+                      00031         global  _ADIOS0bits
+                      00032         global  _ADIOS1bits
+                      00033         global  _ADIOS2bits
+                      00034         global  _ADCR0bits
+                      00035         global  _ADCR1bits
+                      00036         global  _ADCR2bits
+                      00037         global  _OEP0bits
+                      00038         global  _EINTCRbits
+                      00039         global  _OEP4bits
+                      00040         global  _OEP5bits
+                      00041         global  _INTFbits
+                      00042         global  _INTEbits
+                      00043         global  _OSCMbits
+                      00044         global  _IOP0bits
+                      00045         global  _IOP4bits
+                      00046         global  _IOP5bits
+                      00047         global  _T0CRbits
+                      00048         global  _T1CRbits
+                      00049         global  _BUZCRbits
+                      00050         global  _MCRbits
+                      00051         global  _PUP0bits
+                      00052         global  _PUP4bits
+                      00053         global  _PUP5bits
+                      00054         global  _PWMCR0bits
+                      00055         global  _PWMCR1bits
+                      00056         global  _INDF
+                      00057         global  _HIBYTE
+                      00058         global  _FSR0
+                      00059         global  _FSR1
+                      00060         global  _PCH
+                      00061         global  _PCL
+                      00062         global  _STATUS
+                      00063         global  _PFLAG
+                      00064         global  _ZEROTR
+                      00065         global  _OSCCAL
+                      00066         global  _WKCR0
+                      00067         global  _WKCR5
+                      00068         global  _ADIOS0
+                      00069         global  _ADIOS1
+                      00070         global  _ADIOS2
+                      00071         global  _ADCR0
+                      00072         global  _ADCR1
+                      00073         global  _ADRH
+                      00074         global  _ADRL
+                      00075         global  _ADCR2
+                      00076         global  _OEP0
+                      00077         global  _EINTCR
+                      00078         global  _OEP4
+                      00079         global  _OEP5
+                      00080         global  _INTF
+                      00081         global  _INTE
+                      00082         global  _OSCM
+                      00083         global  _WDTCR
+                      00084         global  _T1LDR
+                      00085         global  _IOP0
+                      00086         global  _IOP4
+                      00087         global  _IOP5
+                      00088         global  _T0CR
+                      00089         global  _T0CNT
+                      00090         global  _T1CR
+                      00091         global  _T1CNT
+                      00092         global  _BUZCR
+                      00093         global  _MCR
+                      00094         global  _PUP0
+                      00095         global  _PUP4
+                      00096         global  _PUP5
+                      00097         global  _PWMCR0
+                      00098         global  _PWMCR1
+                      00099         global  _PWMCNT
+                      00100         global  _PWMADT
+                      00101         global  _PWMBDT
+                      00102         global  _PWMCDT
+                      00103         global  _PWMPD
+                      00104         global  _STKR0L
+                      00105         global  _STKR0H
+                      00106         global  _STKR1L
+                      00107         global  _STKR1H
+                      00108         global  _STKR2L
+                      00109         global  _STKR2H
+                      00110         global  _STKR3L
+                      00111         global  _STKR3H
+                      00112         global  _STKR4L
+                      00113         global  _STKR4H
+                      00114         global  _STKR5L
+                      00115         global  _STKR5H
+                      00116         global  _STKR6L
+                      00117         global  _STKR6H
+                      00118         global  _STKR7L
+                      00119         global  _STKR7H
+                      00120 
+                      00121 ;--------------------------------------------------------
+                      00122 ; global definitions
+                      00123 ;--------------------------------------------------------
+                      00124 ;--------------------------------------------------------
+                      00125 ; absolute symbol definitions
+                      00126 ;--------------------------------------------------------
+                      00127 UD_abs_mc35p7041_82     udata_ovr       0x0082
+0041                  00128 _HIBYTE
+0041                  00129         res     1
+                      00130 UD_abs_mc35p7041_83     udata_ovr       0x0083
+0041                  00131 _FSR0
+0041                  00132         res     1
+                      00133 UD_abs_mc35p7041_84     udata_ovr       0x0084
+0042                  00134 _FSR1
+0042                  00135         res     1
+                      00136 UD_abs_mc35p7041_86     udata_ovr       0x0086
+0043                  00137 _STATUSbits
+0043                  00138 _PFLAGbits
+0043                  00139 _STATUS
+0043                  00140 _PFLAG
+0043                  00141         res     1
+                      00142 UD_abs_mc35p7041_8e     udata_ovr       0x008e
+0047                  00143 _ZEROTRbits
+0047                  00144 _ZEROTR
+0047                  00145         res     1
+                      00146 UD_abs_mc35p7041_8f     udata_ovr       0x008f
+0047                  00147 _OSCCAL
+0047                  00148         res     1
+                      00149 UD_abs_mc35p7041_a0     udata_ovr       0x00a0
+0050                  00150 _WKCR0bits
+0050                  00151 _WKCR0
+0050                  00152         res     1
+                      00153 UD_abs_mc35p7041_a5     udata_ovr       0x00a5
+0052                  00154 _WKCR5bits
+0052                  00155 _WKCR5
+0052                  00156         res     1
+                      00157 UD_abs_mc35p7041_ad     udata_ovr       0x00ad
+0056                  00158 _ADIOS0bits
+0056                  00159 _ADIOS0
+0056                  00160         res     1
+                      00161 UD_abs_mc35p7041_ae     udata_ovr       0x00ae
+0057                  00162 _ADIOS1bits
+0057                  00163 _ADIOS1
+0057                  00164         res     1
+                      00165 UD_abs_mc35p7041_af     udata_ovr       0x00af
+0057                  00166 _ADIOS2bits
+0057                  00167 _ADIOS2
+0057                  00168         res     1
+                      00169 UD_abs_mc35p7041_b1     udata_ovr       0x00b1
+0058                  00170 _ADCR0bits
+0058                  00171 _ADCR0
+0058                  00172         res     1
+                      00173 UD_abs_mc35p7041_b2     udata_ovr       0x00b2
+0059                  00174 _ADCR1bits
+0059                  00175 _ADCR1
+0059                  00176         res     1
+                      00177 UD_abs_mc35p7041_b3     udata_ovr       0x00b3
+0059                  00178 _ADRH
+0059                  00179         res     1
+                      00180 UD_abs_mc35p7041_b4     udata_ovr       0x00b4
+005A                  00181 _ADRL
+005A                  00182         res     1
+                      00183 UD_abs_mc35p7041_b5     udata_ovr       0x00b5
+005A                  00184 _ADCR2bits
+005A                  00185 _ADCR2
+005A                  00186         res     1
+                      00187 UD_abs_mc35p7041_b8     udata_ovr       0x00b8
+005C                  00188 _OEP0bits
+005C                  00189 _OEP0
+005C                  00190         res     1
+                      00191 UD_abs_mc35p7041_bf     udata_ovr       0x00bf
+005F                  00192 _EINTCRbits
+005F                  00193 _EINTCR
+005F                  00194         res     1
+                      00195 UD_abs_mc35p7041_c4     udata_ovr       0x00c4
+0062                  00196 _OEP4bits
+0062                  00197 _OEP4
+0062                  00198         res     1
+                      00199 UD_abs_mc35p7041_c5     udata_ovr       0x00c5
+0062                  00200 _OEP5bits
+0062                  00201 _OEP5
+0062                  00202         res     1
+                      00203 UD_abs_mc35p7041_c8     udata_ovr       0x00c8
+0064                  00204 _INTFbits
+0064                  00205 _INTF
+0064                  00206         res     1
+                      00207 UD_abs_mc35p7041_c9     udata_ovr       0x00c9
+0064                  00208 _INTEbits
+0064                  00209 _INTE
+0064                  00210         res     1
+                      00211 UD_abs_mc35p7041_ca     udata_ovr       0x00ca
+0065                  00212 _OSCMbits
+0065                  00213 _OSCM
+0065                  00214         res     1
+                      00215 UD_abs_mc35p7041_cc     udata_ovr       0x00cc
+0066                  00216 _WDTCR
+0066                  00217         res     1
+                      00218 UD_abs_mc35p7041_cd     udata_ovr       0x00cd
+0066                  00219 _T1LDR
+0066                  00220         res     1
+                      00221 UD_abs_mc35p7041_ce     udata_ovr       0x00ce
+0067                  00222 _PCL
+0067                  00223         res     1
+                      00224 UD_abs_mc35p7041_cf     udata_ovr       0x00cf
+0067                  00225 _PCH
+0067                  00226         res     1
+                      00227 UD_abs_mc35p7041_d0     udata_ovr       0x00d0
+0068                  00228 _IOP0bits
+0068                  00229 _IOP0
+0068                  00230         res     1
+                      00231 UD_abs_mc35p7041_d4     udata_ovr       0x00d4
+006A                  00232 _IOP4bits
+006A                  00233 _IOP4
+006A                  00234         res     1
+                      00235 UD_abs_mc35p7041_d5     udata_ovr       0x00d5
+006A                  00236 _IOP5bits
+006A                  00237 _IOP5
+006A                  00238         res     1
+                      00239 UD_abs_mc35p7041_d8     udata_ovr       0x00d8
+006C                  00240 _T0CRbits
+006C                  00241 _T0CR
+006C                  00242         res     1
+                      00243 UD_abs_mc35p7041_d9     udata_ovr       0x00d9
+006C                  00244 _T0CNT
+006C                  00245         res     1
+                      00246 UD_abs_mc35p7041_da     udata_ovr       0x00da
+006D                  00247 _T1CRbits
+006D                  00248 _T1CR
+006D                  00249         res     1
+                      00250 UD_abs_mc35p7041_db     udata_ovr       0x00db
+006D                  00251 _T1CNT
+006D                  00252         res     1
+                      00253 UD_abs_mc35p7041_dc     udata_ovr       0x00dc
+006E                  00254 _BUZCRbits
+006E                  00255 _BUZCR
+006E                  00256         res     1
+                      00257 UD_abs_mc35p7041_df     udata_ovr       0x00df
+006F                  00258 _MCRbits
+006F                  00259 _MCR
+006F                  00260         res     1
+                      00261 UD_abs_mc35p7041_e0     udata_ovr       0x00e0
+0070                  00262 _PUP0bits
+0070                  00263 _PUP0
+0070                  00264         res     1
+                      00265 UD_abs_mc35p7041_e4     udata_ovr       0x00e4
+0072                  00266 _PUP4bits
+0072                  00267 _PUP4
+0072                  00268         res     1
+                      00269 UD_abs_mc35p7041_e5     udata_ovr       0x00e5
+0072                  00270 _PUP5bits
+0072                  00271 _PUP5
+0072                  00272         res     1
+                      00273 UD_abs_mc35p7041_e7     udata_ovr       0x00e7
+0073                  00274 _INDF
+0073                  00275         res     1
+                      00276 UD_abs_mc35p7041_e8     udata_ovr       0x00e8
+0074                  00277 _PWMCR0bits
+0074                  00278 _PWMCR0
+0074                  00279         res     1
+                      00280 UD_abs_mc35p7041_e9     udata_ovr       0x00e9
+0074                  00281 _PWMCR1bits
+0074                  00282 _PWMCR1
+0074                  00283         res     1
+                      00284 UD_abs_mc35p7041_ea     udata_ovr       0x00ea
+0075                  00285 _PWMCNT
+0075                  00286         res     1
+                      00287 UD_abs_mc35p7041_eb     udata_ovr       0x00eb
+0075                  00288 _PWMADT
+0075                  00289         res     1
+                      00290 UD_abs_mc35p7041_ec     udata_ovr       0x00ec
+0076                  00291 _PWMBDT
+0076                  00292         res     1
+                      00293 UD_abs_mc35p7041_ed     udata_ovr       0x00ed
+0076                  00294 _PWMCDT
+0076                  00295         res     1
+                      00296 UD_abs_mc35p7041_ee     udata_ovr       0x00ee
+0077                  00297 _PWMPD
+0077                  00298         res     1
+                      00299 UD_abs_mc35p7041_f0     udata_ovr       0x00f0
+0078                  00300 _STKR0L
+0078                  00301         res     1
+                      00302 UD_abs_mc35p7041_f1     udata_ovr       0x00f1
+0078                  00303 _STKR0H
+0078                  00304         res     1
+                      00305 UD_abs_mc35p7041_f2     udata_ovr       0x00f2
+0079                  00306 _STKR1L
+0079                  00307         res     1
+                      00308 UD_abs_mc35p7041_f3     udata_ovr       0x00f3
+0079                  00309 _STKR1H
+0079                  00310         res     1
+                      00311 UD_abs_mc35p7041_f4     udata_ovr       0x00f4
+007A                  00312 _STKR2L
+007A                  00313         res     1
+                      00314 UD_abs_mc35p7041_f5     udata_ovr       0x00f5
+007A                  00315 _STKR2H
+007A                  00316         res     1
+                      00317 UD_abs_mc35p7041_f6     udata_ovr       0x00f6
+007B                  00318 _STKR3L
+007B                  00319         res     1
+                      00320 UD_abs_mc35p7041_f7     udata_ovr       0x00f7
+007B                  00321 _STKR3H
+007B                  00322         res     1
+                      00323 UD_abs_mc35p7041_f8     udata_ovr       0x00f8
+007C                  00324 _STKR4L
+007C                  00325         res     1
+                      00326 UD_abs_mc35p7041_f9     udata_ovr       0x00f9
+007C                  00327 _STKR4H
+007C                  00328         res     1
+                      00329 UD_abs_mc35p7041_fa     udata_ovr       0x00fa
+007D                  00330 _STKR5L
+007D                  00331         res     1
+                      00332 UD_abs_mc35p7041_fb     udata_ovr       0x00fb
+007D                  00333 _STKR5H
+007D                  00334         res     1
+                      00335 UD_abs_mc35p7041_fc     udata_ovr       0x00fc
+007E                  00336 _STKR6L
+007E                  00337         res     1
+                      00338 UD_abs_mc35p7041_fd     udata_ovr       0x00fd
+007E                  00339 _STKR6H
+007E                  00340         res     1
+                      00341 UD_abs_mc35p7041_fe     udata_ovr       0x00fe
+007F                  00342 _STKR7L
+007F                  00343         res     1
+                      00344 UD_abs_mc35p7041_ff     udata_ovr       0x00ff
+007F                  00345 _STKR7H
+007F                  00346         res     1
+                      00347 ;--------------------------------------------------------
+                      00348 ; compiler-defined variables
+                      00349 ;--------------------------------------------------------
+                      00350 ;--------------------------------------------------------
+                      00351 ; initialized data
+                      00352 ;--------------------------------------------------------
+                      00353 ;--------------------------------------------------------
+                      00354 ; overlayable items in internal ram 
+                      00355 ;--------------------------------------------------------
+                      00356 ;       udata_ovr
+                      00357 ;--------------------------------------------------------
+                      00358 ; code
+                      00359 ;--------------------------------------------------------
+                      00360 code_mc35p7041  code
+                      00361 
+                      00362 ;       code size estimation:
+                      00363 ;           0+    0 =     0 instructions (    0 byte)
+                      00364 
+                      00365         end
+gpasm-2.0.0_beta2 (Nov  6 2017)mc35p7041.asm      2017-11-23  16:21:02         PAGE  2
 
 
 SYMBOL TABLE
@@ -114,17 +396,102 @@ STK04                             00000000
 STK05                             00000000
 STK06                             00000000
 Z                                 00000000
+_ADCR0                            000000B1
+_ADCR0bits                        000000B1
+_ADCR1                            000000B2
+_ADCR1bits                        000000B2
+_ADCR2                            000000B5
+_ADCR2bits                        000000B5
+_ADIOS0                           000000AD
+_ADIOS0bits                       000000AD
+_ADIOS1                           000000AE
+_ADIOS1bits                       000000AE
+_ADIOS2                           000000AF
+_ADIOS2bits                       000000AF
+_ADRH                             000000B3
+_ADRL                             000000B4
+_BUZCR                            000000DC
+_BUZCRbits                        000000DC
 _CONFIG0                          00008000
 _CONFIG1                          00008001
-_FSR                              00000083
+_EINTCR                           000000BF
+_EINTCRbits                       000000BF
 _FSR0                             00000083
 _FSR1                             00000084
 _HIBYTE                           00000082
 _INDF                             000000E7
+_INTE                             000000C9
+_INTEbits                         000000C9
+_INTF                             000000C8
+_INTFbits                         000000C8
+_IOP0                             000000D0
+_IOP0bits                         000000D0
+_IOP4                             000000D4
+_IOP4bits                         000000D4
+_IOP5                             000000D5
+_IOP5bits                         000000D5
+_MCR                              000000DF
+_MCRbits                          000000DF
+_OEP0                             000000B8
+_OEP0bits                         000000B8
+_OEP4                             000000C4
+_OEP4bits                         000000C4
+_OEP5                             000000C5
+_OEP5bits                         000000C5
+_OSCCAL                           0000008F
+_OSCM                             000000CA
+_OSCMbits                         000000CA
 _PCH                              000000CF
 _PCL                              000000CE
+_PFLAG                            00000086
+_PFLAGbits                        00000086
+_PUP0                             000000E0
+_PUP0bits                         000000E0
+_PUP4                             000000E4
+_PUP4bits                         000000E4
+_PUP5                             000000E5
+_PUP5bits                         000000E5
+_PWMADT                           000000EB
+_PWMBDT                           000000EC
+_PWMCDT                           000000ED
+_PWMCNT                           000000EA
+_PWMCR0                           000000E8
+_PWMCR0bits                       000000E8
+_PWMCR1                           000000E9
+_PWMCR1bits                       000000E9
+_PWMPD                            000000EE
 _STATUS                           00000086
 _STATUSbits                       00000086
+_STKR0H                           000000F1
+_STKR0L                           000000F0
+_STKR1H                           000000F3
+_STKR1L                           000000F2
+_STKR2H                           000000F5
+_STKR2L                           000000F4
+_STKR3H                           000000F7
+_STKR3L                           000000F6
+_STKR4H                           000000F9
+_STKR4L                           000000F8
+_STKR5H                           000000FB
+_STKR5L                           000000FA
+_STKR6H                           000000FD
+_STKR6L                           000000FC
+_STKR7H                           000000FF
+_STKR7L                           000000FE
+_T0CNT                            000000D9
+_T0CR                             000000D8
+_T0CRbits                         000000D8
+_T1CNT                            000000DB
+_T1CR                             000000DA
+_T1CRbits                         000000DA
+_T1LDR                            000000CD
+_WDTCR                            000000CC
+_WKCR0                            000000A0
+_WKCR0bits                        000000A0
+_WKCR5                            000000A5
+_WKCR5bits                        000000A5
+_ZEROTR                           0000008E
+_ZEROTRbits                       0000008E
 __2K7041                          00000001
 
 Errors   :     0

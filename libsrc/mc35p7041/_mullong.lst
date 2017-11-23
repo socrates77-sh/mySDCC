@@ -1,4 +1,4 @@
-gpasm-2.0.0_beta2 (Nov  6 2017)_mullong.asm       2017-11-14  18:38:44         PAGE  1
+gpasm-2.0.0_beta2 (Nov  6 2017)_mullong.asm       2017-11-23  16:21:14         PAGE  1
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
@@ -7,7 +7,7 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
                       00001 ;--------------------------------------------------------
                       00002 ; File Created by SN-SDCC : SinoMCU ANSI-C Compiler
                       00003 ; Version 1.0.0 (Sep 28 2017) (MINGW32)
-                      00004 ; This file was generated Tue Nov 14 18:38:43 2017
+                      00004 ; This file was generated Thu Nov 23 16:21:14 2017
                       00005 ;--------------------------------------------------------
                       00006 ; MC35 port for the RISC core
                       00007 ;--------------------------------------------------------
@@ -155,15 +155,15 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
 0017   1E00           00146         MOVAR   r0x1007
 0018   1300           00147         ADDRA   r0x1008
 0019   1E00           00148         MOVAR   r0x1006
-001A   5086           00149         JBCLR   STATUS,0
+001A   5286           00149         JBCLR   STATUS,2
 001B   1500           00150         JZAR    r0x1006
 001C   1300           00151         ADDRA   r0x1009
 001D   1E00           00152         MOVAR   r0x1005
-001E   5086           00153         JBCLR   STATUS,0
+001E   5286           00153         JBCLR   STATUS,2
 001F   1500           00154         JZAR    r0x1005
 0020   1300           00155         ADDRA   r0x100A
 0021   1E00           00156         MOVAR   r0x1004
-0022   5086           00157         JBCLR   STATUS,0
+0022   5286           00157         JBCLR   STATUS,2
 0023   1500           00158         JZAR    r0x1004
 0024   1300           00159         ADDRA   r0x100B
                       00160 ;;[ICODE] ../libsdcc_mc35/_mullong.c:42:  _andif_0($5) :
@@ -195,15 +195,15 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
                       00186 ;;99    MOVAR   r0x100E
 0036   1E00           00187         MOVAR   r0x1007
 0037   1F00           00188         MOVRA   r0x100E
-0038   5086           00189         JBCLR   STATUS,0
+0038   5286           00189         JBCLR   STATUS,2
 0039   1500           00190         JZAR    r0x100E
 003A   1300           00191         ADDRA   r0x1009
 003B   1E00           00192         MOVAR   r0x100F
-003C   5086           00193         JBCLR   STATUS,0
+003C   5286           00193         JBCLR   STATUS,2
 003D   1500           00194         JZAR    r0x100F
 003E   1300           00195         ADDRA   r0x100A
 003F   1E00           00196         MOVAR   r0x1010
-0040   5086           00197         JBCLR   STATUS,0
+0040   5286           00197         JBCLR   STATUS,2
 0041   1500           00198         JZAR    r0x1010
 0042   1300           00199         ADDRA   r0x100B
                       00200 ;;[ICODE] ../libsdcc_mc35/_mullong.c:43:  _andif_1($8) :
@@ -233,15 +233,15 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
 0053   2D00           00224         MOVAI   0x00
 0054   1300           00225         ADDRA   r0x1008
 0055   2D00           00226         MOVAI   0x00
-0056   5086           00227         JBCLR   STATUS,0
+0056   5286           00227         JBCLR   STATUS,2
 0057   1500           00228         JZAR    r0x100E
 0058   1300           00229         ADDRA   r0x1009
 0059   1E00           00230         MOVAR   r0x100F
-005A   5086           00231         JBCLR   STATUS,0
+005A   5286           00231         JBCLR   STATUS,2
 005B   1500           00232         JZAR    r0x100F
 005C   1300           00233         ADDRA   r0x100A
 005D   1E00           00234         MOVAR   r0x1010
-005E   5086           00235         JBCLR   STATUS,0
+005E   5286           00235         JBCLR   STATUS,2
 005F   1500           00236         JZAR    r0x1010
 0060   1300           00237         ADDRA   r0x100B
                       00238 ;;[ICODE] ../libsdcc_mc35/_mullong.c:44:  _andif_2($11) :
@@ -270,15 +270,15 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
 0070   2D00           00261         MOVAI   0x00
 0071   1300           00262         ADDRA   r0x1008
 0072   2D00           00263         MOVAI   0x00
-0073   5086           00264         JBCLR   STATUS,0
+0073   5286           00264         JBCLR   STATUS,2
 0074   1500           00265         JZAR    r0x100E
 0075   1300           00266         ADDRA   r0x1009
 0076   1E00           00267         MOVAR   r0x100F
-0077   5086           00268         JBCLR   STATUS,0
+0077   5286           00268         JBCLR   STATUS,2
 0078   1500           00269         JZAR    r0x100F
 0079   1300           00270         ADDRA   r0x100A
 007A   1E00           00271         MOVAR   r0x1010
-007B   5086           00272         JBCLR   STATUS,0
+007B   5286           00272         JBCLR   STATUS,2
 007C   1500           00273         JZAR    r0x1010
 007D   1300           00274         ADDRA   r0x100B
                       00275 ;;[ICODE] ../libsdcc_mc35/_mullong.c:44:  _iffalse_3($10) :
@@ -295,7 +295,7 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
 0085   1F00           00286         MOVRA   r0x1010
                       00287 ;;[ICODE] ../libsdcc_mc35/_mullong.c:45:        iTemp0 [k2 lr3:43 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{long-int fixed}{ sir@ __mullong_a_1_1}[r0x1000 r0x1001 r0x1002 r0x1003 ] = iTemp18 [k24 lr35:36 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-long-int fixed}[r0x100D r0x100E r0x100F r0x1010 ] >> 0x1 {const-unsigned-int literal}
                       00288 ;;shiftRight_Left2ResultLit:5270: shCount=1, size=4, sign=0, same=0, offr=0
-0086   4086           00289         BCLR    STATUS,0
+0086   4286           00289         BCLR    STATUS,2
 0087   0800           00290         RRAR    r0x1010
 0088   1F00           00291         MOVRA   r0x1000
 0089   0800           00292         RRAR    r0x100F
@@ -306,7 +306,7 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
 008E   1F00           00297         MOVRA   r0x1003
                       00298 ;;[ICODE] ../libsdcc_mc35/_mullong.c:46:        iTemp1 [k4 lr4:43 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{long-int fixed}{ sir@ __mullong_b_1_1}[r0x1004 r0x1005 r0x1006 r0x1007 ] = iTemp1 [k4 lr4:43 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{long-int fixed}{ sir@ __mullong_b_1_1}[r0x1004 r0x1005 r0x1006 r0x1007 ] << 0x1 {const-unsigned-int literal}
                       00299 ;       .line   46; "../libsdcc_mc35/_mullong.c"        b <<= 1u;
-008F   4086           00300         BCLR    STATUS,0
+008F   4286           00300         BCLR    STATUS,2
 0090   0B00           00301         RLR     r0x1007
 0091   0B00           00302         RLR     r0x1006
 0092   0B00           00303         RLR     r0x1005
@@ -322,7 +322,7 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
                       00313 ;       .line   39; "../libsdcc_mc35/_mullong.c"        for (i = 0; i < 8u; i++) {
 0099   2D00           00314         MOVAI   0x00
 009A   1800           00315         ORAR    r0x100C
-009B   5A86           00316         JBSET   STATUS,2
+009B   5886           00316         JBSET   STATUS,0
 009C   8000           00317         GOTO    _00118_DS_
                       00318 ;;[ICODE] ../libsdcc_mc35/_mullong.c:49:        ret iTemp2 [k6 lr5:44 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{long-int fixed}{ sir@ __mullong_result_1_2}[r0x1008 r0x1009 r0x100A r0x100B ]
                       00319 ;       .line   49; "../libsdcc_mc35/_mullong.c"        return result;
@@ -343,7 +343,7 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
                       00334 ;         165+    0 =   165 instructions (  330 byte)
                       00335 
                       00336         end
-gpasm-2.0.0_beta2 (Nov  6 2017)_mullong.asm       2017-11-14  18:38:44         PAGE  2
+gpasm-2.0.0_beta2 (Nov  6 2017)_mullong.asm       2017-11-23  16:21:14         PAGE  2
 
 
 SYMBOL TABLE

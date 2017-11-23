@@ -1,4 +1,4 @@
-gpasm-2.0.0_beta2 (Nov  6 2017)../libsdcc_mc35/_gptrget3.S2017-11-14  18:38:46         PAGE  1
+gpasm-2.0.0_beta2 (Nov  6 2017)../libsdcc_mc35/_gptrget3.asm2017-11-23  16:21:17         PAGE  1
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
@@ -35,84 +35,94 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
                       00029 ; calling conventions:
                       00030 ;   3 byte generic pointer is passed in via (WREG STK00 STK01).
                       00031 ;   The result is returned in (WREG (STK00 (STK01 (STK02)))).
-                      00032 ; 
-                      00033 ;   unsigned char _gptrget  (void *gptr);
-                      00034 ;   unsigned char _gptrget1 (void *gptr);
-                      00035 ;   unsigned int  _gptrget2 (void *gptr);
-                      00036 ;   void *        _gptrget3 (void *gptr);
-                      00037 ;   unsigned long _gptrget4 (void *gptr);
-                      00038 ; 
-                      00039 ;   void _gptrput  (void *ptr, unsigned char val);
-                      00040 ;   void _gptrput1 (void *ptr, unsigned char val);
-                      00041 ;   void _gptrput2 (void *ptr, unsigned int  val);
-                      00042 ;   void _gptrput3 (void *ptr, unsigned int  val);
-                      00043 ;   void _gptrput4 (void *ptr, unsigned long val);
+                      00032 
+                      00033 ;       param:
+                      00034 ;               ACC: data/code flag
+                      00035 ;               (STK00:STK01) 16bit address
+                      00036 ;       return:
+                      00037 ;               (ACC[:STK00[:STK01[:STK02]]]): data (MSB left)
+                      00038 
+                      00039 ;   unsigned char _gptrget  (void *gptr);
+                      00040 ;   unsigned char _gptrget1 (void *gptr);
+                      00041 ;   unsigned int  _gptrget2 (void *gptr);
+                      00042 ;   void *        _gptrget3 (void *gptr);
+                      00043 ;   unsigned long _gptrget4 (void *gptr);
                       00044 
-                      00045 include macros.inc
+                      00045 
+                      00046 ;       param:
+                      00047 ;               ACC: data/code flag
+                      00048 ;               (STK00:STK01) 16bit address
+                      00049 ;               (STK02[:STK03[:STK04[:STK05]]]): data (MSB left)
+                      00050 
+                      00051 ;   void _gptrput  (void *ptr, unsigned char val);
+                      00052 ;   void _gptrput1 (void *ptr, unsigned char val);
+                      00053 ;   void _gptrput2 (void *ptr, unsigned int  val);
+                      00054 ;   void _gptrput3 (void *ptr, unsigned int  val);
+                      00055 ;   void _gptrput4 (void *ptr, unsigned long val);
+                      00056 
+                      00057 
+                      00058 include macros.inc
                       00001 ; -----------------------------------------------
                       00002 ; --- extern declared SFRs
                       00003 ; -----------------------------------------------
                       00004         extern _STATUS
                       00005         extern _FSR0
                       00006         extern _FSR1
-                      00007         extern _INDF0
-                      00008         extern _INDF1
-                      00009         extern _INDF2
-                      00010         extern _INDF3
-                      00011         extern _FSR
-                      00012         extern _INDF
-                      00013         extern _PCLATH
-                      00014         extern _PCL
-                      00015         
-                      00016 
-  00000000            00017 C       EQU     0
-  00000001            00018 DC      EQU     1
-  00000002            00019 Z       EQU     2
-  00000007            00020 IRP     EQU     7
-                      00021         
-                      00022 ; -----------------------------------------------
-                      00023 ; --- generic pointer access helpers
-                      00024 ; -----------------------------------------------
+                      00007 ;       extern _FSR
+                      00008         extern _INDF
+                      00009         extern _PCLATH
+                      00010         extern _PCL
+                      00011         extern _HIBYTE
+                      00012         
+                      00013 
+  00000002            00014 C       EQU     2
+  00000001            00015 DC      EQU     1
+  00000000            00016 Z       EQU     0
+  00000007            00017 IRP     EQU     7
+                      00018         
+                      00019 ; -----------------------------------------------
+                      00020 ; --- generic pointer access helpers
+                      00021 ; -----------------------------------------------
+                      00022 
+  00000000            00023 GPTRTAG_DATA    EQU     0x00
+  00000080            00024 GPTRTAG_CODE    EQU     0x80
                       00025 
-  00000000            00026 GPTRTAG_DATA    EQU     0x00
-  00000080            00027 GPTRTAG_CODE    EQU     0x80
-                      00028 
-                      00029 ; setup FSR to point to (STK00:STK01)
-                      00030 setup_fsr       macro
-                      00031         movar   STK01
-                      00032         movra   _FSR
-                      00033         ; select indirectly addressed bank
-                      00034         ;bclr   _STATUS, IRP
-                      00035         ;jbclr  STK00, 0
-                      00036         ;bset   _STATUS, IRP
-                      00037         endm
-                      00038 
-                      00039 ; increment FSR, update IRP on bank crossings
-                      00040 ; FIXME: update IRP if FSR is reset to 0...
-                      00041 inc_fsr         macro
-                      00042         ;;incr  _FSR
-                      00043         endm
-                      00044 
-                      00045 ; dispatch according to gptr type
-                      00046 select_routine  macro   dataptr, codeptr
-                      00047         ; __data pointer tag: 0x00
-                      00048         xorai   GPTRTAG_DATA
-                      00049         jbclr   _STATUS, Z
-                      00050         goto    dataptr
-                      00051         ; __code pointer tag: 0x80
-                      00052         xorai   (GPTRTAG_DATA ^ GPTRTAG_CODE)
-                      00053         jbclr   _STATUS, Z
-                      00054         goto    codeptr
-                      00055         endm
-                      00056 
-                      00057 check_data      macro   dataptr
-                      00058         ; __data pointer tag: 0x00
-                      00059         xorai   GPTRTAG_DATA
-                      00060         jbclr   _STATUS, Z
-                      00061         goto    dataptr
-                      00062         endm
-                      00063 
-                      00046 include mc30f_common.inc
+                      00026 ; setup FSR to point to (STK00:STK01)
+                      00027 setup_fsr       macro
+                      00028         movar   STK00
+                      00029         movra   _FSR1
+                      00030         movar   STK01
+                      00031         movra   _FSR0
+                      00032         endm
+                      00033 
+                      00034 inc_fsr         macro
+                      00035         ;;incr  _FSR
+                      00036         movai   1
+                      00037         addra   _FSR0
+                      00038         jbclr   _STATUS, Z
+                      00039         addra   _FSR1
+                      00040         endm
+                      00041 
+                      00042 ; dispatch according to gptr type
+                      00043 select_routine  macro   dataptr, codeptr
+                      00044         ; __data pointer tag: 0x00
+                      00045         xorai   GPTRTAG_DATA
+                      00046         jbclr   _STATUS, Z
+                      00047         goto    dataptr
+                      00048         ; __code pointer tag: 0x80
+                      00049         xorai   (GPTRTAG_DATA ^ GPTRTAG_CODE)
+                      00050         jbclr   _STATUS, Z
+                      00051         goto    codeptr
+                      00052         endm
+                      00053 
+                      00054 check_data      macro   dataptr
+                      00055         ; __data pointer tag: 0x00
+                      00056         xorai   GPTRTAG_DATA
+                      00057         jbclr   _STATUS, Z
+                      00058         goto    dataptr
+                      00059         endm
+                      00060 
+                      00059 include mc30f_common.inc
                       00001 ;--------------------------------------------------------------------------
                       00002 ;  p16f_common.inc - definitions common to all 14 bit PIC devices
                       00003 ;
@@ -148,77 +158,82 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
                       00033                 extern  STK04
                       00034                 extern  STK05
                       00035 
-                      00047 
-                      00048         global  __gptrget3
-                      00049         extern  __codeptrget1
-                      00050         
-                      00051         CODE
-                      00052 
-0000                  00053 __gptrget3:
-                      00054         select_routine __dataptrget3, __codeptrget3
+                      00060 
+                      00061         global  __gptrget3
+                      00062         
+                      00063         CODE
+                      00064 
+0000                  00065 __gptrget3:
+                      00066         select_routine __dataptrget3, __codeptrget3
                           M         ; __data pointer tag: 0x00
 0000   1D00               M         xorai   GPTRTAG_DATA
-0001   5200               M         jbclr   _STATUS, Z
+0001   5000               M         jbclr   _STATUS, Z
 0002   8000               M         goto    dataptr
                           M         ; __code pointer tag: 0x80
 0003   1D80               M         xorai   (GPTRTAG_DATA ^ GPTRTAG_CODE)
-0004   5200               M         jbclr   _STATUS, Z
+0004   5000               M         jbclr   _STATUS, Z
 0005   8000               M         goto    codeptr
-                      00055         ; invalid tag -- return 0x000000
-0006   2B00           00056         clrr    STK01
-0007   2B00           00057         clrr    STK00
-                      00058         ;;retai 0x00
-                      00059 
-0008                  00060 __dataptrget3:
-                      00061         setup_fsr
+                      00067 
+                      00068 
+0006                  00069 __dataptrget3:
+                      00070         setup_fsr
+0006   1E00               M         movar   STK00
+0007   1F00               M         movra   _FSR1
 0008   1E00               M         movar   STK01
-0009   1F00               M         movra   _FSR
-                          M         ; select indirectly addressed bank
-                          M         ;bclr   _STATUS, IRP
-                          M         ;jbclr  STK00, 0
-                          M         ;bset   _STATUS, IRP
-000A   1E00           00062         movar   _INDF
-000B   1F00           00063         movra   STK01           ; LSB in STK01
-                      00064         inc_fsr
+0009   1F00               M         movra   _FSR0
+000A   1E00           00071         movar _INDF
+000B   1F00           00072         movra STK01             ; LSB in STK01
+                      00073         inc_fsr
                           M         ;;incr  _FSR
-000C   1E00           00065         movar   _INDF
-000D   1F00           00066         movra   STK00           ; 2nd byte in STK00
-                      00067         inc_fsr
+000C   2D01               M         movai   1
+000D   1300               M         addra   _FSR0
+000E   5000               M         jbclr   _STATUS, Z
+000F   1300               M         addra   _FSR1
+0010   1E00           00074         movar _INDF
+0011   1F00           00075         movra STK00             ; 2nd byte in STK00
+                      00076         inc_fsr
                           M         ;;incr  _FSR
-000E   1E00           00068         movar   _INDF           ; MSB in WREG
-000F   0E00           00069         return
-                      00070 
-0010                  00071 __codeptrget3:
-                      00072         ;pagesel        __codeptrget1   ; might reside in different page
-0010   C000           00073         call    __codeptrget1
-0011   1F00           00074         movra   STK02           ; temporarily store LSB
-0012   1600           00075         jzr             STK01   ; increment low address byte
-                      00076         ;;decr  STK00   ; undo increment of high address byte if low byte did not overflow
-                      00077         ;;incr  STK00   ; increment high address byte
-                      00078         ;pagesel        __codeptrget1   ; might reside in different page
-0013   C000           00079         call    __codeptrget1
-0014   1F00           00080         movra   STK03           ; temporarily store 2nd byte
-0015   1600           00081         jzr             STK01   ; increment low address byte
-                      00082         ;;decr  STK00   ; undo increment of high address byte if low byte did not overflow
-                      00083         ;;incr  STK00   ; increment high address byte
-                      00084         ;pagesel        __codeptrget1   ; might reside in different page
-0016   C000           00085         call    __codeptrget1
-0017   1F00           00086         movra   STK04           ; temporarily store MSB
-0018   1E00           00087         movar   STK02
-0019   1F00           00088         movra   STK01           ; LSB in STK01
-001A   1E00           00089         movar   STK03
-001B   1F00           00090         movra   STK00           ; 2nd byte in STK00
-001C   1E00           00091         movar   STK04           ; MSB in WREG
-001D   0E00           00092         return
-                      00093 
-                      00094         END
-gpasm-2.0.0_beta2 (Nov  6 2017)../libsdcc_mc35/_gptrget3.S2017-11-14  18:38:46         PAGE  2
+0012   2D01               M         movai   1
+0013   1300               M         addra   _FSR0
+0014   5000               M         jbclr   _STATUS, Z
+0015   1300               M         addra   _FSR1
+0016   1E00           00077         movar _INDF             ; MSB in ACC
+0017   0E00           00078         return
+                      00079         
+                      00080 
+0018                  00081 __codeptrget3:
+                      00082         setup_fsr
+0018   1E00               M         movar   STK00
+0019   1F00               M         movra   _FSR1
+001A   1E00               M         movar   STK01
+001B   1F00               M         movra   _FSR0
+001C   0D00           00083         movc
+001D   1F00           00084         movra STK01             ; LSB in STK01
+                      00085         inc_fsr
+                          M         ;;incr  _FSR
+001E   2D01               M         movai   1
+001F   1300               M         addra   _FSR0
+0020   5000               M         jbclr   _STATUS, Z
+0021   1300               M         addra   _FSR1
+0022   0D00           00086         movc
+0023   1F00           00087         movra STK00             ; 2nd byte in STK00
+                      00088         inc_fsr
+                          M         ;;incr  _FSR
+0024   2D01               M         movai   1
+0025   1300               M         addra   _FSR0
+0026   5000               M         jbclr   _STATUS, Z
+0027   1300               M         addra   _FSR1
+0028   0D00           00089         movc                    ; MSB in ACC
+0029   0E00           00090         return
+                      00091 
+                      00092         END
+gpasm-2.0.0_beta2 (Nov  6 2017)../libsdcc_mc35/_gptrget3.asm2017-11-23  16:21:17         PAGE  2
 
 
 SYMBOL TABLE
   LABEL                             VALUE
 
-C                                 00000000
+C                                 00000002
 DC                                00000001
 GPTRTAG_CODE                      00000080
 GPTRTAG_DATA                      00000000
@@ -229,22 +244,17 @@ STK02                             00000000
 STK03                             00000000
 STK04                             00000000
 STK05                             00000000
-Z                                 00000002
-_FSR                              00000000
+Z                                 00000000
 _FSR0                             00000000
 _FSR1                             00000000
+_HIBYTE                           00000000
 _INDF                             00000000
-_INDF0                            00000000
-_INDF1                            00000000
-_INDF2                            00000000
-_INDF3                            00000000
 _PCL                              00000000
 _PCLATH                           00000000
 _STATUS                           00000000
 __2K7041                          00000001
-__codeptrget1                     00000000
-__codeptrget3                     00000010
-__dataptrget3                     00000008
+__codeptrget3                     00000018
+__dataptrget3                     00000006
 __gptrget3                        00000000
 
 Errors   :     0

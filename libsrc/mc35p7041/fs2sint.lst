@@ -1,4 +1,4 @@
-gpasm-2.0.0_beta2 (Nov  6 2017)fs2sint.asm        2017-11-14  18:38:36         PAGE  1
+gpasm-2.0.0_beta2 (Nov  6 2017)fs2sint.asm        2017-11-23  16:21:05         PAGE  1
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
@@ -7,7 +7,7 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
                       00001 ;--------------------------------------------------------
                       00002 ; File Created by SN-SDCC : SinoMCU ANSI-C Compiler
                       00003 ; Version 1.0.0 (Sep 28 2017) (MINGW32)
-                      00004 ; This file was generated Tue Nov 14 18:38:36 2017
+                      00004 ; This file was generated Thu Nov 23 16:21:05 2017
                       00005 ;--------------------------------------------------------
                       00006 ; MC35 port for the RISC core
                       00007 ;--------------------------------------------------------
@@ -160,26 +160,26 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
 0016   1E00           00151         MOVAR   r0x1000
 0017   1480           00152         ADDAI   0x80
 0018   1480           00153         ADDAI   0x80
-0019   5A86           00154         JBSET   STATUS,2
+0019   5886           00154         JBSET   STATUS,0
 001A   8000           00155         GOTO    _00115_DS_
 001B   2D00           00156         MOVAI   0x00
 001C   2C00           00157         XCH     r0x1001
 001D   2300           00158         ASUBRA  r0x1001
 001E   2C00           00159         XCH     r0x1001
-001F   5A86           00160         JBSET   STATUS,2
+001F   5886           00160         JBSET   STATUS,0
 0020   8000           00161         GOTO    _00115_DS_
 0021   2D7F           00162         MOVAI   0x7f
 0022   2C00           00163         XCH     r0x1002
 0023   2300           00164         ASUBRA  r0x1002
 0024   2C00           00165         XCH     r0x1002
-0025   5A86           00166         JBSET   STATUS,2
+0025   5886           00166         JBSET   STATUS,0
 0026   8000           00167         GOTO    _00115_DS_
 0027   2DFF           00168         MOVAI   0xff
 0028   2C00           00169         XCH     r0x1003
 0029   2300           00170         ASUBRA  r0x1003
 002A   2C00           00171         XCH     r0x1003
 002B                  00172 _00115_DS_
-002B   5886           00173         JBSET   STATUS,0
+002B   5A86           00173         JBSET   STATUS,2
 002C   8000           00174         GOTO    _00106_DS_
                       00175 ;;genSkipc:3223: created from rifx:00D5608C
                       00176 ;;[ICODE] ../libsdcc_mc35/fs2sint.c:36:         if iTemp3 [k9 lr7:8 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char fixed} != 0 goto _iffalse_0($2)
@@ -198,26 +198,26 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
 0031   1E00           00189         MOVAR   r0x1000
 0032   1480           00190         ADDAI   0x80
 0033   1481           00191         ADDAI   0x81
-0034   5A86           00192         JBSET   STATUS,2
+0034   5886           00192         JBSET   STATUS,0
 0035   8000           00193         GOTO    _00116_DS_
 0036   2DFF           00194         MOVAI   0xff
 0037   2C00           00195         XCH     r0x1001
 0038   2300           00196         ASUBRA  r0x1001
 0039   2C00           00197         XCH     r0x1001
-003A   5A86           00198         JBSET   STATUS,2
+003A   5886           00198         JBSET   STATUS,0
 003B   8000           00199         GOTO    _00116_DS_
 003C   2D80           00200         MOVAI   0x80
 003D   2C00           00201         XCH     r0x1002
 003E   2300           00202         ASUBRA  r0x1002
 003F   2C00           00203         XCH     r0x1002
-0040   5A86           00204         JBSET   STATUS,2
+0040   5886           00204         JBSET   STATUS,0
 0041   8000           00205         GOTO    _00116_DS_
 0042   2D01           00206         MOVAI   0x01
 0043   2C00           00207         XCH     r0x1003
 0044   2300           00208         ASUBRA  r0x1003
 0045   2C00           00209         XCH     r0x1003
 0046                  00210 _00116_DS_
-0046   5086           00211         JBCLR   STATUS,0
+0046   5286           00211         JBCLR   STATUS,2
 0047   8000           00212         GOTO    _00108_DS_
                       00213 ;;genSkipc:3223: created from rifx:00D5608C
                       00214 ;;[ICODE] ../libsdcc_mc35/fs2sint.c:38:         if iTemp4 [k10 lr11:12 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char fixed} != 0 goto _iffalse_1($4)
@@ -252,7 +252,7 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
                       00243 ;          80+    0 =    80 instructions (  160 byte)
                       00244 
                       00245         end
-gpasm-2.0.0_beta2 (Nov  6 2017)fs2sint.asm        2017-11-14  18:38:36         PAGE  2
+gpasm-2.0.0_beta2 (Nov  6 2017)fs2sint.asm        2017-11-23  16:21:05         PAGE  2
 
 
 SYMBOL TABLE

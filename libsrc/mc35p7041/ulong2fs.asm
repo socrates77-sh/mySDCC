@@ -1,7 +1,7 @@
 ;--------------------------------------------------------
 ; File Created by SN-SDCC : SinoMCU ANSI-C Compiler
 ; Version 1.0.0 (Sep 28 2017) (MINGW32)
-; This file was generated Tue Nov 14 18:38:46 2017
+; This file was generated Thu Nov 23 16:21:16 2017
 ;--------------------------------------------------------
 ; MC35 port for the RISC core
 ;--------------------------------------------------------
@@ -146,7 +146,7 @@ ___ulong2fs	;Function start
 	ORAR	r0x1006
 	ORAR	r0x1005
 	ORAR	r0x1004
-	JBSET	STATUS,2
+	JBSET	STATUS,0
 	GOTO	_00121_DS_
 ;;[ICODE] ../libsdcc_mc35/ulong2fs.c:61: 	ret 0 {const-float literal}
 ;	.line	61; "../libsdcc_mc35/ulong2fs.c"	return 0.0;
@@ -170,13 +170,13 @@ _00121_DS_
 _00107_DS_
 	MOVAR	r0x1004
 	ANDAI	0xff
-	JBCLR	STATUS,2
+	JBCLR	STATUS,0
 	GOTO	_00124_DS_
 ;;[ICODE] ../libsdcc_mc35/ulong2fs.c:64: 	if iTemp2 [k6 lr10:11 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-long-int register} == 0 goto loopExitLbl2($20)
 ;;[ICODE] ../libsdcc_mc35/ulong2fs.c:67: 	iTemp0 [k2 lr3:42 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{unsigned-long-int fixed}{ sir@ ___ulong2fs_a_1_21}[r0x1000 r0x1001 r0x1002 r0x1003 ] = iTemp0 [k2 lr3:42 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{unsigned-long-int fixed}{ sir@ ___ulong2fs_a_1_21}[r0x1000 r0x1001 r0x1002 r0x1003 ] >> 0x1 {const-unsigned-char literal}
 ;;shiftRight_Left2ResultLit:5270: shCount=1, size=4, sign=0, same=1, offr=0
 ;	.line	67; "../libsdcc_mc35/ulong2fs.c"	a >>= 1;
-	BCLR	STATUS,0
+	BCLR	STATUS,2
 	RRR	r0x1004
 	RRR	r0x1005
 	RRR	r0x1006
@@ -185,7 +185,7 @@ _00107_DS_
 ;	.line	68; "../libsdcc_mc35/ulong2fs.c"	exp++;
 	MOVAI	0x01
 	ADDRA	r0x1008
-	JBCLR	STATUS,2
+	JBCLR	STATUS,0
 	ADDRA	r0x1009
 ;;[ICODE] ../libsdcc_mc35/ulong2fs.c:68: 	 goto _whilecontinue_0($3)
 	GOTO	_00107_DS_
@@ -203,7 +203,7 @@ _00124_DS_
 	GOTO	_00114_DS_
 	MOVAR	r0x1004
 	ANDAI	0xff
-	JBSET	STATUS,2
+	JBSET	STATUS,0
 	GOTO	_00114_DS_
 ;;[ICODE] ../libsdcc_mc35/ulong2fs.c:72: 	if iTemp6 [k10 lr18:19 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char fixed} != 0 goto _iffalse_1($10)
 ;;[ICODE] ../libsdcc_mc35/ulong2fs.c:73: 	iTemp9 [k13 lr20:28 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{int fixed}{ sir@ ___ulong2fs_exp_1_22}[r0x1004 r0x1005 ] := iTemp5 [k9 lr7:20 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{int fixed}{ sir@ ___ulong2fs_exp_1_22}[r0x1004 r0x1005 ]
@@ -211,7 +211,7 @@ _00124_DS_
 ;;[ICODE] ../libsdcc_mc35/ulong2fs.c:74: 	iTemp0 [k2 lr3:42 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{unsigned-long-int fixed}{ sir@ ___ulong2fs_a_1_21}[r0x1000 r0x1001 r0x1002 r0x1003 ] = iTemp0 [k2 lr3:42 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{unsigned-long-int fixed}{ sir@ ___ulong2fs_a_1_21}[r0x1000 r0x1001 r0x1002 r0x1003 ] << 0x1 {const-unsigned-char literal}
 _00110_DS_
 ;	.line	74; "../libsdcc_mc35/ulong2fs.c"	a<<=1;
-	BCLR	STATUS,0
+	BCLR	STATUS,2
 	RLR	r0x1007
 	RLR	r0x1006
 	RLR	r0x1005
@@ -220,7 +220,7 @@ _00110_DS_
 ;	.line	75; "../libsdcc_mc35/ulong2fs.c"	exp--;
 	MOVAI	0xff
 	ADDRA	r0x1008
-	JBSET	STATUS,0
+	JBSET	STATUS,2
 	DJZR	r0x1009
 	NOP	
 ;;[ICODE] ../libsdcc_mc35/ulong2fs.c:76: 	iTemp10 [k14 lr26:27 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char fixed} = iTemp0 [k2 lr3:42 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{unsigned-long-int fixed}{ sir@ ___ulong2fs_a_1_21}[r0x1000 r0x1001 r0x1002 r0x1003 ] & 0xff800000 {const-long-int literal}
@@ -230,7 +230,7 @@ _00110_DS_
 	GOTO	_00110_DS_
 	MOVAR	r0x1004
 	ANDAI	0xff
-	JBCLR	STATUS,2
+	JBCLR	STATUS,0
 	GOTO	_00110_DS_
 ;;[ICODE] ../libsdcc_mc35/ulong2fs.c:76: 	if iTemp10 [k14 lr26:27 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char fixed} == 0 goto _dobody_0($6)
 ;;[ICODE] ../libsdcc_mc35/ulong2fs.c:76: 	iTemp1 [k4 lr17:40 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{int fixed}[r0x1006 r0x1007 ] := iTemp9 [k13 lr20:28 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{int fixed}{ sir@ ___ulong2fs_exp_1_22}[r0x1004 r0x1005 ]
@@ -254,19 +254,19 @@ _00114_DS_
 	MOVAR	r0x1007
 	MOVRA	r0x1008
 	XORAI	0xff
-	JBSET	STATUS,2
+	JBSET	STATUS,0
 	GOTO	_00116_DS_
 	MOVAR	r0x1009
 	XORAI	0xff
-	JBSET	STATUS,2
+	JBSET	STATUS,0
 	GOTO	_00116_DS_
 	MOVAR	r0x100C
 	XORAI	0x7f
-	JBSET	STATUS,2
+	JBSET	STATUS,0
 	GOTO	_00116_DS_
 	MOVAR	r0x100D
 	XORAI	0x00
-	JBSET	STATUS,2
+	JBSET	STATUS,0
 	GOTO	_00116_DS_
 ;;[ICODE] ../libsdcc_mc35/ulong2fs.c:87: 	if iTemp12 [k16 lr31:32 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char fixed} == 0 goto _iffalse_2($12)
 ;;[ICODE] ../libsdcc_mc35/ulong2fs.c:88: 	iTemp0 [k2 lr3:42 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{unsigned-long-int fixed}{ sir@ ___ulong2fs_a_1_21}[r0x1000 r0x1001 r0x1002 r0x1003 ] := 0x0 {unsigned-long-int literal}
@@ -279,7 +279,7 @@ _00114_DS_
 ;	.line	89; "../libsdcc_mc35/ulong2fs.c"	exp++;
 	MOVAI	0x01
 	ADDRA	r0x100A
-	JBCLR	STATUS,2
+	JBCLR	STATUS,0
 	ADDRA	r0x100B
 ;;[ICODE] ../libsdcc_mc35/ulong2fs.c:89:  _iffalse_2($12) :
 ;;[ICODE] ../libsdcc_mc35/ulong2fs.c:93: 	iTemp0 [k2 lr3:42 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{unsigned-long-int fixed}{ sir@ ___ulong2fs_a_1_21}[r0x1000 r0x1001 r0x1002 r0x1003 ] = iTemp0 [k2 lr3:42 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{unsigned-long-int fixed}{ sir@ ___ulong2fs_a_1_21}[r0x1000 r0x1001 r0x1002 r0x1003 ] & 0xff7fffff {unsigned-long-int literal}

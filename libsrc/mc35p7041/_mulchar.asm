@@ -1,7 +1,7 @@
 ;--------------------------------------------------------
 ; File Created by SN-SDCC : SinoMCU ANSI-C Compiler
 ; Version 1.0.0 (Sep 28 2017) (MINGW32)
-; This file was generated Tue Nov 14 18:38:43 2017
+; This file was generated Thu Nov 23 16:21:13 2017
 ;--------------------------------------------------------
 ; MC35 port for the RISC core
 ;--------------------------------------------------------
@@ -109,12 +109,12 @@ _00114_DS_
 	MOVRA	r0x1004
 ;;[ICODE] ../libsdcc_mc35/_mulchar.c:45: 	iTemp0 [k2 lr3:23 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{char fixed}{ sir@ __mulchar_a_1_1}[r0x1000 ] = iTemp12 [k18 lr14:15 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-char fixed}[r0x1004 ] >> 0x1 {const-unsigned-int literal}
 ;;shiftRight_Left2ResultLit:5270: shCount=1, size=1, sign=0, same=0, offr=0
-	BCLR	STATUS,0
+	BCLR	STATUS,2
 	RRAR	r0x1004
 	MOVRA	r0x1000
 ;;[ICODE] ../libsdcc_mc35/_mulchar.c:46: 	iTemp15 [k21 lr17:18 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-int register}[r0x1004 r0x1005 ] = iTemp1 [k4 lr4:23 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{char fixed}{ sir@ __mulchar_b_1_1}[r0x1001 ] << 0x1 {const-unsigned-int literal}
 ;	.line	46; "../libsdcc_mc35/_mulchar.c"	b <<= 1u;
-	BCLR	STATUS,0
+	BCLR	STATUS,2
 	RLAR	r0x1001
 	MOVRA	r0x1001
 	MOVRA	r0x1004
@@ -131,7 +131,7 @@ _00114_DS_
 ;	.line	39; "../libsdcc_mc35/_mulchar.c"	for (i = 0; i < 8u; i++) {
 	MOVAI	0x00
 	ORAR	r0x1003
-	JBSET	STATUS,2
+	JBSET	STATUS,0
 	GOTO	_00118_DS_
 ;;[ICODE] ../libsdcc_mc35/_mulchar.c:49: 	ret iTemp2 [k6 lr5:24 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{char fixed}{ sir@ __mulchar_result_1_2}[r0x1002 ]
 ;	.line	49; "../libsdcc_mc35/_mulchar.c"	return result;

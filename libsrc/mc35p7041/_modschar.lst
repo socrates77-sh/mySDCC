@@ -1,4 +1,4 @@
-gpasm-2.0.0_beta2 (Nov  6 2017)_modschar.asm      2017-11-14  18:38:41         PAGE  1
+gpasm-2.0.0_beta2 (Nov  6 2017)_modschar.asm      2017-11-23  16:21:11         PAGE  1
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
@@ -7,7 +7,7 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
                       00001 ;--------------------------------------------------------
                       00002 ; File Created by SN-SDCC : SinoMCU ANSI-C Compiler
                       00003 ; Version 1.0.0 (Sep 28 2017) (MINGW32)
-                      00004 ; This file was generated Tue Nov 14 18:38:41 2017
+                      00004 ; This file was generated Thu Nov 23 16:21:11 2017
                       00005 ;--------------------------------------------------------
                       00006 ; MC35 port for the RISC core
                       00007 ;--------------------------------------------------------
@@ -113,20 +113,20 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
                       00104 ;;[ICODE] ../libsdcc_mc35/_modschar.c:34:       iTemp2 [k6 lr5:6 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char fixed} = iTemp0 [k2 lr3:48 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{char fixed}{ sir@ __modschar_a_1_2}[r0x1000 ] < 0x0 {const-char literal}
                       00105 ;;signed compare: left < lit(0x0=0), size=1, mask=ff
                       00106 ;       .line   34; "../libsdcc_mc35/_modschar.c"       if (a < 0) {
-0003   4886           00107         BSET    STATUS,0
+0003   4A86           00107         BSET    STATUS,2
 0004   5F00           00108         JBSET   r0x1000,7
-0005   4086           00109         BCLR    STATUS,0
-0006   5886           00110         JBSET   STATUS,0
+0005   4286           00109         BCLR    STATUS,2
+0006   5A86           00110         JBSET   STATUS,2
 0007   8000           00111         GOTO    _00112_DS_
                       00112 ;;genSkipc:3223: created from rifx:00D5608C
                       00113 ;;[ICODE] ../libsdcc_mc35/_modschar.c:34:       if iTemp2 [k6 lr5:6 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char fixed} == 0 goto _iffalse_2($8)
                       00114 ;;[ICODE] ../libsdcc_mc35/_modschar.c:36:       iTemp3 [k7 lr7:8 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char fixed} = iTemp1 [k4 lr4:50 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{char fixed}{ sir@ __modschar_b_1_2}[r0x1001 ] < 0x0 {const-char literal}
                       00115 ;;signed compare: left < lit(0x0=0), size=1, mask=ff
                       00116 ;       .line   36; "../libsdcc_mc35/_modschar.c"       if (b < 0)
-0008   4886           00117         BSET    STATUS,0
+0008   4A86           00117         BSET    STATUS,2
 0009   5F00           00118         JBSET   r0x1001,7
-000A   4086           00119         BCLR    STATUS,0
-000B   5886           00120         JBSET   STATUS,0
+000A   4286           00119         BCLR    STATUS,2
+000B   5A86           00120         JBSET   STATUS,2
 000C   8000           00121         GOTO    _00106_DS_
                       00122 ;;genSkipc:3223: created from rifx:00D5608C
                       00123 ;;[ICODE] ../libsdcc_mc35/_modschar.c:36:       if iTemp3 [k7 lr7:8 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char fixed} == 0 goto _iffalse_0($2)
@@ -145,7 +145,7 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
 0016   1C00           00136         XORRA   r0x1003
 0017   2D01           00137         MOVAI   0x01
 0018   1300           00138         ADDRA   r0x1002
-0019   5286           00139         JBCLR   STATUS,2
+0019   5086           00139         JBCLR   STATUS,0
 001A   1300           00140         ADDRA   r0x1003
                       00141 ;;[ICODE] ../libsdcc_mc35/_modschar.c:37:       iTemp6 [k11 lr11:12 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-int fixed}[r0x1004 r0x1005 ] = (unsigned-int fixed)iTemp5 [k10 lr10:11 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{int fixed}[r0x1002 r0x1003 ]
 001B   1E00           00142         MOVAR   r0x1002
@@ -169,7 +169,7 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
 0029   1C00           00160         XORRA   r0x1005
 002A   2D01           00161         MOVAI   0x01
 002B   1300           00162         ADDRA   r0x1004
-002C   5286           00163         JBCLR   STATUS,2
+002C   5086           00163         JBCLR   STATUS,0
 002D   1300           00164         ADDRA   r0x1005
                       00165 ;;[ICODE] ../libsdcc_mc35/_modschar.c:37:       iTemp10 [k15 lr15:16 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-int fixed}[r0x1006 r0x1007 ] = (unsigned-int fixed)iTemp9 [k14 lr14:15 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{int fixed}[r0x1004 r0x1005 ]
                       00166 ;;110   MOVAR   r0x1004
@@ -209,7 +209,7 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
 0042   1C00           00200         XORRA   r0x1004
 0043   2D01           00201         MOVAI   0x01
 0044   1300           00202         ADDRA   r0x1002
-0045   5286           00203         JBCLR   STATUS,2
+0045   5086           00203         JBCLR   STATUS,0
 0046   1300           00204         ADDRA   r0x1004
                       00205 ;;[ICODE] ../libsdcc_mc35/_modschar.c:39:       iTemp15 [k22 lr24:25 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-int fixed}[r0x1006 r0x1007 ] = (unsigned-int fixed)iTemp14 [k21 lr23:24 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{int fixed}[r0x1002 r0x1004 ]
 0047   1E00           00206         MOVAR   r0x1002
@@ -251,10 +251,10 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
                       00242 ;;signed compare: left < lit(0x0=0), size=1, mask=ff
 005E                  00243 _00112_DS_
                       00244 ;       .line   42; "../libsdcc_mc35/_modschar.c"       if (b < 0)
-005E   4886           00245         BSET    STATUS,0
+005E   4A86           00245         BSET    STATUS,2
 005F   5F00           00246         JBSET   r0x1001,7
-0060   4086           00247         BCLR    STATUS,0
-0061   5886           00248         JBSET   STATUS,0
+0060   4286           00247         BCLR    STATUS,2
+0061   5A86           00248         JBSET   STATUS,2
 0062   8000           00249         GOTO    _00109_DS_
                       00250 ;;genSkipc:3223: created from rifx:00D5608C
                       00251 ;;[ICODE] ../libsdcc_mc35/_modschar.c:42:       if iTemp21 [k28 lr34:35 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char fixed} == 0 goto _iffalse_1($5)
@@ -283,7 +283,7 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
 0074   1C00           00274         XORRA   r0x1006
 0075   2D01           00275         MOVAI   0x01
 0076   1300           00276         ADDRA   r0x1002
-0077   5286           00277         JBCLR   STATUS,2
+0077   5086           00277         JBCLR   STATUS,0
 0078   1300           00278         ADDRA   r0x1006
                       00279 ;;[ICODE] ../libsdcc_mc35/_modschar.c:43:       iTemp26 [k33 lr40:41 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-int fixed}[r0x1008 r0x1009 ] = (unsigned-int fixed)iTemp25 [k32 lr39:40 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{int fixed}[r0x1002 r0x1006 ]
                       00280 ;;112   MOVAR   r0x1002
@@ -356,7 +356,7 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
                       00347 ;         157+    0 =   157 instructions (  314 byte)
                       00348 
                       00349         end
-gpasm-2.0.0_beta2 (Nov  6 2017)_modschar.asm      2017-11-14  18:38:41         PAGE  2
+gpasm-2.0.0_beta2 (Nov  6 2017)_modschar.asm      2017-11-23  16:21:11         PAGE  2
 
 
 SYMBOL TABLE

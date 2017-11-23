@@ -1,4 +1,4 @@
-gpasm-2.0.0_beta2 (Nov  6 2017)_divuchar.asm      2017-11-14  18:38:34         PAGE  1
+gpasm-2.0.0_beta2 (Nov  6 2017)_divuchar.asm      2017-11-23  16:21:04         PAGE  1
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
@@ -7,7 +7,7 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
                       00001 ;--------------------------------------------------------
                       00002 ; File Created by SN-SDCC : SinoMCU ANSI-C Compiler
                       00003 ; Version 1.0.0 (Sep 28 2017) (MINGW32)
-                      00004 ; This file was generated Tue Nov 14 18:38:34 2017
+                      00004 ; This file was generated Thu Nov 23 16:21:03 2017
                       00005 ;--------------------------------------------------------
                       00006 ; MC35 port for the RISC core
                       00007 ;--------------------------------------------------------
@@ -106,7 +106,7 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
                       00097 ;       .line   36; "../libsdcc_mc35/_divuchar.c"       if (!b) return (unsigned char)-1;
 0006   2D00           00098         MOVAI   0x00
 0007   1800           00099         ORAR    r0x1001
-0008   5A86           00100         JBSET   STATUS,2
+0008   5886           00100         JBSET   STATUS,0
 0009   8000           00101         GOTO    _00107_DS_
                       00102 ;;[ICODE] ../libsdcc_mc35/_divuchar.c:36:       ret 0xff {unsigned-char literal}
 000A   2DFF           00103         MOVAI   0xff
@@ -126,11 +126,11 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
                       00117 ;;[ICODE] ../libsdcc_mc35/_divuchar.c:40:       if iTemp5 [k11 lr12:13 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-long-int register} != 0 goto _whilecontinue_1($8)
                       00118 ;;[ICODE] ../libsdcc_mc35/_divuchar.c:41:       iTemp1 [k4 lr4:33 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{unsigned-char fixed}{ sir@ __divuchar_b_1_1}[r0x1001 ] = iTemp1 [k4 lr4:33 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{unsigned-char fixed}{ sir@ __divuchar_b_1_1}[r0x1001 ] << 0x1 {const-unsigned-char literal}
                       00119 ;       .line   41; "../libsdcc_mc35/_divuchar.c"       b <<= 1;
-0010   4086           00120         BCLR    STATUS,0
+0010   4286           00120         BCLR    STATUS,2
 0011   0B00           00121         RLR     r0x1001
                       00122 ;;[ICODE] ../libsdcc_mc35/_divuchar.c:42:       iTemp3 [k8 lr6:33 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{unsigned-char fixed}{ sir@ __divuchar_mask_1_2}[r0x1003 ] = iTemp3 [k8 lr6:33 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{unsigned-char fixed}{ sir@ __divuchar_mask_1_2}[r0x1003 ] << 0x1 {const-unsigned-char literal}
                       00123 ;       .line   42; "../libsdcc_mc35/_divuchar.c"       mask <<= 1;
-0012   4086           00124         BCLR    STATUS,0
+0012   4286           00124         BCLR    STATUS,2
 0013   0B00           00125         RLR     r0x1003
                       00126 ;;[ICODE] ../libsdcc_mc35/_divuchar.c:42:        goto _whilecontinue_0($3)
 0014   8000           00127         GOTO    _00107_DS_
@@ -140,7 +140,7 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
                       00131 ;       .line   47; "../libsdcc_mc35/_divuchar.c"       while (mask) {
 0015   2D00           00132         MOVAI   0x00
 0016   1800           00133         ORAR    r0x1003
-0017   5286           00134         JBCLR   STATUS,2
+0017   5086           00134         JBCLR   STATUS,0
 0018   8000           00135         GOTO    _00114_DS_
                       00136 ;;[ICODE] ../libsdcc_mc35/_divuchar.c:48:       iTemp8 [k14 lr22:23 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char fixed} = iTemp0 [k2 lr3:33 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{unsigned-char fixed}{ sir@ __divuchar_a_1_1}[r0x1000 ] < iTemp1 [k4 lr4:33 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{unsigned-char fixed}{ sir@ __divuchar_b_1_1}[r0x1001 ]
                       00137 ;       .line   48; "../libsdcc_mc35/_divuchar.c"       if (a >= b) {
@@ -148,7 +148,7 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
 001A   2C00           00139         XCH     r0x1000
 001B   2300           00140         ASUBRA  r0x1000
 001C   2C00           00141         XCH     r0x1000
-001D   5886           00142         JBSET   STATUS,0
+001D   5A86           00142         JBSET   STATUS,2
 001E   8000           00143         GOTO    _00111_DS_
                       00144 ;;genSkipc:3223: created from rifx:00D5608C
                       00145 ;;[ICODE] ../libsdcc_mc35/_divuchar.c:48:       if iTemp8 [k14 lr22:23 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char fixed} != 0 goto _iffalse_1($7)
@@ -167,12 +167,12 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
                       00158 ;;shiftRight_Left2ResultLit:5270: shCount=1, size=1, sign=0, same=1, offr=0
 0025                  00159 _00111_DS_
                       00160 ;       .line   52; "../libsdcc_mc35/_divuchar.c"       b >>= 1;
-0025   4086           00161         BCLR    STATUS,0
+0025   4286           00161         BCLR    STATUS,2
 0026   0900           00162         RRR     r0x1001
                       00163 ;;[ICODE] ../libsdcc_mc35/_divuchar.c:53:       iTemp3 [k8 lr6:33 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{unsigned-char fixed}{ sir@ __divuchar_mask_1_2}[r0x1003 ] = iTemp3 [k8 lr6:33 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{unsigned-char fixed}{ sir@ __divuchar_mask_1_2}[r0x1003 ] >> 0x1 {const-unsigned-char literal}
                       00164 ;;shiftRight_Left2ResultLit:5270: shCount=1, size=1, sign=0, same=1, offr=0
                       00165 ;       .line   53; "../libsdcc_mc35/_divuchar.c"       mask >>= 1;
-0027   4086           00166         BCLR    STATUS,0
+0027   4286           00166         BCLR    STATUS,2
 0028   0900           00167         RRR     r0x1003
                       00168 ;;[ICODE] ../libsdcc_mc35/_divuchar.c:53:        goto _whilecontinue_1($8)
 0029   8000           00169         GOTO    _00112_DS_
@@ -192,7 +192,7 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
                       00183 ;          44+    0 =    44 instructions (   88 byte)
                       00184 
                       00185         end
-gpasm-2.0.0_beta2 (Nov  6 2017)_divuchar.asm      2017-11-14  18:38:34         PAGE  2
+gpasm-2.0.0_beta2 (Nov  6 2017)_divuchar.asm      2017-11-23  16:21:04         PAGE  2
 
 
 SYMBOL TABLE

@@ -1,4 +1,4 @@
-gpasm-2.0.0_beta2 (Nov  6 2017)_modslong.asm      2017-11-14  18:38:41         PAGE  1
+gpasm-2.0.0_beta2 (Nov  6 2017)_modslong.asm      2017-11-23  16:21:12         PAGE  1
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
@@ -7,7 +7,7 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
                       00001 ;--------------------------------------------------------
                       00002 ; File Created by SN-SDCC : SinoMCU ANSI-C Compiler
                       00003 ; Version 1.0.0 (Sep 28 2017) (MINGW32)
-                      00004 ; This file was generated Tue Nov 14 18:38:41 2017
+                      00004 ; This file was generated Thu Nov 23 16:21:12 2017
                       00005 ;--------------------------------------------------------
                       00006 ; MC35 port for the RISC core
                       00007 ;--------------------------------------------------------
@@ -152,20 +152,20 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
                       00143 ;;[ICODE] ../libsdcc_mc35/_modslong.c:34:       iTemp2 [k6 lr5:6 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char fixed} = iTemp0 [k2 lr3:36 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{long-int fixed}{ sir@ __modslong_a_1_2}[r0x1000 r0x1001 r0x1002 r0x1003 ] < 0x0 {long-int literal}
                       00144 ;;signed compare: left < lit(0x0=0), size=4, mask=ffffffff
                       00145 ;       .line   34; "../libsdcc_mc35/_modslong.c"       if (a < 0) {
-000F   4886           00146         BSET    STATUS,0
+000F   4A86           00146         BSET    STATUS,2
 0010   5F00           00147         JBSET   r0x1000,7
-0011   4086           00148         BCLR    STATUS,0
-0012   5886           00149         JBSET   STATUS,0
+0011   4286           00148         BCLR    STATUS,2
+0012   5A86           00149         JBSET   STATUS,2
 0013   8000           00150         GOTO    _00112_DS_
                       00151 ;;genSkipc:3223: created from rifx:00D5608C
                       00152 ;;[ICODE] ../libsdcc_mc35/_modslong.c:34:       if iTemp2 [k6 lr5:6 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char fixed} == 0 goto _iffalse_2($8)
                       00153 ;;[ICODE] ../libsdcc_mc35/_modslong.c:35:       iTemp3 [k7 lr7:8 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char fixed} = iTemp1 [k4 lr4:37 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{long-int fixed}{ sir@ __modslong_b_1_2}[r0x1004 r0x1005 r0x1006 r0x1007 ] < 0x0 {long-int literal}
                       00154 ;;signed compare: left < lit(0x0=0), size=4, mask=ffffffff
                       00155 ;       .line   35; "../libsdcc_mc35/_modslong.c"       if (b < 0)
-0014   4886           00156         BSET    STATUS,0
+0014   4A86           00156         BSET    STATUS,2
 0015   5F00           00157         JBSET   r0x1004,7
-0016   4086           00158         BCLR    STATUS,0
-0017   5886           00159         JBSET   STATUS,0
+0016   4286           00158         BCLR    STATUS,2
+0017   5A86           00159         JBSET   STATUS,2
 0018   8000           00160         GOTO    _00106_DS_
                       00161 ;;genSkipc:3223: created from rifx:00D5608C
                       00162 ;;[ICODE] ../libsdcc_mc35/_modslong.c:35:       if iTemp3 [k7 lr7:8 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char fixed} == 0 goto _iffalse_0($2)
@@ -185,11 +185,11 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
 0024   1F00           00176         MOVRA   r0x100B
 0025   2D01           00177         MOVAI   0x01
 0026   1300           00178         ADDRA   r0x1008
-0027   5286           00179         JBCLR   STATUS,2
+0027   5086           00179         JBCLR   STATUS,0
 0028   1300           00180         ADDRA   r0x1009
-0029   5286           00181         JBCLR   STATUS,2
+0029   5086           00181         JBCLR   STATUS,0
 002A   1300           00182         ADDRA   r0x100A
-002B   5286           00183         JBCLR   STATUS,2
+002B   5086           00183         JBCLR   STATUS,0
 002C   1300           00184         ADDRA   r0x100B
                       00185 ;;[ICODE] ../libsdcc_mc35/_modslong.c:36:       iTemp5 [k10 lr10:14 so:0]{ ia0 a2p0 re0 rm0 nos0 ru1 dp0}{unsigned-long-int fixed}[r0x100C r0x100D r0x100E r0x100F ] = (unsigned-long-int fixed)iTemp4 [k9 lr9:10 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{long-int fixed}[r0x1008 r0x1009 r0x100A r0x100B ]
 002D   1E00           00186         MOVAR   r0x1008
@@ -215,11 +215,11 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
 0040   1F00           00206         MOVRA   r0x100B
 0041   2D01           00207         MOVAI   0x01
 0042   1300           00208         ADDRA   r0x1008
-0043   5286           00209         JBCLR   STATUS,2
+0043   5086           00209         JBCLR   STATUS,0
 0044   1300           00210         ADDRA   r0x1009
-0045   5286           00211         JBCLR   STATUS,2
+0045   5086           00211         JBCLR   STATUS,0
 0046   1300           00212         ADDRA   r0x100A
-0047   5286           00213         JBCLR   STATUS,2
+0047   5086           00213         JBCLR   STATUS,0
 0048   1300           00214         ADDRA   r0x100B
                       00215 ;;[ICODE] ../libsdcc_mc35/_modslong.c:36:       iTemp7 [k12 lr12:14 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-long-int fixed}[r0x1010 r0x1011 r0x1012 r0x1013 ] = (unsigned-long-int fixed)iTemp6 [k11 lr11:12 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{long-int fixed}[r0x1008 r0x1009 r0x100A r0x100B ]
                       00216 ;;124   MOVAR   r0x1008
@@ -287,11 +287,11 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
 0077   1F00           00278         MOVRA   r0x100B
 0078   2D01           00279         MOVAI   0x01
 0079   1300           00280         ADDRA   r0x1008
-007A   5286           00281         JBCLR   STATUS,2
+007A   5086           00281         JBCLR   STATUS,0
 007B   1300           00282         ADDRA   r0x1009
-007C   5286           00283         JBCLR   STATUS,2
+007C   5086           00283         JBCLR   STATUS,0
 007D   1300           00284         ADDRA   r0x100A
-007E   5286           00285         JBCLR   STATUS,2
+007E   5086           00285         JBCLR   STATUS,0
 007F   1300           00286         ADDRA   r0x100B
                       00287 ;;[ICODE] ../libsdcc_mc35/_modslong.c:38:       iTemp10 [k17 lr19:22 so:0]{ ia0 a2p0 re0 rm0 nos0 ru1 dp0}{unsigned-long-int fixed}[r0x100C r0x100D r0x100E r0x100F ] = (unsigned-long-int fixed)iTemp9 [k16 lr18:19 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{long-int fixed}[r0x1008 r0x1009 r0x100A r0x100B ]
 0080   1E00           00288         MOVAR   r0x1008
@@ -355,10 +355,10 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
                       00346 ;;signed compare: left < lit(0x0=0), size=4, mask=ffffffff
 00AB                  00347 _00112_DS_
                       00348 ;       .line   40; "../libsdcc_mc35/_modslong.c"       if (b < 0)
-00AB   4886           00349         BSET    STATUS,0
+00AB   4A86           00349         BSET    STATUS,2
 00AC   5F00           00350         JBSET   r0x1004,7
-00AD   4086           00351         BCLR    STATUS,0
-00AE   5886           00352         JBSET   STATUS,0
+00AD   4286           00351         BCLR    STATUS,2
+00AE   5A86           00352         JBSET   STATUS,2
 00AF   8000           00353         GOTO    _00109_DS_
                       00354 ;;genSkipc:3223: created from rifx:00D5608C
                       00355 ;;[ICODE] ../libsdcc_mc35/_modslong.c:40:       if iTemp13 [k20 lr26:27 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char fixed} == 0 goto _iffalse_1($5)
@@ -387,11 +387,11 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
 00C3   1F00           00378         MOVRA   r0x100F
 00C4   2D01           00379         MOVAI   0x01
 00C5   1300           00380         ADDRA   r0x100C
-00C6   5286           00381         JBCLR   STATUS,2
+00C6   5086           00381         JBCLR   STATUS,0
 00C7   1300           00382         ADDRA   r0x100D
-00C8   5286           00383         JBCLR   STATUS,2
+00C8   5086           00383         JBCLR   STATUS,0
 00C9   1300           00384         ADDRA   r0x100E
-00CA   5286           00385         JBCLR   STATUS,2
+00CA   5086           00385         JBCLR   STATUS,0
 00CB   1300           00386         ADDRA   r0x100F
                       00387 ;;[ICODE] ../libsdcc_mc35/_modslong.c:41:       iTemp16 [k23 lr30:32 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-long-int fixed}[r0x1010 r0x1011 r0x1012 r0x1013 ] = (unsigned-long-int fixed)iTemp15 [k22 lr29:30 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{long-int fixed}[r0x100C r0x100D r0x100E r0x100F ]
                       00388 ;;116   MOVAR   r0x100C
@@ -511,7 +511,7 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
                       00502 ;         282+    0 =   282 instructions (  564 byte)
                       00503 
                       00504         end
-gpasm-2.0.0_beta2 (Nov  6 2017)_modslong.asm      2017-11-14  18:38:41         PAGE  2
+gpasm-2.0.0_beta2 (Nov  6 2017)_modslong.asm      2017-11-23  16:21:12         PAGE  2
 
 
 SYMBOL TABLE

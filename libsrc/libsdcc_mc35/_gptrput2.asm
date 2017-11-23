@@ -29,18 +29,31 @@
 ; calling conventions:
 ;   3 byte generic pointer is passed in via (WREG STK00 STK01).
 ;   The result is returned in (WREG (STK00 (STK01 (STK02)))).
-;
+
+; 	param:
+;		ACC: data/code flag
+;		(STK00:STK01) 16bit address
+;	return:
+;		(ACC[:STK00[:STK01[:STK02]]]): data (MSB left)
+
 ;   unsigned char _gptrget  (void *gptr);
 ;   unsigned char _gptrget1 (void *gptr);
 ;   unsigned int  _gptrget2 (void *gptr);
 ;   void *        _gptrget3 (void *gptr);
 ;   unsigned long _gptrget4 (void *gptr);
-;
+
+
+; 	param:
+;		ACC: data/code flag
+;		(STK00:STK01) 16bit address
+;		(STK02[:STK03[:STK04[:STK05]]]): data (MSB left)
+
 ;   void _gptrput  (void *ptr, unsigned char val);
 ;   void _gptrput1 (void *ptr, unsigned char val);
 ;   void _gptrput2 (void *ptr, unsigned int  val);
 ;   void _gptrput3 (void *ptr, unsigned int  val);
 ;   void _gptrput4 (void *ptr, unsigned long val);
+
 
 include macros.inc
 include mc30f_common.inc
@@ -51,16 +64,15 @@ include mc30f_common.inc
 
 __gptrput2:
 	check_data	__dataptrput2
-	; cannot write to __code space
-	return
+
 
 __dataptrput2:
 	setup_fsr
-	movar	STK03	; get LSB(val)
-	movra	_INDF
+	movar STK03		; get LSB(val) from STK03
+	movra _INDF
 	inc_fsr
-	movar	STK02	; get MSB(val)
-	movra	_INDF
+	movar STK02		; get MSB(val) from STK02
+	movra _INDF
 	return
 
 	END

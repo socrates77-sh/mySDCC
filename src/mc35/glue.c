@@ -845,8 +845,8 @@ mc35_emitIvals(struct dbuf_s *oBuf, symbol *sym, initList *list, long lit, int s
         {
             if (in_code)
             {
-                // zwr 1.0.0
-                dbuf_printf(oBuf, "\tretai 0x%02x\n", (int)(lit & 0xff));
+                // zwr 1.0.0 inst
+                dbuf_printf(oBuf, "\tdw 0x%02x\n", (int)(lit & 0xff));
                 // dbuf_printf (oBuf, "\tretlw 0x00\n"); // conflict from merge of sf-patch-2991122 ?
             }
             else
@@ -909,8 +909,9 @@ mc35_emitIvals(struct dbuf_s *oBuf, symbol *sym, initList *list, long lit, int s
         } // if
         if (in_code)
         {
-            // zwr 1.0.0
-            dbuf_printf(oBuf, "\tretai %s\n", text);
+            // zwr 1.0.0 inst
+            dbuf_printf(oBuf, "\tdw %s\n", text);
+            // dbuf_printf(oBuf, "\tretai %s\n", text);
         }
         else
         {
@@ -1073,8 +1074,9 @@ mc35_emitInitVal(struct dbuf_s *oBuf, symbol *topsym, sym_link *my_type, initLis
         mc35_emitIvalLabel(oBuf, topsym);
         do
         {
-            // zwr 1.0.0
-            dbuf_printf(oBuf, "\tretai 0x%02x ; '%c'\n", str[0], (str[0] >= 0x20 && str[0] < 128) ? str[0] : '.');
+            // zwr 1.0.0 inst
+            dbuf_printf(oBuf, "\tdw 0x%02x ; '%c'\n", str[0], (str[0] >= 0x20 && str[0] < 128) ? str[0] : '.');
+            // dbuf_printf(oBuf, "\tretai 0x%02x ; '%c'\n", str[0], (str[0] >= 0x20 && str[0] < 128) ? str[0] : '.');
         } while (*(str++));
         return;
     }

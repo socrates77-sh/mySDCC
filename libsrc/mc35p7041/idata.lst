@@ -1,4 +1,4 @@
-gpasm-2.0.0_beta2 (Nov  6 2017)idata.asm          2017-11-14  18:38:40         PAGE  1
+gpasm-2.0.0_beta2 (Nov  6 2017)idata.asm          2017-11-23  16:21:11         PAGE  1
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
@@ -7,7 +7,7 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
                       00001 ;--------------------------------------------------------
                       00002 ; File Created by SN-SDCC : SinoMCU ANSI-C Compiler
                       00003 ; Version 1.0.0 (Sep 28 2017) (MINGW32)
-                      00004 ; This file was generated Tue Nov 14 18:38:40 2017
+                      00004 ; This file was generated Thu Nov 23 16:21:10 2017
                       00005 ;--------------------------------------------------------
                       00006 ; MC35 port for the RISC core
                       00007 ;--------------------------------------------------------
@@ -155,13 +155,13 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
                       00146 ;;[ICODE] ../libsdcc_mc35/idata.c:79:   iTemp9 [k16 lr4:42 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-int fixed}[r0x1000 r0x1001 ] = iTemp9 [k16 lr4:42 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-int fixed}[r0x1000 r0x1001 ] - 0x1 {const-unsigned-char literal}
 0011   2DFF           00147         MOVAI   0xff
 0012   1300           00148         ADDRA   r0x1001
-0013   5886           00149         JBSET   STATUS,0
+0013   5A86           00149         JBSET   STATUS,2
 0014   2600           00150         DJZR    r0x1000
 0015   0000           00151         NOP     
                       00152 ;;[ICODE] ../libsdcc_mc35/idata.c:79:   if iTemp8 [k15 lr14:16 so:0]{ ia0 a2p0 re0 rm0 nos1 ru0 dp0}{unsigned-int fixed}[r0x1004 r0x1005 ] == 0 goto _whilebreak_0($6)
 0016   1E00           00153         MOVAR   r0x1004
 0017   1800           00154         ORAR    r0x1005
-0018   5286           00155         JBCLR   STATUS,2
+0018   5086           00155         JBCLR   STATUS,0
 0019   8000           00156         GOTO    _00110_DS_
                       00157 ;;[ICODE] ../libsdcc_mc35/idata.c:80:   iTemp12 [k21 lr17:18 so:0]{ ia1 a2p0 re0 rm0 nos0 ru1 dp0}{const-unsigned-int code* fixed}[r0x1004 r0x1005 ] = iTemp34 [k47 lr7:42 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{const-struct __00000000 code* fixed}[r0x1002 r0x1003 ] + 0x4 {const-unsigned-char literal}
                       00158 ;       .line   80; "../libsdcc_mc35/idata.c"   size = cptr->size;
@@ -233,13 +233,13 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
                       00224 ;;[ICODE] ../libsdcc_mc35/idata.c:85:   iTemp25 [k38 lr18:39 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-int fixed}[r0x1006 r0x1007 ] = iTemp25 [k38 lr18:39 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-int fixed}[r0x1006 r0x1007 ] - 0x1 {const-unsigned-char literal}
 004B   2DFF           00225         MOVAI   0xff
 004C   1300           00226         ADDRA   r0x1007
-004D   5886           00227         JBSET   STATUS,0
+004D   5A86           00227         JBSET   STATUS,2
 004E   2600           00228         DJZR    r0x1006
 004F   0000           00229         NOP     
                       00230 ;;[ICODE] ../libsdcc_mc35/idata.c:85:   if iTemp24 [k37 lr32:34 so:0]{ ia0 a2p0 re0 rm0 nos1 ru0 dp0}{unsigned-int fixed}[r0x100A r0x100B ] == 0 goto _whilebreak_1($3)
 0050   1E00           00231         MOVAR   r0x100B
 0051   1800           00232         ORAR    r0x100A
-0052   5286           00233         JBCLR   STATUS,2
+0052   5086           00233         JBCLR   STATUS,0
 0053   8000           00234         GOTO    _00107_DS_
                       00235 ;;[ICODE] ../libsdcc_mc35/idata.c:86:   iTemp28 [k41 lr35:36 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{const-char register}[r0x100A ] = @[iTemp30 [k43 lr21:39 so:0]{ ia1 a2p0 re0 rm0 nos0 ru0 dp0}{const-char code* fixed}[r0x1008 r0x1009 ] + 0x0 {const-unsigned-char literal}]
                       00236 ;       .line   86; "../libsdcc_mc35/idata.c"   *dst = *src;
@@ -262,13 +262,13 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
                       00253 ;       .line   87; "../libsdcc_mc35/idata.c"   src++;
 0062   2D01           00254         MOVAI   0x01
 0063   1300           00255         ADDRA   r0x1009
-0064   5286           00256         JBCLR   STATUS,2
+0064   5086           00256         JBCLR   STATUS,0
 0065   1300           00257         ADDRA   r0x1008
                       00258 ;;[ICODE] ../libsdcc_mc35/idata.c:88:   iTemp32 [k45 lr25:39 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char near* fixed}[r0x1004 r0x1005 ] = iTemp32 [k45 lr25:39 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char near* fixed}[r0x1004 r0x1005 ] + 0x1 {const-unsigned-char literal}
                       00259 ;       .line   88; "../libsdcc_mc35/idata.c"   dst++;
 0066   2D01           00260         MOVAI   0x01
 0067   1300           00261         ADDRA   r0x1004
-0068   5286           00262         JBCLR   STATUS,2
+0068   5086           00262         JBCLR   STATUS,0
 0069   1300           00263         ADDRA   r0x1005
                       00264 ;;[ICODE] ../libsdcc_mc35/idata.c:88:    goto _whilecontinue_1($1)
 006A   8000           00265         GOTO    _00105_DS_
@@ -278,7 +278,7 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
                       00269 ;       .line   92; "../libsdcc_mc35/idata.c"   cptr++;
 006B   2D06           00270         MOVAI   0x06
 006C   1300           00271         ADDRA   r0x1002
-006D   5086           00272         JBCLR   STATUS,0
+006D   5286           00272         JBCLR   STATUS,2
 006E   1600           00273         JZR     r0x1003
 006F   0000           00274         NOP     
                       00275 ;;[ICODE] ../libsdcc_mc35/idata.c:92:    goto _whilecontinue_0($4)
@@ -299,7 +299,7 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
                       00290 ;         114+    0 =   114 instructions (  228 byte)
                       00291 
                       00292         end
-gpasm-2.0.0_beta2 (Nov  6 2017)idata.asm          2017-11-14  18:38:40         PAGE  2
+gpasm-2.0.0_beta2 (Nov  6 2017)idata.asm          2017-11-23  16:21:11         PAGE  2
 
 
 SYMBOL TABLE

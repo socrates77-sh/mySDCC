@@ -1,7 +1,7 @@
 ;--------------------------------------------------------
 ; File Created by SN-SDCC : SinoMCU ANSI-C Compiler
 ; Version 1.0.0 (Sep 28 2017) (MINGW32)
-; This file was generated Tue Nov 14 18:38:37 2017
+; This file was generated Thu Nov 23 16:21:07 2017
 ;--------------------------------------------------------
 ; MC35 port for the RISC core
 ;--------------------------------------------------------
@@ -236,7 +236,7 @@ ___fsadd	;Function start
 	ORAR	r0x100A
 	ORAR	r0x1009
 	ORAR	r0x1008
-	JBSET	STATUS,2
+	JBSET	STATUS,0
 	GOTO	_00106_DS_
 ;;[ICODE] ../libsdcc_mc35/fsadd.c:65: 	iTemp10 [k20 lr13:14 so:0]{ ia0 a2p0 re0 rm1 nos0 ru0 dp0}{volatile-float near* fixed}[remat] = &[___fsadd_fl2_1_22 [k12 lr0:0 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{volatile-struct float_long fixed}]
 ;;[ICODE] ../libsdcc_mc35/fsadd.c:65: 	iTemp12 [k23 lr14:15 so:0]{ ia0 a2p0 re0 rm0 nos0 ru1 dp0}{volatile-float fixed}[r0x1000 r0x1001 r0x1002 r0x1003 ] = @[iTemp10 [k20 lr13:14 so:0]{ ia1 a2p0 re0 rm1 nos0 ru0 dp0}{volatile-float near* fixed}[remat] + 0x0 {const-unsigned-char literal}]
@@ -276,7 +276,7 @@ _00106_DS_
 	ORAR	r0x100A
 	ORAR	r0x1009
 	ORAR	r0x1008
-	JBSET	STATUS,2
+	JBSET	STATUS,0
 	GOTO	_00108_DS_
 ;;[ICODE] ../libsdcc_mc35/fsadd.c:67: 	iTemp16 [k28 lr20:21 so:0]{ ia0 a2p0 re0 rm1 nos0 ru0 dp0}{volatile-float near* fixed}[remat] = &[___fsadd_fl1_1_22 [k8 lr0:0 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{volatile-struct float_long fixed}]
 ;;[ICODE] ../libsdcc_mc35/fsadd.c:67: 	iTemp18 [k31 lr21:22 so:0]{ ia0 a2p0 re0 rm0 nos0 ru1 dp0}{volatile-float fixed}[r0x1000 r0x1001 r0x1002 r0x1003 ] = @[iTemp16 [k28 lr20:21 so:0]{ ia1 a2p0 re0 rm1 nos0 ru0 dp0}{volatile-float near* fixed}[remat] + 0x0 {const-unsigned-char literal}]
@@ -378,14 +378,14 @@ _00108_DS_
 	XCH	r0x1016
 	ASUBRA	r0x1016
 	XCH	r0x1016
-	JBSET	STATUS,2
+	JBSET	STATUS,0
 	GOTO	_00165_DS_
 	MOVAR	r0x100F
 	XCH	r0x100B
 	ASUBRA	r0x100B
 	XCH	r0x100B
 _00165_DS_
-	JBCLR	STATUS,0
+	JBCLR	STATUS,2
 	GOTO	_00110_DS_
 ;;genSkipc:3223: created from rifx:00D5608C
 ;;[ICODE] ../libsdcc_mc35/fsadd.c:72: 	if iTemp34 [k51 lr37:38 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char fixed} == 0 goto _iffalse_2($6)
@@ -429,14 +429,14 @@ _00110_DS_
 	XCH	r0x1016
 	ASUBRA	r0x1016
 	XCH	r0x1016
-	JBSET	STATUS,2
+	JBSET	STATUS,0
 	GOTO	_00166_DS_
 	MOVAR	r0x100D
 	XCH	r0x100B
 	ASUBRA	r0x100B
 	XCH	r0x100B
 _00166_DS_
-	JBCLR	STATUS,0
+	JBCLR	STATUS,2
 	GOTO	_00112_DS_
 ;;genSkipc:3223: created from rifx:00D5608C
 ;;[ICODE] ../libsdcc_mc35/fsadd.c:74: 	if iTemp39 [k57 lr44:45 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char fixed} == 0 goto _iffalse_3($8)
@@ -508,13 +508,13 @@ _00112_DS_
 ;;[ICODE] ../libsdcc_mc35/fsadd.c:80: 	iTemp58 [k82 lr62:63 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char fixed}[r0x1016 ] = gabit iTemp57 [k81 lr61:62 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{volatile-unsigned-long-int fixed}[r0x1012 r0x1013 r0x1014 r0x1015 ]
 	MOVAR	r0x101D
 	ANDAI	0x80
-	JBSET	STATUS,2
+	JBSET	STATUS,0
 	MOVAI	0x01
 	MOVRA	r0x101E
 ;;[ICODE] ../libsdcc_mc35/fsadd.c:80: 	if iTemp58 [k82 lr62:63 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char fixed}[r0x1016 ] == 0 goto _iffalse_4($10)
 	MOVAI	0x00
 	ORAR	r0x101E
-	JBCLR	STATUS,2
+	JBCLR	STATUS,0
 	GOTO	_00114_DS_
 ;;[ICODE] ../libsdcc_mc35/fsadd.c:81: 	iTemp43 [k62 lr53:131 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{long-int fixed}{ sir@ ___fsadd_mant1_1_22}[r0x1000 r0x1001 r0x100C r0x100D ] = - iTemp43 [k62 lr53:131 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{long-int fixed}{ sir@ ___fsadd_mant1_1_22}[r0x1000 r0x1001 r0x100C r0x100D ]
 ;	.line	81; "../libsdcc_mc35/fsadd.c"	mant1 = -mant1;
@@ -528,11 +528,11 @@ _00112_DS_
 	XORRA	r0x1015
 	MOVAI	0x01
 	ADDRA	r0x100B
-	JBCLR	STATUS,2
+	JBCLR	STATUS,0
 	ADDRA	r0x100A
-	JBCLR	STATUS,2
+	JBCLR	STATUS,0
 	ADDRA	r0x1014
-	JBCLR	STATUS,2
+	JBCLR	STATUS,0
 	ADDRA	r0x1015
 ;;[ICODE] ../libsdcc_mc35/fsadd.c:81:  _iffalse_4($10) :
 ;;[ICODE] ../libsdcc_mc35/fsadd.c:82: 	iTemp60 [k84 lr67:68 so:0]{ ia0 a2p0 re0 rm1 nos0 ru0 dp0}{volatile-unsigned-long-int near* fixed}[remat] = &[___fsadd_fl2_1_22 [k12 lr0:0 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{volatile-struct float_long fixed}]
@@ -550,13 +550,13 @@ _00114_DS_
 ;;[ICODE] ../libsdcc_mc35/fsadd.c:82: 	iTemp63 [k88 lr69:70 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char fixed}[r0x1016 ] = gabit iTemp62 [k87 lr68:69 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{volatile-unsigned-long-int fixed}[r0x1012 r0x1013 r0x1014 r0x1015 ]
 	MOVAR	r0x101D
 	ANDAI	0x80
-	JBSET	STATUS,2
+	JBSET	STATUS,0
 	MOVAI	0x01
 	MOVRA	r0x101E
 ;;[ICODE] ../libsdcc_mc35/fsadd.c:82: 	if iTemp63 [k88 lr69:70 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char fixed}[r0x1016 ] == 0 goto _iffalse_5($12)
 	MOVAI	0x00
 	ORAR	r0x101E
-	JBCLR	STATUS,2
+	JBCLR	STATUS,0
 	GOTO	_00116_DS_
 ;;[ICODE] ../libsdcc_mc35/fsadd.c:83: 	iTemp49 [k70 lr58:86 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{long-int fixed}{ sir@ ___fsadd_mant2_1_22}[r0x100E r0x100F r0x1010 r0x1011 ] = - iTemp49 [k70 lr58:86 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{long-int fixed}{ sir@ ___fsadd_mant2_1_22}[r0x100E r0x100F r0x1010 r0x1011 ]
 ;	.line	83; "../libsdcc_mc35/fsadd.c"	mant2 = -mant2;
@@ -570,11 +570,11 @@ _00114_DS_
 	XORRA	r0x1019
 	MOVAI	0x01
 	ADDRA	r0x1016
-	JBCLR	STATUS,2
+	JBCLR	STATUS,0
 	ADDRA	r0x1017
-	JBCLR	STATUS,2
+	JBCLR	STATUS,0
 	ADDRA	r0x1018
-	JBCLR	STATUS,2
+	JBCLR	STATUS,0
 	ADDRA	r0x1019
 ;;[ICODE] ../libsdcc_mc35/fsadd.c:83:  _iffalse_5($12) :
 ;;[ICODE] ../libsdcc_mc35/fsadd.c:85: 	iTemp65 [k90 lr74:75 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char fixed} = iTemp19 [k32 lr28:98 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{int fixed}{ sir@ ___fsadd_exp1_1_22}[r0x1004 r0x1005 ] > iTemp26 [k41 lr34:84 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{int fixed}{ sir@ ___fsadd_exp2_1_22}[r0x1006 r0x1007 ]
@@ -588,14 +588,14 @@ _00116_DS_
 	XCH	r0x101F
 	ASUBRA	r0x101F
 	XCH	r0x101F
-	JBSET	STATUS,2
+	JBSET	STATUS,0
 	GOTO	_00167_DS_
 	MOVAR	r0x100F
 	XCH	r0x100D
 	ASUBRA	r0x100D
 	XCH	r0x100D
 _00167_DS_
-	JBCLR	STATUS,0
+	JBCLR	STATUS,2
 	GOTO	_00118_DS_
 ;;genSkipc:3223: created from rifx:00D5608C
 ;;[ICODE] ../libsdcc_mc35/fsadd.c:85: 	if iTemp65 [k90 lr74:75 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char fixed} == 0 goto _iffalse_6($14)
@@ -607,7 +607,7 @@ _00167_DS_
 	XCH	r0x100F
 	MOVRA	r0x101A
 	MOVAR	r0x100C
-	JBSET	STATUS,0
+	JBSET	STATUS,2
 	JZAR	r0x100C
 	NOP	
 	XCH	r0x100E
@@ -620,29 +620,29 @@ _00167_DS_
 	GOTO	_00170_DS_
 	XORAI	0xff
 	ADDAI	0x01
-	JBCLR	STATUS,2
+	JBCLR	STATUS,0
 	GOTO	_00169_DS_
 _00168_DS_
-	BCLR	STATUS,0
+	BCLR	STATUS,2
 	JBCLR	r0x1019,7
-	BSET	STATUS,0
+	BSET	STATUS,2
 	RRR	r0x1019
 	RRR	r0x1018
 	RRR	r0x1017
 	RRR	r0x1016
 	ADDAI	0x01
-	JBSET	STATUS,0
+	JBSET	STATUS,2
 	GOTO	_00168_DS_
 	GOTO	_00169_DS_
 _00170_DS_
-	BCLR	STATUS,0
+	BCLR	STATUS,2
 _00171_DS_
 	RLR	r0x1016
 	RLR	r0x1017
 	RLR	r0x1018
 	RLR	r0x1019
 	ADDAI	0x01
-	JBSET	STATUS,0
+	JBSET	STATUS,2
 	GOTO	_00171_DS_
 ;;[ICODE] ../libsdcc_mc35/fsadd.c:87: 	 goto _ifend_6($15)
 _00169_DS_
@@ -657,7 +657,7 @@ _00118_DS_
 	XCH	r0x100D
 	MOVRA	r0x101A
 	MOVAR	r0x100E
-	JBSET	STATUS,0
+	JBSET	STATUS,2
 	JZAR	r0x100E
 	NOP	
 	XCH	r0x100C
@@ -670,29 +670,29 @@ _00118_DS_
 	GOTO	_00174_DS_
 	XORAI	0xff
 	ADDAI	0x01
-	JBCLR	STATUS,2
+	JBCLR	STATUS,0
 	GOTO	_00173_DS_
 _00172_DS_
-	BCLR	STATUS,0
+	BCLR	STATUS,2
 	JBCLR	r0x1015,7
-	BSET	STATUS,0
+	BSET	STATUS,2
 	RRR	r0x1015
 	RRR	r0x1014
 	RRR	r0x100A
 	RRR	r0x100B
 	ADDAI	0x01
-	JBSET	STATUS,0
+	JBSET	STATUS,2
 	GOTO	_00172_DS_
 	GOTO	_00173_DS_
 _00174_DS_
-	BCLR	STATUS,0
+	BCLR	STATUS,2
 _00175_DS_
 	RLR	r0x100B
 	RLR	r0x100A
 	RLR	r0x1014
 	RLR	r0x1015
 	ADDAI	0x01
-	JBSET	STATUS,0
+	JBSET	STATUS,2
 	GOTO	_00175_DS_
 ;;[ICODE] ../libsdcc_mc35/fsadd.c:92: 	iTemp19 [k32 lr28:98 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{int fixed}{ sir@ ___fsadd_exp1_1_22}[r0x1004 r0x1005 ] := iTemp26 [k41 lr34:84 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{int fixed}{ sir@ ___fsadd_exp2_1_22}[r0x1006 r0x1007 ]
 _00173_DS_
@@ -708,24 +708,24 @@ _00119_DS_
 	MOVAR	r0x1016
 	ADDRA	r0x100B
 	MOVAR	r0x1017
-	JBCLR	STATUS,0
+	JBCLR	STATUS,2
 	JZAR	r0x1017
 	ADDRA	r0x100A
 	MOVAR	r0x1018
-	JBCLR	STATUS,0
+	JBCLR	STATUS,2
 	JZAR	r0x1018
 	ADDRA	r0x1014
 	MOVAR	r0x1019
-	JBCLR	STATUS,0
+	JBCLR	STATUS,2
 	JZAR	r0x1019
 	ADDRA	r0x1015
 ;;[ICODE] ../libsdcc_mc35/fsadd.c:96: 	iTemp71 [k96 lr88:89 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char fixed} = iTemp43 [k62 lr53:131 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{long-int fixed}{ sir@ ___fsadd_mant1_1_22}[r0x1000 r0x1001 r0x100C r0x100D ] < 0x0 {long-int literal}
 ;;signed compare: left < lit(0x0=0), size=4, mask=ffffffff
 ;	.line	96; "../libsdcc_mc35/fsadd.c"	if (mant1 < 0)
-	BSET	STATUS,0
+	BSET	STATUS,2
 	JBSET	r0x1015,7
-	BCLR	STATUS,0
-	JBSET	STATUS,0
+	BCLR	STATUS,2
+	JBSET	STATUS,2
 	GOTO	_00123_DS_
 ;;genSkipc:3223: created from rifx:00D5608C
 ;;[ICODE] ../libsdcc_mc35/fsadd.c:96: 	if iTemp71 [k96 lr88:89 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char fixed} == 0 goto _iffalse_8($19)
@@ -741,11 +741,11 @@ _00119_DS_
 	XORRA	r0x1015
 	MOVAI	0x01
 	ADDRA	r0x100B
-	JBCLR	STATUS,2
+	JBCLR	STATUS,0
 	ADDRA	r0x100A
-	JBCLR	STATUS,2
+	JBCLR	STATUS,0
 	ADDRA	r0x1014
-	JBCLR	STATUS,2
+	JBCLR	STATUS,0
 	ADDRA	r0x1015
 ;;[ICODE] ../libsdcc_mc35/fsadd.c:99: 	iTemp2 [k6 lr5:130 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{unsigned-long-int fixed}{ sir@ ___fsadd_sign_1_22}[r0x1008 r0x1009 r0x100A r0x100B ] := 0x80000000 {unsigned-long-int literal}
 ;	.line	99; "../libsdcc_mc35/fsadd.c"	sign = SIGNBIT;
@@ -764,7 +764,7 @@ _00123_DS_
 	ORAR	r0x100A
 	ORAR	r0x1014
 	ORAR	r0x1015
-	JBSET	STATUS,2
+	JBSET	STATUS,0
 	GOTO	_00125_DS_
 ;;[ICODE] ../libsdcc_mc35/fsadd.c:102: 	ret 0 {float literal}
 ;	.line	102; "../libsdcc_mc35/fsadd.c"	return (0);
@@ -797,12 +797,12 @@ _00125_DS_
 	GOTO	_00130_DS_
 	MOVAR	r0x1017
 	ANDAI	0xff
-	JBSET	STATUS,2
+	JBSET	STATUS,0
 	GOTO	_00130_DS_
 ;;[ICODE] ../libsdcc_mc35/fsadd.c:105: 	if iTemp74 [k99 lr102:103 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char fixed} != 0 goto preHeaderLbl1($44)
 ;;[ICODE] ../libsdcc_mc35/fsadd.c:106: 	iTemp43 [k62 lr53:131 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{long-int fixed}{ sir@ ___fsadd_mant1_1_22}[r0x1000 r0x1001 r0x100C r0x100D ] = iTemp43 [k62 lr53:131 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{long-int fixed}{ sir@ ___fsadd_mant1_1_22}[r0x1000 r0x1001 r0x100C r0x100D ] << 0x1 {const-unsigned-char literal}
 ;	.line	106; "../libsdcc_mc35/fsadd.c"	mant1 <<= 1;
-	BCLR	STATUS,0
+	BCLR	STATUS,2
 	RLR	r0x100B
 	RLR	r0x100A
 	RLR	r0x1014
@@ -811,7 +811,7 @@ _00125_DS_
 ;	.line	107; "../libsdcc_mc35/fsadd.c"	exp1--;
 	MOVAI	0xff
 	ADDRA	r0x100F
-	JBSET	STATUS,0
+	JBSET	STATUS,2
 	DJZR	r0x100E
 	NOP	
 ;;[ICODE] ../libsdcc_mc35/fsadd.c:107: 	 goto _whilecontinue_0($21)
@@ -834,7 +834,7 @@ _00130_DS_
 	MOVAR	r0x1015
 	MOVRA	r0x1017
 	ANDAI	0xff
-	JBCLR	STATUS,2
+	JBCLR	STATUS,0
 	GOTO	_00132_DS_
 ;;[ICODE] ../libsdcc_mc35/fsadd.c:111: 	if iTemp79 [k104 lr113:114 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-long-int register} == 0 goto _whilebreak_1($28)
 ;;[ICODE] ../libsdcc_mc35/fsadd.c:112: 	iTemp80 [k105 lr115:116 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{long-int fixed} = iTemp43 [k62 lr53:131 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{long-int fixed}{ sir@ ___fsadd_mant1_1_22}[r0x1000 r0x1001 r0x100C r0x100D ] & 0x1 {long-int literal}
@@ -846,13 +846,13 @@ _00130_DS_
 ;	.line	113; "../libsdcc_mc35/fsadd.c"	mant1 += 2;
 	MOVAI	0x02
 	ADDRA	r0x100B
-	JBCLR	STATUS,0
+	JBCLR	STATUS,2
 	JZR	r0x100A
 	NOP	
-	JBCLR	STATUS,2
+	JBCLR	STATUS,0
 	JZR	r0x1014
 	NOP	
-	JBCLR	STATUS,2
+	JBCLR	STATUS,0
 	JZR	r0x1015
 	NOP	
 ;;[ICODE] ../libsdcc_mc35/fsadd.c:113:  _iffalse_9($25) :
@@ -860,9 +860,9 @@ _00130_DS_
 ;;shiftRight_Left2ResultLit:5270: shCount=1, size=4, sign=1, same=1, offr=0
 _00129_DS_
 ;	.line	114; "../libsdcc_mc35/fsadd.c"	mant1 >>= 1 ;
-	BCLR	STATUS,0
+	BCLR	STATUS,2
 	JBCLR	r0x1015,7
-	BSET	STATUS,0
+	BSET	STATUS,2
 	RRR	r0x1015
 	RRR	r0x1014
 	RRR	r0x100A
@@ -871,7 +871,7 @@ _00129_DS_
 ;	.line	115; "../libsdcc_mc35/fsadd.c"	exp1++;
 	MOVAI	0x01
 	ADDRA	r0x100F
-	JBCLR	STATUS,2
+	JBCLR	STATUS,0
 	ADDRA	r0x100E
 ;;[ICODE] ../libsdcc_mc35/fsadd.c:115: 	 goto _whilecontinue_1($26)
 	GOTO	_00130_DS_

@@ -1,4 +1,4 @@
-gpasm-2.0.0_beta2 (Nov  6 2017)_mulint.asm        2017-11-14  18:38:43         PAGE  1
+gpasm-2.0.0_beta2 (Nov  6 2017)_mulint.asm        2017-11-23  16:21:14         PAGE  1
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
@@ -7,7 +7,7 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
                       00001 ;--------------------------------------------------------
                       00002 ; File Created by SN-SDCC : SinoMCU ANSI-C Compiler
                       00003 ; Version 1.0.0 (Sep 28 2017) (MINGW32)
-                      00004 ; This file was generated Tue Nov 14 18:38:43 2017
+                      00004 ; This file was generated Thu Nov 23 16:21:14 2017
                       00005 ;--------------------------------------------------------
                       00006 ; MC35 port for the RISC core
                       00007 ;--------------------------------------------------------
@@ -134,7 +134,7 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
 0011   1E00           00125         MOVAR   r0x1003
 0012   1300           00126         ADDRA   r0x1004
 0013   1E00           00127         MOVAR   r0x1002
-0014   5086           00128         JBCLR   STATUS,0
+0014   5286           00128         JBCLR   STATUS,2
 0015   1500           00129         JZAR    r0x1002
 0016   1300           00130         ADDRA   r0x1005
                       00131 ;;[ICODE] ../libsdcc_mc35/_mulint.c:42:  _andif_0($5) :
@@ -171,7 +171,7 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
                       00162 ;;99    MOVAR   r0x1008
 002B   1E00           00163         MOVAR   r0x1003
 002C   1F00           00164         MOVRA   r0x1008
-002D   5086           00165         JBCLR   STATUS,0
+002D   5286           00165         JBCLR   STATUS,2
 002E   1500           00166         JZAR    r0x1008
 002F   1300           00167         ADDRA   r0x1005
                       00168 ;;[ICODE] ../libsdcc_mc35/_mulint.c:44:  _iffalse_3($10) :
@@ -184,14 +184,14 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
 0033   1F00           00175         MOVRA   r0x1008
                       00176 ;;[ICODE] ../libsdcc_mc35/_mulint.c:45:         iTemp0 [k2 lr3:31 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{int fixed}{ sir@ __mulint_a_1_1}[r0x1000 r0x1001 ] = iTemp19 [k25 lr23:24 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-int fixed}[r0x1007 r0x1008 ] >> 0x1 {const-unsigned-int literal}
                       00177 ;;shiftRight_Left2ResultLit:5270: shCount=1, size=2, sign=0, same=0, offr=0
-0034   4086           00178         BCLR    STATUS,0
+0034   4286           00178         BCLR    STATUS,2
 0035   0800           00179         RRAR    r0x1008
 0036   1F00           00180         MOVRA   r0x1000
 0037   0800           00181         RRAR    r0x1007
 0038   1F00           00182         MOVRA   r0x1001
                       00183 ;;[ICODE] ../libsdcc_mc35/_mulint.c:46:         iTemp1 [k4 lr4:31 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{int fixed}{ sir@ __mulint_b_1_1}[r0x1002 r0x1003 ] = iTemp1 [k4 lr4:31 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{int fixed}{ sir@ __mulint_b_1_1}[r0x1002 r0x1003 ] << 0x1 {const-unsigned-int literal}
                       00184 ;       .line   46; "../libsdcc_mc35/_mulint.c" b <<= 1u;
-0039   4086           00185         BCLR    STATUS,0
+0039   4286           00185         BCLR    STATUS,2
 003A   0B00           00186         RLR     r0x1003
 003B   0B00           00187         RLR     r0x1002
                       00188 ;;[ICODE] ../libsdcc_mc35/_mulint.c:46:         iTemp23 [k29 lr28:29 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char register}[r0x1007 ] = (char register)iTemp3 [k8 lr6:31 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{unsigned-char fixed}{ sir@ __mulint_i_1_2}[r0x1006 ]
@@ -205,7 +205,7 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
                       00196 ;       .line   39; "../libsdcc_mc35/_mulint.c" for (i = 0; i < 8u; i++) {
 0041   2D00           00197         MOVAI   0x00
 0042   1800           00198         ORAR    r0x1006
-0043   5A86           00199         JBSET   STATUS,2
+0043   5886           00199         JBSET   STATUS,0
 0044   8000           00200         GOTO    _00118_DS_
                       00201 ;;[ICODE] ../libsdcc_mc35/_mulint.c:49:         ret iTemp2 [k6 lr5:32 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{int fixed}{ sir@ __mulint_result_1_2}[r0x1004 r0x1005 ]
                       00202 ;       .line   49; "../libsdcc_mc35/_mulint.c" return result;
@@ -222,7 +222,7 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
                       00213 ;          73+    0 =    73 instructions (  146 byte)
                       00214 
                       00215         end
-gpasm-2.0.0_beta2 (Nov  6 2017)_mulint.asm        2017-11-14  18:38:43         PAGE  2
+gpasm-2.0.0_beta2 (Nov  6 2017)_mulint.asm        2017-11-23  16:21:14         PAGE  2
 
 
 SYMBOL TABLE

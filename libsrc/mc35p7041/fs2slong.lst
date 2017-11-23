@@ -1,4 +1,4 @@
-gpasm-2.0.0_beta2 (Nov  6 2017)fs2slong.asm       2017-11-14  18:38:36         PAGE  1
+gpasm-2.0.0_beta2 (Nov  6 2017)fs2slong.asm       2017-11-23  16:21:06         PAGE  1
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
@@ -7,7 +7,7 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
                       00001 ;--------------------------------------------------------
                       00002 ; File Created by SN-SDCC : SinoMCU ANSI-C Compiler
                       00003 ; Version 1.0.0 (Sep 28 2017) (MINGW32)
-                      00004 ; This file was generated Tue Nov 14 18:38:36 2017
+                      00004 ; This file was generated Thu Nov 23 16:21:06 2017
                       00005 ;--------------------------------------------------------
                       00006 ; MC35 port for the RISC core
                       00007 ;--------------------------------------------------------
@@ -156,7 +156,7 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
 0008   1800           00147         ORAR    r0x1002
 0009   1800           00148         ORAR    r0x1001
 000A   1800           00149         ORAR    r0x1000
-000B   5A86           00150         JBSET   STATUS,2
+000B   5886           00150         JBSET   STATUS,0
 000C   8000           00151         GOTO    _00106_DS_
                       00152 ;;[ICODE] ../libsdcc_mc35/fs2slong.c:37:        ret 0x0 {long-int literal}
                       00153 ;       .line   37; "../libsdcc_mc35/fs2slong.c"        return 0;
@@ -194,7 +194,7 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
                       00185 ;;[ICODE] ../libsdcc_mc35/fs2slong.c:39:        if iTemp1 [k4 lr9:10 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char fixed}[r0x1004 ] == 0 goto _iffalse_1($4)
 0026   2D00           00186         MOVAI   0x00
 0027   1800           00187         ORAR    r0x1004
-0028   5286           00188         JBCLR   STATUS,2
+0028   5086           00188         JBCLR   STATUS,0
 0029   8000           00189         GOTO    _00108_DS_
                       00190 ;;[ICODE] ../libsdcc_mc35/fs2slong.c:40:        iTemp2 [k6 lr11:12 so:0]{ ia0 a2p0 re0 rm0 nos0 ru1 dp0}{float fixed}[r0x1004 r0x1005 r0x1006 r0x1007 ] = - iTemp0 [k2 lr3:17 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{float fixed}{ sir@ ___fs2slong_f_1_21}[r0x1000 r0x1001 r0x1002 r0x1003 ]
                       00191 ;       .line   40; "../libsdcc_mc35/fs2slong.c"        return -__fs2ulong(-f);
@@ -238,11 +238,11 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
 0046   1C00           00229         XORRA   r0x1005
 0047   2D01           00230         MOVAI   0x01
 0048   1300           00231         ADDRA   r0x1004
-0049   5286           00232         JBCLR   STATUS,2
+0049   5086           00232         JBCLR   STATUS,0
 004A   1300           00233         ADDRA   r0x1007
-004B   5286           00234         JBCLR   STATUS,2
+004B   5086           00234         JBCLR   STATUS,0
 004C   1300           00235         ADDRA   r0x1006
-004D   5286           00236         JBCLR   STATUS,2
+004D   5086           00236         JBCLR   STATUS,0
 004E   1300           00237         ADDRA   r0x1005
                       00238 ;;[ICODE] ../libsdcc_mc35/fs2slong.c:40:        ret iTemp4 [k9 lr14:15 so:0]{ ia0 a2p0 re0 rm0 nos0 ru1 dp0}{unsigned-long-int fixed}[r0x1004 r0x1005 r0x1006 r0x1007 ]
 004F   1E00           00239         MOVAR   r0x1004
@@ -292,7 +292,7 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
                       00283 ;         110+    0 =   110 instructions (  220 byte)
                       00284 
                       00285         end
-gpasm-2.0.0_beta2 (Nov  6 2017)fs2slong.asm       2017-11-14  18:38:36         PAGE  2
+gpasm-2.0.0_beta2 (Nov  6 2017)fs2slong.asm       2017-11-23  16:21:06         PAGE  2
 
 
 SYMBOL TABLE

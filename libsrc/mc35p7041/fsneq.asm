@@ -1,7 +1,7 @@
 ;--------------------------------------------------------
 ; File Created by SN-SDCC : SinoMCU ANSI-C Compiler
 ; Version 1.0.0 (Sep 28 2017) (MINGW32)
-; This file was generated Tue Nov 14 18:38:40 2017
+; This file was generated Thu Nov 23 16:21:10 2017
 ;--------------------------------------------------------
 ; MC35 port for the RISC core
 ;--------------------------------------------------------
@@ -201,19 +201,19 @@ ___fsneq	;Function start
 ;;[ICODE] ../libsdcc_mc35/fsneq.c:70: 	iTemp12 [k22 lr13:14 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char fixed} = iTemp8 [k17 lr10:13 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{volatile-long-int fixed}[r0x1000 r0x1001 r0x1002 r0x1003 ] == iTemp11 [k21 lr12:13 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{volatile-long-int fixed}[r0x1004 r0x1005 r0x1006 r0x1007 ]
 	MOVAR	r0x100F
 	XORAR	r0x100B
-	JBSET	STATUS,2
+	JBSET	STATUS,0
 	GOTO	_00106_DS_
 	MOVAR	r0x100E
 	XORAR	r0x100A
-	JBSET	STATUS,2
+	JBSET	STATUS,0
 	GOTO	_00106_DS_
 	MOVAR	r0x100D
 	XORAR	r0x1009
-	JBSET	STATUS,2
+	JBSET	STATUS,0
 	GOTO	_00106_DS_
 	MOVAR	r0x100C
 	XORAR	r0x1008
-	JBSET	STATUS,2
+	JBSET	STATUS,0
 	GOTO	_00106_DS_
 ;;[ICODE] ../libsdcc_mc35/fsneq.c:70: 	if iTemp12 [k22 lr13:14 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char fixed} == 0 goto _iffalse_0($2)
 ;;[ICODE] ../libsdcc_mc35/fsneq.c:71: 	ret 0x0 {const-unsigned-char literal}

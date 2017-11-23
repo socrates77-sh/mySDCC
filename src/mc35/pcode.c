@@ -904,6 +904,8 @@ static pCodeInstruction mc35_pciRETFIE = {
 	(PCC_NONE | PCC_C | PCC_DC | PCC_Z) // outCond (not true... affects the GIE bit too), STATUS bit are retored
 };
 
+// zwr 1.0.0 inst
+/*
 static pCodeInstruction mc35_pciRETLW = {
 	{PC_OPCODE, NULL, NULL, 0, 0, NULL,
 	 mc35_genericDestruct,
@@ -926,6 +928,7 @@ static pCodeInstruction mc35_pciRETLW = {
 	PCC_LITERAL,					 // inCond
 	(PCC_W | PCC_C | PCC_DC | PCC_Z) // outCond, STATUS bits are irrelevant after RETLW
 };
+*/
 
 static pCodeInstruction mc35_pciRETURN = {
 	{PC_OPCODE, NULL, NULL, 0, 0, NULL,
@@ -1448,7 +1451,8 @@ static void pic14initMnemonics(void)
 	// zwr 1.0.0 inst
 	mc35_pic14Mnemonics[POC_XCH] = &mc35_pciXCH;
 	mc35_pic14Mnemonics[POC_RETFIE] = &mc35_pciRETFIE;
-	mc35_pic14Mnemonics[POC_RETLW] = &mc35_pciRETLW;
+	// zwr 1.0.0 inst
+	// mc35_pic14Mnemonics[POC_RETLW] = &mc35_pciRETLW;
 	mc35_pic14Mnemonics[POC_RETURN] = &mc35_pciRETURN;
 	mc35_pic14Mnemonics[POC_RLF] = &mc35_pciRLF;
 	mc35_pic14Mnemonics[POC_RLFW] = &mc35_pciRLFW;

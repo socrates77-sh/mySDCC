@@ -91,22 +91,22 @@ uint2fs.o : ../libsdcc_mc35/uint2fs.c
 	$(SDCC_EXE) $(SDCC_ARG) uint2fs.o ../libsdcc_mc35/uint2fs.c
 ulong2fs.o : ../libsdcc_mc35/ulong2fs.c
 	$(SDCC_EXE) $(SDCC_ARG) ulong2fs.o ../libsdcc_mc35/ulong2fs.c
-_gptrget1.o : ../libsdcc_mc35/_gptrget1.S
-	$(ASM_EXE) $(ASM_ARG) _gptrget1.o ../libsdcc_mc35/_gptrget1.S
-_gptrget2.o : ../libsdcc_mc35/_gptrget2.S
-	$(ASM_EXE) $(ASM_ARG) _gptrget2.o ../libsdcc_mc35/_gptrget2.S
-_gptrget3.o : ../libsdcc_mc35/_gptrget3.S
-	$(ASM_EXE) $(ASM_ARG) _gptrget3.o ../libsdcc_mc35/_gptrget3.S
-_gptrget4.o : ../libsdcc_mc35/_gptrget4.S
-	$(ASM_EXE) $(ASM_ARG) _gptrget4.o ../libsdcc_mc35/_gptrget4.S
-_gptrput1.o : ../libsdcc_mc35/_gptrput1.S
-	$(ASM_EXE) $(ASM_ARG) _gptrput1.o ../libsdcc_mc35/_gptrput1.S
-_gptrput2.o : ../libsdcc_mc35/_gptrput2.S
-	$(ASM_EXE) $(ASM_ARG) _gptrput2.o ../libsdcc_mc35/_gptrput2.S
-_gptrput3.o : ../libsdcc_mc35/_gptrput3.S
-	$(ASM_EXE) $(ASM_ARG) _gptrput3.o ../libsdcc_mc35/_gptrput3.S
-_gptrput4.o : ../libsdcc_mc35/_gptrput4.S
-	$(ASM_EXE) $(ASM_ARG) _gptrput4.o ../libsdcc_mc35/_gptrput4.S
+_gptrget1.o : ../libsdcc_mc35/_gptrget1.asm
+	$(ASM_EXE) $(ASM_ARG) _gptrget1.o ../libsdcc_mc35/_gptrget1.asm
+_gptrget2.o : ../libsdcc_mc35/_gptrget2.asm
+	$(ASM_EXE) $(ASM_ARG) _gptrget2.o ../libsdcc_mc35/_gptrget2.asm
+_gptrget3.o : ../libsdcc_mc35/_gptrget3.asm
+	$(ASM_EXE) $(ASM_ARG) _gptrget3.o ../libsdcc_mc35/_gptrget3.asm
+_gptrget4.o : ../libsdcc_mc35/_gptrget4.asm
+	$(ASM_EXE) $(ASM_ARG) _gptrget4.o ../libsdcc_mc35/_gptrget4.asm
+_gptrput1.o : ../libsdcc_mc35/_gptrput1.asm
+	$(ASM_EXE) $(ASM_ARG) _gptrput1.o ../libsdcc_mc35/_gptrput1.asm
+_gptrput2.o : ../libsdcc_mc35/_gptrput2.asm
+	$(ASM_EXE) $(ASM_ARG) _gptrput2.o ../libsdcc_mc35/_gptrput2.asm
+_gptrput3.o : ../libsdcc_mc35/_gptrput3.asm
+	$(ASM_EXE) $(ASM_ARG) _gptrput3.o ../libsdcc_mc35/_gptrput3.asm
+_gptrput4.o : ../libsdcc_mc35/_gptrput4.asm
+	$(ASM_EXE) $(ASM_ARG) _gptrput4.o ../libsdcc_mc35/_gptrput4.asm
 
 clean:
 	/bin/rm -f *.o *.lst *.asm *.lib

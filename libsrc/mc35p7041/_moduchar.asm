@@ -1,7 +1,7 @@
 ;--------------------------------------------------------
 ; File Created by SN-SDCC : SinoMCU ANSI-C Compiler
 ; Version 1.0.0 (Sep 28 2017) (MINGW32)
-; This file was generated Tue Nov 14 18:38:42 2017
+; This file was generated Thu Nov 23 16:21:12 2017
 ;--------------------------------------------------------
 ; MC35 port for the RISC core
 ;--------------------------------------------------------
@@ -87,7 +87,7 @@ __moduchar	;Function start
 ;	.line	35; "../libsdcc_mc35/_moduchar.c"	if (!b) return (unsigned char)-1;
 	MOVAI	0x00
 	ORAR	r0x1001
-	JBSET	STATUS,2
+	JBSET	STATUS,0
 	GOTO	_00119_DS_
 ;;[ICODE] ../libsdcc_mc35/_moduchar.c:35: 	ret 0xff {unsigned-char literal}
 	MOVAI	0xff
@@ -112,7 +112,7 @@ _00107_DS_
 ;;[ICODE] ../libsdcc_mc35/_moduchar.c:39: 	if iTemp4 [k9 lr12:13 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-long-int register} != 0 goto preHeaderLbl1($18)
 ;;[ICODE] ../libsdcc_mc35/_moduchar.c:40: 	iTemp1 [k4 lr4:31 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{unsigned-char fixed}{ sir@ __moduchar_b_1_1}[r0x1001 ] = iTemp1 [k4 lr4:31 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{unsigned-char fixed}{ sir@ __moduchar_b_1_1}[r0x1001 ] << 0x1 {const-unsigned-char literal}
 ;	.line	40; "../libsdcc_mc35/_moduchar.c"	b <<= 1;
-	BCLR	STATUS,0
+	BCLR	STATUS,2
 	RLR	r0x1001
 ;;[ICODE] ../libsdcc_mc35/_moduchar.c:41: 	iTemp6 [k11 lr8:19 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-char fixed}{ sir@ __moduchar_count_1_2}[r0x1002 ] = iTemp6 [k11 lr8:19 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-char fixed}{ sir@ __moduchar_count_1_2}[r0x1002 ] + 0x1 {const-unsigned-char literal}
 ;	.line	41; "../libsdcc_mc35/_moduchar.c"	++count;
@@ -128,7 +128,7 @@ _00112_DS_
 ;	.line	45; "../libsdcc_mc35/_moduchar.c"	while (count) {
 	MOVAI	0x00
 	ORAR	r0x1002
-	JBCLR	STATUS,2
+	JBCLR	STATUS,0
 	GOTO	_00114_DS_
 ;;[ICODE] ../libsdcc_mc35/_moduchar.c:46: 	iTemp7 [k12 lr23:24 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char fixed} = iTemp0 [k2 lr3:33 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{unsigned-char fixed}{ sir@ __moduchar_a_1_1}[r0x1000 ] < iTemp1 [k4 lr4:31 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{unsigned-char fixed}{ sir@ __moduchar_b_1_1}[r0x1001 ]
 ;	.line	46; "../libsdcc_mc35/_moduchar.c"	if (a >= b) {
@@ -136,7 +136,7 @@ _00112_DS_
 	XCH	r0x1000
 	ASUBRA	r0x1000
 	XCH	r0x1000
-	JBSET	STATUS,0
+	JBSET	STATUS,2
 	GOTO	_00111_DS_
 ;;genSkipc:3223: created from rifx:00D5608C
 ;;[ICODE] ../libsdcc_mc35/_moduchar.c:46: 	if iTemp7 [k12 lr23:24 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char fixed} != 0 goto _iffalse_1($7)
@@ -151,7 +151,7 @@ _00112_DS_
 ;;shiftRight_Left2ResultLit:5270: shCount=1, size=1, sign=0, same=1, offr=0
 _00111_DS_
 ;	.line	49; "../libsdcc_mc35/_moduchar.c"	b >>= 1;
-	BCLR	STATUS,0
+	BCLR	STATUS,2
 	RRR	r0x1001
 ;;[ICODE] ../libsdcc_mc35/_moduchar.c:50: 	iTemp10 [k15 lr19:31 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-char fixed}{ sir@ __moduchar_count_1_2}[r0x1002 ] = iTemp10 [k15 lr19:31 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-char fixed}{ sir@ __moduchar_count_1_2}[r0x1002 ] - 0x1 {const-unsigned-char literal}
 ;	.line	50; "../libsdcc_mc35/_moduchar.c"	--count;
