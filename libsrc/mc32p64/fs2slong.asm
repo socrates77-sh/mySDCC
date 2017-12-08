@@ -1,7 +1,7 @@
 ;--------------------------------------------------------
 ; File Created by SN-SDCC : SinoMCU ANSI-C Compiler
-; Version 1.0.0 (Sep 11 2017) (MINGW32)
-; This file was generated Tue Sep 12 18:09:49 2017
+; Version 1.0.0 (Sep 28 2017) (MINGW32)
+; This file was generated Thu Dec 07 13:58:37 2017
 ;--------------------------------------------------------
 ; MC30/MC32 port for the RISC core
 ;--------------------------------------------------------
@@ -32,15 +32,6 @@
 	extern	___fsneq
 	extern	___fsgt
 
-	extern PSAVE
-	extern SSAVE
-	extern WSAVE
-	extern STK12
-	extern STK11
-	extern STK10
-	extern STK09
-	extern STK08
-	extern STK07
 	extern STK06
 	extern STK05
 	extern STK04

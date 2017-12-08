@@ -1,4 +1,4 @@
-gpasm-2.0.0_beta2 (Aug 27 2017)uchar2fs.asm       2017-9-12  18:09:58          PAGE  1
+gpasm-2.0.0_beta2 (Nov  6 2017)uchar2fs.asm       2017-12-7  13:58:49          PAGE  1
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
@@ -6,8 +6,8 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
 
                       00001 ;--------------------------------------------------------
                       00002 ; File Created by SN-SDCC : SinoMCU ANSI-C Compiler
-                      00003 ; Version 1.0.0 (Sep 11 2017) (MINGW32)
-                      00004 ; This file was generated Tue Sep 12 18:09:58 2017
+                      00003 ; Version 1.0.0 (Sep 28 2017) (MINGW32)
+                      00004 ; This file was generated Thu Dec 07 13:58:49 2017
                       00005 ;--------------------------------------------------------
                       00006 ; MC30/MC32 port for the RISC core
                       00007 ;--------------------------------------------------------
@@ -41,145 +41,136 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
                       00032         extern  ___fsneq
                       00033         extern  ___fsgt
                       00034 
-                      00035         extern PSAVE
-                      00036         extern SSAVE
-                      00037         extern WSAVE
-                      00038         extern STK12
-                      00039         extern STK11
-                      00040         extern STK10
-                      00041         extern STK09
-                      00042         extern STK08
-                      00043         extern STK07
-                      00044         extern STK06
-                      00045         extern STK05
-                      00046         extern STK04
-                      00047         extern STK03
-                      00048         extern STK02
-                      00049         extern STK01
-                      00050         extern STK00
-                      00051 ;--------------------------------------------------------
-                      00052 ; global declarations
+                      00035         extern STK06
+                      00036         extern STK05
+                      00037         extern STK04
+                      00038         extern STK03
+                      00039         extern STK02
+                      00040         extern STK01
+                      00041         extern STK00
+                      00042 ;--------------------------------------------------------
+                      00043 ; global declarations
+                      00044 ;--------------------------------------------------------
+                      00045         global  ___uchar2fs
+                      00046 
+                      00047 ;--------------------------------------------------------
+                      00048 ; global definitions
+                      00049 ;--------------------------------------------------------
+                      00050 ;--------------------------------------------------------
+                      00051 ; absolute symbol definitions
+                      00052 ;--------------------------------------------------------
                       00053 ;--------------------------------------------------------
-                      00054         global  ___uchar2fs
-                      00055 
-                      00056 ;--------------------------------------------------------
-                      00057 ; global definitions
-                      00058 ;--------------------------------------------------------
-                      00059 ;--------------------------------------------------------
-                      00060 ; absolute symbol definitions
+                      00054 ; compiler-defined variables
+                      00055 ;--------------------------------------------------------
+                      00056 UDL_uchar2fs_0  udata
+0000                  00057 r0x1000 res     1
+0000                  00058 r0x1001 res     1
+0001                  00059 r0x1002 res     1
+0001                  00060 r0x1003 res     1
                       00061 ;--------------------------------------------------------
-                      00062 ;--------------------------------------------------------
-                      00063 ; compiler-defined variables
-                      00064 ;--------------------------------------------------------
-                      00065 UDL_uchar2fs_0  udata
-0000                  00066 r0x1000 res     1
-0000                  00067 r0x1001 res     1
-0001                  00068 r0x1002 res     1
-0001                  00069 r0x1003 res     1
-                      00070 ;--------------------------------------------------------
-                      00071 ; initialized data
-                      00072 ;--------------------------------------------------------
-                      00073 
-                      00074 ;@Allocation info for local variables in function '__uchar2fs'
-                      00075 ;@__uchar2fs __schar2fs                Allocated to registers ;size:2
-                      00076 ;@__uchar2fs __uint2fs                 Allocated to registers ;size:2
-                      00077 ;@__uchar2fs __sint2fs                 Allocated to registers ;size:2
-                      00078 ;@__uchar2fs __ulong2fs                Allocated to registers ;size:2
-                      00079 ;@__uchar2fs __slong2fs                Allocated to registers ;size:2
-                      00080 ;@__uchar2fs __fs2uchar                Allocated to registers ;size:2
-                      00081 ;@__uchar2fs __fs2schar                Allocated to registers ;size:2
-                      00082 ;@__uchar2fs __fs2uint                 Allocated to registers ;size:2
-                      00083 ;@__uchar2fs __fs2sint                 Allocated to registers ;size:2
-                      00084 ;@__uchar2fs __fs2ulong                Allocated to registers ;size:2
-                      00085 ;@__uchar2fs __fs2slong                Allocated to registers ;size:2
-                      00086 ;@__uchar2fs __fsadd                   Allocated to registers ;size:2
-                      00087 ;@__uchar2fs __fssub                   Allocated to registers ;size:2
-                      00088 ;@__uchar2fs __fsmul                   Allocated to registers ;size:2
-                      00089 ;@__uchar2fs __fsdiv                   Allocated to registers ;size:2
-                      00090 ;@__uchar2fs __fslt                    Allocated to registers ;size:2
-                      00091 ;@__uchar2fs __fseq                    Allocated to registers ;size:2
-                      00092 ;@__uchar2fs __fsneq                   Allocated to registers ;size:2
-                      00093 ;@__uchar2fs __fsgt                    Allocated to registers ;size:2
-                      00094 ;@__uchar2fs uc                        Allocated to registers r0x1000 ;size:1
-                      00095 ;@end Allocation info for local variables in function '__uchar2fs';
-                      00096 
-                      00097 ;--------------------------------------------------------
-                      00098 ; overlayable items in internal ram 
-                      00099 ;--------------------------------------------------------
-                      00100 ;       udata_ovr
-                      00101 ;--------------------------------------------------------
-                      00102 ; code
-                      00103 ;--------------------------------------------------------
-                      00104 code_uchar2fs   code
-                      00105 ;***
-                      00106 ;  pBlock Stats: dbName = C
-                      00107 ;***
-                      00108 ;entry:  ___uchar2fs    ;Function start
-                      00109 ; 2 exit points
-                      00110 ;has an exit
-                      00111 ;functions called:
-                      00112 ;   ___ulong2fs
-                      00113 ;   ___ulong2fs
-                      00114 ;8 compiler assigned registers:
-                      00115 ;   r0x1000
-                      00116 ;   r0x1001
-                      00117 ;   r0x1002
-                      00118 ;   r0x1003
-                      00119 ;   r0x1004
-                      00120 ;   STK02
-                      00121 ;   STK01
-                      00122 ;   STK00
-                      00123 ;; Starting pCode block
-                      00124 ;;[ICODE] ../libsdcc/uchar2fs.c:33:  _entry($2) :
-                      00125 ;;[ICODE] ../libsdcc/uchar2fs.c:33:     proc ___uchar2fs [k1 lr0:0 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{float function ( unsigned-char fixed) fixed}
-0000                  00126 ___uchar2fs     ;Function start
-                      00127 ; 2 exit points
-                      00128 ;;[ICODE] ../libsdcc/uchar2fs.c:33: iTemp0 [k2 lr3:4 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{unsigned-char fixed}{ sir@ ___uchar2fs_uc_1_21}[r0x1000 ] = recv ___uchar2fs [k1 lr0:0 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{float function ( unsigned-char fixed) fixed}
-0000   5600           00129         MOVRA   r0x1001
-                      00130 ;       .line   33; "../libsdcc/uchar2fs.c"     float __uchar2fs (unsigned char uc) _FS_REENTRANT
-0001   5600           00131         MOVRA   r0x1000
-                      00132 ;;[ICODE] ../libsdcc/uchar2fs.c:35:     iTemp1 [k5 lr4:5 so:0]{ ia0 a2p0 re0 rm0 nos0 ru1 dp0}{unsigned-long-int fixed}[r0x1001 r0x1002 r0x1003 r0x1004 ] = (unsigned-long-int fixed)iTemp0 [k2 lr3:4 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{unsigned-char fixed}{ sir@ ___uchar2fs_uc_1_21}[r0x1000 ]
-                      00133 ;;99    MOVAR   r0x1000
-                      00134 ;       .line   35; "../libsdcc/uchar2fs.c"     return __ulong2fs(uc);
-0002   7600           00135         CLRR    r0x1002
-0003   7600           00136         CLRR    r0x1003
-                      00137 ;;1     CLRR    r0x1004
-                      00138 ;;[ICODE] ../libsdcc/uchar2fs.c:35:     send iTemp1 [k5 lr4:5 so:0]{ ia0 a2p0 re0 rm0 nos0 ru1 dp0}{unsigned-long-int fixed}[r0x1001 r0x1002 r0x1003 r0x1004 ]{argreg = 1}
-                      00139 ;;[ICODE] ../libsdcc/uchar2fs.c:35:     iTemp2 [k7 lr6:7 so:0]{ ia0 a2p0 re0 rm0 nos0 ru1 dp0}{float fixed}[r0x1000 r0x1001 r0x1002 r0x1003 ] = call ___ulong2fs [k4 lr0:0 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{float function ( unsigned-long-int fixed) fixed}
-0004   5800           00140         MOVAR   r0x1001
-0005   5600           00141         MOVRA   STK02
-0006   3C00           00142         MOVAI   0x00
-0007   5600           00143         MOVRA   STK01
-0008   3C00           00144         MOVAI   0x00
-0009   5600           00145         MOVRA   STK00
-000A   3C00           00146         MOVAI   0x00
-000B   8000           00147         CALL    ___ulong2fs
-000C   5600           00148         MOVRA   r0x1003
-000D   5800           00149         MOVAR   STK00
-000E   5600           00150         MOVRA   r0x1002
-000F   5800           00151         MOVAR   STK01
-0010   5600           00152         MOVRA   r0x1001
-0011   5800           00153         MOVAR   STK02
-0012   5600           00154         MOVRA   r0x1000
-                      00155 ;;[ICODE] ../libsdcc/uchar2fs.c:35:     ret iTemp2 [k7 lr6:7 so:0]{ ia0 a2p0 re0 rm0 nos0 ru1 dp0}{float fixed}[r0x1000 r0x1001 r0x1002 r0x1003 ]
-0013   5800           00156         MOVAR   r0x1000
-0014   5600           00157         MOVRA   STK02
-0015   5800           00158         MOVAR   r0x1001
-0016   5600           00159         MOVRA   STK01
-0017   5800           00160         MOVAR   r0x1002
-0018   5600           00161         MOVRA   STK00
-0019   5800           00162         MOVAR   r0x1003
-                      00163 ;;[ICODE] ../libsdcc/uchar2fs.c:35:  _return($1) :
-                      00164 ;;[ICODE] ../libsdcc/uchar2fs.c:35:     eproc ___uchar2fs [k1 lr0:0 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{float function ( unsigned-char fixed) fixed}
-001A   000C           00165         RETURN  
-                      00166 ; exit point of ___uchar2fs
-                      00167 
-                      00168 
-                      00169 ;       code size estimation:
-                      00170 ;          27+    0 =    27 instructions (   54 byte)
-                      00171 
-                      00172         end
-gpasm-2.0.0_beta2 (Aug 27 2017)uchar2fs.asm       2017-9-12  18:09:58          PAGE  2
+                      00062 ; initialized data
+                      00063 ;--------------------------------------------------------
+                      00064 
+                      00065 ;@Allocation info for local variables in function '__uchar2fs'
+                      00066 ;@__uchar2fs __schar2fs                Allocated to registers ;size:2
+                      00067 ;@__uchar2fs __uint2fs                 Allocated to registers ;size:2
+                      00068 ;@__uchar2fs __sint2fs                 Allocated to registers ;size:2
+                      00069 ;@__uchar2fs __ulong2fs                Allocated to registers ;size:2
+                      00070 ;@__uchar2fs __slong2fs                Allocated to registers ;size:2
+                      00071 ;@__uchar2fs __fs2uchar                Allocated to registers ;size:2
+                      00072 ;@__uchar2fs __fs2schar                Allocated to registers ;size:2
+                      00073 ;@__uchar2fs __fs2uint                 Allocated to registers ;size:2
+                      00074 ;@__uchar2fs __fs2sint                 Allocated to registers ;size:2
+                      00075 ;@__uchar2fs __fs2ulong                Allocated to registers ;size:2
+                      00076 ;@__uchar2fs __fs2slong                Allocated to registers ;size:2
+                      00077 ;@__uchar2fs __fsadd                   Allocated to registers ;size:2
+                      00078 ;@__uchar2fs __fssub                   Allocated to registers ;size:2
+                      00079 ;@__uchar2fs __fsmul                   Allocated to registers ;size:2
+                      00080 ;@__uchar2fs __fsdiv                   Allocated to registers ;size:2
+                      00081 ;@__uchar2fs __fslt                    Allocated to registers ;size:2
+                      00082 ;@__uchar2fs __fseq                    Allocated to registers ;size:2
+                      00083 ;@__uchar2fs __fsneq                   Allocated to registers ;size:2
+                      00084 ;@__uchar2fs __fsgt                    Allocated to registers ;size:2
+                      00085 ;@__uchar2fs uc                        Allocated to registers r0x1000 ;size:1
+                      00086 ;@end Allocation info for local variables in function '__uchar2fs';
+                      00087 
+                      00088 ;--------------------------------------------------------
+                      00089 ; overlayable items in internal ram 
+                      00090 ;--------------------------------------------------------
+                      00091 ;       udata_ovr
+                      00092 ;--------------------------------------------------------
+                      00093 ; code
+                      00094 ;--------------------------------------------------------
+                      00095 code_uchar2fs   code
+                      00096 ;***
+                      00097 ;  pBlock Stats: dbName = C
+                      00098 ;***
+                      00099 ;entry:  ___uchar2fs    ;Function start
+                      00100 ; 2 exit points
+                      00101 ;has an exit
+                      00102 ;functions called:
+                      00103 ;   ___ulong2fs
+                      00104 ;   ___ulong2fs
+                      00105 ;8 compiler assigned registers:
+                      00106 ;   r0x1000
+                      00107 ;   r0x1001
+                      00108 ;   r0x1002
+                      00109 ;   r0x1003
+                      00110 ;   r0x1004
+                      00111 ;   STK02
+                      00112 ;   STK01
+                      00113 ;   STK00
+                      00114 ;; Starting pCode block
+                      00115 ;;[ICODE] ../libsdcc/uchar2fs.c:33:  _entry($2) :
+                      00116 ;;[ICODE] ../libsdcc/uchar2fs.c:33:     proc ___uchar2fs [k1 lr0:0 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{float function ( unsigned-char fixed) fixed}
+0000                  00117 ___uchar2fs     ;Function start
+                      00118 ; 2 exit points
+                      00119 ;;[ICODE] ../libsdcc/uchar2fs.c:33: iTemp0 [k2 lr3:4 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{unsigned-char fixed}{ sir@ ___uchar2fs_uc_1_21}[r0x1000 ] = recv ___uchar2fs [k1 lr0:0 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{float function ( unsigned-char fixed) fixed}
+0000   5600           00120         MOVRA   r0x1001
+                      00121 ;       .line   33; "../libsdcc/uchar2fs.c"     float __uchar2fs (unsigned char uc) _FS_REENTRANT
+0001   5600           00122         MOVRA   r0x1000
+                      00123 ;;[ICODE] ../libsdcc/uchar2fs.c:35:     iTemp1 [k5 lr4:5 so:0]{ ia0 a2p0 re0 rm0 nos0 ru1 dp0}{unsigned-long-int fixed}[r0x1001 r0x1002 r0x1003 r0x1004 ] = (unsigned-long-int fixed)iTemp0 [k2 lr3:4 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{unsigned-char fixed}{ sir@ ___uchar2fs_uc_1_21}[r0x1000 ]
+                      00124 ;;99    MOVAR   r0x1000
+                      00125 ;       .line   35; "../libsdcc/uchar2fs.c"     return __ulong2fs(uc);
+0002   7600           00126         CLRR    r0x1002
+0003   7600           00127         CLRR    r0x1003
+                      00128 ;;1     CLRR    r0x1004
+                      00129 ;;[ICODE] ../libsdcc/uchar2fs.c:35:     send iTemp1 [k5 lr4:5 so:0]{ ia0 a2p0 re0 rm0 nos0 ru1 dp0}{unsigned-long-int fixed}[r0x1001 r0x1002 r0x1003 r0x1004 ]{argreg = 1}
+                      00130 ;;[ICODE] ../libsdcc/uchar2fs.c:35:     iTemp2 [k7 lr6:7 so:0]{ ia0 a2p0 re0 rm0 nos0 ru1 dp0}{float fixed}[r0x1000 r0x1001 r0x1002 r0x1003 ] = call ___ulong2fs [k4 lr0:0 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{float function ( unsigned-long-int fixed) fixed}
+0004   5800           00131         MOVAR   r0x1001
+0005   5600           00132         MOVRA   STK02
+0006   3C00           00133         MOVAI   0x00
+0007   5600           00134         MOVRA   STK01
+0008   3C00           00135         MOVAI   0x00
+0009   5600           00136         MOVRA   STK00
+000A   3C00           00137         MOVAI   0x00
+000B   8000           00138         CALL    ___ulong2fs
+000C   5600           00139         MOVRA   r0x1003
+000D   5800           00140         MOVAR   STK00
+000E   5600           00141         MOVRA   r0x1002
+000F   5800           00142         MOVAR   STK01
+0010   5600           00143         MOVRA   r0x1001
+0011   5800           00144         MOVAR   STK02
+0012   5600           00145         MOVRA   r0x1000
+                      00146 ;;[ICODE] ../libsdcc/uchar2fs.c:35:     ret iTemp2 [k7 lr6:7 so:0]{ ia0 a2p0 re0 rm0 nos0 ru1 dp0}{float fixed}[r0x1000 r0x1001 r0x1002 r0x1003 ]
+0013   5800           00147         MOVAR   r0x1000
+0014   5600           00148         MOVRA   STK02
+0015   5800           00149         MOVAR   r0x1001
+0016   5600           00150         MOVRA   STK01
+0017   5800           00151         MOVAR   r0x1002
+0018   5600           00152         MOVRA   STK00
+0019   5800           00153         MOVAR   r0x1003
+                      00154 ;;[ICODE] ../libsdcc/uchar2fs.c:35:  _return($1) :
+                      00155 ;;[ICODE] ../libsdcc/uchar2fs.c:35:     eproc ___uchar2fs [k1 lr0:0 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{float function ( unsigned-char fixed) fixed}
+001A   000C           00156         RETURN  
+                      00157 ; exit point of ___uchar2fs
+                      00158 
+                      00159 
+                      00160 ;       code size estimation:
+                      00161 ;          27+    0 =    27 instructions (   54 byte)
+                      00162 
+                      00163         end
+gpasm-2.0.0_beta2 (Nov  6 2017)uchar2fs.asm       2017-12-7  13:58:49          PAGE  2
 
 
 SYMBOL TABLE
@@ -322,7 +313,6 @@ P31OE                             00000001
 P31PU                             00000001
 PCL                               000001B6
 PD                                00000004
-PSAVE                             00000000
 PUP0                              000001C2
 PUP1                              000001C6
 PUP2                              000001CA
@@ -331,7 +321,6 @@ PWM0OE                            00000006
 PWM1OE                            00000006
 RXAK                              00000000
 SRW                               00000002
-SSAVE                             00000000
 STATUS                            000001B7
 STBH                              00000004
 STBL                              00000005
@@ -342,12 +331,6 @@ STK03                             00000000
 STK04                             00000000
 STK05                             00000000
 STK06                             00000000
-STK07                             00000000
-STK08                             00000000
-STK09                             00000000
-STK10                             00000000
-STK11                             00000000
-STK12                             00000000
 T0CNT                             000001D1
 T0CR                              000001D0
 T0DATA                            000001D3
@@ -400,7 +383,6 @@ TK2JE                             00000005
 TK2RCE                            00000004
 TO                                00000005
 TXAK                              00000003
-WSAVE                             00000000
 Z                                 00000002
 _CONFIG0                          00008000
 _CONFIG1                          00008001

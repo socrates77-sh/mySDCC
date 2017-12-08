@@ -1,7 +1,7 @@
 ;--------------------------------------------------------
 ; File Created by SN-SDCC : SinoMCU ANSI-C Compiler
-; Version 1.0.0 (Sep 28 2017) (MINGW32)
-; This file was generated Thu Nov 23 16:21:04 2017
+; Version 1.1.0 (Dec  8 2017) (MINGW32)
+; This file was generated Fri Dec 08 18:30:15 2017
 ;--------------------------------------------------------
 ; MC35 port for the RISC core
 ;--------------------------------------------------------
@@ -113,7 +113,7 @@ __divuint	;Function start
 ;	.line	36; "../libsdcc_mc35/_divuint.c"	if (!b) return (unsigned int)-1;
 	MOVAR	r0x1003
 	ORAR	r0x1002
-	JBSET	STATUS,0
+	JBSET	PFLAG,0
 	GOTO	_00107_DS_
 ;;[ICODE] ../libsdcc_mc35/_divuint.c:36: 	ret 0xffff {unsigned-int literal}
 	MOVAI	0xff
@@ -136,12 +136,12 @@ _00107_DS_
 ;;[ICODE] ../libsdcc_mc35/_divuint.c:40: 	if iTemp5 [k11 lr12:13 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-long-int register} != 0 goto _whilecontinue_1($8)
 ;;[ICODE] ../libsdcc_mc35/_divuint.c:41: 	iTemp1 [k4 lr4:33 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{unsigned-int fixed}{ sir@ __divuint_b_1_1}[r0x1002 r0x1003 ] = iTemp1 [k4 lr4:33 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{unsigned-int fixed}{ sir@ __divuint_b_1_1}[r0x1002 r0x1003 ] << 0x1 {const-unsigned-char literal}
 ;	.line	41; "../libsdcc_mc35/_divuint.c"	b <<= 1;
-	BCLR	STATUS,2
+	BCLR	PFLAG,2
 	RLR	r0x1003
 	RLR	r0x1002
 ;;[ICODE] ../libsdcc_mc35/_divuint.c:42: 	iTemp3 [k8 lr6:33 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{unsigned-int fixed}{ sir@ __divuint_mask_1_2}[r0x1006 r0x1007 ] = iTemp3 [k8 lr6:33 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{unsigned-int fixed}{ sir@ __divuint_mask_1_2}[r0x1006 r0x1007 ] << 0x1 {const-unsigned-char literal}
 ;	.line	42; "../libsdcc_mc35/_divuint.c"	mask <<= 1;
-	BCLR	STATUS,2
+	BCLR	PFLAG,2
 	RLR	r0x1006
 	RLR	r0x1007
 ;;[ICODE] ../libsdcc_mc35/_divuint.c:42: 	 goto _whilecontinue_0($3)
@@ -152,7 +152,7 @@ _00112_DS_
 ;	.line	47; "../libsdcc_mc35/_divuint.c"	while (mask) {
 	MOVAR	r0x1006
 	ORAR	r0x1007
-	JBCLR	STATUS,0
+	JBCLR	PFLAG,0
 	GOTO	_00114_DS_
 ;;[ICODE] ../libsdcc_mc35/_divuint.c:48: 	iTemp8 [k14 lr22:23 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char fixed} = iTemp0 [k2 lr3:33 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{unsigned-int fixed}{ sir@ __divuint_a_1_1}[r0x1000 r0x1001 ] < iTemp1 [k4 lr4:33 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{unsigned-int fixed}{ sir@ __divuint_b_1_1}[r0x1002 r0x1003 ]
 ;	.line	48; "../libsdcc_mc35/_divuint.c"	if (a >= b) {
@@ -160,14 +160,14 @@ _00112_DS_
 	XCH	r0x1000
 	ASUBRA	r0x1000
 	XCH	r0x1000
-	JBSET	STATUS,0
+	JBSET	PFLAG,0
 	GOTO	_00129_DS_
 	MOVAR	r0x1003
 	XCH	r0x1001
 	ASUBRA	r0x1001
 	XCH	r0x1001
 _00129_DS_
-	JBSET	STATUS,2
+	JBSET	PFLAG,2
 	GOTO	_00111_DS_
 ;;genSkipc:3223: created from rifx:00D5608C
 ;;[ICODE] ../libsdcc_mc35/_divuint.c:48: 	if iTemp8 [k14 lr22:23 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char fixed} != 0 goto _iffalse_1($7)
@@ -176,7 +176,7 @@ _00129_DS_
 	MOVAR	r0x1006
 	ADDRA	r0x1004
 	MOVAR	r0x1007
-	JBCLR	STATUS,2
+	JBCLR	PFLAG,2
 	JZAR	r0x1007
 	ADDRA	r0x1005
 ;;[ICODE] ../libsdcc_mc35/_divuint.c:50: 	iTemp0 [k2 lr3:33 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{unsigned-int fixed}{ sir@ __divuint_a_1_1}[r0x1000 r0x1001 ] = iTemp0 [k2 lr3:33 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{unsigned-int fixed}{ sir@ __divuint_a_1_1}[r0x1000 r0x1001 ] - iTemp1 [k4 lr4:33 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{unsigned-int fixed}{ sir@ __divuint_b_1_1}[r0x1002 r0x1003 ]
@@ -187,7 +187,7 @@ _00129_DS_
 	XCH	r0x1001
 	MOVAR	r0x1002
 	XCH	r0x1000
-	JBSET	STATUS,2
+	JBSET	PFLAG,2
 	JZR	r0x1000
 	ASUBAR	r0x1000
 	XCH	r0x1000
@@ -196,13 +196,13 @@ _00129_DS_
 ;;shiftRight_Left2ResultLit:5270: shCount=1, size=2, sign=0, same=1, offr=0
 _00111_DS_
 ;	.line	52; "../libsdcc_mc35/_divuint.c"	b >>= 1;
-	BCLR	STATUS,2
+	BCLR	PFLAG,2
 	RRR	r0x1002
 	RRR	r0x1003
 ;;[ICODE] ../libsdcc_mc35/_divuint.c:53: 	iTemp3 [k8 lr6:33 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{unsigned-int fixed}{ sir@ __divuint_mask_1_2}[r0x1006 r0x1007 ] = iTemp3 [k8 lr6:33 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{unsigned-int fixed}{ sir@ __divuint_mask_1_2}[r0x1006 r0x1007 ] >> 0x1 {const-unsigned-char literal}
 ;;shiftRight_Left2ResultLit:5270: shCount=1, size=2, sign=0, same=1, offr=0
 ;	.line	53; "../libsdcc_mc35/_divuint.c"	mask >>= 1;
-	BCLR	STATUS,2
+	BCLR	PFLAG,2
 	RRR	r0x1007
 	RRR	r0x1006
 ;;[ICODE] ../libsdcc_mc35/_divuint.c:53: 	 goto _whilecontinue_1($8)

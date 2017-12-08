@@ -32,7 +32,6 @@ fslt \
 fsmul \
 fsneq \
 fssub \
-idata \
 _modschar \
 _modsint \
 _modslong \

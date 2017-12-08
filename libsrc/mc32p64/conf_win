@@ -120,7 +120,7 @@ done
 echo >> $out
 echo >> $out
 
-echo 'SDCC_ARG = -V --verbose -mmc30 -p'$processor' -Wa-Ie:\tools\sn-sdcc\share\header \' >> $out
+echo 'SDCC_ARG = -V --verbose -mmc3x -p'$processor' -Wa-Ie:\tools\sn-sdcc\share\header \' >> $out
 echo '    -I'$SDCC_HOME'/share/include \' >> $out
 echo '    --std-c99 --i-code-in-asm  -c -o ' >> $out
 echo >> $out

@@ -1,7 +1,7 @@
 ;--------------------------------------------------------
 ; File Created by SN-SDCC : SinoMCU ANSI-C Compiler
-; Version 1.0.0 (Sep 11 2017) (MINGW32)
-; This file was generated Tue Sep 12 18:09:49 2017
+; Version 1.0.0 (Sep 28 2017) (MINGW32)
+; This file was generated Thu Dec 07 13:58:37 2017
 ;--------------------------------------------------------
 ; MC30/MC32 port for the RISC core
 ;--------------------------------------------------------
@@ -32,15 +32,6 @@
 	extern	___fsneq
 	extern	___fsgt
 
-	extern PSAVE
-	extern SSAVE
-	extern WSAVE
-	extern STK12
-	extern STK11
-	extern STK10
-	extern STK09
-	extern STK08
-	extern STK07
 	extern STK06
 	extern STK05
 	extern STK04
@@ -174,7 +165,7 @@ ___fs2schar	;Function start
 _00115_DS_
 	JBSET	STATUS,0
 	GOTO	_00106_DS_
-;;genSkipc:3192: created from rifx:00CC608C
+;;genSkipc:3194: created from rifx:00D5608C
 ;;[ICODE] ../libsdcc/fs2schar.c:36: 	if iTemp3 [k9 lr7:8 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char fixed} != 0 goto _iffalse_0($2)
 ;;[ICODE] ../libsdcc/fs2schar.c:37: 	ret 0x7f {const-unsigned-char literal}
 ;	.line	37; "../libsdcc/fs2schar.c"	return SCHAR_MAX;
@@ -204,7 +195,7 @@ _00106_DS_
 _00116_DS_
 	JBCLR	STATUS,0
 	GOTO	_00108_DS_
-;;genSkipc:3192: created from rifx:00CC608C
+;;genSkipc:3194: created from rifx:00D5608C
 ;;[ICODE] ../libsdcc/fs2schar.c:38: 	if iTemp4 [k10 lr11:12 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char fixed} != 0 goto _iffalse_1($4)
 ;;[ICODE] ../libsdcc/fs2schar.c:39: 	ret 0x80 {const-unsigned-char literal}
 ;	.line	39; "../libsdcc/fs2schar.c"	return -SCHAR_MIN;

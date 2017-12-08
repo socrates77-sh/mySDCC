@@ -1,7 +1,7 @@
 ;--------------------------------------------------------
 ; File Created by SN-SDCC : SinoMCU ANSI-C Compiler
-; Version 1.0.0 (Sep 11 2017) (MINGW32)
-; This file was generated Tue Sep 12 18:09:48 2017
+; Version 1.0.0 (Sep 28 2017) (MINGW32)
+; This file was generated Thu Dec 07 13:58:35 2017
 ;--------------------------------------------------------
 ; MC30/MC32 port for the RISC core
 ;--------------------------------------------------------
@@ -13,15 +13,6 @@
 ; external declarations
 ;--------------------------------------------------------
 
-	extern PSAVE
-	extern SSAVE
-	extern WSAVE
-	extern STK12
-	extern STK11
-	extern STK10
-	extern STK09
-	extern STK08
-	extern STK07
 	extern STK06
 	extern STK05
 	extern STK04
@@ -148,7 +139,7 @@ _00112_DS_
 	RSUBAR	r0x1000
 	JBSET	STATUS,0
 	GOTO	_00111_DS_
-;;genSkipc:3192: created from rifx:00CC608C
+;;genSkipc:3194: created from rifx:00D5608C
 ;;[ICODE] ../libsdcc/_divuchar.c:48: 	if iTemp8 [k14 lr22:23 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char fixed} != 0 goto _iffalse_1($7)
 ;;[ICODE] ../libsdcc/_divuchar.c:49: 	iTemp2 [k6 lr5:35 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{unsigned-char fixed}{ sir@ __divuchar_result_1_2}[r0x1002 ] = iTemp2 [k6 lr5:35 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{unsigned-char fixed}{ sir@ __divuchar_result_1_2}[r0x1002 ] + iTemp3 [k8 lr6:33 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{unsigned-char fixed}{ sir@ __divuchar_mask_1_2}[r0x1003 ]
 ;	.line	49; "../libsdcc/_divuchar.c"	result += mask;
@@ -160,13 +151,13 @@ _00112_DS_
 	RSUBRA	r0x1000
 ;;[ICODE] ../libsdcc/_divuchar.c:50:  _iffalse_1($7) :
 ;;[ICODE] ../libsdcc/_divuchar.c:52: 	iTemp1 [k4 lr4:33 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{unsigned-char fixed}{ sir@ __divuchar_b_1_1}[r0x1001 ] = iTemp1 [k4 lr4:33 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{unsigned-char fixed}{ sir@ __divuchar_b_1_1}[r0x1001 ] >> 0x1 {const-unsigned-char literal}
-;;shiftRight_Left2ResultLit:5213: shCount=1, size=1, sign=0, same=1, offr=0
+;;shiftRight_Left2ResultLit:5215: shCount=1, size=1, sign=0, same=1, offr=0
 _00111_DS_
 ;	.line	52; "../libsdcc/_divuchar.c"	b >>= 1;
 	BCLR	STATUS,0
 	RRR	r0x1001
 ;;[ICODE] ../libsdcc/_divuchar.c:53: 	iTemp3 [k8 lr6:33 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{unsigned-char fixed}{ sir@ __divuchar_mask_1_2}[r0x1003 ] = iTemp3 [k8 lr6:33 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{unsigned-char fixed}{ sir@ __divuchar_mask_1_2}[r0x1003 ] >> 0x1 {const-unsigned-char literal}
-;;shiftRight_Left2ResultLit:5213: shCount=1, size=1, sign=0, same=1, offr=0
+;;shiftRight_Left2ResultLit:5215: shCount=1, size=1, sign=0, same=1, offr=0
 ;	.line	53; "../libsdcc/_divuchar.c"	mask >>= 1;
 	BCLR	STATUS,0
 	RRR	r0x1003

@@ -3,7 +3,7 @@ SDCC_EXE = /e/tools/sn-sdcc/bin/sdcc
 ASM_EXE = /e/tools/snutils/gpasm/gpasm
 LIB_EXE = /e/tools/snutils/gputils/gplib
 LIB = mc35p7041.lib
-OBJ = mc35p7041.o _divschar.o _divsint.o _divslong.o _divuchar.o _divuint.o _divulong.o fs2schar.o fs2sint.o fs2slong.o fs2uchar.o fs2uint.o fs2ulong.o fsadd.o fsdiv.o fseq.o fsgt.o fslt.o fsmul.o fsneq.o fssub.o idata.o _modschar.o _modsint.o _modslong.o _moduchar.o _moduint.o _modulong.o _mulchar.o _mulint.o _mullong.o schar2fs.o sint2fs.o slong2fs.o uchar2fs.o uint2fs.o ulong2fs.o _gptrget1.o _gptrget2.o _gptrget3.o _gptrget4.o _gptrput1.o _gptrput2.o _gptrput3.o _gptrput4.o 
+OBJ = mc35p7041.o _divschar.o _divsint.o _divslong.o _divuchar.o _divuint.o _divulong.o fs2schar.o fs2sint.o fs2slong.o fs2uchar.o fs2uint.o fs2ulong.o fsadd.o fsdiv.o fseq.o fsgt.o fslt.o fsmul.o fsneq.o fssub.o _modschar.o _modsint.o _modslong.o _moduchar.o _moduint.o _modulong.o _mulchar.o _mulint.o _mullong.o schar2fs.o sint2fs.o slong2fs.o uchar2fs.o uint2fs.o ulong2fs.o _gptrget1.o _gptrget2.o _gptrget3.o _gptrget4.o _gptrput1.o _gptrput2.o _gptrput3.o _gptrput4.o 
 
 SDCC_ARG = -V --verbose -mmc35 -p2K7041 -Wa-Ie:\tools\sn-sdcc\share\header \
     -I/e/tools/sn-sdcc/share/include \
@@ -59,8 +59,6 @@ fsneq.o : ../libsdcc_mc35/fsneq.c
 	$(SDCC_EXE) $(SDCC_ARG) fsneq.o ../libsdcc_mc35/fsneq.c
 fssub.o : ../libsdcc_mc35/fssub.c
 	$(SDCC_EXE) $(SDCC_ARG) fssub.o ../libsdcc_mc35/fssub.c
-idata.o : ../libsdcc_mc35/idata.c
-	$(SDCC_EXE) $(SDCC_ARG) idata.o ../libsdcc_mc35/idata.c
 _modschar.o : ../libsdcc_mc35/_modschar.c
 	$(SDCC_EXE) $(SDCC_ARG) _modschar.o ../libsdcc_mc35/_modschar.c
 _modsint.o : ../libsdcc_mc35/_modsint.c

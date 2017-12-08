@@ -1,7 +1,7 @@
 ;--------------------------------------------------------
 ; File Created by SN-SDCC : SinoMCU ANSI-C Compiler
-; Version 1.0.0 (Sep 11 2017) (MINGW32)
-; This file was generated Tue Sep 12 18:09:51 2017
+; Version 1.0.0 (Sep 28 2017) (MINGW32)
+; This file was generated Thu Dec 07 13:58:40 2017
 ;--------------------------------------------------------
 ; MC30/MC32 port for the RISC core
 ;--------------------------------------------------------
@@ -32,15 +32,6 @@
 	extern	___fsneq
 	extern	___fsgt
 
-	extern PSAVE
-	extern SSAVE
-	extern WSAVE
-	extern STK12
-	extern STK11
-	extern STK10
-	extern STK09
-	extern STK08
-	extern STK07
 	extern STK06
 	extern STK05
 	extern STK04
@@ -208,30 +199,30 @@ ___fsdiv	;Function start
 	MOVRA	r0x100F
 ;;[ICODE] ../libsdcc/fsdiv.c:64: 	iTemp2 [k7 lr5:6 so:0]{ ia0 a2p0 re0 rm1 nos0 ru0 dp0}{volatile-float near* fixed}[remat] = &[___fsdiv_fl1_1_22 [k6 lr0:0 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{volatile-struct float_long fixed}]
 ;;[ICODE] ../libsdcc/fsdiv.c:64: 	*(iTemp2 [k7 lr5:6 so:0]{ ia1 a2p0 re0 rm1 nos0 ru0 dp0}{volatile-float near* fixed}[remat]) := iTemp0 [k2 lr3:6 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{float fixed}{ sir@ ___fsdiv_a1_1_21}[r0x1000 r0x1001 r0x1002 r0x1003 ]
-;;gen.c:6371: size=3/4, offset=0, AOP_TYPE(res)=8
+;;gen.c:6373: size=3/4, offset=0, AOP_TYPE(res)=8
 ;;136	MOVAR	r0x100B
-;;gen.c:6371: size=2/4, offset=1, AOP_TYPE(res)=8
+;;gen.c:6373: size=2/4, offset=1, AOP_TYPE(res)=8
 ;	.line	64; "../libsdcc/fsdiv.c"	fl1.f = a1;
 	MOVAR	r0x100A
 	MOVRA	(___fsdiv_fl1_1_22 + 1)
-;;gen.c:6371: size=1/4, offset=2, AOP_TYPE(res)=8
+;;gen.c:6373: size=1/4, offset=2, AOP_TYPE(res)=8
 	MOVAR	r0x1009
 	MOVRA	(___fsdiv_fl1_1_22 + 2)
-;;gen.c:6371: size=0/4, offset=3, AOP_TYPE(res)=8
+;;gen.c:6373: size=0/4, offset=3, AOP_TYPE(res)=8
 	MOVAR	r0x1008
 	MOVRA	(___fsdiv_fl1_1_22 + 3)
 ;;[ICODE] ../libsdcc/fsdiv.c:65: 	iTemp4 [k11 lr7:8 so:0]{ ia0 a2p0 re0 rm1 nos0 ru0 dp0}{volatile-float near* fixed}[remat] = &[___fsdiv_fl2_1_22 [k10 lr0:0 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{volatile-struct float_long fixed}]
 ;;[ICODE] ../libsdcc/fsdiv.c:65: 	*(iTemp4 [k11 lr7:8 so:0]{ ia1 a2p0 re0 rm1 nos0 ru0 dp0}{volatile-float near* fixed}[remat]) := iTemp1 [k4 lr4:8 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{float fixed}{ sir@ ___fsdiv_a2_1_21}[r0x1004 r0x1005 r0x1006 r0x1007 ]
-;;gen.c:6371: size=3/4, offset=0, AOP_TYPE(res)=8
+;;gen.c:6373: size=3/4, offset=0, AOP_TYPE(res)=8
 ;;133	MOVAR	r0x100F
-;;gen.c:6371: size=2/4, offset=1, AOP_TYPE(res)=8
+;;gen.c:6373: size=2/4, offset=1, AOP_TYPE(res)=8
 ;	.line	65; "../libsdcc/fsdiv.c"	fl2.f = a2;
 	MOVAR	r0x100E
 	MOVRA	(___fsdiv_fl2_1_22 + 1)
-;;gen.c:6371: size=1/4, offset=2, AOP_TYPE(res)=8
+;;gen.c:6373: size=1/4, offset=2, AOP_TYPE(res)=8
 	MOVAR	r0x100D
 	MOVRA	(___fsdiv_fl2_1_22 + 2)
-;;gen.c:6371: size=0/4, offset=3, AOP_TYPE(res)=8
+;;gen.c:6373: size=0/4, offset=3, AOP_TYPE(res)=8
 	MOVAR	r0x100C
 	MOVRA	(___fsdiv_fl2_1_22 + 3)
 ;;[ICODE] ../libsdcc/fsdiv.c:68: 	iTemp7 [k16 lr9:10 so:0]{ ia0 a2p0 re0 rm1 nos0 ru0 dp0}{volatile-long-int near* fixed}[remat] = &[___fsdiv_fl1_1_22 [k6 lr0:0 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{volatile-struct float_long fixed}]
@@ -431,15 +422,15 @@ _00151_DS_
 	GOTO	_00106_DS_
 ;;[ICODE] ../libsdcc/fsdiv.c:78: 	iTemp39 [k54 lr40:41 so:0]{ ia0 a2p0 re0 rm1 nos0 ru0 dp0}{volatile-long-int near* fixed}[remat] = &[___fsdiv_fl2_1_22 [k10 lr0:0 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{volatile-struct float_long fixed}]
 ;;[ICODE] ../libsdcc/fsdiv.c:78: 	*(iTemp39 [k54 lr40:41 so:0]{ ia1 a2p0 re0 rm1 nos0 ru0 dp0}{volatile-long-int near* fixed}[remat]) := 0x7fc00000 {const-long-int literal}
-;;gen.c:6371: size=3/4, offset=0, AOP_TYPE(res)=8
+;;gen.c:6373: size=3/4, offset=0, AOP_TYPE(res)=8
 ;	.line	78; "../libsdcc/fsdiv.c"	fl2.l = 0x7FC00000;
 	CLRR	(___fsdiv_fl2_1_22 + 0)
-;;gen.c:6371: size=2/4, offset=1, AOP_TYPE(res)=8
+;;gen.c:6373: size=2/4, offset=1, AOP_TYPE(res)=8
 	CLRR	(___fsdiv_fl2_1_22 + 1)
-;;gen.c:6371: size=1/4, offset=2, AOP_TYPE(res)=8
+;;gen.c:6373: size=1/4, offset=2, AOP_TYPE(res)=8
 	MOVAI	0xc0
 	MOVRA	(___fsdiv_fl2_1_22 + 2)
-;;gen.c:6371: size=0/4, offset=3, AOP_TYPE(res)=8
+;;gen.c:6373: size=0/4, offset=3, AOP_TYPE(res)=8
 	MOVAI	0x7f
 	MOVRA	(___fsdiv_fl2_1_22 + 3)
 ;;[ICODE] ../libsdcc/fsdiv.c:79: 	iTemp41 [k57 lr42:43 so:0]{ ia0 a2p0 re0 rm1 nos0 ru0 dp0}{volatile-float near* fixed}[remat] = &[___fsdiv_fl2_1_22 [k10 lr0:0 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{volatile-struct float_long fixed}]
@@ -578,7 +569,7 @@ _00108_DS_
 _00152_DS_
 	JBCLR	STATUS,0
 	GOTO	_00110_DS_
-;;genSkipc:3192: created from rifx:00CC608C
+;;genSkipc:3194: created from rifx:00D5608C
 ;;[ICODE] ../libsdcc/fsdiv.c:91: 	if iTemp61 [k83 lr63:64 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char fixed} == 0 goto _iffalse_2($6)
 ;;[ICODE] ../libsdcc/fsdiv.c:93: 	iTemp47 [k65 lr55:87 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{long-int fixed}{ sir@ ___fsdiv_mant1_1_22}[r0x1006 r0x100A r0x100B r0x100C ] = iTemp47 [k65 lr55:87 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{long-int fixed}{ sir@ ___fsdiv_mant1_1_22}[r0x1006 r0x100A r0x100B r0x100C ] << 0x1 {const-unsigned-char literal}
 ;	.line	93; "../libsdcc/fsdiv.c"	mant1 <<= 1;
@@ -641,7 +632,7 @@ _00113_DS_
 _00153_DS_
 	JBSET	STATUS,0
 	GOTO	_00112_DS_
-;;genSkipc:3192: created from rifx:00CC608C
+;;genSkipc:3194: created from rifx:00D5608C
 ;;[ICODE] ../libsdcc/fsdiv.c:102: 	if iTemp67 [k91 lr75:76 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char fixed} != 0 goto _iffalse_3($8)
 ;;[ICODE] ../libsdcc/fsdiv.c:104: 	iTemp68 [k92 lr77:78 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-long-int fixed}[r0x1019 r0x101A r0x101B r0x101C ] = (unsigned-long-int fixed)iTemp66 [k89 lr71:127 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{long-int fixed}{ sir@ ___fsdiv_result_1_22}[r0x1015 r0x1016 r0x1017 r0x1018 ]
 ;	.line	104; "../libsdcc/fsdiv.c"	result |= mask;
@@ -692,7 +683,7 @@ _00112_DS_
 	RLR	r0x1013
 	RLR	r0x1014
 ;;[ICODE] ../libsdcc/fsdiv.c:108: 	iTemp65 [k87 lr70:87 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{unsigned-long-int fixed}{ sir@ ___fsdiv_mask_1_22}[r0x1011 r0x1012 r0x1013 r0x1014 ] = iTemp65 [k87 lr70:87 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{unsigned-long-int fixed}{ sir@ ___fsdiv_mask_1_22}[r0x1011 r0x1012 r0x1013 r0x1014 ] >> 0x1 {const-unsigned-char literal}
-;;shiftRight_Left2ResultLit:5213: shCount=1, size=4, sign=0, same=1, offr=0
+;;shiftRight_Left2ResultLit:5215: shCount=1, size=4, sign=0, same=1, offr=0
 ;	.line	108; "../libsdcc/fsdiv.c"	mask >>= 1;
 	BCLR	STATUS,0
 	RRR	r0x101C
@@ -718,7 +709,7 @@ _00115_DS_
 	JBCLR	STATUS,2
 	INCR	r0x100A
 ;;[ICODE] ../libsdcc/fsdiv.c:116: 	iTemp66 [k89 lr71:127 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{long-int fixed}{ sir@ ___fsdiv_result_1_22}[r0x1015 r0x1016 r0x1017 r0x1018 ] = iTemp66 [k89 lr71:127 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{long-int fixed}{ sir@ ___fsdiv_result_1_22}[r0x1015 r0x1016 r0x1017 r0x1018 ] >> 0x1 {const-unsigned-char literal}
-;;shiftRight_Left2ResultLit:5213: shCount=1, size=4, sign=1, same=1, offr=0
+;;shiftRight_Left2ResultLit:5215: shCount=1, size=4, sign=1, same=1, offr=0
 ;	.line	116; "../libsdcc/fsdiv.c"	result >>= 1;
 	BCLR	STATUS,0
 	JBCLR	r0x1020,7
@@ -760,7 +751,7 @@ _00115_DS_
 _00154_DS_
 	JBSET	STATUS,0
 	GOTO	_00120_DS_
-;;genSkipc:3192: created from rifx:00CC608C
+;;genSkipc:3194: created from rifx:00D5608C
 ;;[ICODE] ../libsdcc/fsdiv.c:121: 	if iTemp79 [k103 lr98:99 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char fixed} != 0 goto _iffalse_5($16)
 ;;[ICODE] ../libsdcc/fsdiv.c:122: 	iTemp80 [k104 lr100:108 so:0]{ ia0 a2p0 re0 rm1 nos0 ru0 dp0}{volatile-long-int near* fixed}[remat] = &[___fsdiv_fl1_1_22 [k6 lr0:0 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{volatile-struct float_long fixed}]
 ;;[ICODE] ../libsdcc/fsdiv.c:122: 	if iTemp24 [k35 lr35:118 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{char fixed}{ sir@ ___fsdiv_sign_1_22}[r0x1002 ] == 0 goto iTempLbl0($20)
@@ -791,16 +782,16 @@ _00125_DS_
 	MOVAI	0x7f
 	ORRA	r0x1014
 ;;[ICODE] ../libsdcc/fsdiv.c:122: 	*(iTemp80 [k104 lr100:108 so:0]{ ia1 a2p0 re0 rm1 nos0 ru0 dp0}{volatile-long-int near* fixed}[remat]) := iTemp83 [k108 lr107:108 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-long-int register}[r0x1006 r0x100A r0x100B r0x100C ]
-;;gen.c:6371: size=3/4, offset=0, AOP_TYPE(res)=8
+;;gen.c:6373: size=3/4, offset=0, AOP_TYPE(res)=8
 	MOVAR	r0x100D
 	MOVRA	(___fsdiv_fl1_1_22 + 0)
-;;gen.c:6371: size=2/4, offset=1, AOP_TYPE(res)=8
+;;gen.c:6373: size=2/4, offset=1, AOP_TYPE(res)=8
 	MOVAR	r0x1012
 	MOVRA	(___fsdiv_fl1_1_22 + 1)
-;;gen.c:6371: size=1/4, offset=2, AOP_TYPE(res)=8
+;;gen.c:6373: size=1/4, offset=2, AOP_TYPE(res)=8
 	MOVAR	r0x1013
 	MOVRA	(___fsdiv_fl1_1_22 + 2)
-;;gen.c:6371: size=0/4, offset=3, AOP_TYPE(res)=8
+;;gen.c:6373: size=0/4, offset=3, AOP_TYPE(res)=8
 	MOVAR	r0x1014
 	MOVRA	(___fsdiv_fl1_1_22 + 3)
 ;;[ICODE] ../libsdcc/fsdiv.c:122: 	 goto _ifend_5($17)
@@ -815,18 +806,18 @@ _00120_DS_
 	BCLR	STATUS,0
 	JBSET	STATUS,0
 	GOTO	_00117_DS_
-;;genSkipc:3192: created from rifx:00CC608C
+;;genSkipc:3194: created from rifx:00D5608C
 ;;[ICODE] ../libsdcc/fsdiv.c:123: 	if iTemp84 [k109 lr111:112 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char fixed} == 0 goto _iffalse_4($13)
 ;;[ICODE] ../libsdcc/fsdiv.c:124: 	iTemp85 [k110 lr113:114 so:0]{ ia0 a2p0 re0 rm1 nos0 ru0 dp0}{volatile-long-int near* fixed}[remat] = &[___fsdiv_fl1_1_22 [k6 lr0:0 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{volatile-struct float_long fixed}]
 ;;[ICODE] ../libsdcc/fsdiv.c:124: 	*(iTemp85 [k110 lr113:114 so:0]{ ia1 a2p0 re0 rm1 nos0 ru0 dp0}{volatile-long-int near* fixed}[remat]) := 0x0 {volatile-long-int literal}
-;;gen.c:6371: size=3/4, offset=0, AOP_TYPE(res)=8
+;;gen.c:6373: size=3/4, offset=0, AOP_TYPE(res)=8
 ;	.line	124; "../libsdcc/fsdiv.c"	fl1.l = 0;
 	CLRR	(___fsdiv_fl1_1_22 + 0)
-;;gen.c:6371: size=2/4, offset=1, AOP_TYPE(res)=8
+;;gen.c:6373: size=2/4, offset=1, AOP_TYPE(res)=8
 	CLRR	(___fsdiv_fl1_1_22 + 1)
-;;gen.c:6371: size=1/4, offset=2, AOP_TYPE(res)=8
+;;gen.c:6373: size=1/4, offset=2, AOP_TYPE(res)=8
 	CLRR	(___fsdiv_fl1_1_22 + 2)
-;;gen.c:6371: size=0/4, offset=3, AOP_TYPE(res)=8
+;;gen.c:6373: size=0/4, offset=3, AOP_TYPE(res)=8
 	CLRR	(___fsdiv_fl1_1_22 + 3)
 ;;[ICODE] ../libsdcc/fsdiv.c:124: 	 goto _ifend_5($17)
 	GOTO	_00121_DS_
@@ -910,16 +901,16 @@ _00127_DS_
 	ORAR	r0x1013
 	MOVRA	r0x1020
 ;;[ICODE] ../libsdcc/fsdiv.c:126: 	*(iTemp87 [k113 lr117:129 so:0]{ ia1 a2p0 re0 rm1 nos0 ru0 dp0}{volatile-long-int near* fixed}[remat]) := iTemp94 [k121 lr128:129 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-long-int fixed}[r0x1015 r0x1016 r0x1017 r0x1018 ]
-;;gen.c:6371: size=3/4, offset=0, AOP_TYPE(res)=8
+;;gen.c:6373: size=3/4, offset=0, AOP_TYPE(res)=8
 	MOVAR	r0x101D
 	MOVRA	(___fsdiv_fl1_1_22 + 0)
-;;gen.c:6371: size=2/4, offset=1, AOP_TYPE(res)=8
+;;gen.c:6373: size=2/4, offset=1, AOP_TYPE(res)=8
 	MOVAR	r0x101E
 	MOVRA	(___fsdiv_fl1_1_22 + 1)
-;;gen.c:6371: size=1/4, offset=2, AOP_TYPE(res)=8
+;;gen.c:6373: size=1/4, offset=2, AOP_TYPE(res)=8
 	MOVAR	r0x101F
 	MOVRA	(___fsdiv_fl1_1_22 + 2)
-;;gen.c:6371: size=0/4, offset=3, AOP_TYPE(res)=8
+;;gen.c:6373: size=0/4, offset=3, AOP_TYPE(res)=8
 	MOVAR	r0x1020
 	MOVRA	(___fsdiv_fl1_1_22 + 3)
 ;;[ICODE] ../libsdcc/fsdiv.c:126:  _ifend_5($17) :

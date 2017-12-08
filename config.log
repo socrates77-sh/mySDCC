@@ -49,14 +49,15 @@ PATH: /c/Program Files/Common Files/Intel/WirelessCommon/
 PATH: /c/Program Files (x86)/Microsoft SQL Server/100/Tools/Binn/
 PATH: /c/Program Files/Microsoft SQL Server/100/Tools/Binn/
 PATH: /c/Program Files/Microsoft SQL Server/100/DTS/Binn/
-PATH: /e/Program Files/MATLAB/R2012b/runtime/win64
-PATH: /e/Program Files/MATLAB/R2012b/bin
 PATH: /mingw/bin
 PATH: /e/Program Files/Git/cmd
 PATH: /e/Program Files/TortoiseSVN/bin
 PATH: /e/Program Files/TortoiseGit/bin
 PATH: /c/Program Files (x86)/Windows Kits/8.1/Windows Performance Toolkit/
 PATH: /c/Program Files/Microsoft SQL Server/110/Tools/Binn/
+PATH: /e/Program Files/MATLAB/R2016a/runtime/win64
+PATH: /e/Program Files/MATLAB/R2016a/bin
+PATH: /e/Program Files/MATLAB/R2016a/polyspace/bin
 PATH: /c/Users/zhwen/AppData/Local/Microsoft/WindowsApps
 PATH: /e/Program Files/Microsoft VS Code/bin
 
@@ -73,7 +74,7 @@ configure:2707: checking for gawk
 configure:2723: found /bin/gawk
 configure:2734: result: gawk
 configure:2746: checking version of the package
-configure:2750: result: 1.0.0
+configure:2750: result: 1.1.0
 configure:2857: checking for gcc
 configure:2873: found /mingw/bin/gcc
 configure:2884: result: gcc
@@ -151,10 +152,10 @@ configure: failed program was:
 | #define PACKAGE_STRING ""
 | #define PACKAGE_BUGREPORT ""
 | #define PACKAGE_URL ""
-| #define SDCC_VERSION_LO 0
+| #define SDCC_VERSION_LO 1
 | #define SDCC_VERSION_HI 1
 | #define SDCC_VERSION_P 0
-| #define SDCC_VERSION_STR "1.0.0"
+| #define SDCC_VERSION_STR "1.1.0"
 | /* end confdefs.h.  */
 | #include <ac_nonexistent.h>
 configure:3673: result: gcc -E
@@ -172,10 +173,10 @@ configure: failed program was:
 | #define PACKAGE_STRING ""
 | #define PACKAGE_BUGREPORT ""
 | #define PACKAGE_URL ""
-| #define SDCC_VERSION_LO 0
+| #define SDCC_VERSION_LO 1
 | #define SDCC_VERSION_HI 1
 | #define SDCC_VERSION_P 0
-| #define SDCC_VERSION_STR "1.0.0"
+| #define SDCC_VERSION_STR "1.1.0"
 | /* end confdefs.h.  */
 | #include <ac_nonexistent.h>
 configure:3793: checking for g++
@@ -303,10 +304,10 @@ configure: failed program was:
 | #define PACKAGE_STRING ""
 | #define PACKAGE_BUGREPORT ""
 | #define PACKAGE_URL ""
-| #define SDCC_VERSION_LO 0
+| #define SDCC_VERSION_LO 1
 | #define SDCC_VERSION_HI 1
 | #define SDCC_VERSION_P 0
-| #define SDCC_VERSION_STR "1.0.0"
+| #define SDCC_VERSION_STR "1.1.0"
 | #define STDC_HEADERS 1
 | #define HAVE_SYS_TYPES_H 1
 | #define HAVE_SYS_STAT_H 1
@@ -366,10 +367,10 @@ configure: failed program was:
 | #define PACKAGE_STRING ""
 | #define PACKAGE_BUGREPORT ""
 | #define PACKAGE_URL ""
-| #define SDCC_VERSION_LO 0
+| #define SDCC_VERSION_LO 1
 | #define SDCC_VERSION_HI 1
 | #define SDCC_VERSION_P 0
-| #define SDCC_VERSION_STR "1.0.0"
+| #define SDCC_VERSION_STR "1.1.0"
 | #define STDC_HEADERS 1
 | #define HAVE_SYS_TYPES_H 1
 | #define HAVE_SYS_STAT_H 1
@@ -398,10 +399,10 @@ configure: failed program was:
 | #define PACKAGE_STRING ""
 | #define PACKAGE_BUGREPORT ""
 | #define PACKAGE_URL ""
-| #define SDCC_VERSION_LO 0
+| #define SDCC_VERSION_LO 1
 | #define SDCC_VERSION_HI 1
 | #define SDCC_VERSION_P 0
-| #define SDCC_VERSION_STR "1.0.0"
+| #define SDCC_VERSION_STR "1.1.0"
 | #define STDC_HEADERS 1
 | #define HAVE_SYS_TYPES_H 1
 | #define HAVE_SYS_STAT_H 1
@@ -461,10 +462,10 @@ configure: failed program was:
 | #define PACKAGE_STRING ""
 | #define PACKAGE_BUGREPORT ""
 | #define PACKAGE_URL ""
-| #define SDCC_VERSION_LO 0
+| #define SDCC_VERSION_LO 1
 | #define SDCC_VERSION_HI 1
 | #define SDCC_VERSION_P 0
-| #define SDCC_VERSION_STR "1.0.0"
+| #define SDCC_VERSION_STR "1.1.0"
 | #define STDC_HEADERS 1
 | #define HAVE_SYS_TYPES_H 1
 | #define HAVE_SYS_STAT_H 1
@@ -493,10 +494,10 @@ configure: failed program was:
 | #define PACKAGE_STRING ""
 | #define PACKAGE_BUGREPORT ""
 | #define PACKAGE_URL ""
-| #define SDCC_VERSION_LO 0
+| #define SDCC_VERSION_LO 1
 | #define SDCC_VERSION_HI 1
 | #define SDCC_VERSION_P 0
-| #define SDCC_VERSION_STR "1.0.0"
+| #define SDCC_VERSION_STR "1.1.0"
 | #define STDC_HEADERS 1
 | #define HAVE_SYS_TYPES_H 1
 | #define HAVE_SYS_STAT_H 1
@@ -556,10 +557,10 @@ configure: failed program was:
 | #define PACKAGE_STRING ""
 | #define PACKAGE_BUGREPORT ""
 | #define PACKAGE_URL ""
-| #define SDCC_VERSION_LO 0
+| #define SDCC_VERSION_LO 1
 | #define SDCC_VERSION_HI 1
 | #define SDCC_VERSION_P 0
-| #define SDCC_VERSION_STR "1.0.0"
+| #define SDCC_VERSION_STR "1.1.0"
 | #define STDC_HEADERS 1
 | #define HAVE_SYS_TYPES_H 1
 | #define HAVE_SYS_STAT_H 1
@@ -588,10 +589,10 @@ configure: failed program was:
 | #define PACKAGE_STRING ""
 | #define PACKAGE_BUGREPORT ""
 | #define PACKAGE_URL ""
-| #define SDCC_VERSION_LO 0
+| #define SDCC_VERSION_LO 1
 | #define SDCC_VERSION_HI 1
 | #define SDCC_VERSION_P 0
-| #define SDCC_VERSION_STR "1.0.0"
+| #define SDCC_VERSION_STR "1.1.0"
 | #define STDC_HEADERS 1
 | #define HAVE_SYS_TYPES_H 1
 | #define HAVE_SYS_STAT_H 1
@@ -651,10 +652,10 @@ configure: failed program was:
 | #define PACKAGE_STRING ""
 | #define PACKAGE_BUGREPORT ""
 | #define PACKAGE_URL ""
-| #define SDCC_VERSION_LO 0
+| #define SDCC_VERSION_LO 1
 | #define SDCC_VERSION_HI 1
 | #define SDCC_VERSION_P 0
-| #define SDCC_VERSION_STR "1.0.0"
+| #define SDCC_VERSION_STR "1.1.0"
 | #define STDC_HEADERS 1
 | #define HAVE_SYS_TYPES_H 1
 | #define HAVE_SYS_STAT_H 1
@@ -685,10 +686,10 @@ configure: failed program was:
 | #define PACKAGE_STRING ""
 | #define PACKAGE_BUGREPORT ""
 | #define PACKAGE_URL ""
-| #define SDCC_VERSION_LO 0
+| #define SDCC_VERSION_LO 1
 | #define SDCC_VERSION_HI 1
 | #define SDCC_VERSION_P 0
-| #define SDCC_VERSION_STR "1.0.0"
+| #define SDCC_VERSION_STR "1.1.0"
 | #define STDC_HEADERS 1
 | #define HAVE_SYS_TYPES_H 1
 | #define HAVE_SYS_STAT_H 1
@@ -716,10 +717,10 @@ configure: failed program was:
 | #define PACKAGE_STRING ""
 | #define PACKAGE_BUGREPORT ""
 | #define PACKAGE_URL ""
-| #define SDCC_VERSION_LO 0
+| #define SDCC_VERSION_LO 1
 | #define SDCC_VERSION_HI 1
 | #define SDCC_VERSION_P 0
-| #define SDCC_VERSION_STR "1.0.0"
+| #define SDCC_VERSION_STR "1.1.0"
 | #define STDC_HEADERS 1
 | #define HAVE_SYS_TYPES_H 1
 | #define HAVE_SYS_STAT_H 1
@@ -745,10 +746,10 @@ configure: failed program was:
 | #define PACKAGE_STRING ""
 | #define PACKAGE_BUGREPORT ""
 | #define PACKAGE_URL ""
-| #define SDCC_VERSION_LO 0
+| #define SDCC_VERSION_LO 1
 | #define SDCC_VERSION_HI 1
 | #define SDCC_VERSION_P 0
-| #define SDCC_VERSION_STR "1.0.0"
+| #define SDCC_VERSION_STR "1.1.0"
 | #define STDC_HEADERS 1
 | #define HAVE_SYS_TYPES_H 1
 | #define HAVE_SYS_STAT_H 1
@@ -808,10 +809,10 @@ configure: failed program was:
 | #define PACKAGE_STRING ""
 | #define PACKAGE_BUGREPORT ""
 | #define PACKAGE_URL ""
-| #define SDCC_VERSION_LO 0
+| #define SDCC_VERSION_LO 1
 | #define SDCC_VERSION_HI 1
 | #define SDCC_VERSION_P 0
-| #define SDCC_VERSION_STR "1.0.0"
+| #define SDCC_VERSION_STR "1.1.0"
 | #define STDC_HEADERS 1
 | #define HAVE_SYS_TYPES_H 1
 | #define HAVE_SYS_STAT_H 1
@@ -841,10 +842,10 @@ configure: failed program was:
 | #define PACKAGE_STRING ""
 | #define PACKAGE_BUGREPORT ""
 | #define PACKAGE_URL ""
-| #define SDCC_VERSION_LO 0
+| #define SDCC_VERSION_LO 1
 | #define SDCC_VERSION_HI 1
 | #define SDCC_VERSION_P 0
-| #define SDCC_VERSION_STR "1.0.0"
+| #define SDCC_VERSION_STR "1.1.0"
 | #define STDC_HEADERS 1
 | #define HAVE_SYS_TYPES_H 1
 | #define HAVE_SYS_STAT_H 1
@@ -904,10 +905,10 @@ configure: failed program was:
 | #define PACKAGE_STRING ""
 | #define PACKAGE_BUGREPORT ""
 | #define PACKAGE_URL ""
-| #define SDCC_VERSION_LO 0
+| #define SDCC_VERSION_LO 1
 | #define SDCC_VERSION_HI 1
 | #define SDCC_VERSION_P 0
-| #define SDCC_VERSION_STR "1.0.0"
+| #define SDCC_VERSION_STR "1.1.0"
 | #define STDC_HEADERS 1
 | #define HAVE_SYS_TYPES_H 1
 | #define HAVE_SYS_STAT_H 1
@@ -1023,10 +1024,10 @@ configure: failed program was:
 | #define PACKAGE_STRING ""
 | #define PACKAGE_BUGREPORT ""
 | #define PACKAGE_URL ""
-| #define SDCC_VERSION_LO 0
+| #define SDCC_VERSION_LO 1
 | #define SDCC_VERSION_HI 1
 | #define SDCC_VERSION_P 0
-| #define SDCC_VERSION_STR "1.0.0"
+| #define SDCC_VERSION_STR "1.1.0"
 | #define STDC_HEADERS 1
 | #define HAVE_SYS_TYPES_H 1
 | #define HAVE_SYS_STAT_H 1
@@ -1116,10 +1117,10 @@ configure: failed program was:
 | #define PACKAGE_STRING ""
 | #define PACKAGE_BUGREPORT ""
 | #define PACKAGE_URL ""
-| #define SDCC_VERSION_LO 0
+| #define SDCC_VERSION_LO 1
 | #define SDCC_VERSION_HI 1
 | #define SDCC_VERSION_P 0
-| #define SDCC_VERSION_STR "1.0.0"
+| #define SDCC_VERSION_STR "1.1.0"
 | #define STDC_HEADERS 1
 | #define HAVE_SYS_TYPES_H 1
 | #define HAVE_SYS_STAT_H 1
@@ -1176,10 +1177,10 @@ configure: failed program was:
 | #define PACKAGE_STRING ""
 | #define PACKAGE_BUGREPORT ""
 | #define PACKAGE_URL ""
-| #define SDCC_VERSION_LO 0
+| #define SDCC_VERSION_LO 1
 | #define SDCC_VERSION_HI 1
 | #define SDCC_VERSION_P 0
-| #define SDCC_VERSION_STR "1.0.0"
+| #define SDCC_VERSION_STR "1.1.0"
 | #define STDC_HEADERS 1
 | #define HAVE_SYS_TYPES_H 1
 | #define HAVE_SYS_STAT_H 1
@@ -1270,13 +1271,12 @@ config.status:985: creating support/regression/ports/host/spec.mk
 config.status:985: creating Makefile
 config.status:985: creating Makefile.common
 config.status:985: creating sdccconf.h
-config.status:1160: sdccconf.h is unchanged
 config.status:985: creating sdas/linksrc/asxxxx_config.h
 config.status:1160: sdas/linksrc/asxxxx_config.h is unchanged
 configure:8971: === configuring in support/cpp (/e/tools/sn-sdcc/support/cpp)
 configure:9034: running /bin/sh ./configure --disable-option-checking '--prefix=/usr/local'  'CFLAGS=-g' 'CXXFLAGS=-g' 'sdccconf_h_dir_separator=\\' '--disable-mcs51-port' '--disable-z80-port' '--disable-z180-port' '--disable-r2k-port' '--disable-r3ka-port' '--disable-gbz80-port' '--disable-ds390-port' '--disable-ds400-port' '--disable-hc08-port' '--disable-s08-port' '--disable-packihx' '--disable-sdbinutils' '--disable-sdcdb' '--disable-pic14-port' '--disable-pic16-port' '--disable-device-lib' '--disable-ucsim' 'docdir=${datarootdir}/doc/${PACKAGE}' --cache-file=/dev/null --srcdir=.
 configure:9338: result:
-sdcc 1.0.0 is now configured for
+sdcc 1.1.0 is now configured for
 
   Build:                i686-pc-mingw32
   Host:                 i686-pc-mingw32
@@ -1452,9 +1452,9 @@ sdcc_cv_c_fms_extensions=yes
 sdcc_cv_c_ggdb=yes
 sdcc_cv_c_pipe=yes
 sdcc_cv_c_unnamed_struct_tag=yes
-sdcc_cv_version=1.0.0
+sdcc_cv_version=1.1.0
 sdcc_cv_versionhi=1
-sdcc_cv_versionlo=0
+sdcc_cv_versionlo=1
 sdcc_cv_versionp=0
 
 ## ----------------- ##
@@ -1531,9 +1531,9 @@ PDFOPT=':'
 RANLIB='ranlib'
 SHELL='/bin/sh'
 STRIP='strip'
-VERSION='1.0.0'
+VERSION='1.1.0'
 VERSIONHI='1'
-VERSIONLO='0'
+VERSIONLO='1'
 VERSIONP='0'
 WALL_FLAG='-Wall -Wno-parentheses'
 YACC='bison -y'
@@ -1590,10 +1590,10 @@ target_alias=''
 #define PACKAGE_STRING ""
 #define PACKAGE_BUGREPORT ""
 #define PACKAGE_URL ""
-#define SDCC_VERSION_LO 0
+#define SDCC_VERSION_LO 1
 #define SDCC_VERSION_HI 1
 #define SDCC_VERSION_P 0
-#define SDCC_VERSION_STR "1.0.0"
+#define SDCC_VERSION_STR "1.1.0"
 #define STDC_HEADERS 1
 #define HAVE_SYS_TYPES_H 1
 #define HAVE_SYS_STAT_H 1

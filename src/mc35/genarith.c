@@ -1321,7 +1321,7 @@ void mc35_genMinus(iCode *ic)
                              * 4 cycles
                              */
 
-                                // zwr inst rsubar #2
+                                // zwr 1.0.0 inst rsubar #2
                                 // mc35_mov2w(right, offset);
                                 // mc35_emitSKPC;
                                 // mc35_emitpcode(POC_INCFSZW, mc35_popGet(right, offset));

@@ -1,4 +1,4 @@
-gpasm-2.0.0_beta2 (Nov  6 2017)fsadd.asm          2017-11-23  16:21:07         PAGE  1
+gpasm-2.0.0_beta2 (Nov  6 2017)fsadd.asm          2017-12-8  18:30:20          PAGE  1
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
@@ -6,8 +6,8 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
 
                       00001 ;--------------------------------------------------------
                       00002 ; File Created by SN-SDCC : SinoMCU ANSI-C Compiler
-                      00003 ; Version 1.0.0 (Sep 28 2017) (MINGW32)
-                      00004 ; This file was generated Thu Nov 23 16:21:07 2017
+                      00003 ; Version 1.1.0 (Dec  8 2017) (MINGW32)
+                      00004 ; This file was generated Fri Dec 08 18:30:20 2017
                       00005 ;--------------------------------------------------------
                       00006 ; MC35 port for the RISC core
                       00007 ;--------------------------------------------------------
@@ -17,7 +17,7 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
                       00011         include "2K7041.inc"
                       00001                 LIST
                       00002 ;mc35p7041.inc    Standard Header File, Version 1.00 by Sinomcu
-                      00076                 LIST
+                      00538                 LIST
                       00012 ;--------------------------------------------------------
                       00013 ; external declarations
                       00014 ;--------------------------------------------------------
@@ -245,7 +245,7 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
 002A   1800           00236         ORAR    r0x100A
 002B   1800           00237         ORAR    r0x1009
 002C   1800           00238         ORAR    r0x1008
-002D   5886           00239         JBSET   STATUS,0
+002D   5886           00239         JBSET   PFLAG,0
 002E   8000           00240         GOTO    _00106_DS_
                       00241 ;;[ICODE] ../libsdcc_mc35/fsadd.c:65:   iTemp10 [k20 lr13:14 so:0]{ ia0 a2p0 re0 rm1 nos0 ru0 dp0}{volatile-float near* fixed}[remat] = &[___fsadd_fl2_1_22 [k12 lr0:0 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{volatile-struct float_long fixed}]
                       00242 ;;[ICODE] ../libsdcc_mc35/fsadd.c:65:   iTemp12 [k23 lr14:15 so:0]{ ia0 a2p0 re0 rm0 nos0 ru1 dp0}{volatile-float fixed}[r0x1000 r0x1001 r0x1002 r0x1003 ] = @[iTemp10 [k20 lr13:14 so:0]{ ia1 a2p0 re0 rm1 nos0 ru0 dp0}{volatile-float near* fixed}[remat] + 0x0 {const-unsigned-char literal}]
@@ -285,7 +285,7 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
 0048   1800           00276         ORAR    r0x100A
 0049   1800           00277         ORAR    r0x1009
 004A   1800           00278         ORAR    r0x1008
-004B   5886           00279         JBSET   STATUS,0
+004B   5886           00279         JBSET   PFLAG,0
 004C   8000           00280         GOTO    _00108_DS_
                       00281 ;;[ICODE] ../libsdcc_mc35/fsadd.c:67:   iTemp16 [k28 lr20:21 so:0]{ ia0 a2p0 re0 rm1 nos0 ru0 dp0}{volatile-float near* fixed}[remat] = &[___fsadd_fl1_1_22 [k8 lr0:0 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{volatile-struct float_long fixed}]
                       00282 ;;[ICODE] ../libsdcc_mc35/fsadd.c:67:   iTemp18 [k31 lr21:22 so:0]{ ia0 a2p0 re0 rm0 nos0 ru1 dp0}{volatile-float fixed}[r0x1000 r0x1001 r0x1002 r0x1003 ] = @[iTemp16 [k28 lr20:21 so:0]{ ia1 a2p0 re0 rm1 nos0 ru0 dp0}{volatile-float near* fixed}[remat] + 0x0 {const-unsigned-char literal}]
@@ -387,14 +387,14 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
 0097   2C00           00378         XCH     r0x1016
 0098   2300           00379         ASUBRA  r0x1016
 0099   2C00           00380         XCH     r0x1016
-009A   5886           00381         JBSET   STATUS,0
+009A   5886           00381         JBSET   PFLAG,0
 009B   8000           00382         GOTO    _00165_DS_
 009C   1E00           00383         MOVAR   r0x100F
 009D   2C00           00384         XCH     r0x100B
 009E   2300           00385         ASUBRA  r0x100B
 009F   2C00           00386         XCH     r0x100B
 00A0                  00387 _00165_DS_
-00A0   5286           00388         JBCLR   STATUS,2
+00A0   5286           00388         JBCLR   PFLAG,2
 00A1   8000           00389         GOTO    _00110_DS_
                       00390 ;;genSkipc:3223: created from rifx:00D5608C
                       00391 ;;[ICODE] ../libsdcc_mc35/fsadd.c:72:   if iTemp34 [k51 lr37:38 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char fixed} == 0 goto _iffalse_2($6)
@@ -438,14 +438,14 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
 00BE   2C00           00429         XCH     r0x1016
 00BF   2300           00430         ASUBRA  r0x1016
 00C0   2C00           00431         XCH     r0x1016
-00C1   5886           00432         JBSET   STATUS,0
+00C1   5886           00432         JBSET   PFLAG,0
 00C2   8000           00433         GOTO    _00166_DS_
 00C3   1E00           00434         MOVAR   r0x100D
 00C4   2C00           00435         XCH     r0x100B
 00C5   2300           00436         ASUBRA  r0x100B
 00C6   2C00           00437         XCH     r0x100B
 00C7                  00438 _00166_DS_
-00C7   5286           00439         JBCLR   STATUS,2
+00C7   5286           00439         JBCLR   PFLAG,2
 00C8   8000           00440         GOTO    _00112_DS_
                       00441 ;;genSkipc:3223: created from rifx:00D5608C
                       00442 ;;[ICODE] ../libsdcc_mc35/fsadd.c:74:   if iTemp39 [k57 lr44:45 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char fixed} == 0 goto _iffalse_3($8)
@@ -517,13 +517,13 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
                       00508 ;;[ICODE] ../libsdcc_mc35/fsadd.c:80:   iTemp58 [k82 lr62:63 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char fixed}[r0x1016 ] = gabit iTemp57 [k81 lr61:62 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{volatile-unsigned-long-int fixed}[r0x1012 r0x1013 r0x1014 r0x1015 ]
 00F7   1E00           00509         MOVAR   r0x101D
 00F8   2A80           00510         ANDAI   0x80
-00F9   5886           00511         JBSET   STATUS,0
+00F9   5886           00511         JBSET   PFLAG,0
 00FA   2D01           00512         MOVAI   0x01
 00FB   1F00           00513         MOVRA   r0x101E
                       00514 ;;[ICODE] ../libsdcc_mc35/fsadd.c:80:   if iTemp58 [k82 lr62:63 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char fixed}[r0x1016 ] == 0 goto _iffalse_4($10)
 00FC   2D00           00515         MOVAI   0x00
 00FD   1800           00516         ORAR    r0x101E
-00FE   5086           00517         JBCLR   STATUS,0
+00FE   5086           00517         JBCLR   PFLAG,0
 00FF   8000           00518         GOTO    _00114_DS_
                       00519 ;;[ICODE] ../libsdcc_mc35/fsadd.c:81:   iTemp43 [k62 lr53:131 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{long-int fixed}{ sir@ ___fsadd_mant1_1_22}[r0x1000 r0x1001 r0x100C r0x100D ] = - iTemp43 [k62 lr53:131 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{long-int fixed}{ sir@ ___fsadd_mant1_1_22}[r0x1000 r0x1001 r0x100C r0x100D ]
                       00520 ;       .line   81; "../libsdcc_mc35/fsadd.c"   mant1 = -mant1;
@@ -537,11 +537,11 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
 0107   1C00           00528         XORRA   r0x1015
 0108   2D01           00529         MOVAI   0x01
 0109   1300           00530         ADDRA   r0x100B
-010A   5086           00531         JBCLR   STATUS,0
+010A   5086           00531         JBCLR   PFLAG,0
 010B   1300           00532         ADDRA   r0x100A
-010C   5086           00533         JBCLR   STATUS,0
+010C   5086           00533         JBCLR   PFLAG,0
 010D   1300           00534         ADDRA   r0x1014
-010E   5086           00535         JBCLR   STATUS,0
+010E   5086           00535         JBCLR   PFLAG,0
 010F   1300           00536         ADDRA   r0x1015
                       00537 ;;[ICODE] ../libsdcc_mc35/fsadd.c:81:  _iffalse_4($10) :
                       00538 ;;[ICODE] ../libsdcc_mc35/fsadd.c:82:   iTemp60 [k84 lr67:68 so:0]{ ia0 a2p0 re0 rm1 nos0 ru0 dp0}{volatile-unsigned-long-int near* fixed}[remat] = &[___fsadd_fl2_1_22 [k12 lr0:0 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{volatile-struct float_long fixed}]
@@ -559,13 +559,13 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
                       00550 ;;[ICODE] ../libsdcc_mc35/fsadd.c:82:   iTemp63 [k88 lr69:70 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char fixed}[r0x1016 ] = gabit iTemp62 [k87 lr68:69 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{volatile-unsigned-long-int fixed}[r0x1012 r0x1013 r0x1014 r0x1015 ]
 0118   1E00           00551         MOVAR   r0x101D
 0119   2A80           00552         ANDAI   0x80
-011A   5886           00553         JBSET   STATUS,0
+011A   5886           00553         JBSET   PFLAG,0
 011B   2D01           00554         MOVAI   0x01
 011C   1F00           00555         MOVRA   r0x101E
                       00556 ;;[ICODE] ../libsdcc_mc35/fsadd.c:82:   if iTemp63 [k88 lr69:70 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char fixed}[r0x1016 ] == 0 goto _iffalse_5($12)
 011D   2D00           00557         MOVAI   0x00
 011E   1800           00558         ORAR    r0x101E
-011F   5086           00559         JBCLR   STATUS,0
+011F   5086           00559         JBCLR   PFLAG,0
 0120   8000           00560         GOTO    _00116_DS_
                       00561 ;;[ICODE] ../libsdcc_mc35/fsadd.c:83:   iTemp49 [k70 lr58:86 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{long-int fixed}{ sir@ ___fsadd_mant2_1_22}[r0x100E r0x100F r0x1010 r0x1011 ] = - iTemp49 [k70 lr58:86 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{long-int fixed}{ sir@ ___fsadd_mant2_1_22}[r0x100E r0x100F r0x1010 r0x1011 ]
                       00562 ;       .line   83; "../libsdcc_mc35/fsadd.c"   mant2 = -mant2;
@@ -579,11 +579,11 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
 0128   1C00           00570         XORRA   r0x1019
 0129   2D01           00571         MOVAI   0x01
 012A   1300           00572         ADDRA   r0x1016
-012B   5086           00573         JBCLR   STATUS,0
+012B   5086           00573         JBCLR   PFLAG,0
 012C   1300           00574         ADDRA   r0x1017
-012D   5086           00575         JBCLR   STATUS,0
+012D   5086           00575         JBCLR   PFLAG,0
 012E   1300           00576         ADDRA   r0x1018
-012F   5086           00577         JBCLR   STATUS,0
+012F   5086           00577         JBCLR   PFLAG,0
 0130   1300           00578         ADDRA   r0x1019
                       00579 ;;[ICODE] ../libsdcc_mc35/fsadd.c:83:  _iffalse_5($12) :
                       00580 ;;[ICODE] ../libsdcc_mc35/fsadd.c:85:   iTemp65 [k90 lr74:75 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char fixed} = iTemp19 [k32 lr28:98 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{int fixed}{ sir@ ___fsadd_exp1_1_22}[r0x1004 r0x1005 ] > iTemp26 [k41 lr34:84 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{int fixed}{ sir@ ___fsadd_exp2_1_22}[r0x1006 r0x1007 ]
@@ -597,14 +597,14 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
 0136   2C00           00588         XCH     r0x101F
 0137   2300           00589         ASUBRA  r0x101F
 0138   2C00           00590         XCH     r0x101F
-0139   5886           00591         JBSET   STATUS,0
+0139   5886           00591         JBSET   PFLAG,0
 013A   8000           00592         GOTO    _00167_DS_
 013B   1E00           00593         MOVAR   r0x100F
 013C   2C00           00594         XCH     r0x100D
 013D   2300           00595         ASUBRA  r0x100D
 013E   2C00           00596         XCH     r0x100D
 013F                  00597 _00167_DS_
-013F   5286           00598         JBCLR   STATUS,2
+013F   5286           00598         JBCLR   PFLAG,2
 0140   8000           00599         GOTO    _00118_DS_
                       00600 ;;genSkipc:3223: created from rifx:00D5608C
                       00601 ;;[ICODE] ../libsdcc_mc35/fsadd.c:85:   if iTemp65 [k90 lr74:75 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char fixed} == 0 goto _iffalse_6($14)
@@ -616,7 +616,7 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
 0144   2C00           00607         XCH     r0x100F
 0145   1F00           00608         MOVRA   r0x101A
 0146   1E00           00609         MOVAR   r0x100C
-0147   5A86           00610         JBSET   STATUS,2
+0147   5A86           00610         JBSET   PFLAG,2
 0148   1500           00611         JZAR    r0x100C
 0149   0000           00612         NOP     
 014A   2C00           00613         XCH     r0x100E
@@ -629,29 +629,29 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
 0150   8000           00620         GOTO    _00170_DS_
 0151   1DFF           00621         XORAI   0xff
 0152   1401           00622         ADDAI   0x01
-0153   5086           00623         JBCLR   STATUS,0
+0153   5086           00623         JBCLR   PFLAG,0
 0154   8000           00624         GOTO    _00169_DS_
 0155                  00625 _00168_DS_
-0155   4286           00626         BCLR    STATUS,2
+0155   4286           00626         BCLR    PFLAG,2
 0156   5700           00627         JBCLR   r0x1019,7
-0157   4A86           00628         BSET    STATUS,2
+0157   4A86           00628         BSET    PFLAG,2
 0158   0900           00629         RRR     r0x1019
 0159   0900           00630         RRR     r0x1018
 015A   0900           00631         RRR     r0x1017
 015B   0900           00632         RRR     r0x1016
 015C   1401           00633         ADDAI   0x01
-015D   5A86           00634         JBSET   STATUS,2
+015D   5A86           00634         JBSET   PFLAG,2
 015E   8000           00635         GOTO    _00168_DS_
 015F   8000           00636         GOTO    _00169_DS_
 0160                  00637 _00170_DS_
-0160   4286           00638         BCLR    STATUS,2
+0160   4286           00638         BCLR    PFLAG,2
 0161                  00639 _00171_DS_
 0161   0B00           00640         RLR     r0x1016
 0162   0B00           00641         RLR     r0x1017
 0163   0B00           00642         RLR     r0x1018
 0164   0B00           00643         RLR     r0x1019
 0165   1401           00644         ADDAI   0x01
-0166   5A86           00645         JBSET   STATUS,2
+0166   5A86           00645         JBSET   PFLAG,2
 0167   8000           00646         GOTO    _00171_DS_
                       00647 ;;[ICODE] ../libsdcc_mc35/fsadd.c:87:    goto _ifend_6($15)
 0168                  00648 _00169_DS_
@@ -666,7 +666,7 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
 016C   2C00           00657         XCH     r0x100D
 016D   1F00           00658         MOVRA   r0x101A
 016E   1E00           00659         MOVAR   r0x100E
-016F   5A86           00660         JBSET   STATUS,2
+016F   5A86           00660         JBSET   PFLAG,2
 0170   1500           00661         JZAR    r0x100E
 0171   0000           00662         NOP     
 0172   2C00           00663         XCH     r0x100C
@@ -679,29 +679,29 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
 0178   8000           00670         GOTO    _00174_DS_
 0179   1DFF           00671         XORAI   0xff
 017A   1401           00672         ADDAI   0x01
-017B   5086           00673         JBCLR   STATUS,0
+017B   5086           00673         JBCLR   PFLAG,0
 017C   8000           00674         GOTO    _00173_DS_
 017D                  00675 _00172_DS_
-017D   4286           00676         BCLR    STATUS,2
+017D   4286           00676         BCLR    PFLAG,2
 017E   5700           00677         JBCLR   r0x1015,7
-017F   4A86           00678         BSET    STATUS,2
+017F   4A86           00678         BSET    PFLAG,2
 0180   0900           00679         RRR     r0x1015
 0181   0900           00680         RRR     r0x1014
 0182   0900           00681         RRR     r0x100A
 0183   0900           00682         RRR     r0x100B
 0184   1401           00683         ADDAI   0x01
-0185   5A86           00684         JBSET   STATUS,2
+0185   5A86           00684         JBSET   PFLAG,2
 0186   8000           00685         GOTO    _00172_DS_
 0187   8000           00686         GOTO    _00173_DS_
 0188                  00687 _00174_DS_
-0188   4286           00688         BCLR    STATUS,2
+0188   4286           00688         BCLR    PFLAG,2
 0189                  00689 _00175_DS_
 0189   0B00           00690         RLR     r0x100B
 018A   0B00           00691         RLR     r0x100A
 018B   0B00           00692         RLR     r0x1014
 018C   0B00           00693         RLR     r0x1015
 018D   1401           00694         ADDAI   0x01
-018E   5A86           00695         JBSET   STATUS,2
+018E   5A86           00695         JBSET   PFLAG,2
 018F   8000           00696         GOTO    _00175_DS_
                       00697 ;;[ICODE] ../libsdcc_mc35/fsadd.c:92:   iTemp19 [k32 lr28:98 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{int fixed}{ sir@ ___fsadd_exp1_1_22}[r0x1004 r0x1005 ] := iTemp26 [k41 lr34:84 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{int fixed}{ sir@ ___fsadd_exp2_1_22}[r0x1006 r0x1007 ]
 0190                  00698 _00173_DS_
@@ -717,24 +717,24 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
 0194   1E00           00708         MOVAR   r0x1016
 0195   1300           00709         ADDRA   r0x100B
 0196   1E00           00710         MOVAR   r0x1017
-0197   5286           00711         JBCLR   STATUS,2
+0197   5286           00711         JBCLR   PFLAG,2
 0198   1500           00712         JZAR    r0x1017
 0199   1300           00713         ADDRA   r0x100A
 019A   1E00           00714         MOVAR   r0x1018
-019B   5286           00715         JBCLR   STATUS,2
+019B   5286           00715         JBCLR   PFLAG,2
 019C   1500           00716         JZAR    r0x1018
 019D   1300           00717         ADDRA   r0x1014
 019E   1E00           00718         MOVAR   r0x1019
-019F   5286           00719         JBCLR   STATUS,2
+019F   5286           00719         JBCLR   PFLAG,2
 01A0   1500           00720         JZAR    r0x1019
 01A1   1300           00721         ADDRA   r0x1015
                       00722 ;;[ICODE] ../libsdcc_mc35/fsadd.c:96:   iTemp71 [k96 lr88:89 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char fixed} = iTemp43 [k62 lr53:131 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{long-int fixed}{ sir@ ___fsadd_mant1_1_22}[r0x1000 r0x1001 r0x100C r0x100D ] < 0x0 {long-int literal}
                       00723 ;;signed compare: left < lit(0x0=0), size=4, mask=ffffffff
                       00724 ;       .line   96; "../libsdcc_mc35/fsadd.c"   if (mant1 < 0)
-01A2   4A86           00725         BSET    STATUS,2
+01A2   4A86           00725         BSET    PFLAG,2
 01A3   5F00           00726         JBSET   r0x1015,7
-01A4   4286           00727         BCLR    STATUS,2
-01A5   5A86           00728         JBSET   STATUS,2
+01A4   4286           00727         BCLR    PFLAG,2
+01A5   5A86           00728         JBSET   PFLAG,2
 01A6   8000           00729         GOTO    _00123_DS_
                       00730 ;;genSkipc:3223: created from rifx:00D5608C
                       00731 ;;[ICODE] ../libsdcc_mc35/fsadd.c:96:   if iTemp71 [k96 lr88:89 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char fixed} == 0 goto _iffalse_8($19)
@@ -750,11 +750,11 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
 01AE   1C00           00741         XORRA   r0x1015
 01AF   2D01           00742         MOVAI   0x01
 01B0   1300           00743         ADDRA   r0x100B
-01B1   5086           00744         JBCLR   STATUS,0
+01B1   5086           00744         JBCLR   PFLAG,0
 01B2   1300           00745         ADDRA   r0x100A
-01B3   5086           00746         JBCLR   STATUS,0
+01B3   5086           00746         JBCLR   PFLAG,0
 01B4   1300           00747         ADDRA   r0x1014
-01B5   5086           00748         JBCLR   STATUS,0
+01B5   5086           00748         JBCLR   PFLAG,0
 01B6   1300           00749         ADDRA   r0x1015
                       00750 ;;[ICODE] ../libsdcc_mc35/fsadd.c:99:   iTemp2 [k6 lr5:130 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{unsigned-long-int fixed}{ sir@ ___fsadd_sign_1_22}[r0x1008 r0x1009 r0x100A r0x100B ] := 0x80000000 {unsigned-long-int literal}
                       00751 ;       .line   99; "../libsdcc_mc35/fsadd.c"   sign = SIGNBIT;
@@ -773,7 +773,7 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
 01BE   1800           00764         ORAR    r0x100A
 01BF   1800           00765         ORAR    r0x1014
 01C0   1800           00766         ORAR    r0x1015
-01C1   5886           00767         JBSET   STATUS,0
+01C1   5886           00767         JBSET   PFLAG,0
 01C2   8000           00768         GOTO    _00125_DS_
                       00769 ;;[ICODE] ../libsdcc_mc35/fsadd.c:102:  ret 0 {float literal}
                       00770 ;       .line   102; "../libsdcc_mc35/fsadd.c"  return (0);
@@ -806,12 +806,12 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
 01D4   8000           00797         GOTO    _00130_DS_
 01D5   1E00           00798         MOVAR   r0x1017
 01D6   2AFF           00799         ANDAI   0xff
-01D7   5886           00800         JBSET   STATUS,0
+01D7   5886           00800         JBSET   PFLAG,0
 01D8   8000           00801         GOTO    _00130_DS_
                       00802 ;;[ICODE] ../libsdcc_mc35/fsadd.c:105:  if iTemp74 [k99 lr102:103 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char fixed} != 0 goto preHeaderLbl1($44)
                       00803 ;;[ICODE] ../libsdcc_mc35/fsadd.c:106:  iTemp43 [k62 lr53:131 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{long-int fixed}{ sir@ ___fsadd_mant1_1_22}[r0x1000 r0x1001 r0x100C r0x100D ] = iTemp43 [k62 lr53:131 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{long-int fixed}{ sir@ ___fsadd_mant1_1_22}[r0x1000 r0x1001 r0x100C r0x100D ] << 0x1 {const-unsigned-char literal}
                       00804 ;       .line   106; "../libsdcc_mc35/fsadd.c"  mant1 <<= 1;
-01D9   4286           00805         BCLR    STATUS,2
+01D9   4286           00805         BCLR    PFLAG,2
 01DA   0B00           00806         RLR     r0x100B
 01DB   0B00           00807         RLR     r0x100A
 01DC   0B00           00808         RLR     r0x1014
@@ -820,7 +820,7 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
                       00811 ;       .line   107; "../libsdcc_mc35/fsadd.c"  exp1--;
 01DE   2DFF           00812         MOVAI   0xff
 01DF   1300           00813         ADDRA   r0x100F
-01E0   5A86           00814         JBSET   STATUS,2
+01E0   5A86           00814         JBSET   PFLAG,2
 01E1   2600           00815         DJZR    r0x100E
 01E2   0000           00816         NOP     
                       00817 ;;[ICODE] ../libsdcc_mc35/fsadd.c:107:   goto _whilecontinue_0($21)
@@ -843,7 +843,7 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
 01EA   1E00           00834         MOVAR   r0x1015
 01EB   1F00           00835         MOVRA   r0x1017
 01EC   2AFF           00836         ANDAI   0xff
-01ED   5086           00837         JBCLR   STATUS,0
+01ED   5086           00837         JBCLR   PFLAG,0
 01EE   8000           00838         GOTO    _00132_DS_
                       00839 ;;[ICODE] ../libsdcc_mc35/fsadd.c:111:  if iTemp79 [k104 lr113:114 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-long-int register} == 0 goto _whilebreak_1($28)
                       00840 ;;[ICODE] ../libsdcc_mc35/fsadd.c:112:  iTemp80 [k105 lr115:116 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{long-int fixed} = iTemp43 [k62 lr53:131 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{long-int fixed}{ sir@ ___fsadd_mant1_1_22}[r0x1000 r0x1001 r0x100C r0x100D ] & 0x1 {long-int literal}
@@ -855,13 +855,13 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
                       00846 ;       .line   113; "../libsdcc_mc35/fsadd.c"  mant1 += 2;
 01F1   2D02           00847         MOVAI   0x02
 01F2   1300           00848         ADDRA   r0x100B
-01F3   5286           00849         JBCLR   STATUS,2
+01F3   5286           00849         JBCLR   PFLAG,2
 01F4   1600           00850         JZR     r0x100A
 01F5   0000           00851         NOP     
-01F6   5086           00852         JBCLR   STATUS,0
+01F6   5086           00852         JBCLR   PFLAG,0
 01F7   1600           00853         JZR     r0x1014
 01F8   0000           00854         NOP     
-01F9   5086           00855         JBCLR   STATUS,0
+01F9   5086           00855         JBCLR   PFLAG,0
 01FA   1600           00856         JZR     r0x1015
 01FB   0000           00857         NOP     
                       00858 ;;[ICODE] ../libsdcc_mc35/fsadd.c:113:  _iffalse_9($25) :
@@ -869,9 +869,9 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
                       00860 ;;shiftRight_Left2ResultLit:5270: shCount=1, size=4, sign=1, same=1, offr=0
 01FC                  00861 _00129_DS_
                       00862 ;       .line   114; "../libsdcc_mc35/fsadd.c"  mant1 >>= 1 ;
-01FC   4286           00863         BCLR    STATUS,2
+01FC   4286           00863         BCLR    PFLAG,2
 01FD   5700           00864         JBCLR   r0x1015,7
-01FE   4A86           00865         BSET    STATUS,2
+01FE   4A86           00865         BSET    PFLAG,2
 01FF   0900           00866         RRR     r0x1015
 0200   0900           00867         RRR     r0x1014
 0201   0900           00868         RRR     r0x100A
@@ -880,7 +880,7 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
                       00871 ;       .line   115; "../libsdcc_mc35/fsadd.c"  exp1++;
 0203   2D01           00872         MOVAI   0x01
 0204   1300           00873         ADDRA   r0x100F
-0205   5086           00874         JBCLR   STATUS,0
+0205   5086           00874         JBCLR   PFLAG,0
 0206   1300           00875         ADDRA   r0x100E
                       00876 ;;[ICODE] ../libsdcc_mc35/fsadd.c:115:   goto _whilecontinue_1($26)
 0207   8000           00877         GOTO    _00130_DS_
@@ -995,22 +995,267 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
                       00986 ;         589+    0 =   589 instructions ( 1178 byte)
                       00987 
                       00988         end
-gpasm-2.0.0_beta2 (Nov  6 2017)fsadd.asm          2017-11-23  16:21:07         PAGE  2
+gpasm-2.0.0_beta2 (Nov  6 2017)fsadd.asm          2017-12-8  18:30:20          PAGE  2
 
 
 SYMBOL TABLE
   LABEL                             VALUE
 
+ADCHS0                            00000000
+ADCHS1                            00000001
+ADCHS2                            00000002
+ADCHS3                            00000003
+ADCKS0                            00000004
+ADCKS1                            00000005
+ADCKS2                            00000006
+ADCR0                             000000B1
+ADCR1                             000000B2
+ADCR2                             000000B5
+ADEN                              00000007
+ADEOC                             00000005
+ADIE                              00000007
+ADIF                              00000007
+ADIOS0                            000000AD
+ADIOS1                            000000AE
+ADIOS2                            000000AF
+ADRH                              000000B3
+ADRL                              000000B4
+ADRSEL                            00000007
+ADSPS0                            00000000
+ADSPS1                            00000001
+ADSPS2                            00000002
+ADSPS3                            00000003
+ADSTR                             00000006
+AN0EN                             00000000
+AN1EN                             00000001
+AN2EN                             00000002
+AN3EN                             00000003
+AN4EN                             00000004
+AN5EN                             00000000
+AN6EN                             00000004
+AN7EN                             00000003
+AN8EN                             00000002
+AN9EN                             00000007
+BUZ1OE                            00000001
+BUZCR                             000000DC
+BUZEN                             00000007
+BUZPRS0                           00000005
+BUZPRS1                           00000006
 C                                 00000002
+CLKS                              00000002
+CPUM0                             00000003
+CPUM1                             00000004
 DC                                00000001
-FSR                               00000083
+EINTCR                            000000BF
+EVRS                              00000007
 FSR0                              00000083
+FSR00                             00000000
+FSR01                             00000001
+FSR02                             00000002
+FSR03                             00000003
+FSR04                             00000004
+FSR05                             00000005
+FSR06                             00000006
+FSR07                             00000007
 FSR1                              00000084
+FSR10                             00000000
+FSR11                             00000001
+FSR12                             00000002
+FSR13                             00000003
+FSR14                             00000004
+FSR15                             00000005
+FSR16                             00000006
+FSR17                             00000007
+GCHS                              00000004
+GIE                               00000007
+HFDE                              00000001
 HIBYTE                            00000082
+HIBYTE0                           00000000
+HIBYTE1                           00000001
+HIBYTE2                           00000002
+HIBYTE3                           00000003
+HIBYTE4                           00000004
+HIBYTE5                           00000005
+HIBYTE6                           00000006
+HIBYTE7                           00000007
 INDF                              000000E7
+INDF0                             00000000
+INDF1                             00000001
+INDF2                             00000002
+INDF3                             00000003
+INDF4                             00000004
+INDF5                             00000005
+INDF6                             00000006
+INDF7                             00000007
+INT0IE                            00000000
+INT0IF                            00000000
+INTE                              000000C9
+INTF                              000000C8
+IOP0                              000000D0
+IOP4                              000000D4
+IOP5                              000000D5
+LVD24                             00000004
+LVD36                             00000005
+MCR                               000000DF
+MINT00                            00000003
+MINT01                            00000004
+OEP0                              000000B8
+OEP4                              000000C4
+OEP5                              000000C5
+OSCCAL                            0000008F
+OSCCAL0                           00000000
+OSCCAL1                           00000001
+OSCCAL2                           00000002
+OSCCAL3                           00000003
+OSCCAL4                           00000004
+OSCCAL5                           00000005
+OSCCAL6                           00000006
+OSCCAL7                           00000007
+OSCM                              000000CA
+P00D                              00000000
+P00OE                             00000000
+P00PU                             00000000
+P00WK                             00000000
+P01D                              00000001
+P01OE                             00000001
+P01PU                             00000001
+P01WK                             00000001
+P02D                              00000002
+P02OE                             00000002
+P02PU                             00000002
+P02WK                             00000002
+P03D                              00000003
+P03OE                             00000003
+P03PU                             00000003
+P03WK                             00000003
+P04D                              00000004
+P04OE                             00000004
+P04PU                             00000004
+P04WK                             00000004
+P05D                              00000005
+P05OE                             00000005
+P05PU                             00000005
+P05WK                             00000005
+P06D                              00000006
+P06OE                             00000006
+P06PU                             00000006
+P06WK                             00000006
+P07D                              00000007
+P07OE                             00000007
+P07PU                             00000007
+P07WK                             00000007
+P40D                              00000000
+P40OE                             00000000
+P40PU                             00000000
+P41D                              00000001
+P41OE                             00000001
+P41PU                             00000001
+P42D                              00000002
+P42OE                             00000002
+P42PU                             00000002
+P43D                              00000003
+P43OE                             00000003
+P43PU                             00000003
+P44D                              00000004
+P44OE                             00000004
+P44PU                             00000004
+P50D                              00000000
+P50OE                             00000000
+P50PU                             00000000
+P50WK                             00000000
+P51D                              00000001
+P51OE                             00000001
+P51PU                             00000001
+P51WK                             00000001
+P52D                              00000002
+P52OE                             00000002
+P52PU                             00000002
+P52WK                             00000002
+P53D                              00000003
+P53OE                             00000003
+P53PU                             00000003
+P53WK                             00000003
+P54D                              00000004
+P54OE                             00000004
+P54PU                             00000004
+P54WK                             00000004
+PC0                               00000000
+PC1                               00000001
+PC10                              00000002
+PC2                               00000002
+PC3                               00000003
+PC4                               00000004
+PC5                               00000005
+PC6                               00000006
+PC7                               00000007
+PC8                               00000000
+PC9                               00000001
 PCH                               000000CF
 PCL                               000000CE
-STATUS                            00000086
+PFLAG                             00000086
+PUP0                              000000E0
+PUP4                              000000E4
+PUP5                              000000E5
+PWM1OE                            00000000
+PWMADT                            000000EB
+PWMADT0                           00000000
+PWMADT1                           00000001
+PWMADT2                           00000002
+PWMADT3                           00000003
+PWMADT4                           00000004
+PWMADT5                           00000005
+PWMADT6                           00000006
+PWMADT7                           00000007
+PWMAOE                            00000005
+PWMAOF                            00000000
+PWMBDT                            000000EC
+PWMBDT0                           00000000
+PWMBDT1                           00000001
+PWMBDT2                           00000002
+PWMBDT3                           00000003
+PWMBDT4                           00000004
+PWMBDT5                           00000005
+PWMBDT6                           00000006
+PWMBDT7                           00000007
+PWMBOE                            00000006
+PWMBOF                            00000001
+PWMCDT                            000000ED
+PWMCDT0                           00000000
+PWMCDT1                           00000001
+PWMCDT2                           00000002
+PWMCDT3                           00000003
+PWMCDT4                           00000004
+PWMCDT5                           00000005
+PWMCDT6                           00000006
+PWMCDT7                           00000007
+PWMCNT                            000000EA
+PWMCNT0                           00000000
+PWMCNT1                           00000001
+PWMCNT2                           00000002
+PWMCNT3                           00000003
+PWMCNT4                           00000004
+PWMCNT5                           00000005
+PWMCNT6                           00000006
+PWMCNT7                           00000007
+PWMCOE                            00000007
+PWMCOF                            00000002
+PWMCR0                            000000E8
+PWMCR1                            000000E9
+PWMEN                             00000007
+PWMIE                             00000003
+PWMIF                             00000003
+PWMPD                             000000EE
+PWMPD0                            00000000
+PWMPD1                            00000001
+PWMPD2                            00000002
+PWMPD3                            00000003
+PWMPD4                            00000004
+PWMPD5                            00000005
+PWMPD6                            00000006
+PWMPD7                            00000007
+PWMPRS0                           00000004
+PWMPRS1                           00000005
+PWMPRS2                           00000006
 STK00                             00000000
 STK01                             00000000
 STK02                             00000000
@@ -1018,7 +1263,92 @@ STK03                             00000000
 STK04                             00000000
 STK05                             00000000
 STK06                             00000000
+STKP0                             00000000
+STKP1                             00000001
+STKP2                             00000002
+STKR0H                            000000F1
+STKR0L                            000000F0
+STKR1H                            000000F3
+STKR1L                            000000F2
+STKR2H                            000000F5
+STKR2L                            000000F4
+STKR3H                            000000F7
+STKR3L                            000000F6
+STKR4H                            000000F9
+STKR4L                            000000F8
+STKR5H                            000000FB
+STKR5L                            000000FA
+STKR6H                            000000FD
+STKR6L                            000000FC
+STKR7H                            000000FF
+STKR7L                            000000FE
+T0CNT                             000000D9
+T0CNT0                            00000000
+T0CNT1                            00000001
+T0CNT2                            00000002
+T0CNT3                            00000003
+T0CNT4                            00000004
+T0CNT5                            00000005
+T0CNT6                            00000006
+T0CNT7                            00000007
+T0CR                              000000D8
+T0EN                              00000007
+T0IE                              00000004
+T0IF                              00000004
+T0PRS0                            00000004
+T0PRS1                            00000005
+T0PRS2                            00000006
+T1CKS0                            00000003
+T1CKS1                            00000002
+T1CKS2                            00000003
+T1CNT                             000000DB
+T1CNT0                            00000000
+T1CNT1                            00000001
+T1CNT2                            00000002
+T1CNT3                            00000003
+T1CNT4                            00000004
+T1CNT5                            00000005
+T1CNT6                            00000006
+T1CNT7                            00000007
+T1CR                              000000DA
+T1EN                              00000007
+T1IE                              00000005
+T1IF                              00000005
+T1LDEN                            00000002
+T1LDR                             000000CD
+T1LDR0                            00000000
+T1LDR1                            00000001
+T1LDR2                            00000002
+T1LDR3                            00000003
+T1LDR4                            00000004
+T1LDR5                            00000005
+T1LDR6                            00000006
+T1LDR7                            00000007
+T1PRS0                            00000004
+T1PRS1                            00000005
+T1PRS2                            00000006
+VRS0                              00000000
+VRS1                              00000001
+WDTCR                             000000CC
+WDTCR0                            00000000
+WDTCR1                            00000001
+WDTCR2                            00000002
+WDTCR3                            00000003
+WDTCR4                            00000004
+WDTCR5                            00000005
+WDTCR6                            00000006
+WDTCR7                            00000007
+WKCR0                             000000A0
+WKCR5                             000000A5
 Z                                 00000000
+ZEROTR                            0000008E
+ZEROTR0                           00000000
+ZEROTR1                           00000001
+ZEROTR2                           00000002
+ZEROTR3                           00000003
+ZEROTR4                           00000004
+ZOTEN0                            00000006
+ZOTEN1                            00000007
 _00106_DS_                        0000003F
 _00108_DS_                        0000005D
 _00110_DS_                        000000B2

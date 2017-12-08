@@ -1,7 +1,7 @@
 ;--------------------------------------------------------
 ; File Created by SN-SDCC : SinoMCU ANSI-C Compiler
-; Version 1.0.0 (Sep 28 2017) (MINGW32)
-; This file was generated Thu Nov 23 16:21:14 2017
+; Version 1.1.0 (Dec  8 2017) (MINGW32)
+; This file was generated Fri Dec 08 18:30:25 2017
 ;--------------------------------------------------------
 ; MC35 port for the RISC core
 ;--------------------------------------------------------
@@ -125,7 +125,7 @@ _00118_DS_
 	MOVAR	r0x1003
 	ADDRA	r0x1004
 	MOVAR	r0x1002
-	JBCLR	STATUS,2
+	JBCLR	PFLAG,2
 	JZAR	r0x1002
 	ADDRA	r0x1005
 ;;[ICODE] ../libsdcc_mc35/_mulint.c:42:  _andif_0($5) :
@@ -162,7 +162,7 @@ _00109_DS_
 ;;99	MOVAR	r0x1008
 	MOVAR	r0x1003
 	MOVRA	r0x1008
-	JBCLR	STATUS,2
+	JBCLR	PFLAG,2
 	JZAR	r0x1008
 	ADDRA	r0x1005
 ;;[ICODE] ../libsdcc_mc35/_mulint.c:44:  _iffalse_3($10) :
@@ -175,14 +175,14 @@ _00114_DS_
 	MOVRA	r0x1008
 ;;[ICODE] ../libsdcc_mc35/_mulint.c:45: 	iTemp0 [k2 lr3:31 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{int fixed}{ sir@ __mulint_a_1_1}[r0x1000 r0x1001 ] = iTemp19 [k25 lr23:24 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-int fixed}[r0x1007 r0x1008 ] >> 0x1 {const-unsigned-int literal}
 ;;shiftRight_Left2ResultLit:5270: shCount=1, size=2, sign=0, same=0, offr=0
-	BCLR	STATUS,2
+	BCLR	PFLAG,2
 	RRAR	r0x1008
 	MOVRA	r0x1000
 	RRAR	r0x1007
 	MOVRA	r0x1001
 ;;[ICODE] ../libsdcc_mc35/_mulint.c:46: 	iTemp1 [k4 lr4:31 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{int fixed}{ sir@ __mulint_b_1_1}[r0x1002 r0x1003 ] = iTemp1 [k4 lr4:31 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{int fixed}{ sir@ __mulint_b_1_1}[r0x1002 r0x1003 ] << 0x1 {const-unsigned-int literal}
 ;	.line	46; "../libsdcc_mc35/_mulint.c"	b <<= 1u;
-	BCLR	STATUS,2
+	BCLR	PFLAG,2
 	RLR	r0x1003
 	RLR	r0x1002
 ;;[ICODE] ../libsdcc_mc35/_mulint.c:46: 	iTemp23 [k29 lr28:29 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char register}[r0x1007 ] = (char register)iTemp3 [k8 lr6:31 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{unsigned-char fixed}{ sir@ __mulint_i_1_2}[r0x1006 ]
@@ -196,7 +196,7 @@ _00114_DS_
 ;	.line	39; "../libsdcc_mc35/_mulint.c"	for (i = 0; i < 8u; i++) {
 	MOVAI	0x00
 	ORAR	r0x1006
-	JBSET	STATUS,0
+	JBSET	PFLAG,0
 	GOTO	_00118_DS_
 ;;[ICODE] ../libsdcc_mc35/_mulint.c:49: 	ret iTemp2 [k6 lr5:32 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{int fixed}{ sir@ __mulint_result_1_2}[r0x1004 r0x1005 ]
 ;	.line	49; "../libsdcc_mc35/_mulint.c"	return result;

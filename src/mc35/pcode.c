@@ -28,7 +28,9 @@
 /****************************************************************/
 
 // Eventually this will go into device dependent files:
-pCodeOpReg mc35_pc_status = {{PO_STATUS, "STATUS"}, -1, NULL, 0, NULL};
+// zwr 1.1.0
+pCodeOpReg mc35_pc_status = {{PO_STATUS, "PFLAG"}, -1, NULL, 0, NULL};
+// pCodeOpReg mc35_pc_status = {{PO_STATUS, "STATUS"}, -1, NULL, 0, NULL};
 pCodeOpReg mc35_pc_fsr = {{PO_FSR, "FSR"}, -1, NULL, 0, NULL};
 pCodeOpReg mc35_pc_fsr0l = {{PO_FSR, "FSR0L"}, -1, NULL, 0, NULL};
 pCodeOpReg mc35_pc_fsr0h = {{PO_FSR, "FSR0H"}, -1, NULL, 0, NULL};
@@ -1335,7 +1337,9 @@ void mc35_pCodeInitRegisters(void)
 	mc35_initStack(shareBankAddress, stkSize, haveShared);
 
 	/* TODO: Read aliases for SFRs from regmap lines in device description. */
-	mc35_pc_status.r = mc35_allocProcessorRegister(IDX_STATUS, "STATUS", PO_STATUS, 0xf80);
+	// zwr 1.1.0
+	mc35_pc_status.r = mc35_allocProcessorRegister(IDX_STATUS, "PFLAG", PO_STATUS, 0xf80);
+	// mc35_pc_status.r = mc35_allocProcessorRegister(IDX_STATUS, "STATUS", PO_STATUS, 0xf80);
 	mc35_pc_pcl.r = mc35_allocProcessorRegister(IDX_PCL, "PCL", PO_PCL, 0xf80);
 	mc35_pc_pclath.r = mc35_allocProcessorRegister(IDX_PCLATH, "PCLATH", PO_PCLATH, 0xf80);
 	mc35_pc_indf_.r = mc35_allocProcessorRegister(IDX_INDF, "INDF", PO_INDF, 0xf80);

@@ -34,9 +34,9 @@ void verify_processor()
 	fprintf(hInc, ";\tVerify Processor\n");
 	fprintf(hInc, ";\n");
 	fprintf(hInc, ";==========================================================================\n\n");
-	fprintf(hInc, "\tIFNDEF __%s\n", &sTmp[2]);
-	fprintf(hInc, "\t\tMESSG \"Processor-header file mismatch.  Verify selected processor.\"\n");
-	fprintf(hInc, "\tENDIF\n\n");
+	fprintf(hInc, ";\tIFNDEF __%s\n", &sTmp[2]);
+	fprintf(hInc, ";\t\tMESSG \"Processor-header file mismatch.  Verify selected processor.\"\n");
+	fprintf(hInc, ";\tENDIF\n\n");
 }
 
 void register_files()

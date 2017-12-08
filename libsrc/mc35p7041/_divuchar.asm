@@ -1,7 +1,7 @@
 ;--------------------------------------------------------
 ; File Created by SN-SDCC : SinoMCU ANSI-C Compiler
-; Version 1.0.0 (Sep 28 2017) (MINGW32)
-; This file was generated Thu Nov 23 16:21:03 2017
+; Version 1.1.0 (Dec  8 2017) (MINGW32)
+; This file was generated Fri Dec 08 18:30:14 2017
 ;--------------------------------------------------------
 ; MC35 port for the RISC core
 ;--------------------------------------------------------
@@ -97,7 +97,7 @@ __divuchar	;Function start
 ;	.line	36; "../libsdcc_mc35/_divuchar.c"	if (!b) return (unsigned char)-1;
 	MOVAI	0x00
 	ORAR	r0x1001
-	JBSET	STATUS,0
+	JBSET	PFLAG,0
 	GOTO	_00107_DS_
 ;;[ICODE] ../libsdcc_mc35/_divuchar.c:36: 	ret 0xff {unsigned-char literal}
 	MOVAI	0xff
@@ -117,11 +117,11 @@ _00107_DS_
 ;;[ICODE] ../libsdcc_mc35/_divuchar.c:40: 	if iTemp5 [k11 lr12:13 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-long-int register} != 0 goto _whilecontinue_1($8)
 ;;[ICODE] ../libsdcc_mc35/_divuchar.c:41: 	iTemp1 [k4 lr4:33 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{unsigned-char fixed}{ sir@ __divuchar_b_1_1}[r0x1001 ] = iTemp1 [k4 lr4:33 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{unsigned-char fixed}{ sir@ __divuchar_b_1_1}[r0x1001 ] << 0x1 {const-unsigned-char literal}
 ;	.line	41; "../libsdcc_mc35/_divuchar.c"	b <<= 1;
-	BCLR	STATUS,2
+	BCLR	PFLAG,2
 	RLR	r0x1001
 ;;[ICODE] ../libsdcc_mc35/_divuchar.c:42: 	iTemp3 [k8 lr6:33 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{unsigned-char fixed}{ sir@ __divuchar_mask_1_2}[r0x1003 ] = iTemp3 [k8 lr6:33 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{unsigned-char fixed}{ sir@ __divuchar_mask_1_2}[r0x1003 ] << 0x1 {const-unsigned-char literal}
 ;	.line	42; "../libsdcc_mc35/_divuchar.c"	mask <<= 1;
-	BCLR	STATUS,2
+	BCLR	PFLAG,2
 	RLR	r0x1003
 ;;[ICODE] ../libsdcc_mc35/_divuchar.c:42: 	 goto _whilecontinue_0($3)
 	GOTO	_00107_DS_
@@ -131,7 +131,7 @@ _00112_DS_
 ;	.line	47; "../libsdcc_mc35/_divuchar.c"	while (mask) {
 	MOVAI	0x00
 	ORAR	r0x1003
-	JBCLR	STATUS,0
+	JBCLR	PFLAG,0
 	GOTO	_00114_DS_
 ;;[ICODE] ../libsdcc_mc35/_divuchar.c:48: 	iTemp8 [k14 lr22:23 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char fixed} = iTemp0 [k2 lr3:33 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{unsigned-char fixed}{ sir@ __divuchar_a_1_1}[r0x1000 ] < iTemp1 [k4 lr4:33 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{unsigned-char fixed}{ sir@ __divuchar_b_1_1}[r0x1001 ]
 ;	.line	48; "../libsdcc_mc35/_divuchar.c"	if (a >= b) {
@@ -139,7 +139,7 @@ _00112_DS_
 	XCH	r0x1000
 	ASUBRA	r0x1000
 	XCH	r0x1000
-	JBSET	STATUS,2
+	JBSET	PFLAG,2
 	GOTO	_00111_DS_
 ;;genSkipc:3223: created from rifx:00D5608C
 ;;[ICODE] ../libsdcc_mc35/_divuchar.c:48: 	if iTemp8 [k14 lr22:23 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char fixed} != 0 goto _iffalse_1($7)
@@ -158,12 +158,12 @@ _00112_DS_
 ;;shiftRight_Left2ResultLit:5270: shCount=1, size=1, sign=0, same=1, offr=0
 _00111_DS_
 ;	.line	52; "../libsdcc_mc35/_divuchar.c"	b >>= 1;
-	BCLR	STATUS,2
+	BCLR	PFLAG,2
 	RRR	r0x1001
 ;;[ICODE] ../libsdcc_mc35/_divuchar.c:53: 	iTemp3 [k8 lr6:33 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{unsigned-char fixed}{ sir@ __divuchar_mask_1_2}[r0x1003 ] = iTemp3 [k8 lr6:33 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{unsigned-char fixed}{ sir@ __divuchar_mask_1_2}[r0x1003 ] >> 0x1 {const-unsigned-char literal}
 ;;shiftRight_Left2ResultLit:5270: shCount=1, size=1, sign=0, same=1, offr=0
 ;	.line	53; "../libsdcc_mc35/_divuchar.c"	mask >>= 1;
-	BCLR	STATUS,2
+	BCLR	PFLAG,2
 	RRR	r0x1003
 ;;[ICODE] ../libsdcc_mc35/_divuchar.c:53: 	 goto _whilecontinue_1($8)
 	GOTO	_00112_DS_

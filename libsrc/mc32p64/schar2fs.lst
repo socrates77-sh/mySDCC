@@ -1,4 +1,4 @@
-gpasm-2.0.0_beta2 (Aug 27 2017)schar2fs.asm       2017-9-12  18:09:57          PAGE  1
+gpasm-2.0.0_beta2 (Nov  6 2017)schar2fs.asm       2017-12-7  13:58:48          PAGE  1
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
@@ -6,8 +6,8 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
 
                       00001 ;--------------------------------------------------------
                       00002 ; File Created by SN-SDCC : SinoMCU ANSI-C Compiler
-                      00003 ; Version 1.0.0 (Sep 11 2017) (MINGW32)
-                      00004 ; This file was generated Tue Sep 12 18:09:57 2017
+                      00003 ; Version 1.0.0 (Sep 28 2017) (MINGW32)
+                      00004 ; This file was generated Thu Dec 07 13:58:47 2017
                       00005 ;--------------------------------------------------------
                       00006 ; MC30/MC32 port for the RISC core
                       00007 ;--------------------------------------------------------
@@ -41,149 +41,140 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
                       00032         extern  ___fsneq
                       00033         extern  ___fsgt
                       00034 
-                      00035         extern PSAVE
-                      00036         extern SSAVE
-                      00037         extern WSAVE
-                      00038         extern STK12
-                      00039         extern STK11
-                      00040         extern STK10
-                      00041         extern STK09
-                      00042         extern STK08
-                      00043         extern STK07
-                      00044         extern STK06
-                      00045         extern STK05
-                      00046         extern STK04
-                      00047         extern STK03
-                      00048         extern STK02
-                      00049         extern STK01
-                      00050         extern STK00
-                      00051 ;--------------------------------------------------------
-                      00052 ; global declarations
+                      00035         extern STK06
+                      00036         extern STK05
+                      00037         extern STK04
+                      00038         extern STK03
+                      00039         extern STK02
+                      00040         extern STK01
+                      00041         extern STK00
+                      00042 ;--------------------------------------------------------
+                      00043 ; global declarations
+                      00044 ;--------------------------------------------------------
+                      00045         global  ___schar2fs
+                      00046 
+                      00047 ;--------------------------------------------------------
+                      00048 ; global definitions
+                      00049 ;--------------------------------------------------------
+                      00050 ;--------------------------------------------------------
+                      00051 ; absolute symbol definitions
+                      00052 ;--------------------------------------------------------
                       00053 ;--------------------------------------------------------
-                      00054         global  ___schar2fs
-                      00055 
-                      00056 ;--------------------------------------------------------
-                      00057 ; global definitions
-                      00058 ;--------------------------------------------------------
-                      00059 ;--------------------------------------------------------
-                      00060 ; absolute symbol definitions
-                      00061 ;--------------------------------------------------------
+                      00054 ; compiler-defined variables
+                      00055 ;--------------------------------------------------------
+                      00056 UDL_schar2fs_0  udata
+0000                  00057 r0x1000 res     1
+0000                  00058 r0x1001 res     1
+0001                  00059 r0x1004 res     1
+0001                  00060 r0x1003 res     1
+0002                  00061 r0x1002 res     1
                       00062 ;--------------------------------------------------------
-                      00063 ; compiler-defined variables
+                      00063 ; initialized data
                       00064 ;--------------------------------------------------------
-                      00065 UDL_schar2fs_0  udata
-0000                  00066 r0x1000 res     1
-0000                  00067 r0x1001 res     1
-0001                  00068 r0x1004 res     1
-0001                  00069 r0x1003 res     1
-0002                  00070 r0x1002 res     1
-                      00071 ;--------------------------------------------------------
-                      00072 ; initialized data
-                      00073 ;--------------------------------------------------------
-                      00074 
-                      00075 ;@Allocation info for local variables in function '__schar2fs'
-                      00076 ;@__schar2fs __uchar2fs                Allocated to registers ;size:2
-                      00077 ;@__schar2fs __uint2fs                 Allocated to registers ;size:2
-                      00078 ;@__schar2fs __sint2fs                 Allocated to registers ;size:2
-                      00079 ;@__schar2fs __ulong2fs                Allocated to registers ;size:2
-                      00080 ;@__schar2fs __slong2fs                Allocated to registers ;size:2
-                      00081 ;@__schar2fs __fs2uchar                Allocated to registers ;size:2
-                      00082 ;@__schar2fs __fs2schar                Allocated to registers ;size:2
-                      00083 ;@__schar2fs __fs2uint                 Allocated to registers ;size:2
-                      00084 ;@__schar2fs __fs2sint                 Allocated to registers ;size:2
-                      00085 ;@__schar2fs __fs2ulong                Allocated to registers ;size:2
-                      00086 ;@__schar2fs __fs2slong                Allocated to registers ;size:2
-                      00087 ;@__schar2fs __fsadd                   Allocated to registers ;size:2
-                      00088 ;@__schar2fs __fssub                   Allocated to registers ;size:2
-                      00089 ;@__schar2fs __fsmul                   Allocated to registers ;size:2
-                      00090 ;@__schar2fs __fsdiv                   Allocated to registers ;size:2
-                      00091 ;@__schar2fs __fslt                    Allocated to registers ;size:2
-                      00092 ;@__schar2fs __fseq                    Allocated to registers ;size:2
-                      00093 ;@__schar2fs __fsneq                   Allocated to registers ;size:2
-                      00094 ;@__schar2fs __fsgt                    Allocated to registers ;size:2
-                      00095 ;@__schar2fs sc                        Allocated to registers r0x1000 ;size:1
-                      00096 ;@end Allocation info for local variables in function '__schar2fs';
-                      00097 
-                      00098 ;--------------------------------------------------------
-                      00099 ; overlayable items in internal ram 
-                      00100 ;--------------------------------------------------------
-                      00101 ;       udata_ovr
-                      00102 ;--------------------------------------------------------
-                      00103 ; code
-                      00104 ;--------------------------------------------------------
-                      00105 code_schar2fs   code
-                      00106 ;***
-                      00107 ;  pBlock Stats: dbName = C
-                      00108 ;***
-                      00109 ;entry:  ___schar2fs    ;Function start
-                      00110 ; 2 exit points
-                      00111 ;has an exit
-                      00112 ;functions called:
-                      00113 ;   ___slong2fs
-                      00114 ;   ___slong2fs
-                      00115 ;8 compiler assigned registers:
-                      00116 ;   r0x1000
-                      00117 ;   r0x1001
-                      00118 ;   r0x1002
-                      00119 ;   r0x1003
-                      00120 ;   r0x1004
-                      00121 ;   STK02
-                      00122 ;   STK01
-                      00123 ;   STK00
-                      00124 ;; Starting pCode block
-                      00125 ;;[ICODE] ../libsdcc/schar2fs.c:33:  _entry($2) :
-                      00126 ;;[ICODE] ../libsdcc/schar2fs.c:33:     proc ___schar2fs [k1 lr0:0 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{float function ( char fixed) fixed}
-0000                  00127 ___schar2fs     ;Function start
-                      00128 ; 2 exit points
-                      00129 ;;[ICODE] ../libsdcc/schar2fs.c:33: iTemp0 [k2 lr3:4 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{char fixed}{ sir@ ___schar2fs_sc_1_21}[r0x1000 ] = recv ___schar2fs [k1 lr0:0 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{float function ( char fixed) fixed}
-0000   5600           00130         MOVRA   r0x1001
-                      00131 ;       .line   33; "../libsdcc/schar2fs.c"     float __schar2fs (signed char sc) _FS_REENTRANT
-0001   5600           00132         MOVRA   r0x1000
-                      00133 ;;[ICODE] ../libsdcc/schar2fs.c:35:     iTemp1 [k5 lr4:5 so:0]{ ia0 a2p0 re0 rm0 nos0 ru1 dp0}{long-int fixed}[r0x1001 r0x1002 r0x1003 r0x1004 ] = (long-int fixed)iTemp0 [k2 lr3:4 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{char fixed}{ sir@ ___schar2fs_sc_1_21}[r0x1000 ]
-                      00134 ;;99    MOVAR   r0x1000
-                      00135 ;       .line   35; "../libsdcc/schar2fs.c"     return __slong2fs(sc);
-0002   3C00           00136         MOVAI   0x00
-0003   FE00           00137         JBCLR   r0x1001,7
-0004   3CFF           00138         MOVAI   0xff
-0005   5600           00139         MOVRA   r0x1002
-0006   5600           00140         MOVRA   r0x1003
-0007   5600           00141         MOVRA   r0x1004
-                      00142 ;;[ICODE] ../libsdcc/schar2fs.c:35:     send iTemp1 [k5 lr4:5 so:0]{ ia0 a2p0 re0 rm0 nos0 ru1 dp0}{long-int fixed}[r0x1001 r0x1002 r0x1003 r0x1004 ]{argreg = 1}
-                      00143 ;;[ICODE] ../libsdcc/schar2fs.c:35:     iTemp2 [k7 lr6:7 so:0]{ ia0 a2p0 re0 rm0 nos0 ru1 dp0}{float fixed}[r0x1000 r0x1001 r0x1002 r0x1003 ] = call ___slong2fs [k4 lr0:0 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{float function ( long-int fixed) fixed}
-0008   5800           00144         MOVAR   r0x1001
-0009   5600           00145         MOVRA   STK02
-000A   5800           00146         MOVAR   r0x1004
-000B   5600           00147         MOVRA   STK01
-000C   5800           00148         MOVAR   r0x1003
-000D   5600           00149         MOVRA   STK00
-000E   5800           00150         MOVAR   r0x1002
-000F   8000           00151         CALL    ___slong2fs
-0010   5600           00152         MOVRA   r0x1003
-0011   5800           00153         MOVAR   STK00
-0012   5600           00154         MOVRA   r0x1004
-0013   5800           00155         MOVAR   STK01
-0014   5600           00156         MOVRA   r0x1001
-0015   5800           00157         MOVAR   STK02
-0016   5600           00158         MOVRA   r0x1000
-                      00159 ;;[ICODE] ../libsdcc/schar2fs.c:35:     ret iTemp2 [k7 lr6:7 so:0]{ ia0 a2p0 re0 rm0 nos0 ru1 dp0}{float fixed}[r0x1000 r0x1001 r0x1002 r0x1003 ]
-0017   5800           00160         MOVAR   r0x1000
-0018   5600           00161         MOVRA   STK02
-0019   5800           00162         MOVAR   r0x1001
-001A   5600           00163         MOVRA   STK01
-001B   5800           00164         MOVAR   r0x1004
-001C   5600           00165         MOVRA   STK00
-001D   5800           00166         MOVAR   r0x1003
-                      00167 ;;[ICODE] ../libsdcc/schar2fs.c:35:  _return($1) :
-                      00168 ;;[ICODE] ../libsdcc/schar2fs.c:35:     eproc ___schar2fs [k1 lr0:0 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{float function ( char fixed) fixed}
-001E   000C           00169         RETURN  
-                      00170 ; exit point of ___schar2fs
-                      00171 
-                      00172 
-                      00173 ;       code size estimation:
-                      00174 ;          31+    0 =    31 instructions (   62 byte)
-                      00175 
-                      00176         end
-gpasm-2.0.0_beta2 (Aug 27 2017)schar2fs.asm       2017-9-12  18:09:57          PAGE  2
+                      00065 
+                      00066 ;@Allocation info for local variables in function '__schar2fs'
+                      00067 ;@__schar2fs __uchar2fs                Allocated to registers ;size:2
+                      00068 ;@__schar2fs __uint2fs                 Allocated to registers ;size:2
+                      00069 ;@__schar2fs __sint2fs                 Allocated to registers ;size:2
+                      00070 ;@__schar2fs __ulong2fs                Allocated to registers ;size:2
+                      00071 ;@__schar2fs __slong2fs                Allocated to registers ;size:2
+                      00072 ;@__schar2fs __fs2uchar                Allocated to registers ;size:2
+                      00073 ;@__schar2fs __fs2schar                Allocated to registers ;size:2
+                      00074 ;@__schar2fs __fs2uint                 Allocated to registers ;size:2
+                      00075 ;@__schar2fs __fs2sint                 Allocated to registers ;size:2
+                      00076 ;@__schar2fs __fs2ulong                Allocated to registers ;size:2
+                      00077 ;@__schar2fs __fs2slong                Allocated to registers ;size:2
+                      00078 ;@__schar2fs __fsadd                   Allocated to registers ;size:2
+                      00079 ;@__schar2fs __fssub                   Allocated to registers ;size:2
+                      00080 ;@__schar2fs __fsmul                   Allocated to registers ;size:2
+                      00081 ;@__schar2fs __fsdiv                   Allocated to registers ;size:2
+                      00082 ;@__schar2fs __fslt                    Allocated to registers ;size:2
+                      00083 ;@__schar2fs __fseq                    Allocated to registers ;size:2
+                      00084 ;@__schar2fs __fsneq                   Allocated to registers ;size:2
+                      00085 ;@__schar2fs __fsgt                    Allocated to registers ;size:2
+                      00086 ;@__schar2fs sc                        Allocated to registers r0x1000 ;size:1
+                      00087 ;@end Allocation info for local variables in function '__schar2fs';
+                      00088 
+                      00089 ;--------------------------------------------------------
+                      00090 ; overlayable items in internal ram 
+                      00091 ;--------------------------------------------------------
+                      00092 ;       udata_ovr
+                      00093 ;--------------------------------------------------------
+                      00094 ; code
+                      00095 ;--------------------------------------------------------
+                      00096 code_schar2fs   code
+                      00097 ;***
+                      00098 ;  pBlock Stats: dbName = C
+                      00099 ;***
+                      00100 ;entry:  ___schar2fs    ;Function start
+                      00101 ; 2 exit points
+                      00102 ;has an exit
+                      00103 ;functions called:
+                      00104 ;   ___slong2fs
+                      00105 ;   ___slong2fs
+                      00106 ;8 compiler assigned registers:
+                      00107 ;   r0x1000
+                      00108 ;   r0x1001
+                      00109 ;   r0x1002
+                      00110 ;   r0x1003
+                      00111 ;   r0x1004
+                      00112 ;   STK02
+                      00113 ;   STK01
+                      00114 ;   STK00
+                      00115 ;; Starting pCode block
+                      00116 ;;[ICODE] ../libsdcc/schar2fs.c:33:  _entry($2) :
+                      00117 ;;[ICODE] ../libsdcc/schar2fs.c:33:     proc ___schar2fs [k1 lr0:0 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{float function ( char fixed) fixed}
+0000                  00118 ___schar2fs     ;Function start
+                      00119 ; 2 exit points
+                      00120 ;;[ICODE] ../libsdcc/schar2fs.c:33: iTemp0 [k2 lr3:4 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{char fixed}{ sir@ ___schar2fs_sc_1_21}[r0x1000 ] = recv ___schar2fs [k1 lr0:0 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{float function ( char fixed) fixed}
+0000   5600           00121         MOVRA   r0x1001
+                      00122 ;       .line   33; "../libsdcc/schar2fs.c"     float __schar2fs (signed char sc) _FS_REENTRANT
+0001   5600           00123         MOVRA   r0x1000
+                      00124 ;;[ICODE] ../libsdcc/schar2fs.c:35:     iTemp1 [k5 lr4:5 so:0]{ ia0 a2p0 re0 rm0 nos0 ru1 dp0}{long-int fixed}[r0x1001 r0x1002 r0x1003 r0x1004 ] = (long-int fixed)iTemp0 [k2 lr3:4 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{char fixed}{ sir@ ___schar2fs_sc_1_21}[r0x1000 ]
+                      00125 ;;99    MOVAR   r0x1000
+                      00126 ;       .line   35; "../libsdcc/schar2fs.c"     return __slong2fs(sc);
+0002   3C00           00127         MOVAI   0x00
+0003   FE00           00128         JBCLR   r0x1001,7
+0004   3CFF           00129         MOVAI   0xff
+0005   5600           00130         MOVRA   r0x1002
+0006   5600           00131         MOVRA   r0x1003
+0007   5600           00132         MOVRA   r0x1004
+                      00133 ;;[ICODE] ../libsdcc/schar2fs.c:35:     send iTemp1 [k5 lr4:5 so:0]{ ia0 a2p0 re0 rm0 nos0 ru1 dp0}{long-int fixed}[r0x1001 r0x1002 r0x1003 r0x1004 ]{argreg = 1}
+                      00134 ;;[ICODE] ../libsdcc/schar2fs.c:35:     iTemp2 [k7 lr6:7 so:0]{ ia0 a2p0 re0 rm0 nos0 ru1 dp0}{float fixed}[r0x1000 r0x1001 r0x1002 r0x1003 ] = call ___slong2fs [k4 lr0:0 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{float function ( long-int fixed) fixed}
+0008   5800           00135         MOVAR   r0x1001
+0009   5600           00136         MOVRA   STK02
+000A   5800           00137         MOVAR   r0x1004
+000B   5600           00138         MOVRA   STK01
+000C   5800           00139         MOVAR   r0x1003
+000D   5600           00140         MOVRA   STK00
+000E   5800           00141         MOVAR   r0x1002
+000F   8000           00142         CALL    ___slong2fs
+0010   5600           00143         MOVRA   r0x1003
+0011   5800           00144         MOVAR   STK00
+0012   5600           00145         MOVRA   r0x1004
+0013   5800           00146         MOVAR   STK01
+0014   5600           00147         MOVRA   r0x1001
+0015   5800           00148         MOVAR   STK02
+0016   5600           00149         MOVRA   r0x1000
+                      00150 ;;[ICODE] ../libsdcc/schar2fs.c:35:     ret iTemp2 [k7 lr6:7 so:0]{ ia0 a2p0 re0 rm0 nos0 ru1 dp0}{float fixed}[r0x1000 r0x1001 r0x1002 r0x1003 ]
+0017   5800           00151         MOVAR   r0x1000
+0018   5600           00152         MOVRA   STK02
+0019   5800           00153         MOVAR   r0x1001
+001A   5600           00154         MOVRA   STK01
+001B   5800           00155         MOVAR   r0x1004
+001C   5600           00156         MOVRA   STK00
+001D   5800           00157         MOVAR   r0x1003
+                      00158 ;;[ICODE] ../libsdcc/schar2fs.c:35:  _return($1) :
+                      00159 ;;[ICODE] ../libsdcc/schar2fs.c:35:     eproc ___schar2fs [k1 lr0:0 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{float function ( char fixed) fixed}
+001E   000C           00160         RETURN  
+                      00161 ; exit point of ___schar2fs
+                      00162 
+                      00163 
+                      00164 ;       code size estimation:
+                      00165 ;          31+    0 =    31 instructions (   62 byte)
+                      00166 
+                      00167         end
+gpasm-2.0.0_beta2 (Nov  6 2017)schar2fs.asm       2017-12-7  13:58:48          PAGE  2
 
 
 SYMBOL TABLE
@@ -326,7 +317,6 @@ P31OE                             00000001
 P31PU                             00000001
 PCL                               000001B6
 PD                                00000004
-PSAVE                             00000000
 PUP0                              000001C2
 PUP1                              000001C6
 PUP2                              000001CA
@@ -335,7 +325,6 @@ PWM0OE                            00000006
 PWM1OE                            00000006
 RXAK                              00000000
 SRW                               00000002
-SSAVE                             00000000
 STATUS                            000001B7
 STBH                              00000004
 STBL                              00000005
@@ -346,12 +335,6 @@ STK03                             00000000
 STK04                             00000000
 STK05                             00000000
 STK06                             00000000
-STK07                             00000000
-STK08                             00000000
-STK09                             00000000
-STK10                             00000000
-STK11                             00000000
-STK12                             00000000
 T0CNT                             000001D1
 T0CR                              000001D0
 T0DATA                            000001D3
@@ -404,7 +387,6 @@ TK2JE                             00000005
 TK2RCE                            00000004
 TO                                00000005
 TXAK                              00000003
-WSAVE                             00000000
 Z                                 00000002
 _CONFIG0                          00008000
 _CONFIG1                          00008001

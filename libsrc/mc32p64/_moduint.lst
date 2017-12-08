@@ -1,4 +1,4 @@
-gpasm-2.0.0_beta2 (Aug 27 2017)_moduint.asm       2017-9-12  18:09:55          PAGE  1
+gpasm-2.0.0_beta2 (Nov  6 2017)_moduint.asm       2017-12-7  13:58:45          PAGE  1
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
@@ -6,8 +6,8 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
 
                       00001 ;--------------------------------------------------------
                       00002 ; File Created by SN-SDCC : SinoMCU ANSI-C Compiler
-                      00003 ; Version 1.0.0 (Sep 11 2017) (MINGW32)
-                      00004 ; This file was generated Tue Sep 12 18:09:55 2017
+                      00003 ; Version 1.0.0 (Sep 28 2017) (MINGW32)
+                      00004 ; This file was generated Thu Dec 07 13:58:45 2017
                       00005 ;--------------------------------------------------------
                       00006 ; MC30/MC32 port for the RISC core
                       00007 ;--------------------------------------------------------
@@ -22,198 +22,189 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
                       00013 ; external declarations
                       00014 ;--------------------------------------------------------
                       00015 
-                      00016         extern PSAVE
-                      00017         extern SSAVE
-                      00018         extern WSAVE
-                      00019         extern STK12
-                      00020         extern STK11
-                      00021         extern STK10
-                      00022         extern STK09
-                      00023         extern STK08
-                      00024         extern STK07
-                      00025         extern STK06
-                      00026         extern STK05
-                      00027         extern STK04
-                      00028         extern STK03
-                      00029         extern STK02
-                      00030         extern STK01
-                      00031         extern STK00
-                      00032 ;--------------------------------------------------------
-                      00033 ; global declarations
+                      00016         extern STK06
+                      00017         extern STK05
+                      00018         extern STK04
+                      00019         extern STK03
+                      00020         extern STK02
+                      00021         extern STK01
+                      00022         extern STK00
+                      00023 ;--------------------------------------------------------
+                      00024 ; global declarations
+                      00025 ;--------------------------------------------------------
+                      00026         global  __moduint
+                      00027 
+                      00028 ;--------------------------------------------------------
+                      00029 ; global definitions
+                      00030 ;--------------------------------------------------------
+                      00031 ;--------------------------------------------------------
+                      00032 ; absolute symbol definitions
+                      00033 ;--------------------------------------------------------
                       00034 ;--------------------------------------------------------
-                      00035         global  __moduint
-                      00036 
-                      00037 ;--------------------------------------------------------
-                      00038 ; global definitions
-                      00039 ;--------------------------------------------------------
-                      00040 ;--------------------------------------------------------
-                      00041 ; absolute symbol definitions
-                      00042 ;--------------------------------------------------------
-                      00043 ;--------------------------------------------------------
-                      00044 ; compiler-defined variables
-                      00045 ;--------------------------------------------------------
-                      00046 UDL__moduint_0  udata
-0000                  00047 r0x1001 res     1
-0000                  00048 r0x1000 res     1
-0001                  00049 r0x1003 res     1
-0001                  00050 r0x1002 res     1
-0002                  00051 r0x1004 res     1
-0002                  00052 r0x1006 res     1
-                      00053 ;--------------------------------------------------------
-                      00054 ; initialized data
-                      00055 ;--------------------------------------------------------
-                      00056 
-                      00057 ;@Allocation info for local variables in function '_moduint'
-                      00058 ;@_moduint b                         Allocated to registers r0x1003 r0x1002 ;size:2
-                      00059 ;@_moduint a                         Allocated to registers r0x1001 r0x1000 ;size:2
-                      00060 ;@_moduint count                     Allocated to registers r0x1004 ;size:1
-                      00061 ;@end Allocation info for local variables in function '_moduint';
-                      00062 
-                      00063 ;--------------------------------------------------------
-                      00064 ; overlayable items in internal ram 
-                      00065 ;--------------------------------------------------------
-                      00066 ;       udata_ovr
-                      00067 ;--------------------------------------------------------
-                      00068 ; code
-                      00069 ;--------------------------------------------------------
-                      00070 code__moduint   code
-                      00071 ;***
-                      00072 ;  pBlock Stats: dbName = C
-                      00073 ;***
-                      00074 ;entry:  __moduint      ;Function start
-                      00075 ; 2 exit points
-                      00076 ;has an exit
-                      00077 ;12 compiler assigned registers:
-                      00078 ;   r0x1000
-                      00079 ;   STK00
-                      00080 ;   r0x1001
-                      00081 ;   STK01
-                      00082 ;   r0x1002
-                      00083 ;   STK02
-                      00084 ;   r0x1003
-                      00085 ;   r0x1004
-                      00086 ;   r0x1005
-                      00087 ;   r0x1006
-                      00088 ;   r0x1007
-                      00089 ;   r0x1008
-                      00090 ;; Starting pCode block
-                      00091 ;;[ICODE] ../libsdcc/_moduint.c:30:  _entry($12) :
-                      00092 ;;[ICODE] ../libsdcc/_moduint.c:30:     proc __moduint [k1 lr0:0 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-int function ( unsigned-int fixed, unsigned-int fixed) fixed}
-0000                  00093 __moduint       ;Function start
-                      00094 ; 2 exit points
-                      00095 ;;[ICODE] ../libsdcc/_moduint.c:30: iTemp0 [k2 lr3:33 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{unsigned-int fixed}{ sir@ __moduint_a_1_1}[r0x1000 r0x1001 ] = recv __moduint [k1 lr0:0 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-int function ( unsigned-int fixed, unsigned-int fixed) fixed}
-                      00096 ;       .line   30; "../libsdcc/_moduint.c"     _moduint (unsigned int a, unsigned int b)
-0000   5600           00097         MOVRA   r0x1000
-0001   5800           00098         MOVAR   STK00
-0002   5600           00099         MOVRA   r0x1001
-                      00100 ;;[ICODE] ../libsdcc/_moduint.c:30: iTemp1 [k4 lr4:31 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{unsigned-int fixed}{ sir@ __moduint_b_1_1}[r0x1002 r0x1003 ] = recv __moduint [k1 lr0:0 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-int function ( unsigned-int fixed, unsigned-int fixed) fixed}
-0003   5800           00101         MOVAR   STK01
-0004   5600           00102         MOVRA   r0x1002
-0005   5800           00103         MOVAR   STK02
-0006   5600           00104         MOVRA   r0x1003
-                      00105 ;;[ICODE] ../libsdcc/_moduint.c:35:     if iTemp1 [k4 lr4:31 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{unsigned-int fixed}{ sir@ __moduint_b_1_1}[r0x1002 r0x1003 ] != 0 goto preHeaderLbl0($15)
-                      00106 ;       .line   35; "../libsdcc/_moduint.c"     if (!b) return (unsigned int)-1;
-0007   5800           00107         MOVAR   r0x1003
-0008   5C00           00108         ORAR    r0x1002
-0009   E5B7           00109         JBSET   STATUS,2
-000A   A000           00110         GOTO    _00119_DS_
-                      00111 ;;[ICODE] ../libsdcc/_moduint.c:35:     ret 0xffff {unsigned-int literal}
-000B   3CFF           00112         MOVAI   0xff
-000C   5600           00113         MOVRA   STK00
-000D   3CFF           00114         MOVAI   0xff
-000E   A000           00115         GOTO    _00115_DS_
-                      00116 ;;[ICODE] ../libsdcc/_moduint.c:39:  preHeaderLbl0($15) :
-                      00117 ;;[ICODE] ../libsdcc/_moduint.c:39:     iTemp6 [k11 lr8:19 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-char fixed}{ sir@ __moduint_count_1_2}[r0x1004 ] := 0x1 {const-unsigned-char literal}
-000F                  00118 _00119_DS_
-                      00119 ;       .line   39; "../libsdcc/_moduint.c"     while (!(b & (1UL << (8*sizeof(unsigned int)-1)))) {
-000F   3C01           00120         MOVAI   0x01
-0010   5600           00121         MOVRA   r0x1004
-                      00122 ;;[ICODE] ../libsdcc/_moduint.c:39:  _whilecontinue_0($3) :
-                      00123 ;;[ICODE] ../libsdcc/_moduint.c:39:     iTemp3 [k8 lr11:12 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-long-int register}[r0x1005 r0x1006 r0x1007 r0x1008 ] = (unsigned-long-int register)iTemp1 [k4 lr4:31 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{unsigned-int fixed}{ sir@ __moduint_b_1_1}[r0x1002 r0x1003 ]
-0011                  00124 _00107_DS_
-0011   5800           00125         MOVAR   r0x1003
-                      00126 ;;1     MOVRA   r0x1005
-0012   5800           00127         MOVAR   r0x1002
-0013   5600           00128         MOVRA   r0x1006
-                      00129 ;;1     CLRR    r0x1007
-                      00130 ;;1     CLRR    r0x1008
-                      00131 ;;[ICODE] ../libsdcc/_moduint.c:39:     iTemp4 [k9 lr12:13 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-long-int register} = iTemp3 [k8 lr11:12 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-long-int register}[r0x1005 r0x1006 r0x1007 r0x1008 ] & 0x8000 {unsigned-long-int literal}
-0014   FE00           00132         JBCLR   r0x1006,7
-0015   A000           00133         GOTO    _00112_DS_
-                      00134 ;;[ICODE] ../libsdcc/_moduint.c:39:     if iTemp4 [k9 lr12:13 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-long-int register} != 0 goto preHeaderLbl1($18)
-                      00135 ;;[ICODE] ../libsdcc/_moduint.c:40:     iTemp1 [k4 lr4:31 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{unsigned-int fixed}{ sir@ __moduint_b_1_1}[r0x1002 r0x1003 ] = iTemp1 [k4 lr4:31 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{unsigned-int fixed}{ sir@ __moduint_b_1_1}[r0x1002 r0x1003 ] << 0x1 {const-unsigned-char literal}
-                      00136 ;       .line   40; "../libsdcc/_moduint.c"     b <<= 1;
-0016   D1B7           00137         BCLR    STATUS,0
-0017   5200           00138         RLR     r0x1003
-0018   5200           00139         RLR     r0x1002
-                      00140 ;;[ICODE] ../libsdcc/_moduint.c:41:     iTemp6 [k11 lr8:19 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-char fixed}{ sir@ __moduint_count_1_2}[r0x1004 ] = iTemp6 [k11 lr8:19 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-char fixed}{ sir@ __moduint_count_1_2}[r0x1004 ] + 0x1 {const-unsigned-char literal}
-                      00141 ;       .line   41; "../libsdcc/_moduint.c"     ++count;
-0019   6600           00142         INCR    r0x1004
-                      00143 ;;[ICODE] ../libsdcc/_moduint.c:41:      goto _whilecontinue_0($3)
-001A   A000           00144         GOTO    _00107_DS_
-                      00145 ;;[ICODE] ../libsdcc/_moduint.c:45:  preHeaderLbl1($18) :
-                      00146 ;;[ICODE] ../libsdcc/_moduint.c:45:     iTemp10 [k15 lr19:31 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-char fixed}{ sir@ __moduint_count_1_2}[r0x1004 ] := iTemp6 [k11 lr8:19 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-char fixed}{ sir@ __moduint_count_1_2}[r0x1004 ]
-                      00147 ;;[ICODE] ../libsdcc/_moduint.c:45:  _whilecontinue_1($8) :
-                      00148 ;;[ICODE] ../libsdcc/_moduint.c:45:     if iTemp10 [k15 lr19:31 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-char fixed}{ sir@ __moduint_count_1_2}[r0x1004 ] == 0 goto _whilebreak_1($10)
-001B                  00149 _00112_DS_
-                      00150 ;       .line   45; "../libsdcc/_moduint.c"     while (count) {
-001B   3C00           00151         MOVAI   0x00
-001C   5C00           00152         ORAR    r0x1004
-001D   F5B7           00153         JBCLR   STATUS,2
-001E   A000           00154         GOTO    _00114_DS_
-                      00155 ;;[ICODE] ../libsdcc/_moduint.c:46:     iTemp7 [k12 lr23:24 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char fixed} = iTemp0 [k2 lr3:33 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{unsigned-int fixed}{ sir@ __moduint_a_1_1}[r0x1000 r0x1001 ] < iTemp1 [k4 lr4:31 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{unsigned-int fixed}{ sir@ __moduint_b_1_1}[r0x1002 r0x1003 ]
-                      00156 ;       .line   46; "../libsdcc/_moduint.c"     if (a >= b) {
-001F   5800           00157         MOVAR   r0x1002
-0020   4800           00158         RSUBAR  r0x1000
-0021   E5B7           00159         JBSET   STATUS,2
-0022   A000           00160         GOTO    _00131_DS_
-0023   5800           00161         MOVAR   r0x1003
-0024   4800           00162         RSUBAR  r0x1001
-0025                  00163 _00131_DS_
-0025   E1B7           00164         JBSET   STATUS,0
-0026   A000           00165         GOTO    _00111_DS_
-                      00166 ;;genSkipc:3192: created from rifx:00CC608C
-                      00167 ;;[ICODE] ../libsdcc/_moduint.c:46:     if iTemp7 [k12 lr23:24 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char fixed} != 0 goto _iffalse_1($7)
-                      00168 ;;[ICODE] ../libsdcc/_moduint.c:47:     iTemp0 [k2 lr3:33 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{unsigned-int fixed}{ sir@ __moduint_a_1_1}[r0x1000 r0x1001 ] = iTemp0 [k2 lr3:33 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{unsigned-int fixed}{ sir@ __moduint_a_1_1}[r0x1000 r0x1001 ] - iTemp1 [k4 lr4:31 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{unsigned-int fixed}{ sir@ __moduint_b_1_1}[r0x1002 r0x1003 ]
-                      00169 ;       .line   47; "../libsdcc/_moduint.c"     a -= b;
-0027   5800           00170         MOVAR   r0x1003
-0028   4A00           00171         RSUBRA  r0x1001
-0029   5800           00172         MOVAR   r0x1002
-002A   E1B7           00173         JBSET   STATUS,0
-002B   6000           00174         JZAR    r0x1002
-002C   4A00           00175         RSUBRA  r0x1000
-                      00176 ;;[ICODE] ../libsdcc/_moduint.c:47:  _iffalse_1($7) :
-                      00177 ;;[ICODE] ../libsdcc/_moduint.c:49:     iTemp1 [k4 lr4:31 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{unsigned-int fixed}{ sir@ __moduint_b_1_1}[r0x1002 r0x1003 ] = iTemp1 [k4 lr4:31 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{unsigned-int fixed}{ sir@ __moduint_b_1_1}[r0x1002 r0x1003 ] >> 0x1 {const-unsigned-char literal}
-                      00178 ;;shiftRight_Left2ResultLit:5213: shCount=1, size=2, sign=0, same=1, offr=0
-002D                  00179 _00111_DS_
-                      00180 ;       .line   49; "../libsdcc/_moduint.c"     b >>= 1;
-002D   D1B7           00181         BCLR    STATUS,0
-002E   4E00           00182         RRR     r0x1002
-002F   4E00           00183         RRR     r0x1003
-                      00184 ;;[ICODE] ../libsdcc/_moduint.c:50:     iTemp10 [k15 lr19:31 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-char fixed}{ sir@ __moduint_count_1_2}[r0x1004 ] = iTemp10 [k15 lr19:31 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-char fixed}{ sir@ __moduint_count_1_2}[r0x1004 ] - 0x1 {const-unsigned-char literal}
-                      00185 ;       .line   50; "../libsdcc/_moduint.c"     --count;
-0030   6E00           00186         DECR    r0x1004
-                      00187 ;;[ICODE] ../libsdcc/_moduint.c:50:      goto _whilecontinue_1($8)
-0031   A000           00188         GOTO    _00112_DS_
-                      00189 ;;[ICODE] ../libsdcc/_moduint.c:50:  _whilebreak_1($10) :
-                      00190 ;;[ICODE] ../libsdcc/_moduint.c:53:     ret iTemp0 [k2 lr3:33 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{unsigned-int fixed}{ sir@ __moduint_a_1_1}[r0x1000 r0x1001 ]
-0032                  00191 _00114_DS_
-                      00192 ;       .line   53; "../libsdcc/_moduint.c"     return a;
-0032   5800           00193         MOVAR   r0x1001
-0033   5600           00194         MOVRA   STK00
-0034   5800           00195         MOVAR   r0x1000
-                      00196 ;;[ICODE] ../libsdcc/_moduint.c:53:  _return($11) :
-                      00197 ;;[ICODE] ../libsdcc/_moduint.c:53:     eproc __moduint [k1 lr0:0 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-int function ( unsigned-int fixed, unsigned-int fixed) fixed}
-0035                  00198 _00115_DS_
-0035   000C           00199         RETURN  
-                      00200 ; exit point of __moduint
-                      00201 
-                      00202 
-                      00203 ;       code size estimation:
-                      00204 ;          54+    0 =    54 instructions (  108 byte)
-                      00205 
-                      00206         end
-gpasm-2.0.0_beta2 (Aug 27 2017)_moduint.asm       2017-9-12  18:09:55          PAGE  2
+                      00035 ; compiler-defined variables
+                      00036 ;--------------------------------------------------------
+                      00037 UDL__moduint_0  udata
+0000                  00038 r0x1001 res     1
+0000                  00039 r0x1000 res     1
+0001                  00040 r0x1003 res     1
+0001                  00041 r0x1002 res     1
+0002                  00042 r0x1004 res     1
+0002                  00043 r0x1006 res     1
+                      00044 ;--------------------------------------------------------
+                      00045 ; initialized data
+                      00046 ;--------------------------------------------------------
+                      00047 
+                      00048 ;@Allocation info for local variables in function '_moduint'
+                      00049 ;@_moduint b                         Allocated to registers r0x1003 r0x1002 ;size:2
+                      00050 ;@_moduint a                         Allocated to registers r0x1001 r0x1000 ;size:2
+                      00051 ;@_moduint count                     Allocated to registers r0x1004 ;size:1
+                      00052 ;@end Allocation info for local variables in function '_moduint';
+                      00053 
+                      00054 ;--------------------------------------------------------
+                      00055 ; overlayable items in internal ram 
+                      00056 ;--------------------------------------------------------
+                      00057 ;       udata_ovr
+                      00058 ;--------------------------------------------------------
+                      00059 ; code
+                      00060 ;--------------------------------------------------------
+                      00061 code__moduint   code
+                      00062 ;***
+                      00063 ;  pBlock Stats: dbName = C
+                      00064 ;***
+                      00065 ;entry:  __moduint      ;Function start
+                      00066 ; 2 exit points
+                      00067 ;has an exit
+                      00068 ;12 compiler assigned registers:
+                      00069 ;   r0x1000
+                      00070 ;   STK00
+                      00071 ;   r0x1001
+                      00072 ;   STK01
+                      00073 ;   r0x1002
+                      00074 ;   STK02
+                      00075 ;   r0x1003
+                      00076 ;   r0x1004
+                      00077 ;   r0x1005
+                      00078 ;   r0x1006
+                      00079 ;   r0x1007
+                      00080 ;   r0x1008
+                      00081 ;; Starting pCode block
+                      00082 ;;[ICODE] ../libsdcc/_moduint.c:30:  _entry($12) :
+                      00083 ;;[ICODE] ../libsdcc/_moduint.c:30:     proc __moduint [k1 lr0:0 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-int function ( unsigned-int fixed, unsigned-int fixed) fixed}
+0000                  00084 __moduint       ;Function start
+                      00085 ; 2 exit points
+                      00086 ;;[ICODE] ../libsdcc/_moduint.c:30: iTemp0 [k2 lr3:33 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{unsigned-int fixed}{ sir@ __moduint_a_1_1}[r0x1000 r0x1001 ] = recv __moduint [k1 lr0:0 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-int function ( unsigned-int fixed, unsigned-int fixed) fixed}
+                      00087 ;       .line   30; "../libsdcc/_moduint.c"     _moduint (unsigned int a, unsigned int b)
+0000   5600           00088         MOVRA   r0x1000
+0001   5800           00089         MOVAR   STK00
+0002   5600           00090         MOVRA   r0x1001
+                      00091 ;;[ICODE] ../libsdcc/_moduint.c:30: iTemp1 [k4 lr4:31 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{unsigned-int fixed}{ sir@ __moduint_b_1_1}[r0x1002 r0x1003 ] = recv __moduint [k1 lr0:0 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-int function ( unsigned-int fixed, unsigned-int fixed) fixed}
+0003   5800           00092         MOVAR   STK01
+0004   5600           00093         MOVRA   r0x1002
+0005   5800           00094         MOVAR   STK02
+0006   5600           00095         MOVRA   r0x1003
+                      00096 ;;[ICODE] ../libsdcc/_moduint.c:35:     if iTemp1 [k4 lr4:31 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{unsigned-int fixed}{ sir@ __moduint_b_1_1}[r0x1002 r0x1003 ] != 0 goto preHeaderLbl0($15)
+                      00097 ;       .line   35; "../libsdcc/_moduint.c"     if (!b) return (unsigned int)-1;
+0007   5800           00098         MOVAR   r0x1003
+0008   5C00           00099         ORAR    r0x1002
+0009   E5B7           00100         JBSET   STATUS,2
+000A   A000           00101         GOTO    _00119_DS_
+                      00102 ;;[ICODE] ../libsdcc/_moduint.c:35:     ret 0xffff {unsigned-int literal}
+000B   3CFF           00103         MOVAI   0xff
+000C   5600           00104         MOVRA   STK00
+000D   3CFF           00105         MOVAI   0xff
+000E   A000           00106         GOTO    _00115_DS_
+                      00107 ;;[ICODE] ../libsdcc/_moduint.c:39:  preHeaderLbl0($15) :
+                      00108 ;;[ICODE] ../libsdcc/_moduint.c:39:     iTemp6 [k11 lr8:19 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-char fixed}{ sir@ __moduint_count_1_2}[r0x1004 ] := 0x1 {const-unsigned-char literal}
+000F                  00109 _00119_DS_
+                      00110 ;       .line   39; "../libsdcc/_moduint.c"     while (!(b & (1UL << (8*sizeof(unsigned int)-1)))) {
+000F   3C01           00111         MOVAI   0x01
+0010   5600           00112         MOVRA   r0x1004
+                      00113 ;;[ICODE] ../libsdcc/_moduint.c:39:  _whilecontinue_0($3) :
+                      00114 ;;[ICODE] ../libsdcc/_moduint.c:39:     iTemp3 [k8 lr11:12 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-long-int register}[r0x1005 r0x1006 r0x1007 r0x1008 ] = (unsigned-long-int register)iTemp1 [k4 lr4:31 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{unsigned-int fixed}{ sir@ __moduint_b_1_1}[r0x1002 r0x1003 ]
+0011                  00115 _00107_DS_
+0011   5800           00116         MOVAR   r0x1003
+                      00117 ;;1     MOVRA   r0x1005
+0012   5800           00118         MOVAR   r0x1002
+0013   5600           00119         MOVRA   r0x1006
+                      00120 ;;1     CLRR    r0x1007
+                      00121 ;;1     CLRR    r0x1008
+                      00122 ;;[ICODE] ../libsdcc/_moduint.c:39:     iTemp4 [k9 lr12:13 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-long-int register} = iTemp3 [k8 lr11:12 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-long-int register}[r0x1005 r0x1006 r0x1007 r0x1008 ] & 0x8000 {unsigned-long-int literal}
+0014   FE00           00123         JBCLR   r0x1006,7
+0015   A000           00124         GOTO    _00112_DS_
+                      00125 ;;[ICODE] ../libsdcc/_moduint.c:39:     if iTemp4 [k9 lr12:13 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-long-int register} != 0 goto preHeaderLbl1($18)
+                      00126 ;;[ICODE] ../libsdcc/_moduint.c:40:     iTemp1 [k4 lr4:31 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{unsigned-int fixed}{ sir@ __moduint_b_1_1}[r0x1002 r0x1003 ] = iTemp1 [k4 lr4:31 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{unsigned-int fixed}{ sir@ __moduint_b_1_1}[r0x1002 r0x1003 ] << 0x1 {const-unsigned-char literal}
+                      00127 ;       .line   40; "../libsdcc/_moduint.c"     b <<= 1;
+0016   D1B7           00128         BCLR    STATUS,0
+0017   5200           00129         RLR     r0x1003
+0018   5200           00130         RLR     r0x1002
+                      00131 ;;[ICODE] ../libsdcc/_moduint.c:41:     iTemp6 [k11 lr8:19 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-char fixed}{ sir@ __moduint_count_1_2}[r0x1004 ] = iTemp6 [k11 lr8:19 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-char fixed}{ sir@ __moduint_count_1_2}[r0x1004 ] + 0x1 {const-unsigned-char literal}
+                      00132 ;       .line   41; "../libsdcc/_moduint.c"     ++count;
+0019   6600           00133         INCR    r0x1004
+                      00134 ;;[ICODE] ../libsdcc/_moduint.c:41:      goto _whilecontinue_0($3)
+001A   A000           00135         GOTO    _00107_DS_
+                      00136 ;;[ICODE] ../libsdcc/_moduint.c:45:  preHeaderLbl1($18) :
+                      00137 ;;[ICODE] ../libsdcc/_moduint.c:45:     iTemp10 [k15 lr19:31 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-char fixed}{ sir@ __moduint_count_1_2}[r0x1004 ] := iTemp6 [k11 lr8:19 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-char fixed}{ sir@ __moduint_count_1_2}[r0x1004 ]
+                      00138 ;;[ICODE] ../libsdcc/_moduint.c:45:  _whilecontinue_1($8) :
+                      00139 ;;[ICODE] ../libsdcc/_moduint.c:45:     if iTemp10 [k15 lr19:31 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-char fixed}{ sir@ __moduint_count_1_2}[r0x1004 ] == 0 goto _whilebreak_1($10)
+001B                  00140 _00112_DS_
+                      00141 ;       .line   45; "../libsdcc/_moduint.c"     while (count) {
+001B   3C00           00142         MOVAI   0x00
+001C   5C00           00143         ORAR    r0x1004
+001D   F5B7           00144         JBCLR   STATUS,2
+001E   A000           00145         GOTO    _00114_DS_
+                      00146 ;;[ICODE] ../libsdcc/_moduint.c:46:     iTemp7 [k12 lr23:24 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char fixed} = iTemp0 [k2 lr3:33 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{unsigned-int fixed}{ sir@ __moduint_a_1_1}[r0x1000 r0x1001 ] < iTemp1 [k4 lr4:31 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{unsigned-int fixed}{ sir@ __moduint_b_1_1}[r0x1002 r0x1003 ]
+                      00147 ;       .line   46; "../libsdcc/_moduint.c"     if (a >= b) {
+001F   5800           00148         MOVAR   r0x1002
+0020   4800           00149         RSUBAR  r0x1000
+0021   E5B7           00150         JBSET   STATUS,2
+0022   A000           00151         GOTO    _00131_DS_
+0023   5800           00152         MOVAR   r0x1003
+0024   4800           00153         RSUBAR  r0x1001
+0025                  00154 _00131_DS_
+0025   E1B7           00155         JBSET   STATUS,0
+0026   A000           00156         GOTO    _00111_DS_
+                      00157 ;;genSkipc:3194: created from rifx:00D5608C
+                      00158 ;;[ICODE] ../libsdcc/_moduint.c:46:     if iTemp7 [k12 lr23:24 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char fixed} != 0 goto _iffalse_1($7)
+                      00159 ;;[ICODE] ../libsdcc/_moduint.c:47:     iTemp0 [k2 lr3:33 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{unsigned-int fixed}{ sir@ __moduint_a_1_1}[r0x1000 r0x1001 ] = iTemp0 [k2 lr3:33 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{unsigned-int fixed}{ sir@ __moduint_a_1_1}[r0x1000 r0x1001 ] - iTemp1 [k4 lr4:31 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{unsigned-int fixed}{ sir@ __moduint_b_1_1}[r0x1002 r0x1003 ]
+                      00160 ;       .line   47; "../libsdcc/_moduint.c"     a -= b;
+0027   5800           00161         MOVAR   r0x1003
+0028   4A00           00162         RSUBRA  r0x1001
+0029   5800           00163         MOVAR   r0x1002
+002A   E1B7           00164         JBSET   STATUS,0
+002B   6000           00165         JZAR    r0x1002
+002C   4A00           00166         RSUBRA  r0x1000
+                      00167 ;;[ICODE] ../libsdcc/_moduint.c:47:  _iffalse_1($7) :
+                      00168 ;;[ICODE] ../libsdcc/_moduint.c:49:     iTemp1 [k4 lr4:31 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{unsigned-int fixed}{ sir@ __moduint_b_1_1}[r0x1002 r0x1003 ] = iTemp1 [k4 lr4:31 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{unsigned-int fixed}{ sir@ __moduint_b_1_1}[r0x1002 r0x1003 ] >> 0x1 {const-unsigned-char literal}
+                      00169 ;;shiftRight_Left2ResultLit:5215: shCount=1, size=2, sign=0, same=1, offr=0
+002D                  00170 _00111_DS_
+                      00171 ;       .line   49; "../libsdcc/_moduint.c"     b >>= 1;
+002D   D1B7           00172         BCLR    STATUS,0
+002E   4E00           00173         RRR     r0x1002
+002F   4E00           00174         RRR     r0x1003
+                      00175 ;;[ICODE] ../libsdcc/_moduint.c:50:     iTemp10 [k15 lr19:31 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-char fixed}{ sir@ __moduint_count_1_2}[r0x1004 ] = iTemp10 [k15 lr19:31 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-char fixed}{ sir@ __moduint_count_1_2}[r0x1004 ] - 0x1 {const-unsigned-char literal}
+                      00176 ;       .line   50; "../libsdcc/_moduint.c"     --count;
+0030   6E00           00177         DECR    r0x1004
+                      00178 ;;[ICODE] ../libsdcc/_moduint.c:50:      goto _whilecontinue_1($8)
+0031   A000           00179         GOTO    _00112_DS_
+                      00180 ;;[ICODE] ../libsdcc/_moduint.c:50:  _whilebreak_1($10) :
+                      00181 ;;[ICODE] ../libsdcc/_moduint.c:53:     ret iTemp0 [k2 lr3:33 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{unsigned-int fixed}{ sir@ __moduint_a_1_1}[r0x1000 r0x1001 ]
+0032                  00182 _00114_DS_
+                      00183 ;       .line   53; "../libsdcc/_moduint.c"     return a;
+0032   5800           00184         MOVAR   r0x1001
+0033   5600           00185         MOVRA   STK00
+0034   5800           00186         MOVAR   r0x1000
+                      00187 ;;[ICODE] ../libsdcc/_moduint.c:53:  _return($11) :
+                      00188 ;;[ICODE] ../libsdcc/_moduint.c:53:     eproc __moduint [k1 lr0:0 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-int function ( unsigned-int fixed, unsigned-int fixed) fixed}
+0035                  00189 _00115_DS_
+0035   000C           00190         RETURN  
+                      00191 ; exit point of __moduint
+                      00192 
+                      00193 
+                      00194 ;       code size estimation:
+                      00195 ;          54+    0 =    54 instructions (  108 byte)
+                      00196 
+                      00197         end
+gpasm-2.0.0_beta2 (Nov  6 2017)_moduint.asm       2017-12-7  13:58:45          PAGE  2
 
 
 SYMBOL TABLE
@@ -356,7 +347,6 @@ P31OE                             00000001
 P31PU                             00000001
 PCL                               000001B6
 PD                                00000004
-PSAVE                             00000000
 PUP0                              000001C2
 PUP1                              000001C6
 PUP2                              000001CA
@@ -365,7 +355,6 @@ PWM0OE                            00000006
 PWM1OE                            00000006
 RXAK                              00000000
 SRW                               00000002
-SSAVE                             00000000
 STATUS                            000001B7
 STBH                              00000004
 STBL                              00000005
@@ -376,12 +365,6 @@ STK03                             00000000
 STK04                             00000000
 STK05                             00000000
 STK06                             00000000
-STK07                             00000000
-STK08                             00000000
-STK09                             00000000
-STK10                             00000000
-STK11                             00000000
-STK12                             00000000
 T0CNT                             000001D1
 T0CR                              000001D0
 T0DATA                            000001D3
@@ -434,7 +417,6 @@ TK2JE                             00000005
 TK2RCE                            00000004
 TO                                00000005
 TXAK                              00000003
-WSAVE                             00000000
 Z                                 00000002
 _00107_DS_                        00000011
 _00111_DS_                        0000002D

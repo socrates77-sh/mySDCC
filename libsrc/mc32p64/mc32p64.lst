@@ -1,4 +1,4 @@
-gpasm-2.0.0_beta2 (Aug 27 2017)mc32p64.asm        2017-9-12  18:09:46          PAGE  1
+gpasm-2.0.0_beta2 (Nov  6 2017)mc32p64.asm        2017-12-7  13:58:34          PAGE  1
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
@@ -6,8 +6,8 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
 
                       00001 ;--------------------------------------------------------
                       00002 ; File Created by SN-SDCC : SinoMCU ANSI-C Compiler
-                      00003 ; Version 1.0.0 (Sep 11 2017) (MINGW32)
-                      00004 ; This file was generated Tue Sep 12 18:09:46 2017
+                      00003 ; Version 1.0.0 (Sep 28 2017) (MINGW32)
+                      00004 ; This file was generated Thu Dec 07 13:58:34 2017
                       00005 ;--------------------------------------------------------
                       00006 ; MC30/MC32 port for the RISC core
                       00007 ;--------------------------------------------------------
@@ -22,342 +22,333 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
                       00013 ; external declarations
                       00014 ;--------------------------------------------------------
                       00015 
-                      00016         extern PSAVE
-                      00017         extern SSAVE
-                      00018         extern WSAVE
-                      00019         extern STK12
-                      00020         extern STK11
-                      00021         extern STK10
-                      00022         extern STK09
-                      00023         extern STK08
-                      00024         extern STK07
-                      00025         extern STK06
-                      00026         extern STK05
-                      00027         extern STK04
-                      00028         extern STK03
-                      00029         extern STK02
-                      00030         extern STK01
-                      00031         extern STK00
-                      00032 ;--------------------------------------------------------
-                      00033 ; global declarations
-                      00034 ;--------------------------------------------------------
-                      00035         global  _STATUSbits
-                      00036         global  _MCRbits
-                      00037         global  _INTEbits
-                      00038         global  _INTFbits
-                      00039         global  _OSCMbits
-                      00040         global  _IOP0bits
-                      00041         global  _OEP0bits
-                      00042         global  _PUP0bits
-                      00043         global  _IOP1bits
-                      00044         global  _OEP1bits
-                      00045         global  _PUP1bits
-                      00046         global  _IOP2bits
-                      00047         global  _OEP2bits
-                      00048         global  _PUP2bits
-                      00049         global  _IOP3bits
-                      00050         global  _OEP3bits
-                      00051         global  _PUP3bits
-                      00052         global  _T0CRbits
-                      00053         global  _T1CRbits
-                      00054         global  _T2CRbits
-                      00055         global  _TK0CRHbits
-                      00056         global  _TK0CRLbits
-                      00057         global  _TK1CRHbits
-                      00058         global  _TK1CRLbits
-                      00059         global  _TK2CRHbits
-                      00060         global  _TK2CRLbits
-                      00061         global  _ADCR0bits
-                      00062         global  _ADCR1bits
-                      00063         global  _I2CCRbits
-                      00064         global  _INDF
-                      00065         global  _INDF0
-                      00066         global  _INDF1
-                      00067         global  _INDF2
-                      00068         global  _HIBYTE
-                      00069         global  _FSR
-                      00070         global  _FSR0
-                      00071         global  _FSR1
-                      00072         global  _PCL
-                      00073         global  _STATUS
-                      00074         global  _MCR
-                      00075         global  _INDF3
-                      00076         global  _INTE
-                      00077         global  _INTF
-                      00078         global  _OSCM
-                      00079         global  _IOP0
-                      00080         global  _OEP0
-                      00081         global  _PUP0
-                      00082         global  _IOP1
-                      00083         global  _OEP1
-                      00084         global  _PUP1
-                      00085         global  _IOP2
-                      00086         global  _OEP2
-                      00087         global  _PUP2
-                      00088         global  _IOP3
-                      00089         global  _OEP3
-                      00090         global  _PUP3
-                      00091         global  _T0CR
-                      00092         global  _T0CNT
-                      00093         global  _T0LOAD
-                      00094         global  _T0DATA
-                      00095         global  _T1CR
-                      00096         global  _T1CNT
-                      00097         global  _T1LOAD
-                      00098         global  _T1DATA
-                      00099         global  _T2CR
-                      00100         global  _T2CNTH
-                      00101         global  _T2CNTL
-                      00102         global  _T2LOADH
-                      00103         global  _T2LOADL
-                      00104         global  _TK0CRH
-                      00105         global  _TK0CRL
-                      00106         global  _TK0CNTH
-                      00107         global  _TK0CNTL
-                      00108         global  _TK1CRH
-                      00109         global  _TK1CRL
-                      00110         global  _TK1CNTH
-                      00111         global  _TK1CNTL
-                      00112         global  _TK2CRH
-                      00113         global  _TK2CRL
-                      00114         global  _TK2CNTH
-                      00115         global  _TK2CNTL
-                      00116         global  _ADCR0
-                      00117         global  _ADCR1
-                      00118         global  _ADRH
-                      00119         global  _ADRL
-                      00120         global  _I2CCR
-                      00121         global  _I2CADDR
-                      00122         global  _I2CDATA
-                      00123 
-                      00124 ;--------------------------------------------------------
-                      00125 ; global definitions
-                      00126 ;--------------------------------------------------------
-                      00127 ;--------------------------------------------------------
-                      00128 ; absolute symbol definitions
-                      00129 ;--------------------------------------------------------
-                      00130 UD_abs_mc32p64_1b0      udata_ovr       0x01b0
-00D8                  00131 _INDF
-00D8                  00132 _INDF0
-00D8                  00133         res     1
-                      00134 UD_abs_mc32p64_1b1      udata_ovr       0x01b1
-00D8                  00135 _INDF1
-00D8                  00136         res     1
-                      00137 UD_abs_mc32p64_1b2      udata_ovr       0x01b2
-00D9                  00138 _INDF2
-00D9                  00139         res     1
-                      00140 UD_abs_mc32p64_1b3      udata_ovr       0x01b3
-00D9                  00141 _HIBYTE
-00D9                  00142         res     1
-                      00143 UD_abs_mc32p64_1b4      udata_ovr       0x01b4
-00DA                  00144 _FSR
-00DA                  00145 _FSR0
-00DA                  00146         res     1
-                      00147 UD_abs_mc32p64_1b5      udata_ovr       0x01b5
-00DA                  00148 _FSR1
-00DA                  00149         res     1
-                      00150 UD_abs_mc32p64_1b6      udata_ovr       0x01b6
-00DB                  00151 _PCL
-00DB                  00152         res     1
-                      00153 UD_abs_mc32p64_1b7      udata_ovr       0x01b7
-00DB                  00154 _STATUSbits
-00DB                  00155 _STATUS
-00DB                  00156         res     1
-                      00157 UD_abs_mc32p64_1b8      udata_ovr       0x01b8
-00DC                  00158 _MCRbits
-00DC                  00159 _MCR
-00DC                  00160         res     1
-                      00161 UD_abs_mc32p64_1b9      udata_ovr       0x01b9
-00DC                  00162 _INDF3
-00DC                  00163         res     1
-                      00164 UD_abs_mc32p64_1ba      udata_ovr       0x01ba
-00DD                  00165 _INTEbits
-00DD                  00166 _INTE
-00DD                  00167         res     1
-                      00168 UD_abs_mc32p64_1bb      udata_ovr       0x01bb
-00DD                  00169 _INTFbits
-00DD                  00170 _INTF
-00DD                  00171         res     1
-                      00172 UD_abs_mc32p64_1bc      udata_ovr       0x01bc
-00DE                  00173 _OSCMbits
-00DE                  00174 _OSCM
-00DE                  00175         res     1
-                      00176 UD_abs_mc32p64_1c0      udata_ovr       0x01c0
-00E0                  00177 _IOP0bits
-00E0                  00178 _IOP0
-00E0                  00179         res     1
-                      00180 UD_abs_mc32p64_1c1      udata_ovr       0x01c1
-00E0                  00181 _OEP0bits
-00E0                  00182 _OEP0
-00E0                  00183         res     1
-                      00184 UD_abs_mc32p64_1c2      udata_ovr       0x01c2
-00E1                  00185 _PUP0bits
-00E1                  00186 _PUP0
-00E1                  00187         res     1
-                      00188 UD_abs_mc32p64_1c4      udata_ovr       0x01c4
-00E2                  00189 _IOP1bits
-00E2                  00190 _IOP1
-00E2                  00191         res     1
-                      00192 UD_abs_mc32p64_1c5      udata_ovr       0x01c5
-00E2                  00193 _OEP1bits
-00E2                  00194 _OEP1
-00E2                  00195         res     1
-                      00196 UD_abs_mc32p64_1c6      udata_ovr       0x01c6
-00E3                  00197 _PUP1bits
-00E3                  00198 _PUP1
-00E3                  00199         res     1
-                      00200 UD_abs_mc32p64_1c8      udata_ovr       0x01c8
-00E4                  00201 _IOP2bits
-00E4                  00202 _IOP2
-00E4                  00203         res     1
-                      00204 UD_abs_mc32p64_1c9      udata_ovr       0x01c9
-00E4                  00205 _OEP2bits
-00E4                  00206 _OEP2
-00E4                  00207         res     1
-                      00208 UD_abs_mc32p64_1ca      udata_ovr       0x01ca
-00E5                  00209 _PUP2bits
-00E5                  00210 _PUP2
-00E5                  00211         res     1
-                      00212 UD_abs_mc32p64_1cc      udata_ovr       0x01cc
-00E6                  00213 _IOP3bits
-00E6                  00214 _IOP3
-00E6                  00215         res     1
-                      00216 UD_abs_mc32p64_1cd      udata_ovr       0x01cd
-00E6                  00217 _OEP3bits
-00E6                  00218 _OEP3
-00E6                  00219         res     1
-                      00220 UD_abs_mc32p64_1ce      udata_ovr       0x01ce
-00E7                  00221 _PUP3bits
-00E7                  00222 _PUP3
-00E7                  00223         res     1
-                      00224 UD_abs_mc32p64_1d0      udata_ovr       0x01d0
-00E8                  00225 _T0CRbits
-00E8                  00226 _T0CR
-00E8                  00227         res     1
-                      00228 UD_abs_mc32p64_1d1      udata_ovr       0x01d1
-00E8                  00229 _T0CNT
-00E8                  00230         res     1
-                      00231 UD_abs_mc32p64_1d2      udata_ovr       0x01d2
-00E9                  00232 _T0LOAD
-00E9                  00233         res     1
-                      00234 UD_abs_mc32p64_1d3      udata_ovr       0x01d3
-00E9                  00235 _T0DATA
-00E9                  00236         res     1
-                      00237 UD_abs_mc32p64_1d4      udata_ovr       0x01d4
-00EA                  00238 _T1CRbits
-00EA                  00239 _T1CR
-00EA                  00240         res     1
-                      00241 UD_abs_mc32p64_1d5      udata_ovr       0x01d5
-00EA                  00242 _T1CNT
-00EA                  00243         res     1
-                      00244 UD_abs_mc32p64_1d6      udata_ovr       0x01d6
-00EB                  00245 _T1LOAD
-00EB                  00246         res     1
-                      00247 UD_abs_mc32p64_1d7      udata_ovr       0x01d7
-00EB                  00248 _T1DATA
-00EB                  00249         res     1
-                      00250 UD_abs_mc32p64_1d8      udata_ovr       0x01d8
-00EC                  00251 _T2CRbits
-00EC                  00252 _T2CR
-00EC                  00253         res     1
-                      00254 UD_abs_mc32p64_1d9      udata_ovr       0x01d9
-00EC                  00255 _T2CNTH
-00EC                  00256         res     1
-                      00257 UD_abs_mc32p64_1da      udata_ovr       0x01da
-00ED                  00258 _T2CNTL
-00ED                  00259         res     1
-                      00260 UD_abs_mc32p64_1db      udata_ovr       0x01db
-00ED                  00261 _T2LOADH
-00ED                  00262         res     1
-                      00263 UD_abs_mc32p64_1dc      udata_ovr       0x01dc
-00EE                  00264 _T2LOADL
-00EE                  00265         res     1
-                      00266 UD_abs_mc32p64_1e0      udata_ovr       0x01e0
-00F0                  00267 _TK0CRHbits
-00F0                  00268 _TK0CRH
-00F0                  00269         res     1
-                      00270 UD_abs_mc32p64_1e1      udata_ovr       0x01e1
-00F0                  00271 _TK0CRLbits
-00F0                  00272 _TK0CRL
-00F0                  00273         res     1
-                      00274 UD_abs_mc32p64_1e2      udata_ovr       0x01e2
-00F1                  00275 _TK0CNTH
-00F1                  00276         res     1
-                      00277 UD_abs_mc32p64_1e3      udata_ovr       0x01e3
-00F1                  00278 _TK0CNTL
-00F1                  00279         res     1
-                      00280 UD_abs_mc32p64_1e4      udata_ovr       0x01e4
-00F2                  00281 _TK1CRHbits
-00F2                  00282 _TK1CRH
-00F2                  00283         res     1
-                      00284 UD_abs_mc32p64_1e5      udata_ovr       0x01e5
-00F2                  00285 _TK1CRLbits
-00F2                  00286 _TK1CRL
-00F2                  00287         res     1
-                      00288 UD_abs_mc32p64_1e6      udata_ovr       0x01e6
-00F3                  00289 _TK1CNTH
-00F3                  00290         res     1
-                      00291 UD_abs_mc32p64_1e7      udata_ovr       0x01e7
-00F3                  00292 _TK1CNTL
-00F3                  00293         res     1
-                      00294 UD_abs_mc32p64_1e8      udata_ovr       0x01e8
-00F4                  00295 _TK2CRHbits
-00F4                  00296 _TK2CRH
-00F4                  00297         res     1
-                      00298 UD_abs_mc32p64_1e9      udata_ovr       0x01e9
-00F4                  00299 _TK2CRLbits
-00F4                  00300 _TK2CRL
-00F4                  00301         res     1
-                      00302 UD_abs_mc32p64_1ea      udata_ovr       0x01ea
-00F5                  00303 _TK2CNTH
-00F5                  00304         res     1
-                      00305 UD_abs_mc32p64_1eb      udata_ovr       0x01eb
-00F5                  00306 _TK2CNTL
-00F5                  00307         res     1
-                      00308 UD_abs_mc32p64_1ec      udata_ovr       0x01ec
-00F6                  00309 _ADCR0bits
-00F6                  00310 _ADCR0
-00F6                  00311         res     1
-                      00312 UD_abs_mc32p64_1ed      udata_ovr       0x01ed
-00F6                  00313 _ADCR1bits
-00F6                  00314 _ADCR1
-00F6                  00315         res     1
-                      00316 UD_abs_mc32p64_1ee      udata_ovr       0x01ee
-00F7                  00317 _ADRH
-00F7                  00318         res     1
-                      00319 UD_abs_mc32p64_1ef      udata_ovr       0x01ef
-00F7                  00320 _ADRL
-00F7                  00321         res     1
-                      00322 UD_abs_mc32p64_1f0      udata_ovr       0x01f0
-00F8                  00323 _I2CCRbits
-00F8                  00324 _I2CCR
-00F8                  00325         res     1
-                      00326 UD_abs_mc32p64_1f1      udata_ovr       0x01f1
-00F8                  00327 _I2CADDR
-00F8                  00328         res     1
-                      00329 UD_abs_mc32p64_1f2      udata_ovr       0x01f2
-00F9                  00330 _I2CDATA
-00F9                  00331         res     1
-                      00332 ;--------------------------------------------------------
-                      00333 ; compiler-defined variables
-                      00334 ;--------------------------------------------------------
+                      00016         extern STK06
+                      00017         extern STK05
+                      00018         extern STK04
+                      00019         extern STK03
+                      00020         extern STK02
+                      00021         extern STK01
+                      00022         extern STK00
+                      00023 ;--------------------------------------------------------
+                      00024 ; global declarations
+                      00025 ;--------------------------------------------------------
+                      00026         global  _STATUSbits
+                      00027         global  _MCRbits
+                      00028         global  _INTEbits
+                      00029         global  _INTFbits
+                      00030         global  _OSCMbits
+                      00031         global  _IOP0bits
+                      00032         global  _OEP0bits
+                      00033         global  _PUP0bits
+                      00034         global  _IOP1bits
+                      00035         global  _OEP1bits
+                      00036         global  _PUP1bits
+                      00037         global  _IOP2bits
+                      00038         global  _OEP2bits
+                      00039         global  _PUP2bits
+                      00040         global  _IOP3bits
+                      00041         global  _OEP3bits
+                      00042         global  _PUP3bits
+                      00043         global  _T0CRbits
+                      00044         global  _T1CRbits
+                      00045         global  _T2CRbits
+                      00046         global  _TK0CRHbits
+                      00047         global  _TK0CRLbits
+                      00048         global  _TK1CRHbits
+                      00049         global  _TK1CRLbits
+                      00050         global  _TK2CRHbits
+                      00051         global  _TK2CRLbits
+                      00052         global  _ADCR0bits
+                      00053         global  _ADCR1bits
+                      00054         global  _I2CCRbits
+                      00055         global  _INDF
+                      00056         global  _INDF0
+                      00057         global  _INDF1
+                      00058         global  _INDF2
+                      00059         global  _HIBYTE
+                      00060         global  _FSR
+                      00061         global  _FSR0
+                      00062         global  _FSR1
+                      00063         global  _PCL
+                      00064         global  _STATUS
+                      00065         global  _MCR
+                      00066         global  _INDF3
+                      00067         global  _INTE
+                      00068         global  _INTF
+                      00069         global  _OSCM
+                      00070         global  _IOP0
+                      00071         global  _OEP0
+                      00072         global  _PUP0
+                      00073         global  _IOP1
+                      00074         global  _OEP1
+                      00075         global  _PUP1
+                      00076         global  _IOP2
+                      00077         global  _OEP2
+                      00078         global  _PUP2
+                      00079         global  _IOP3
+                      00080         global  _OEP3
+                      00081         global  _PUP3
+                      00082         global  _T0CR
+                      00083         global  _T0CNT
+                      00084         global  _T0LOAD
+                      00085         global  _T0DATA
+                      00086         global  _T1CR
+                      00087         global  _T1CNT
+                      00088         global  _T1LOAD
+                      00089         global  _T1DATA
+                      00090         global  _T2CR
+                      00091         global  _T2CNTH
+                      00092         global  _T2CNTL
+                      00093         global  _T2LOADH
+                      00094         global  _T2LOADL
+                      00095         global  _TK0CRH
+                      00096         global  _TK0CRL
+                      00097         global  _TK0CNTH
+                      00098         global  _TK0CNTL
+                      00099         global  _TK1CRH
+                      00100         global  _TK1CRL
+                      00101         global  _TK1CNTH
+                      00102         global  _TK1CNTL
+                      00103         global  _TK2CRH
+                      00104         global  _TK2CRL
+                      00105         global  _TK2CNTH
+                      00106         global  _TK2CNTL
+                      00107         global  _ADCR0
+                      00108         global  _ADCR1
+                      00109         global  _ADRH
+                      00110         global  _ADRL
+                      00111         global  _I2CCR
+                      00112         global  _I2CADDR
+                      00113         global  _I2CDATA
+                      00114 
+                      00115 ;--------------------------------------------------------
+                      00116 ; global definitions
+                      00117 ;--------------------------------------------------------
+                      00118 ;--------------------------------------------------------
+                      00119 ; absolute symbol definitions
+                      00120 ;--------------------------------------------------------
+                      00121 UD_abs_mc32p64_1b0      udata_ovr       0x01b0
+00D8                  00122 _INDF
+00D8                  00123 _INDF0
+00D8                  00124         res     1
+                      00125 UD_abs_mc32p64_1b1      udata_ovr       0x01b1
+00D8                  00126 _INDF1
+00D8                  00127         res     1
+                      00128 UD_abs_mc32p64_1b2      udata_ovr       0x01b2
+00D9                  00129 _INDF2
+00D9                  00130         res     1
+                      00131 UD_abs_mc32p64_1b3      udata_ovr       0x01b3
+00D9                  00132 _HIBYTE
+00D9                  00133         res     1
+                      00134 UD_abs_mc32p64_1b4      udata_ovr       0x01b4
+00DA                  00135 _FSR
+00DA                  00136 _FSR0
+00DA                  00137         res     1
+                      00138 UD_abs_mc32p64_1b5      udata_ovr       0x01b5
+00DA                  00139 _FSR1
+00DA                  00140         res     1
+                      00141 UD_abs_mc32p64_1b6      udata_ovr       0x01b6
+00DB                  00142 _PCL
+00DB                  00143         res     1
+                      00144 UD_abs_mc32p64_1b7      udata_ovr       0x01b7
+00DB                  00145 _STATUSbits
+00DB                  00146 _STATUS
+00DB                  00147         res     1
+                      00148 UD_abs_mc32p64_1b8      udata_ovr       0x01b8
+00DC                  00149 _MCRbits
+00DC                  00150 _MCR
+00DC                  00151         res     1
+                      00152 UD_abs_mc32p64_1b9      udata_ovr       0x01b9
+00DC                  00153 _INDF3
+00DC                  00154         res     1
+                      00155 UD_abs_mc32p64_1ba      udata_ovr       0x01ba
+00DD                  00156 _INTEbits
+00DD                  00157 _INTE
+00DD                  00158         res     1
+                      00159 UD_abs_mc32p64_1bb      udata_ovr       0x01bb
+00DD                  00160 _INTFbits
+00DD                  00161 _INTF
+00DD                  00162         res     1
+                      00163 UD_abs_mc32p64_1bc      udata_ovr       0x01bc
+00DE                  00164 _OSCMbits
+00DE                  00165 _OSCM
+00DE                  00166         res     1
+                      00167 UD_abs_mc32p64_1c0      udata_ovr       0x01c0
+00E0                  00168 _IOP0bits
+00E0                  00169 _IOP0
+00E0                  00170         res     1
+                      00171 UD_abs_mc32p64_1c1      udata_ovr       0x01c1
+00E0                  00172 _OEP0bits
+00E0                  00173 _OEP0
+00E0                  00174         res     1
+                      00175 UD_abs_mc32p64_1c2      udata_ovr       0x01c2
+00E1                  00176 _PUP0bits
+00E1                  00177 _PUP0
+00E1                  00178         res     1
+                      00179 UD_abs_mc32p64_1c4      udata_ovr       0x01c4
+00E2                  00180 _IOP1bits
+00E2                  00181 _IOP1
+00E2                  00182         res     1
+                      00183 UD_abs_mc32p64_1c5      udata_ovr       0x01c5
+00E2                  00184 _OEP1bits
+00E2                  00185 _OEP1
+00E2                  00186         res     1
+                      00187 UD_abs_mc32p64_1c6      udata_ovr       0x01c6
+00E3                  00188 _PUP1bits
+00E3                  00189 _PUP1
+00E3                  00190         res     1
+                      00191 UD_abs_mc32p64_1c8      udata_ovr       0x01c8
+00E4                  00192 _IOP2bits
+00E4                  00193 _IOP2
+00E4                  00194         res     1
+                      00195 UD_abs_mc32p64_1c9      udata_ovr       0x01c9
+00E4                  00196 _OEP2bits
+00E4                  00197 _OEP2
+00E4                  00198         res     1
+                      00199 UD_abs_mc32p64_1ca      udata_ovr       0x01ca
+00E5                  00200 _PUP2bits
+00E5                  00201 _PUP2
+00E5                  00202         res     1
+                      00203 UD_abs_mc32p64_1cc      udata_ovr       0x01cc
+00E6                  00204 _IOP3bits
+00E6                  00205 _IOP3
+00E6                  00206         res     1
+                      00207 UD_abs_mc32p64_1cd      udata_ovr       0x01cd
+00E6                  00208 _OEP3bits
+00E6                  00209 _OEP3
+00E6                  00210         res     1
+                      00211 UD_abs_mc32p64_1ce      udata_ovr       0x01ce
+00E7                  00212 _PUP3bits
+00E7                  00213 _PUP3
+00E7                  00214         res     1
+                      00215 UD_abs_mc32p64_1d0      udata_ovr       0x01d0
+00E8                  00216 _T0CRbits
+00E8                  00217 _T0CR
+00E8                  00218         res     1
+                      00219 UD_abs_mc32p64_1d1      udata_ovr       0x01d1
+00E8                  00220 _T0CNT
+00E8                  00221         res     1
+                      00222 UD_abs_mc32p64_1d2      udata_ovr       0x01d2
+00E9                  00223 _T0LOAD
+00E9                  00224         res     1
+                      00225 UD_abs_mc32p64_1d3      udata_ovr       0x01d3
+00E9                  00226 _T0DATA
+00E9                  00227         res     1
+                      00228 UD_abs_mc32p64_1d4      udata_ovr       0x01d4
+00EA                  00229 _T1CRbits
+00EA                  00230 _T1CR
+00EA                  00231         res     1
+                      00232 UD_abs_mc32p64_1d5      udata_ovr       0x01d5
+00EA                  00233 _T1CNT
+00EA                  00234         res     1
+                      00235 UD_abs_mc32p64_1d6      udata_ovr       0x01d6
+00EB                  00236 _T1LOAD
+00EB                  00237         res     1
+                      00238 UD_abs_mc32p64_1d7      udata_ovr       0x01d7
+00EB                  00239 _T1DATA
+00EB                  00240         res     1
+                      00241 UD_abs_mc32p64_1d8      udata_ovr       0x01d8
+00EC                  00242 _T2CRbits
+00EC                  00243 _T2CR
+00EC                  00244         res     1
+                      00245 UD_abs_mc32p64_1d9      udata_ovr       0x01d9
+00EC                  00246 _T2CNTH
+00EC                  00247         res     1
+                      00248 UD_abs_mc32p64_1da      udata_ovr       0x01da
+00ED                  00249 _T2CNTL
+00ED                  00250         res     1
+                      00251 UD_abs_mc32p64_1db      udata_ovr       0x01db
+00ED                  00252 _T2LOADH
+00ED                  00253         res     1
+                      00254 UD_abs_mc32p64_1dc      udata_ovr       0x01dc
+00EE                  00255 _T2LOADL
+00EE                  00256         res     1
+                      00257 UD_abs_mc32p64_1e0      udata_ovr       0x01e0
+00F0                  00258 _TK0CRHbits
+00F0                  00259 _TK0CRH
+00F0                  00260         res     1
+                      00261 UD_abs_mc32p64_1e1      udata_ovr       0x01e1
+00F0                  00262 _TK0CRLbits
+00F0                  00263 _TK0CRL
+00F0                  00264         res     1
+                      00265 UD_abs_mc32p64_1e2      udata_ovr       0x01e2
+00F1                  00266 _TK0CNTH
+00F1                  00267         res     1
+                      00268 UD_abs_mc32p64_1e3      udata_ovr       0x01e3
+00F1                  00269 _TK0CNTL
+00F1                  00270         res     1
+                      00271 UD_abs_mc32p64_1e4      udata_ovr       0x01e4
+00F2                  00272 _TK1CRHbits
+00F2                  00273 _TK1CRH
+00F2                  00274         res     1
+                      00275 UD_abs_mc32p64_1e5      udata_ovr       0x01e5
+00F2                  00276 _TK1CRLbits
+00F2                  00277 _TK1CRL
+00F2                  00278         res     1
+                      00279 UD_abs_mc32p64_1e6      udata_ovr       0x01e6
+00F3                  00280 _TK1CNTH
+00F3                  00281         res     1
+                      00282 UD_abs_mc32p64_1e7      udata_ovr       0x01e7
+00F3                  00283 _TK1CNTL
+00F3                  00284         res     1
+                      00285 UD_abs_mc32p64_1e8      udata_ovr       0x01e8
+00F4                  00286 _TK2CRHbits
+00F4                  00287 _TK2CRH
+00F4                  00288         res     1
+                      00289 UD_abs_mc32p64_1e9      udata_ovr       0x01e9
+00F4                  00290 _TK2CRLbits
+00F4                  00291 _TK2CRL
+00F4                  00292         res     1
+                      00293 UD_abs_mc32p64_1ea      udata_ovr       0x01ea
+00F5                  00294 _TK2CNTH
+00F5                  00295         res     1
+                      00296 UD_abs_mc32p64_1eb      udata_ovr       0x01eb
+00F5                  00297 _TK2CNTL
+00F5                  00298         res     1
+                      00299 UD_abs_mc32p64_1ec      udata_ovr       0x01ec
+00F6                  00300 _ADCR0bits
+00F6                  00301 _ADCR0
+00F6                  00302         res     1
+                      00303 UD_abs_mc32p64_1ed      udata_ovr       0x01ed
+00F6                  00304 _ADCR1bits
+00F6                  00305 _ADCR1
+00F6                  00306         res     1
+                      00307 UD_abs_mc32p64_1ee      udata_ovr       0x01ee
+00F7                  00308 _ADRH
+00F7                  00309         res     1
+                      00310 UD_abs_mc32p64_1ef      udata_ovr       0x01ef
+00F7                  00311 _ADRL
+00F7                  00312         res     1
+                      00313 UD_abs_mc32p64_1f0      udata_ovr       0x01f0
+00F8                  00314 _I2CCRbits
+00F8                  00315 _I2CCR
+00F8                  00316         res     1
+                      00317 UD_abs_mc32p64_1f1      udata_ovr       0x01f1
+00F8                  00318 _I2CADDR
+00F8                  00319         res     1
+                      00320 UD_abs_mc32p64_1f2      udata_ovr       0x01f2
+00F9                  00321 _I2CDATA
+00F9                  00322         res     1
+                      00323 ;--------------------------------------------------------
+                      00324 ; compiler-defined variables
+                      00325 ;--------------------------------------------------------
+                      00326 ;--------------------------------------------------------
+                      00327 ; initialized data
+                      00328 ;--------------------------------------------------------
+                      00329 ;--------------------------------------------------------
+                      00330 ; overlayable items in internal ram 
+                      00331 ;--------------------------------------------------------
+                      00332 ;       udata_ovr
+                      00333 ;--------------------------------------------------------
+                      00334 ; code
                       00335 ;--------------------------------------------------------
-                      00336 ; initialized data
-                      00337 ;--------------------------------------------------------
-                      00338 ;--------------------------------------------------------
-                      00339 ; overlayable items in internal ram 
-                      00340 ;--------------------------------------------------------
-                      00341 ;       udata_ovr
-                      00342 ;--------------------------------------------------------
-                      00343 ; code
-                      00344 ;--------------------------------------------------------
-                      00345 code_mc32p64    code
-                      00346 
-                      00347 ;       code size estimation:
-                      00348 ;           0+    0 =     0 instructions (    0 byte)
-                      00349 
-                      00350         end
-gpasm-2.0.0_beta2 (Aug 27 2017)mc32p64.asm        2017-9-12  18:09:46          PAGE  2
+                      00336 code_mc32p64    code
+                      00337 
+                      00338 ;       code size estimation:
+                      00339 ;           0+    0 =     0 instructions (    0 byte)
+                      00340 
+                      00341         end
+gpasm-2.0.0_beta2 (Nov  6 2017)mc32p64.asm        2017-12-7  13:58:34          PAGE  2
 
 
 SYMBOL TABLE
@@ -500,7 +491,6 @@ P31OE                             00000001
 P31PU                             00000001
 PCL                               000001B6
 PD                                00000004
-PSAVE                             00000000
 PUP0                              000001C2
 PUP1                              000001C6
 PUP2                              000001CA
@@ -509,7 +499,6 @@ PWM0OE                            00000006
 PWM1OE                            00000006
 RXAK                              00000000
 SRW                               00000002
-SSAVE                             00000000
 STATUS                            000001B7
 STBH                              00000004
 STBL                              00000005
@@ -520,12 +509,6 @@ STK03                             00000000
 STK04                             00000000
 STK05                             00000000
 STK06                             00000000
-STK07                             00000000
-STK08                             00000000
-STK09                             00000000
-STK10                             00000000
-STK11                             00000000
-STK12                             00000000
 T0CNT                             000001D1
 T0CR                              000001D0
 T0DATA                            000001D3
@@ -578,7 +561,6 @@ TK2JE                             00000005
 TK2RCE                            00000004
 TO                                00000005
 TXAK                              00000003
-WSAVE                             00000000
 Z                                 00000002
 _ADCR0                            000001EC
 _ADCR0bits                        000001EC

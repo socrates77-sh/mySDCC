@@ -1,7 +1,7 @@
 ;--------------------------------------------------------
 ; File Created by SN-SDCC : SinoMCU ANSI-C Compiler
-; Version 1.0.0 (Sep 28 2017) (MINGW32)
-; This file was generated Thu Nov 23 16:21:06 2017
+; Version 1.1.0 (Dec  8 2017) (MINGW32)
+; This file was generated Fri Dec 08 18:30:19 2017
 ;--------------------------------------------------------
 ; MC35 port for the RISC core
 ;--------------------------------------------------------
@@ -152,26 +152,26 @@ ___fs2uint	;Function start
 	XCH	r0x1000
 	ASUBRA	r0x1000
 	XCH	r0x1000
-	JBSET	STATUS,0
+	JBSET	PFLAG,0
 	GOTO	_00111_DS_
 	MOVAI	0x00
 	XCH	r0x1001
 	ASUBRA	r0x1001
 	XCH	r0x1001
-	JBSET	STATUS,0
+	JBSET	PFLAG,0
 	GOTO	_00111_DS_
 	MOVAI	0xff
 	XCH	r0x1002
 	ASUBRA	r0x1002
 	XCH	r0x1002
-	JBSET	STATUS,0
+	JBSET	PFLAG,0
 	GOTO	_00111_DS_
 	MOVAI	0xff
 	XCH	r0x1003
 	ASUBRA	r0x1003
 	XCH	r0x1003
 _00111_DS_
-	JBSET	STATUS,2
+	JBSET	PFLAG,2
 	GOTO	_00106_DS_
 ;;genSkipc:3223: created from rifx:00D5608C
 ;;[ICODE] ../libsdcc_mc35/fs2uint.c:38: 	if iTemp3 [k9 lr7:8 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char fixed} != 0 goto _iffalse_0($2)

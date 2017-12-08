@@ -1,4 +1,4 @@
-gpasm-2.0.0_beta2 (Aug 27 2017)../libsdcc/_gptrput2.S2017-9-12  18:09:59          PAGE  1
+gpasm-2.0.0_beta2 (Nov  6 2017)../libsdcc/_gptrput2.S2017-12-7  13:58:50          PAGE  1
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
@@ -53,58 +53,65 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
                       00002 ; --- extern declared SFRs
                       00003 ; -----------------------------------------------
                       00004         extern _STATUS
-                      00005         extern _FSR
-                      00006         extern _INDF
-                      00007         extern _PCLATH
-                      00008         extern _PCL
-                      00009 
-  00000000            00010 C       EQU     0
-  00000001            00011 DC      EQU     1
-  00000002            00012 Z       EQU     2
-  00000007            00013 IRP     EQU     7
-                      00014         
-                      00015 ; -----------------------------------------------
-                      00016 ; --- generic pointer access helpers
-                      00017 ; -----------------------------------------------
-                      00018 
-  00000000            00019 GPTRTAG_DATA    EQU     0x00
-  00000080            00020 GPTRTAG_CODE    EQU     0x80
-                      00021 
-                      00022 ; setup FSR to point to (STK00:STK01)
-                      00023 setup_fsr       macro
-                      00024         movar   STK01
-                      00025         movra   _FSR
-                      00026         ; select indirectly addressed bank
-                      00027         ;bclr   _STATUS, IRP
-                      00028         ;jbclr  STK00, 0
-                      00029         ;bset   _STATUS, IRP
-                      00030         endm
-                      00031 
-                      00032 ; increment FSR, update IRP on bank crossings
-                      00033 ; FIXME: update IRP if FSR is reset to 0...
-                      00034 inc_fsr         macro
-                      00035         incr    _FSR
-                      00036         endm
-                      00037 
-                      00038 ; dispatch according to gptr type
-                      00039 select_routine  macro   dataptr, codeptr
-                      00040         ; __data pointer tag: 0x00
-                      00041         xorai   GPTRTAG_DATA
-                      00042         jbclr   _STATUS, Z
-                      00043         goto    dataptr
-                      00044         ; __code pointer tag: 0x80
-                      00045         xorai   (GPTRTAG_DATA ^ GPTRTAG_CODE)
-                      00046         jbclr   _STATUS, Z
-                      00047         goto    codeptr
-                      00048         endm
-                      00049 
-                      00050 check_data      macro   dataptr
-                      00051         ; __data pointer tag: 0x00
-                      00052         xorai   GPTRTAG_DATA
+                      00005         extern _FSR0
+                      00006         extern _FSR1
+                      00007         extern _INDF0
+                      00008         extern _INDF1
+                      00009         extern _INDF2
+                      00010         extern _INDF3
+                      00011         extern _FSR
+                      00012         extern _INDF
+                      00013         extern _PCLATH
+                      00014         extern _PCL
+                      00015         
+                      00016 
+  00000000            00017 C       EQU     0
+  00000001            00018 DC      EQU     1
+  00000002            00019 Z       EQU     2
+  00000007            00020 IRP     EQU     7
+                      00021         
+                      00022 ; -----------------------------------------------
+                      00023 ; --- generic pointer access helpers
+                      00024 ; -----------------------------------------------
+                      00025 
+  00000000            00026 GPTRTAG_DATA    EQU     0x00
+  00000080            00027 GPTRTAG_CODE    EQU     0x80
+                      00028 
+                      00029 ; setup FSR to point to (STK00:STK01)
+                      00030 setup_fsr       macro
+                      00031         movar   STK01
+                      00032         movra   _FSR
+                      00033         ; select indirectly addressed bank
+                      00034         ;bclr   _STATUS, IRP
+                      00035         ;jbclr  STK00, 0
+                      00036         ;bset   _STATUS, IRP
+                      00037         endm
+                      00038 
+                      00039 ; increment FSR, update IRP on bank crossings
+                      00040 ; FIXME: update IRP if FSR is reset to 0...
+                      00041 inc_fsr         macro
+                      00042         incr    _FSR
+                      00043         endm
+                      00044 
+                      00045 ; dispatch according to gptr type
+                      00046 select_routine  macro   dataptr, codeptr
+                      00047         ; __data pointer tag: 0x00
+                      00048         xorai   GPTRTAG_DATA
+                      00049         jbclr   _STATUS, Z
+                      00050         goto    dataptr
+                      00051         ; __code pointer tag: 0x80
+                      00052         xorai   (GPTRTAG_DATA ^ GPTRTAG_CODE)
                       00053         jbclr   _STATUS, Z
-                      00054         goto    dataptr
+                      00054         goto    codeptr
                       00055         endm
                       00056 
+                      00057 check_data      macro   dataptr
+                      00058         ; __data pointer tag: 0x00
+                      00059         xorai   GPTRTAG_DATA
+                      00060         jbclr   _STATUS, Z
+                      00061         goto    dataptr
+                      00062         endm
+                      00063 
                       00046 include mc30f_common.inc
                       00001 ;--------------------------------------------------------------------------
                       00002 ;  p16f_common.inc - definitions common to all 14 bit PIC devices
@@ -172,7 +179,7 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
 000B   000C           00064         return
                       00065 
                       00066         END
-gpasm-2.0.0_beta2 (Aug 27 2017)../libsdcc/_gptrput2.S2017-9-12  18:09:59          PAGE  2
+gpasm-2.0.0_beta2 (Nov  6 2017)../libsdcc/_gptrput2.S2017-12-7  13:58:50          PAGE  2
 
 
 SYMBOL TABLE
@@ -191,7 +198,13 @@ STK04                             00000000
 STK05                             00000000
 Z                                 00000002
 _FSR                              00000000
+_FSR0                             00000000
+_FSR1                             00000000
 _INDF                             00000000
+_INDF0                            00000000
+_INDF1                            00000000
+_INDF2                            00000000
+_INDF3                            00000000
 _PCL                              00000000
 _PCLATH                           00000000
 _STATUS                           00000000

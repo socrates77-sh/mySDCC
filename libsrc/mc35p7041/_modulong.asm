@@ -1,7 +1,7 @@
 ;--------------------------------------------------------
 ; File Created by SN-SDCC : SinoMCU ANSI-C Compiler
-; Version 1.0.0 (Sep 28 2017) (MINGW32)
-; This file was generated Thu Nov 23 16:21:13 2017
+; Version 1.1.0 (Dec  8 2017) (MINGW32)
+; This file was generated Fri Dec 08 18:30:25 2017
 ;--------------------------------------------------------
 ; MC35 port for the RISC core
 ;--------------------------------------------------------
@@ -114,7 +114,7 @@ __modulong	;Function start
 	ORAR	r0x1006
 	ORAR	r0x1005
 	ORAR	r0x1004
-	JBSET	STATUS,0
+	JBSET	PFLAG,0
 	GOTO	_00119_DS_
 ;;[ICODE] ../libsdcc_mc35/_modulong.c:35: 	ret 0xffffffff {unsigned-long-int literal}
 	MOVAI	0xff
@@ -139,7 +139,7 @@ _00107_DS_
 ;;[ICODE] ../libsdcc_mc35/_modulong.c:39: 	if iTemp3 [k8 lr11:12 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-long-int register} != 0 goto preHeaderLbl1($18)
 ;;[ICODE] ../libsdcc_mc35/_modulong.c:40: 	iTemp1 [k4 lr4:30 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{unsigned-long-int fixed}{ sir@ __modulong_b_1_1}[r0x1004 r0x1005 r0x1006 r0x1007 ] = iTemp1 [k4 lr4:30 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{unsigned-long-int fixed}{ sir@ __modulong_b_1_1}[r0x1004 r0x1005 r0x1006 r0x1007 ] << 0x1 {const-unsigned-char literal}
 ;	.line	40; "../libsdcc_mc35/_modulong.c"	b <<= 1;
-	BCLR	STATUS,2
+	BCLR	PFLAG,2
 	RLR	r0x1007
 	RLR	r0x1006
 	RLR	r0x1005
@@ -158,7 +158,7 @@ _00112_DS_
 ;	.line	45; "../libsdcc_mc35/_modulong.c"	while (count) {
 	MOVAI	0x00
 	ORAR	r0x1008
-	JBCLR	STATUS,0
+	JBCLR	PFLAG,0
 	GOTO	_00114_DS_
 ;;[ICODE] ../libsdcc_mc35/_modulong.c:46: 	iTemp6 [k11 lr22:23 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char fixed} = iTemp0 [k2 lr3:32 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{unsigned-long-int fixed}{ sir@ __modulong_a_1_1}[r0x1000 r0x1001 r0x1002 r0x1003 ] < iTemp1 [k4 lr4:30 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{unsigned-long-int fixed}{ sir@ __modulong_b_1_1}[r0x1004 r0x1005 r0x1006 r0x1007 ]
 ;	.line	46; "../libsdcc_mc35/_modulong.c"	if (a >= b) {
@@ -166,26 +166,26 @@ _00112_DS_
 	XCH	r0x1000
 	ASUBRA	r0x1000
 	XCH	r0x1000
-	JBSET	STATUS,0
+	JBSET	PFLAG,0
 	GOTO	_00131_DS_
 	MOVAR	r0x1005
 	XCH	r0x1001
 	ASUBRA	r0x1001
 	XCH	r0x1001
-	JBSET	STATUS,0
+	JBSET	PFLAG,0
 	GOTO	_00131_DS_
 	MOVAR	r0x1006
 	XCH	r0x1002
 	ASUBRA	r0x1002
 	XCH	r0x1002
-	JBSET	STATUS,0
+	JBSET	PFLAG,0
 	GOTO	_00131_DS_
 	MOVAR	r0x1007
 	XCH	r0x1003
 	ASUBRA	r0x1003
 	XCH	r0x1003
 _00131_DS_
-	JBSET	STATUS,2
+	JBSET	PFLAG,2
 	GOTO	_00111_DS_
 ;;genSkipc:3223: created from rifx:00D5608C
 ;;[ICODE] ../libsdcc_mc35/_modulong.c:46: 	if iTemp6 [k11 lr22:23 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char fixed} != 0 goto _iffalse_1($7)
@@ -197,19 +197,19 @@ _00131_DS_
 	XCH	r0x1003
 	MOVAR	r0x1006
 	XCH	r0x1002
-	JBSET	STATUS,2
+	JBSET	PFLAG,2
 	JZR	r0x1002
 	ASUBAR	r0x1002
 	XCH	r0x1002
 	MOVAR	r0x1005
 	XCH	r0x1001
-	JBSET	STATUS,2
+	JBSET	PFLAG,2
 	JZR	r0x1001
 	ASUBAR	r0x1001
 	XCH	r0x1001
 	MOVAR	r0x1004
 	XCH	r0x1000
-	JBSET	STATUS,2
+	JBSET	PFLAG,2
 	JZR	r0x1000
 	ASUBAR	r0x1000
 	XCH	r0x1000
@@ -218,7 +218,7 @@ _00131_DS_
 ;;shiftRight_Left2ResultLit:5270: shCount=1, size=4, sign=0, same=1, offr=0
 _00111_DS_
 ;	.line	49; "../libsdcc_mc35/_modulong.c"	b >>= 1;
-	BCLR	STATUS,2
+	BCLR	PFLAG,2
 	RRR	r0x1004
 	RRR	r0x1005
 	RRR	r0x1006

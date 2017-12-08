@@ -6,13 +6,9 @@
 //
 // Register addresses.
 //
-#define INDF_ADDR       	0x00E7
 #define HIBYTE_ADDR     	0x0082
 #define FSR0_ADDR       	0x0083
 #define FSR1_ADDR       	0x0084
-#define PCH_ADDR        	0x00CF
-#define PCL_ADDR        	0x00CE
-#define STATUS_ADDR     	0x0086
 #define PFLAG_ADDR      	0x0086
 #define ZEROTR_ADDR     	0x008E
 #define OSCCAL_ADDR     	0x008F
@@ -35,6 +31,8 @@
 #define OSCM_ADDR       	0x00CA
 #define WDTCR_ADDR      	0x00CC
 #define T1LDR_ADDR      	0x00CD
+#define PCL_ADDR        	0x00CE
+#define PCH_ADDR        	0x00CF
 #define IOP0_ADDR       	0x00D0
 #define IOP4_ADDR       	0x00D4
 #define IOP5_ADDR       	0x00D5
@@ -47,6 +45,7 @@
 #define PUP0_ADDR       	0x00E0
 #define PUP4_ADDR       	0x00E4
 #define PUP5_ADDR       	0x00E5
+#define INDF_ADDR       	0x00E7
 #define PWMCR0_ADDR     	0x00E8
 #define PWMCR1_ADDR     	0x00E9
 #define PWMCNT_ADDR     	0x00EA
@@ -73,13 +72,9 @@
 
 //----- Register Files -----------------------------------------------------
 
-extern __sfr __at (INDF_ADDR)     	INDF;
 extern __sfr __at (HIBYTE_ADDR)   	HIBYTE;
 extern __sfr __at (FSR0_ADDR)     	FSR0;
 extern __sfr __at (FSR1_ADDR)     	FSR1;
-extern __sfr __at (PCH_ADDR)      	PCH;
-extern __sfr __at (PCL_ADDR)      	PCL;
-extern __sfr __at (STATUS_ADDR)   	STATUS;
 extern __sfr __at (PFLAG_ADDR)    	PFLAG;
 extern __sfr __at (ZEROTR_ADDR)   	ZEROTR;
 extern __sfr __at (OSCCAL_ADDR)   	OSCCAL;
@@ -102,6 +97,8 @@ extern __sfr __at (INTE_ADDR)     	INTE;
 extern __sfr __at (OSCM_ADDR)     	OSCM;
 extern __sfr __at (WDTCR_ADDR)    	WDTCR;
 extern __sfr __at (T1LDR_ADDR)    	T1LDR;
+extern __sfr __at (PCL_ADDR)      	PCL;
+extern __sfr __at (PCH_ADDR)      	PCH;
 extern __sfr __at (IOP0_ADDR)     	IOP0;
 extern __sfr __at (IOP4_ADDR)     	IOP4;
 extern __sfr __at (IOP5_ADDR)     	IOP5;
@@ -114,6 +111,7 @@ extern __sfr __at (MCR_ADDR)      	MCR;
 extern __sfr __at (PUP0_ADDR)     	PUP0;
 extern __sfr __at (PUP4_ADDR)     	PUP4;
 extern __sfr __at (PUP5_ADDR)     	PUP5;
+extern __sfr __at (INDF_ADDR)     	INDF;
 extern __sfr __at (PWMCR0_ADDR)   	PWMCR0;
 extern __sfr __at (PWMCR1_ADDR)   	PWMCR1;
 extern __sfr __at (PWMCNT_ADDR)   	PWMCNT;
@@ -148,31 +146,84 @@ extern __sfr __at (STKR7H_ADDR)   	STKR7H;
 
 //OPBIT0
 
-// ----- STATUS Bits --------------------------------------------
+// ----- HIBYTE Bits --------------------------------------------
+typedef union {
+	 struct {
+		unsigned char HIBYTE0:1;
+		unsigned char HIBYTE1:1;
+		unsigned char HIBYTE2:1;
+		unsigned char HIBYTE3:1;
+		unsigned char HIBYTE4:1;
+		unsigned char HIBYTE5:1;
+		unsigned char HIBYTE6:1;
+		unsigned char HIBYTE7:1;
+	};
+} __HIBYTEbits_t;
+extern volatile __HIBYTEbits_t __at(HIBYTE_ADDR) HIBYTEbits;
+
+#define HIBYTE0   	HIBYTEbits.HIBYTE0  	/* bit 0 */
+#define HIBYTE1   	HIBYTEbits.HIBYTE1  	/* bit 1 */
+#define HIBYTE2   	HIBYTEbits.HIBYTE2  	/* bit 2 */
+#define HIBYTE3   	HIBYTEbits.HIBYTE3  	/* bit 3 */
+#define HIBYTE4   	HIBYTEbits.HIBYTE4  	/* bit 4 */
+#define HIBYTE5   	HIBYTEbits.HIBYTE5  	/* bit 5 */
+#define HIBYTE6   	HIBYTEbits.HIBYTE6  	/* bit 6 */
+#define HIBYTE7   	HIBYTEbits.HIBYTE7  	/* bit 7 */
+
+// ----- FSR0 Bits --------------------------------------------
+typedef union {
+	 struct {
+		unsigned char FSR00:1;
+		unsigned char FSR01:1;
+		unsigned char FSR02:1;
+		unsigned char FSR03:1;
+		unsigned char FSR04:1;
+		unsigned char FSR05:1;
+		unsigned char FSR06:1;
+		unsigned char FSR07:1;
+	};
+} __FSR0bits_t;
+extern volatile __FSR0bits_t __at(FSR0_ADDR) FSR0bits;
+
+#define FSR00     	FSR0bits.FSR00      	/* bit 0 */
+#define FSR01     	FSR0bits.FSR01      	/* bit 1 */
+#define FSR02     	FSR0bits.FSR02      	/* bit 2 */
+#define FSR03     	FSR0bits.FSR03      	/* bit 3 */
+#define FSR04     	FSR0bits.FSR04      	/* bit 4 */
+#define FSR05     	FSR0bits.FSR05      	/* bit 5 */
+#define FSR06     	FSR0bits.FSR06      	/* bit 6 */
+#define FSR07     	FSR0bits.FSR07      	/* bit 7 */
+
+// ----- FSR1 Bits --------------------------------------------
+typedef union {
+	 struct {
+		unsigned char FSR10:1;
+		unsigned char FSR11:1;
+		unsigned char FSR12:1;
+		unsigned char FSR13:1;
+		unsigned char FSR14:1;
+		unsigned char FSR15:1;
+		unsigned char FSR16:1;
+		unsigned char FSR17:1;
+	};
+} __FSR1bits_t;
+extern volatile __FSR1bits_t __at(FSR1_ADDR) FSR1bits;
+
+#define FSR10     	FSR1bits.FSR10      	/* bit 0 */
+#define FSR11     	FSR1bits.FSR11      	/* bit 1 */
+#define FSR12     	FSR1bits.FSR12      	/* bit 2 */
+#define FSR13     	FSR1bits.FSR13      	/* bit 3 */
+#define FSR14     	FSR1bits.FSR14      	/* bit 4 */
+#define FSR15     	FSR1bits.FSR15      	/* bit 5 */
+#define FSR16     	FSR1bits.FSR16      	/* bit 6 */
+#define FSR17     	FSR1bits.FSR17      	/* bit 7 */
+
+// ----- PFLAG Bits --------------------------------------------
 typedef union {
 	 struct {
 		unsigned char Z:1;
 		unsigned char DC:1;
 		unsigned char C:1;
-		unsigned char :1;
-		unsigned char :1;
-		unsigned char :1;
-		unsigned char :1;
-		unsigned char :1;
-	};
-} __STATUSbits_t;
-extern volatile __STATUSbits_t __at(STATUS_ADDR) STATUSbits;
-
-#define Z         	STATUSbits.Z        	/* bit 0 */
-#define DC        	STATUSbits.DC       	/* bit 1 */
-#define C         	STATUSbits.C        	/* bit 2 */
-
-// ----- PFLAG Bits --------------------------------------------
-typedef union {
-	 struct {
-		unsigned char :1;
-		unsigned char :1;
-		unsigned char :1;
 		unsigned char :1;
 		unsigned char LVD24:1;
 		unsigned char LVD36:1;
@@ -182,6 +233,9 @@ typedef union {
 } __PFLAGbits_t;
 extern volatile __PFLAGbits_t __at(PFLAG_ADDR) PFLAGbits;
 
+#define Z         	PFLAGbits.Z         	/* bit 0 */
+#define DC        	PFLAGbits.DC        	/* bit 1 */
+#define C         	PFLAGbits.C         	/* bit 2 */
 #define LVD24     	PFLAGbits.LVD24     	/* bit 4 */
 #define LVD36     	PFLAGbits.LVD36     	/* bit 5 */
 
@@ -207,6 +261,30 @@ extern volatile __ZEROTRbits_t __at(ZEROTR_ADDR) ZEROTRbits;
 #define ZEROTR4   	ZEROTRbits.ZEROTR4  	/* bit 4 */
 #define ZOTEN0    	ZEROTRbits.ZOTEN0   	/* bit 6 */
 #define ZOTEN1    	ZEROTRbits.ZOTEN1   	/* bit 7 */
+
+// ----- OSCCAL Bits --------------------------------------------
+typedef union {
+	 struct {
+		unsigned char OSCCAL0:1;
+		unsigned char OSCCAL1:1;
+		unsigned char OSCCAL2:1;
+		unsigned char OSCCAL3:1;
+		unsigned char OSCCAL4:1;
+		unsigned char OSCCAL5:1;
+		unsigned char OSCCAL6:1;
+		unsigned char OSCCAL7:1;
+	};
+} __OSCCALbits_t;
+extern volatile __OSCCALbits_t __at(OSCCAL_ADDR) OSCCALbits;
+
+#define OSCCAL0   	OSCCALbits.OSCCAL0  	/* bit 0 */
+#define OSCCAL1   	OSCCALbits.OSCCAL1  	/* bit 1 */
+#define OSCCAL2   	OSCCALbits.OSCCAL2  	/* bit 2 */
+#define OSCCAL3   	OSCCALbits.OSCCAL3  	/* bit 3 */
+#define OSCCAL4   	OSCCALbits.OSCCAL4  	/* bit 4 */
+#define OSCCAL5   	OSCCALbits.OSCCAL5  	/* bit 5 */
+#define OSCCAL6   	OSCCALbits.OSCCAL6  	/* bit 6 */
+#define OSCCAL7   	OSCCALbits.OSCCAL7  	/* bit 7 */
 
 // ----- WKCR0 Bits --------------------------------------------
 typedef union {
@@ -524,6 +602,97 @@ extern volatile __OSCMbits_t __at(OSCM_ADDR) OSCMbits;
 #define CPUM0     	OSCMbits.CPUM0      	/* bit 3 */
 #define CPUM1     	OSCMbits.CPUM1      	/* bit 4 */
 
+// ----- WDTCR Bits --------------------------------------------
+typedef union {
+	 struct {
+		unsigned char WDTCR0:1;
+		unsigned char WDTCR1:1;
+		unsigned char WDTCR2:1;
+		unsigned char WDTCR3:1;
+		unsigned char WDTCR4:1;
+		unsigned char WDTCR5:1;
+		unsigned char WDTCR6:1;
+		unsigned char WDTCR7:1;
+	};
+} __WDTCRbits_t;
+extern volatile __WDTCRbits_t __at(WDTCR_ADDR) WDTCRbits;
+
+#define WDTCR0    	WDTCRbits.WDTCR0    	/* bit 0 */
+#define WDTCR1    	WDTCRbits.WDTCR1    	/* bit 1 */
+#define WDTCR2    	WDTCRbits.WDTCR2    	/* bit 2 */
+#define WDTCR3    	WDTCRbits.WDTCR3    	/* bit 3 */
+#define WDTCR4    	WDTCRbits.WDTCR4    	/* bit 4 */
+#define WDTCR5    	WDTCRbits.WDTCR5    	/* bit 5 */
+#define WDTCR6    	WDTCRbits.WDTCR6    	/* bit 6 */
+#define WDTCR7    	WDTCRbits.WDTCR7    	/* bit 7 */
+
+// ----- T1LDR Bits --------------------------------------------
+typedef union {
+	 struct {
+		unsigned char T1LDR0:1;
+		unsigned char T1LDR1:1;
+		unsigned char T1LDR2:1;
+		unsigned char T1LDR3:1;
+		unsigned char T1LDR4:1;
+		unsigned char T1LDR5:1;
+		unsigned char T1LDR6:1;
+		unsigned char T1LDR7:1;
+	};
+} __T1LDRbits_t;
+extern volatile __T1LDRbits_t __at(T1LDR_ADDR) T1LDRbits;
+
+#define T1LDR0    	T1LDRbits.T1LDR0    	/* bit 0 */
+#define T1LDR1    	T1LDRbits.T1LDR1    	/* bit 1 */
+#define T1LDR2    	T1LDRbits.T1LDR2    	/* bit 2 */
+#define T1LDR3    	T1LDRbits.T1LDR3    	/* bit 3 */
+#define T1LDR4    	T1LDRbits.T1LDR4    	/* bit 4 */
+#define T1LDR5    	T1LDRbits.T1LDR5    	/* bit 5 */
+#define T1LDR6    	T1LDRbits.T1LDR6    	/* bit 6 */
+#define T1LDR7    	T1LDRbits.T1LDR7    	/* bit 7 */
+
+// ----- PCL Bits --------------------------------------------
+typedef union {
+	 struct {
+		unsigned char PC0:1;
+		unsigned char PC1:1;
+		unsigned char PC2:1;
+		unsigned char PC3:1;
+		unsigned char PC4:1;
+		unsigned char PC5:1;
+		unsigned char PC6:1;
+		unsigned char PC7:1;
+	};
+} __PCLbits_t;
+extern volatile __PCLbits_t __at(PCL_ADDR) PCLbits;
+
+#define PC0       	PCLbits.PC0         	/* bit 0 */
+#define PC1       	PCLbits.PC1         	/* bit 1 */
+#define PC2       	PCLbits.PC2         	/* bit 2 */
+#define PC3       	PCLbits.PC3         	/* bit 3 */
+#define PC4       	PCLbits.PC4         	/* bit 4 */
+#define PC5       	PCLbits.PC5         	/* bit 5 */
+#define PC6       	PCLbits.PC6         	/* bit 6 */
+#define PC7       	PCLbits.PC7         	/* bit 7 */
+
+// ----- PCH Bits --------------------------------------------
+typedef union {
+	 struct {
+		unsigned char PC8:1;
+		unsigned char PC9:1;
+		unsigned char PC10:1;
+		unsigned char :1;
+		unsigned char :1;
+		unsigned char :1;
+		unsigned char :1;
+		unsigned char :1;
+	};
+} __PCHbits_t;
+extern volatile __PCHbits_t __at(PCH_ADDR) PCHbits;
+
+#define PC8       	PCHbits.PC8         	/* bit 0 */
+#define PC9       	PCHbits.PC9         	/* bit 1 */
+#define PC10      	PCHbits.PC10        	/* bit 2 */
+
 // ----- IOP0 Bits --------------------------------------------
 typedef union {
 	 struct {
@@ -595,8 +764,8 @@ typedef union {
 	 struct {
 		unsigned char :1;
 		unsigned char :1;
-		unsigned char T0CKS1:1;
-		unsigned char T0CKS2:1;
+		unsigned char T1CKS1:1;
+		unsigned char T1CKS2:1;
 		unsigned char T0PRS0:1;
 		unsigned char T0PRS1:1;
 		unsigned char T0PRS2:1;
@@ -605,20 +774,44 @@ typedef union {
 } __T0CRbits_t;
 extern volatile __T0CRbits_t __at(T0CR_ADDR) T0CRbits;
 
-#define T0CKS1    	T0CRbits.T0CKS1     	/* bit 2 */
-#define T0CKS2    	T0CRbits.T0CKS2     	/* bit 3 */
+#define T1CKS1    	T0CRbits.T1CKS1     	/* bit 2 */
+#define T1CKS2    	T0CRbits.T1CKS2     	/* bit 3 */
 #define T0PRS0    	T0CRbits.T0PRS0     	/* bit 4 */
 #define T0PRS1    	T0CRbits.T0PRS1     	/* bit 5 */
 #define T0PRS2    	T0CRbits.T0PRS2     	/* bit 6 */
 #define T0EN      	T0CRbits.T0EN       	/* bit 7 */
+
+// ----- T0CNT Bits --------------------------------------------
+typedef union {
+	 struct {
+		unsigned char T0CNT0:1;
+		unsigned char T0CNT1:1;
+		unsigned char T0CNT2:1;
+		unsigned char T0CNT3:1;
+		unsigned char T0CNT4:1;
+		unsigned char T0CNT5:1;
+		unsigned char T0CNT6:1;
+		unsigned char T0CNT7:1;
+	};
+} __T0CNTbits_t;
+extern volatile __T0CNTbits_t __at(T0CNT_ADDR) T0CNTbits;
+
+#define T0CNT0    	T0CNTbits.T0CNT0    	/* bit 0 */
+#define T0CNT1    	T0CNTbits.T0CNT1    	/* bit 1 */
+#define T0CNT2    	T0CNTbits.T0CNT2    	/* bit 2 */
+#define T0CNT3    	T0CNTbits.T0CNT3    	/* bit 3 */
+#define T0CNT4    	T0CNTbits.T0CNT4    	/* bit 4 */
+#define T0CNT5    	T0CNTbits.T0CNT5    	/* bit 5 */
+#define T0CNT6    	T0CNTbits.T0CNT6    	/* bit 6 */
+#define T0CNT7    	T0CNTbits.T0CNT7    	/* bit 7 */
 
 // ----- T1CR Bits --------------------------------------------
 typedef union {
 	 struct {
 		unsigned char PWM1OE:1;
 		unsigned char BUZ1OE:1;
-		unsigned char T1CKS1:1;
-		unsigned char T1CKS2:1;
+		unsigned char T1LDEN:1;
+		unsigned char T1CKS0:1;
 		unsigned char T1PRS0:1;
 		unsigned char T1PRS1:1;
 		unsigned char T1PRS2:1;
@@ -629,12 +822,36 @@ extern volatile __T1CRbits_t __at(T1CR_ADDR) T1CRbits;
 
 #define PWM1OE    	T1CRbits.PWM1OE     	/* bit 0 */
 #define BUZ1OE    	T1CRbits.BUZ1OE     	/* bit 1 */
-#define T1CKS1    	T1CRbits.T1CKS1     	/* bit 2 */
-#define T1CKS2    	T1CRbits.T1CKS2     	/* bit 3 */
+#define T1LDEN    	T1CRbits.T1LDEN     	/* bit 2 */
+#define T1CKS0    	T1CRbits.T1CKS0     	/* bit 3 */
 #define T1PRS0    	T1CRbits.T1PRS0     	/* bit 4 */
 #define T1PRS1    	T1CRbits.T1PRS1     	/* bit 5 */
 #define T1PRS2    	T1CRbits.T1PRS2     	/* bit 6 */
 #define T1EN      	T1CRbits.T1EN       	/* bit 7 */
+
+// ----- T1CNT Bits --------------------------------------------
+typedef union {
+	 struct {
+		unsigned char T1CNT0:1;
+		unsigned char T1CNT1:1;
+		unsigned char T1CNT2:1;
+		unsigned char T1CNT3:1;
+		unsigned char T1CNT4:1;
+		unsigned char T1CNT5:1;
+		unsigned char T1CNT6:1;
+		unsigned char T1CNT7:1;
+	};
+} __T1CNTbits_t;
+extern volatile __T1CNTbits_t __at(T1CNT_ADDR) T1CNTbits;
+
+#define T1CNT0    	T1CNTbits.T1CNT0    	/* bit 0 */
+#define T1CNT1    	T1CNTbits.T1CNT1    	/* bit 1 */
+#define T1CNT2    	T1CNTbits.T1CNT2    	/* bit 2 */
+#define T1CNT3    	T1CNTbits.T1CNT3    	/* bit 3 */
+#define T1CNT4    	T1CNTbits.T1CNT4    	/* bit 4 */
+#define T1CNT5    	T1CNTbits.T1CNT5    	/* bit 5 */
+#define T1CNT6    	T1CNTbits.T1CNT6    	/* bit 6 */
+#define T1CNT7    	T1CNTbits.T1CNT7    	/* bit 7 */
 
 // ----- BUZCR Bits --------------------------------------------
 typedef union {
@@ -741,6 +958,30 @@ extern volatile __PUP5bits_t __at(PUP5_ADDR) PUP5bits;
 #define P53PU     	PUP5bits.P53PU      	/* bit 3 */
 #define P54PU     	PUP5bits.P54PU      	/* bit 4 */
 
+// ----- INDF Bits --------------------------------------------
+typedef union {
+	 struct {
+		unsigned char INDF0:1;
+		unsigned char INDF1:1;
+		unsigned char INDF2:1;
+		unsigned char INDF3:1;
+		unsigned char INDF4:1;
+		unsigned char INDF5:1;
+		unsigned char INDF6:1;
+		unsigned char INDF7:1;
+	};
+} __INDFbits_t;
+extern volatile __INDFbits_t __at(INDF_ADDR) INDFbits;
+
+#define INDF0     	INDFbits.INDF0      	/* bit 0 */
+#define INDF1     	INDFbits.INDF1      	/* bit 1 */
+#define INDF2     	INDFbits.INDF2      	/* bit 2 */
+#define INDF3     	INDFbits.INDF3      	/* bit 3 */
+#define INDF4     	INDFbits.INDF4      	/* bit 4 */
+#define INDF5     	INDFbits.INDF5      	/* bit 5 */
+#define INDF6     	INDFbits.INDF6      	/* bit 6 */
+#define INDF7     	INDFbits.INDF7      	/* bit 7 */
+
 // ----- PWMCR0 Bits --------------------------------------------
 typedef union {
 	 struct {
@@ -782,5 +1023,125 @@ extern volatile __PWMCR1bits_t __at(PWMCR1_ADDR) PWMCR1bits;
 #define PWMAOE    	PWMCR1bits.PWMAOE   	/* bit 5 */
 #define PWMBOE    	PWMCR1bits.PWMBOE   	/* bit 6 */
 #define PWMCOE    	PWMCR1bits.PWMCOE   	/* bit 7 */
+
+// ----- PWMCNT Bits --------------------------------------------
+typedef union {
+	 struct {
+		unsigned char PWMCNT0:1;
+		unsigned char PWMCNT1:1;
+		unsigned char PWMCNT2:1;
+		unsigned char PWMCNT3:1;
+		unsigned char PWMCNT4:1;
+		unsigned char PWMCNT5:1;
+		unsigned char PWMCNT6:1;
+		unsigned char PWMCNT7:1;
+	};
+} __PWMCNTbits_t;
+extern volatile __PWMCNTbits_t __at(PWMCNT_ADDR) PWMCNTbits;
+
+#define PWMCNT0   	PWMCNTbits.PWMCNT0  	/* bit 0 */
+#define PWMCNT1   	PWMCNTbits.PWMCNT1  	/* bit 1 */
+#define PWMCNT2   	PWMCNTbits.PWMCNT2  	/* bit 2 */
+#define PWMCNT3   	PWMCNTbits.PWMCNT3  	/* bit 3 */
+#define PWMCNT4   	PWMCNTbits.PWMCNT4  	/* bit 4 */
+#define PWMCNT5   	PWMCNTbits.PWMCNT5  	/* bit 5 */
+#define PWMCNT6   	PWMCNTbits.PWMCNT6  	/* bit 6 */
+#define PWMCNT7   	PWMCNTbits.PWMCNT7  	/* bit 7 */
+
+// ----- PWMADT Bits --------------------------------------------
+typedef union {
+	 struct {
+		unsigned char PWMADT0:1;
+		unsigned char PWMADT1:1;
+		unsigned char PWMADT2:1;
+		unsigned char PWMADT3:1;
+		unsigned char PWMADT4:1;
+		unsigned char PWMADT5:1;
+		unsigned char PWMADT6:1;
+		unsigned char PWMADT7:1;
+	};
+} __PWMADTbits_t;
+extern volatile __PWMADTbits_t __at(PWMADT_ADDR) PWMADTbits;
+
+#define PWMADT0   	PWMADTbits.PWMADT0  	/* bit 0 */
+#define PWMADT1   	PWMADTbits.PWMADT1  	/* bit 1 */
+#define PWMADT2   	PWMADTbits.PWMADT2  	/* bit 2 */
+#define PWMADT3   	PWMADTbits.PWMADT3  	/* bit 3 */
+#define PWMADT4   	PWMADTbits.PWMADT4  	/* bit 4 */
+#define PWMADT5   	PWMADTbits.PWMADT5  	/* bit 5 */
+#define PWMADT6   	PWMADTbits.PWMADT6  	/* bit 6 */
+#define PWMADT7   	PWMADTbits.PWMADT7  	/* bit 7 */
+
+// ----- PWMBDT Bits --------------------------------------------
+typedef union {
+	 struct {
+		unsigned char PWMBDT0:1;
+		unsigned char PWMBDT1:1;
+		unsigned char PWMBDT2:1;
+		unsigned char PWMBDT3:1;
+		unsigned char PWMBDT4:1;
+		unsigned char PWMBDT5:1;
+		unsigned char PWMBDT6:1;
+		unsigned char PWMBDT7:1;
+	};
+} __PWMBDTbits_t;
+extern volatile __PWMBDTbits_t __at(PWMBDT_ADDR) PWMBDTbits;
+
+#define PWMBDT0   	PWMBDTbits.PWMBDT0  	/* bit 0 */
+#define PWMBDT1   	PWMBDTbits.PWMBDT1  	/* bit 1 */
+#define PWMBDT2   	PWMBDTbits.PWMBDT2  	/* bit 2 */
+#define PWMBDT3   	PWMBDTbits.PWMBDT3  	/* bit 3 */
+#define PWMBDT4   	PWMBDTbits.PWMBDT4  	/* bit 4 */
+#define PWMBDT5   	PWMBDTbits.PWMBDT5  	/* bit 5 */
+#define PWMBDT6   	PWMBDTbits.PWMBDT6  	/* bit 6 */
+#define PWMBDT7   	PWMBDTbits.PWMBDT7  	/* bit 7 */
+
+// ----- PWMCDT Bits --------------------------------------------
+typedef union {
+	 struct {
+		unsigned char PWMCDT0:1;
+		unsigned char PWMCDT1:1;
+		unsigned char PWMCDT2:1;
+		unsigned char PWMCDT3:1;
+		unsigned char PWMCDT4:1;
+		unsigned char PWMCDT5:1;
+		unsigned char PWMCDT6:1;
+		unsigned char PWMCDT7:1;
+	};
+} __PWMCDTbits_t;
+extern volatile __PWMCDTbits_t __at(PWMCDT_ADDR) PWMCDTbits;
+
+#define PWMCDT0   	PWMCDTbits.PWMCDT0  	/* bit 0 */
+#define PWMCDT1   	PWMCDTbits.PWMCDT1  	/* bit 1 */
+#define PWMCDT2   	PWMCDTbits.PWMCDT2  	/* bit 2 */
+#define PWMCDT3   	PWMCDTbits.PWMCDT3  	/* bit 3 */
+#define PWMCDT4   	PWMCDTbits.PWMCDT4  	/* bit 4 */
+#define PWMCDT5   	PWMCDTbits.PWMCDT5  	/* bit 5 */
+#define PWMCDT6   	PWMCDTbits.PWMCDT6  	/* bit 6 */
+#define PWMCDT7   	PWMCDTbits.PWMCDT7  	/* bit 7 */
+
+// ----- PWMPD Bits --------------------------------------------
+typedef union {
+	 struct {
+		unsigned char PWMPD0:1;
+		unsigned char PWMPD1:1;
+		unsigned char PWMPD2:1;
+		unsigned char PWMPD3:1;
+		unsigned char PWMPD4:1;
+		unsigned char PWMPD5:1;
+		unsigned char PWMPD6:1;
+		unsigned char PWMPD7:1;
+	};
+} __PWMPDbits_t;
+extern volatile __PWMPDbits_t __at(PWMPD_ADDR) PWMPDbits;
+
+#define PWMPD0    	PWMPDbits.PWMPD0    	/* bit 0 */
+#define PWMPD1    	PWMPDbits.PWMPD1    	/* bit 1 */
+#define PWMPD2    	PWMPDbits.PWMPD2    	/* bit 2 */
+#define PWMPD3    	PWMPDbits.PWMPD3    	/* bit 3 */
+#define PWMPD4    	PWMPDbits.PWMPD4    	/* bit 4 */
+#define PWMPD5    	PWMPDbits.PWMPD5    	/* bit 5 */
+#define PWMPD6    	PWMPDbits.PWMPD6    	/* bit 6 */
+#define PWMPD7    	PWMPDbits.PWMPD7    	/* bit 7 */
 
 #endif

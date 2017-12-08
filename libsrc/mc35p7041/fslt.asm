@@ -1,7 +1,7 @@
 ;--------------------------------------------------------
 ; File Created by SN-SDCC : SinoMCU ANSI-C Compiler
-; Version 1.0.0 (Sep 28 2017) (MINGW32)
-; This file was generated Thu Nov 23 16:21:09 2017
+; Version 1.1.0 (Dec  8 2017) (MINGW32)
+; This file was generated Fri Dec 08 18:30:21 2017
 ;--------------------------------------------------------
 ; MC35 port for the RISC core
 ;--------------------------------------------------------
@@ -192,10 +192,10 @@ ___fslt	;Function start
 	MOVRA	r0x1008
 ;;[ICODE] ../libsdcc_mc35/fslt.c:62: 	iTemp9 [k18 lr11:12 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char fixed} = iTemp8 [k17 lr10:11 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{volatile-long-int fixed}[r0x1000 r0x1001 r0x1002 r0x1003 ] < 0x0 {volatile-long-int literal}
 ;;signed compare: left < lit(0x0=0), size=4, mask=ffffffff
-	BSET	STATUS,2
+	BSET	PFLAG,2
 	JBSET	r0x1008,7
-	BCLR	STATUS,2
-	JBSET	STATUS,2
+	BCLR	PFLAG,2
+	JBSET	PFLAG,2
 	GOTO	_00108_DS_
 ;;genSkipc:3223: created from rifx:00D5608C
 ;;[ICODE] ../libsdcc_mc35/fslt.c:62: 	if iTemp9 [k18 lr11:12 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char fixed} == 0 goto _iffalse_1($4)
@@ -211,10 +211,10 @@ ___fslt	;Function start
 	MOVRA	r0x1008
 ;;[ICODE] ../libsdcc_mc35/fslt.c:62: 	iTemp13 [k23 lr15:16 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char fixed} = iTemp12 [k22 lr14:15 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{volatile-long-int fixed}[r0x1000 r0x1001 r0x1002 r0x1003 ] < 0x0 {volatile-long-int literal}
 ;;signed compare: left < lit(0x0=0), size=4, mask=ffffffff
-	BSET	STATUS,2
+	BSET	PFLAG,2
 	JBSET	r0x1008,7
-	BCLR	STATUS,2
-	JBSET	STATUS,2
+	BCLR	PFLAG,2
+	JBSET	PFLAG,2
 	GOTO	_00108_DS_
 ;;genSkipc:3223: created from rifx:00D5608C
 ;;[ICODE] ../libsdcc_mc35/fslt.c:62: 	if iTemp13 [k23 lr15:16 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char fixed} == 0 goto _iffalse_1($4)
@@ -248,26 +248,26 @@ ___fslt	;Function start
 	XCH	r0x1010
 	ASUBRA	r0x1010
 	XCH	r0x1010
-	JBSET	STATUS,0
+	JBSET	PFLAG,0
 	GOTO	_00122_DS_
 	MOVAR	r0x100D
 	XCH	r0x1009
 	ASUBRA	r0x1009
 	XCH	r0x1009
-	JBSET	STATUS,0
+	JBSET	PFLAG,0
 	GOTO	_00122_DS_
 	MOVAR	r0x100E
 	XCH	r0x100A
 	ASUBRA	r0x100A
 	XCH	r0x100A
-	JBSET	STATUS,0
+	JBSET	PFLAG,0
 	GOTO	_00122_DS_
 	MOVAR	r0x100F
 	XCH	r0x100B
 	ASUBRA	r0x100B
 	XCH	r0x100B
 _00122_DS_
-	JBCLR	STATUS,2
+	JBCLR	PFLAG,2
 	GOTO	_00106_DS_
 ;;genSkipc:3223: created from rifx:00D5608C
 ;;[ICODE] ../libsdcc_mc35/fslt.c:63: 	if iTemp20 [k32 lr21:22 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char fixed} == 0 goto _iffalse_0($2)
@@ -313,26 +313,26 @@ _00108_DS_
 	XCH	r0x1010
 	ASUBRA	r0x1010
 	XCH	r0x1010
-	JBSET	STATUS,0
+	JBSET	PFLAG,0
 	GOTO	_00123_DS_
 	MOVAR	r0x100D
 	XCH	r0x1009
 	ASUBRA	r0x1009
 	XCH	r0x1009
-	JBSET	STATUS,0
+	JBSET	PFLAG,0
 	GOTO	_00123_DS_
 	MOVAR	r0x100E
 	XCH	r0x100A
 	ASUBRA	r0x100A
 	XCH	r0x100A
-	JBSET	STATUS,0
+	JBSET	PFLAG,0
 	GOTO	_00123_DS_
 	MOVAR	r0x100F
 	XCH	r0x100B
 	ASUBRA	r0x100B
 	XCH	r0x100B
 _00123_DS_
-	JBCLR	STATUS,2
+	JBCLR	PFLAG,2
 	GOTO	_00111_DS_
 ;;genSkipc:3223: created from rifx:00D5608C
 ;;[ICODE] ../libsdcc_mc35/fslt.c:68: 	if iTemp27 [k41 lr31:32 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char fixed} == 0 goto _iffalse_2($7)

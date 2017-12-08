@@ -1,7 +1,7 @@
 ;--------------------------------------------------------
 ; File Created by SN-SDCC : SinoMCU ANSI-C Compiler
-; Version 1.0.0 (Sep 11 2017) (MINGW32)
-; This file was generated Tue Sep 12 18:09:57 2017
+; Version 1.0.0 (Sep 28 2017) (MINGW32)
+; This file was generated Thu Dec 07 13:58:47 2017
 ;--------------------------------------------------------
 ; MC30/MC32 port for the RISC core
 ;--------------------------------------------------------
@@ -13,15 +13,6 @@
 ; external declarations
 ;--------------------------------------------------------
 
-	extern PSAVE
-	extern SSAVE
-	extern WSAVE
-	extern STK12
-	extern STK11
-	extern STK10
-	extern STK09
-	extern STK08
-	extern STK07
 	extern STK06
 	extern STK05
 	extern STK04
@@ -294,7 +285,7 @@ _00114_DS_
 	MOVAR	r0x1000
 	MOVRA	r0x1010
 ;;[ICODE] ../libsdcc/_mullong.c:45: 	iTemp0 [k2 lr3:43 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{long-int fixed}{ sir@ __mullong_a_1_1}[r0x1000 r0x1001 r0x1002 r0x1003 ] = iTemp18 [k24 lr35:36 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-long-int fixed}[r0x100D r0x100E r0x100F r0x1010 ] >> 0x1 {const-unsigned-int literal}
-;;shiftRight_Left2ResultLit:5213: shCount=1, size=4, sign=0, same=0, offr=0
+;;shiftRight_Left2ResultLit:5215: shCount=1, size=4, sign=0, same=0, offr=0
 	BCLR	STATUS,0
 	RRAR	r0x1010
 	MOVRA	r0x1000

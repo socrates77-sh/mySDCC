@@ -1,7 +1,7 @@
 ;--------------------------------------------------------
 ; File Created by SN-SDCC : SinoMCU ANSI-C Compiler
-; Version 1.0.0 (Sep 28 2017) (MINGW32)
-; This file was generated Thu Nov 23 16:21:11 2017
+; Version 1.1.0 (Dec  8 2017) (MINGW32)
+; This file was generated Fri Dec 08 18:30:23 2017
 ;--------------------------------------------------------
 ; MC35 port for the RISC core
 ;--------------------------------------------------------
@@ -111,20 +111,20 @@ __modsint	;Function start
 ;;[ICODE] ../libsdcc_mc35/_modsint.c:34: 	iTemp2 [k6 lr5:6 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char fixed} = iTemp0 [k2 lr3:36 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{int fixed}{ sir@ __modsint_a_1_2}[r0x1000 r0x1001 ] < 0x0 {int literal}
 ;;signed compare: left < lit(0x0=0), size=2, mask=ffff
 ;	.line	34; "../libsdcc_mc35/_modsint.c"	if (a < 0) {
-	BSET	STATUS,2
+	BSET	PFLAG,2
 	JBSET	r0x1000,7
-	BCLR	STATUS,2
-	JBSET	STATUS,2
+	BCLR	PFLAG,2
+	JBSET	PFLAG,2
 	GOTO	_00112_DS_
 ;;genSkipc:3223: created from rifx:00D5608C
 ;;[ICODE] ../libsdcc_mc35/_modsint.c:34: 	if iTemp2 [k6 lr5:6 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char fixed} == 0 goto _iffalse_2($8)
 ;;[ICODE] ../libsdcc_mc35/_modsint.c:35: 	iTemp3 [k7 lr7:8 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char fixed} = iTemp1 [k4 lr4:37 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{int fixed}{ sir@ __modsint_b_1_2}[r0x1002 r0x1003 ] < 0x0 {int literal}
 ;;signed compare: left < lit(0x0=0), size=2, mask=ffff
 ;	.line	35; "../libsdcc_mc35/_modsint.c"	if (b < 0)
-	BSET	STATUS,2
+	BSET	PFLAG,2
 	JBSET	r0x1002,7
-	BCLR	STATUS,2
-	JBSET	STATUS,2
+	BCLR	PFLAG,2
+	JBSET	PFLAG,2
 	GOTO	_00106_DS_
 ;;genSkipc:3223: created from rifx:00D5608C
 ;;[ICODE] ../libsdcc_mc35/_modsint.c:35: 	if iTemp3 [k7 lr7:8 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char fixed} == 0 goto _iffalse_0($2)
@@ -138,7 +138,7 @@ __modsint	;Function start
 	MOVRA	r0x1005
 	MOVAI	0x01
 	ADDRA	r0x1004
-	JBCLR	STATUS,0
+	JBCLR	PFLAG,0
 	ADDRA	r0x1005
 ;;[ICODE] ../libsdcc_mc35/_modsint.c:36: 	iTemp5 [k10 lr10:14 so:0]{ ia0 a2p0 re0 rm0 nos0 ru1 dp0}{unsigned-int fixed}[r0x1006 r0x1007 ] = (unsigned-int fixed)iTemp4 [k9 lr9:10 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{int fixed}[r0x1004 r0x1005 ]
 	MOVAR	r0x1004
@@ -154,7 +154,7 @@ __modsint	;Function start
 	MOVRA	r0x1005
 	MOVAI	0x01
 	ADDRA	r0x1004
-	JBCLR	STATUS,0
+	JBCLR	PFLAG,0
 	ADDRA	r0x1005
 ;;[ICODE] ../libsdcc_mc35/_modsint.c:36: 	iTemp7 [k12 lr12:14 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-int fixed}[r0x1008 r0x1009 ] = (unsigned-int fixed)iTemp6 [k11 lr11:12 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{int fixed}[r0x1004 r0x1005 ]
 ;;112	MOVAR	r0x1004
@@ -194,7 +194,7 @@ _00106_DS_
 	MOVRA	r0x1005
 	MOVAI	0x01
 	ADDRA	r0x1004
-	JBCLR	STATUS,0
+	JBCLR	PFLAG,0
 	ADDRA	r0x1005
 ;;[ICODE] ../libsdcc_mc35/_modsint.c:38: 	iTemp10 [k17 lr19:22 so:0]{ ia0 a2p0 re0 rm0 nos0 ru1 dp0}{unsigned-int fixed}[r0x1006 r0x1007 ] = (unsigned-int fixed)iTemp9 [k16 lr18:19 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{int fixed}[r0x1004 r0x1005 ]
 	MOVAR	r0x1004
@@ -232,10 +232,10 @@ _00106_DS_
 ;;signed compare: left < lit(0x0=0), size=2, mask=ffff
 _00112_DS_
 ;	.line	40; "../libsdcc_mc35/_modsint.c"	if (b < 0)
-	BSET	STATUS,2
+	BSET	PFLAG,2
 	JBSET	r0x1002,7
-	BCLR	STATUS,2
-	JBSET	STATUS,2
+	BCLR	PFLAG,2
+	JBSET	PFLAG,2
 	GOTO	_00109_DS_
 ;;genSkipc:3223: created from rifx:00D5608C
 ;;[ICODE] ../libsdcc_mc35/_modsint.c:40: 	if iTemp13 [k20 lr26:27 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char fixed} == 0 goto _iffalse_1($5)
@@ -254,7 +254,7 @@ _00112_DS_
 	MOVRA	r0x1007
 	MOVAI	0x01
 	ADDRA	r0x1006
-	JBCLR	STATUS,0
+	JBCLR	PFLAG,0
 	ADDRA	r0x1007
 ;;[ICODE] ../libsdcc_mc35/_modsint.c:41: 	iTemp16 [k23 lr30:32 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-int fixed}[r0x1008 r0x1009 ] = (unsigned-int fixed)iTemp15 [k22 lr29:30 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{int fixed}[r0x1006 r0x1007 ]
 ;;108	MOVAR	r0x1006

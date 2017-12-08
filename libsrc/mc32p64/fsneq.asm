@@ -1,7 +1,7 @@
 ;--------------------------------------------------------
 ; File Created by SN-SDCC : SinoMCU ANSI-C Compiler
-; Version 1.0.0 (Sep 11 2017) (MINGW32)
-; This file was generated Tue Sep 12 18:09:53 2017
+; Version 1.0.0 (Sep 28 2017) (MINGW32)
+; This file was generated Thu Dec 07 13:58:42 2017
 ;--------------------------------------------------------
 ; MC30/MC32 port for the RISC core
 ;--------------------------------------------------------
@@ -32,15 +32,6 @@
 	extern	___fseq
 	extern	___fsgt
 
-	extern PSAVE
-	extern SSAVE
-	extern WSAVE
-	extern STK12
-	extern STK11
-	extern STK10
-	extern STK09
-	extern STK08
-	extern STK07
 	extern STK06
 	extern STK05
 	extern STK04
@@ -159,31 +150,31 @@ ___fsneq	;Function start
 	MOVRA	r0x100F
 ;;[ICODE] ../libsdcc/fsneq.c:59: 	iTemp2 [k7 lr5:6 so:0]{ ia0 a2p0 re0 rm1 nos0 ru0 dp0}{volatile-float near* fixed}[remat] = &[___fsneq_fl1_1_22 [k6 lr0:0 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{volatile-struct float_long fixed}]
 ;;[ICODE] ../libsdcc/fsneq.c:59: 	*(iTemp2 [k7 lr5:6 so:0]{ ia1 a2p0 re0 rm1 nos0 ru0 dp0}{volatile-float near* fixed}[remat]) := iTemp0 [k2 lr3:6 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{float fixed}{ sir@ ___fsneq_a1_1_21}[r0x1000 r0x1001 r0x1002 r0x1003 ]
-;;gen.c:6371: size=3/4, offset=0, AOP_TYPE(res)=8
+;;gen.c:6373: size=3/4, offset=0, AOP_TYPE(res)=8
 ;;99	MOVAR	r0x100B
-;;gen.c:6371: size=2/4, offset=1, AOP_TYPE(res)=8
+;;gen.c:6373: size=2/4, offset=1, AOP_TYPE(res)=8
 ;	.line	59; "../libsdcc/fsneq.c"	fl1.f = a1;
 	MOVAR	r0x100A
 	MOVRA	(___fsneq_fl1_1_22 + 1)
-;;gen.c:6371: size=1/4, offset=2, AOP_TYPE(res)=8
+;;gen.c:6373: size=1/4, offset=2, AOP_TYPE(res)=8
 	MOVAR	r0x1009
 	MOVRA	(___fsneq_fl1_1_22 + 2)
-;;gen.c:6371: size=0/4, offset=3, AOP_TYPE(res)=8
+;;gen.c:6373: size=0/4, offset=3, AOP_TYPE(res)=8
 	MOVAR	r0x1008
 	MOVRA	(___fsneq_fl1_1_22 + 3)
 ;;[ICODE] ../libsdcc/fsneq.c:60: 	iTemp4 [k11 lr7:8 so:0]{ ia0 a2p0 re0 rm1 nos0 ru0 dp0}{volatile-float near* fixed}[remat] = &[___fsneq_fl2_1_22 [k10 lr0:0 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{volatile-struct float_long fixed}]
 ;;[ICODE] ../libsdcc/fsneq.c:60: 	*(iTemp4 [k11 lr7:8 so:0]{ ia1 a2p0 re0 rm1 nos0 ru0 dp0}{volatile-float near* fixed}[remat]) := iTemp1 [k4 lr4:8 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{float fixed}{ sir@ ___fsneq_a2_1_21}[r0x1004 r0x1005 r0x1006 r0x1007 ]
-;;gen.c:6371: size=3/4, offset=0, AOP_TYPE(res)=8
+;;gen.c:6373: size=3/4, offset=0, AOP_TYPE(res)=8
 ;	.line	60; "../libsdcc/fsneq.c"	fl2.f = a2;
 	MOVAR	r0x100F
 	MOVRA	(___fsneq_fl2_1_22 + 0)
-;;gen.c:6371: size=2/4, offset=1, AOP_TYPE(res)=8
+;;gen.c:6373: size=2/4, offset=1, AOP_TYPE(res)=8
 	MOVAR	r0x100E
 	MOVRA	(___fsneq_fl2_1_22 + 1)
-;;gen.c:6371: size=1/4, offset=2, AOP_TYPE(res)=8
+;;gen.c:6373: size=1/4, offset=2, AOP_TYPE(res)=8
 	MOVAR	r0x100D
 	MOVRA	(___fsneq_fl2_1_22 + 2)
-;;gen.c:6371: size=0/4, offset=3, AOP_TYPE(res)=8
+;;gen.c:6373: size=0/4, offset=3, AOP_TYPE(res)=8
 	MOVAR	r0x100C
 	MOVRA	(___fsneq_fl2_1_22 + 3)
 ;;[ICODE] ../libsdcc/fsneq.c:70: 	iTemp6 [k14 lr9:10 so:0]{ ia0 a2p0 re0 rm1 nos0 ru0 dp0}{volatile-long-int near* fixed}[remat] = &[___fsneq_fl1_1_22 [k6 lr0:0 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{volatile-struct float_long fixed}]

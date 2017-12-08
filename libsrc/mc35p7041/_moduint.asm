@@ -1,7 +1,7 @@
 ;--------------------------------------------------------
 ; File Created by SN-SDCC : SinoMCU ANSI-C Compiler
-; Version 1.0.0 (Sep 28 2017) (MINGW32)
-; This file was generated Thu Nov 23 16:21:12 2017
+; Version 1.1.0 (Dec  8 2017) (MINGW32)
+; This file was generated Fri Dec 08 18:30:24 2017
 ;--------------------------------------------------------
 ; MC35 port for the RISC core
 ;--------------------------------------------------------
@@ -97,7 +97,7 @@ __moduint	;Function start
 ;	.line	35; "../libsdcc_mc35/_moduint.c"	if (!b) return (unsigned int)-1;
 	MOVAR	r0x1003
 	ORAR	r0x1002
-	JBSET	STATUS,0
+	JBSET	PFLAG,0
 	GOTO	_00119_DS_
 ;;[ICODE] ../libsdcc_mc35/_moduint.c:35: 	ret 0xffff {unsigned-int literal}
 	MOVAI	0xff
@@ -125,7 +125,7 @@ _00107_DS_
 ;;[ICODE] ../libsdcc_mc35/_moduint.c:39: 	if iTemp4 [k9 lr12:13 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-long-int register} != 0 goto preHeaderLbl1($18)
 ;;[ICODE] ../libsdcc_mc35/_moduint.c:40: 	iTemp1 [k4 lr4:31 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{unsigned-int fixed}{ sir@ __moduint_b_1_1}[r0x1002 r0x1003 ] = iTemp1 [k4 lr4:31 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{unsigned-int fixed}{ sir@ __moduint_b_1_1}[r0x1002 r0x1003 ] << 0x1 {const-unsigned-char literal}
 ;	.line	40; "../libsdcc_mc35/_moduint.c"	b <<= 1;
-	BCLR	STATUS,2
+	BCLR	PFLAG,2
 	RLR	r0x1003
 	RLR	r0x1002
 ;;[ICODE] ../libsdcc_mc35/_moduint.c:41: 	iTemp6 [k11 lr8:19 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-char fixed}{ sir@ __moduint_count_1_2}[r0x1004 ] = iTemp6 [k11 lr8:19 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-char fixed}{ sir@ __moduint_count_1_2}[r0x1004 ] + 0x1 {const-unsigned-char literal}
@@ -142,7 +142,7 @@ _00112_DS_
 ;	.line	45; "../libsdcc_mc35/_moduint.c"	while (count) {
 	MOVAI	0x00
 	ORAR	r0x1004
-	JBCLR	STATUS,0
+	JBCLR	PFLAG,0
 	GOTO	_00114_DS_
 ;;[ICODE] ../libsdcc_mc35/_moduint.c:46: 	iTemp7 [k12 lr23:24 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char fixed} = iTemp0 [k2 lr3:33 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{unsigned-int fixed}{ sir@ __moduint_a_1_1}[r0x1000 r0x1001 ] < iTemp1 [k4 lr4:31 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{unsigned-int fixed}{ sir@ __moduint_b_1_1}[r0x1002 r0x1003 ]
 ;	.line	46; "../libsdcc_mc35/_moduint.c"	if (a >= b) {
@@ -150,14 +150,14 @@ _00112_DS_
 	XCH	r0x1000
 	ASUBRA	r0x1000
 	XCH	r0x1000
-	JBSET	STATUS,0
+	JBSET	PFLAG,0
 	GOTO	_00131_DS_
 	MOVAR	r0x1003
 	XCH	r0x1001
 	ASUBRA	r0x1001
 	XCH	r0x1001
 _00131_DS_
-	JBSET	STATUS,2
+	JBSET	PFLAG,2
 	GOTO	_00111_DS_
 ;;genSkipc:3223: created from rifx:00D5608C
 ;;[ICODE] ../libsdcc_mc35/_moduint.c:46: 	if iTemp7 [k12 lr23:24 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char fixed} != 0 goto _iffalse_1($7)
@@ -169,7 +169,7 @@ _00131_DS_
 	XCH	r0x1001
 	MOVAR	r0x1002
 	XCH	r0x1000
-	JBSET	STATUS,2
+	JBSET	PFLAG,2
 	JZR	r0x1000
 	ASUBAR	r0x1000
 	XCH	r0x1000
@@ -178,7 +178,7 @@ _00131_DS_
 ;;shiftRight_Left2ResultLit:5270: shCount=1, size=2, sign=0, same=1, offr=0
 _00111_DS_
 ;	.line	49; "../libsdcc_mc35/_moduint.c"	b >>= 1;
-	BCLR	STATUS,2
+	BCLR	PFLAG,2
 	RRR	r0x1002
 	RRR	r0x1003
 ;;[ICODE] ../libsdcc_mc35/_moduint.c:50: 	iTemp10 [k15 lr19:31 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-char fixed}{ sir@ __moduint_count_1_2}[r0x1004 ] = iTemp10 [k15 lr19:31 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-char fixed}{ sir@ __moduint_count_1_2}[r0x1004 ] - 0x1 {const-unsigned-char literal}

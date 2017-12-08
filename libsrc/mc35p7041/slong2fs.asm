@@ -1,7 +1,7 @@
 ;--------------------------------------------------------
 ; File Created by SN-SDCC : SinoMCU ANSI-C Compiler
-; Version 1.0.0 (Sep 28 2017) (MINGW32)
-; This file was generated Thu Nov 23 16:21:15 2017
+; Version 1.1.0 (Dec  8 2017) (MINGW32)
+; This file was generated Fri Dec 08 18:30:27 2017
 ;--------------------------------------------------------
 ; MC35 port for the RISC core
 ;--------------------------------------------------------
@@ -137,10 +137,10 @@ ___slong2fs	;Function start
 ;;[ICODE] ../libsdcc_mc35/slong2fs.c:35: 	iTemp1 [k4 lr4:5 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char fixed} = iTemp0 [k2 lr3:12 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{long-int fixed}{ sir@ ___slong2fs_sl_1_21}[r0x1000 r0x1001 r0x1002 r0x1003 ] < 0x0 {long-int literal}
 ;;signed compare: left < lit(0x0=0), size=4, mask=ffffffff
 ;	.line	35; "../libsdcc_mc35/slong2fs.c"	if (sl<0) 
-	BSET	STATUS,2
+	BSET	PFLAG,2
 	JBSET	r0x1000,7
-	BCLR	STATUS,2
-	JBSET	STATUS,2
+	BCLR	PFLAG,2
+	JBSET	PFLAG,2
 	GOTO	_00106_DS_
 ;;genSkipc:3223: created from rifx:00D5608C
 ;;[ICODE] ../libsdcc_mc35/slong2fs.c:35: 	if iTemp1 [k4 lr4:5 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char fixed} == 0 goto _iffalse_0($2)
@@ -160,11 +160,11 @@ ___slong2fs	;Function start
 	MOVRA	r0x1007
 	MOVAI	0x01
 	ADDRA	r0x1004
-	JBCLR	STATUS,0
+	JBCLR	PFLAG,0
 	ADDRA	r0x1005
-	JBCLR	STATUS,0
+	JBCLR	PFLAG,0
 	ADDRA	r0x1006
-	JBCLR	STATUS,0
+	JBCLR	PFLAG,0
 	ADDRA	r0x1007
 ;;[ICODE] ../libsdcc_mc35/slong2fs.c:36: 	send iTemp2 [k6 lr6:7 so:0]{ ia0 a2p0 re0 rm0 nos0 ru1 dp0}{long-int fixed}[r0x1004 r0x1005 r0x1006 r0x1007 ]{argreg = 1}
 ;;[ICODE] ../libsdcc_mc35/slong2fs.c:36: 	iTemp3 [k8 lr8:9 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{float fixed}[r0x1004 r0x1005 r0x1006 r0x1007 ] = call ___ulong2fs [k5 lr0:0 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{float function ( unsigned-long-int fixed) fixed}

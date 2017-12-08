@@ -1,4 +1,4 @@
-gpasm-2.0.0_beta2 (Aug 27 2017)sint2fs.asm        2017-9-12  18:09:57          PAGE  1
+gpasm-2.0.0_beta2 (Nov  6 2017)sint2fs.asm        2017-12-7  13:58:48          PAGE  1
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
@@ -6,8 +6,8 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
 
                       00001 ;--------------------------------------------------------
                       00002 ; File Created by SN-SDCC : SinoMCU ANSI-C Compiler
-                      00003 ; Version 1.0.0 (Sep 11 2017) (MINGW32)
-                      00004 ; This file was generated Tue Sep 12 18:09:57 2017
+                      00003 ; Version 1.0.0 (Sep 28 2017) (MINGW32)
+                      00004 ; This file was generated Thu Dec 07 13:58:48 2017
                       00005 ;--------------------------------------------------------
                       00006 ; MC30/MC32 port for the RISC core
                       00007 ;--------------------------------------------------------
@@ -41,154 +41,145 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
                       00032         extern  ___fsneq
                       00033         extern  ___fsgt
                       00034 
-                      00035         extern PSAVE
-                      00036         extern SSAVE
-                      00037         extern WSAVE
-                      00038         extern STK12
-                      00039         extern STK11
-                      00040         extern STK10
-                      00041         extern STK09
-                      00042         extern STK08
-                      00043         extern STK07
-                      00044         extern STK06
-                      00045         extern STK05
-                      00046         extern STK04
-                      00047         extern STK03
-                      00048         extern STK02
-                      00049         extern STK01
-                      00050         extern STK00
-                      00051 ;--------------------------------------------------------
-                      00052 ; global declarations
+                      00035         extern STK06
+                      00036         extern STK05
+                      00037         extern STK04
+                      00038         extern STK03
+                      00039         extern STK02
+                      00040         extern STK01
+                      00041         extern STK00
+                      00042 ;--------------------------------------------------------
+                      00043 ; global declarations
+                      00044 ;--------------------------------------------------------
+                      00045         global  ___sint2fs
+                      00046 
+                      00047 ;--------------------------------------------------------
+                      00048 ; global definitions
+                      00049 ;--------------------------------------------------------
+                      00050 ;--------------------------------------------------------
+                      00051 ; absolute symbol definitions
+                      00052 ;--------------------------------------------------------
                       00053 ;--------------------------------------------------------
-                      00054         global  ___sint2fs
-                      00055 
-                      00056 ;--------------------------------------------------------
-                      00057 ; global definitions
-                      00058 ;--------------------------------------------------------
-                      00059 ;--------------------------------------------------------
-                      00060 ; absolute symbol definitions
-                      00061 ;--------------------------------------------------------
-                      00062 ;--------------------------------------------------------
-                      00063 ; compiler-defined variables
-                      00064 ;--------------------------------------------------------
-                      00065 UDL_sint2fs_0   udata
-0000                  00066 r0x1001 res     1
-0000                  00067 r0x1000 res     1
-0001                  00068 r0x1002 res     1
-0001                  00069 r0x1003 res     1
-0002                  00070 r0x1005 res     1
-0002                  00071 r0x1004 res     1
-                      00072 ;--------------------------------------------------------
-                      00073 ; initialized data
-                      00074 ;--------------------------------------------------------
-                      00075 
-                      00076 ;@Allocation info for local variables in function '__sint2fs'
-                      00077 ;@__sint2fs __uchar2fs                Allocated to registers ;size:2
-                      00078 ;@__sint2fs __schar2fs                Allocated to registers ;size:2
-                      00079 ;@__sint2fs __uint2fs                 Allocated to registers ;size:2
-                      00080 ;@__sint2fs __ulong2fs                Allocated to registers ;size:2
-                      00081 ;@__sint2fs __slong2fs                Allocated to registers ;size:2
-                      00082 ;@__sint2fs __fs2uchar                Allocated to registers ;size:2
-                      00083 ;@__sint2fs __fs2schar                Allocated to registers ;size:2
-                      00084 ;@__sint2fs __fs2uint                 Allocated to registers ;size:2
-                      00085 ;@__sint2fs __fs2sint                 Allocated to registers ;size:2
-                      00086 ;@__sint2fs __fs2ulong                Allocated to registers ;size:2
-                      00087 ;@__sint2fs __fs2slong                Allocated to registers ;size:2
-                      00088 ;@__sint2fs __fsadd                   Allocated to registers ;size:2
-                      00089 ;@__sint2fs __fssub                   Allocated to registers ;size:2
-                      00090 ;@__sint2fs __fsmul                   Allocated to registers ;size:2
-                      00091 ;@__sint2fs __fsdiv                   Allocated to registers ;size:2
-                      00092 ;@__sint2fs __fslt                    Allocated to registers ;size:2
-                      00093 ;@__sint2fs __fseq                    Allocated to registers ;size:2
-                      00094 ;@__sint2fs __fsneq                   Allocated to registers ;size:2
-                      00095 ;@__sint2fs __fsgt                    Allocated to registers ;size:2
-                      00096 ;@__sint2fs si                        Allocated to registers r0x1001 r0x1000 ;size:2
-                      00097 ;@end Allocation info for local variables in function '__sint2fs';
-                      00098 
-                      00099 ;--------------------------------------------------------
-                      00100 ; overlayable items in internal ram 
-                      00101 ;--------------------------------------------------------
-                      00102 ;       udata_ovr
-                      00103 ;--------------------------------------------------------
-                      00104 ; code
-                      00105 ;--------------------------------------------------------
-                      00106 code_sint2fs    code
-                      00107 ;***
-                      00108 ;  pBlock Stats: dbName = C
-                      00109 ;***
-                      00110 ;entry:  ___sint2fs     ;Function start
-                      00111 ; 2 exit points
-                      00112 ;has an exit
-                      00113 ;functions called:
-                      00114 ;   ___slong2fs
-                      00115 ;   ___slong2fs
-                      00116 ;9 compiler assigned registers:
-                      00117 ;   r0x1000
-                      00118 ;   STK00
-                      00119 ;   r0x1001
-                      00120 ;   r0x1002
-                      00121 ;   r0x1003
-                      00122 ;   r0x1004
-                      00123 ;   r0x1005
-                      00124 ;   STK02
-                      00125 ;   STK01
-                      00126 ;; Starting pCode block
-                      00127 ;;[ICODE] ../libsdcc/sint2fs.c:33:  _entry($2) :
-                      00128 ;;[ICODE] ../libsdcc/sint2fs.c:33:      proc ___sint2fs [k1 lr0:0 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{float function ( int fixed) fixed}
-0000                  00129 ___sint2fs      ;Function start
-                      00130 ; 2 exit points
-                      00131 ;;[ICODE] ../libsdcc/sint2fs.c:33: iTemp0 [k2 lr3:4 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{int fixed}{ sir@ ___sint2fs_si_1_21}[r0x1000 r0x1001 ] = recv ___sint2fs [k1 lr0:0 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{float function ( int fixed) fixed}
-0000   5600           00132         MOVRA   r0x1003
-                      00133 ;       .line   33; "../libsdcc/sint2fs.c"      float __sint2fs (signed int si) _FS_REENTRANT
-0001   5600           00134         MOVRA   r0x1000
-0002   5800           00135         MOVAR   STK00
-0003   5600           00136         MOVRA   r0x1002
-0004   5600           00137         MOVRA   r0x1001
-                      00138 ;;[ICODE] ../libsdcc/sint2fs.c:35:      iTemp1 [k5 lr4:5 so:0]{ ia0 a2p0 re0 rm0 nos0 ru1 dp0}{long-int fixed}[r0x1002 r0x1003 r0x1004 r0x1005 ] = (long-int fixed)iTemp0 [k2 lr3:4 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{int fixed}{ sir@ ___sint2fs_si_1_21}[r0x1000 r0x1001 ]
-                      00139 ;;99    MOVAR   r0x1001
-                      00140 ;;100   MOVAR   r0x1000
-                      00141 ;       .line   35; "../libsdcc/sint2fs.c"      return __slong2fs(si);
-0005   3C00           00142         MOVAI   0x00
-0006   FE00           00143         JBCLR   r0x1003,7
-0007   3CFF           00144         MOVAI   0xff
-0008   5600           00145         MOVRA   r0x1004
-0009   5600           00146         MOVRA   r0x1005
-                      00147 ;;[ICODE] ../libsdcc/sint2fs.c:35:      send iTemp1 [k5 lr4:5 so:0]{ ia0 a2p0 re0 rm0 nos0 ru1 dp0}{long-int fixed}[r0x1002 r0x1003 r0x1004 r0x1005 ]{argreg = 1}
-                      00148 ;;[ICODE] ../libsdcc/sint2fs.c:35:      iTemp2 [k7 lr6:7 so:0]{ ia0 a2p0 re0 rm0 nos0 ru1 dp0}{float fixed}[r0x1000 r0x1001 r0x1002 r0x1003 ] = call ___slong2fs [k4 lr0:0 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{float function ( long-int fixed) fixed}
-000A   5800           00149         MOVAR   r0x1002
-000B   5600           00150         MOVRA   STK02
-000C   5800           00151         MOVAR   r0x1003
-000D   5600           00152         MOVRA   STK01
-000E   5800           00153         MOVAR   r0x1005
-000F   5600           00154         MOVRA   STK00
-0010   5800           00155         MOVAR   r0x1004
-0011   8000           00156         CALL    ___slong2fs
-0012   5600           00157         MOVRA   r0x1003
-0013   5800           00158         MOVAR   STK00
-0014   5600           00159         MOVRA   r0x1002
-0015   5800           00160         MOVAR   STK01
-0016   5600           00161         MOVRA   r0x1000
-0017   5800           00162         MOVAR   STK02
-0018   5600           00163         MOVRA   r0x1001
-                      00164 ;;[ICODE] ../libsdcc/sint2fs.c:35:      ret iTemp2 [k7 lr6:7 so:0]{ ia0 a2p0 re0 rm0 nos0 ru1 dp0}{float fixed}[r0x1000 r0x1001 r0x1002 r0x1003 ]
-0019   5800           00165         MOVAR   r0x1001
-001A   5600           00166         MOVRA   STK02
-001B   5800           00167         MOVAR   r0x1000
-001C   5600           00168         MOVRA   STK01
-001D   5800           00169         MOVAR   r0x1002
-001E   5600           00170         MOVRA   STK00
-001F   5800           00171         MOVAR   r0x1003
-                      00172 ;;[ICODE] ../libsdcc/sint2fs.c:35:  _return($1) :
-                      00173 ;;[ICODE] ../libsdcc/sint2fs.c:35:      eproc ___sint2fs [k1 lr0:0 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{float function ( int fixed) fixed}
-0020   000C           00174         RETURN  
-                      00175 ; exit point of ___sint2fs
-                      00176 
-                      00177 
-                      00178 ;       code size estimation:
-                      00179 ;          33+    0 =    33 instructions (   66 byte)
-                      00180 
-                      00181         end
-gpasm-2.0.0_beta2 (Aug 27 2017)sint2fs.asm        2017-9-12  18:09:57          PAGE  2
+                      00054 ; compiler-defined variables
+                      00055 ;--------------------------------------------------------
+                      00056 UDL_sint2fs_0   udata
+0000                  00057 r0x1001 res     1
+0000                  00058 r0x1000 res     1
+0001                  00059 r0x1002 res     1
+0001                  00060 r0x1003 res     1
+0002                  00061 r0x1005 res     1
+0002                  00062 r0x1004 res     1
+                      00063 ;--------------------------------------------------------
+                      00064 ; initialized data
+                      00065 ;--------------------------------------------------------
+                      00066 
+                      00067 ;@Allocation info for local variables in function '__sint2fs'
+                      00068 ;@__sint2fs __uchar2fs                Allocated to registers ;size:2
+                      00069 ;@__sint2fs __schar2fs                Allocated to registers ;size:2
+                      00070 ;@__sint2fs __uint2fs                 Allocated to registers ;size:2
+                      00071 ;@__sint2fs __ulong2fs                Allocated to registers ;size:2
+                      00072 ;@__sint2fs __slong2fs                Allocated to registers ;size:2
+                      00073 ;@__sint2fs __fs2uchar                Allocated to registers ;size:2
+                      00074 ;@__sint2fs __fs2schar                Allocated to registers ;size:2
+                      00075 ;@__sint2fs __fs2uint                 Allocated to registers ;size:2
+                      00076 ;@__sint2fs __fs2sint                 Allocated to registers ;size:2
+                      00077 ;@__sint2fs __fs2ulong                Allocated to registers ;size:2
+                      00078 ;@__sint2fs __fs2slong                Allocated to registers ;size:2
+                      00079 ;@__sint2fs __fsadd                   Allocated to registers ;size:2
+                      00080 ;@__sint2fs __fssub                   Allocated to registers ;size:2
+                      00081 ;@__sint2fs __fsmul                   Allocated to registers ;size:2
+                      00082 ;@__sint2fs __fsdiv                   Allocated to registers ;size:2
+                      00083 ;@__sint2fs __fslt                    Allocated to registers ;size:2
+                      00084 ;@__sint2fs __fseq                    Allocated to registers ;size:2
+                      00085 ;@__sint2fs __fsneq                   Allocated to registers ;size:2
+                      00086 ;@__sint2fs __fsgt                    Allocated to registers ;size:2
+                      00087 ;@__sint2fs si                        Allocated to registers r0x1001 r0x1000 ;size:2
+                      00088 ;@end Allocation info for local variables in function '__sint2fs';
+                      00089 
+                      00090 ;--------------------------------------------------------
+                      00091 ; overlayable items in internal ram 
+                      00092 ;--------------------------------------------------------
+                      00093 ;       udata_ovr
+                      00094 ;--------------------------------------------------------
+                      00095 ; code
+                      00096 ;--------------------------------------------------------
+                      00097 code_sint2fs    code
+                      00098 ;***
+                      00099 ;  pBlock Stats: dbName = C
+                      00100 ;***
+                      00101 ;entry:  ___sint2fs     ;Function start
+                      00102 ; 2 exit points
+                      00103 ;has an exit
+                      00104 ;functions called:
+                      00105 ;   ___slong2fs
+                      00106 ;   ___slong2fs
+                      00107 ;9 compiler assigned registers:
+                      00108 ;   r0x1000
+                      00109 ;   STK00
+                      00110 ;   r0x1001
+                      00111 ;   r0x1002
+                      00112 ;   r0x1003
+                      00113 ;   r0x1004
+                      00114 ;   r0x1005
+                      00115 ;   STK02
+                      00116 ;   STK01
+                      00117 ;; Starting pCode block
+                      00118 ;;[ICODE] ../libsdcc/sint2fs.c:33:  _entry($2) :
+                      00119 ;;[ICODE] ../libsdcc/sint2fs.c:33:      proc ___sint2fs [k1 lr0:0 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{float function ( int fixed) fixed}
+0000                  00120 ___sint2fs      ;Function start
+                      00121 ; 2 exit points
+                      00122 ;;[ICODE] ../libsdcc/sint2fs.c:33: iTemp0 [k2 lr3:4 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{int fixed}{ sir@ ___sint2fs_si_1_21}[r0x1000 r0x1001 ] = recv ___sint2fs [k1 lr0:0 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{float function ( int fixed) fixed}
+0000   5600           00123         MOVRA   r0x1003
+                      00124 ;       .line   33; "../libsdcc/sint2fs.c"      float __sint2fs (signed int si) _FS_REENTRANT
+0001   5600           00125         MOVRA   r0x1000
+0002   5800           00126         MOVAR   STK00
+0003   5600           00127         MOVRA   r0x1002
+0004   5600           00128         MOVRA   r0x1001
+                      00129 ;;[ICODE] ../libsdcc/sint2fs.c:35:      iTemp1 [k5 lr4:5 so:0]{ ia0 a2p0 re0 rm0 nos0 ru1 dp0}{long-int fixed}[r0x1002 r0x1003 r0x1004 r0x1005 ] = (long-int fixed)iTemp0 [k2 lr3:4 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{int fixed}{ sir@ ___sint2fs_si_1_21}[r0x1000 r0x1001 ]
+                      00130 ;;99    MOVAR   r0x1001
+                      00131 ;;100   MOVAR   r0x1000
+                      00132 ;       .line   35; "../libsdcc/sint2fs.c"      return __slong2fs(si);
+0005   3C00           00133         MOVAI   0x00
+0006   FE00           00134         JBCLR   r0x1003,7
+0007   3CFF           00135         MOVAI   0xff
+0008   5600           00136         MOVRA   r0x1004
+0009   5600           00137         MOVRA   r0x1005
+                      00138 ;;[ICODE] ../libsdcc/sint2fs.c:35:      send iTemp1 [k5 lr4:5 so:0]{ ia0 a2p0 re0 rm0 nos0 ru1 dp0}{long-int fixed}[r0x1002 r0x1003 r0x1004 r0x1005 ]{argreg = 1}
+                      00139 ;;[ICODE] ../libsdcc/sint2fs.c:35:      iTemp2 [k7 lr6:7 so:0]{ ia0 a2p0 re0 rm0 nos0 ru1 dp0}{float fixed}[r0x1000 r0x1001 r0x1002 r0x1003 ] = call ___slong2fs [k4 lr0:0 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{float function ( long-int fixed) fixed}
+000A   5800           00140         MOVAR   r0x1002
+000B   5600           00141         MOVRA   STK02
+000C   5800           00142         MOVAR   r0x1003
+000D   5600           00143         MOVRA   STK01
+000E   5800           00144         MOVAR   r0x1005
+000F   5600           00145         MOVRA   STK00
+0010   5800           00146         MOVAR   r0x1004
+0011   8000           00147         CALL    ___slong2fs
+0012   5600           00148         MOVRA   r0x1003
+0013   5800           00149         MOVAR   STK00
+0014   5600           00150         MOVRA   r0x1002
+0015   5800           00151         MOVAR   STK01
+0016   5600           00152         MOVRA   r0x1000
+0017   5800           00153         MOVAR   STK02
+0018   5600           00154         MOVRA   r0x1001
+                      00155 ;;[ICODE] ../libsdcc/sint2fs.c:35:      ret iTemp2 [k7 lr6:7 so:0]{ ia0 a2p0 re0 rm0 nos0 ru1 dp0}{float fixed}[r0x1000 r0x1001 r0x1002 r0x1003 ]
+0019   5800           00156         MOVAR   r0x1001
+001A   5600           00157         MOVRA   STK02
+001B   5800           00158         MOVAR   r0x1000
+001C   5600           00159         MOVRA   STK01
+001D   5800           00160         MOVAR   r0x1002
+001E   5600           00161         MOVRA   STK00
+001F   5800           00162         MOVAR   r0x1003
+                      00163 ;;[ICODE] ../libsdcc/sint2fs.c:35:  _return($1) :
+                      00164 ;;[ICODE] ../libsdcc/sint2fs.c:35:      eproc ___sint2fs [k1 lr0:0 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{float function ( int fixed) fixed}
+0020   000C           00165         RETURN  
+                      00166 ; exit point of ___sint2fs
+                      00167 
+                      00168 
+                      00169 ;       code size estimation:
+                      00170 ;          33+    0 =    33 instructions (   66 byte)
+                      00171 
+                      00172         end
+gpasm-2.0.0_beta2 (Nov  6 2017)sint2fs.asm        2017-12-7  13:58:48          PAGE  2
 
 
 SYMBOL TABLE
@@ -331,7 +322,6 @@ P31OE                             00000001
 P31PU                             00000001
 PCL                               000001B6
 PD                                00000004
-PSAVE                             00000000
 PUP0                              000001C2
 PUP1                              000001C6
 PUP2                              000001CA
@@ -340,7 +330,6 @@ PWM0OE                            00000006
 PWM1OE                            00000006
 RXAK                              00000000
 SRW                               00000002
-SSAVE                             00000000
 STATUS                            000001B7
 STBH                              00000004
 STBL                              00000005
@@ -351,12 +340,6 @@ STK03                             00000000
 STK04                             00000000
 STK05                             00000000
 STK06                             00000000
-STK07                             00000000
-STK08                             00000000
-STK09                             00000000
-STK10                             00000000
-STK11                             00000000
-STK12                             00000000
 T0CNT                             000001D1
 T0CR                              000001D0
 T0DATA                            000001D3
@@ -409,7 +392,6 @@ TK2JE                             00000005
 TK2RCE                            00000004
 TO                                00000005
 TXAK                              00000003
-WSAVE                             00000000
 Z                                 00000002
 _CONFIG0                          00008000
 _CONFIG1                          00008001

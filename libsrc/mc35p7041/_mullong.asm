@@ -1,7 +1,7 @@
 ;--------------------------------------------------------
 ; File Created by SN-SDCC : SinoMCU ANSI-C Compiler
-; Version 1.0.0 (Sep 28 2017) (MINGW32)
-; This file was generated Thu Nov 23 16:21:14 2017
+; Version 1.1.0 (Dec  8 2017) (MINGW32)
+; This file was generated Fri Dec 08 18:30:26 2017
 ;--------------------------------------------------------
 ; MC35 port for the RISC core
 ;--------------------------------------------------------
@@ -146,15 +146,15 @@ _00118_DS_
 	MOVAR	r0x1007
 	ADDRA	r0x1008
 	MOVAR	r0x1006
-	JBCLR	STATUS,2
+	JBCLR	PFLAG,2
 	JZAR	r0x1006
 	ADDRA	r0x1009
 	MOVAR	r0x1005
-	JBCLR	STATUS,2
+	JBCLR	PFLAG,2
 	JZAR	r0x1005
 	ADDRA	r0x100A
 	MOVAR	r0x1004
-	JBCLR	STATUS,2
+	JBCLR	PFLAG,2
 	JZAR	r0x1004
 	ADDRA	r0x100B
 ;;[ICODE] ../libsdcc_mc35/_mullong.c:42:  _andif_0($5) :
@@ -186,15 +186,15 @@ _00109_DS_
 ;;99	MOVAR	r0x100E
 	MOVAR	r0x1007
 	MOVRA	r0x100E
-	JBCLR	STATUS,2
+	JBCLR	PFLAG,2
 	JZAR	r0x100E
 	ADDRA	r0x1009
 	MOVAR	r0x100F
-	JBCLR	STATUS,2
+	JBCLR	PFLAG,2
 	JZAR	r0x100F
 	ADDRA	r0x100A
 	MOVAR	r0x1010
-	JBCLR	STATUS,2
+	JBCLR	PFLAG,2
 	JZAR	r0x1010
 	ADDRA	r0x100B
 ;;[ICODE] ../libsdcc_mc35/_mullong.c:43:  _andif_1($8) :
@@ -224,15 +224,15 @@ _00112_DS_
 	MOVAI	0x00
 	ADDRA	r0x1008
 	MOVAI	0x00
-	JBCLR	STATUS,2
+	JBCLR	PFLAG,2
 	JZAR	r0x100E
 	ADDRA	r0x1009
 	MOVAR	r0x100F
-	JBCLR	STATUS,2
+	JBCLR	PFLAG,2
 	JZAR	r0x100F
 	ADDRA	r0x100A
 	MOVAR	r0x1010
-	JBCLR	STATUS,2
+	JBCLR	PFLAG,2
 	JZAR	r0x1010
 	ADDRA	r0x100B
 ;;[ICODE] ../libsdcc_mc35/_mullong.c:44:  _andif_2($11) :
@@ -261,15 +261,15 @@ _00115_DS_
 	MOVAI	0x00
 	ADDRA	r0x1008
 	MOVAI	0x00
-	JBCLR	STATUS,2
+	JBCLR	PFLAG,2
 	JZAR	r0x100E
 	ADDRA	r0x1009
 	MOVAR	r0x100F
-	JBCLR	STATUS,2
+	JBCLR	PFLAG,2
 	JZAR	r0x100F
 	ADDRA	r0x100A
 	MOVAR	r0x1010
-	JBCLR	STATUS,2
+	JBCLR	PFLAG,2
 	JZAR	r0x1010
 	ADDRA	r0x100B
 ;;[ICODE] ../libsdcc_mc35/_mullong.c:44:  _iffalse_3($10) :
@@ -286,7 +286,7 @@ _00114_DS_
 	MOVRA	r0x1010
 ;;[ICODE] ../libsdcc_mc35/_mullong.c:45: 	iTemp0 [k2 lr3:43 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{long-int fixed}{ sir@ __mullong_a_1_1}[r0x1000 r0x1001 r0x1002 r0x1003 ] = iTemp18 [k24 lr35:36 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-long-int fixed}[r0x100D r0x100E r0x100F r0x1010 ] >> 0x1 {const-unsigned-int literal}
 ;;shiftRight_Left2ResultLit:5270: shCount=1, size=4, sign=0, same=0, offr=0
-	BCLR	STATUS,2
+	BCLR	PFLAG,2
 	RRAR	r0x1010
 	MOVRA	r0x1000
 	RRAR	r0x100F
@@ -297,7 +297,7 @@ _00114_DS_
 	MOVRA	r0x1003
 ;;[ICODE] ../libsdcc_mc35/_mullong.c:46: 	iTemp1 [k4 lr4:43 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{long-int fixed}{ sir@ __mullong_b_1_1}[r0x1004 r0x1005 r0x1006 r0x1007 ] = iTemp1 [k4 lr4:43 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{long-int fixed}{ sir@ __mullong_b_1_1}[r0x1004 r0x1005 r0x1006 r0x1007 ] << 0x1 {const-unsigned-int literal}
 ;	.line	46; "../libsdcc_mc35/_mullong.c"	b <<= 1u;
-	BCLR	STATUS,2
+	BCLR	PFLAG,2
 	RLR	r0x1007
 	RLR	r0x1006
 	RLR	r0x1005
@@ -313,7 +313,7 @@ _00114_DS_
 ;	.line	39; "../libsdcc_mc35/_mullong.c"	for (i = 0; i < 8u; i++) {
 	MOVAI	0x00
 	ORAR	r0x100C
-	JBSET	STATUS,0
+	JBSET	PFLAG,0
 	GOTO	_00118_DS_
 ;;[ICODE] ../libsdcc_mc35/_mullong.c:49: 	ret iTemp2 [k6 lr5:44 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{long-int fixed}{ sir@ __mullong_result_1_2}[r0x1008 r0x1009 r0x100A r0x100B ]
 ;	.line	49; "../libsdcc_mc35/_mullong.c"	return result;

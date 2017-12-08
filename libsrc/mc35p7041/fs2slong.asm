@@ -1,7 +1,7 @@
 ;--------------------------------------------------------
 ; File Created by SN-SDCC : SinoMCU ANSI-C Compiler
-; Version 1.0.0 (Sep 28 2017) (MINGW32)
-; This file was generated Thu Nov 23 16:21:06 2017
+; Version 1.1.0 (Dec  8 2017) (MINGW32)
+; This file was generated Fri Dec 08 18:30:18 2017
 ;--------------------------------------------------------
 ; MC35 port for the RISC core
 ;--------------------------------------------------------
@@ -147,7 +147,7 @@ ___fs2slong	;Function start
 	ORAR	r0x1002
 	ORAR	r0x1001
 	ORAR	r0x1000
-	JBSET	STATUS,0
+	JBSET	PFLAG,0
 	GOTO	_00106_DS_
 ;;[ICODE] ../libsdcc_mc35/fs2slong.c:37: 	ret 0x0 {long-int literal}
 ;	.line	37; "../libsdcc_mc35/fs2slong.c"	return 0;
@@ -185,7 +185,7 @@ _00106_DS_
 ;;[ICODE] ../libsdcc_mc35/fs2slong.c:39: 	if iTemp1 [k4 lr9:10 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char fixed}[r0x1004 ] == 0 goto _iffalse_1($4)
 	MOVAI	0x00
 	ORAR	r0x1004
-	JBCLR	STATUS,0
+	JBCLR	PFLAG,0
 	GOTO	_00108_DS_
 ;;[ICODE] ../libsdcc_mc35/fs2slong.c:40: 	iTemp2 [k6 lr11:12 so:0]{ ia0 a2p0 re0 rm0 nos0 ru1 dp0}{float fixed}[r0x1004 r0x1005 r0x1006 r0x1007 ] = - iTemp0 [k2 lr3:17 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{float fixed}{ sir@ ___fs2slong_f_1_21}[r0x1000 r0x1001 r0x1002 r0x1003 ]
 ;	.line	40; "../libsdcc_mc35/fs2slong.c"	return -__fs2ulong(-f);
@@ -229,11 +229,11 @@ _00106_DS_
 	XORRA	r0x1005
 	MOVAI	0x01
 	ADDRA	r0x1004
-	JBCLR	STATUS,0
+	JBCLR	PFLAG,0
 	ADDRA	r0x1007
-	JBCLR	STATUS,0
+	JBCLR	PFLAG,0
 	ADDRA	r0x1006
-	JBCLR	STATUS,0
+	JBCLR	PFLAG,0
 	ADDRA	r0x1005
 ;;[ICODE] ../libsdcc_mc35/fs2slong.c:40: 	ret iTemp4 [k9 lr14:15 so:0]{ ia0 a2p0 re0 rm0 nos0 ru1 dp0}{unsigned-long-int fixed}[r0x1004 r0x1005 r0x1006 r0x1007 ]
 	MOVAR	r0x1004

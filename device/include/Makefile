@@ -2,9 +2,9 @@
 #
 #
 
-VERSION         = 1.0.0
+VERSION         = 1.1.0
 VERSIONHI       = 1
-VERSIONLO       = 0
+VERSIONLO       = 1
 VERSIONP        = 0
 
 SHELL           = /bin/sh

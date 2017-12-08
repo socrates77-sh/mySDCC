@@ -1,4 +1,4 @@
-gpasm-2.0.0_beta2 (Aug 27 2017)fs2sint.asm        2017-9-12  18:09:49          PAGE  1
+gpasm-2.0.0_beta2 (Nov  6 2017)fs2sint.asm        2017-12-7  13:58:37          PAGE  1
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
@@ -6,8 +6,8 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
 
                       00001 ;--------------------------------------------------------
                       00002 ; File Created by SN-SDCC : SinoMCU ANSI-C Compiler
-                      00003 ; Version 1.0.0 (Sep 11 2017) (MINGW32)
-                      00004 ; This file was generated Tue Sep 12 18:09:49 2017
+                      00003 ; Version 1.0.0 (Sep 28 2017) (MINGW32)
+                      00004 ; This file was generated Thu Dec 07 13:58:37 2017
                       00005 ;--------------------------------------------------------
                       00006 ; MC30/MC32 port for the RISC core
                       00007 ;--------------------------------------------------------
@@ -41,215 +41,206 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
                       00032         extern  ___fsneq
                       00033         extern  ___fsgt
                       00034 
-                      00035         extern PSAVE
-                      00036         extern SSAVE
-                      00037         extern WSAVE
-                      00038         extern STK12
-                      00039         extern STK11
-                      00040         extern STK10
-                      00041         extern STK09
-                      00042         extern STK08
-                      00043         extern STK07
-                      00044         extern STK06
-                      00045         extern STK05
-                      00046         extern STK04
-                      00047         extern STK03
-                      00048         extern STK02
-                      00049         extern STK01
-                      00050         extern STK00
-                      00051 ;--------------------------------------------------------
-                      00052 ; global declarations
+                      00035         extern STK06
+                      00036         extern STK05
+                      00037         extern STK04
+                      00038         extern STK03
+                      00039         extern STK02
+                      00040         extern STK01
+                      00041         extern STK00
+                      00042 ;--------------------------------------------------------
+                      00043 ; global declarations
+                      00044 ;--------------------------------------------------------
+                      00045         global  ___fs2sint
+                      00046 
+                      00047 ;--------------------------------------------------------
+                      00048 ; global definitions
+                      00049 ;--------------------------------------------------------
+                      00050 ;--------------------------------------------------------
+                      00051 ; absolute symbol definitions
+                      00052 ;--------------------------------------------------------
                       00053 ;--------------------------------------------------------
-                      00054         global  ___fs2sint
-                      00055 
-                      00056 ;--------------------------------------------------------
-                      00057 ; global definitions
-                      00058 ;--------------------------------------------------------
-                      00059 ;--------------------------------------------------------
-                      00060 ; absolute symbol definitions
+                      00054 ; compiler-defined variables
+                      00055 ;--------------------------------------------------------
+                      00056 UDL_fs2sint_0   udata
+0000                  00057 r0x1003 res     1
+0000                  00058 r0x1002 res     1
+0001                  00059 r0x1001 res     1
+0001                  00060 r0x1000 res     1
                       00061 ;--------------------------------------------------------
-                      00062 ;--------------------------------------------------------
-                      00063 ; compiler-defined variables
-                      00064 ;--------------------------------------------------------
-                      00065 UDL_fs2sint_0   udata
-0000                  00066 r0x1003 res     1
-0000                  00067 r0x1002 res     1
-0001                  00068 r0x1001 res     1
-0001                  00069 r0x1000 res     1
-                      00070 ;--------------------------------------------------------
-                      00071 ; initialized data
-                      00072 ;--------------------------------------------------------
-                      00073 
-                      00074 ;@Allocation info for local variables in function '__fs2sint'
-                      00075 ;@__fs2sint __uchar2fs                Allocated to registers ;size:2
-                      00076 ;@__fs2sint __schar2fs                Allocated to registers ;size:2
-                      00077 ;@__fs2sint __uint2fs                 Allocated to registers ;size:2
-                      00078 ;@__fs2sint __sint2fs                 Allocated to registers ;size:2
-                      00079 ;@__fs2sint __ulong2fs                Allocated to registers ;size:2
-                      00080 ;@__fs2sint __slong2fs                Allocated to registers ;size:2
-                      00081 ;@__fs2sint __fs2uchar                Allocated to registers ;size:2
-                      00082 ;@__fs2sint __fs2schar                Allocated to registers ;size:2
-                      00083 ;@__fs2sint __fs2uint                 Allocated to registers ;size:2
-                      00084 ;@__fs2sint __fs2ulong                Allocated to registers ;size:2
-                      00085 ;@__fs2sint __fs2slong                Allocated to registers ;size:2
-                      00086 ;@__fs2sint __fsadd                   Allocated to registers ;size:2
-                      00087 ;@__fs2sint __fssub                   Allocated to registers ;size:2
-                      00088 ;@__fs2sint __fsmul                   Allocated to registers ;size:2
-                      00089 ;@__fs2sint __fsdiv                   Allocated to registers ;size:2
-                      00090 ;@__fs2sint __fslt                    Allocated to registers ;size:2
-                      00091 ;@__fs2sint __fseq                    Allocated to registers ;size:2
-                      00092 ;@__fs2sint __fsneq                   Allocated to registers ;size:2
-                      00093 ;@__fs2sint __fsgt                    Allocated to registers ;size:2
-                      00094 ;@__fs2sint f                         Allocated to registers r0x1003 r0x1002 r0x1001 r0x1000 ;size:4
-                      00095 ;@__fs2sint sl                        Allocated to registers r0x1003 r0x1002 r0x1001 r0x1000 ;size:4
-                      00096 ;@end Allocation info for local variables in function '__fs2sint';
-                      00097 
-                      00098 ;--------------------------------------------------------
-                      00099 ; overlayable items in internal ram 
-                      00100 ;--------------------------------------------------------
-                      00101 ;       udata_ovr
-                      00102 ;--------------------------------------------------------
-                      00103 ; code
-                      00104 ;--------------------------------------------------------
-                      00105 code_fs2sint    code
-                      00106 ;***
-                      00107 ;  pBlock Stats: dbName = C
-                      00108 ;***
-                      00109 ;entry:  ___fs2sint     ;Function start
-                      00110 ; 2 exit points
-                      00111 ;has an exit
-                      00112 ;functions called:
-                      00113 ;   ___fs2slong
-                      00114 ;   ___fs2slong
-                      00115 ;9 compiler assigned registers:
-                      00116 ;   r0x1000
-                      00117 ;   STK00
-                      00118 ;   r0x1001
-                      00119 ;   STK01
-                      00120 ;   r0x1002
-                      00121 ;   STK02
-                      00122 ;   r0x1003
-                      00123 ;   r0x1004
-                      00124 ;   r0x1005
-                      00125 ;; Starting pCode block
-                      00126 ;;[ICODE] ../libsdcc/fs2sint.c:33:  _entry($6) :
-                      00127 ;;[ICODE] ../libsdcc/fs2sint.c:33:      proc ___fs2sint [k1 lr0:0 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{int function ( float fixed) fixed}
-0000                  00128 ___fs2sint      ;Function start
-                      00129 ; 2 exit points
-                      00130 ;;[ICODE] ../libsdcc/fs2sint.c:33: iTemp0 [k2 lr3:4 so:0]{ ia0 a2p0 re1 rm0 nos0 ru1 dp0}{float fixed}{ sir@ ___fs2sint_f_1_21}[r0x1000 r0x1001 r0x1002 r0x1003 ] = recv ___fs2sint [k1 lr0:0 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{int function ( float fixed) fixed}
-                      00131 ;       .line   33; "../libsdcc/fs2sint.c"      signed int __fs2sint (float f) _FS_REENTRANT
-0000   5600           00132         MOVRA   r0x1000
-0001   5800           00133         MOVAR   STK00
-0002   5600           00134         MOVRA   r0x1001
-0003   5800           00135         MOVAR   STK01
-0004   5600           00136         MOVRA   r0x1002
-0005   5800           00137         MOVAR   STK02
-0006   5600           00138         MOVRA   r0x1003
-                      00139 ;;[ICODE] ../libsdcc/fs2sint.c:35:      send iTemp0 [k2 lr3:4 so:0]{ ia0 a2p0 re1 rm0 nos0 ru1 dp0}{float fixed}{ sir@ ___fs2sint_f_1_21}[r0x1000 r0x1001 r0x1002 r0x1003 ]{argreg = 1}
-                      00140 ;;[ICODE] ../libsdcc/fs2sint.c:35:      iTemp1 [k4 lr5:15 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{long-int fixed}{ sir@ ___fs2sint_sl_1_22}[r0x1000 r0x1001 r0x1002 r0x1003 ] = call ___fs2slong [k6 lr0:0 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{long-int function ( float fixed) fixed}
-                      00141 ;       .line   35; "../libsdcc/fs2sint.c"      signed long sl=__fs2slong(f);
-0007   5800           00142         MOVAR   r0x1003
-0008   5600           00143         MOVRA   STK02
-0009   5800           00144         MOVAR   r0x1002
-000A   5600           00145         MOVRA   STK01
-000B   5800           00146         MOVAR   r0x1001
-000C   5600           00147         MOVRA   STK00
-000D   5800           00148         MOVAR   r0x1000
-000E   8000           00149         CALL    ___fs2slong
-000F   5600           00150         MOVRA   r0x1000
-0010   5800           00151         MOVAR   STK00
-0011   5600           00152         MOVRA   r0x1001
-0012   5800           00153         MOVAR   STK01
-0013   5600           00154         MOVRA   r0x1002
-0014   5800           00155         MOVAR   STK02
-0015   5600           00156         MOVRA   r0x1003
-                      00157 ;;[ICODE] ../libsdcc/fs2sint.c:36:      iTemp3 [k9 lr7:8 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char fixed} = iTemp1 [k4 lr5:15 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{long-int fixed}{ sir@ ___fs2sint_sl_1_22}[r0x1000 r0x1001 r0x1002 r0x1003 ] < 0x7fff {long-int literal}
-                      00158 ;;signed compare: left < lit(0x7FFF=32767), size=4, mask=ffffffff
-                      00159 ;       .line   36; "../libsdcc/fs2sint.c"      if (sl>=INT_MAX)
-0016   5800           00160         MOVAR   r0x1000
-0017   3F80           00161         ADDAI   0x80
-0018   3F80           00162         ADDAI   0x80
-0019   E5B7           00163         JBSET   STATUS,2
-001A   A000           00164         GOTO    _00115_DS_
-001B   3C00           00165         MOVAI   0x00
-001C   4800           00166         RSUBAR  r0x1001
-001D   E5B7           00167         JBSET   STATUS,2
-001E   A000           00168         GOTO    _00115_DS_
-001F   3C7F           00169         MOVAI   0x7f
-0020   4800           00170         RSUBAR  r0x1002
-0021   E5B7           00171         JBSET   STATUS,2
-0022   A000           00172         GOTO    _00115_DS_
-0023   3CFF           00173         MOVAI   0xff
-0024   4800           00174         RSUBAR  r0x1003
-0025                  00175 _00115_DS_
-0025   E1B7           00176         JBSET   STATUS,0
-0026   A000           00177         GOTO    _00106_DS_
-                      00178 ;;genSkipc:3192: created from rifx:00CC608C
-                      00179 ;;[ICODE] ../libsdcc/fs2sint.c:36:      if iTemp3 [k9 lr7:8 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char fixed} != 0 goto _iffalse_0($2)
-                      00180 ;;[ICODE] ../libsdcc/fs2sint.c:37:      ret 0x7fff {const-int literal}
-                      00181 ;       .line   37; "../libsdcc/fs2sint.c"      return INT_MAX;
-0027   3CFF           00182         MOVAI   0xff
-0028   5600           00183         MOVRA   STK00
-0029   3C7F           00184         MOVAI   0x7f
-002A   A000           00185         GOTO    _00109_DS_
-                      00186 ;;[ICODE] ../libsdcc/fs2sint.c:37:  _iffalse_0($2) :
-                      00187 ;;[ICODE] ../libsdcc/fs2sint.c:38:      iTemp4 [k10 lr11:12 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char fixed} = iTemp1 [k4 lr5:15 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{long-int fixed}{ sir@ ___fs2sint_sl_1_22}[r0x1000 r0x1001 r0x1002 r0x1003 ] > 0xffff8000 {const-long-int literal}
-                      00188 ;;swapping arguments (AOP_TYPEs 1/2)
-                      00189 ;;signed compare: left >= lit(0xFFFF8001=-32767), size=4, mask=ffffffff
-002B                  00190 _00106_DS_
-                      00191 ;       .line   38; "../libsdcc/fs2sint.c"      if (sl<=INT_MIN) 
-002B   5800           00192         MOVAR   r0x1000
-002C   3F80           00193         ADDAI   0x80
-002D   3F81           00194         ADDAI   0x81
-002E   E5B7           00195         JBSET   STATUS,2
-002F   A000           00196         GOTO    _00116_DS_
-0030   3CFF           00197         MOVAI   0xff
-0031   4800           00198         RSUBAR  r0x1001
-0032   E5B7           00199         JBSET   STATUS,2
-0033   A000           00200         GOTO    _00116_DS_
-0034   3C80           00201         MOVAI   0x80
-0035   4800           00202         RSUBAR  r0x1002
-0036   E5B7           00203         JBSET   STATUS,2
-0037   A000           00204         GOTO    _00116_DS_
-0038   3C01           00205         MOVAI   0x01
-0039   4800           00206         RSUBAR  r0x1003
-003A                  00207 _00116_DS_
-003A   F1B7           00208         JBCLR   STATUS,0
-003B   A000           00209         GOTO    _00108_DS_
-                      00210 ;;genSkipc:3192: created from rifx:00CC608C
-                      00211 ;;[ICODE] ../libsdcc/fs2sint.c:38:      if iTemp4 [k10 lr11:12 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char fixed} != 0 goto _iffalse_1($4)
-                      00212 ;;[ICODE] ../libsdcc/fs2sint.c:39:      ret 0xffff8000 {int literal}
-                      00213 ;       .line   39; "../libsdcc/fs2sint.c"      return -INT_MIN;
-003C   3C00           00214         MOVAI   0x00
-003D   5600           00215         MOVRA   STK00
-003E   3C80           00216         MOVAI   0x80
-003F   A000           00217         GOTO    _00109_DS_
-                      00218 ;;[ICODE] ../libsdcc/fs2sint.c:39:  _iffalse_1($4) :
-                      00219 ;;[ICODE] ../libsdcc/fs2sint.c:40:      iTemp5 [k11 lr15:16 so:0]{ ia0 a2p0 re0 rm0 nos0 ru1 dp0}{int fixed}[r0x1004 r0x1005 ] = (int fixed)iTemp1 [k4 lr5:15 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{long-int fixed}{ sir@ ___fs2sint_sl_1_22}[r0x1000 r0x1001 r0x1002 r0x1003 ]
-                      00220 ;;101   MOVAR   r0x1003
-                      00221 ;;99    MOVRA   r0x1004
-                      00222 ;;104   MOVAR   r0x1002
-                      00223 ;;102   MOVRA   r0x1005
-                      00224 ;;[ICODE] ../libsdcc/fs2sint.c:40:      ret iTemp5 [k11 lr15:16 so:0]{ ia0 a2p0 re0 rm0 nos0 ru1 dp0}{int fixed}[r0x1004 r0x1005 ]
-                      00225 ;;100   MOVAR   r0x1004
-0040                  00226 _00108_DS_
-                      00227 ;       .line   40; "../libsdcc/fs2sint.c"      return sl;
-0040   5800           00228         MOVAR   r0x1003
-0041   5600           00229         MOVRA   STK00
-                      00230 ;;103   MOVAR   r0x1005
-0042   5800           00231         MOVAR   r0x1002
-                      00232 ;;[ICODE] ../libsdcc/fs2sint.c:40:  _return($5) :
-                      00233 ;;[ICODE] ../libsdcc/fs2sint.c:40:      eproc ___fs2sint [k1 lr0:0 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{int function ( float fixed) fixed}
-0043                  00234 _00109_DS_
-0043   000C           00235         RETURN  
-                      00236 ; exit point of ___fs2sint
-                      00237 
-                      00238 
-                      00239 ;       code size estimation:
-                      00240 ;          68+    0 =    68 instructions (  136 byte)
-                      00241 
-                      00242         end
-gpasm-2.0.0_beta2 (Aug 27 2017)fs2sint.asm        2017-9-12  18:09:49          PAGE  2
+                      00062 ; initialized data
+                      00063 ;--------------------------------------------------------
+                      00064 
+                      00065 ;@Allocation info for local variables in function '__fs2sint'
+                      00066 ;@__fs2sint __uchar2fs                Allocated to registers ;size:2
+                      00067 ;@__fs2sint __schar2fs                Allocated to registers ;size:2
+                      00068 ;@__fs2sint __uint2fs                 Allocated to registers ;size:2
+                      00069 ;@__fs2sint __sint2fs                 Allocated to registers ;size:2
+                      00070 ;@__fs2sint __ulong2fs                Allocated to registers ;size:2
+                      00071 ;@__fs2sint __slong2fs                Allocated to registers ;size:2
+                      00072 ;@__fs2sint __fs2uchar                Allocated to registers ;size:2
+                      00073 ;@__fs2sint __fs2schar                Allocated to registers ;size:2
+                      00074 ;@__fs2sint __fs2uint                 Allocated to registers ;size:2
+                      00075 ;@__fs2sint __fs2ulong                Allocated to registers ;size:2
+                      00076 ;@__fs2sint __fs2slong                Allocated to registers ;size:2
+                      00077 ;@__fs2sint __fsadd                   Allocated to registers ;size:2
+                      00078 ;@__fs2sint __fssub                   Allocated to registers ;size:2
+                      00079 ;@__fs2sint __fsmul                   Allocated to registers ;size:2
+                      00080 ;@__fs2sint __fsdiv                   Allocated to registers ;size:2
+                      00081 ;@__fs2sint __fslt                    Allocated to registers ;size:2
+                      00082 ;@__fs2sint __fseq                    Allocated to registers ;size:2
+                      00083 ;@__fs2sint __fsneq                   Allocated to registers ;size:2
+                      00084 ;@__fs2sint __fsgt                    Allocated to registers ;size:2
+                      00085 ;@__fs2sint f                         Allocated to registers r0x1003 r0x1002 r0x1001 r0x1000 ;size:4
+                      00086 ;@__fs2sint sl                        Allocated to registers r0x1003 r0x1002 r0x1001 r0x1000 ;size:4
+                      00087 ;@end Allocation info for local variables in function '__fs2sint';
+                      00088 
+                      00089 ;--------------------------------------------------------
+                      00090 ; overlayable items in internal ram 
+                      00091 ;--------------------------------------------------------
+                      00092 ;       udata_ovr
+                      00093 ;--------------------------------------------------------
+                      00094 ; code
+                      00095 ;--------------------------------------------------------
+                      00096 code_fs2sint    code
+                      00097 ;***
+                      00098 ;  pBlock Stats: dbName = C
+                      00099 ;***
+                      00100 ;entry:  ___fs2sint     ;Function start
+                      00101 ; 2 exit points
+                      00102 ;has an exit
+                      00103 ;functions called:
+                      00104 ;   ___fs2slong
+                      00105 ;   ___fs2slong
+                      00106 ;9 compiler assigned registers:
+                      00107 ;   r0x1000
+                      00108 ;   STK00
+                      00109 ;   r0x1001
+                      00110 ;   STK01
+                      00111 ;   r0x1002
+                      00112 ;   STK02
+                      00113 ;   r0x1003
+                      00114 ;   r0x1004
+                      00115 ;   r0x1005
+                      00116 ;; Starting pCode block
+                      00117 ;;[ICODE] ../libsdcc/fs2sint.c:33:  _entry($6) :
+                      00118 ;;[ICODE] ../libsdcc/fs2sint.c:33:      proc ___fs2sint [k1 lr0:0 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{int function ( float fixed) fixed}
+0000                  00119 ___fs2sint      ;Function start
+                      00120 ; 2 exit points
+                      00121 ;;[ICODE] ../libsdcc/fs2sint.c:33: iTemp0 [k2 lr3:4 so:0]{ ia0 a2p0 re1 rm0 nos0 ru1 dp0}{float fixed}{ sir@ ___fs2sint_f_1_21}[r0x1000 r0x1001 r0x1002 r0x1003 ] = recv ___fs2sint [k1 lr0:0 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{int function ( float fixed) fixed}
+                      00122 ;       .line   33; "../libsdcc/fs2sint.c"      signed int __fs2sint (float f) _FS_REENTRANT
+0000   5600           00123         MOVRA   r0x1000
+0001   5800           00124         MOVAR   STK00
+0002   5600           00125         MOVRA   r0x1001
+0003   5800           00126         MOVAR   STK01
+0004   5600           00127         MOVRA   r0x1002
+0005   5800           00128         MOVAR   STK02
+0006   5600           00129         MOVRA   r0x1003
+                      00130 ;;[ICODE] ../libsdcc/fs2sint.c:35:      send iTemp0 [k2 lr3:4 so:0]{ ia0 a2p0 re1 rm0 nos0 ru1 dp0}{float fixed}{ sir@ ___fs2sint_f_1_21}[r0x1000 r0x1001 r0x1002 r0x1003 ]{argreg = 1}
+                      00131 ;;[ICODE] ../libsdcc/fs2sint.c:35:      iTemp1 [k4 lr5:15 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{long-int fixed}{ sir@ ___fs2sint_sl_1_22}[r0x1000 r0x1001 r0x1002 r0x1003 ] = call ___fs2slong [k6 lr0:0 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{long-int function ( float fixed) fixed}
+                      00132 ;       .line   35; "../libsdcc/fs2sint.c"      signed long sl=__fs2slong(f);
+0007   5800           00133         MOVAR   r0x1003
+0008   5600           00134         MOVRA   STK02
+0009   5800           00135         MOVAR   r0x1002
+000A   5600           00136         MOVRA   STK01
+000B   5800           00137         MOVAR   r0x1001
+000C   5600           00138         MOVRA   STK00
+000D   5800           00139         MOVAR   r0x1000
+000E   8000           00140         CALL    ___fs2slong
+000F   5600           00141         MOVRA   r0x1000
+0010   5800           00142         MOVAR   STK00
+0011   5600           00143         MOVRA   r0x1001
+0012   5800           00144         MOVAR   STK01
+0013   5600           00145         MOVRA   r0x1002
+0014   5800           00146         MOVAR   STK02
+0015   5600           00147         MOVRA   r0x1003
+                      00148 ;;[ICODE] ../libsdcc/fs2sint.c:36:      iTemp3 [k9 lr7:8 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char fixed} = iTemp1 [k4 lr5:15 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{long-int fixed}{ sir@ ___fs2sint_sl_1_22}[r0x1000 r0x1001 r0x1002 r0x1003 ] < 0x7fff {long-int literal}
+                      00149 ;;signed compare: left < lit(0x7FFF=32767), size=4, mask=ffffffff
+                      00150 ;       .line   36; "../libsdcc/fs2sint.c"      if (sl>=INT_MAX)
+0016   5800           00151         MOVAR   r0x1000
+0017   3F80           00152         ADDAI   0x80
+0018   3F80           00153         ADDAI   0x80
+0019   E5B7           00154         JBSET   STATUS,2
+001A   A000           00155         GOTO    _00115_DS_
+001B   3C00           00156         MOVAI   0x00
+001C   4800           00157         RSUBAR  r0x1001
+001D   E5B7           00158         JBSET   STATUS,2
+001E   A000           00159         GOTO    _00115_DS_
+001F   3C7F           00160         MOVAI   0x7f
+0020   4800           00161         RSUBAR  r0x1002
+0021   E5B7           00162         JBSET   STATUS,2
+0022   A000           00163         GOTO    _00115_DS_
+0023   3CFF           00164         MOVAI   0xff
+0024   4800           00165         RSUBAR  r0x1003
+0025                  00166 _00115_DS_
+0025   E1B7           00167         JBSET   STATUS,0
+0026   A000           00168         GOTO    _00106_DS_
+                      00169 ;;genSkipc:3194: created from rifx:00D5608C
+                      00170 ;;[ICODE] ../libsdcc/fs2sint.c:36:      if iTemp3 [k9 lr7:8 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char fixed} != 0 goto _iffalse_0($2)
+                      00171 ;;[ICODE] ../libsdcc/fs2sint.c:37:      ret 0x7fff {const-int literal}
+                      00172 ;       .line   37; "../libsdcc/fs2sint.c"      return INT_MAX;
+0027   3CFF           00173         MOVAI   0xff
+0028   5600           00174         MOVRA   STK00
+0029   3C7F           00175         MOVAI   0x7f
+002A   A000           00176         GOTO    _00109_DS_
+                      00177 ;;[ICODE] ../libsdcc/fs2sint.c:37:  _iffalse_0($2) :
+                      00178 ;;[ICODE] ../libsdcc/fs2sint.c:38:      iTemp4 [k10 lr11:12 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char fixed} = iTemp1 [k4 lr5:15 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{long-int fixed}{ sir@ ___fs2sint_sl_1_22}[r0x1000 r0x1001 r0x1002 r0x1003 ] > 0xffff8000 {const-long-int literal}
+                      00179 ;;swapping arguments (AOP_TYPEs 1/2)
+                      00180 ;;signed compare: left >= lit(0xFFFF8001=-32767), size=4, mask=ffffffff
+002B                  00181 _00106_DS_
+                      00182 ;       .line   38; "../libsdcc/fs2sint.c"      if (sl<=INT_MIN) 
+002B   5800           00183         MOVAR   r0x1000
+002C   3F80           00184         ADDAI   0x80
+002D   3F81           00185         ADDAI   0x81
+002E   E5B7           00186         JBSET   STATUS,2
+002F   A000           00187         GOTO    _00116_DS_
+0030   3CFF           00188         MOVAI   0xff
+0031   4800           00189         RSUBAR  r0x1001
+0032   E5B7           00190         JBSET   STATUS,2
+0033   A000           00191         GOTO    _00116_DS_
+0034   3C80           00192         MOVAI   0x80
+0035   4800           00193         RSUBAR  r0x1002
+0036   E5B7           00194         JBSET   STATUS,2
+0037   A000           00195         GOTO    _00116_DS_
+0038   3C01           00196         MOVAI   0x01
+0039   4800           00197         RSUBAR  r0x1003
+003A                  00198 _00116_DS_
+003A   F1B7           00199         JBCLR   STATUS,0
+003B   A000           00200         GOTO    _00108_DS_
+                      00201 ;;genSkipc:3194: created from rifx:00D5608C
+                      00202 ;;[ICODE] ../libsdcc/fs2sint.c:38:      if iTemp4 [k10 lr11:12 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char fixed} != 0 goto _iffalse_1($4)
+                      00203 ;;[ICODE] ../libsdcc/fs2sint.c:39:      ret 0xffff8000 {int literal}
+                      00204 ;       .line   39; "../libsdcc/fs2sint.c"      return -INT_MIN;
+003C   3C00           00205         MOVAI   0x00
+003D   5600           00206         MOVRA   STK00
+003E   3C80           00207         MOVAI   0x80
+003F   A000           00208         GOTO    _00109_DS_
+                      00209 ;;[ICODE] ../libsdcc/fs2sint.c:39:  _iffalse_1($4) :
+                      00210 ;;[ICODE] ../libsdcc/fs2sint.c:40:      iTemp5 [k11 lr15:16 so:0]{ ia0 a2p0 re0 rm0 nos0 ru1 dp0}{int fixed}[r0x1004 r0x1005 ] = (int fixed)iTemp1 [k4 lr5:15 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{long-int fixed}{ sir@ ___fs2sint_sl_1_22}[r0x1000 r0x1001 r0x1002 r0x1003 ]
+                      00211 ;;101   MOVAR   r0x1003
+                      00212 ;;99    MOVRA   r0x1004
+                      00213 ;;104   MOVAR   r0x1002
+                      00214 ;;102   MOVRA   r0x1005
+                      00215 ;;[ICODE] ../libsdcc/fs2sint.c:40:      ret iTemp5 [k11 lr15:16 so:0]{ ia0 a2p0 re0 rm0 nos0 ru1 dp0}{int fixed}[r0x1004 r0x1005 ]
+                      00216 ;;100   MOVAR   r0x1004
+0040                  00217 _00108_DS_
+                      00218 ;       .line   40; "../libsdcc/fs2sint.c"      return sl;
+0040   5800           00219         MOVAR   r0x1003
+0041   5600           00220         MOVRA   STK00
+                      00221 ;;103   MOVAR   r0x1005
+0042   5800           00222         MOVAR   r0x1002
+                      00223 ;;[ICODE] ../libsdcc/fs2sint.c:40:  _return($5) :
+                      00224 ;;[ICODE] ../libsdcc/fs2sint.c:40:      eproc ___fs2sint [k1 lr0:0 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{int function ( float fixed) fixed}
+0043                  00225 _00109_DS_
+0043   000C           00226         RETURN  
+                      00227 ; exit point of ___fs2sint
+                      00228 
+                      00229 
+                      00230 ;       code size estimation:
+                      00231 ;          68+    0 =    68 instructions (  136 byte)
+                      00232 
+                      00233         end
+gpasm-2.0.0_beta2 (Nov  6 2017)fs2sint.asm        2017-12-7  13:58:37          PAGE  2
 
 
 SYMBOL TABLE
@@ -392,7 +383,6 @@ P31OE                             00000001
 P31PU                             00000001
 PCL                               000001B6
 PD                                00000004
-PSAVE                             00000000
 PUP0                              000001C2
 PUP1                              000001C6
 PUP2                              000001CA
@@ -401,7 +391,6 @@ PWM0OE                            00000006
 PWM1OE                            00000006
 RXAK                              00000000
 SRW                               00000002
-SSAVE                             00000000
 STATUS                            000001B7
 STBH                              00000004
 STBL                              00000005
@@ -412,12 +401,6 @@ STK03                             00000000
 STK04                             00000000
 STK05                             00000000
 STK06                             00000000
-STK07                             00000000
-STK08                             00000000
-STK09                             00000000
-STK10                             00000000
-STK11                             00000000
-STK12                             00000000
 T0CNT                             000001D1
 T0CR                              000001D0
 T0DATA                            000001D3
@@ -470,7 +453,6 @@ TK2JE                             00000005
 TK2RCE                            00000004
 TO                                00000005
 TXAK                              00000003
-WSAVE                             00000000
 Z                                 00000002
 _00106_DS_                        0000002B
 _00108_DS_                        00000040
