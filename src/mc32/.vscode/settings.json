@@ -1,0 +1,6 @@
+{
+    "files.associations": {
+        "*.rul": "c",
+        "gen.h": "c"
+    }
+}

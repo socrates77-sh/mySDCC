@@ -29,6 +29,10 @@ int mc32_debug_verbose = 0;
 
 #define OPTION_STACK_SIZE "--stack-size"
 
+// zwr 1.1.0
+#define LONG_CALL "--long-call"
+int mc32_long_call = 0;
+
 static char _mc32_defaultRules[] =
     {
 #include "peeph.rul"
@@ -38,6 +42,8 @@ static OPTION _mc32_poptions[] =
     {
         {0, "--debug-xtra", &mc32_debug_verbose, "show more debug info in assembly output"},
         {0, "--no-pcode-opt", &mc32_options.disable_df, "disable (slightly faulty) optimization on pCode"},
+        // zwr 1.1.0
+        {0, LONG_CALL, &mc32_long_call, "enable lcall/lgoto"},
         {0, OPTION_STACK_SIZE, &options.stack_size, "sets the size if the argument passing stack (default: 16, minimum: 4)", CLAT_INTEGER},
         {0, NULL, NULL, NULL}};
 

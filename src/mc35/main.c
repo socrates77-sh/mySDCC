@@ -25,7 +25,7 @@ extern set *libPathsSet;
 extern set *linkOptionsSet;
 
 mc35_options_t mc35_options;
-int mc35_debug_verbose = 0;  // zwr 1.0.0 for duplicate with mc30
+int mc35_debug_verbose = 0; 
 
 #define OPTION_STACK_SIZE "--stack-size"
 

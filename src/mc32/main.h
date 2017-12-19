@@ -8,6 +8,7 @@ typedef struct {
 
 extern mc32_options_t mc32_options;
 extern int mc32_debug_verbose;
+extern int mc32_long_call;        // zwr 1.1.0
 
 #endif
 

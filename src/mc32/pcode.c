@@ -28,7 +28,8 @@
 /****************************************************************/
 
 // Eventually this will go into device dependent files:
-pCodeOpReg mc32_pc_status = {{PO_STATUS, "STATUS"}, -1, NULL, 0, NULL};
+// zwr 1.1.0
+pCodeOpReg mc32_pc_status = {{PO_STATUS, "PFLAG"}, -1, NULL, 0, NULL};
 pCodeOpReg mc32_pc_fsr = {{PO_FSR, "FSR"}, -1, NULL, 0, NULL};
 pCodeOpReg mc32_pc_fsr0l = {{PO_FSR, "FSR0L"}, -1, NULL, 0, NULL};
 pCodeOpReg mc32_pc_fsr0h = {{PO_FSR, "FSR0H"}, -1, NULL, 0, NULL};
@@ -348,6 +349,31 @@ static pCodeInstruction mc32_pciCALL = {
 	(PCC_NONE | PCC_W | PCC_C | PCC_DC | PCC_Z) // outCond, flags are destroyed by called function
 };
 
+
+// zwr 1.1.0
+static pCodeInstruction mc32_pciLCALL = {
+	{PC_OPCODE, NULL, NULL, 0, 0, NULL,
+	 mc32_genericDestruct,
+	 mc32_genericPrint},
+	POC_CALL,
+	"LCALL",
+	NULL, // from branch
+	NULL, // to branch
+	NULL, // label
+	NULL, // operand
+	NULL, // flow block
+	NULL, // C source
+	1,	// num ops
+	0,
+	0, // dest, bit instruction
+	1,
+	0, // branch, skip
+	0, // literal operand
+	POC_NOP,
+	(PCC_NONE | PCC_W),							// inCond, reads argument from WREG
+	(PCC_NONE | PCC_W | PCC_C | PCC_DC | PCC_Z) // outCond, flags are destroyed by called function
+};
+
 static pCodeInstruction mc32_pciCOMF = {
 	{PC_OPCODE, NULL, NULL, 0, 0, NULL,
 	 mc32_genericDestruct,
@@ -561,6 +587,31 @@ static pCodeInstruction mc32_pciGOTO = {
 	 mc32_genericPrint},
 	POC_GOTO,
 	"GOTO",
+	NULL, // from branch
+	NULL, // to branch
+	NULL, // label
+	NULL, // operand
+	NULL, // flow block
+	NULL, // C source
+	1,	// num ops
+	0,
+	0, // dest, bit instruction
+	1,
+	0, // branch, skip
+	0, // literal operand
+	POC_NOP,
+	PCC_NONE, // inCond
+	PCC_NONE  // outCond
+};
+
+
+// zwr 1.1.0
+static pCodeInstruction mc32_pciLGOTO = {
+	{PC_OPCODE, NULL, NULL, 0, 0, NULL,
+	 mc32_genericDestruct,
+	 mc32_genericPrint},
+	POC_GOTO,
+	"LGOTO",
 	NULL, // from branch
 	NULL, // to branch
 	NULL, // label
@@ -1305,7 +1356,8 @@ void mc32_pCodeInitRegisters(void)
 	mc32_initStack(shareBankAddress, stkSize, haveShared);
 
 	/* TODO: Read aliases for SFRs from regmap lines in device description. */
-	mc32_pc_status.r = mc32_allocProcessorRegister(IDX_STATUS, "STATUS", PO_STATUS, 0xf80);
+	// zwr 1.1.0
+	mc32_pc_status.r = mc32_allocProcessorRegister(IDX_STATUS, "PFLAG", PO_STATUS, 0xf80);
 	mc32_pc_pcl.r = mc32_allocProcessorRegister(IDX_PCL, "PCL", PO_PCL, 0xf80);
 	mc32_pc_pclath.r = mc32_allocProcessorRegister(IDX_PCLATH, "PCLATH", PO_PCLATH, 0xf80);
 	mc32_pc_indf_.r = mc32_allocProcessorRegister(IDX_INDF, "INDF", PO_INDF, 0xf80);
@@ -1392,7 +1444,19 @@ static void pic14initMnemonics(void)
 	mc32_pic14Mnemonics[POC_BSF] = &mc32_pciBSF;
 	mc32_pic14Mnemonics[POC_BTFSC] = &mc32_pciBTFSC;
 	mc32_pic14Mnemonics[POC_BTFSS] = &mc32_pciBTFSS;
-	mc32_pic14Mnemonics[POC_CALL] = &mc32_pciCALL;
+
+	// zwr 1.1.0
+	if (!mc32_long_call)
+	{
+		mc32_pic14Mnemonics[POC_CALL] = &mc32_pciCALL;
+		mc32_pic14Mnemonics[POC_GOTO] = &mc32_pciGOTO;
+	}
+	else
+	{
+		mc32_pic14Mnemonics[POC_CALL] = &mc32_pciLCALL;
+		mc32_pic14Mnemonics[POC_GOTO] = &mc32_pciLGOTO;
+	}
+
 	mc32_pic14Mnemonics[POC_COMF] = &mc32_pciCOMF;
 	mc32_pic14Mnemonics[POC_COMFW] = &mc32_pciCOMFW;
 	mc32_pic14Mnemonics[POC_CLRF] = &mc32_pciCLRF;
@@ -1402,7 +1466,7 @@ static void pic14initMnemonics(void)
 	mc32_pic14Mnemonics[POC_DECFW] = &mc32_pciDECFW;
 	mc32_pic14Mnemonics[POC_DECFSZ] = &mc32_pciDECFSZ;
 	mc32_pic14Mnemonics[POC_DECFSZW] = &mc32_pciDECFSZW;
-	mc32_pic14Mnemonics[POC_GOTO] = &mc32_pciGOTO;
+	
 	mc32_pic14Mnemonics[POC_INCF] = &mc32_pciINCF;
 	mc32_pic14Mnemonics[POC_INCFW] = &mc32_pciINCFW;
 	mc32_pic14Mnemonics[POC_INCFSZ] = &mc32_pciINCFSZ;

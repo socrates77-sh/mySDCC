@@ -1,6 +1,0 @@
-(1) edit new reg_def_***.c, gen_***
-(2) modify DEVICE in "Makefile"
-(3) make, dev_***
-(4) gen_***
-
-
