@@ -801,7 +801,7 @@ void mc35_ReuseReg(void);
 void mc35_AnalyzepCode(char dbName);
 void mc35_InlinepCode(void);
 void mc35_pCodeInitRegisters(void);
-void mc35_pic14mc35_initpCodePeepCommands(void);
+void mc35_initpCodePeepCommands(void);
 void mc35_pBlockConvert2ISR(pBlock *pb);
 void mc35_pBlockMergeLabels(pBlock *pb);
 void mc35_pCodeInsertAfter(pCode *pc1, pCode *pc2);

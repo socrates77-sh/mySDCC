@@ -1,0 +1,12 @@
+(1) edit new reg_def_***.c
+(2) edit new gen_***
+(3) modify DEVICE in "Makefile"
+(4) make (create dev_***)
+(5) gen_***
+(6) cd $DEVICE
+(7) modify conf_win
+(8) conf_win
+(9) make
+
+
+

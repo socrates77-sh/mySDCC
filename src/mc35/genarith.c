@@ -308,7 +308,7 @@ static void mc35_genAddLit(iCode *ic, int lit)
         if (AOP_PCODE == AOP_TYPE(IC_LEFT(ic)))
         {
                 int u;
-                if (debug_verbose)
+                if (mc35_debug_verbose)
                 {
                         printf("%s:%u: CHECK: using address of '%s' instead of contents\n",
                                ic->filename, ic->lineno,
@@ -689,7 +689,7 @@ void mc35_genPlus(iCode *ic)
         mc35_aopOp(IC_RIGHT(ic), ic, FALSE);
         mc35_aopOp(IC_RESULT(ic), ic, TRUE);
 
-        DEBUGmc35_mc35_AopType(__LINE__, IC_LEFT(ic), IC_RIGHT(ic), IC_RESULT(ic));
+        DEBUGmc35_pic14_AopType(__LINE__, IC_LEFT(ic), IC_RIGHT(ic), IC_RESULT(ic));
 
         /* if literal, literal on the right or
         if left requires ACC or right is already

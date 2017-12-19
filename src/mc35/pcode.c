@@ -1515,10 +1515,10 @@ int mc35_getpCode(char *mnem, unsigned dest)
 }
 
 /*-----------------------------------------------------------------*
-* mc35_pic14mc35_initpCodePeepCommands
+* mc35_initpCodePeepCommands
 *
 *-----------------------------------------------------------------*/
-void mc35_pic14mc35_initpCodePeepCommands(void)
+void mc35_initpCodePeepCommands(void)
 {
 
 	int key, i;
@@ -2491,7 +2491,7 @@ void mc35_addpBlock(pBlock *pb)
 	if (!mc35_the_pFile)
 	{
 		/* First time called, we'll pass through here. */
-		//_ALLOC(the_pFile,sizeof(pFile));
+		//_ALLOC(mc35_the_pFile,sizeof(pFile));
 		mc35_the_pFile = Safe_calloc(1, sizeof(pFile));
 		mc35_the_pFile->pbHead = mc35_the_pFile->pbTail = pb;
 		mc35_the_pFile->functions = NULL;
@@ -3210,7 +3210,7 @@ static void mc35_genericPrint(FILE *of, pCode *pc)
 			fprintf(of, "%s", str);
 
 			/* Debug */
-			if (debug_verbose)
+			if (mc35_debug_verbose)
 			{
 				pCodeOpReg *pcor = PCOR(pci->pcop);
 				fprintf(of, "\t;id=%u,key=%03x,inCond:%x,outCond:%x", pc->id, pc->seq, pci->inCond, pci->outCond);
@@ -3236,7 +3236,7 @@ static void mc35_genericPrint(FILE *of, pCode *pc)
 		break;
 
 	case PC_FLOW:
-		if (debug_verbose)
+		if (mc35_debug_verbose)
 		{
 			fprintf(of, ";<>Start of new flow, seq=0x%x", pc->seq);
 			if (PCFL(pc)->ancestor)
@@ -4052,7 +4052,7 @@ static void FillFlow(pCodeFlow *pcflow)
 
 /*-----------------------------------------------------------------*/
 /*-----------------------------------------------------------------*/
-static void mc35_mc35_LinkFlow_pCode(pCodeInstruction *from, pCodeInstruction *to)
+static void mc35_LinkFlow_pCode(pCodeInstruction *from, pCodeInstruction *to)
 {
 	pCodeFlowLink *fromLink, *toLink;
 #if 0
@@ -4125,9 +4125,9 @@ static void mc35_LinkFlow(pBlock *pb)
 			//fprintf(stderr, "ends with skip\n");
 			//pc->print(stderr,pc);
 			pct = mc35_findNextInstruction(pc->next);
-			mc35_mc35_LinkFlow_pCode(PCI(pc), PCI(pct));
+			mc35_LinkFlow_pCode(PCI(pc), PCI(pct));
 			pct = mc35_findNextInstruction(pct->next);
-			mc35_mc35_LinkFlow_pCode(PCI(pc), PCI(pct));
+			mc35_LinkFlow_pCode(PCI(pc), PCI(pct));
 			continue;
 		}
 
@@ -4150,7 +4150,7 @@ static void mc35_LinkFlow(pBlock *pb)
 			{
 
 				if ((pct = mc35_findLabelinpBlock(pb, pcol)) != NULL)
-					mc35_mc35_LinkFlow_pCode(PCI(pc), PCI(pct));
+					mc35_LinkFlow_pCode(PCI(pc), PCI(pct));
 				else
 					fprintf(stderr, "ERROR: %s, couldn't find label. key=%d,lab=%s\n",
 							__FUNCTION__, pcol->key, ((PCOP(pcol)->name) ? PCOP(pcol)->name : "-"));
@@ -4166,7 +4166,7 @@ static void mc35_LinkFlow(pBlock *pb)
 			//fprintf(stderr, "ends with non-branching instruction:\n");
 			//pc->print(stderr,pc);
 
-			mc35_mc35_LinkFlow_pCode(PCI(pc), PCI(mc35_findNextInstruction(pc->next)));
+			mc35_LinkFlow_pCode(PCI(pc), PCI(mc35_findNextInstruction(pc->next)));
 
 			continue;
 		}
@@ -4209,7 +4209,7 @@ static void mc35_addpCodeComment(pCode *pc, const char *fmt, ...)
 	pCode *newpc;
 
 	va_start(ap, fmt);
-	if (options.verbose || debug_verbose)
+	if (options.verbose || mc35_debug_verbose)
 	{
 		buffer[0] = ';';
 		buffer[1] = ' ';
@@ -4917,7 +4917,7 @@ static void mc35_AnalyzeFlow(int level)
      * and register banking is fixed.
      */
 
-	//for(pb = the_pFile->pbHead; pb; pb = pb->next)
+	//for(pb = mc35_the_pFile->pbHead; pb; pb = pb->next)
 	//mc35_FixRegisterBanking(pb);
 
 	/* Phase 2 - Flow Analysis
@@ -4955,7 +4955,7 @@ static void mc35_AnalyzeFlow(int level)
      * to determine the Register Banks they use
      */
 
-	//  for(pb = the_pFile->pbHead; pb; pb = pb->next)
+	//  for(pb = mc35_the_pFile->pbHead; pb; pb = pb->next)
 	//      FixBankFlow(pb);
 
 	for (pb = mc35_the_pFile->pbHead; pb; pb = pb->next)
@@ -4963,18 +4963,18 @@ static void mc35_AnalyzeFlow(int level)
 
 	mc35_RemoveUnusedRegisters();
 
-	//  for(pb = the_pFile->pbHead; pb; pb = pb->next)
-	mc35_pCodeRegmc35_OptimizeRegUsage(level);
+	//  for(pb = mc35_the_pFile->pbHead; pb; pb = pb->next)
+	mc35_pCodeRegOptimizeRegUsage(level);
 
 	mc35_OptimizepCode('*');
 
 	/*
-        for(pb = the_pFile->pbHead; pb; pb = pb->next)
+        for(pb = mc35_the_pFile->pbHead; pb; pb = pb->next)
         DumpFlow(pb);
      */
 	/* debug stuff */
 	/*
-    for(pb = the_pFile->pbHead; pb; pb = pb->next) {
+    for(pb = mc35_the_pFile->pbHead; pb; pb = pb->next) {
         pCode *pcflow;
         for( pcflow = mc35_findNextpCode(pb->pcHead, PC_FLOW);
             (pcflow = mc35_findNextpCode(pcflow, PC_FLOW)) != NULL;
@@ -4985,7 +4985,7 @@ static void mc35_AnalyzeFlow(int level)
         }
      */
 	/*
-    for(pb = the_pFile->pbHead; pb; pb = pb->next) {
+    for(pb = mc35_the_pFile->pbHead; pb; pb = pb->next) {
         pCode *pcflow;
         for( pcflow = mc35_findNextpCode(pb->pcHead, PC_FLOW);
             (pcflow = mc35_findNextpCode(pcflow, PC_FLOW)) != NULL;
@@ -5026,7 +5026,7 @@ void mc35_AnalyzeBanking(void)
 	mc35_AnalyzeFlow(1);
 
 	// zwr 1.0.0
-	// for (pb = the_pFile->pbHead; pb; pb = pb->next)
+	// for (pb = mc35_the_pFile->pbHead; pb; pb = pb->next)
 	// 	mc35_FixRegisterBanking(pb);
 
 	mc35_AnalyzeFlow(0);
@@ -5279,7 +5279,7 @@ static void mc35_buildCallTree(void)
 
            When we're done, a doubly linked list of pBranches
            will exist. The head of this list is stored in
-           `the_pFile', which is the meta structure for all
+           `mc35_the_pFile', which is the meta structure for all
            of the pCode. Look at the printCallTree function
            on how the pBranches are linked together.
          */
@@ -5546,20 +5546,20 @@ static void printCallTree(FILE *of)
 	pBlock  *pb;
 	pCode   *pc;
 	
-	if(!the_pFile)
+	if(!mc35_the_pFile)
 		return;
 	
 	if(!of)
 		of = stderr;
 	
 	fprintf(of, "\npBlock statistics\n");
-	for(pb = the_pFile->pbHead; pb;  pb = pb->next )
+	for(pb = mc35_the_pFile->pbHead; pb;  pb = pb->next )
 		mc35_pBlockStats(of,pb);
 	
 	
 	
 	fprintf(of,"Call Tree\n");
-	pbr = the_pFile->functions;
+	pbr = mc35_the_pFile->functions;
 	while(pbr) {
 		if(pbr->pc) {
 			pc = pbr->pc;
@@ -5581,12 +5581,12 @@ static void printCallTree(FILE *of)
 	
 	
 	fprintf(of,"\n**************\n\na better call tree\n");
-	for(pb = the_pFile->pbHead; pb; pb = pb->next) {
+	for(pb = mc35_the_pFile->pbHead; pb; pb = pb->next) {
 		if(pb->visited)
 			pct2(of,pb,0);
 	}
 	
-	for(pb = the_pFile->pbHead; pb; pb = pb->next) {
+	for(pb = mc35_the_pFile->pbHead; pb; pb = pb->next) {
 		fprintf(of,"block dbname: %c\n", mc35_getpBlock_dbName(pb));
 	}
 }

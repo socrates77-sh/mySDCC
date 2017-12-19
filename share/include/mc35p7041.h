@@ -1,7 +1,7 @@
 #ifndef MC35P7041_H
 #define MC35P7041_H
 
-#include <mc30-common.h>
+#include <mc35-common.h>
 
 //
 // Register addresses.

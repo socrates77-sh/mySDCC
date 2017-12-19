@@ -28,8 +28,18 @@ processor 2K7041
 	program		2K
 	data		128
 	eeprom		0
-	io		18
+	io			18
 	maxram		0x1ff
+	bankmsk		0x00
+	config		0x8000 0x8001
+	memmap		0x00 0x7f 0x000
+	
+processor 7030
+	program		1K
+	data		128
+	eeprom		0
+	io			18
+	maxram		0xff
 	bankmsk		0x00
 	config		0x8000 0x8001
 	memmap		0x00 0x7f 0x000

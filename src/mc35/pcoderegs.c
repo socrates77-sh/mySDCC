@@ -778,7 +778,7 @@ static void mc35_OptimizeRegUsage(set *fregs, int optimize_multi_uses, int optim
 /*-----------------------------------------------------------------*
 * void pCodeRegOptimeRegUsage(pBlock *pb) 
 *-----------------------------------------------------------------*/
-void mc35_pCodeRegmc35_OptimizeRegUsage(int level)
+void mc35_pCodeRegOptimizeRegUsage(int level)
 {
 
 	int passes;

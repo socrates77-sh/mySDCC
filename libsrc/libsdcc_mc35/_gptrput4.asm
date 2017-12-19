@@ -56,7 +56,7 @@
 
 
 include macros.inc
-include mc30f_common.inc
+include mc3xf_common.inc
 
 	global	__gptrput4
 	

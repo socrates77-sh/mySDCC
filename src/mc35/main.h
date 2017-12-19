@@ -7,7 +7,7 @@ typedef struct {
 } mc35_options_t;
 
 extern mc35_options_t mc35_options;
-extern int debug_verbose;
+extern int mc35_debug_verbose;
 
 #endif
 

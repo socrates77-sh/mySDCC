@@ -37,7 +37,7 @@ static int mc35_maxRAMaddress = 0;
 
 #define DEVICE_FILE_NAME_MC35 "mc35devices.txt" // zwr 1.0.0
 #define PIC14_STRING_LEN 256
-#define mc35_split_words_MAX 16
+#define MC35_SPLIT_WORDS_MAX 16
 
 /* Keep track of whether we found an assignment to the __config words. */
 static int mc35_pic14_hasSetConfigWord = 0;
@@ -67,7 +67,7 @@ mc35_split_words(char **result_word, char *str)
   int num_words;
 
   /* release previously allocated words */
-  for (num_words = 0; num_words < mc35_split_words_MAX; num_words++)
+  for (num_words = 0; num_words < MC35_SPLIT_WORDS_MAX; num_words++)
   {
     if (result_word[num_words])
     {
@@ -79,7 +79,7 @@ mc35_split_words(char **result_word, char *str)
   /* split line */
   token = strtok(str, delim);
   num_words = 0;
-  while (token && (num_words < mc35_split_words_MAX))
+  while (token && (num_words < MC35_SPLIT_WORDS_MAX))
   {
     result_word[num_words] = Safe_strdup(token);
     num_words++;
@@ -237,8 +237,8 @@ mc35_find_device(char *pic_name)
   int wcount;
   int i;
 
-  pic_word = Safe_calloc(sizeof(char *), mc35_split_words_MAX);
-  processor_name = Safe_calloc(sizeof(char *), mc35_split_words_MAX);
+  pic_word = Safe_calloc(sizeof(char *), MC35_SPLIT_WORDS_MAX);
+  processor_name = Safe_calloc(sizeof(char *), MC35_SPLIT_WORDS_MAX);
 
   for (i = 0; i < MAX_NUM_CONFIGS; i++)
   {

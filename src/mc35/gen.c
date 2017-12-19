@@ -129,7 +129,7 @@ mc35_my_powof2(unsigned long num)
   return -1;
 }
 
-void DEBUGmc35_mc35_AopType(int line_no, operand *left, operand *right, operand *result)
+void DEBUGmc35_pic14_AopType(int line_no, operand *left, operand *right, operand *result)
 {
 
   DEBUGmc35_pic14_emitcode("; ", "line = %d result %s=%s, size=%d, left %s=%s, size=%d, right %s=%s, size=%d",
@@ -162,7 +162,7 @@ void DEBUGmc35_pic14_emitcode(char *inst, char *fmt, ...)
 {
   va_list ap;
 
-  if (!debug_verbose && !options.debug)
+  if (!mc35_debug_verbose && !options.debug)
     return;
 
   va_start(ap, fmt);
@@ -236,7 +236,7 @@ void mc35_pic14_emitcode(char *inst, char *fmt, ...)
   va_emitcode(inst, fmt, ap);
   va_end(ap);
 
-  if (debug_verbose)
+  if (mc35_debug_verbose)
     mc35_addpCode2pBlock(pb, mc35_newpCodeCharP(genLine.lineCurr->line));
 }
 
@@ -1443,7 +1443,7 @@ void mc35_outAcc(operand *result)
 {
   int size, offset;
   DEBUGmc35_pic14_emitcode("; ***", "%s  %d - ", __FUNCTION__, __LINE__);
-  DEBUGmc35_mc35_AopType(__LINE__, NULL, NULL, result);
+  DEBUGmc35_pic14_AopType(__LINE__, NULL, NULL, result);
 
   size = mc35_getDataSize(result);
   if (size)
@@ -1524,7 +1524,7 @@ genNot(iCode *ic)
   mc35_aopOp(IC_LEFT(ic), ic, FALSE);
   mc35_aopOp(IC_RESULT(ic), ic, TRUE);
 
-  DEBUGmc35_mc35_AopType(__LINE__, IC_LEFT(ic), NULL, IC_RESULT(ic));
+  DEBUGmc35_pic14_AopType(__LINE__, IC_LEFT(ic), NULL, IC_RESULT(ic));
   /* if in bit space then a special case */
   if (AOP_TYPE(IC_LEFT(ic)) == AOP_CRY)
   {
@@ -1899,7 +1899,7 @@ assignResultValue(operand *oper)
 
   DEBUGmc35_pic14_emitcode("; ***", "%s  %d", __FUNCTION__, __LINE__);
 
-  DEBUGmc35_mc35_AopType(__LINE__, oper, NULL, NULL);
+  DEBUGmc35_pic14_AopType(__LINE__, oper, NULL, NULL);
 
   /* assign MSB first (passed via WREG) */
   while (size--)
@@ -2225,7 +2225,7 @@ genPcall(iCode *ic)
 
   left = IC_LEFT(ic);
   mc35_aopOp(left, ic, FALSE);
-  DEBUGmc35_mc35_AopType(__LINE__, left, NULL, NULL);
+  DEBUGmc35_pic14_AopType(__LINE__, left, NULL, NULL);
 
   poc = (mc35_op_isLitLike(IC_LEFT(ic)) ? POC_MOVLW : POC_MOVFW);
 
@@ -2795,7 +2795,7 @@ genMultOneByte(operand *left, operand *right, operand *result)
   FENTRY;
 
   DEBUGmc35_pic14_emitcode("; ***", "%s  %d", __FUNCTION__, __LINE__);
-  DEBUGmc35_mc35_AopType(__LINE__, left, right, result);
+  DEBUGmc35_pic14_AopType(__LINE__, left, right, result);
   DEBUGmc35_pic14_AopTypeSign(__LINE__, left, right, result);
 
   /* (if two literals, the value is computed before) */
@@ -2862,7 +2862,7 @@ genMult(iCode *ic)
   mc35_aopOp(right, ic, FALSE);
   mc35_aopOp(result, ic, TRUE);
 
-  DEBUGmc35_mc35_AopType(__LINE__, left, right, result);
+  DEBUGmc35_pic14_AopType(__LINE__, left, right, result);
 
   /* special cases first */
   /* both are bits */
@@ -3234,7 +3234,7 @@ genSkipc(resolvedIfx *rifx)
 /*                  aop is a literal)                              */
 /*-----------------------------------------------------------------*/
 static void
-pic14_mc35_mov2w_regOrLit(asmop *aop, unsigned long lit, int offset)
+mc35_mov2w_regOrLit(asmop *aop, unsigned long lit, int offset)
 {
   if (aop->type == AOP_LIT)
   {
@@ -3404,7 +3404,7 @@ genCmp(operand *left, operand *right, operand *result, iCode *ifx, int sign)
   if (!sign)
   {
     // unsigned comparison
-    pic14_mc35_mov2w_regOrLit(AOP(right), lit, size);
+    mc35_mov2w_regOrLit(AOP(right), lit, size);
     // zwr 1.0.0 inst rsubar #1
     // mc35_emitpcode(POC_SUBFW, mc35_popGet(AOP(left), size));
     mc35_emitpcode(POC_XCH, mc35_popGet(AOP(left), size));
@@ -3460,7 +3460,7 @@ genCmp(operand *left, operand *right, operand *result, iCode *ifx, int sign)
     //DEBUGpc ("comparing bytes at offset %d", offs);
     mc35_emitSKPZ;
     mc35_emitpcode(POC_GOTO, mc35_popGetLabel(templbl->key));
-    pic14_mc35_mov2w_regOrLit(AOP(right), lit, offs);
+    mc35_mov2w_regOrLit(AOP(right), lit, offs);
     // zwr 1.0.0 inst rsubar #1
     // mc35_emitpcode(POC_SUBFW, mc35_popGet(AOP(left), offs));
     mc35_emitpcode(POC_XCH, mc35_popGet(AOP(left), offs));
@@ -3616,7 +3616,7 @@ genCmpEq(iCode *ic, iCode *ifx)
   mc35_aopOp((right = IC_RIGHT(ic)), ic, FALSE);
   mc35_aopOp((result = IC_RESULT(ic)), ic, TRUE);
 
-  DEBUGmc35_mc35_AopType(__LINE__, left, right, result);
+  DEBUGmc35_pic14_AopType(__LINE__, left, right, result);
 
   /* if literal, move literal to right */
   if (mc35_op_isLitLike(IC_LEFT(ic)))
@@ -3741,7 +3741,7 @@ genAndOp(iCode *ic)
   mc35_aopOp((right = IC_RIGHT(ic)), ic, FALSE);
   mc35_aopOp((result = IC_RESULT(ic)), ic, FALSE);
 
-  DEBUGmc35_mc35_AopType(__LINE__, left, right, result);
+  DEBUGmc35_pic14_AopType(__LINE__, left, right, result);
 
   mc35_emitpcode(POC_MOVFW, mc35_popGet(AOP(left), 0));
   mc35_emitpcode(POC_ANDFW, mc35_popGet(AOP(right), 0));
@@ -3791,7 +3791,7 @@ genOrOp(iCode *ic)
   mc35_aopOp((right = IC_RIGHT(ic)), ic, FALSE);
   mc35_aopOp((result = IC_RESULT(ic)), ic, FALSE);
 
-  DEBUGmc35_mc35_AopType(__LINE__, left, right, result);
+  DEBUGmc35_pic14_AopType(__LINE__, left, right, result);
 
   for (i = 0; i < AOP_SIZE(result); i++)
   {
@@ -3944,7 +3944,7 @@ genAnd(iCode *ic, iCode *ifx)
 
   size = AOP_SIZE(result);
 
-  DEBUGmc35_mc35_AopType(__LINE__, left, right, result);
+  DEBUGmc35_pic14_AopType(__LINE__, left, right, result);
 
   // if(bit & yy)
   // result = bit & yy;
@@ -4219,7 +4219,7 @@ genOr(iCode *ic, iCode *ifx)
   mc35_aopOp((right = IC_RIGHT(ic)), ic, FALSE);
   mc35_aopOp((result = IC_RESULT(ic)), ic, TRUE);
 
-  DEBUGmc35_mc35_AopType(__LINE__, left, right, result);
+  DEBUGmc35_pic14_AopType(__LINE__, left, right, result);
 
   /* if left is a literal & right is not then exchange them */
   if ((AOP_TYPE(left) == AOP_LIT && AOP_TYPE(right) != AOP_LIT) || AOP_NEEDSACC(left))
@@ -4245,7 +4245,7 @@ genOr(iCode *ic, iCode *ifx)
     left = tmp;
   }
 
-  DEBUGmc35_mc35_AopType(__LINE__, left, right, result);
+  DEBUGmc35_pic14_AopType(__LINE__, left, right, result);
 
   if (AOP_TYPE(right) == AOP_LIT)
     lit = ulFromVal(AOP(right)->aopu.aop_lit);
@@ -4799,7 +4799,7 @@ genRRC(iCode *ic)
   mc35_aopOp(left, ic, FALSE);
   mc35_aopOp(result, ic, FALSE);
 
-  DEBUGmc35_mc35_AopType(__LINE__, left, NULL, result);
+  DEBUGmc35_pic14_AopType(__LINE__, left, NULL, result);
 
   same = mc35_sameRegs(AOP(result), AOP(left));
 
@@ -4848,7 +4848,7 @@ genRLC(iCode *ic)
   mc35_aopOp(left, ic, FALSE);
   mc35_aopOp(result, ic, FALSE);
 
-  DEBUGmc35_mc35_AopType(__LINE__, left, NULL, result);
+  DEBUGmc35_pic14_AopType(__LINE__, left, NULL, result);
 
   same = mc35_sameRegs(AOP(result), AOP(left));
 
@@ -5889,7 +5889,7 @@ genDataPointerGet(operand *left, operand *result, iCode *ic)
   if (mc35_sameRegs(AOP(left), AOP(result)))
     return;
 
-  DEBUGmc35_mc35_AopType(__LINE__, left, NULL, result);
+  DEBUGmc35_pic14_AopType(__LINE__, left, NULL, result);
 
   //mc35_emitpcode(POC_MOVFW, mc35_popGet(AOP(left),0));
 
@@ -6032,7 +6032,7 @@ genGenPointerGet(operand *left, operand *result, iCode *ic)
   mc35_aopOp(left, ic, FALSE);
   mc35_aopOp(result, ic, FALSE);
 
-  DEBUGmc35_mc35_AopType(__LINE__, left, NULL, result);
+  DEBUGmc35_pic14_AopType(__LINE__, left, NULL, result);
 
   if (IS_BITFIELD(getSpec(operandType(result))))
   {
@@ -6088,7 +6088,7 @@ genConstPointerGet(operand *left, operand *result, iCode *ic)
   mc35_aopOp(left, ic, FALSE);
   mc35_aopOp(result, ic, FALSE);
 
-  DEBUGmc35_mc35_AopType(__LINE__, left, NULL, result);
+  DEBUGmc35_pic14_AopType(__LINE__, left, NULL, result);
 
   DEBUGmc35_pic14_emitcode("; ", " %d getting const pointer", __LINE__);
 
@@ -6512,7 +6512,7 @@ genNearPointerSet(operand *right, operand *result, iCode *ic)
 
   DEBUGmc35_pic14_emitcode("; ***", "%s  %d", __FUNCTION__, __LINE__);
   mc35_aopOp(right, ic, FALSE);
-  DEBUGmc35_mc35_AopType(__LINE__, NULL, right, result);
+  DEBUGmc35_pic14_AopType(__LINE__, NULL, right, result);
 
   /* Check if can access directly instead of via a pointer */
   if ((AOP_TYPE(result) == AOP_PCODE) && (AOP(result)->aopu.pcop->type == PO_IMMEDIATE) && (AOP_SIZE(right) == 1))
@@ -6612,7 +6612,7 @@ genGenPointerSet(operand *right, operand *result, iCode *ic)
   mc35_aopOp(right, ic, FALSE);
   mc35_aopOp(result, ic, FALSE);
 
-  DEBUGmc35_mc35_AopType(__LINE__, right, NULL, result);
+  DEBUGmc35_pic14_AopType(__LINE__, right, NULL, result);
 
   if (IS_BITFIELD(retype))
   {
@@ -6830,7 +6830,7 @@ genAddrOf(iCode *ic)
   mc35_aopOp((right = IC_RIGHT(ic)), ic, FALSE);
   mc35_aopOp((result = IC_RESULT(ic)), ic, TRUE);
 
-  DEBUGmc35_mc35_AopType(__LINE__, left, right, result);
+  DEBUGmc35_pic14_AopType(__LINE__, left, right, result);
   assert(IS_SYMOP(left));
 
 /* sanity check: generic pointers to code space are not yet supported,
@@ -6923,7 +6923,7 @@ genAssign(iCode *ic)
   mc35_aopOp(right, ic, FALSE);
   mc35_aopOp(result, ic, TRUE);
 
-  DEBUGmc35_mc35_AopType(__LINE__, NULL, right, result);
+  DEBUGmc35_pic14_AopType(__LINE__, NULL, right, result);
 
   /* if they are the same registers */
   if (mc35_sameRegs(AOP(right), AOP(result)))
@@ -7119,7 +7119,7 @@ genCast(iCode *ic)
   mc35_aopOp(right, ic, FALSE);
   mc35_aopOp(result, ic, FALSE);
 
-  DEBUGmc35_mc35_AopType(__LINE__, NULL, right, result);
+  DEBUGmc35_pic14_AopType(__LINE__, NULL, right, result);
 
   /* if the result is a bit */
   if (AOP_TYPE(result) == AOP_CRY)

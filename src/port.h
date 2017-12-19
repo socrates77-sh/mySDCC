@@ -418,6 +418,9 @@ extern PORT ds390_port;
 #if !OPT_DISABLE_MC30     // zwr 1.0.0
 extern PORT mc30_port;
 #endif
+#if !OPT_DISABLE_MC32     // zwr 1.1.0
+extern PORT mc32_port;
+#endif
 #if !OPT_DISABLE_MC35     // zwr 1.0.0
 extern PORT mc35_port;
 #endif

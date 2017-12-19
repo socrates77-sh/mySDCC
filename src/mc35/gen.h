@@ -36,7 +36,7 @@
         do                                                                                 \
         {                                                                                  \
                 /*fprintf (stderr, "%s:%u:%s: *{*\n", __FILE__, __LINE__, __FUNCTION__);*/ \
-                if (options.debug || debug_verbose)                                        \
+                if (options.debug || mc35_debug_verbose)                                        \
                 {                                                                          \
                         mc35_emitpComment("; %s:%u:%s *{*", __FILE__, __LINE__, __FUNCTION__);  \
                 }                                                                          \
@@ -145,7 +145,7 @@ void mc35_emitpcode_real(PIC_OPCODE poc, pCodeOp *pcop);
 #define mc35_emitpcode(poc, pcop)                                                             \
         do                                                                               \
         {                                                                                \
-                if (options.debug || debug_verbose)                                      \
+                if (options.debug || mc35_debug_verbose)                                      \
                 {                                                                        \
                         mc35_emitpComment(" >>> %s:%d:%s", __FILE__, __LINE__, __FUNCTION__); \
                 }                                                                        \
@@ -158,7 +158,7 @@ void DEBUGmc35_pic14_emitcode(char *inst, char *fmt, ...);
 void mc35_emitDebuggerSymbol(const char *);
 bool mc35_sameRegs(asmop *aop1, asmop *aop2);
 char *mc35_aopGet(asmop *aop, int offset, bool bit16, bool dname);
-void DEBUGmc35_mc35_AopType(int line_no, operand *left, operand *right, operand *result);
+void DEBUGmc35_pic14_AopType(int line_no, operand *left, operand *right, operand *result);
 void mc35_genpic14Code(iCode *lic);
 
 pCodeOp *mc35_popGet(asmop *aop, int offset); //, bool bit16, bool dname);

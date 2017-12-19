@@ -1,7 +1,7 @@
 ; -----------------------------------------------
 ; --- extern declared SFRs
 ; -----------------------------------------------
-	extern _STATUS
+	extern _PFLAG
 	extern _FSR0
 	extern _FSR1
 ;	extern _FSR
@@ -35,7 +35,7 @@ inc_fsr	   	macro
    	;;incr 	_FSR
    	movai	1
    	addra 	_FSR0
-   	jbclr	_STATUS, Z
+   	jbclr	_PFLAG, Z
    	addra	_FSR1
 	endm
 
@@ -43,18 +43,18 @@ inc_fsr	   	macro
 select_routine 	macro  	dataptr, codeptr
    	; __data pointer tag: 0x00
 	xorai  	GPTRTAG_DATA
-	jbclr  	_STATUS, Z
+	jbclr  	_PFLAG, Z
 	goto   	dataptr
    	; __code pointer tag: 0x80
 	xorai  	(GPTRTAG_DATA ^ GPTRTAG_CODE)
-	jbclr  	_STATUS, Z
+	jbclr  	_PFLAG, Z
 	goto   	codeptr
 	endm
 
 check_data 	macro  	dataptr
    	; __data pointer tag: 0x00
 	xorai  	GPTRTAG_DATA
-	jbclr  	_STATUS, Z
+	jbclr  	_PFLAG, Z
 	goto   	dataptr
 	endm
 

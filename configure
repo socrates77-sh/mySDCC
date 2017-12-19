@@ -751,6 +751,7 @@ enable_gbz80_port
 enable_ds390_port
 enable_ds400_port
 enable_mc30_port
+enable_mc32_port
 enable_mc35_port
 enable_pic14_port
 enable_pic16_port
@@ -793,6 +794,7 @@ sim/ucsim
 debugger/mcs51
 support/sdbinutils
 device/lib/mc30 device/non-free/lib/mc30
+device/lib/mc32 device/non-free/lib/mc32
 device/lib/mc35 device/non-free/lib/mc35
 device/lib/pic14 device/non-free/lib/pic14
 device/lib/pic16 device/non-free/lib/pic16'
@@ -1420,6 +1422,7 @@ Optional Features:
   --disable-ds390-port    Excludes the DS390 port
   --disable-ds400-port    Excludes the DS400 port
   --disable-mc30-port     Excludes the MC30 port
+  --disable-mc32-port     Excludes the MC32 port
   --disable-mc35-port     Excludes the MC35 port
   --disable-pic14-port    Excludes the PIC14 port
   --disable-pic16-port    Excludes the PIC16 port
@@ -6836,6 +6839,33 @@ _ACEOF
     echo mc30 >>ports.build
   fi
 
+#MC32 configure
+
+  # Check whether --enable-mc32-port was given.
+if test "${enable_mc32_port+set}" = set; then :
+  enableval=$enable_mc32_port;
+fi
+
+
+  if test "$enable_mc32_port" = "no"; then
+    OPT_DISABLE_MC32=1
+  else
+    enable_mc32_port="yes"
+    OPT_DISABLE_MC32=0
+  fi
+
+
+cat >>confdefs.h <<_ACEOF
+#define OPT_DISABLE_MC32 $OPT_DISABLE_MC32
+_ACEOF
+
+
+
+  echo mc32 >>ports.all
+  if test $OPT_DISABLE_MC32 = 0; then
+    echo mc32 >>ports.build
+  fi
+
 #MC35 configure
 
   # Check whether --enable-mc35-port was given.
@@ -7518,6 +7548,14 @@ if test $OPT_DISABLE_MC30 = 0; then
   ac_config_files="$ac_config_files src/mc30/Makefile"
 
   test $OPT_DISABLE_DEVICE_LIB = 0 && subdirs="$subdirs device/lib/mc30 device/non-free/lib/mc30"
+
+fi
+
+#MC32 configure
+if test $OPT_DISABLE_MC32 = 0; then
+  ac_config_files="$ac_config_files src/mc32/Makefile"
+
+  test $OPT_DISABLE_DEVICE_LIB = 0 && subdirs="$subdirs device/lib/mc32 device/non-free/lib/mc32"
 
 fi
 
@@ -8288,7 +8326,8 @@ do
     "device/lib/large/Makefile") CONFIG_FILES="$CONFIG_FILES device/lib/large/Makefile" ;;
     "device/lib/huge/Makefile") CONFIG_FILES="$CONFIG_FILES device/lib/huge/Makefile" ;;
     "src/mc30/Makefile") CONFIG_FILES="$CONFIG_FILES src/mc30/Makefile" ;;
-    "src/mc35/Makefile") CONFIG_FILES="$CONFIG_FILES src/mc35/Makefile" ;;
+    "src/mc32/Makefile") CONFIG_FILES="$CONFIG_FILES src/mc30/Makefile" ;;
+    "src/mc35/Makefile") CONFIG_FILES="$CONFIG_FILES src/mc32/Makefile" ;;
     "src/pic14/Makefile") CONFIG_FILES="$CONFIG_FILES src/pic14/Makefile" ;;
     "src/pic16/Makefile") CONFIG_FILES="$CONFIG_FILES src/pic16/Makefile" ;;
     "src/xa51/Makefile") CONFIG_FILES="$CONFIG_FILES src/xa51/Makefile" ;;
@@ -9290,6 +9329,7 @@ sdcc ${VERSION} is now configured for
     s08                 ${enable_s08_port}
     mcs51               ${enable_mcs51_port}
     mc30                ${enable_mc30_port}
+    mc32                ${enable_mc32_port}
     mc35                ${enable_mc35_port}
     pic14               ${enable_pic14_port}
     pic16               ${enable_pic16_port}
@@ -9357,6 +9397,7 @@ sdcc ${VERSION} is now configured for
     s08                 ${enable_s08_port}
     mcs51               ${enable_mcs51_port}
     mc30                ${enable_mc30_port}
+    mc32                ${enable_mc32_port}
     mc35                ${enable_mc35_port}
     pic14               ${enable_pic14_port}
     pic16               ${enable_pic16_port}

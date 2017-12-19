@@ -145,10 +145,10 @@ mc35_emitPseudoStack(struct dbuf_s *oBuf, struct dbuf_s *oBufExt)
 }
 
 static int
-mc35_emitIfNew(struct dbuf_s *oBuf, set **emitted, const char *fmt,
+mc35_emitIfNew(struct dbuf_s *oBuf, set **mc35_emitted, const char *fmt,
           const char *name)
 {
-    int wasPresent = mc35_stringInSet(name, emitted, 1);
+    int wasPresent = mc35_stringInSet(name, mc35_emitted, 1);
 
     if (!wasPresent)
     {

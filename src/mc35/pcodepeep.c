@@ -897,7 +897,7 @@ static int mc35_parseTokens(pCodeWildBlock *pcwb, pCode **pcret)
   {
     int lparsedPatIdx = 0;
     int lpcpIdx;
-    int lmc35_tokIdx = 0;
+    int mc35_ltokIdx = 0;
     int matching = 0;
     int j = 0;
     int k = 0;
@@ -924,12 +924,12 @@ static int mc35_parseTokens(pCodeWildBlock *pcwb, pCode **pcret)
       lpcpIdx = 0;
       matching = 0;
 
-      if (((mc35_tokArr[lmc35_tokIdx].tt == PCT_SPACE)) && (mc35_advTokIdx(&lmc35_tokIdx, 1))) // eat space
+      if (((mc35_tokArr[mc35_ltokIdx].tt == PCT_SPACE)) && (mc35_advTokIdx(&mc35_ltokIdx, 1))) // eat space
         break;
 
       do
       {
-        j = mc35_pcComparePattern(&mc35_tokArr[lmc35_tokIdx], mc35_pcpArr[lpcpIdx].tokens, mc35_tokIdx + 1);
+        j = mc35_pcComparePattern(&mc35_tokArr[mc35_ltokIdx], mc35_pcpArr[lpcpIdx].tokens, mc35_tokIdx + 1);
         if (j)
         {
 
@@ -946,7 +946,7 @@ static int mc35_parseTokens(pCodeWildBlock *pcwb, pCode **pcret)
             break;
 
           case PCP_STR:
-            DFPRINTF((stderr, "  %s is", mc35_tokArr[lmc35_tokIdx].tok.s));
+            DFPRINTF((stderr, "  %s is", mc35_tokArr[mc35_ltokIdx].tok.s));
             switch (state)
             {
             case PS_START:
@@ -1030,12 +1030,12 @@ static int mc35_parseTokens(pCodeWildBlock *pcwb, pCode **pcret)
 
           matching = 1;
           mc35_parsedPatArr[lparsedPatIdx].pcp = &mc35_pcpArr[lpcpIdx];
-          mc35_parsedPatArr[lparsedPatIdx].pct = &mc35_tokArr[lmc35_tokIdx];
+          mc35_parsedPatArr[lparsedPatIdx].pct = &mc35_tokArr[mc35_ltokIdx];
           lparsedPatIdx++;
 
-          //mc35_dump1Token(mc35_tokArr[lmc35_tokIdx].tt);
+          //mc35_dump1Token(mc35_tokArr[mc35_ltokIdx].tt);
 
-          if (mc35_advTokIdx(&lmc35_tokIdx, strlen(mc35_pcpArr[lpcpIdx].tokens)))
+          if (mc35_advTokIdx(&mc35_ltokIdx, strlen(mc35_pcpArr[lpcpIdx].tokens)))
           {
             DFPRINTF((stderr, " reached end \n"));
             matching = 0;
@@ -1214,7 +1214,7 @@ void mc35_peepRules2pCode(peepRule *rules)
   pCodePeep *currentRule;
   pCodePeepSnippets *pcps;
 
-  mc35_pic14mc35_initpCodePeepCommands();
+  mc35_initpCodePeepCommands();
 
   /* The rules are in a linked-list. Each rule has two portions */
   /* There's the `target' and there's the `replace'. The target */

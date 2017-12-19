@@ -25,7 +25,7 @@ extern set *libPathsSet;
 extern set *linkOptionsSet;
 
 mc35_options_t mc35_options;
-//int debug_verbose = 0;  // zwr 1.0.0 for duplicate with mc30
+int mc35_debug_verbose = 0;  // zwr 1.0.0 for duplicate with mc30
 
 #define OPTION_STACK_SIZE "--stack-size"
 
@@ -36,7 +36,7 @@ static char _mc35_defaultRules[] =
 
 static OPTION _mc35_poptions[] =
     {
-        {0, "--debug-xtra", &debug_verbose, "show more debug info in assembly output"},
+        {0, "--debug-xtra", &mc35_debug_verbose, "show more debug info in assembly output"},
         {0, "--no-pcode-opt", &mc35_options.disable_df, "disable (slightly faulty) optimization on pCode"},
         {0, OPTION_STACK_SIZE, &options.stack_size, "sets the size if the argument passing stack (default: 16, minimum: 4)", CLAT_INTEGER},
         {0, NULL, NULL, NULL}};
