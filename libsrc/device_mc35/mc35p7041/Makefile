@@ -2,7 +2,7 @@ PATH = /e/tools/snutils/gpasm
 SDCC_EXE = /e/tools/sn-sdcc/bin/sdcc
 ASM_EXE = /e/tools/snutils/gpasm/gpasm
 LIB_EXE = /e/tools/snutils/gputils/gplib
-LIB = mc35p7041.lib
+LIB = 2K7041.lib
 OBJ = mc35p7041.o _divschar.o _divsint.o _divslong.o _divuchar.o _divuint.o _divulong.o fs2schar.o fs2sint.o fs2slong.o fs2uchar.o fs2uint.o fs2ulong.o fsadd.o fsdiv.o fseq.o fsgt.o fslt.o fsmul.o fsneq.o fssub.o _modschar.o _modsint.o _modslong.o _moduchar.o _moduint.o _modulong.o _mulchar.o _mulint.o _mullong.o schar2fs.o sint2fs.o slong2fs.o uchar2fs.o uint2fs.o ulong2fs.o _gptrget1.o _gptrget2.o _gptrget3.o _gptrget4.o _gptrput1.o _gptrput2.o _gptrput3.o _gptrput4.o 
 
 SDCC_ARG = -V --verbose -mmc35 -p2K7041 -Wa-Ie:\tools\sn-sdcc\share\header \

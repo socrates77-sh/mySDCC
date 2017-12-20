@@ -7,7 +7,7 @@ gplib_bin=$GPUTILS_HOME/gputils/gplib
 generic_lib=../../libsdcc_mc32
 out=Makefile
 
-processor=7010
+processor=3221
 
 p_file="mc32p7010"
 
@@ -94,7 +94,7 @@ echo "PATH = $path" > $out
 echo "SDCC_EXE = $sdcc_bin" >> $out
 echo "ASM_EXE = $gpasm_bin" >> $out
 echo "LIB_EXE = $gplib_bin" >> $out
-echo "LIB = $p_file.lib" >> $out
+echo "LIB = $processor.lib" >> $out
 
 printf "OBJ = " >> $out
 for file in $p_file; do

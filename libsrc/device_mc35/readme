@@ -5,7 +5,7 @@
 (5) gen_***
 (6) cd $DEVICE
 (7) modify conf_win
-(8) conf_win (pfile: lib file name; processor: must same as gpasm processor and mc3xdevices.txt)
+(8) conf_win (pfile: regfile name; processor: lib file name, must same as gpasm processor and mc3xdevices.txt)
 (9) make
 
 

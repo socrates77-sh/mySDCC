@@ -94,7 +94,7 @@ echo "PATH = $path" > $out
 echo "SDCC_EXE = $sdcc_bin" >> $out
 echo "ASM_EXE = $gpasm_bin" >> $out
 echo "LIB_EXE = $gplib_bin" >> $out
-echo "LIB = $p_file.lib" >> $out
+echo "LIB = $processor.lib" >> $out
 
 printf "OBJ = " >> $out
 for file in $p_file; do
