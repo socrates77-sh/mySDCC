@@ -1,0 +1,785 @@
+gpasm-2.0.0_beta2 (Nov  6 2017)fs2uchar.asm       2018-1-8  15:50:13           PAGE  1
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+                      00001 ;--------------------------------------------------------
+                      00002 ; File Created by SN-SDCC : SinoMCU ANSI-C Compiler
+                      00003 ; Version 1.1.0 (Dec 19 2017) (MINGW32)
+                      00004 ; This file was generated Mon Jan 08 15:50:12 2018
+                      00005 ;--------------------------------------------------------
+                      00006 ; MC32 port for the RISC core
+                      00007 ;--------------------------------------------------------
+                      00008 ;       .file   "../../libsdcc_mc32/fs2uchar.c"
+                      00009         list    p=3316
+                      00010         radix dec
+                      00011         include "3316.inc"
+                      00001                 LIST
+                      00002 ;mc32p5314.inc    Standard Header File, Version 1.00 by Sinomcu
+                      00772                 LIST
+                      00012 ;--------------------------------------------------------
+                      00013 ; external declarations
+                      00014 ;--------------------------------------------------------
+                      00015         extern  ___uchar2fs
+                      00016         extern  ___schar2fs
+                      00017         extern  ___uint2fs
+                      00018         extern  ___sint2fs
+                      00019         extern  ___ulong2fs
+                      00020         extern  ___slong2fs
+                      00021         extern  ___fs2schar
+                      00022         extern  ___fs2uint
+                      00023         extern  ___fs2sint
+                      00024         extern  ___fs2ulong
+                      00025         extern  ___fs2slong
+                      00026         extern  ___fsadd
+                      00027         extern  ___fssub
+                      00028         extern  ___fsmul
+                      00029         extern  ___fsdiv
+                      00030         extern  ___fslt
+                      00031         extern  ___fseq
+                      00032         extern  ___fsneq
+                      00033         extern  ___fsgt
+                      00034 
+                      00035         extern STK06
+                      00036         extern STK05
+                      00037         extern STK04
+                      00038         extern STK03
+                      00039         extern STK02
+                      00040         extern STK01
+                      00041         extern STK00
+                      00042 ;--------------------------------------------------------
+                      00043 ; global declarations
+                      00044 ;--------------------------------------------------------
+                      00045         global  ___fs2uchar
+                      00046 
+                      00047 ;--------------------------------------------------------
+                      00048 ; global definitions
+                      00049 ;--------------------------------------------------------
+                      00050 ;--------------------------------------------------------
+                      00051 ; absolute symbol definitions
+                      00052 ;--------------------------------------------------------
+                      00053 ;--------------------------------------------------------
+                      00054 ; compiler-defined variables
+                      00055 ;--------------------------------------------------------
+                      00056 UDL_fs2uchar_0  udata
+0000                  00057 r0x1003 res     1
+0000                  00058 r0x1002 res     1
+0001                  00059 r0x1001 res     1
+0001                  00060 r0x1000 res     1
+                      00061 ;--------------------------------------------------------
+                      00062 ; initialized data
+                      00063 ;--------------------------------------------------------
+                      00064 
+                      00065 ;@Allocation info for local variables in function '__fs2uchar'
+                      00066 ;@__fs2uchar __uchar2fs                Allocated to registers ;size:2
+                      00067 ;@__fs2uchar __schar2fs                Allocated to registers ;size:2
+                      00068 ;@__fs2uchar __uint2fs                 Allocated to registers ;size:2
+                      00069 ;@__fs2uchar __sint2fs                 Allocated to registers ;size:2
+                      00070 ;@__fs2uchar __ulong2fs                Allocated to registers ;size:2
+                      00071 ;@__fs2uchar __slong2fs                Allocated to registers ;size:2
+                      00072 ;@__fs2uchar __fs2schar                Allocated to registers ;size:2
+                      00073 ;@__fs2uchar __fs2uint                 Allocated to registers ;size:2
+                      00074 ;@__fs2uchar __fs2sint                 Allocated to registers ;size:2
+                      00075 ;@__fs2uchar __fs2ulong                Allocated to registers ;size:2
+                      00076 ;@__fs2uchar __fs2slong                Allocated to registers ;size:2
+                      00077 ;@__fs2uchar __fsadd                   Allocated to registers ;size:2
+                      00078 ;@__fs2uchar __fssub                   Allocated to registers ;size:2
+                      00079 ;@__fs2uchar __fsmul                   Allocated to registers ;size:2
+                      00080 ;@__fs2uchar __fsdiv                   Allocated to registers ;size:2
+                      00081 ;@__fs2uchar __fslt                    Allocated to registers ;size:2
+                      00082 ;@__fs2uchar __fseq                    Allocated to registers ;size:2
+                      00083 ;@__fs2uchar __fsneq                   Allocated to registers ;size:2
+                      00084 ;@__fs2uchar __fsgt                    Allocated to registers ;size:2
+                      00085 ;@__fs2uchar f                         Allocated to registers r0x1003 r0x1002 r0x1001 r0x1000 ;size:4
+                      00086 ;@__fs2uchar ul                        Allocated to registers r0x1003 r0x1002 r0x1001 r0x1000 ;size:4
+                      00087 ;@end Allocation info for local variables in function '__fs2uchar';
+                      00088 
+                      00089 ;--------------------------------------------------------
+                      00090 ; overlayable items in internal ram 
+                      00091 ;--------------------------------------------------------
+                      00092 ;       udata_ovr
+                      00093 ;--------------------------------------------------------
+                      00094 ; code
+                      00095 ;--------------------------------------------------------
+                      00096 code_fs2uchar   code
+                      00097 ;***
+                      00098 ;  pBlock Stats: dbName = C
+                      00099 ;***
+                      00100 ;entry:  ___fs2uchar    ;Function start
+                      00101 ; 2 exit points
+                      00102 ;has an exit
+                      00103 ;functions called:
+                      00104 ;   ___fs2ulong
+                      00105 ;   ___fs2ulong
+                      00106 ;8 compiler assigned registers:
+                      00107 ;   r0x1000
+                      00108 ;   STK00
+                      00109 ;   r0x1001
+                      00110 ;   STK01
+                      00111 ;   r0x1002
+                      00112 ;   STK02
+                      00113 ;   r0x1003
+                      00114 ;   r0x1004
+                      00115 ;; Starting pCode block
+                      00116 ;;[ICODE] ../../libsdcc_mc32/fs2uchar.c:33:  _entry($4) :
+                      00117 ;;[ICODE] ../../libsdcc_mc32/fs2uchar.c:33:     proc ___fs2uchar [k1 lr0:0 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-char function ( float fixed) fixed}
+0000                  00118 ___fs2uchar     ;Function start
+                      00119 ; 2 exit points
+                      00120 ;;[ICODE] ../../libsdcc_mc32/fs2uchar.c:33: iTemp0 [k2 lr3:4 so:0]{ ia0 a2p0 re1 rm0 nos0 ru1 dp0}{float fixed}{ sir@ ___fs2uchar_f_1_21}[r0x1000 r0x1001 r0x1002 r0x1003 ] = recv ___fs2uchar [k1 lr0:0 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-char function ( float fixed) fixed}
+                      00121 ;       .line   33; "../../libsdcc_mc32/fs2uchar.c"     unsigned char __fs2uchar (float f) _FS_REENTRANT
+0000   5600           00122         MOVRA   r0x1000
+0001   5800           00123         MOVAR   STK00
+0002   5600           00124         MOVRA   r0x1001
+0003   5800           00125         MOVAR   STK01
+0004   5600           00126         MOVRA   r0x1002
+0005   5800           00127         MOVAR   STK02
+0006   5600           00128         MOVRA   r0x1003
+                      00129 ;;[ICODE] ../../libsdcc_mc32/fs2uchar.c:35:     send iTemp0 [k2 lr3:4 so:0]{ ia0 a2p0 re1 rm0 nos0 ru1 dp0}{float fixed}{ sir@ ___fs2uchar_f_1_21}[r0x1000 r0x1001 r0x1002 r0x1003 ]{argreg = 1}
+                      00130 ;;[ICODE] ../../libsdcc_mc32/fs2uchar.c:35:     iTemp1 [k4 lr5:11 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{unsigned-long-int fixed}{ sir@ ___fs2uchar_ul_1_22}[r0x1000 r0x1001 r0x1002 r0x1003 ] = call ___fs2ulong [k6 lr0:0 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-long-int function ( float fixed) fixed}
+                      00131 ;       .line   35; "../../libsdcc_mc32/fs2uchar.c"     unsigned long ul=__fs2ulong(f);
+0007   5800           00132         MOVAR   r0x1003
+0008   5600           00133         MOVRA   STK02
+0009   5800           00134         MOVAR   r0x1002
+000A   5600           00135         MOVRA   STK01
+000B   5800           00136         MOVAR   r0x1001
+000C   5600           00137         MOVRA   STK00
+000D   5800           00138         MOVAR   r0x1000
+000E   2100 2300      00139         LCALL   ___fs2ulong
+0010   5600           00140         MOVRA   r0x1000
+0011   5800           00141         MOVAR   STK00
+0012   5600           00142         MOVRA   r0x1001
+0013   5800           00143         MOVAR   STK01
+0014   5600           00144         MOVRA   r0x1002
+0015   5800           00145         MOVAR   STK02
+0016   5600           00146         MOVRA   r0x1003
+                      00147 ;;[ICODE] ../../libsdcc_mc32/fs2uchar.c:36:     iTemp3 [k9 lr7:8 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char fixed} = iTemp1 [k4 lr5:11 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{unsigned-long-int fixed}{ sir@ ___fs2uchar_ul_1_22}[r0x1000 r0x1001 r0x1002 r0x1003 ] < 0xff {unsigned-long-int literal}
+                      00148 ;;unsigned compare: left < lit(0xFF=255), size=4
+                      00149 ;       .line   36; "../../libsdcc_mc32/fs2uchar.c"     if (ul>=UCHAR_MAX) return UCHAR_MAX;
+0017   3C00           00150         MOVAI   0x00
+0018   4800           00151         RSUBAR  r0x1000
+0019   E5B7           00152         JBSET   PFLAG,2
+001A   2000 2300      00153         LGOTO   _00111_DS_
+001C   3C00           00154         MOVAI   0x00
+001D   4800           00155         RSUBAR  r0x1001
+001E   E5B7           00156         JBSET   PFLAG,2
+001F   2000 2300      00157         LGOTO   _00111_DS_
+0021   3C00           00158         MOVAI   0x00
+0022   4800           00159         RSUBAR  r0x1002
+0023   E5B7           00160         JBSET   PFLAG,2
+0024   2000 2300      00161         LGOTO   _00111_DS_
+0026   3CFF           00162         MOVAI   0xff
+0027   4800           00163         RSUBAR  r0x1003
+0028                  00164 _00111_DS_
+0028   E1B7           00165         JBSET   PFLAG,0
+0029   2000 2300      00166         LGOTO   _00106_DS_
+                      00167 ;;genSkipc:3195: created from rifx:00DD608C
+                      00168 ;;[ICODE] ../../libsdcc_mc32/fs2uchar.c:36:     if iTemp3 [k9 lr7:8 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char fixed} != 0 goto _iffalse_0($2)
+                      00169 ;;[ICODE] ../../libsdcc_mc32/fs2uchar.c:36:     ret 0xff {const-unsigned-char literal}
+002B   3CFF           00170         MOVAI   0xff
+002C   2000 2300      00171         LGOTO   _00107_DS_
+                      00172 ;;[ICODE] ../../libsdcc_mc32/fs2uchar.c:36:  _iffalse_0($2) :
+                      00173 ;;[ICODE] ../../libsdcc_mc32/fs2uchar.c:37:     iTemp4 [k10 lr11:12 so:0]{ ia0 a2p0 re0 rm0 nos0 ru1 dp0}{unsigned-char fixed}[r0x1004 ] = (unsigned-char fixed)iTemp1 [k4 lr5:11 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{unsigned-long-int fixed}{ sir@ ___fs2uchar_ul_1_22}[r0x1000 r0x1001 r0x1002 r0x1003 ]
+                      00174 ;;101   MOVAR   r0x1003
+                      00175 ;;99    MOVRA   r0x1004
+                      00176 ;;[ICODE] ../../libsdcc_mc32/fs2uchar.c:37:     ret iTemp4 [k10 lr11:12 so:0]{ ia0 a2p0 re0 rm0 nos0 ru1 dp0}{unsigned-char fixed}[r0x1004 ]
+                      00177 ;;100   MOVAR   r0x1004
+002E                  00178 _00106_DS_
+                      00179 ;       .line   37; "../../libsdcc_mc32/fs2uchar.c"     return ul;
+002E   5800           00180         MOVAR   r0x1003
+                      00181 ;;[ICODE] ../../libsdcc_mc32/fs2uchar.c:37:  _return($3) :
+                      00182 ;;[ICODE] ../../libsdcc_mc32/fs2uchar.c:37:     eproc ___fs2uchar [k1 lr0:0 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-char function ( float fixed) fixed}
+002F                  00183 _00107_DS_
+002F   000C           00184         RETURN  
+                      00185 ; exit point of ___fs2uchar
+                      00186 
+                      00187 
+                      00188 ;       code size estimation:
+                      00189 ;          42+    0 =    42 instructions (   84 byte)
+                      00190 
+                      00191         end
+gpasm-2.0.0_beta2 (Nov  6 2017)fs2uchar.asm       2018-1-8  15:50:13           PAGE  2
+
+
+SYMBOL TABLE
+  LABEL                             VALUE
+
+ADCHS0                            00000004
+ADCHS1                            00000005
+ADCHS2                            00000006
+ADCHS3                            00000007
+ADCKS0                            00000002
+ADCKS1                            00000003
+ADCR0                             000001E8
+ADCR1                             000001E9
+ADCR2                             000001EA
+ADDRH                             000001EC
+ADDRL                             000001ED
+ADEOC                             00000001
+ADIE                              00000007
+ADIF                              00000007
+ADIOS0                            00000000
+ADIOS1                            00000001
+ADIOS2                            00000002
+ADIOS3                            00000003
+ADIOS4                            00000004
+ADIOS5                            00000005
+ADIOS6                            00000006
+ADIOS7                            00000007
+ADON                              00000000
+C                                 00000000
+CLKS                              00000002
+CSEL0                             00000000
+CSEL1                             00000001
+DC                                00000001
+DKW                               000001F4
+DKWE                              00000007
+DKWP0                             000001C3
+DRVS                              00000001
+DSELEN                            00000000
+FILS                              00000003
+FLCD0                             00000000
+FLCD1                             00000001
+FPWMA0                            00000002
+FPWMA1                            00000003
+FPWMB0                            00000000
+FPWMB1                            00000001
+FPWMEN                            00000007
+FPWMS                             00000004
+FSEL0                             00000002
+FSEL1                             00000003
+FSR0                              000001B4
+FSR00                             00000000
+FSR01                             00000001
+FSR02                             00000002
+FSR03                             00000003
+FSR04                             00000004
+FSR05                             00000005
+FSR06                             00000006
+FSR07                             00000007
+FSR1                              000001B5
+FSR10                             00000000
+FSR11                             00000001
+FSR12                             00000002
+FSR13                             00000003
+FSR14                             00000004
+FSR15                             00000005
+FSR16                             00000006
+FSR17                             00000007
+GIE                               00000007
+HFEN                              00000000
+HIBYTE                            000001B3
+HIBYTE0                           00000000
+HIBYTE1                           00000001
+HIBYTE2                           00000002
+HIBYTE3                           00000003
+HIBYTE4                           00000004
+HIBYTE5                           00000005
+HIBYTE6                           00000006
+HIBYTE7                           00000007
+INDF0                             000001B0
+INDF00                            00000000
+INDF01                            00000001
+INDF02                            00000002
+INDF03                            00000003
+INDF04                            00000004
+INDF05                            00000005
+INDF06                            00000006
+INDF07                            00000007
+INDF1                             000001B1
+INDF10                            00000000
+INDF11                            00000001
+INDF12                            00000002
+INDF13                            00000003
+INDF14                            00000004
+INDF15                            00000005
+INDF16                            00000006
+INDF17                            00000007
+INDF2                             000001B2
+INDF20                            00000000
+INDF21                            00000001
+INDF22                            00000002
+INDF23                            00000003
+INDF24                            00000004
+INDF25                            00000005
+INDF26                            00000006
+INDF27                            00000007
+INDF3                             000001B9
+INDF30                            00000000
+INDF31                            00000001
+INDF32                            00000002
+INDF33                            00000003
+INDF34                            00000004
+INDF35                            00000005
+INDF36                            00000006
+INDF37                            00000007
+INT0IE                            00000002
+INT0IF                            00000002
+INT1IE                            00000003
+INT1IF                            00000003
+INTE                              000001BA
+INTF                              000001BB
+IOP0                              000001C0
+IOP1                              000001C4
+IOP2                              000001C8
+IOP3                              000001CC
+IOP4                              000001D0
+IOP5                              000001D4
+IRIN                              00000007
+IROS                              00000006
+IROT                              00000005
+KBCR                              000001F5
+KBCR0                             00000000
+KBCR1                             00000001
+KBCR2                             00000002
+KBCR3                             00000003
+KBCR4                             00000004
+KBCR5                             00000005
+KBCR6                             00000006
+KBCR7                             00000007
+KBIE                              00000004
+KBIF                              00000004
+LCDCKS                            00000002
+LCDCR0                            000001F2
+LCDCR1                            000001F3
+LCDDRV                            000001F6
+LCDDRVP06                         00000000
+LCDDRVP22                         00000001
+LCDDRVP23                         00000002
+LCDDS00                           00000100
+LCDDS01                           00000101
+LCDDS02                           00000102
+LCDDS03                           00000103
+LCDDS04                           00000104
+LCDDS05                           00000105
+LCDDS06                           00000106
+LCDDS07                           00000107
+LCDDS08                           00000108
+LCDDS09                           00000109
+LCDDS10                           0000010A
+LCDDS11                           0000010B
+LCDDS12                           0000010C
+LCDDS13                           0000010D
+LCDDS14                           0000010E
+LCDDS15                           0000010F
+LCDDS16                           00000110
+LCDDS17                           00000111
+LCDDS18                           00000112
+LCDDS19                           00000113
+LCDDS20                           00000114
+LCDDS21                           00000115
+LCDDS22                           00000116
+LCDDS23                           00000117
+LCDDS24                           00000118
+LCDDS25                           00000119
+LCDDS26                           0000011A
+LCDDS27                           0000011B
+LCDDS28                           0000011C
+LCDDS29                           0000011D
+LCDDUTY                           00000004
+LCDEN                             00000007
+LCDIOSP1                          000001C7
+LCDIOSP10                         00000000
+LCDIOSP11                         00000001
+LCDIOSP12                         00000002
+LCDIOSP13                         00000003
+LCDIOSP14                         00000004
+LCDIOSP15                         00000005
+LCDIOSP16                         00000006
+LCDIOSP17                         00000007
+LCDIOSP2                          000001CB
+LCDIOSP20                         00000000
+LCDIOSP21                         00000001
+LCDIOSP22                         00000002
+LCDIOSP23                         00000003
+LCDIOSP24                         00000004
+LCDIOSP25                         00000005
+LCDIOSP26                         00000006
+LCDIOSP27                         00000007
+LCDIOSP3                          000001CF
+LCDIOSP30                         00000000
+LCDIOSP31                         00000001
+LCDIOSP32                         00000002
+LCDIOSP33                         00000003
+LCDIOSP34                         00000004
+LCDIOSP35                         00000005
+LCDIOSP36                         00000006
+LCDIOSP37                         00000007
+LCDIOSP4                          000001D3
+LCDIOSP40                         00000000
+LCDIOSP41                         00000001
+LCDIOSP42                         00000002
+LCDIOSP43                         00000003
+LCDIOSP44                         00000004
+LCDIOSP45                         00000005
+LCDIOSP46                         00000006
+LCDIOSP47                         00000007
+LCDIOSP5                          000001D7
+LCDIOSP50                         00000000
+LCDIOSP51                         00000001
+LCDM                              00000003
+LCDRS0                            00000000
+LCDRS1                            00000001
+LCDSP0                            00000005
+LCDSP1                            00000006
+LCDSPEED                          00000002
+LFEN                              00000001
+LPEN0                             00000000
+LPEN1                             00000001
+LPEN2                             00000002
+LVDCR                             000001BD
+LVDEN                             00000007
+LVDF                              00000000
+LVDIE                             00000005
+LVDIF                             00000005
+LVDS0                             00000003
+LVDS1                             00000004
+LVDS2                             00000005
+LVDS3                             00000006
+LXTCR                             000001BE
+MCR                               000001B8
+MINT00                            00000000
+MINT01                            00000001
+MINT10                            00000002
+MINT11                            00000003
+OEP0                              000001C1
+OEP1                              000001C5
+OEP2                              000001C9
+OEP3                              000001CD
+OEP4                              000001D1
+OEP5                              000001D5
+OPAE                              00000007
+OPAM                              00000006
+OPCR0                             000001F0
+OPCR1                             000001F1
+OPFC0                             00000000
+OPFC1                             00000001
+OPFC2                             00000002
+OPFC3                             00000003
+OPFC4                             00000004
+OPFC5                             00000005
+OSCM                              000001BC
+P00D                              00000000
+P00DKW                            00000000
+P00OE                             00000000
+P00PU                             00000000
+P01D                              00000001
+P01DKW                            00000001
+P01OE                             00000001
+P01PU                             00000001
+P02D                              00000002
+P02DKW                            00000002
+P02OE                             00000002
+P02PU                             00000002
+P03D                              00000003
+P03DKW                            00000003
+P03OE                             00000003
+P03PU                             00000003
+P04D                              00000004
+P04DKW                            00000004
+P04OE                             00000004
+P04PU                             00000004
+P05D                              00000005
+P05DKW                            00000005
+P05OE                             00000005
+P05PU                             00000005
+P06D                              00000006
+P06DKW                            00000006
+P06OE                             00000006
+P06PU                             00000006
+P07D                              00000007
+P07DKW                            00000007
+P07OE                             00000007
+P07PU                             00000007
+P10D                              00000000
+P10OE                             00000000
+P10PU                             00000000
+P11D                              00000001
+P11OE                             00000001
+P11PU                             00000001
+P12D                              00000002
+P12OE                             00000002
+P12PU                             00000002
+P13D                              00000003
+P13OE                             00000003
+P13PU                             00000003
+P14D                              00000004
+P14OE                             00000004
+P14PU                             00000004
+P15D                              00000005
+P15OE                             00000005
+P15PU                             00000005
+P16D                              00000006
+P16OE                             00000006
+P16PU                             00000006
+P17D                              00000007
+P17OE                             00000007
+P17PU                             00000007
+P20D                              00000000
+P20OE                             00000000
+P20PU                             00000000
+P21D                              00000001
+P21OE                             00000001
+P21PU                             00000001
+P22D                              00000002
+P22OE                             00000002
+P22PU                             00000002
+P23D                              00000003
+P23OE                             00000003
+P23PU                             00000003
+P24D                              00000004
+P24OE                             00000004
+P24PU                             00000004
+P25D                              00000005
+P25OE                             00000005
+P25PU                             00000005
+P26D                              00000006
+P26OE                             00000006
+P26PU                             00000006
+P27D                              00000007
+P27OE                             00000007
+P27PU                             00000007
+P30D                              00000000
+P30OE                             00000000
+P30PU                             00000000
+P31D                              00000001
+P31OE                             00000001
+P31PU                             00000001
+P32D                              00000002
+P32OE                             00000002
+P32PU                             00000002
+P33D                              00000003
+P33OE                             00000003
+P33PU                             00000003
+P34D                              00000004
+P34OE                             00000004
+P34PU                             00000004
+P35D                              00000005
+P35OE                             00000005
+P35PU                             00000005
+P36D                              00000006
+P36OE                             00000006
+P36PU                             00000006
+P37D                              00000007
+P37OE                             00000007
+P37PU                             00000007
+P40D                              00000000
+P40OE                             00000000
+P40PU                             00000000
+P41D                              00000001
+P41OE                             00000001
+P41PU                             00000001
+P42D                              00000002
+P42OE                             00000002
+P42PU                             00000002
+P43D                              00000003
+P43OE                             00000003
+P43PU                             00000003
+P44D                              00000004
+P44OE                             00000004
+P44PU                             00000004
+P45D                              00000005
+P45OE                             00000005
+P45PU                             00000005
+P46D                              00000006
+P46OE                             00000006
+P46PU                             00000006
+P47D                              00000007
+P47OE                             00000007
+P47PU                             00000007
+P50D                              00000000
+P50OE                             00000000
+P50PU                             00000000
+P51D                              00000001
+P51OE                             00000001
+P51PU                             00000001
+P52D                              00000002
+P52OE                             00000002
+P52PU                             00000002
+P53D                              00000003
+P53OE                             00000003
+P53PU                             00000003
+P54D                              00000004
+P54OE                             00000004
+P55D                              00000005
+P55OE                             00000005
+P55PU                             00000005
+PC0                               00000000
+PC1                               00000001
+PC2                               00000002
+PC3                               00000003
+PC4                               00000004
+PC5                               00000005
+PC6                               00000006
+PC7                               00000007
+PCL                               000001B6
+PD                                00000004
+PFLAG                             000001B7
+PUP0                              000001C2
+PUP1                              000001C6
+PUP2                              000001CA
+PUP3                              000001CE
+PUP4                              000001D2
+PUP5                              000001D6
+PWMEN                             00000006
+RSEL                              00000002
+STBH                              00000004
+STBL                              00000005
+STK00                             00000000
+STK01                             00000000
+STK02                             00000000
+STK03                             00000000
+STK04                             00000000
+STK05                             00000000
+STK06                             00000000
+T0CR0                             000001D8
+T0CR1                             000001D9
+T0DATAH                           000001DE
+T0DATAH0                          00000000
+T0DATAH1                          00000001
+T0DATAH2                          00000002
+T0DATAH3                          00000003
+T0DATAH4                          00000004
+T0DATAH5                          00000005
+T0DATAH6                          00000006
+T0DATAH7                          00000007
+T0DATAL                           000001DF
+T0DATAL0                          00000000
+T0DATAL1                          00000001
+T0DATAL2                          00000002
+T0DATAL3                          00000003
+T0DATAL4                          00000004
+T0DATAL5                          00000005
+T0DATAL6                          00000006
+T0DATAL7                          00000007
+T0IE                              00000000
+T0IF                              00000000
+T0LATFH                           000001E2
+T0LATFH0                          00000000
+T0LATFH1                          00000001
+T0LATFH2                          00000002
+T0LATFH3                          00000003
+T0LATFH4                          00000004
+T0LATFH5                          00000005
+T0LATFH6                          00000006
+T0LATFH7                          00000007
+T0LATFL                           000001E3
+T0LATFL0                          00000000
+T0LATFL1                          00000001
+T0LATFL2                          00000002
+T0LATFL3                          00000003
+T0LATFL4                          00000004
+T0LATFL5                          00000005
+T0LATFL6                          00000006
+T0LATFL7                          00000007
+T0LATRH                           000001E0
+T0LATRH0                          00000000
+T0LATRH1                          00000001
+T0LATRH2                          00000002
+T0LATRH3                          00000003
+T0LATRH4                          00000004
+T0LATRH5                          00000005
+T0LATRH6                          00000006
+T0LATRH7                          00000007
+T0LATRL                           000001E1
+T0LATRL0                          00000000
+T0LATRL1                          00000001
+T0LATRL2                          00000002
+T0LATRL3                          00000003
+T0LATRL4                          00000004
+T0LATRL5                          00000005
+T0LATRL6                          00000006
+T0LATRL7                          00000007
+T0LOADH                           000001DC
+T0LOADL                           000001DD
+T0LOADL0                          00000000
+T0LOADL1                          00000001
+T0LOADL2                          00000002
+T0LOADL3                          00000003
+T0LOADL4                          00000004
+T0LOADL5                          00000005
+T0LOADL6                          00000006
+T0LOADL7                          00000007
+T0MOD0                            00000005
+T0MOD1                            00000006
+T0PR0                             00000000
+T0PR1                             00000001
+T0PR2                             00000002
+T0PTS0                            00000003
+T0PTS1                            00000004
+T0RF                              00000006
+T1CR                              000001E4
+T1DATA                            000001E5
+T1DATA0                           00000000
+T1DATA1                           00000001
+T1DATA2                           00000002
+T1DATA3                           00000003
+T1DATA4                           00000004
+T1DATA5                           00000005
+T1DATA6                           00000006
+T1DATA7                           00000007
+T1IE                              00000001
+T1IF                              00000001
+T1LOAD                            000001E6
+T1LOAD0                           00000000
+T1LOAD1                           00000001
+T1LOAD2                           00000002
+T1LOAD3                           00000003
+T1LOAD4                           00000004
+T1LOAD5                           00000005
+T1LOAD6                           00000006
+T1LOAD7                           00000007
+T1MOD0                            00000005
+T1MOD1                            00000006
+T1PR0                             00000000
+T1PR1                             00000001
+T1PR2                             00000002
+T1PTS0                            00000003
+T1PTS1                            00000004
+TC0EN                             00000007
+TC1EN                             00000007
+TO                                00000005
+VDLSEL                            00000004
+VLCDS                             00000003
+VREFRES                           00000001
+VREXT                             00000000
+VSEL                              00000006
+WSEL0                             00000003
+WSEL1                             00000004
+Z                                 00000002
+_00106_DS_                        0000002E
+_00107_DS_                        0000002F
+_00111_DS_                        00000028
+_CONFIG0                          00008000
+_CONFIG1                          00008001
+__33P116                          00000001
+___fs2schar                       00000000
+___fs2sint                        00000000
+___fs2slong                       00000000
+___fs2uchar                       00000000
+___fs2uint                        00000000
+___fs2ulong                       00000000
+___fsadd                          00000000
+___fsdiv                          00000000
+___fseq                           00000000
+___fsgt                           00000000
+___fslt                           00000000
+___fsmul                          00000000
+___fsneq                          00000000
+___fssub                          00000000
+___schar2fs                       00000000
+___sint2fs                        00000000
+___slong2fs                       00000000
+___uchar2fs                       00000000
+___uint2fs                        00000000
+___ulong2fs                       00000000
+r0x1000                           00000003
+r0x1001                           00000002
+r0x1002                           00000001
+r0x1003                           00000000
+
+Errors   :     0
+Warnings :     0 reported,     0 suppressed
+Messages :     0 reported,     0 suppressed
+
+

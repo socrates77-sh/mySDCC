@@ -38,7 +38,18 @@ processor 7030
 	program		1K
 	data		128
 	eeprom		0
-	io			18
+	io			12
+	maxram		0xff
+	bankmsk		0x00
+	config		0x8000 0x8001
+	memmap		0x00 0x7f 0x000
+
+# 7031(2K) is same as 7011
+processor 7011
+	program		2K
+	data		128
+	eeprom		0
+	io			14
 	maxram		0xff
 	bankmsk		0x00
 	config		0x8000 0x8001

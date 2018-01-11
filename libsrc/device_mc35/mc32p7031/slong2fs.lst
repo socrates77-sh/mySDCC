@@ -1,0 +1,578 @@
+gpasm-2.0.0_beta2 (Nov  6 2017)slong2fs.asm       2018-1-4  10:24:33           PAGE  1
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+                      00001 ;--------------------------------------------------------
+                      00002 ; File Created by SN-SDCC : SinoMCU ANSI-C Compiler
+                      00003 ; Version 1.1.0 (Dec 19 2017) (MINGW32)
+                      00004 ; This file was generated Thu Jan 04 10:24:33 2018
+                      00005 ;--------------------------------------------------------
+                      00006 ; MC35 port for the RISC core
+                      00007 ;--------------------------------------------------------
+                      00008 ;       .file   "../../libsdcc_mc35/slong2fs.c"
+                      00009         list    p=7011
+                      00010         radix dec
+                      00011         include "7011.inc"
+                      00001                 LIST
+                      00002 ;mc32p7031.inc    Standard Header File, Version 1.00 by Sinomcu
+                      00447                 LIST
+                      00012 ;--------------------------------------------------------
+                      00013 ; external declarations
+                      00014 ;--------------------------------------------------------
+                      00015         extern  ___uchar2fs
+                      00016         extern  ___schar2fs
+                      00017         extern  ___uint2fs
+                      00018         extern  ___sint2fs
+                      00019         extern  ___ulong2fs
+                      00020         extern  ___fs2uchar
+                      00021         extern  ___fs2schar
+                      00022         extern  ___fs2uint
+                      00023         extern  ___fs2sint
+                      00024         extern  ___fs2ulong
+                      00025         extern  ___fs2slong
+                      00026         extern  ___fsadd
+                      00027         extern  ___fssub
+                      00028         extern  ___fsmul
+                      00029         extern  ___fsdiv
+                      00030         extern  ___fslt
+                      00031         extern  ___fseq
+                      00032         extern  ___fsneq
+                      00033         extern  ___fsgt
+                      00034 
+                      00035         extern STK06
+                      00036         extern STK05
+                      00037         extern STK04
+                      00038         extern STK03
+                      00039         extern STK02
+                      00040         extern STK01
+                      00041         extern STK00
+                      00042 ;--------------------------------------------------------
+                      00043 ; global declarations
+                      00044 ;--------------------------------------------------------
+                      00045         global  ___slong2fs
+                      00046 
+                      00047 ;--------------------------------------------------------
+                      00048 ; global definitions
+                      00049 ;--------------------------------------------------------
+                      00050 ;--------------------------------------------------------
+                      00051 ; absolute symbol definitions
+                      00052 ;--------------------------------------------------------
+                      00053 ;--------------------------------------------------------
+                      00054 ; compiler-defined variables
+                      00055 ;--------------------------------------------------------
+                      00056 UDL_slong2fs_0  udata
+0000                  00057 r0x1003 res     1
+0000                  00058 r0x1002 res     1
+0001                  00059 r0x1001 res     1
+0001                  00060 r0x1000 res     1
+0002                  00061 r0x1004 res     1
+0002                  00062 r0x1005 res     1
+0003                  00063 r0x1006 res     1
+0003                  00064 r0x1007 res     1
+                      00065 ;--------------------------------------------------------
+                      00066 ; initialized data
+                      00067 ;--------------------------------------------------------
+                      00068 
+                      00069 ;@Allocation info for local variables in function '__slong2fs'
+                      00070 ;@__slong2fs __uchar2fs                Allocated to registers ;size:2
+                      00071 ;@__slong2fs __schar2fs                Allocated to registers ;size:2
+                      00072 ;@__slong2fs __uint2fs                 Allocated to registers ;size:2
+                      00073 ;@__slong2fs __sint2fs                 Allocated to registers ;size:2
+                      00074 ;@__slong2fs __ulong2fs                Allocated to registers ;size:2
+                      00075 ;@__slong2fs __fs2uchar                Allocated to registers ;size:2
+                      00076 ;@__slong2fs __fs2schar                Allocated to registers ;size:2
+                      00077 ;@__slong2fs __fs2uint                 Allocated to registers ;size:2
+                      00078 ;@__slong2fs __fs2sint                 Allocated to registers ;size:2
+                      00079 ;@__slong2fs __fs2ulong                Allocated to registers ;size:2
+                      00080 ;@__slong2fs __fs2slong                Allocated to registers ;size:2
+                      00081 ;@__slong2fs __fsadd                   Allocated to registers ;size:2
+                      00082 ;@__slong2fs __fssub                   Allocated to registers ;size:2
+                      00083 ;@__slong2fs __fsmul                   Allocated to registers ;size:2
+                      00084 ;@__slong2fs __fsdiv                   Allocated to registers ;size:2
+                      00085 ;@__slong2fs __fslt                    Allocated to registers ;size:2
+                      00086 ;@__slong2fs __fseq                    Allocated to registers ;size:2
+                      00087 ;@__slong2fs __fsneq                   Allocated to registers ;size:2
+                      00088 ;@__slong2fs __fsgt                    Allocated to registers ;size:2
+                      00089 ;@__slong2fs sl                        Allocated to registers r0x1003 r0x1002 r0x1001 r0x1000 ;size:4
+                      00090 ;@end Allocation info for local variables in function '__slong2fs';
+                      00091 
+                      00092 ;--------------------------------------------------------
+                      00093 ; overlayable items in internal ram 
+                      00094 ;--------------------------------------------------------
+                      00095 ;       udata_ovr
+                      00096 ;--------------------------------------------------------
+                      00097 ; code
+                      00098 ;--------------------------------------------------------
+                      00099 code_slong2fs   code
+                      00100 ;***
+                      00101 ;  pBlock Stats: dbName = C
+                      00102 ;***
+                      00103 ;entry:  ___slong2fs    ;Function start
+                      00104 ; 2 exit points
+                      00105 ;has an exit
+                      00106 ;functions called:
+                      00107 ;   ___ulong2fs
+                      00108 ;   ___ulong2fs
+                      00109 ;   ___ulong2fs
+                      00110 ;   ___ulong2fs
+                      00111 ;11 compiler assigned registers:
+                      00112 ;   r0x1000
+                      00113 ;   STK00
+                      00114 ;   r0x1001
+                      00115 ;   STK01
+                      00116 ;   r0x1002
+                      00117 ;   STK02
+                      00118 ;   r0x1003
+                      00119 ;   r0x1004
+                      00120 ;   r0x1005
+                      00121 ;   r0x1006
+                      00122 ;   r0x1007
+                      00123 ;; Starting pCode block
+                      00124 ;;[ICODE] ../../libsdcc_mc35/slong2fs.c:33:  _entry($5) :
+                      00125 ;;[ICODE] ../../libsdcc_mc35/slong2fs.c:33:     proc ___slong2fs [k1 lr0:0 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{float function ( long-int fixed) fixed}
+0000                  00126 ___slong2fs     ;Function start
+                      00127 ; 2 exit points
+                      00128 ;;[ICODE] ../../libsdcc_mc35/slong2fs.c:33: iTemp0 [k2 lr3:12 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{long-int fixed}{ sir@ ___slong2fs_sl_1_21}[r0x1000 r0x1001 r0x1002 r0x1003 ] = recv ___slong2fs [k1 lr0:0 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{float function ( long-int fixed) fixed}
+                      00129 ;       .line   33; "../../libsdcc_mc35/slong2fs.c"     float __slong2fs (signed long sl) _FS_REENTRANT
+0000   1F00           00130         MOVRA   r0x1000
+0001   1E00           00131         MOVAR   STK00
+0002   1F00           00132         MOVRA   r0x1001
+0003   1E00           00133         MOVAR   STK01
+0004   1F00           00134         MOVRA   r0x1002
+0005   1E00           00135         MOVAR   STK02
+0006   1F00           00136         MOVRA   r0x1003
+                      00137 ;;[ICODE] ../../libsdcc_mc35/slong2fs.c:35:     iTemp1 [k4 lr4:5 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char fixed} = iTemp0 [k2 lr3:12 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{long-int fixed}{ sir@ ___slong2fs_sl_1_21}[r0x1000 r0x1001 r0x1002 r0x1003 ] < 0x0 {long-int literal}
+                      00138 ;;signed compare: left < lit(0x0=0), size=4, mask=ffffffff
+                      00139 ;       .line   35; "../../libsdcc_mc35/slong2fs.c"     if (sl<0) 
+0007   4A86           00140         BSET    PFLAG,2
+0008   5F00           00141         JBSET   r0x1000,7
+0009   4286           00142         BCLR    PFLAG,2
+000A   5A86           00143         JBSET   PFLAG,2
+000B   8000           00144         GOTO    _00106_DS_
+                      00145 ;;genSkipc:3223: created from rifx:00DD608C
+                      00146 ;;[ICODE] ../../libsdcc_mc35/slong2fs.c:35:     if iTemp1 [k4 lr4:5 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char fixed} == 0 goto _iffalse_0($2)
+                      00147 ;;[ICODE] ../../libsdcc_mc35/slong2fs.c:36:     iTemp2 [k6 lr6:7 so:0]{ ia0 a2p0 re0 rm0 nos0 ru1 dp0}{long-int fixed}[r0x1004 r0x1005 r0x1006 r0x1007 ] = - iTemp0 [k2 lr3:12 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{long-int fixed}{ sir@ ___slong2fs_sl_1_21}[r0x1000 r0x1001 r0x1002 r0x1003 ]
+                      00148 ;       .line   36; "../../libsdcc_mc35/slong2fs.c"     return -__ulong2fs(-sl);
+000C   2DFF           00149         MOVAI   0xff
+000D   1B00           00150         XORAR   r0x1003
+000E   1F00           00151         MOVRA   r0x1004
+000F   2DFF           00152         MOVAI   0xff
+0010   1B00           00153         XORAR   r0x1002
+0011   1F00           00154         MOVRA   r0x1005
+0012   2DFF           00155         MOVAI   0xff
+0013   1B00           00156         XORAR   r0x1001
+0014   1F00           00157         MOVRA   r0x1006
+0015   2DFF           00158         MOVAI   0xff
+0016   1B00           00159         XORAR   r0x1000
+0017   1F00           00160         MOVRA   r0x1007
+0018   2D01           00161         MOVAI   0x01
+0019   1300           00162         ADDRA   r0x1004
+001A   5086           00163         JBCLR   PFLAG,0
+001B   1300           00164         ADDRA   r0x1005
+001C   5086           00165         JBCLR   PFLAG,0
+001D   1300           00166         ADDRA   r0x1006
+001E   5086           00167         JBCLR   PFLAG,0
+001F   1300           00168         ADDRA   r0x1007
+                      00169 ;;[ICODE] ../../libsdcc_mc35/slong2fs.c:36:     send iTemp2 [k6 lr6:7 so:0]{ ia0 a2p0 re0 rm0 nos0 ru1 dp0}{long-int fixed}[r0x1004 r0x1005 r0x1006 r0x1007 ]{argreg = 1}
+                      00170 ;;[ICODE] ../../libsdcc_mc35/slong2fs.c:36:     iTemp3 [k8 lr8:9 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{float fixed}[r0x1004 r0x1005 r0x1006 r0x1007 ] = call ___ulong2fs [k5 lr0:0 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{float function ( unsigned-long-int fixed) fixed}
+0020   1E00           00171         MOVAR   r0x1004
+0021   1F00           00172         MOVRA   STK02
+0022   1E00           00173         MOVAR   r0x1005
+0023   1F00           00174         MOVRA   STK01
+0024   1E00           00175         MOVAR   r0x1006
+0025   1F00           00176         MOVRA   STK00
+0026   1E00           00177         MOVAR   r0x1007
+0027   C000           00178         CALL    ___ulong2fs
+0028   1F00           00179         MOVRA   r0x1007
+0029   1E00           00180         MOVAR   STK00
+002A   1F00           00181         MOVRA   r0x1006
+002B   1E00           00182         MOVAR   STK01
+002C   1F00           00183         MOVRA   r0x1005
+002D   1E00           00184         MOVAR   STK02
+002E   1F00           00185         MOVRA   r0x1004
+                      00186 ;;[ICODE] ../../libsdcc_mc35/slong2fs.c:36:     iTemp4 [k9 lr9:10 so:0]{ ia0 a2p0 re0 rm0 nos0 ru1 dp0}{float fixed}[r0x1004 r0x1005 r0x1006 r0x1007 ] = - iTemp3 [k8 lr8:9 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{float fixed}[r0x1004 r0x1005 r0x1006 r0x1007 ]
+002F   1E00           00187         MOVAR   r0x1007
+0030   1D80           00188         XORAI   0x80
+0031   1F00           00189         MOVRA   r0x1007
+0032   1E00           00190         MOVAR   r0x1006
+0033   1F00           00191         MOVRA   r0x1006
+0034   1E00           00192         MOVAR   r0x1005
+0035   1F00           00193         MOVRA   r0x1005
+0036   1E00           00194         MOVAR   r0x1004
+0037   1F00           00195         MOVRA   r0x1004
+                      00196 ;;[ICODE] ../../libsdcc_mc35/slong2fs.c:36:     ret iTemp4 [k9 lr9:10 so:0]{ ia0 a2p0 re0 rm0 nos0 ru1 dp0}{float fixed}[r0x1004 r0x1005 r0x1006 r0x1007 ]
+0038   1E00           00197         MOVAR   r0x1004
+0039   1F00           00198         MOVRA   STK02
+003A   1E00           00199         MOVAR   r0x1005
+003B   1F00           00200         MOVRA   STK01
+003C   1E00           00201         MOVAR   r0x1006
+003D   1F00           00202         MOVRA   STK00
+003E   1E00           00203         MOVAR   r0x1007
+003F   8000           00204         GOTO    _00108_DS_
+                      00205 ;;[ICODE] ../../libsdcc_mc35/slong2fs.c:36:  _iffalse_0($2) :
+                      00206 ;;[ICODE] ../../libsdcc_mc35/slong2fs.c:38:     send iTemp0 [k2 lr3:12 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{long-int fixed}{ sir@ ___slong2fs_sl_1_21}[r0x1000 r0x1001 r0x1002 r0x1003 ]{argreg = 1}
+                      00207 ;;[ICODE] ../../libsdcc_mc35/slong2fs.c:38:     iTemp5 [k10 lr13:14 so:0]{ ia0 a2p0 re0 rm0 nos0 ru1 dp0}{float fixed}[r0x1000 r0x1001 r0x1002 r0x1003 ] = call ___ulong2fs [k5 lr0:0 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{float function ( unsigned-long-int fixed) fixed}
+0040                  00208 _00106_DS_
+                      00209 ;       .line   38; "../../libsdcc_mc35/slong2fs.c"     return __ulong2fs(sl);
+0040   1E00           00210         MOVAR   r0x1003
+0041   1F00           00211         MOVRA   STK02
+0042   1E00           00212         MOVAR   r0x1002
+0043   1F00           00213         MOVRA   STK01
+0044   1E00           00214         MOVAR   r0x1001
+0045   1F00           00215         MOVRA   STK00
+0046   1E00           00216         MOVAR   r0x1000
+0047   C000           00217         CALL    ___ulong2fs
+0048   1F00           00218         MOVRA   r0x1000
+0049   1E00           00219         MOVAR   STK00
+004A   1F00           00220         MOVRA   r0x1001
+004B   1E00           00221         MOVAR   STK01
+004C   1F00           00222         MOVRA   r0x1002
+004D   1E00           00223         MOVAR   STK02
+004E   1F00           00224         MOVRA   r0x1003
+                      00225 ;;[ICODE] ../../libsdcc_mc35/slong2fs.c:38:     ret iTemp5 [k10 lr13:14 so:0]{ ia0 a2p0 re0 rm0 nos0 ru1 dp0}{float fixed}[r0x1000 r0x1001 r0x1002 r0x1003 ]
+004F   1E00           00226         MOVAR   r0x1003
+0050   1F00           00227         MOVRA   STK02
+0051   1E00           00228         MOVAR   r0x1002
+0052   1F00           00229         MOVRA   STK01
+0053   1E00           00230         MOVAR   r0x1001
+0054   1F00           00231         MOVRA   STK00
+0055   1E00           00232         MOVAR   r0x1000
+                      00233 ;;[ICODE] ../../libsdcc_mc35/slong2fs.c:38:  _return($4) :
+                      00234 ;;[ICODE] ../../libsdcc_mc35/slong2fs.c:38:     eproc ___slong2fs [k1 lr0:0 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{float function ( long-int fixed) fixed}
+0056                  00235 _00108_DS_
+0056   0E00           00236         RETURN  
+                      00237 ; exit point of ___slong2fs
+                      00238 
+                      00239 
+                      00240 ;       code size estimation:
+                      00241 ;          87+    0 =    87 instructions (  174 byte)
+                      00242 
+                      00243         end
+gpasm-2.0.0_beta2 (Nov  6 2017)slong2fs.asm       2018-1-4  10:24:33           PAGE  2
+
+
+SYMBOL TABLE
+  LABEL                             VALUE
+
+ADCHS0                            00000000
+ADCHS1                            00000001
+ADCHS2                            00000002
+ADCKS0                            00000004
+ADCKS1                            00000006
+ADCR                              000000B1
+ADEOC                             00000005
+ADIE                              00000007
+ADIF                              00000007
+ADLEN                             00000005
+ADON                              00000007
+ADR0                              00000000
+ADR1                              00000001
+ADR10                             00000006
+ADR11                             00000007
+ADR2                              00000002
+ADR3                              00000003
+ADR4                              00000000
+ADR5                              00000001
+ADR6                              00000002
+ADR7                              00000003
+ADR8                              00000004
+ADR9                              00000005
+ADRH                              000000B2
+ADRL                              000000B3
+ADST                              00000006
+ANSEL                             000000AE
+BUZ0OE                            00000001
+BUZ1OE                            00000001
+BUZ2OE                            00000001
+C                                 00000002
+CLKS                              00000002
+CPUM0                             00000003
+CPUM1                             00000004
+DC                                00000001
+FSR0                              00000083
+FSR00                             00000000
+FSR01                             00000001
+FSR02                             00000002
+FSR03                             00000003
+FSR04                             00000004
+FSR05                             00000005
+FSR06                             00000006
+FSR07                             00000007
+FSR1                              00000084
+FSR10                             00000000
+FSR11                             00000001
+FSR12                             00000002
+FSR13                             00000003
+FSR14                             00000004
+FSR15                             00000005
+FSR16                             00000006
+FSR17                             00000007
+GCHS                              00000004
+GIE                               00000007
+HIBYTE                            00000082
+HIBYTE0                           00000000
+HIBYTE1                           00000001
+HIBYTE2                           00000002
+HIBYTE3                           00000003
+HIBYTE4                           00000004
+HIBYTE5                           00000005
+HIBYTE6                           00000006
+HIBYTE7                           00000007
+HOFF                              00000001
+INDF                              000000E7
+INDF0                             00000000
+INDF1                             00000001
+INDF2                             00000002
+INDF3                             00000003
+INDF4                             00000004
+INDF5                             00000005
+INDF6                             00000006
+INDF7                             00000007
+INT0IE                            00000000
+INT0IF                            00000000
+INT1IE                            00000001
+INT1IF                            00000001
+INTE                              000000C9
+INTF                              000000C8
+IOP0                              000000D0
+IOP4                              000000D4
+IOP5                              000000D5
+LVD24                             00000004
+LVD36                             00000005
+MINT00                            00000003
+MINT01                            00000004
+NPD                               00000006
+NT0                               00000007
+OEP0                              000000B8
+OEP4                              000000C4
+OEP5                              000000C5
+OSCM                              000000CA
+P00D                              00000000
+P00OE                             00000000
+P00PU                             00000000
+P01D                              00000001
+P01OE                             00000001
+P01PU                             00000001
+P02D                              00000002
+P02OE                             00000002
+P02PU                             00000002
+P03D                              00000003
+P03OE                             00000003
+P03PU                             00000003
+P04D                              00000004
+P04OE                             00000004
+P04PU                             00000004
+P40ANS                            00000000
+P40D                              00000000
+P40OE                             00000000
+P40PU                             00000000
+P41ANS                            00000001
+P41D                              00000001
+P41OE                             00000001
+P41PU                             00000001
+P42ANS                            00000002
+P42D                              00000002
+P42OE                             00000002
+P42PU                             00000002
+P43ANS                            00000003
+P43D                              00000003
+P43OE                             00000003
+P43PU                             00000003
+P44ANS                            00000004
+P44D                              00000004
+P44OE                             00000004
+P44PU                             00000004
+P45ANS                            00000005
+P45D                              00000005
+P45OE                             00000005
+P45PU                             00000005
+P52D                              00000002
+P52OE                             00000002
+P52PU                             00000002
+P53D                              00000003
+P53OE                             00000003
+P53PU                             00000003
+P54D                              00000004
+P54OE                             00000004
+P54PU                             00000004
+PC0                               00000000
+PC1                               00000001
+PC10                              00000002
+PC2                               00000002
+PC3                               00000003
+PC4                               00000004
+PC5                               00000005
+PC6                               00000006
+PC7                               00000007
+PC8                               00000000
+PC9                               00000001
+PCH                               000000CF
+PCL                               000000CE
+PEDGE                             000000BF
+PFLAG                             00000086
+PUP0                              000000E0
+PUP4                              000000E4
+PUP5                              000000E5
+PWM0OE                            00000000
+PWM1OE                            00000000
+PWM2OE                            00000000
+STK00                             00000000
+STK01                             00000000
+STK02                             00000000
+STK03                             00000000
+STK04                             00000000
+STK05                             00000000
+STK06                             00000000
+STK0H                             000000FF
+STK0L                             000000FE
+STK1H                             000000FD
+STK1L                             000000FC
+STK2H                             000000FB
+STK2L                             000000FA
+STK3H                             000000F9
+STK3L                             000000F8
+STKP                              000000DF
+STKP0                             00000000
+STKP1                             00000001
+STKP2                             00000002
+T0ALOAD                           00000002
+T0C                               000000DB
+T0C0                              00000000
+T0C1                              00000001
+T0C2                              00000002
+T0C3                              00000003
+T0C4                              00000004
+T0C5                              00000005
+T0C6                              00000006
+T0C7                              00000007
+T0CR                              000000DA
+T0D                               000000CD
+T0D0                              00000000
+T0D1                              00000001
+T0D2                              00000002
+T0D3                              00000003
+T0D4                              00000004
+T0D5                              00000005
+T0D6                              00000006
+T0D7                              00000007
+T0GE                              00000001
+T0IE                              00000005
+T0IF                              00000005
+T0PR0                             00000004
+T0PR1                             00000005
+T0PR2                             00000006
+T0PTS                             00000003
+T0PTSX                            00000002
+T1ALOAD                           00000002
+T1C                               000000DD
+T1C0                              00000000
+T1C1                              00000001
+T1C2                              00000002
+T1C3                              00000003
+T1C4                              00000004
+T1C5                              00000005
+T1C6                              00000006
+T1C7                              00000007
+T1CR                              000000DC
+T1D                               000000DE
+T1D0                              00000000
+T1D1                              00000001
+T1D2                              00000002
+T1D3                              00000003
+T1D4                              00000004
+T1D5                              00000005
+T1D6                              00000006
+T1D7                              00000007
+T1IE                              00000006
+T1IF                              00000006
+T1PR0                             00000004
+T1PR1                             00000005
+T1PR2                             00000006
+T1PTS                             00000003
+T1PTSX                            00000003
+T2ALOAD                           00000002
+T2C                               000000ED
+T2C0                              00000000
+T2C1                              00000001
+T2C2                              00000002
+T2C3                              00000003
+T2C4                              00000004
+T2C5                              00000005
+T2C6                              00000006
+T2C7                              00000007
+T2CR                              000000EC
+T2D                               000000EE
+T2D0                              00000000
+T2D1                              00000001
+T2D2                              00000002
+T2D3                              00000003
+T2D4                              00000004
+T2D5                              00000005
+T2D6                              00000006
+T2D7                              00000007
+T2IE                              00000004
+T2IF                              00000004
+T2PR0                             00000004
+T2PR1                             00000005
+T2PR2                             00000006
+T2PTS                             00000003
+T2PTSX                            00000004
+TC0EN                             00000007
+TC1EN                             00000007
+TC2EN                             00000007
+TXCR                              000000D8
+VREF                              000000AF
+VREFS                             00000007
+VRS0                              00000000
+VRS1                              00000001
+WDTR                              000000CC
+WDTR0                             00000000
+WDTR1                             00000001
+WDTR2                             00000002
+WDTR3                             00000003
+WDTR4                             00000004
+WDTR5                             00000005
+WDTR6                             00000006
+WDTR7                             00000007
+Z                                 00000000
+_00106_DS_                        00000040
+_00108_DS_                        00000056
+_CONFIG0                          00008000
+_CONFIG1                          00008001
+__32P7011                         00000001
+___fs2schar                       00000000
+___fs2sint                        00000000
+___fs2slong                       00000000
+___fs2uchar                       00000000
+___fs2uint                        00000000
+___fs2ulong                       00000000
+___fsadd                          00000000
+___fsdiv                          00000000
+___fseq                           00000000
+___fsgt                           00000000
+___fslt                           00000000
+___fsmul                          00000000
+___fsneq                          00000000
+___fssub                          00000000
+___schar2fs                       00000000
+___sint2fs                        00000000
+___slong2fs                       00000000
+___uchar2fs                       00000000
+___uint2fs                        00000000
+___ulong2fs                       00000000
+r0x1000                           00000003
+r0x1001                           00000002
+r0x1002                           00000001
+r0x1003                           00000000
+r0x1004                           00000004
+r0x1005                           00000005
+r0x1006                           00000006
+r0x1007                           00000007
+
+Errors   :     0
+Warnings :     0 reported,     0 suppressed
+Messages :     0 reported,     0 suppressed
+
+

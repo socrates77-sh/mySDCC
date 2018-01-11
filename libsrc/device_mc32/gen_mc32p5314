@@ -1,0 +1,18 @@
+DEVICE=mc32p5314
+INCF=3316
+
+if [ ! -d $DEVICE ]
+then 
+	mkdir $DEVICE
+	cp conf_win $DEVICE
+fi
+
+dev_$DEVICE
+mv $DEVICE.inc ../../share/header/$INCF.inc
+mv $DEVICE.h ../../share/include
+mv $DEVICE.c ./$DEVICE
+
+echo "(FF) ../../share/header/$INCF.inc"
+echo "(FF) ../../share/include/$DEVICE.h"
+echo "(FF) ./$DEVICE/$DEVICE.c"
+

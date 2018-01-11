@@ -1,0 +1,669 @@
+gpasm-2.0.0_beta2 (Nov  6 2017)_modschar.asm      2018-1-4  10:24:28           PAGE  1
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+                      00001 ;--------------------------------------------------------
+                      00002 ; File Created by SN-SDCC : SinoMCU ANSI-C Compiler
+                      00003 ; Version 1.1.0 (Dec 19 2017) (MINGW32)
+                      00004 ; This file was generated Thu Jan 04 10:24:28 2018
+                      00005 ;--------------------------------------------------------
+                      00006 ; MC35 port for the RISC core
+                      00007 ;--------------------------------------------------------
+                      00008 ;       .file   "../../libsdcc_mc35/_modschar.c"
+                      00009         list    p=7011
+                      00010         radix dec
+                      00011         include "7011.inc"
+                      00001                 LIST
+                      00002 ;mc32p7031.inc    Standard Header File, Version 1.00 by Sinomcu
+                      00447                 LIST
+                      00012 ;--------------------------------------------------------
+                      00013 ; external declarations
+                      00014 ;--------------------------------------------------------
+                      00015         extern  __moduchar
+                      00016 
+                      00017         extern STK06
+                      00018         extern STK05
+                      00019         extern STK04
+                      00020         extern STK03
+                      00021         extern STK02
+                      00022         extern STK01
+                      00023         extern STK00
+                      00024 ;--------------------------------------------------------
+                      00025 ; global declarations
+                      00026 ;--------------------------------------------------------
+                      00027         global  __modschar
+                      00028 
+                      00029 ;--------------------------------------------------------
+                      00030 ; global definitions
+                      00031 ;--------------------------------------------------------
+                      00032 ;--------------------------------------------------------
+                      00033 ; absolute symbol definitions
+                      00034 ;--------------------------------------------------------
+                      00035 ;--------------------------------------------------------
+                      00036 ; compiler-defined variables
+                      00037 ;--------------------------------------------------------
+                      00038 UDL__modschar_0 udata
+0000                  00039 r0x1000 res     1
+0000                  00040 r0x1001 res     1
+0001                  00041 r0x1002 res     1
+0001                  00042 r0x1003 res     1
+0002                  00043 r0x1004 res     1
+0002                  00044 r0x1005 res     1
+0003                  00045 r0x1006 res     1
+0003                  00046 r0x1007 res     1
+0004                  00047 r0x1008 res     1
+                      00048 ;--------------------------------------------------------
+                      00049 ; initialized data
+                      00050 ;--------------------------------------------------------
+                      00051 
+                      00052 ;@Allocation info for local variables in function '_modschar'
+                      00053 ;@_modschar _moduchar                 Allocated to registers ;size:2
+                      00054 ;@_modschar b                         Allocated to registers r0x1001 ;size:1
+                      00055 ;@_modschar a                         Allocated to registers r0x1000 ;size:1
+                      00056 ;@end Allocation info for local variables in function '_modschar';
+                      00057 
+                      00058 ;--------------------------------------------------------
+                      00059 ; overlayable items in internal ram 
+                      00060 ;--------------------------------------------------------
+                      00061 ;       udata_ovr
+                      00062 ;--------------------------------------------------------
+                      00063 ; code
+                      00064 ;--------------------------------------------------------
+                      00065 code__modschar  code
+                      00066 ;***
+                      00067 ;  pBlock Stats: dbName = C
+                      00068 ;***
+                      00069 ;entry:  __modschar     ;Function start
+                      00070 ; 2 exit points
+                      00071 ;has an exit
+                      00072 ;functions called:
+                      00073 ;   __moduchar
+                      00074 ;   __moduchar
+                      00075 ;   __moduchar
+                      00076 ;   __moduchar
+                      00077 ;   __moduchar
+                      00078 ;   __moduchar
+                      00079 ;   __moduchar
+                      00080 ;   __moduchar
+                      00081 ;11 compiler assigned registers:
+                      00082 ;   r0x1000
+                      00083 ;   STK00
+                      00084 ;   r0x1001
+                      00085 ;   r0x1002
+                      00086 ;   r0x1003
+                      00087 ;   r0x1004
+                      00088 ;   r0x1005
+                      00089 ;   r0x1006
+                      00090 ;   r0x1007
+                      00091 ;   r0x1008
+                      00092 ;   r0x1009
+                      00093 ;; Starting pCode block
+                      00094 ;;[ICODE] ../../libsdcc_mc35/_modschar.c:32:  _entry($11) :
+                      00095 ;;[ICODE] ../../libsdcc_mc35/_modschar.c:32:    proc __modschar [k1 lr0:0 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char function ( char fixed, char fixed) fixed}
+0000                  00096 __modschar      ;Function start
+                      00097 ; 2 exit points
+                      00098 ;;[ICODE] ../../libsdcc_mc35/_modschar.c:32: iTemp0 [k2 lr3:48 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{char fixed}{ sir@ __modschar_a_1_2}[r0x1000 ] = recv __modschar [k1 lr0:0 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char function ( char fixed, char fixed) fixed}
+                      00099 ;       .line   32; "../../libsdcc_mc35/_modschar.c"    _modschar (signed char a, signed char b)
+0000   1F00           00100         MOVRA   r0x1000
+                      00101 ;;[ICODE] ../../libsdcc_mc35/_modschar.c:32: iTemp1 [k4 lr4:50 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{char fixed}{ sir@ __modschar_b_1_2}[r0x1001 ] = recv __modschar [k1 lr0:0 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char function ( char fixed, char fixed) fixed}
+0001   1E00           00102         MOVAR   STK00
+0002   1F00           00103         MOVRA   r0x1001
+                      00104 ;;[ICODE] ../../libsdcc_mc35/_modschar.c:34:    iTemp2 [k6 lr5:6 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char fixed} = iTemp0 [k2 lr3:48 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{char fixed}{ sir@ __modschar_a_1_2}[r0x1000 ] < 0x0 {const-char literal}
+                      00105 ;;signed compare: left < lit(0x0=0), size=1, mask=ff
+                      00106 ;       .line   34; "../../libsdcc_mc35/_modschar.c"    if (a < 0) {
+0003   4A86           00107         BSET    PFLAG,2
+0004   5F00           00108         JBSET   r0x1000,7
+0005   4286           00109         BCLR    PFLAG,2
+0006   5A86           00110         JBSET   PFLAG,2
+0007   8000           00111         GOTO    _00112_DS_
+                      00112 ;;genSkipc:3223: created from rifx:00DD608C
+                      00113 ;;[ICODE] ../../libsdcc_mc35/_modschar.c:34:    if iTemp2 [k6 lr5:6 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char fixed} == 0 goto _iffalse_2($8)
+                      00114 ;;[ICODE] ../../libsdcc_mc35/_modschar.c:36:    iTemp3 [k7 lr7:8 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char fixed} = iTemp1 [k4 lr4:50 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{char fixed}{ sir@ __modschar_b_1_2}[r0x1001 ] < 0x0 {const-char literal}
+                      00115 ;;signed compare: left < lit(0x0=0), size=1, mask=ff
+                      00116 ;       .line   36; "../../libsdcc_mc35/_modschar.c"    if (b < 0)
+0008   4A86           00117         BSET    PFLAG,2
+0009   5F00           00118         JBSET   r0x1001,7
+000A   4286           00119         BCLR    PFLAG,2
+000B   5A86           00120         JBSET   PFLAG,2
+000C   8000           00121         GOTO    _00106_DS_
+                      00122 ;;genSkipc:3223: created from rifx:00DD608C
+                      00123 ;;[ICODE] ../../libsdcc_mc35/_modschar.c:36:    if iTemp3 [k7 lr7:8 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char fixed} == 0 goto _iffalse_0($2)
+                      00124 ;;[ICODE] ../../libsdcc_mc35/_modschar.c:37:    iTemp4 [k9 lr9:10 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{int fixed}[r0x1002 r0x1003 ] = (int fixed)iTemp0 [k2 lr3:48 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{char fixed}{ sir@ __modschar_a_1_2}[r0x1000 ]
+                      00125 ;       .line   37; "../../libsdcc_mc35/_modschar.c"    return _moduchar ((unsigned int)-a, (unsigned int)-b);
+000D   1E00           00126         MOVAR   r0x1000
+000E   1F00           00127         MOVRA   r0x1002
+000F   2B00           00128         CLRR    r0x1003
+0010   5700           00129         JBCLR   r0x1002,7
+0011   2600           00130         DJZR    r0x1003
+0012   0000           00131         NOP     
+                      00132 ;;[ICODE] ../../libsdcc_mc35/_modschar.c:37:    iTemp5 [k10 lr10:11 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{int fixed}[r0x1002 r0x1003 ] = - iTemp4 [k9 lr9:10 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{int fixed}[r0x1002 r0x1003 ]
+0013   2DFF           00133         MOVAI   0xff
+0014   1C00           00134         XORRA   r0x1002
+0015   2DFF           00135         MOVAI   0xff
+0016   1C00           00136         XORRA   r0x1003
+0017   2D01           00137         MOVAI   0x01
+0018   1300           00138         ADDRA   r0x1002
+0019   5086           00139         JBCLR   PFLAG,0
+001A   1300           00140         ADDRA   r0x1003
+                      00141 ;;[ICODE] ../../libsdcc_mc35/_modschar.c:37:    iTemp6 [k11 lr11:12 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-int fixed}[r0x1004 r0x1005 ] = (unsigned-int fixed)iTemp5 [k10 lr10:11 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{int fixed}[r0x1002 r0x1003 ]
+001B   1E00           00142         MOVAR   r0x1002
+001C   1F00           00143         MOVRA   r0x1002
+001D   1F00           00144         MOVRA   r0x1004
+001E   1E00           00145         MOVAR   r0x1003
+001F   1F00           00146         MOVRA   r0x1005
+                      00147 ;;[ICODE] ../../libsdcc_mc35/_modschar.c:37:    iTemp7 [k12 lr12:18 so:0]{ ia0 a2p0 re0 rm0 nos0 ru1 dp0}{unsigned-char fixed}[r0x1002 ] = (unsigned-char fixed)iTemp6 [k11 lr11:12 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-int fixed}[r0x1004 r0x1005 ]
+                      00148 ;;108   MOVAR   r0x1004
+                      00149 ;;[ICODE] ../../libsdcc_mc35/_modschar.c:37:    iTemp8 [k13 lr13:14 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{int fixed}[r0x1004 r0x1005 ] = (int fixed)iTemp1 [k4 lr4:50 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{char fixed}{ sir@ __modschar_b_1_2}[r0x1001 ]
+0020   1E00           00150         MOVAR   r0x1001
+0021   1F00           00151         MOVRA   r0x1004
+0022   2B00           00152         CLRR    r0x1005
+0023   5700           00153         JBCLR   r0x1004,7
+0024   2600           00154         DJZR    r0x1005
+0025   0000           00155         NOP     
+                      00156 ;;[ICODE] ../../libsdcc_mc35/_modschar.c:37:    iTemp9 [k14 lr14:15 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{int fixed}[r0x1004 r0x1005 ] = - iTemp8 [k13 lr13:14 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{int fixed}[r0x1004 r0x1005 ]
+0026   2DFF           00157         MOVAI   0xff
+0027   1C00           00158         XORRA   r0x1004
+0028   2DFF           00159         MOVAI   0xff
+0029   1C00           00160         XORRA   r0x1005
+002A   2D01           00161         MOVAI   0x01
+002B   1300           00162         ADDRA   r0x1004
+002C   5086           00163         JBCLR   PFLAG,0
+002D   1300           00164         ADDRA   r0x1005
+                      00165 ;;[ICODE] ../../libsdcc_mc35/_modschar.c:37:    iTemp10 [k15 lr15:16 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-int fixed}[r0x1006 r0x1007 ] = (unsigned-int fixed)iTemp9 [k14 lr14:15 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{int fixed}[r0x1004 r0x1005 ]
+                      00166 ;;110   MOVAR   r0x1004
+002E   1E00           00167         MOVAR   r0x1005
+002F   1F00           00168         MOVRA   r0x1007
+                      00169 ;;[ICODE] ../../libsdcc_mc35/_modschar.c:37:    iTemp11 [k16 lr16:18 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-char fixed}[r0x1004 ] = (unsigned-char fixed)iTemp10 [k15 lr15:16 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-int fixed}[r0x1006 r0x1007 ]
+                      00170 ;;104   MOVAR   r0x1006
+                      00171 ;;[ICODE] ../../libsdcc_mc35/_modschar.c:37:    send iTemp7 [k12 lr12:18 so:0]{ ia0 a2p0 re0 rm0 nos0 ru1 dp0}{unsigned-char fixed}[r0x1002 ]{argreg = 1}
+                      00172 ;;[ICODE] ../../libsdcc_mc35/_modschar.c:37:    send iTemp11 [k16 lr16:18 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-char fixed}[r0x1004 ]{argreg = 1}
+                      00173 ;;[ICODE] ../../libsdcc_mc35/_modschar.c:37:    iTemp12 [k19 lr19:20 so:0]{ ia0 a2p0 re0 rm0 nos0 ru1 dp0}{unsigned-char fixed}[r0x1002 ] = call __moduchar [k8 lr0:0 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-char function ( unsigned-char fixed, unsigned-char fixed) fixed}
+                      00174 ;;103   MOVAR   r0x1004
+                      00175 ;;109   MOVAR   r0x1006
+0030   1E00           00176         MOVAR   r0x1004
+0031   1F00           00177         MOVRA   r0x1006
+0032   1F00           00178         MOVRA   r0x1004
+0033   1F00           00179         MOVRA   STK00
+0034   1E00           00180         MOVAR   r0x1002
+0035   C000           00181         CALL    __moduchar
+0036   1F00           00182         MOVRA   r0x1002
+                      00183 ;;[ICODE] ../../libsdcc_mc35/_modschar.c:37:    ret iTemp12 [k19 lr19:20 so:0]{ ia0 a2p0 re0 rm0 nos0 ru1 dp0}{unsigned-char fixed}[r0x1002 ]
+0037   1E00           00184         MOVAR   r0x1002
+0038   8000           00185         GOTO    _00114_DS_
+                      00186 ;;[ICODE] ../../libsdcc_mc35/_modschar.c:37:  _iffalse_0($2) :
+                      00187 ;;[ICODE] ../../libsdcc_mc35/_modschar.c:39:    iTemp13 [k20 lr22:23 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{int fixed}[r0x1002 r0x1004 ] = (int fixed)iTemp0 [k2 lr3:48 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{char fixed}{ sir@ __modschar_a_1_2}[r0x1000 ]
+0039                  00188 _00106_DS_
+                      00189 ;       .line   39; "../../libsdcc_mc35/_modschar.c"    return -_moduchar ((unsigned int)-a, (unsigned int)b);
+0039   1E00           00190         MOVAR   r0x1000
+003A   1F00           00191         MOVRA   r0x1002
+003B   2B00           00192         CLRR    r0x1004
+003C   5700           00193         JBCLR   r0x1002,7
+003D   2600           00194         DJZR    r0x1004
+003E   0000           00195         NOP     
+                      00196 ;;[ICODE] ../../libsdcc_mc35/_modschar.c:39:    iTemp14 [k21 lr23:24 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{int fixed}[r0x1002 r0x1004 ] = - iTemp13 [k20 lr22:23 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{int fixed}[r0x1002 r0x1004 ]
+003F   2DFF           00197         MOVAI   0xff
+0040   1C00           00198         XORRA   r0x1002
+0041   2DFF           00199         MOVAI   0xff
+0042   1C00           00200         XORRA   r0x1004
+0043   2D01           00201         MOVAI   0x01
+0044   1300           00202         ADDRA   r0x1002
+0045   5086           00203         JBCLR   PFLAG,0
+0046   1300           00204         ADDRA   r0x1004
+                      00205 ;;[ICODE] ../../libsdcc_mc35/_modschar.c:39:    iTemp15 [k22 lr24:25 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-int fixed}[r0x1006 r0x1007 ] = (unsigned-int fixed)iTemp14 [k21 lr23:24 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{int fixed}[r0x1002 r0x1004 ]
+0047   1E00           00206         MOVAR   r0x1002
+0048   1F00           00207         MOVRA   r0x1002
+0049   1F00           00208         MOVRA   r0x1006
+004A   1E00           00209         MOVAR   r0x1004
+004B   1F00           00210         MOVRA   r0x1007
+                      00211 ;;[ICODE] ../../libsdcc_mc35/_modschar.c:39:    iTemp16 [k23 lr25:29 so:0]{ ia0 a2p0 re0 rm0 nos0 ru1 dp0}{unsigned-char fixed}[r0x1002 ] = (unsigned-char fixed)iTemp15 [k22 lr24:25 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-int fixed}[r0x1006 r0x1007 ]
+                      00212 ;;105   MOVAR   r0x1006
+                      00213 ;;[ICODE] ../../libsdcc_mc35/_modschar.c:39:    iTemp17 [k24 lr26:27 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-int fixed}[r0x1006 r0x1007 ] = (unsigned-int fixed)iTemp1 [k4 lr4:50 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{char fixed}{ sir@ __modschar_b_1_2}[r0x1001 ]
+004C   1E00           00214         MOVAR   r0x1001
+004D   1F00           00215         MOVRA   r0x1006
+004E   2B00           00216         CLRR    r0x1007
+004F   5700           00217         JBCLR   r0x1006,7
+0050   2600           00218         DJZR    r0x1007
+0051   0000           00219         NOP     
+                      00220 ;;[ICODE] ../../libsdcc_mc35/_modschar.c:39:    iTemp18 [k25 lr27:29 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-char fixed}[r0x1008 ] = (unsigned-char fixed)iTemp17 [k24 lr26:27 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-int fixed}[r0x1006 r0x1007 ]
+                      00221 ;;107   MOVAR   r0x1006
+                      00222 ;;[ICODE] ../../libsdcc_mc35/_modschar.c:39:    send iTemp16 [k23 lr25:29 so:0]{ ia0 a2p0 re0 rm0 nos0 ru1 dp0}{unsigned-char fixed}[r0x1002 ]{argreg = 1}
+                      00223 ;;[ICODE] ../../libsdcc_mc35/_modschar.c:39:    send iTemp18 [k25 lr27:29 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-char fixed}[r0x1008 ]{argreg = 1}
+                      00224 ;;[ICODE] ../../libsdcc_mc35/_modschar.c:39:    iTemp19 [k26 lr30:31 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-char fixed}[r0x1002 ] = call __moduchar [k8 lr0:0 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-char function ( unsigned-char fixed, unsigned-char fixed) fixed}
+                      00225 ;;106   MOVAR   r0x1008
+0052   1E00           00226         MOVAR   r0x1006
+0053   1F00           00227         MOVRA   r0x1008
+0054   1F00           00228         MOVRA   STK00
+0055   1E00           00229         MOVAR   r0x1002
+0056   C000           00230         CALL    __moduchar
+0057   1F00           00231         MOVRA   r0x1002
+                      00232 ;;[ICODE] ../../libsdcc_mc35/_modschar.c:39:    iTemp20 [k27 lr31:32 so:0]{ ia0 a2p0 re0 rm0 nos0 ru1 dp0}{unsigned-char fixed}[r0x1002 ] = - iTemp19 [k26 lr30:31 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-char fixed}[r0x1002 ]
+0058   2DFF           00233         MOVAI   0xff
+0059   1C00           00234         XORRA   r0x1002
+005A   2D01           00235         MOVAI   0x01
+005B   1300           00236         ADDRA   r0x1002
+                      00237 ;;[ICODE] ../../libsdcc_mc35/_modschar.c:39:    ret iTemp20 [k27 lr31:32 so:0]{ ia0 a2p0 re0 rm0 nos0 ru1 dp0}{unsigned-char fixed}[r0x1002 ]
+005C   1E00           00238         MOVAR   r0x1002
+005D   8000           00239         GOTO    _00114_DS_
+                      00240 ;;[ICODE] ../../libsdcc_mc35/_modschar.c:39:  _iffalse_2($8) :
+                      00241 ;;[ICODE] ../../libsdcc_mc35/_modschar.c:42:    iTemp21 [k28 lr34:35 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char fixed} = iTemp1 [k4 lr4:50 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{char fixed}{ sir@ __modschar_b_1_2}[r0x1001 ] < 0x0 {const-char literal}
+                      00242 ;;signed compare: left < lit(0x0=0), size=1, mask=ff
+005E                  00243 _00112_DS_
+                      00244 ;       .line   42; "../../libsdcc_mc35/_modschar.c"    if (b < 0)
+005E   4A86           00245         BSET    PFLAG,2
+005F   5F00           00246         JBSET   r0x1001,7
+0060   4286           00247         BCLR    PFLAG,2
+0061   5A86           00248         JBSET   PFLAG,2
+0062   8000           00249         GOTO    _00109_DS_
+                      00250 ;;genSkipc:3223: created from rifx:00DD608C
+                      00251 ;;[ICODE] ../../libsdcc_mc35/_modschar.c:42:    if iTemp21 [k28 lr34:35 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char fixed} == 0 goto _iffalse_1($5)
+                      00252 ;;[ICODE] ../../libsdcc_mc35/_modschar.c:43:    iTemp22 [k29 lr36:37 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-int fixed}[r0x1002 r0x1006 ] = (unsigned-int fixed)iTemp0 [k2 lr3:48 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{char fixed}{ sir@ __modschar_a_1_2}[r0x1000 ]
+                      00253 ;       .line   43; "../../libsdcc_mc35/_modschar.c"    return -_moduchar ((unsigned int)a, (unsigned int)-b);
+0063   1E00           00254         MOVAR   r0x1000
+0064   1F00           00255         MOVRA   r0x1002
+0065   2B00           00256         CLRR    r0x1006
+0066   5700           00257         JBCLR   r0x1002,7
+0067   2600           00258         DJZR    r0x1006
+0068   0000           00259         NOP     
+                      00260 ;;[ICODE] ../../libsdcc_mc35/_modschar.c:43:    iTemp23 [k30 lr37:43 so:0]{ ia0 a2p0 re0 rm0 nos0 ru1 dp0}{unsigned-char fixed}[r0x1007 ] = (unsigned-char fixed)iTemp22 [k29 lr36:37 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-int fixed}[r0x1002 r0x1006 ]
+0069   1E00           00261         MOVAR   r0x1002
+006A   1F00           00262         MOVRA   r0x1007
+                      00263 ;;[ICODE] ../../libsdcc_mc35/_modschar.c:43:    iTemp24 [k31 lr38:39 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{int fixed}[r0x1002 r0x1006 ] = (int fixed)iTemp1 [k4 lr4:50 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{char fixed}{ sir@ __modschar_b_1_2}[r0x1001 ]
+006B   1E00           00264         MOVAR   r0x1001
+006C   1F00           00265         MOVRA   r0x1002
+006D   2B00           00266         CLRR    r0x1006
+006E   5700           00267         JBCLR   r0x1002,7
+006F   2600           00268         DJZR    r0x1006
+0070   0000           00269         NOP     
+                      00270 ;;[ICODE] ../../libsdcc_mc35/_modschar.c:43:    iTemp25 [k32 lr39:40 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{int fixed}[r0x1002 r0x1006 ] = - iTemp24 [k31 lr38:39 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{int fixed}[r0x1002 r0x1006 ]
+0071   2DFF           00271         MOVAI   0xff
+0072   1C00           00272         XORRA   r0x1002
+0073   2DFF           00273         MOVAI   0xff
+0074   1C00           00274         XORRA   r0x1006
+0075   2D01           00275         MOVAI   0x01
+0076   1300           00276         ADDRA   r0x1002
+0077   5086           00277         JBCLR   PFLAG,0
+0078   1300           00278         ADDRA   r0x1006
+                      00279 ;;[ICODE] ../../libsdcc_mc35/_modschar.c:43:    iTemp26 [k33 lr40:41 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-int fixed}[r0x1008 r0x1009 ] = (unsigned-int fixed)iTemp25 [k32 lr39:40 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{int fixed}[r0x1002 r0x1006 ]
+                      00280 ;;112   MOVAR   r0x1002
+0079   1E00           00281         MOVAR   r0x1006
+                      00282 ;;1     MOVRA   r0x1009
+                      00283 ;;[ICODE] ../../libsdcc_mc35/_modschar.c:43:    iTemp27 [k34 lr41:43 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-char fixed}[r0x1002 ] = (unsigned-char fixed)iTemp26 [k33 lr40:41 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-int fixed}[r0x1008 r0x1009 ]
+                      00284 ;;102   MOVAR   r0x1008
+                      00285 ;;[ICODE] ../../libsdcc_mc35/_modschar.c:43:    send iTemp23 [k30 lr37:43 so:0]{ ia0 a2p0 re0 rm0 nos0 ru1 dp0}{unsigned-char fixed}[r0x1007 ]{argreg = 1}
+                      00286 ;;[ICODE] ../../libsdcc_mc35/_modschar.c:43:    send iTemp27 [k34 lr41:43 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-char fixed}[r0x1002 ]{argreg = 1}
+                      00287 ;;[ICODE] ../../libsdcc_mc35/_modschar.c:43:    iTemp28 [k35 lr44:45 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-char fixed}[r0x1002 ] = call __moduchar [k8 lr0:0 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-char function ( unsigned-char fixed, unsigned-char fixed) fixed}
+                      00288 ;;101   MOVAR   r0x1002
+                      00289 ;;111   MOVAR   r0x1008
+007A   1E00           00290         MOVAR   r0x1002
+007B   1F00           00291         MOVRA   r0x1008
+007C   1F00           00292         MOVRA   r0x1002
+007D   1F00           00293         MOVRA   STK00
+007E   1E00           00294         MOVAR   r0x1007
+007F   C000           00295         CALL    __moduchar
+0080   1F00           00296         MOVRA   r0x1002
+                      00297 ;;[ICODE] ../../libsdcc_mc35/_modschar.c:43:    iTemp29 [k36 lr45:46 so:0]{ ia0 a2p0 re0 rm0 nos0 ru1 dp0}{unsigned-char fixed}[r0x1002 ] = - iTemp28 [k35 lr44:45 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-char fixed}[r0x1002 ]
+0081   2DFF           00298         MOVAI   0xff
+0082   1C00           00299         XORRA   r0x1002
+0083   2D01           00300         MOVAI   0x01
+0084   1300           00301         ADDRA   r0x1002
+                      00302 ;;[ICODE] ../../libsdcc_mc35/_modschar.c:43:    ret iTemp29 [k36 lr45:46 so:0]{ ia0 a2p0 re0 rm0 nos0 ru1 dp0}{unsigned-char fixed}[r0x1002 ]
+0085   1E00           00303         MOVAR   r0x1002
+0086   8000           00304         GOTO    _00114_DS_
+                      00305 ;;[ICODE] ../../libsdcc_mc35/_modschar.c:43:  _iffalse_1($5) :
+                      00306 ;;[ICODE] ../../libsdcc_mc35/_modschar.c:45:    iTemp30 [k37 lr48:49 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-int fixed}[r0x1002 r0x1007 ] = (unsigned-int fixed)iTemp0 [k2 lr3:48 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{char fixed}{ sir@ __modschar_a_1_2}[r0x1000 ]
+0087                  00307 _00109_DS_
+                      00308 ;       .line   45; "../../libsdcc_mc35/_modschar.c"    return _moduchar ((unsigned int)a, (unsigned int)b);
+0087   1E00           00309         MOVAR   r0x1000
+0088   1F00           00310         MOVRA   r0x1002
+0089   2B00           00311         CLRR    r0x1007
+008A   5700           00312         JBCLR   r0x1002,7
+008B   2600           00313         DJZR    r0x1007
+008C   0000           00314         NOP     
+                      00315 ;;[ICODE] ../../libsdcc_mc35/_modschar.c:45:    iTemp31 [k38 lr49:53 so:0]{ ia0 a2p0 re0 rm0 nos0 ru1 dp0}{unsigned-char fixed}[r0x1000 ] = (unsigned-char fixed)iTemp30 [k37 lr48:49 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-int fixed}[r0x1002 r0x1007 ]
+008D   1E00           00316         MOVAR   r0x1002
+008E   1F00           00317         MOVRA   r0x1000
+                      00318 ;;[ICODE] ../../libsdcc_mc35/_modschar.c:45:    iTemp32 [k39 lr50:51 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-int fixed}[r0x1002 r0x1007 ] = (unsigned-int fixed)iTemp1 [k4 lr4:50 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{char fixed}{ sir@ __modschar_b_1_2}[r0x1001 ]
+008F   1E00           00319         MOVAR   r0x1001
+0090   1F00           00320         MOVRA   r0x1002
+0091   2B00           00321         CLRR    r0x1007
+0092   5700           00322         JBCLR   r0x1002,7
+0093   2600           00323         DJZR    r0x1007
+0094   0000           00324         NOP     
+                      00325 ;;[ICODE] ../../libsdcc_mc35/_modschar.c:45:    iTemp33 [k40 lr51:53 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-char fixed}[r0x1001 ] = (unsigned-char fixed)iTemp32 [k39 lr50:51 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-int fixed}[r0x1002 r0x1007 ]
+                      00326 ;;100   MOVAR   r0x1002
+                      00327 ;;[ICODE] ../../libsdcc_mc35/_modschar.c:45:    send iTemp31 [k38 lr49:53 so:0]{ ia0 a2p0 re0 rm0 nos0 ru1 dp0}{unsigned-char fixed}[r0x1000 ]{argreg = 1}
+                      00328 ;;[ICODE] ../../libsdcc_mc35/_modschar.c:45:    send iTemp33 [k40 lr51:53 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-char fixed}[r0x1001 ]{argreg = 1}
+                      00329 ;;[ICODE] ../../libsdcc_mc35/_modschar.c:45:    iTemp34 [k41 lr54:55 so:0]{ ia0 a2p0 re0 rm0 nos0 ru1 dp0}{unsigned-char fixed}[r0x1000 ] = call __moduchar [k8 lr0:0 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-char function ( unsigned-char fixed, unsigned-char fixed) fixed}
+                      00330 ;;99    MOVAR   r0x1001
+0095   1E00           00331         MOVAR   r0x1002
+0096   1F00           00332         MOVRA   r0x1001
+0097   1F00           00333         MOVRA   STK00
+0098   1E00           00334         MOVAR   r0x1000
+0099   C000           00335         CALL    __moduchar
+009A   1F00           00336         MOVRA   r0x1000
+                      00337 ;;[ICODE] ../../libsdcc_mc35/_modschar.c:45:    ret iTemp34 [k41 lr54:55 so:0]{ ia0 a2p0 re0 rm0 nos0 ru1 dp0}{unsigned-char fixed}[r0x1000 ]
+009B   1E00           00338         MOVAR   r0x1000
+                      00339 ;;[ICODE] ../../libsdcc_mc35/_modschar.c:45:  _return($10) :
+                      00340 ;;[ICODE] ../../libsdcc_mc35/_modschar.c:45:    eproc __modschar [k1 lr0:0 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char function ( char fixed, char fixed) fixed}
+009C                  00341 _00114_DS_
+009C   0E00           00342         RETURN  
+                      00343 ; exit point of __modschar
+                      00344 
+                      00345 
+                      00346 ;       code size estimation:
+                      00347 ;         157+    0 =   157 instructions (  314 byte)
+                      00348 
+                      00349         end
+gpasm-2.0.0_beta2 (Nov  6 2017)_modschar.asm      2018-1-4  10:24:28           PAGE  2
+
+
+SYMBOL TABLE
+  LABEL                             VALUE
+
+ADCHS0                            00000000
+ADCHS1                            00000001
+ADCHS2                            00000002
+ADCKS0                            00000004
+ADCKS1                            00000006
+ADCR                              000000B1
+ADEOC                             00000005
+ADIE                              00000007
+ADIF                              00000007
+ADLEN                             00000005
+ADON                              00000007
+ADR0                              00000000
+ADR1                              00000001
+ADR10                             00000006
+ADR11                             00000007
+ADR2                              00000002
+ADR3                              00000003
+ADR4                              00000000
+ADR5                              00000001
+ADR6                              00000002
+ADR7                              00000003
+ADR8                              00000004
+ADR9                              00000005
+ADRH                              000000B2
+ADRL                              000000B3
+ADST                              00000006
+ANSEL                             000000AE
+BUZ0OE                            00000001
+BUZ1OE                            00000001
+BUZ2OE                            00000001
+C                                 00000002
+CLKS                              00000002
+CPUM0                             00000003
+CPUM1                             00000004
+DC                                00000001
+FSR0                              00000083
+FSR00                             00000000
+FSR01                             00000001
+FSR02                             00000002
+FSR03                             00000003
+FSR04                             00000004
+FSR05                             00000005
+FSR06                             00000006
+FSR07                             00000007
+FSR1                              00000084
+FSR10                             00000000
+FSR11                             00000001
+FSR12                             00000002
+FSR13                             00000003
+FSR14                             00000004
+FSR15                             00000005
+FSR16                             00000006
+FSR17                             00000007
+GCHS                              00000004
+GIE                               00000007
+HIBYTE                            00000082
+HIBYTE0                           00000000
+HIBYTE1                           00000001
+HIBYTE2                           00000002
+HIBYTE3                           00000003
+HIBYTE4                           00000004
+HIBYTE5                           00000005
+HIBYTE6                           00000006
+HIBYTE7                           00000007
+HOFF                              00000001
+INDF                              000000E7
+INDF0                             00000000
+INDF1                             00000001
+INDF2                             00000002
+INDF3                             00000003
+INDF4                             00000004
+INDF5                             00000005
+INDF6                             00000006
+INDF7                             00000007
+INT0IE                            00000000
+INT0IF                            00000000
+INT1IE                            00000001
+INT1IF                            00000001
+INTE                              000000C9
+INTF                              000000C8
+IOP0                              000000D0
+IOP4                              000000D4
+IOP5                              000000D5
+LVD24                             00000004
+LVD36                             00000005
+MINT00                            00000003
+MINT01                            00000004
+NPD                               00000006
+NT0                               00000007
+OEP0                              000000B8
+OEP4                              000000C4
+OEP5                              000000C5
+OSCM                              000000CA
+P00D                              00000000
+P00OE                             00000000
+P00PU                             00000000
+P01D                              00000001
+P01OE                             00000001
+P01PU                             00000001
+P02D                              00000002
+P02OE                             00000002
+P02PU                             00000002
+P03D                              00000003
+P03OE                             00000003
+P03PU                             00000003
+P04D                              00000004
+P04OE                             00000004
+P04PU                             00000004
+P40ANS                            00000000
+P40D                              00000000
+P40OE                             00000000
+P40PU                             00000000
+P41ANS                            00000001
+P41D                              00000001
+P41OE                             00000001
+P41PU                             00000001
+P42ANS                            00000002
+P42D                              00000002
+P42OE                             00000002
+P42PU                             00000002
+P43ANS                            00000003
+P43D                              00000003
+P43OE                             00000003
+P43PU                             00000003
+P44ANS                            00000004
+P44D                              00000004
+P44OE                             00000004
+P44PU                             00000004
+P45ANS                            00000005
+P45D                              00000005
+P45OE                             00000005
+P45PU                             00000005
+P52D                              00000002
+P52OE                             00000002
+P52PU                             00000002
+P53D                              00000003
+P53OE                             00000003
+P53PU                             00000003
+P54D                              00000004
+P54OE                             00000004
+P54PU                             00000004
+PC0                               00000000
+PC1                               00000001
+PC10                              00000002
+PC2                               00000002
+PC3                               00000003
+PC4                               00000004
+PC5                               00000005
+PC6                               00000006
+PC7                               00000007
+PC8                               00000000
+PC9                               00000001
+PCH                               000000CF
+PCL                               000000CE
+PEDGE                             000000BF
+PFLAG                             00000086
+PUP0                              000000E0
+PUP4                              000000E4
+PUP5                              000000E5
+PWM0OE                            00000000
+PWM1OE                            00000000
+PWM2OE                            00000000
+STK00                             00000000
+STK01                             00000000
+STK02                             00000000
+STK03                             00000000
+STK04                             00000000
+STK05                             00000000
+STK06                             00000000
+STK0H                             000000FF
+STK0L                             000000FE
+STK1H                             000000FD
+STK1L                             000000FC
+STK2H                             000000FB
+STK2L                             000000FA
+STK3H                             000000F9
+STK3L                             000000F8
+STKP                              000000DF
+STKP0                             00000000
+STKP1                             00000001
+STKP2                             00000002
+T0ALOAD                           00000002
+T0C                               000000DB
+T0C0                              00000000
+T0C1                              00000001
+T0C2                              00000002
+T0C3                              00000003
+T0C4                              00000004
+T0C5                              00000005
+T0C6                              00000006
+T0C7                              00000007
+T0CR                              000000DA
+T0D                               000000CD
+T0D0                              00000000
+T0D1                              00000001
+T0D2                              00000002
+T0D3                              00000003
+T0D4                              00000004
+T0D5                              00000005
+T0D6                              00000006
+T0D7                              00000007
+T0GE                              00000001
+T0IE                              00000005
+T0IF                              00000005
+T0PR0                             00000004
+T0PR1                             00000005
+T0PR2                             00000006
+T0PTS                             00000003
+T0PTSX                            00000002
+T1ALOAD                           00000002
+T1C                               000000DD
+T1C0                              00000000
+T1C1                              00000001
+T1C2                              00000002
+T1C3                              00000003
+T1C4                              00000004
+T1C5                              00000005
+T1C6                              00000006
+T1C7                              00000007
+T1CR                              000000DC
+T1D                               000000DE
+T1D0                              00000000
+T1D1                              00000001
+T1D2                              00000002
+T1D3                              00000003
+T1D4                              00000004
+T1D5                              00000005
+T1D6                              00000006
+T1D7                              00000007
+T1IE                              00000006
+T1IF                              00000006
+T1PR0                             00000004
+T1PR1                             00000005
+T1PR2                             00000006
+T1PTS                             00000003
+T1PTSX                            00000003
+T2ALOAD                           00000002
+T2C                               000000ED
+T2C0                              00000000
+T2C1                              00000001
+T2C2                              00000002
+T2C3                              00000003
+T2C4                              00000004
+T2C5                              00000005
+T2C6                              00000006
+T2C7                              00000007
+T2CR                              000000EC
+T2D                               000000EE
+T2D0                              00000000
+T2D1                              00000001
+T2D2                              00000002
+T2D3                              00000003
+T2D4                              00000004
+T2D5                              00000005
+T2D6                              00000006
+T2D7                              00000007
+T2IE                              00000004
+T2IF                              00000004
+T2PR0                             00000004
+T2PR1                             00000005
+T2PR2                             00000006
+T2PTS                             00000003
+T2PTSX                            00000004
+TC0EN                             00000007
+TC1EN                             00000007
+TC2EN                             00000007
+TXCR                              000000D8
+VREF                              000000AF
+VREFS                             00000007
+VRS0                              00000000
+VRS1                              00000001
+WDTR                              000000CC
+WDTR0                             00000000
+WDTR1                             00000001
+WDTR2                             00000002
+WDTR3                             00000003
+WDTR4                             00000004
+WDTR5                             00000005
+WDTR6                             00000006
+WDTR7                             00000007
+Z                                 00000000
+_00106_DS_                        00000039
+_00109_DS_                        00000087
+_00112_DS_                        0000005E
+_00114_DS_                        0000009C
+_CONFIG0                          00008000
+_CONFIG1                          00008001
+__32P7011                         00000001
+__modschar                        00000000
+__moduchar                        00000000
+r0x1000                           00000000
+r0x1001                           00000001
+r0x1002                           00000002
+r0x1003                           00000003
+r0x1004                           00000004
+r0x1005                           00000005
+r0x1006                           00000006
+r0x1007                           00000007
+r0x1008                           00000008
+
+Errors   :     0
+Warnings :     0 reported,     0 suppressed
+Messages :     0 reported,     0 suppressed
+
+

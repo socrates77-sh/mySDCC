@@ -1,0 +1,493 @@
+gpasm-2.0.0_beta2 (Nov  6 2017)_moduchar.asm      2018-1-4  10:24:30           PAGE  1
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+                      00001 ;--------------------------------------------------------
+                      00002 ; File Created by SN-SDCC : SinoMCU ANSI-C Compiler
+                      00003 ; Version 1.1.0 (Dec 19 2017) (MINGW32)
+                      00004 ; This file was generated Thu Jan 04 10:24:30 2018
+                      00005 ;--------------------------------------------------------
+                      00006 ; MC35 port for the RISC core
+                      00007 ;--------------------------------------------------------
+                      00008 ;       .file   "../../libsdcc_mc35/_moduchar.c"
+                      00009         list    p=7011
+                      00010         radix dec
+                      00011         include "7011.inc"
+                      00001                 LIST
+                      00002 ;mc32p7031.inc    Standard Header File, Version 1.00 by Sinomcu
+                      00447                 LIST
+                      00012 ;--------------------------------------------------------
+                      00013 ; external declarations
+                      00014 ;--------------------------------------------------------
+                      00015 
+                      00016         extern STK06
+                      00017         extern STK05
+                      00018         extern STK04
+                      00019         extern STK03
+                      00020         extern STK02
+                      00021         extern STK01
+                      00022         extern STK00
+                      00023 ;--------------------------------------------------------
+                      00024 ; global declarations
+                      00025 ;--------------------------------------------------------
+                      00026         global  __moduchar
+                      00027 
+                      00028 ;--------------------------------------------------------
+                      00029 ; global definitions
+                      00030 ;--------------------------------------------------------
+                      00031 ;--------------------------------------------------------
+                      00032 ; absolute symbol definitions
+                      00033 ;--------------------------------------------------------
+                      00034 ;--------------------------------------------------------
+                      00035 ; compiler-defined variables
+                      00036 ;--------------------------------------------------------
+                      00037 UDL__moduchar_0 udata
+0000                  00038 r0x1000 res     1
+0000                  00039 r0x1001 res     1
+0001                  00040 r0x1002 res     1
+0001                  00041 r0x1003 res     1
+                      00042 ;--------------------------------------------------------
+                      00043 ; initialized data
+                      00044 ;--------------------------------------------------------
+                      00045 
+                      00046 ;@Allocation info for local variables in function '_moduchar'
+                      00047 ;@_moduchar b                         Allocated to registers r0x1001 ;size:1
+                      00048 ;@_moduchar a                         Allocated to registers r0x1000 ;size:1
+                      00049 ;@_moduchar count                     Allocated to registers r0x1002 ;size:1
+                      00050 ;@end Allocation info for local variables in function '_moduchar';
+                      00051 
+                      00052 ;--------------------------------------------------------
+                      00053 ; overlayable items in internal ram 
+                      00054 ;--------------------------------------------------------
+                      00055 ;       udata_ovr
+                      00056 ;--------------------------------------------------------
+                      00057 ; code
+                      00058 ;--------------------------------------------------------
+                      00059 code__moduchar  code
+                      00060 ;***
+                      00061 ;  pBlock Stats: dbName = C
+                      00062 ;***
+                      00063 ;entry:  __moduchar     ;Function start
+                      00064 ; 2 exit points
+                      00065 ;has an exit
+                      00066 ;8 compiler assigned registers:
+                      00067 ;   r0x1000
+                      00068 ;   STK00
+                      00069 ;   r0x1001
+                      00070 ;   r0x1002
+                      00071 ;   r0x1003
+                      00072 ;   r0x1004
+                      00073 ;   r0x1005
+                      00074 ;   r0x1006
+                      00075 ;; Starting pCode block
+                      00076 ;;[ICODE] ../../libsdcc_mc35/_moduchar.c:30:  _entry($12) :
+                      00077 ;;[ICODE] ../../libsdcc_mc35/_moduchar.c:30:    proc __moduchar [k1 lr0:0 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-char function ( unsigned-char fixed, unsigned-char fixed) fixed}
+0000                  00078 __moduchar      ;Function start
+                      00079 ; 2 exit points
+                      00080 ;;[ICODE] ../../libsdcc_mc35/_moduchar.c:30: iTemp0 [k2 lr3:33 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{unsigned-char fixed}{ sir@ __moduchar_a_1_1}[r0x1000 ] = recv __moduchar [k1 lr0:0 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-char function ( unsigned-char fixed, unsigned-char fixed) fixed}
+                      00081 ;       .line   30; "../../libsdcc_mc35/_moduchar.c"    _moduchar (unsigned char a, unsigned char b)
+0000   1F00           00082         MOVRA   r0x1000
+                      00083 ;;[ICODE] ../../libsdcc_mc35/_moduchar.c:30: iTemp1 [k4 lr4:31 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{unsigned-char fixed}{ sir@ __moduchar_b_1_1}[r0x1001 ] = recv __moduchar [k1 lr0:0 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-char function ( unsigned-char fixed, unsigned-char fixed) fixed}
+0001   1E00           00084         MOVAR   STK00
+0002   1F00           00085         MOVRA   r0x1001
+                      00086 ;;[ICODE] ../../libsdcc_mc35/_moduchar.c:35:    if iTemp1 [k4 lr4:31 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{unsigned-char fixed}{ sir@ __moduchar_b_1_1}[r0x1001 ] != 0 goto preHeaderLbl0($15)
+                      00087 ;       .line   35; "../../libsdcc_mc35/_moduchar.c"    if (!b) return (unsigned char)-1;
+0003   2D00           00088         MOVAI   0x00
+0004   1800           00089         ORAR    r0x1001
+0005   5886           00090         JBSET   PFLAG,0
+0006   8000           00091         GOTO    _00119_DS_
+                      00092 ;;[ICODE] ../../libsdcc_mc35/_moduchar.c:35:    ret 0xff {unsigned-char literal}
+0007   2DFF           00093         MOVAI   0xff
+0008   8000           00094         GOTO    _00115_DS_
+                      00095 ;;[ICODE] ../../libsdcc_mc35/_moduchar.c:39:  preHeaderLbl0($15) :
+                      00096 ;;[ICODE] ../../libsdcc_mc35/_moduchar.c:39:    iTemp6 [k11 lr8:19 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-char fixed}{ sir@ __moduchar_count_1_2}[r0x1002 ] := 0x1 {const-unsigned-char literal}
+0009                  00097 _00119_DS_
+                      00098 ;       .line   39; "../../libsdcc_mc35/_moduchar.c"    while (!(b & (1UL << (8*sizeof(unsigned char)-1)))) {
+0009   2D01           00099         MOVAI   0x01
+000A   1F00           00100         MOVRA   r0x1002
+                      00101 ;;[ICODE] ../../libsdcc_mc35/_moduchar.c:39:  _whilecontinue_0($3) :
+                      00102 ;;[ICODE] ../../libsdcc_mc35/_moduchar.c:39:    iTemp3 [k8 lr11:12 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-long-int register}[r0x1003 r0x1004 r0x1005 r0x1006 ] = (unsigned-long-int register)iTemp1 [k4 lr4:31 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{unsigned-char fixed}{ sir@ __moduchar_b_1_1}[r0x1001 ]
+000B                  00103 _00107_DS_
+000B   1E00           00104         MOVAR   r0x1001
+000C   1F00           00105         MOVRA   r0x1003
+                      00106 ;;1     CLRR    r0x1004
+                      00107 ;;1     CLRR    r0x1005
+                      00108 ;;1     CLRR    r0x1006
+                      00109 ;;[ICODE] ../../libsdcc_mc35/_moduchar.c:39:    iTemp4 [k9 lr12:13 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-long-int register} = iTemp3 [k8 lr11:12 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-long-int register}[r0x1003 r0x1004 r0x1005 r0x1006 ] & 0x80 {unsigned-long-int literal}
+000D   5700           00110         JBCLR   r0x1003,7
+000E   8000           00111         GOTO    _00112_DS_
+                      00112 ;;[ICODE] ../../libsdcc_mc35/_moduchar.c:39:    if iTemp4 [k9 lr12:13 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-long-int register} != 0 goto preHeaderLbl1($18)
+                      00113 ;;[ICODE] ../../libsdcc_mc35/_moduchar.c:40:    iTemp1 [k4 lr4:31 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{unsigned-char fixed}{ sir@ __moduchar_b_1_1}[r0x1001 ] = iTemp1 [k4 lr4:31 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{unsigned-char fixed}{ sir@ __moduchar_b_1_1}[r0x1001 ] << 0x1 {const-unsigned-char literal}
+                      00114 ;       .line   40; "../../libsdcc_mc35/_moduchar.c"    b <<= 1;
+000F   4286           00115         BCLR    PFLAG,2
+0010   0B00           00116         RLR     r0x1001
+                      00117 ;;[ICODE] ../../libsdcc_mc35/_moduchar.c:41:    iTemp6 [k11 lr8:19 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-char fixed}{ sir@ __moduchar_count_1_2}[r0x1002 ] = iTemp6 [k11 lr8:19 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-char fixed}{ sir@ __moduchar_count_1_2}[r0x1002 ] + 0x1 {const-unsigned-char literal}
+                      00118 ;       .line   41; "../../libsdcc_mc35/_moduchar.c"    ++count;
+0011   2D01           00119         MOVAI   0x01
+0012   1300           00120         ADDRA   r0x1002
+                      00121 ;;[ICODE] ../../libsdcc_mc35/_moduchar.c:41:     goto _whilecontinue_0($3)
+0013   8000           00122         GOTO    _00107_DS_
+                      00123 ;;[ICODE] ../../libsdcc_mc35/_moduchar.c:45:  preHeaderLbl1($18) :
+                      00124 ;;[ICODE] ../../libsdcc_mc35/_moduchar.c:45:    iTemp10 [k15 lr19:31 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-char fixed}{ sir@ __moduchar_count_1_2}[r0x1002 ] := iTemp6 [k11 lr8:19 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-char fixed}{ sir@ __moduchar_count_1_2}[r0x1002 ]
+                      00125 ;;[ICODE] ../../libsdcc_mc35/_moduchar.c:45:  _whilecontinue_1($8) :
+                      00126 ;;[ICODE] ../../libsdcc_mc35/_moduchar.c:45:    if iTemp10 [k15 lr19:31 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-char fixed}{ sir@ __moduchar_count_1_2}[r0x1002 ] == 0 goto _whilebreak_1($10)
+0014                  00127 _00112_DS_
+                      00128 ;       .line   45; "../../libsdcc_mc35/_moduchar.c"    while (count) {
+0014   2D00           00129         MOVAI   0x00
+0015   1800           00130         ORAR    r0x1002
+0016   5086           00131         JBCLR   PFLAG,0
+0017   8000           00132         GOTO    _00114_DS_
+                      00133 ;;[ICODE] ../../libsdcc_mc35/_moduchar.c:46:    iTemp7 [k12 lr23:24 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char fixed} = iTemp0 [k2 lr3:33 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{unsigned-char fixed}{ sir@ __moduchar_a_1_1}[r0x1000 ] < iTemp1 [k4 lr4:31 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{unsigned-char fixed}{ sir@ __moduchar_b_1_1}[r0x1001 ]
+                      00134 ;       .line   46; "../../libsdcc_mc35/_moduchar.c"    if (a >= b) {
+0018   1E00           00135         MOVAR   r0x1001
+0019   2C00           00136         XCH     r0x1000
+001A   2300           00137         ASUBRA  r0x1000
+001B   2C00           00138         XCH     r0x1000
+001C   5A86           00139         JBSET   PFLAG,2
+001D   8000           00140         GOTO    _00111_DS_
+                      00141 ;;genSkipc:3223: created from rifx:00DD608C
+                      00142 ;;[ICODE] ../../libsdcc_mc35/_moduchar.c:46:    if iTemp7 [k12 lr23:24 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{char fixed} != 0 goto _iffalse_1($7)
+                      00143 ;;[ICODE] ../../libsdcc_mc35/_moduchar.c:47:    iTemp0 [k2 lr3:33 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{unsigned-char fixed}{ sir@ __moduchar_a_1_1}[r0x1000 ] = iTemp0 [k2 lr3:33 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{unsigned-char fixed}{ sir@ __moduchar_a_1_1}[r0x1000 ] - iTemp1 [k4 lr4:31 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{unsigned-char fixed}{ sir@ __moduchar_b_1_1}[r0x1001 ]
+                      00144 ;       .line   47; "../../libsdcc_mc35/_moduchar.c"    a -= b;
+001E   1E00           00145         MOVAR   r0x1001
+001F   2C00           00146         XCH     r0x1000
+0020   2200           00147         ASUBAR  r0x1000
+0021   2C00           00148         XCH     r0x1000
+                      00149 ;;[ICODE] ../../libsdcc_mc35/_moduchar.c:47:  _iffalse_1($7) :
+                      00150 ;;[ICODE] ../../libsdcc_mc35/_moduchar.c:49:    iTemp1 [k4 lr4:31 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{unsigned-char fixed}{ sir@ __moduchar_b_1_1}[r0x1001 ] = iTemp1 [k4 lr4:31 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{unsigned-char fixed}{ sir@ __moduchar_b_1_1}[r0x1001 ] >> 0x1 {const-unsigned-char literal}
+                      00151 ;;shiftRight_Left2ResultLit:5270: shCount=1, size=1, sign=0, same=1, offr=0
+0022                  00152 _00111_DS_
+                      00153 ;       .line   49; "../../libsdcc_mc35/_moduchar.c"    b >>= 1;
+0022   4286           00154         BCLR    PFLAG,2
+0023   0900           00155         RRR     r0x1001
+                      00156 ;;[ICODE] ../../libsdcc_mc35/_moduchar.c:50:    iTemp10 [k15 lr19:31 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-char fixed}{ sir@ __moduchar_count_1_2}[r0x1002 ] = iTemp10 [k15 lr19:31 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-char fixed}{ sir@ __moduchar_count_1_2}[r0x1002 ] - 0x1 {const-unsigned-char literal}
+                      00157 ;       .line   50; "../../libsdcc_mc35/_moduchar.c"    --count;
+0024   2600           00158         DJZR    r0x1002
+0025   0000           00159         NOP     
+                      00160 ;;[ICODE] ../../libsdcc_mc35/_moduchar.c:50:     goto _whilecontinue_1($8)
+0026   8000           00161         GOTO    _00112_DS_
+                      00162 ;;[ICODE] ../../libsdcc_mc35/_moduchar.c:50:  _whilebreak_1($10) :
+                      00163 ;;[ICODE] ../../libsdcc_mc35/_moduchar.c:53:    ret iTemp0 [k2 lr3:33 so:0]{ ia0 a2p0 re1 rm0 nos0 ru0 dp0}{unsigned-char fixed}{ sir@ __moduchar_a_1_1}[r0x1000 ]
+0027                  00164 _00114_DS_
+                      00165 ;       .line   53; "../../libsdcc_mc35/_moduchar.c"    return a;
+0027   1E00           00166         MOVAR   r0x1000
+                      00167 ;;[ICODE] ../../libsdcc_mc35/_moduchar.c:53:  _return($11) :
+                      00168 ;;[ICODE] ../../libsdcc_mc35/_moduchar.c:53:    eproc __moduchar [k1 lr0:0 so:0]{ ia0 a2p0 re0 rm0 nos0 ru0 dp0}{unsigned-char function ( unsigned-char fixed, unsigned-char fixed) fixed}
+0028                  00169 _00115_DS_
+0028   0E00           00170         RETURN  
+                      00171 ; exit point of __moduchar
+                      00172 
+                      00173 
+                      00174 ;       code size estimation:
+                      00175 ;          41+    0 =    41 instructions (   82 byte)
+                      00176 
+                      00177         end
+gpasm-2.0.0_beta2 (Nov  6 2017)_moduchar.asm      2018-1-4  10:24:30           PAGE  2
+
+
+SYMBOL TABLE
+  LABEL                             VALUE
+
+ADCHS0                            00000000
+ADCHS1                            00000001
+ADCHS2                            00000002
+ADCKS0                            00000004
+ADCKS1                            00000006
+ADCR                              000000B1
+ADEOC                             00000005
+ADIE                              00000007
+ADIF                              00000007
+ADLEN                             00000005
+ADON                              00000007
+ADR0                              00000000
+ADR1                              00000001
+ADR10                             00000006
+ADR11                             00000007
+ADR2                              00000002
+ADR3                              00000003
+ADR4                              00000000
+ADR5                              00000001
+ADR6                              00000002
+ADR7                              00000003
+ADR8                              00000004
+ADR9                              00000005
+ADRH                              000000B2
+ADRL                              000000B3
+ADST                              00000006
+ANSEL                             000000AE
+BUZ0OE                            00000001
+BUZ1OE                            00000001
+BUZ2OE                            00000001
+C                                 00000002
+CLKS                              00000002
+CPUM0                             00000003
+CPUM1                             00000004
+DC                                00000001
+FSR0                              00000083
+FSR00                             00000000
+FSR01                             00000001
+FSR02                             00000002
+FSR03                             00000003
+FSR04                             00000004
+FSR05                             00000005
+FSR06                             00000006
+FSR07                             00000007
+FSR1                              00000084
+FSR10                             00000000
+FSR11                             00000001
+FSR12                             00000002
+FSR13                             00000003
+FSR14                             00000004
+FSR15                             00000005
+FSR16                             00000006
+FSR17                             00000007
+GCHS                              00000004
+GIE                               00000007
+HIBYTE                            00000082
+HIBYTE0                           00000000
+HIBYTE1                           00000001
+HIBYTE2                           00000002
+HIBYTE3                           00000003
+HIBYTE4                           00000004
+HIBYTE5                           00000005
+HIBYTE6                           00000006
+HIBYTE7                           00000007
+HOFF                              00000001
+INDF                              000000E7
+INDF0                             00000000
+INDF1                             00000001
+INDF2                             00000002
+INDF3                             00000003
+INDF4                             00000004
+INDF5                             00000005
+INDF6                             00000006
+INDF7                             00000007
+INT0IE                            00000000
+INT0IF                            00000000
+INT1IE                            00000001
+INT1IF                            00000001
+INTE                              000000C9
+INTF                              000000C8
+IOP0                              000000D0
+IOP4                              000000D4
+IOP5                              000000D5
+LVD24                             00000004
+LVD36                             00000005
+MINT00                            00000003
+MINT01                            00000004
+NPD                               00000006
+NT0                               00000007
+OEP0                              000000B8
+OEP4                              000000C4
+OEP5                              000000C5
+OSCM                              000000CA
+P00D                              00000000
+P00OE                             00000000
+P00PU                             00000000
+P01D                              00000001
+P01OE                             00000001
+P01PU                             00000001
+P02D                              00000002
+P02OE                             00000002
+P02PU                             00000002
+P03D                              00000003
+P03OE                             00000003
+P03PU                             00000003
+P04D                              00000004
+P04OE                             00000004
+P04PU                             00000004
+P40ANS                            00000000
+P40D                              00000000
+P40OE                             00000000
+P40PU                             00000000
+P41ANS                            00000001
+P41D                              00000001
+P41OE                             00000001
+P41PU                             00000001
+P42ANS                            00000002
+P42D                              00000002
+P42OE                             00000002
+P42PU                             00000002
+P43ANS                            00000003
+P43D                              00000003
+P43OE                             00000003
+P43PU                             00000003
+P44ANS                            00000004
+P44D                              00000004
+P44OE                             00000004
+P44PU                             00000004
+P45ANS                            00000005
+P45D                              00000005
+P45OE                             00000005
+P45PU                             00000005
+P52D                              00000002
+P52OE                             00000002
+P52PU                             00000002
+P53D                              00000003
+P53OE                             00000003
+P53PU                             00000003
+P54D                              00000004
+P54OE                             00000004
+P54PU                             00000004
+PC0                               00000000
+PC1                               00000001
+PC10                              00000002
+PC2                               00000002
+PC3                               00000003
+PC4                               00000004
+PC5                               00000005
+PC6                               00000006
+PC7                               00000007
+PC8                               00000000
+PC9                               00000001
+PCH                               000000CF
+PCL                               000000CE
+PEDGE                             000000BF
+PFLAG                             00000086
+PUP0                              000000E0
+PUP4                              000000E4
+PUP5                              000000E5
+PWM0OE                            00000000
+PWM1OE                            00000000
+PWM2OE                            00000000
+STK00                             00000000
+STK01                             00000000
+STK02                             00000000
+STK03                             00000000
+STK04                             00000000
+STK05                             00000000
+STK06                             00000000
+STK0H                             000000FF
+STK0L                             000000FE
+STK1H                             000000FD
+STK1L                             000000FC
+STK2H                             000000FB
+STK2L                             000000FA
+STK3H                             000000F9
+STK3L                             000000F8
+STKP                              000000DF
+STKP0                             00000000
+STKP1                             00000001
+STKP2                             00000002
+T0ALOAD                           00000002
+T0C                               000000DB
+T0C0                              00000000
+T0C1                              00000001
+T0C2                              00000002
+T0C3                              00000003
+T0C4                              00000004
+T0C5                              00000005
+T0C6                              00000006
+T0C7                              00000007
+T0CR                              000000DA
+T0D                               000000CD
+T0D0                              00000000
+T0D1                              00000001
+T0D2                              00000002
+T0D3                              00000003
+T0D4                              00000004
+T0D5                              00000005
+T0D6                              00000006
+T0D7                              00000007
+T0GE                              00000001
+T0IE                              00000005
+T0IF                              00000005
+T0PR0                             00000004
+T0PR1                             00000005
+T0PR2                             00000006
+T0PTS                             00000003
+T0PTSX                            00000002
+T1ALOAD                           00000002
+T1C                               000000DD
+T1C0                              00000000
+T1C1                              00000001
+T1C2                              00000002
+T1C3                              00000003
+T1C4                              00000004
+T1C5                              00000005
+T1C6                              00000006
+T1C7                              00000007
+T1CR                              000000DC
+T1D                               000000DE
+T1D0                              00000000
+T1D1                              00000001
+T1D2                              00000002
+T1D3                              00000003
+T1D4                              00000004
+T1D5                              00000005
+T1D6                              00000006
+T1D7                              00000007
+T1IE                              00000006
+T1IF                              00000006
+T1PR0                             00000004
+T1PR1                             00000005
+T1PR2                             00000006
+T1PTS                             00000003
+T1PTSX                            00000003
+T2ALOAD                           00000002
+T2C                               000000ED
+T2C0                              00000000
+T2C1                              00000001
+T2C2                              00000002
+T2C3                              00000003
+T2C4                              00000004
+T2C5                              00000005
+T2C6                              00000006
+T2C7                              00000007
+T2CR                              000000EC
+T2D                               000000EE
+T2D0                              00000000
+T2D1                              00000001
+T2D2                              00000002
+T2D3                              00000003
+T2D4                              00000004
+T2D5                              00000005
+T2D6                              00000006
+T2D7                              00000007
+T2IE                              00000004
+T2IF                              00000004
+T2PR0                             00000004
+T2PR1                             00000005
+T2PR2                             00000006
+T2PTS                             00000003
+T2PTSX                            00000004
+TC0EN                             00000007
+TC1EN                             00000007
+TC2EN                             00000007
+TXCR                              000000D8
+VREF                              000000AF
+VREFS                             00000007
+VRS0                              00000000
+VRS1                              00000001
+WDTR                              000000CC
+WDTR0                             00000000
+WDTR1                             00000001
+WDTR2                             00000002
+WDTR3                             00000003
+WDTR4                             00000004
+WDTR5                             00000005
+WDTR6                             00000006
+WDTR7                             00000007
+Z                                 00000000
+_00107_DS_                        0000000B
+_00111_DS_                        00000022
+_00112_DS_                        00000014
+_00114_DS_                        00000027
+_00115_DS_                        00000028
+_00119_DS_                        00000009
+_CONFIG0                          00008000
+_CONFIG1                          00008001
+__32P7011                         00000001
+__moduchar                        00000000
+r0x1000                           00000000
+r0x1001                           00000001
+r0x1002                           00000002
+r0x1003                           00000003
+
+Errors   :     0
+Warnings :     0 reported,     0 suppressed
+Messages :     0 reported,     0 suppressed
+
+

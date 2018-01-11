@@ -1,0 +1,169 @@
+SDCC_HOME=/e/tools/sn-sdcc
+GPUTILS_HOME=/e/tools/snutils
+path="$GPUTILS_HOME/gpasm"
+sdcc_bin=$SDCC_HOME/bin/sdcc
+gpasm_bin=$GPUTILS_HOME/gpasm/gpasm
+gplib_bin=$GPUTILS_HOME/gputils/gplib
+generic_lib=../../libsdcc_mc35
+out=Makefile
+
+processor=7011
+
+p_file="mc32p7031"
+
+c_file=" \
+_divschar \
+_divsint \
+_divslong \
+_divuchar \
+_divuint \
+_divulong \
+fs2schar \
+fs2sint \
+fs2slong \
+fs2uchar \
+fs2uint \
+fs2ulong \
+fsadd \
+fsdiv \
+fseq \
+fsgt \
+fslt \
+fsmul \
+fsneq \
+fssub \
+_modschar \
+_modsint \
+_modslong \
+_moduchar \
+_moduint \
+_modulong \
+_mulchar \
+_mulint \
+_mullong \
+schar2fs \
+sint2fs \
+slong2fs \
+uchar2fs \
+uint2fs \
+ulong2fs"
+
+m_file=" \
+acosf \
+asincosf \
+asinf \
+atan2f \
+atanf \
+ceilf \
+cosf \
+coshf \
+cotf \
+errno \
+expf \
+fabsf \
+floorf \
+frexpf \
+ldexpf \
+log10f \
+logf \
+modff \
+powf \
+sincosf \
+sincoshf \
+sinf \
+sinhf \
+sqrtf \
+tancotf \
+tanf \
+tanhf"
+
+#ss_file="\
+#_gptrget1"
+
+s_file="\
+_gptrget1 \
+_gptrget2 \
+_gptrget3 \
+_gptrget4 \
+_gptrput1 \
+_gptrput2 \
+_gptrput3 \
+_gptrput4"
+
+echo "PATH = $path" > $out
+echo "SDCC_EXE = $sdcc_bin" >> $out
+echo "ASM_EXE = $gpasm_bin" >> $out
+echo "LIB_EXE = $gplib_bin" >> $out
+echo "LIB = $processor.lib" >> $out
+
+printf "OBJ = " >> $out
+for file in $p_file; do
+	printf "$file.o " >> $out
+done
+
+for file in $c_file; do
+	printf "$file.o " >> $out
+done
+
+#for file in $m_file; do
+#   printf "$file.o " >> $out
+#done
+ 
+for file in $ss_file; do
+	printf "$file.o " >> $out
+done
+
+for file in $s_file; do
+	printf "$file.o " >> $out
+done
+
+echo >> $out
+echo >> $out
+
+echo 'SDCC_ARG = -V --verbose -mmc35 -p'$processor' -Wa-Ie:\tools\sn-sdcc\share\header \' >> $out
+echo '    -I'$SDCC_HOME'/share/include \' >> $out
+echo '    --std-c99 --i-code-in-asm  -c -o ' >> $out
+echo >> $out
+
+echo 'ASM_ARG = -p '$processor' -I'$SDCC_HOME'/share/include -I. -I'$generic_lib' -c -o ' >> $out
+echo >> $out
+
+echo 'all : $(OBJ) $(LIB)' >> $out
+
+echo >> $out
+
+printf '$(LIB) : $(OBJ)\n' >> $out
+printf '\t$(LIB_EXE) -c $(LIB) *.o\n' >> $out
+printf '\t/bin/cp -av $(LIB) '$SDCC_HOME'/share/lib \n' >> $out
+echo >> $out
+
+for file in $p_file; do
+	printf "$file.o : $file.c\n" >> $out
+	printf '\t$(SDCC_EXE) $(SDCC_ARG) '$file'.o '$file'.c\n' >> $out
+done
+
+for file in $c_file; do
+	printf "$file.o : $generic_lib/$file.c\n" >> $out
+	printf '\t$(SDCC_EXE) $(SDCC_ARG) '$file'.o '$generic_lib'/'$file'.c\n' >> $out
+done
+
+#for file in $m_file; do
+#   printf "$file.o : $file.c\n" >> $out
+#   printf '\t$(SDCC_EXE) $(SDCC_ARG) '$file'.o '$file'.c\n' >> $out
+#done
+
+#for file in $ss_file; do
+#	printf "$file.o : $file.asm\n" >> $out
+#	printf '\t$(ASM_EXE) $(ASM_ARG) '$file'.o '$file'.asm\n' >> $out
+#done
+
+for file in $s_file; do
+	printf "$file.o : $generic_lib/$file.asm\n" >> $out
+	printf '\t$(ASM_EXE) $(ASM_ARG) '$file'.o '$generic_lib'/'$file'.asm\n' >> $out
+done
+
+echo >> $out
+
+echo "clean:" >> $out
+printf "\t/bin/rm -f *.o *.lst *.asm *.lib" >> $out
+

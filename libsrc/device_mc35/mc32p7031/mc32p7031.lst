@@ -1,0 +1,692 @@
+gpasm-2.0.0_beta2 (Nov  6 2017)mc32p7031.asm      2018-1-4  10:24:18           PAGE  1
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+                      00001 ;--------------------------------------------------------
+                      00002 ; File Created by SN-SDCC : SinoMCU ANSI-C Compiler
+                      00003 ; Version 1.1.0 (Dec 19 2017) (MINGW32)
+                      00004 ; This file was generated Thu Jan 04 10:24:18 2018
+                      00005 ;--------------------------------------------------------
+                      00006 ; MC35 port for the RISC core
+                      00007 ;--------------------------------------------------------
+                      00008 ;       .file   "mc32p7031.c"
+                      00009         list    p=7011
+                      00010         radix dec
+                      00011         include "7011.inc"
+                      00001                 LIST
+                      00002 ;mc32p7031.inc    Standard Header File, Version 1.00 by Sinomcu
+                      00447                 LIST
+                      00012 ;--------------------------------------------------------
+                      00013 ; external declarations
+                      00014 ;--------------------------------------------------------
+                      00015 
+                      00016         extern STK06
+                      00017         extern STK05
+                      00018         extern STK04
+                      00019         extern STK03
+                      00020         extern STK02
+                      00021         extern STK01
+                      00022         extern STK00
+                      00023 ;--------------------------------------------------------
+                      00024 ; global declarations
+                      00025 ;--------------------------------------------------------
+                      00026         global  _HIBYTEbits
+                      00027         global  _FSR0bits
+                      00028         global  _FSR1bits
+                      00029         global  _PFLAGbits
+                      00030         global  _ANSELbits
+                      00031         global  _VREFbits
+                      00032         global  _ADCRbits
+                      00033         global  _ADRHbits
+                      00034         global  _ADRLbits
+                      00035         global  _OEP0bits
+                      00036         global  _PEDGEbits
+                      00037         global  _OEP4bits
+                      00038         global  _OEP5bits
+                      00039         global  _INTFbits
+                      00040         global  _INTEbits
+                      00041         global  _OSCMbits
+                      00042         global  _WDTRbits
+                      00043         global  _T0Dbits
+                      00044         global  _PCLbits
+                      00045         global  _PCHbits
+                      00046         global  _IOP0bits
+                      00047         global  _IOP4bits
+                      00048         global  _IOP5bits
+                      00049         global  _TXCRbits
+                      00050         global  _T0CRbits
+                      00051         global  _T0Cbits
+                      00052         global  _T1CRbits
+                      00053         global  _T1Cbits
+                      00054         global  _T1Dbits
+                      00055         global  _STKPbits
+                      00056         global  _PUP0bits
+                      00057         global  _PUP4bits
+                      00058         global  _PUP5bits
+                      00059         global  _INDFbits
+                      00060         global  _T2CRbits
+                      00061         global  _T2Cbits
+                      00062         global  _T2Dbits
+                      00063         global  _HIBYTE
+                      00064         global  _FSR0
+                      00065         global  _FSR1
+                      00066         global  _PFLAG
+                      00067         global  _ANSEL
+                      00068         global  _VREF
+                      00069         global  _ADCR
+                      00070         global  _ADRH
+                      00071         global  _ADRL
+                      00072         global  _OEP0
+                      00073         global  _PEDGE
+                      00074         global  _OEP4
+                      00075         global  _OEP5
+                      00076         global  _INTF
+                      00077         global  _INTE
+                      00078         global  _OSCM
+                      00079         global  _WDTR
+                      00080         global  _T0D
+                      00081         global  _PCL
+                      00082         global  _PCH
+                      00083         global  _IOP0
+                      00084         global  _IOP4
+                      00085         global  _IOP5
+                      00086         global  _TXCR
+                      00087         global  _T0CR
+                      00088         global  _T0C
+                      00089         global  _T1CR
+                      00090         global  _T1C
+                      00091         global  _T1D
+                      00092         global  _STKP
+                      00093         global  _PUP0
+                      00094         global  _PUP4
+                      00095         global  _PUP5
+                      00096         global  _INDF
+                      00097         global  _T2CR
+                      00098         global  _T2C
+                      00099         global  _T2D
+                      00100         global  _STK3L
+                      00101         global  _STK3H
+                      00102         global  _STK2L
+                      00103         global  _STK2H
+                      00104         global  _STK1L
+                      00105         global  _STK1H
+                      00106         global  _STK0L
+                      00107         global  _STK0H
+                      00108 
+                      00109 ;--------------------------------------------------------
+                      00110 ; global definitions
+                      00111 ;--------------------------------------------------------
+                      00112 ;--------------------------------------------------------
+                      00113 ; absolute symbol definitions
+                      00114 ;--------------------------------------------------------
+                      00115 UD_abs_mc32p7031_82     udata_ovr       0x0082
+0041                  00116 _HIBYTEbits
+0041                  00117 _HIBYTE
+0041                  00118         res     1
+                      00119 UD_abs_mc32p7031_83     udata_ovr       0x0083
+0041                  00120 _FSR0bits
+0041                  00121 _FSR0
+0041                  00122         res     1
+                      00123 UD_abs_mc32p7031_84     udata_ovr       0x0084
+0042                  00124 _FSR1bits
+0042                  00125 _FSR1
+0042                  00126         res     1
+                      00127 UD_abs_mc32p7031_86     udata_ovr       0x0086
+0043                  00128 _PFLAGbits
+0043                  00129 _PFLAG
+0043                  00130         res     1
+                      00131 UD_abs_mc32p7031_ae     udata_ovr       0x00ae
+0057                  00132 _ANSELbits
+0057                  00133 _ANSEL
+0057                  00134         res     1
+                      00135 UD_abs_mc32p7031_af     udata_ovr       0x00af
+0057                  00136 _VREFbits
+0057                  00137 _VREF
+0057                  00138         res     1
+                      00139 UD_abs_mc32p7031_b1     udata_ovr       0x00b1
+0058                  00140 _ADCRbits
+0058                  00141 _ADCR
+0058                  00142         res     1
+                      00143 UD_abs_mc32p7031_b2     udata_ovr       0x00b2
+0059                  00144 _ADRHbits
+0059                  00145 _ADRH
+0059                  00146         res     1
+                      00147 UD_abs_mc32p7031_b3     udata_ovr       0x00b3
+0059                  00148 _ADRLbits
+0059                  00149 _ADRL
+0059                  00150         res     1
+                      00151 UD_abs_mc32p7031_b8     udata_ovr       0x00b8
+005C                  00152 _OEP0bits
+005C                  00153 _OEP0
+005C                  00154         res     1
+                      00155 UD_abs_mc32p7031_bf     udata_ovr       0x00bf
+005F                  00156 _PEDGEbits
+005F                  00157 _PEDGE
+005F                  00158         res     1
+                      00159 UD_abs_mc32p7031_c4     udata_ovr       0x00c4
+0062                  00160 _OEP4bits
+0062                  00161 _OEP4
+0062                  00162         res     1
+                      00163 UD_abs_mc32p7031_c5     udata_ovr       0x00c5
+0062                  00164 _OEP5bits
+0062                  00165 _OEP5
+0062                  00166         res     1
+                      00167 UD_abs_mc32p7031_c8     udata_ovr       0x00c8
+0064                  00168 _INTFbits
+0064                  00169 _INTF
+0064                  00170         res     1
+                      00171 UD_abs_mc32p7031_c9     udata_ovr       0x00c9
+0064                  00172 _INTEbits
+0064                  00173 _INTE
+0064                  00174         res     1
+                      00175 UD_abs_mc32p7031_ca     udata_ovr       0x00ca
+0065                  00176 _OSCMbits
+0065                  00177 _OSCM
+0065                  00178         res     1
+                      00179 UD_abs_mc32p7031_cc     udata_ovr       0x00cc
+0066                  00180 _WDTRbits
+0066                  00181 _WDTR
+0066                  00182         res     1
+                      00183 UD_abs_mc32p7031_cd     udata_ovr       0x00cd
+0066                  00184 _T0Dbits
+0066                  00185 _T0D
+0066                  00186         res     1
+                      00187 UD_abs_mc32p7031_ce     udata_ovr       0x00ce
+0067                  00188 _PCLbits
+0067                  00189 _PCL
+0067                  00190         res     1
+                      00191 UD_abs_mc32p7031_cf     udata_ovr       0x00cf
+0067                  00192 _PCHbits
+0067                  00193 _PCH
+0067                  00194         res     1
+                      00195 UD_abs_mc32p7031_d0     udata_ovr       0x00d0
+0068                  00196 _IOP0bits
+0068                  00197 _IOP0
+0068                  00198         res     1
+                      00199 UD_abs_mc32p7031_d4     udata_ovr       0x00d4
+006A                  00200 _IOP4bits
+006A                  00201 _IOP4
+006A                  00202         res     1
+                      00203 UD_abs_mc32p7031_d5     udata_ovr       0x00d5
+006A                  00204 _IOP5bits
+006A                  00205 _IOP5
+006A                  00206         res     1
+                      00207 UD_abs_mc32p7031_d8     udata_ovr       0x00d8
+006C                  00208 _TXCRbits
+006C                  00209 _TXCR
+006C                  00210         res     1
+                      00211 UD_abs_mc32p7031_da     udata_ovr       0x00da
+006D                  00212 _T0CRbits
+006D                  00213 _T0CR
+006D                  00214         res     1
+                      00215 UD_abs_mc32p7031_db     udata_ovr       0x00db
+006D                  00216 _T0Cbits
+006D                  00217 _T0C
+006D                  00218         res     1
+                      00219 UD_abs_mc32p7031_dc     udata_ovr       0x00dc
+006E                  00220 _T1CRbits
+006E                  00221 _T1CR
+006E                  00222         res     1
+                      00223 UD_abs_mc32p7031_dd     udata_ovr       0x00dd
+006E                  00224 _T1Cbits
+006E                  00225 _T1C
+006E                  00226         res     1
+                      00227 UD_abs_mc32p7031_de     udata_ovr       0x00de
+006F                  00228 _T1Dbits
+006F                  00229 _T1D
+006F                  00230         res     1
+                      00231 UD_abs_mc32p7031_df     udata_ovr       0x00df
+006F                  00232 _STKPbits
+006F                  00233 _STKP
+006F                  00234         res     1
+                      00235 UD_abs_mc32p7031_e0     udata_ovr       0x00e0
+0070                  00236 _PUP0bits
+0070                  00237 _PUP0
+0070                  00238         res     1
+                      00239 UD_abs_mc32p7031_e4     udata_ovr       0x00e4
+0072                  00240 _PUP4bits
+0072                  00241 _PUP4
+0072                  00242         res     1
+                      00243 UD_abs_mc32p7031_e5     udata_ovr       0x00e5
+0072                  00244 _PUP5bits
+0072                  00245 _PUP5
+0072                  00246         res     1
+                      00247 UD_abs_mc32p7031_e7     udata_ovr       0x00e7
+0073                  00248 _INDFbits
+0073                  00249 _INDF
+0073                  00250         res     1
+                      00251 UD_abs_mc32p7031_ec     udata_ovr       0x00ec
+0076                  00252 _T2CRbits
+0076                  00253 _T2CR
+0076                  00254         res     1
+                      00255 UD_abs_mc32p7031_ed     udata_ovr       0x00ed
+0076                  00256 _T2Cbits
+0076                  00257 _T2C
+0076                  00258         res     1
+                      00259 UD_abs_mc32p7031_ee     udata_ovr       0x00ee
+0077                  00260 _T2Dbits
+0077                  00261 _T2D
+0077                  00262         res     1
+                      00263 UD_abs_mc32p7031_f8     udata_ovr       0x00f8
+007C                  00264 _STK3L
+007C                  00265         res     1
+                      00266 UD_abs_mc32p7031_f9     udata_ovr       0x00f9
+007C                  00267 _STK3H
+007C                  00268         res     1
+                      00269 UD_abs_mc32p7031_fa     udata_ovr       0x00fa
+007D                  00270 _STK2L
+007D                  00271         res     1
+                      00272 UD_abs_mc32p7031_fb     udata_ovr       0x00fb
+007D                  00273 _STK2H
+007D                  00274         res     1
+                      00275 UD_abs_mc32p7031_fc     udata_ovr       0x00fc
+007E                  00276 _STK1L
+007E                  00277         res     1
+                      00278 UD_abs_mc32p7031_fd     udata_ovr       0x00fd
+007E                  00279 _STK1H
+007E                  00280         res     1
+                      00281 UD_abs_mc32p7031_fe     udata_ovr       0x00fe
+007F                  00282 _STK0L
+007F                  00283         res     1
+                      00284 UD_abs_mc32p7031_ff     udata_ovr       0x00ff
+007F                  00285 _STK0H
+007F                  00286         res     1
+                      00287 ;--------------------------------------------------------
+                      00288 ; compiler-defined variables
+                      00289 ;--------------------------------------------------------
+                      00290 ;--------------------------------------------------------
+                      00291 ; initialized data
+                      00292 ;--------------------------------------------------------
+                      00293 ;--------------------------------------------------------
+                      00294 ; overlayable items in internal ram 
+                      00295 ;--------------------------------------------------------
+                      00296 ;       udata_ovr
+                      00297 ;--------------------------------------------------------
+                      00298 ; code
+                      00299 ;--------------------------------------------------------
+                      00300 code_mc32p7031  code
+                      00301 
+                      00302 ;       code size estimation:
+                      00303 ;           0+    0 =     0 instructions (    0 byte)
+                      00304 
+                      00305         end
+gpasm-2.0.0_beta2 (Nov  6 2017)mc32p7031.asm      2018-1-4  10:24:18           PAGE  2
+
+
+SYMBOL TABLE
+  LABEL                             VALUE
+
+ADCHS0                            00000000
+ADCHS1                            00000001
+ADCHS2                            00000002
+ADCKS0                            00000004
+ADCKS1                            00000006
+ADCR                              000000B1
+ADEOC                             00000005
+ADIE                              00000007
+ADIF                              00000007
+ADLEN                             00000005
+ADON                              00000007
+ADR0                              00000000
+ADR1                              00000001
+ADR10                             00000006
+ADR11                             00000007
+ADR2                              00000002
+ADR3                              00000003
+ADR4                              00000000
+ADR5                              00000001
+ADR6                              00000002
+ADR7                              00000003
+ADR8                              00000004
+ADR9                              00000005
+ADRH                              000000B2
+ADRL                              000000B3
+ADST                              00000006
+ANSEL                             000000AE
+BUZ0OE                            00000001
+BUZ1OE                            00000001
+BUZ2OE                            00000001
+C                                 00000002
+CLKS                              00000002
+CPUM0                             00000003
+CPUM1                             00000004
+DC                                00000001
+FSR0                              00000083
+FSR00                             00000000
+FSR01                             00000001
+FSR02                             00000002
+FSR03                             00000003
+FSR04                             00000004
+FSR05                             00000005
+FSR06                             00000006
+FSR07                             00000007
+FSR1                              00000084
+FSR10                             00000000
+FSR11                             00000001
+FSR12                             00000002
+FSR13                             00000003
+FSR14                             00000004
+FSR15                             00000005
+FSR16                             00000006
+FSR17                             00000007
+GCHS                              00000004
+GIE                               00000007
+HIBYTE                            00000082
+HIBYTE0                           00000000
+HIBYTE1                           00000001
+HIBYTE2                           00000002
+HIBYTE3                           00000003
+HIBYTE4                           00000004
+HIBYTE5                           00000005
+HIBYTE6                           00000006
+HIBYTE7                           00000007
+HOFF                              00000001
+INDF                              000000E7
+INDF0                             00000000
+INDF1                             00000001
+INDF2                             00000002
+INDF3                             00000003
+INDF4                             00000004
+INDF5                             00000005
+INDF6                             00000006
+INDF7                             00000007
+INT0IE                            00000000
+INT0IF                            00000000
+INT1IE                            00000001
+INT1IF                            00000001
+INTE                              000000C9
+INTF                              000000C8
+IOP0                              000000D0
+IOP4                              000000D4
+IOP5                              000000D5
+LVD24                             00000004
+LVD36                             00000005
+MINT00                            00000003
+MINT01                            00000004
+NPD                               00000006
+NT0                               00000007
+OEP0                              000000B8
+OEP4                              000000C4
+OEP5                              000000C5
+OSCM                              000000CA
+P00D                              00000000
+P00OE                             00000000
+P00PU                             00000000
+P01D                              00000001
+P01OE                             00000001
+P01PU                             00000001
+P02D                              00000002
+P02OE                             00000002
+P02PU                             00000002
+P03D                              00000003
+P03OE                             00000003
+P03PU                             00000003
+P04D                              00000004
+P04OE                             00000004
+P04PU                             00000004
+P40ANS                            00000000
+P40D                              00000000
+P40OE                             00000000
+P40PU                             00000000
+P41ANS                            00000001
+P41D                              00000001
+P41OE                             00000001
+P41PU                             00000001
+P42ANS                            00000002
+P42D                              00000002
+P42OE                             00000002
+P42PU                             00000002
+P43ANS                            00000003
+P43D                              00000003
+P43OE                             00000003
+P43PU                             00000003
+P44ANS                            00000004
+P44D                              00000004
+P44OE                             00000004
+P44PU                             00000004
+P45ANS                            00000005
+P45D                              00000005
+P45OE                             00000005
+P45PU                             00000005
+P52D                              00000002
+P52OE                             00000002
+P52PU                             00000002
+P53D                              00000003
+P53OE                             00000003
+P53PU                             00000003
+P54D                              00000004
+P54OE                             00000004
+P54PU                             00000004
+PC0                               00000000
+PC1                               00000001
+PC10                              00000002
+PC2                               00000002
+PC3                               00000003
+PC4                               00000004
+PC5                               00000005
+PC6                               00000006
+PC7                               00000007
+PC8                               00000000
+PC9                               00000001
+PCH                               000000CF
+PCL                               000000CE
+PEDGE                             000000BF
+PFLAG                             00000086
+PUP0                              000000E0
+PUP4                              000000E4
+PUP5                              000000E5
+PWM0OE                            00000000
+PWM1OE                            00000000
+PWM2OE                            00000000
+STK00                             00000000
+STK01                             00000000
+STK02                             00000000
+STK03                             00000000
+STK04                             00000000
+STK05                             00000000
+STK06                             00000000
+STK0H                             000000FF
+STK0L                             000000FE
+STK1H                             000000FD
+STK1L                             000000FC
+STK2H                             000000FB
+STK2L                             000000FA
+STK3H                             000000F9
+STK3L                             000000F8
+STKP                              000000DF
+STKP0                             00000000
+STKP1                             00000001
+STKP2                             00000002
+T0ALOAD                           00000002
+T0C                               000000DB
+T0C0                              00000000
+T0C1                              00000001
+T0C2                              00000002
+T0C3                              00000003
+T0C4                              00000004
+T0C5                              00000005
+T0C6                              00000006
+T0C7                              00000007
+T0CR                              000000DA
+T0D                               000000CD
+T0D0                              00000000
+T0D1                              00000001
+T0D2                              00000002
+T0D3                              00000003
+T0D4                              00000004
+T0D5                              00000005
+T0D6                              00000006
+T0D7                              00000007
+T0GE                              00000001
+T0IE                              00000005
+T0IF                              00000005
+T0PR0                             00000004
+T0PR1                             00000005
+T0PR2                             00000006
+T0PTS                             00000003
+T0PTSX                            00000002
+T1ALOAD                           00000002
+T1C                               000000DD
+T1C0                              00000000
+T1C1                              00000001
+T1C2                              00000002
+T1C3                              00000003
+T1C4                              00000004
+T1C5                              00000005
+T1C6                              00000006
+T1C7                              00000007
+T1CR                              000000DC
+T1D                               000000DE
+T1D0                              00000000
+T1D1                              00000001
+T1D2                              00000002
+T1D3                              00000003
+T1D4                              00000004
+T1D5                              00000005
+T1D6                              00000006
+T1D7                              00000007
+T1IE                              00000006
+T1IF                              00000006
+T1PR0                             00000004
+T1PR1                             00000005
+T1PR2                             00000006
+T1PTS                             00000003
+T1PTSX                            00000003
+T2ALOAD                           00000002
+T2C                               000000ED
+T2C0                              00000000
+T2C1                              00000001
+T2C2                              00000002
+T2C3                              00000003
+T2C4                              00000004
+T2C5                              00000005
+T2C6                              00000006
+T2C7                              00000007
+T2CR                              000000EC
+T2D                               000000EE
+T2D0                              00000000
+T2D1                              00000001
+T2D2                              00000002
+T2D3                              00000003
+T2D4                              00000004
+T2D5                              00000005
+T2D6                              00000006
+T2D7                              00000007
+T2IE                              00000004
+T2IF                              00000004
+T2PR0                             00000004
+T2PR1                             00000005
+T2PR2                             00000006
+T2PTS                             00000003
+T2PTSX                            00000004
+TC0EN                             00000007
+TC1EN                             00000007
+TC2EN                             00000007
+TXCR                              000000D8
+VREF                              000000AF
+VREFS                             00000007
+VRS0                              00000000
+VRS1                              00000001
+WDTR                              000000CC
+WDTR0                             00000000
+WDTR1                             00000001
+WDTR2                             00000002
+WDTR3                             00000003
+WDTR4                             00000004
+WDTR5                             00000005
+WDTR6                             00000006
+WDTR7                             00000007
+Z                                 00000000
+_ADCR                             000000B1
+_ADCRbits                         000000B1
+_ADRH                             000000B2
+_ADRHbits                         000000B2
+_ADRL                             000000B3
+_ADRLbits                         000000B3
+_ANSEL                            000000AE
+_ANSELbits                        000000AE
+_CONFIG0                          00008000
+_CONFIG1                          00008001
+_FSR0                             00000083
+_FSR0bits                         00000083
+_FSR1                             00000084
+_FSR1bits                         00000084
+_HIBYTE                           00000082
+_HIBYTEbits                       00000082
+_INDF                             000000E7
+_INDFbits                         000000E7
+_INTE                             000000C9
+_INTEbits                         000000C9
+_INTF                             000000C8
+_INTFbits                         000000C8
+_IOP0                             000000D0
+_IOP0bits                         000000D0
+_IOP4                             000000D4
+_IOP4bits                         000000D4
+_IOP5                             000000D5
+_IOP5bits                         000000D5
+_OEP0                             000000B8
+_OEP0bits                         000000B8
+_OEP4                             000000C4
+_OEP4bits                         000000C4
+_OEP5                             000000C5
+_OEP5bits                         000000C5
+_OSCM                             000000CA
+_OSCMbits                         000000CA
+_PCH                              000000CF
+_PCHbits                          000000CF
+_PCL                              000000CE
+_PCLbits                          000000CE
+_PEDGE                            000000BF
+_PEDGEbits                        000000BF
+_PFLAG                            00000086
+_PFLAGbits                        00000086
+_PUP0                             000000E0
+_PUP0bits                         000000E0
+_PUP4                             000000E4
+_PUP4bits                         000000E4
+_PUP5                             000000E5
+_PUP5bits                         000000E5
+_STK0H                            000000FF
+_STK0L                            000000FE
+_STK1H                            000000FD
+_STK1L                            000000FC
+_STK2H                            000000FB
+_STK2L                            000000FA
+_STK3H                            000000F9
+_STK3L                            000000F8
+_STKP                             000000DF
+_STKPbits                         000000DF
+_T0C                              000000DB
+_T0CR                             000000DA
+_T0CRbits                         000000DA
+_T0Cbits                          000000DB
+_T0D                              000000CD
+_T0Dbits                          000000CD
+_T1C                              000000DD
+_T1CR                             000000DC
+_T1CRbits                         000000DC
+_T1Cbits                          000000DD
+_T1D                              000000DE
+_T1Dbits                          000000DE
+_T2C                              000000ED
+_T2CR                             000000EC
+_T2CRbits                         000000EC
+_T2Cbits                          000000ED
+_T2D                              000000EE
+_T2Dbits                          000000EE
+_TXCR                             000000D8
+_TXCRbits                         000000D8
+_VREF                             000000AF
+_VREFbits                         000000AF
+_WDTR                             000000CC
+_WDTRbits                         000000CC
+__32P7011                         00000001
+
+Errors   :     0
+Warnings :     0 reported,     0 suppressed
+Messages :     0 reported,     0 suppressed
+
+

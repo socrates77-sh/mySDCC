@@ -306,7 +306,12 @@ mc32_createInterruptVect(struct dbuf_s *vBuf)
     //dbuf_printf(vBuf, "\tpagesel __sdcc_gsinit_startup\n");
     // dbuf_printf(vBuf, "\tgoto\t__sdcc_gsinit_startup\n");
     // mc32_popGetExternal("__sdcc_gsinit_startup", 0);
-    dbuf_printf(vBuf, "\tgoto\t_main\n");
+
+    // zwr 1.1.0
+    if(!mc32_long_call)
+        dbuf_printf(vBuf, "\tgoto\t_main\n");
+    else
+        dbuf_printf(vBuf, "\tlgoto\t_main\n");
     mc32_popGetExternal("_main", 0);
 }
 
