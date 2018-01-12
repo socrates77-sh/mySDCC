@@ -29,6 +29,13 @@ int debug_verbose = 0;
 
 #define OPTION_STACK_SIZE "--stack-size"
 
+// zwr 1.1.0
+#define FL_MODE "--fl-mode"
+int mc30_fl_mode = 0;
+
+#define START_ADDR "--start-addr"
+int mc30_start_addr = 0;
+
 static char _defaultRules[] =
     {
 #include "peeph.rul"
@@ -38,6 +45,9 @@ static OPTION _pic14_poptions[] =
     {
         {0, "--debug-xtra", &debug_verbose, "show more debug info in assembly output"},
         {0, "--no-pcode-opt", &pic14_options.disable_df, "disable (slightly faulty) optimization on pCode"},
+        // zwr 1.1.0
+        {0, FL_MODE, &mc30_fl_mode, "enable feeling mode"},
+        {0, START_ADDR, &mc30_start_addr, "sets the start address (default: 0)", CLAT_INTEGER},
         {0, OPTION_STACK_SIZE, &options.stack_size, "sets the size if the argument passing stack (default: 16, minimum: 4)", CLAT_INTEGER},
         {0, NULL, NULL, NULL}};
 
@@ -223,7 +233,7 @@ hasExtBitOp(int op, int size)
 {
   if (op == RRC || op == RLC || op == GETABIT
       /* || op == GETHBIT */ /* GETHBIT doesn't look complete for PIC */
-      )
+  )
     return TRUE;
   else
     return FALSE;
@@ -318,9 +328,9 @@ _pic14_do_link(void)
 PORT mc30_port =
     {
         TARGET_ID_PIC14,
-        "mc3x",              // zwr 1.0.0
-        "SinoMCU mc30/mc32", /* Target name */
-        "",                  /* Processor */
+        "mc30",         // zwr 1.1.0
+        "SinoMCU mc30", /* Target name */
+        "",             /* Processor */
         {
             picglue,
             TRUE, /* Emit glue around main */

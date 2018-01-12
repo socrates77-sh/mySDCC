@@ -40,6 +40,7 @@
 #include "glue.h"
 #include "dbuf_string.h"
 #include "ralloc.h" // zwr 1.0.0
+#include "main.h"   // zwr 1.1.0
 
 /*
  * Imports
@@ -6990,17 +6991,22 @@ genJumpTab(iCode *ic)
   pic14_emitcode("jmp", "@a+dptr");
   pic14_emitcode("", "%05d_DS_:", labelKey2num(jtab->key));
 
-  // zwr 1.0.0, revise for switch
-
-  // //emitpcode(POC_MOVLW, popGetHighLabel(jtab->key));
-  // //emitpcode(POC_MOVWF, popCopyReg(&pc_pclath));
-  // emitpcode(POC_MOVLW, popGetLabel(jtab->key));
-  // emitpcode(POC_ADDFW, popGet(AOP(IC_JTCOND(ic)), 0));
-  // //emitSKPNC;
-  // //emitpcode(POC_INCF, popCopyReg(&pc_pclath));
-  // emitpcode(POC_MOVWF, popCopyReg(&pc_pcl));
-  emitpcode(POC_MOVFW, popGet(AOP(IC_JTCOND(ic)), 0));
-  emitpcode(POC_ADDWF, popCopyReg(&pc_pcl));
+  // zwr 1.1.0
+  if (mc30_fl_mode)
+  {
+    emitpcode(POC_MOVLW, popGetHighLabel(jtab->key));
+    emitpcode(POC_MOVWF, popCopyReg(&pc_pclath));
+    emitpcode(POC_MOVLW, popGetLabel(jtab->key));
+    emitpcode(POC_ADDFW, popGet(AOP(IC_JTCOND(ic)), 0));
+    emitSKPNC;
+    emitpcode(POC_INCF, popCopyReg(&pc_pclath));
+    emitpcode(POC_MOVWF, popCopyReg(&pc_pcl));
+  }
+  else
+  {
+    emitpcode(POC_MOVFW, popGet(AOP(IC_JTCOND(ic)), 0));
+    emitpcode(POC_ADDWF, popCopyReg(&pc_pcl));
+  }
 
   emitpLabel(jtab->key);
 

@@ -515,7 +515,7 @@ list_valid_pics(int ncols)
 
 #if 1
   /* heading */
-  fprintf(stderr, "\nMC30/MC32 processors and their characteristics:\n\n"); // zwr 1.0.0
+  fprintf(stderr, "\nMC30 processors and their characteristics:\n\n"); // zwr 1.1.0
   fprintf(stderr, " processor");
   for (k = 0; k < longest - 1; k++)
     fputc(' ', stderr);
@@ -541,7 +541,7 @@ list_valid_pics(int ncols)
 
   col = 0;
 
-  fprintf(stderr, "\nMC30/MC32 processors supported:\n"); // zwr 1.0.0
+  fprintf(stderr, "\nMC30 processors supported:\n"); // zwr 1.1.0
   for (i = 0; i < num_of_supported_PICS; i++)
   {
 

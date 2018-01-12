@@ -300,8 +300,10 @@ pic14createInterruptVect(struct dbuf_s *vBuf)
     dbuf_printf(vBuf, "%s", iComments2);
     // Lkr file should place section STARTUP at address 0x0, but does not ...
 
+    // zwr 1.1.0
+    dbuf_printf(vBuf, "STARTUP\t%s 0x%04x\n", CODE_NAME, mc30_start_addr);
+    // dbuf_printf(vBuf, "STARTUP\t%s 0x0000\n", CODE_NAME);
     // zwr 1.0.0
-    dbuf_printf(vBuf, "STARTUP\t%s 0x0000\n", CODE_NAME);
     //dbuf_printf(vBuf, "\tnop\n"); /* first location for used by incircuit debugger */
     //dbuf_printf(vBuf, "\tpagesel __sdcc_gsinit_startup\n");
     // dbuf_printf(vBuf, "\tgoto\t__sdcc_gsinit_startup\n");
@@ -317,7 +319,7 @@ static void
 pic14initialComments(FILE *afile)
 {
     initialComments(afile);
-    fprintf(afile, "; MC30/MC32 port for the RISC core\n"); // zwr 1.0.0
+    fprintf(afile, "; MC30 port for the RISC core\n"); // zwr 1.1.0
     fprintf(afile, "%s", iComments2);
 }
 
