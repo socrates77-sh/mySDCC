@@ -1326,9 +1326,15 @@ void Saveinfo(memmap *map, symbol *func, QValList *desvals)
       sym = OP_SYMBOL(sym->reqv);
       if (!sym->isspilt || sym->remat)
       {
-        tempsym->nRegs = sym->nRegs;
-        for (i = 0; i < 4 && sym->regs[i]; i++)
-          tempsym->regs[i] = sym->regs[i];
+        // zwr 1.1.1
+        if(!sym->regs[0])
+          tempsym->nRegs = 0;
+        else
+        {
+          tempsym->nRegs = sym->nRegs;
+          for (i = 0; i < 4 && sym->regs[i]; i++)
+            tempsym->regs[i] = sym->regs[i];
+        }
         //tempsym->nreg=i ;
         continue;
       }

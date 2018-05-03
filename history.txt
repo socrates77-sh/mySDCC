@@ -2,5 +2,9 @@
     重构，版本改为1.0.0
     新增MC35内核，发布试用
 1.1.0 2018/1/16
-	区分MC30/MC32/MC35内核
-	将libsrc/share目录移除
+    区分MC30/MC32/MC35内核
+    将libsrc/share目录移除
+1.1.1 2018/5/3
+    修改Saveinfo的bug
+    long-call选项时，switch指令地址偏移*2
+    

@@ -7000,7 +7000,13 @@ genJumpTab(iCode *ic)
   // //mc32_emitSKPNC;
   // //mc32_emitpcode(POC_INCF, mc32_popCopyReg(&mc32_pc_pclath));
   // mc32_emitpcode(POC_MOVWF, mc32_popCopyReg(&mc32_pc_pcl));
-  mc32_emitpcode(POC_MOVFW, mc32_popGet(AOP(IC_JTCOND(ic)), 0));
+
+  // zwr 1.1.1 for long_call, address shift*2
+  if(!mc32_long_call)
+    mc32_emitpcode(POC_MOVFW, mc32_popGet(AOP(IC_JTCOND(ic)), 0));
+  else
+    mc32_emitpcode(POC_RLFW, mc32_popGet(AOP(IC_JTCOND(ic)), 0));
+    
   mc32_emitpcode(POC_ADDWF, mc32_popCopyReg(&mc32_pc_pcl));
 
   mc32_emitpLabel(jtab->key);

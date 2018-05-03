@@ -2,10 +2,10 @@
 #
 #
 
-VERSION         = 1.1.0
+VERSION         = 1.1.1
 VERSIONHI       = 1
 VERSIONLO       = 1
-VERSIONP        = 0
+VERSIONP        = 1
 
 SHELL           = /bin/sh
 CPP             = gcc -E
