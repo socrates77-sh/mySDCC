@@ -3230,6 +3230,9 @@ packRegsForOneuse(iCode *ic, operand *op, eBBlock *ebp)
                         return dic;
                 }
                 dic = dic->next;
+                // zwr 1.1.2
+                if (!dic)
+                        return NULL;
         }
 
         /* otherwise check that the definition does

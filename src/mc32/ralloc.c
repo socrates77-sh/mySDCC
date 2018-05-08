@@ -1411,7 +1411,7 @@ mc32_allLRs(symbol *sym, eBBlock *ebp, iCode *ic)
 /*-----------------------------------------------------------------*/
 static set *
 mc32_liveRangesWith(bitVect *lrs, int(func)(symbol *, eBBlock *, iCode *),
-               eBBlock *ebp, iCode *ic)
+                    eBBlock *ebp, iCode *ic)
 {
         set *rset = NULL;
         int i;
@@ -2351,7 +2351,7 @@ mc32_serialRegAssign(eBBlock **ebbs, int count)
                                         if (sym->usl.spillLoc)
                                         {
                                                 symbol *leastUsed = mc32_leastUsedLR(mc32_liveRangesWith(spillable,
-                                                                                               mc32_allLRs, ebbs[i], ic));
+                                                                                                         mc32_allLRs, ebbs[i], ic));
                                                 if (leastUsed && leastUsed->used > sym->used)
                                                 {
                                                         mc32_spillThis(sym);
@@ -2410,13 +2410,13 @@ mc32_serialRegAssign(eBBlock **ebbs, int count)
                                     IS_SYMOP(IC_RESULT(ic)) &&
                                     OP_SYMBOL(IC_LEFT(ic))->nRegs && ic->op != '=')
                                         mc32_positionRegs(OP_SYMBOL(IC_RESULT(ic)),
-                                                     OP_SYMBOL(IC_LEFT(ic)), ic->lineno);
+                                                          OP_SYMBOL(IC_LEFT(ic)), ic->lineno);
                                 /* do the same for the right operand */
                                 if (IC_RIGHT(ic) && IS_SYMOP(IC_RIGHT(ic)) &&
                                     IS_SYMOP(IC_RESULT(ic)) &&
                                     OP_SYMBOL(IC_RIGHT(ic))->nRegs && ic->op != '=')
                                         mc32_positionRegs(OP_SYMBOL(IC_RESULT(ic)),
-                                                     OP_SYMBOL(IC_RIGHT(ic)), ic->lineno);
+                                                          OP_SYMBOL(IC_RIGHT(ic)), ic->lineno);
 
                                 mc32_debugLog("  %d - \n", __LINE__);
                                 if (ptrRegSet)
@@ -2661,7 +2661,7 @@ mc32_regTypeNum()
                                 //continue;
                         }
 
-/* if the symbol has only one definition &
+                                /* if the symbol has only one definition &
                         that definition is a get_pointer and the
                         pointer we are getting is rematerializable and
                         in "data" space */
@@ -2836,9 +2836,9 @@ mc32_packRegsForAssign(iCode *ic, eBBlock *ebp)
                         if (IS_VALOP(IC_RIGHT(ic)))
                         {
                                 mc32_debugLog("  setting config word to %x\n",
-                                         (int)ulFromVal(OP_VALUE(IC_RIGHT(ic))));
+                                              (int)ulFromVal(OP_VALUE(IC_RIGHT(ic))));
                                 mc32_assignConfigWordValue(SPEC_ADDR(OP_SYM_ETYPE(IC_RESULT(ic))),
-                                                            (int)ulFromVal(OP_VALUE(IC_RIGHT(ic))));
+                                                           (int)ulFromVal(OP_VALUE(IC_RIGHT(ic))));
                         }
 
                         /* remove the assignment from the iCode chain. */
@@ -2922,7 +2922,7 @@ mc32_packRegsForAssign(iCode *ic, eBBlock *ebp)
                 {
                         /* A previous result was assigned to the same register - we'll our definition */
                         mc32_debugLog("  %d - dic result key == ic right key -- pointer set=%c\n",
-                                 __LINE__, ((POINTER_SET(dic)) ? 'Y' : 'N'));
+                                      __LINE__, ((POINTER_SET(dic)) ? 'Y' : 'N'));
                         if (POINTER_SET(dic))
                                 dic = NULL;
 
@@ -2951,7 +2951,7 @@ mc32_packRegsForAssign(iCode *ic, eBBlock *ebp)
                     IC_RESULT(dic)->key == IC_RESULT(ic)->key)
                 {
                         mc32_debugLog("  %d - dic result key == ic result key -- pointer set=Y\n",
-                                 __LINE__);
+                                      __LINE__);
                         dic = NULL;
                         break;
                 }
@@ -3038,7 +3038,7 @@ mc32_findAssignToSym(operand *op, iCode *ic)
                     !POINTER_SET(dic) &&
                     IC_RESULT(dic)->key == op->key
                     /*          &&  IS_TRUE_SYMOP(IC_RIGHT(dic)) */
-                    )
+                )
                 {
 
                         /* we are interested only if defined in far space */
@@ -3230,6 +3230,9 @@ mc32_packRegsForOneuse(iCode *ic, operand *op, eBBlock *ebp)
                         return dic;
                 }
                 dic = dic->next;
+                // zwr 1.1.2
+                if (!dic)
+                        return NULL;
         }
 
         /* otherwise check that the definition does
@@ -3863,31 +3866,31 @@ mc32_packRegisters(eBBlock *ebp)
                         then we should say mc32_ptrRegReq */
                         if (ic->op == IFX && IS_SYMOP(IC_COND(ic)))
                                 mc32_ptrRegReq += ((OP_SYMBOL(IC_COND(ic))->onStack ||
-                                                     OP_SYMBOL(IC_COND(ic))->iaccess)
-                                                        ? 1
-                                                        : 0);
+                                                    OP_SYMBOL(IC_COND(ic))->iaccess)
+                                                       ? 1
+                                                       : 0);
                         else if (ic->op == JUMPTABLE && IS_SYMOP(IC_JTCOND(ic)))
                                 mc32_ptrRegReq += ((OP_SYMBOL(IC_JTCOND(ic))->onStack ||
-                                                     OP_SYMBOL(IC_JTCOND(ic))->iaccess)
-                                                        ? 1
-                                                        : 0);
+                                                    OP_SYMBOL(IC_JTCOND(ic))->iaccess)
+                                                       ? 1
+                                                       : 0);
                         else
                         {
                                 if (IS_SYMOP(IC_LEFT(ic)))
                                         mc32_ptrRegReq += ((OP_SYMBOL(IC_LEFT(ic))->onStack ||
-                                                             OP_SYMBOL(IC_LEFT(ic))->iaccess)
-                                                                ? 1
-                                                                : 0);
+                                                            OP_SYMBOL(IC_LEFT(ic))->iaccess)
+                                                               ? 1
+                                                               : 0);
                                 if (IS_SYMOP(IC_RIGHT(ic)))
                                         mc32_ptrRegReq += ((OP_SYMBOL(IC_RIGHT(ic))->onStack ||
-                                                             OP_SYMBOL(IC_RIGHT(ic))->iaccess)
-                                                                ? 1
-                                                                : 0);
+                                                            OP_SYMBOL(IC_RIGHT(ic))->iaccess)
+                                                               ? 1
+                                                               : 0);
                                 if (IS_SYMOP(IC_RESULT(ic)))
                                         mc32_ptrRegReq += ((OP_SYMBOL(IC_RESULT(ic))->onStack ||
-                                                             OP_SYMBOL(IC_RESULT(ic))->iaccess)
-                                                                ? 1
-                                                                : 0);
+                                                            OP_SYMBOL(IC_RESULT(ic))->iaccess)
+                                                               ? 1
+                                                               : 0);
                         }
 
                         mc32_debugLog("  %d - pointer reg req = %d\n", __LINE__, mc32_ptrRegReq);
@@ -4098,7 +4101,7 @@ void mc32_assignRegisters(ebbIndex *ebbi)
         int count = ebbi->count;
 
         mc32_debugLog("<><><><><><><><><><><><><><><><><>\nstarting\t%s:%s\n",
-                 __FILE__, __FUNCTION__);
+                      __FILE__, __FUNCTION__);
         mc32_debugLog("ebbs before optimizing:\n");
         mc32_dumpEbbsToDebug(ebbs, count);
 
@@ -4136,7 +4139,7 @@ void mc32_assignRegisters(ebbIndex *ebbi)
                 while (reg)
                 {
                         mc32_debugLog("  -- #%d reg = %s  key %d, rIdx = %d, size %d\n",
-                                 i++, reg->name, hkey, reg->rIdx, reg->size);
+                                      i++, reg->name, hkey, reg->rIdx, reg->size);
                         reg = hTabNextItem(mc32_dynDirectRegNames, &hkey);
                 }
         }

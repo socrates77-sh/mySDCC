@@ -7,4 +7,5 @@
 1.1.1 2018/5/3
     修改Saveinfo的bug
     long-call选项时，switch指令地址偏移*2
-    
+1.1.2 2018/5/8
+    修改packRegsForOneuse函数的bug，ralloc.c(mc30/mc32/mc35)
