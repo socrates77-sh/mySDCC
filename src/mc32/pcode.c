@@ -30,16 +30,24 @@
 // Eventually this will go into device dependent files:
 // zwr 1.1.0
 pCodeOpReg mc32_pc_status = {{PO_STATUS, "PFLAG"}, -1, NULL, 0, NULL};
+// pCodeOpReg mc32_pc_status = {{PO_STATUS, "STATUS"}, -1, NULL, 0, NULL};
 pCodeOpReg mc32_pc_fsr = {{PO_FSR, "FSR"}, -1, NULL, 0, NULL};
-pCodeOpReg mc32_pc_fsr0l = {{PO_FSR, "FSR0L"}, -1, NULL, 0, NULL};
-pCodeOpReg mc32_pc_fsr0h = {{PO_FSR, "FSR0H"}, -1, NULL, 0, NULL};
+// zwr 1.1.3
+// pCodeOpReg mc32_pc_fsr0l = {{PO_FSR, "FSR0L"}, -1, NULL, 0, NULL};
+// pCodeOpReg mc32_pc_fsr0h = {{PO_FSR, "FSR0H"}, -1, NULL, 0, NULL};
+pCodeOpReg mc32_pc_fsr0l = {{PO_FSR, "FSR0"}, -1, NULL, 0, NULL};
+pCodeOpReg mc32_pc_fsr0h = {{PO_FSR, "FSR1"}, -1, NULL, 0, NULL};
+
 pCodeOpReg mc32_pc_indf_ = {{PO_INDF, "INDF"}, -1, NULL, 0, NULL};
 pCodeOpReg mc32_pc_indf0 = {{PO_INDF, "INDF0"}, -1, NULL, 0, NULL};
 pCodeOpReg mc32_pc_intcon = {{PO_INTCON, "INTCON"}, -1, NULL, 0, NULL};
 pCodeOpReg mc32_pc_pcl = {{PO_PCL, "PCL"}, -1, NULL, 0, NULL};
 pCodeOpReg mc32_pc_pclath = {{PO_PCLATH, "PCLATH"}, -1, NULL, 0, NULL};
 
-pCodeOpReg *mc32_pc_indf = &mc32_pc_indf_;
+// zwr 1.1.3
+pCodeOpReg mc32_pc_indf2_ = {{PO_INDF, "INDF2"}, -1, NULL, 0, NULL};
+pCodeOpReg *mc32_pc_indf = &mc32_pc_indf2_;
+// pCodeOpReg *mc32_pc_indf = &mc32_pc_indf_;
 
 pCodeOpReg mc32_pc_wsave = {{PO_GPR_REGISTER, "WSAVE"}, -1, NULL, 0, NULL};
 pCodeOpReg mc32_pc_ssave = {{PO_GPR_REGISTER, "SSAVE"}, -1, NULL, 0, NULL};

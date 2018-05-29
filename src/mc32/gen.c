@@ -5526,21 +5526,26 @@ SetIrp(operand *result)
 static void
 setup_fsr(operand *ptr)
 {
-  if (mc32_getPIC()->isEnhancedCore)
-  {
-    mc32_mov2w_op(ptr, 0);
-    mc32_emitpcode(POC_MOVWF, mc32_popCopyReg(&mc32_pc_fsr0l));
-    mc32_mov2w_op(ptr, 1);
-    mc32_emitpcode(POC_MOVWF, mc32_popCopyReg(&mc32_pc_fsr0h));
-  }
-  else
-  {
-    mc32_mov2w_op(ptr, 0);
-    mc32_emitpcode(POC_MOVWF, mc32_popCopyReg(&mc32_pc_fsr));
+  // zwr 1.1.3
+  mc32_mov2w_op(ptr, 0);
+  mc32_emitpcode(POC_MOVWF, mc32_popCopyReg(&mc32_pc_fsr0l));
+  mc32_mov2w_op(ptr, 1);
+  mc32_emitpcode(POC_MOVWF, mc32_popCopyReg(&mc32_pc_fsr0h));
+  // if (mc32_getPIC()->isEnhancedCore)
+  // {
+  //   mc32_mov2w_op(ptr, 0);
+  //   mc32_emitpcode(POC_MOVWF, mc32_popCopyReg(&mc32_pc_fsr0l));
+  //   mc32_mov2w_op(ptr, 1);
+  //   mc32_emitpcode(POC_MOVWF, mc32_popCopyReg(&mc32_pc_fsr0h));
+  // }
+  // else
+  // {
+  //   mc32_mov2w_op(ptr, 0);
+  //   mc32_emitpcode(POC_MOVWF, mc32_popCopyReg(&mc32_pc_fsr));
 
-    /* also setup-up IRP */
-    SetIrp(ptr);
-  }
+  //   /* also setup-up IRP */
+  //   SetIrp(ptr);
+  // }
 }
 
 static void

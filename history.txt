@@ -9,3 +9,5 @@
     long-call选项时，switch指令地址偏移*2
 1.1.2 2018/5/8
     修改packRegsForOneuse函数的bug，ralloc.c(mc30/mc32/mc35)
+1.1.3 2018/5/29
+    修改setup_fsr函数的bug，及FSR1,FSR2,INDF2定义(mc32/mc35)

@@ -5487,15 +5487,15 @@ genGenericShift(iCode *ic, int shiftRight)
     /* signed shift count -- invert shift direction for c<0 */
     mc35_emitpcode(POC_BTFSC, mc35_newpCodeOpBit(mc35_aopGet(AOP(right), 0, FALSE, FALSE), 7, 0));
     mc35_emitpcode(POC_GOTO, mc35_popGetLabel(inverselbl->key));
-  }                                             // if
+  } // if
 
   // zwr 1.0.0 inst isubai #2
-  // mc35_emitpcode(POC_SUBLW, mc35_popGetLit(0)); 
-  mc35_emitpcode(POC_XORLW, mc35_popGetLit(0xff)); 
+  // mc35_emitpcode(POC_SUBLW, mc35_popGetLit(0));
+  mc35_emitpcode(POC_XORLW, mc35_popGetLit(0xff));
   mc35_emitpcode(POC_ADDLW, mc35_popGetLit(1));
 
   /* -count in WREG, 0-x > 0 --> BORROW = !CARRY --> CARRY is clear! */
-  
+
   /* check for `a = b >> c' with `-c == 0' */
   mc35_emitSKPNZ;
   mc35_emitpcode(POC_GOTO, mc35_popGetLabel(tlbl1->key));
@@ -5590,21 +5590,26 @@ SetIrp(operand *result)
 static void
 setup_fsr(operand *ptr)
 {
-  if (mc35_getPIC()->isEnhancedCore)
-  {
-    mc35_mov2w_op(ptr, 0);
-    mc35_emitpcode(POC_MOVWF, mc35_popCopyReg(&mc35_pc_fsr0l));
-    mc35_mov2w_op(ptr, 1);
-    mc35_emitpcode(POC_MOVWF, mc35_popCopyReg(&mc35_pc_fsr0h));
-  }
-  else
-  {
-    mc35_mov2w_op(ptr, 0);
-    mc35_emitpcode(POC_MOVWF, mc35_popCopyReg(&mc35_pc_fsr));
+  // zwr 1.1.3
+  mc35_mov2w_op(ptr, 0);
+  mc35_emitpcode(POC_MOVWF, mc35_popCopyReg(&mc35_pc_fsr0l));
+  mc35_mov2w_op(ptr, 1);
+  mc35_emitpcode(POC_MOVWF, mc35_popCopyReg(&mc35_pc_fsr0h));
+  // if (mc35_getPIC()->isEnhancedCore)
+  // {
+  //   mc35_mov2w_op(ptr, 0);
+  //   mc35_emitpcode(POC_MOVWF, mc35_popCopyReg(&mc35_pc_fsr0l));
+  //   mc35_mov2w_op(ptr, 1);
+  //   mc35_emitpcode(POC_MOVWF, mc35_popCopyReg(&mc35_pc_fsr0h));
+  // }
+  // else
+  // {
+  //   mc35_mov2w_op(ptr, 0);
+  //   mc35_emitpcode(POC_MOVWF, mc35_popCopyReg(&mc35_pc_fsr));
 
-    /* also setup-up IRP */
-    SetIrp(ptr);
-  }
+  //   /* also setup-up IRP */
+  //   SetIrp(ptr);
+  // }
 }
 
 static void

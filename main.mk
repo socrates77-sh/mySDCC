@@ -3,10 +3,10 @@
 #
 
 # Version
-VERSION         = 1.1.2
+VERSION         = 1.1.3
 VERSIONHI       = 1
 VERSIONLO       = 1
-VERSIONP        = 2
+VERSIONP        = 3
 
 # Programs
 SHELL		= /bin/sh
