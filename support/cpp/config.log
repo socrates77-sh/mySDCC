@@ -48,7 +48,6 @@ PATH: /c/Program Files (x86)/Microsoft SQL Server/100/Tools/Binn/
 PATH: /c/Program Files/Microsoft SQL Server/100/Tools/Binn/
 PATH: /c/Program Files/Microsoft SQL Server/100/DTS/Binn/
 PATH: /mingw/bin
-PATH: /e/Program Files/Git/cmd
 PATH: /e/Program Files/TortoiseSVN/bin
 PATH: /c/Program Files (x86)/Windows Kits/8.1/Windows Performance Toolkit/
 PATH: /c/Program Files/Microsoft SQL Server/110/Tools/Binn/
@@ -57,6 +56,7 @@ PATH: /e/Program Files/MATLAB/R2016a/bin
 PATH: /e/Program Files/MATLAB/R2016a/polyspace/bin
 PATH: /c/Program Files/Intel/WiFi/bin/
 PATH: /c/Program Files/Common Files/Intel/WirelessCommon/
+PATH: /e/Program Files/Git/cmd
 PATH: /e/Program Files/TortoiseGit/bin
 PATH: %USERPROFILE%/AppData/Local/Microsoft/WindowsApps
 PATH: /e/Program Files/Microsoft VS Code/bin
@@ -639,7 +639,7 @@ configure:4843: $? = 0
 configure:4843: result: yes
 configure:4843: checking for strsignal
 configure:4843: gcc -o conftest.exe -g   conftest.c  >&5
-C:\Users\zhwen\AppData\Local\Temp\ccoxrIar.o: In function `main':
+C:\Users\zhwen\AppData\Local\Temp\ccCIwWGi.o: In function `main':
 e:\tools\sn-sdcc\support\cpp/conftest.c:76: undefined reference to `strsignal'
 collect2.exe: error: ld returned 1 exit status
 configure:4843: $? = 1
@@ -740,7 +740,7 @@ configure:4843: $? = 0
 configure:4843: result: yes
 configure:4843: checking for lstat
 configure:4843: gcc -o conftest.exe -g   conftest.c  >&5
-C:\Users\zhwen\AppData\Local\Temp\ccryEMYj.o: In function `main':
+C:\Users\zhwen\AppData\Local\Temp\cckUk3P9.o: In function `main':
 e:\tools\sn-sdcc\support\cpp/conftest.c:78: undefined reference to `lstat'
 collect2.exe: error: ld returned 1 exit status
 configure:4843: $? = 1
@@ -1101,7 +1101,7 @@ configure: failed program was:
 |   int fd;
 |   struct stat st;
 | 
-|   fd = open("conftestdata9200", O_RDONLY);
+|   fd = open("conftestdata14212", O_RDONLY);
 |   if (fd < 0)
 |     exit(1);
 | 

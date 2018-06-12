@@ -5569,10 +5569,19 @@ inc_fsr(int delta)
     switch (delta)
     {
     case 1:
-      mc32_emitpcode(POC_INCF, mc32_popCopyReg(&mc32_pc_fsr));
+      // zwr 1.1.4
+      // mc32_emitpcode(POC_INCF, mc32_popCopyReg(&mc32_pc_fsr));
+      mc32_emitpcode(POC_INCF, mc32_popCopyReg(&mc32_pc_fsr0l));
+      mc32_emitSKPNZ;
+      mc32_emitpcode(POC_INCF, mc32_popCopyReg(&mc32_pc_fsr0h));
       break;
     case -1:
-      mc32_emitpcode(POC_DECF, mc32_popCopyReg(&mc32_pc_fsr));
+      // zwr 1.1.4
+      // mc32_emitpcode(POC_DECF, mc32_popCopyReg(&mc32_pc_fsr));
+      mc32_emitpcode(POC_MOVLW, mc32_popGetLit(1));
+      mc32_emitpcode(POC_SUBWF, mc32_popCopyReg(&mc32_pc_fsr0l));
+      mc32_emitSKPC;
+      mc32_emitpcode(POC_SUBWF, mc32_popCopyReg(&mc32_pc_fsr0h));
       break;
     case 0:
       break;

@@ -12,13 +12,13 @@
                 "--use-non-free",
                 "-mmc32",
                 "-p7511",
-                "-I\"e:\\tools\\demo\\bug180529\\share\\include\"",
-                "-Wa\"-Ie:\\tools\\demo\\bug180529\\share\\header\"",
+                "-I\"e:\\tools\\demo\\bug180608\\share\\include\"",
+                "-Wa\"-Ie:\\tools\\demo\\bug180608\\share\\header\"",
                 "-c",
-                "main.c"
+                "FSR_TEST.c"
             ],
             "stopAtEntry": false,
-            "cwd": "E:\\tools\\demo\\bug180529",
+            "cwd": "E:\\tools\\demo\\bug180608",
             "environment": [],
             "externalConsole": true,
             "MIMode": "gdb",

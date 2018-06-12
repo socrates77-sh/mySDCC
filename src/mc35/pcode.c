@@ -44,10 +44,11 @@ pCodeOpReg mc35_pc_intcon = {{PO_INTCON, "INTCON"}, -1, NULL, 0, NULL};
 pCodeOpReg mc35_pc_pcl = {{PO_PCL, "PCL"}, -1, NULL, 0, NULL};
 pCodeOpReg mc35_pc_pclath = {{PO_PCLATH, "PCLATH"}, -1, NULL, 0, NULL};
 
+// zwr 1.1.4, cancle 1.1.3 modified hear
 // zwr 1.1.3
-pCodeOpReg mc35_pc_indf2_ = {{PO_INDF, "INDF2"}, -1, NULL, 0, NULL};
-pCodeOpReg *mc35_pc_indf = &mc35_pc_indf2_;
-// pCodeOpReg *mc35_pc_indf = &mc32_pc_indf_;
+// pCodeOpReg mc35_pc_indf2_ = {{PO_INDF, "INDF2"}, -1, NULL, 0, NULL};
+// pCodeOpReg *mc35_pc_indf = &mc35_pc_indf2_;
+pCodeOpReg *mc35_pc_indf = &mc35_pc_indf_;
 
 pCodeOpReg mc35_pc_wsave = {{PO_GPR_REGISTER, "WSAVE"}, -1, NULL, 0, NULL};
 pCodeOpReg mc35_pc_ssave = {{PO_GPR_REGISTER, "SSAVE"}, -1, NULL, 0, NULL};
