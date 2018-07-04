@@ -35,7 +35,8 @@ static MC32_device *mc32_pic = NULL;
 static int mc32_num_of_supported_PICS = 0;
 static int mc32_maxRAMaddress = 0;
 
-#define DEVICE_FILE_NAME_MC32 "mc32devices.txt" // zwr 1.1.0
+// #define DEVICE_FILE_NAME_MC32 "mc32devices.txt" // zwr 1.1.0
+#define DEVICE_FILE_NAME_MC32 "32devices.txt" // zwr 1.1.5
 #define PIC14_STRING_LEN 256
 #define MC32_SPLIT_WORDS_MAX 16
 

@@ -35,7 +35,8 @@ static PIC_device *pic = NULL;
 static int num_of_supported_PICS = 0;
 static int maxRAMaddress = 0;
 
-#define DEVICE_FILE_NAME "mc30devices.txt" // zwr 1.0.0
+// #define DEVICE_FILE_NAME "mc30devices.txt" // zwr 1.0.0
+#define DEVICE_FILE_NAME "30devices.txt" // zwr 1.1.5
 #define PIC14_STRING_LEN 256
 #define SPLIT_WORDS_MAX 16
 

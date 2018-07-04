@@ -219,10 +219,10 @@
 #define SDCC_VERSION_LO 1
 
 /* XXX */
-#define SDCC_VERSION_P 4
+#define SDCC_VERSION_P 5
 
 /* XXX */
-#define SDCC_VERSION_STR "1.1.4"
+#define SDCC_VERSION_STR "1.1.5"
 
 /* The size of `char', as computed by sizeof. */
 #define SIZEOF_CHAR 1

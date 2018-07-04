@@ -35,7 +35,8 @@ static MC35_device *mc35_pic = NULL;
 static int mc35_num_of_supported_PICS = 0;
 static int mc35_maxRAMaddress = 0;
 
-#define DEVICE_FILE_NAME_MC35 "mc35devices.txt" // zwr 1.0.0
+// #define DEVICE_FILE_NAME_MC35 "mc35devices.txt" // zwr 1.0.0
+#define DEVICE_FILE_NAME_MC35 "35devices.txt" // zwr 1.1.5
 #define PIC14_STRING_LEN 256
 #define MC35_SPLIT_WORDS_MAX 16
 
