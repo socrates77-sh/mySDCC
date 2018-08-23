@@ -1328,7 +1328,7 @@ mov2w_op(operand *op, int offset)
     if (IS_SYMOP(op) && IS_GENPTR(OP_SYM_TYPE(op)) && AOP_SIZE(op) < offset)
     {
       if (offset == GPTRSIZE - 1)
-        emitpcode(POC_MOVLW, popGetLit(GPTRTAG_DATA)); 
+        emitpcode(POC_MOVLW, popGetLit(GPTRTAG_DATA));
       else
         emitpcode(POC_MOVLW, popGetLit(0));
     }
@@ -6025,14 +6025,13 @@ genConstPointerGet(operand *left, operand *result, iCode *ic)
     int size = min((int)getSize(OP_SYM_ETYPE(left)), AOP_SIZE(result));
     assert(size > 0 && size <= 4);
 
-    // zwr 1.1.6
     mov2w_op(left, 0);
     emitpcode(POC_MOVWF, popRegFromIdx(Gstack_base_addr - 1));
     mov2w_op(left, 1);
     emitpcode(POC_MOVWF, popRegFromIdx(Gstack_base_addr));
     emitpcode(POC_MOVLW, popGetLit(GPTRTAG_CODE)); /* GPOINTER tag for __code space */
     call_libraryfunc(func[size]);
-    
+
     movwf(AOP(result), size - 1);
     for (i = 1; i < size; i++)
     {
@@ -6044,6 +6043,76 @@ genConstPointerGet(operand *left, operand *result, iCode *ic)
 release:
   freeAsmop(left, NULL, ic, TRUE);
   freeAsmop(result, NULL, ic, TRUE);
+}
+
+// zwr 1.1.6
+static void
+genConstPointerGet_emc(operand *left, operand *result, iCode *ic)
+{
+  printf("global const is not supported, please try FL-MODE\n");
+  exit(EXIT_FAILURE);
+  // //sym_link *retype = getSpec(operandType(result));
+  // #if 0
+  //   symbol *albl, *blbl;          //, *clbl;
+  //   pCodeOp *pcop;
+  // #endif
+  //   int i, lit;
+
+  //   FENTRY;
+  //   DEBUGpic14_emitcode("; ***", "%s  %d", __FUNCTION__, __LINE__);
+  //   aopOp(left, ic, FALSE);
+  //   aopOp(result, ic, FALSE);
+
+  //   DEBUGpic14_AopType(__LINE__, left, NULL, result);
+
+  //   DEBUGpic14_emitcode("; ", " %d getting const pointer", __LINE__);
+
+  //   lit = op_isLitLike(left);
+
+  //   if (IS_BITFIELD(getSpec(operandType(result))))
+  //   {
+  //     genUnpackBits(result, left, lit ? -1 : CPOINTER, ifxForOp(IC_RESULT(ic), ic));
+  //     goto release;
+  //   }
+
+  //   {
+  //     char *func[] = {NULL, "__gptrget1", "__gptrget2", "__gptrget3", "__gptrget4"};
+  //     int size = min((int)getSize(OP_SYM_ETYPE(left)), AOP_SIZE(result));
+  //     assert(size > 0 && size <= 4);
+
+  //     // mov2w_op(left, 0);
+  //     // emitpcode(POC_MOVWF, popRegFromIdx(Gstack_base_addr - 1));
+  //     // mov2w_op(left, 1);
+  //     // emitpcode(POC_MOVWF, popRegFromIdx(Gstack_base_addr));
+  //     // emitpcode(POC_MOVLW, popGetLit(GPTRTAG_CODE)); /* GPOINTER tag for __code space */
+  //     // call_libraryfunc(func[size]);
+
+  //     char fun_name[256];
+  //     if (op_isLitLike(left))
+  //     {
+  //       for (i = 0; i < size; i++)
+  //       {
+  //         if (left->isaddr)
+  //         {
+  //           emitpcode(POC_CALL, popGetAddr(AOP(left), 0, size - i)); // index+1 (for addai pcl)
+  //         }
+  //         else
+  //         {
+  //           SNPRINTF(fun_name, 256, "(%s + %d)", left->aop->aopu.pcop->name, size - 1 - i);
+  //           emitpcode(POC_CALL, popGetWithString(fun_name, 0));
+  //         }
+  //         movwf(AOP(result), size - 1 - i);
+  //       }
+  //     }
+  //     else
+  //     {
+  //       //call_libraryfunc(func[size]);
+  //     }
+  //   }
+
+  // release:
+  //   freeAsmop(left, NULL, ic, TRUE);
+  //   freeAsmop(result, NULL, ic, TRUE);
 }
 
 /*-----------------------------------------------------------------*/
@@ -6119,7 +6188,12 @@ genPointerGet(iCode *ic)
          break;
        */
   case CPOINTER:
-    genConstPointerGet(left, result, ic);
+    // zwr 1.1.6
+    // genConstPointerGet(left, result, ic);
+    if (mc30_fl_mode)
+      genConstPointerGet(left, result, ic);
+    else
+      genConstPointerGet_emc(left, result, ic);
     break;
 
   case GPOINTER:
@@ -6858,7 +6932,12 @@ genAssign(iCode *ic)
       && IN_CODESPACE(SPEC_OCLS(getSpec(OP_SYM_TYPE(right)))))
   {
     emitpComment("genAssign from CODESPACE");
-    genConstPointerGet(right, result, ic);
+    // zwr 1.1.6
+    // genConstPointerGet(right, result, ic);
+    if (mc30_fl_mode)
+      genConstPointerGet(right, result, ic);
+    else
+      genConstPointerGet_emc(right, result, ic);
     goto release;
   }
 
