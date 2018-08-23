@@ -7681,6 +7681,9 @@ int mc32_op_isLitLike(operand *op)
     return 1;
   if (IS_SYMOP(op) && IS_FUNC(OP_SYM_TYPE(op)))
     return 1;
+
+  // zwr 1.1.6
+  // if (IS_SYMOP(op) && IS_PTR(OP_SYM_TYPE(op)) && (AOP_TYPE(op) == AOP_PCODE) && (AOP(op)->aopu.pcop->type == PO_IMMEDIATE))
   if (IS_SYMOP(op) && IS_PTR(OP_SYM_TYPE(op)) && (AOP_TYPE(op) == AOP_PCODE) && (AOP(op)->aopu.pcop->type == PO_IMMEDIATE))
   {
     return 1;

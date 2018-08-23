@@ -54,12 +54,13 @@ PATH: /c/Program Files/Microsoft SQL Server/110/Tools/Binn/
 PATH: /e/Program Files/MATLAB/R2016a/runtime/win64
 PATH: /e/Program Files/MATLAB/R2016a/bin
 PATH: /e/Program Files/MATLAB/R2016a/polyspace/bin
-PATH: /c/Program Files/Intel/WiFi/bin/
-PATH: /c/Program Files/Common Files/Intel/WirelessCommon/
 PATH: /e/Program Files/Git/cmd
 PATH: /e/Program Files/TortoiseGit/bin
-PATH: %USERPROFILE%/AppData/Local/Microsoft/WindowsApps
 PATH: /e/Program Files/Microsoft VS Code/bin
+PATH: /c/WINDOWS/System32/OpenSSH/
+PATH: /c/Program Files/Intel/WiFi/bin/
+PATH: /c/Program Files/Common Files/Intel/WirelessCommon/
+PATH: %USERPROFILE%/AppData/Local/Microsoft/WindowsApps
 PATH: /e/modeltech_10.1c/win32
 
 
@@ -639,7 +640,7 @@ configure:4843: $? = 0
 configure:4843: result: yes
 configure:4843: checking for strsignal
 configure:4843: gcc -o conftest.exe -g   conftest.c  >&5
-C:\Users\zhwen\AppData\Local\Temp\ccw1k4FW.o: In function `main':
+C:\Users\zhwen\AppData\Local\Temp\cckZ8elS.o: In function `main':
 e:\tools\sn-sdcc\support\cpp/conftest.c:76: undefined reference to `strsignal'
 collect2.exe: error: ld returned 1 exit status
 configure:4843: $? = 1
@@ -740,7 +741,7 @@ configure:4843: $? = 0
 configure:4843: result: yes
 configure:4843: checking for lstat
 configure:4843: gcc -o conftest.exe -g   conftest.c  >&5
-C:\Users\zhwen\AppData\Local\Temp\ccygHkJ4.o: In function `main':
+C:\Users\zhwen\AppData\Local\Temp\cc6uuhUg.o: In function `main':
 e:\tools\sn-sdcc\support\cpp/conftest.c:78: undefined reference to `lstat'
 collect2.exe: error: ld returned 1 exit status
 configure:4843: $? = 1
@@ -1101,7 +1102,7 @@ configure: failed program was:
 |   int fd;
 |   struct stat st;
 | 
-|   fd = open("conftestdata2428", O_RDONLY);
+|   fd = open("conftestdata13008", O_RDONLY);
 |   if (fd < 0)
 |     exit(1);
 | 

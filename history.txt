@@ -13,5 +13,5 @@
     修改setup_fsr函数的bug，及FSR1,FSR2,INDF2定义(mc32/mc35)
 1.1.4 2018/6/11
     修改inc_fsr函数的bug(mc32/mc35)
-1.1.5 2018/7/4
-    将mc3xdevices.h改为3xdevice.h
+1.1.6 2018/8/23
+    全局const变量(非数组)编译错误(mc30/mc32/mc35)

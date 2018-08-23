@@ -2,10 +2,10 @@
 #
 #
 
-VERSION         = 1.1.5
+VERSION         = 1.1.6
 VERSIONHI       = 1
 VERSIONLO       = 1
-VERSIONP        = 5
+VERSIONP        = 6
 
 SHELL           = /bin/sh
 CC              = gcc

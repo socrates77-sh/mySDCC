@@ -1328,7 +1328,7 @@ mov2w_op(operand *op, int offset)
     if (IS_SYMOP(op) && IS_GENPTR(OP_SYM_TYPE(op)) && AOP_SIZE(op) < offset)
     {
       if (offset == GPTRSIZE - 1)
-        emitpcode(POC_MOVLW, popGetLit(GPTRTAG_DATA));
+        emitpcode(POC_MOVLW, popGetLit(GPTRTAG_DATA)); 
       else
         emitpcode(POC_MOVLW, popGetLit(0));
     }
@@ -6025,13 +6025,14 @@ genConstPointerGet(operand *left, operand *result, iCode *ic)
     int size = min((int)getSize(OP_SYM_ETYPE(left)), AOP_SIZE(result));
     assert(size > 0 && size <= 4);
 
+    // zwr 1.1.6
     mov2w_op(left, 0);
     emitpcode(POC_MOVWF, popRegFromIdx(Gstack_base_addr - 1));
     mov2w_op(left, 1);
     emitpcode(POC_MOVWF, popRegFromIdx(Gstack_base_addr));
     emitpcode(POC_MOVLW, popGetLit(GPTRTAG_CODE)); /* GPOINTER tag for __code space */
     call_libraryfunc(func[size]);
-
+    
     movwf(AOP(result), size - 1);
     for (i = 1; i < size; i++)
     {
@@ -7666,7 +7667,10 @@ int op_isLitLike(operand *op)
     return 1;
   if (IS_SYMOP(op) && IS_FUNC(OP_SYM_TYPE(op)))
     return 1;
-  if (IS_SYMOP(op) && IS_PTR(OP_SYM_TYPE(op)) && (AOP_TYPE(op) == AOP_PCODE) && (AOP(op)->aopu.pcop->type == PO_IMMEDIATE))
+
+  // zwr 1.1.6
+  // if (IS_SYMOP(op) && IS_PTR(OP_SYM_TYPE(op)) && (AOP_TYPE(op) == AOP_PCODE) && (AOP(op)->aopu.pcop->type == PO_IMMEDIATE))
+  if (IS_SYMOP(op) && (AOP_TYPE(op) == AOP_PCODE) && (AOP(op)->aopu.pcop->type == PO_IMMEDIATE))
   {
     return 1;
   }

@@ -12,13 +12,13 @@
                 "--use-non-free",
                 "-mmc30",
                 "-p6060",
-                "-I\"e:\\tools\\demo\\bug180621\\share\\include\"",
-                "-Wa\"-Ie:\\tools\\demo\\bug180621\\share\\header\"",
+                "-IE:\\tools\\demo\\bug180822\\share\\include",
+                "-Wa\"-IE:\\tools\\demo\\bug180822\\share\\header\"",
                 "-c",
-                "ZM6070.c"
+                "tbl.c"
             ],
             "stopAtEntry": false,
-            "cwd": "E:\\tools\\demo\\bug180621",
+            "cwd": "E:\\tools\\demo\\bug180822",
             "environment": [],
             "externalConsole": true,
             "MIMode": "gdb",
