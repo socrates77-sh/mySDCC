@@ -603,6 +603,9 @@ static void mc35_genAddLit(iCode *ic, int lit)
                                 mc35_emitpcode(POC_DECFSZW, mc35_popGet(AOP(left), 0));
                                 mc35_emitpcodeNULLop(POC_NOP);
 
+                                // zwr 1.1.8
+                                mc35_emitMOVWF(left, 0);
+
                                 mc35_emitMOVWF(result, 0);
                                 break;
                         default:

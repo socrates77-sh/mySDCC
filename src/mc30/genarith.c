@@ -522,6 +522,9 @@ static void genAddLit(iCode *ic, int lit)
                                 break;
                         case 0xff:
                                 emitpcode(POC_DECFW, popGet(AOP(left), 0));
+                                // zwr 1.1.8
+                                emitMOVWF(left, 0);
+                                
                                 emitMOVWF(result, 0);
                                 break;
                         default:
@@ -876,7 +879,7 @@ void genPlus(iCode *ic)
                 }
         }
 
-//adjustArithmeticResult(ic);
+        //adjustArithmeticResult(ic);
 
 release:
         freeAsmop(IC_LEFT(ic), NULL, ic, (RESULTONSTACK(ic) ? FALSE : TRUE));
@@ -1366,7 +1369,7 @@ void genMinus(iCode *ic)
                 emitpcode(POC_BSF, popGet(result, 0));
         } // if
 
-//    adjustArithmeticResult(ic);
+        //    adjustArithmeticResult(ic);
 
 release:
         freeAsmop(IC_LEFT(ic), NULL, ic, (RESULTONSTACK(ic) ? FALSE : TRUE));

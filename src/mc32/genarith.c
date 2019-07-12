@@ -145,9 +145,9 @@ static bool mc32_genPlusIncr(iCode *ic)
 
         DEBUGmc32_pic14_emitcode("; ***", "%s  %d", __FUNCTION__, __LINE__);
         DEBUGmc32_pic14_emitcode("; ", "result %s, left %s, right %s",
-                            mc32_AopType(AOP_TYPE(IC_RESULT(ic))),
-                            mc32_AopType(AOP_TYPE(IC_LEFT(ic))),
-                            mc32_AopType(AOP_TYPE(IC_RIGHT(ic))));
+                                 mc32_AopType(AOP_TYPE(IC_RESULT(ic))),
+                                 mc32_AopType(AOP_TYPE(IC_LEFT(ic))),
+                                 mc32_AopType(AOP_TYPE(IC_RIGHT(ic))));
 
         /* will try to generate an increment */
         /* if the right side is not a literal 
@@ -189,8 +189,8 @@ static bool mc32_genPlusIncr(iCode *ic)
 
                 mc32_emitpcode(POC_BCF, mc32_popGet(AOP(IC_RESULT(ic)), 0));
                 mc32_pic14_emitcode("bcf", "(%s >> 3), (%s & 7)",
-                               AOP(IC_RESULT(ic))->aopu.aop_dir,
-                               AOP(IC_RESULT(ic))->aopu.aop_dir);
+                                    AOP(IC_RESULT(ic))->aopu.aop_dir,
+                                    AOP(IC_RESULT(ic))->aopu.aop_dir);
                 if (icount)
                         mc32_emitpcode(POC_XORLW, mc32_popGetLit(1));
                 //mc32_pic14_emitcode("xorlw","1");
@@ -201,8 +201,8 @@ static bool mc32_genPlusIncr(iCode *ic)
                 mc32_emitSKPZ;
                 mc32_emitpcode(POC_BSF, mc32_popGet(AOP(IC_RESULT(ic)), 0));
                 mc32_pic14_emitcode("bsf", "(%s >> 3), (%s & 7)",
-                               AOP(IC_RESULT(ic))->aopu.aop_dir,
-                               AOP(IC_RESULT(ic))->aopu.aop_dir);
+                                    AOP(IC_RESULT(ic))->aopu.aop_dir,
+                                    AOP(IC_RESULT(ic))->aopu.aop_dir);
 
                 return TRUE;
         }
@@ -522,6 +522,9 @@ static void mc32_genAddLit(iCode *ic, int lit)
                                 break;
                         case 0xff:
                                 mc32_emitpcode(POC_DECFW, mc32_popGet(AOP(left), 0));
+                                // zwr 1.1.8
+                                mc32_emitMOVWF(left, 0);
+                                
                                 mc32_emitMOVWF(result, 0);
                                 break;
                         default:
@@ -876,7 +879,7 @@ void mc32_genPlus(iCode *ic)
                 }
         }
 
-//adjustArithmeticResult(ic);
+        //adjustArithmeticResult(ic);
 
 release:
         mc32_freeAsmop(IC_LEFT(ic), NULL, ic, (RESULTONSTACK(ic) ? FALSE : TRUE));
@@ -946,9 +949,9 @@ void mc32_genMinus(iCode *ic)
         }
 
         DEBUGmc32_pic14_emitcode("; ", "result %s, left %s, right %s",
-                            mc32_AopType(AOP_TYPE(IC_RESULT(ic))),
-                            mc32_AopType(AOP_TYPE(IC_LEFT(ic))),
-                            mc32_AopType(AOP_TYPE(IC_RIGHT(ic))));
+                                 mc32_AopType(AOP_TYPE(IC_RESULT(ic))),
+                                 mc32_AopType(AOP_TYPE(IC_LEFT(ic))),
+                                 mc32_AopType(AOP_TYPE(IC_RIGHT(ic))));
 
         left = AOP(IC_LEFT(ic));
         right = AOP(IC_RIGHT(ic));
@@ -1068,9 +1071,9 @@ void mc32_genMinus(iCode *ic)
                         lit = ulFromVal(left->aopu.aop_lit);
                         isLit = 1;
                         DEBUGmc32_pic14_emitcode("; left is lit", "line %d result %s, left %s, right %s", __LINE__,
-                                            mc32_AopType(AOP_TYPE(IC_RESULT(ic))),
-                                            mc32_AopType(AOP_TYPE(IC_LEFT(ic))),
-                                            mc32_AopType(AOP_TYPE(IC_RIGHT(ic))));
+                                                 mc32_AopType(AOP_TYPE(IC_RESULT(ic))),
+                                                 mc32_AopType(AOP_TYPE(IC_LEFT(ic))),
+                                                 mc32_AopType(AOP_TYPE(IC_RIGHT(ic))));
                 } // if
 
                 /*
@@ -1115,9 +1118,9 @@ void mc32_genMinus(iCode *ic)
                         {
                                 // works always: result = left - right
                                 mc32_emitpcode(mc32_op_isLitLike(IC_LEFT(ic))
-                                              ? POC_SUBLW
-                                              : POC_SUBFW,
-                                          mc32_popGetAddr(left, 0, 0));
+                                                   ? POC_SUBLW
+                                                   : POC_SUBFW,
+                                               mc32_popGetAddr(left, 0, 0));
                                 mc32_emitpcode(POC_MOVWF, mc32_popGet(result, 0));
                         } // if
                 }         // if
@@ -1224,9 +1227,9 @@ void mc32_genMinus(iCode *ic)
                                 mc32_emitSKPC;
                                 mc32_emitpcode(POC_INCFW, mc32_popGet(right, offset));
                                 mc32_emitpcode(mc32_op_isLitLike(IC_LEFT(ic))
-                                              ? POC_SUBLW
-                                              : POC_SUBFW,
-                                          mc32_popGetAddr(left, offset, 0));
+                                                   ? POC_SUBLW
+                                                   : POC_SUBFW,
+                                               mc32_popGetAddr(left, offset, 0));
                                 mc32_emitpcode(POC_MOVWF, mc32_popGet(result, offset));
                         }
                         else if (IS_ITEMP(IC_RESULT(ic)) && !mc32_sameRegs(right, result))
@@ -1348,9 +1351,9 @@ void mc32_genMinus(iCode *ic)
                                 mc32_emitpcode(POC_GOTO, mc32_popGetLabel(lbl_next->key));
                                 mc32_emitpLabel(lbl_comm->key);
                                 mc32_emitpcode(mc32_op_isLitLike(IC_LEFT(ic))
-                                              ? POC_SUBLW
-                                              : POC_SUBFW,
-                                          mc32_popGetAddr(left, offset, 0));
+                                                   ? POC_SUBLW
+                                                   : POC_SUBFW,
+                                               mc32_popGetAddr(left, offset, 0));
                                 mc32_emitpLabel(lbl_next->key);
                                 mc32_emitpcode(POC_MOVWF, mc32_popGet(result, offset));
                         } // if
@@ -1366,7 +1369,7 @@ void mc32_genMinus(iCode *ic)
                 mc32_emitpcode(POC_BSF, mc32_popGet(result, 0));
         } // if
 
-//    adjustArithmeticResult(ic);
+        //    adjustArithmeticResult(ic);
 
 release:
         mc32_freeAsmop(IC_LEFT(ic), NULL, ic, (RESULTONSTACK(ic) ? FALSE : TRUE));

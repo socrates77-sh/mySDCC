@@ -6049,70 +6049,78 @@ release:
 static void
 genConstPointerGet_emc(operand *left, operand *result, iCode *ic)
 {
-  printf("global const is not supported, please try FL-MODE\n");
-  exit(EXIT_FAILURE);
-  // //sym_link *retype = getSpec(operandType(result));
-  // #if 0
-  //   symbol *albl, *blbl;          //, *clbl;
-  //   pCodeOp *pcop;
-  // #endif
-  //   int i, lit;
+// zwr 1.1.7
+// printf("global const is not supported, please try FL-MODE\n");
+// exit(EXIT_FAILURE);
+//sym_link *retype = getSpec(operandType(result));
+#if 0
+    symbol *albl, *blbl;          //, *clbl;
+    pCodeOp *pcop;
+#endif
+  int i, lit;
 
-  //   FENTRY;
-  //   DEBUGpic14_emitcode("; ***", "%s  %d", __FUNCTION__, __LINE__);
-  //   aopOp(left, ic, FALSE);
-  //   aopOp(result, ic, FALSE);
+  FENTRY;
+  DEBUGpic14_emitcode("; ***", "%s  %d", __FUNCTION__, __LINE__);
+  aopOp(left, ic, FALSE);
+  aopOp(result, ic, FALSE);
 
-  //   DEBUGpic14_AopType(__LINE__, left, NULL, result);
+  DEBUGpic14_AopType(__LINE__, left, NULL, result);
 
-  //   DEBUGpic14_emitcode("; ", " %d getting const pointer", __LINE__);
+  DEBUGpic14_emitcode("; ", " %d getting const pointer", __LINE__);
 
-  //   lit = op_isLitLike(left);
+  lit = op_isLitLike(left);
+  // zwr 1.1.7
+  if (!lit)
+  {
+    printf("global const array labled by variable is not supported, please try FL-MODE\n");
+    exit(EXIT_FAILURE);
+  }
 
-  //   if (IS_BITFIELD(getSpec(operandType(result))))
-  //   {
-  //     genUnpackBits(result, left, lit ? -1 : CPOINTER, ifxForOp(IC_RESULT(ic), ic));
-  //     goto release;
-  //   }
+  if (IS_BITFIELD(getSpec(operandType(result))))
+  {
+    genUnpackBits(result, left, lit ? -1 : CPOINTER, ifxForOp(IC_RESULT(ic), ic));
+    goto release;
+  }
 
-  //   {
-  //     char *func[] = {NULL, "__gptrget1", "__gptrget2", "__gptrget3", "__gptrget4"};
-  //     int size = min((int)getSize(OP_SYM_ETYPE(left)), AOP_SIZE(result));
-  //     assert(size > 0 && size <= 4);
+  {
+    char *func[] = {NULL, "__gptrget1", "__gptrget2", "__gptrget3", "__gptrget4"};
+    int size = min((int)getSize(OP_SYM_ETYPE(left)), AOP_SIZE(result));
+    assert(size > 0 && size <= 4);
 
-  //     // mov2w_op(left, 0);
-  //     // emitpcode(POC_MOVWF, popRegFromIdx(Gstack_base_addr - 1));
-  //     // mov2w_op(left, 1);
-  //     // emitpcode(POC_MOVWF, popRegFromIdx(Gstack_base_addr));
-  //     // emitpcode(POC_MOVLW, popGetLit(GPTRTAG_CODE)); /* GPOINTER tag for __code space */
-  //     // call_libraryfunc(func[size]);
+    // mov2w_op(left, 0);
+    // emitpcode(POC_MOVWF, popRegFromIdx(Gstack_base_addr - 1));
+    // mov2w_op(left, 1);
+    // emitpcode(POC_MOVWF, popRegFromIdx(Gstack_base_addr));
+    // emitpcode(POC_MOVLW, popGetLit(GPTRTAG_CODE)); /* GPOINTER tag for __code space */
+    // call_libraryfunc(func[size]);
 
-  //     char fun_name[256];
-  //     if (op_isLitLike(left))
-  //     {
-  //       for (i = 0; i < size; i++)
-  //       {
-  //         if (left->isaddr)
-  //         {
-  //           emitpcode(POC_CALL, popGetAddr(AOP(left), 0, size - i)); // index+1 (for addai pcl)
-  //         }
-  //         else
-  //         {
-  //           SNPRINTF(fun_name, 256, "(%s + %d)", left->aop->aopu.pcop->name, size - 1 - i);
-  //           emitpcode(POC_CALL, popGetWithString(fun_name, 0));
-  //         }
-  //         movwf(AOP(result), size - 1 - i);
-  //       }
-  //     }
-  //     else
-  //     {
-  //       //call_libraryfunc(func[size]);
-  //     }
-  //   }
+    // zwr 1.1.7
+    char fun_name[256];
+    if (op_isLitLike(left))
+    {
+      for (i = 0; i < size; i++)
+      {
+        if (left->isaddr)
+        {
+          emitpcode(POC_CALL, popGetAddr(AOP(left), 0, size - i)); // index+1 (for addai pcl)
+        }
+        else
+        {
+          SNPRINTF(fun_name, 256, "(%s + %d)", left->aop->aopu.pcop->name, size - 1 - i);
+          emitpcode(POC_CALL, popGetWithString(fun_name, 0));
+        }
+        movwf(AOP(result), size - 1 - i);
+      }
+    }
+    else
+    {
+      //call_libraryfunc(func[size]);
+    }
+  }
 
-  // release:
-  //   freeAsmop(left, NULL, ic, TRUE);
-  //   freeAsmop(result, NULL, ic, TRUE);
+release:
+  freeAsmop(left, NULL, ic, TRUE);
+  freeAsmop(result, NULL, ic, TRUE);
 }
 
 /*-----------------------------------------------------------------*/
