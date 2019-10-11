@@ -43,6 +43,8 @@ struct _dumpFiles dumpFiles[] = {
     {DUMP_PACK, ".dumppack", NULL},
     {DUMP_RASSGN, ".dumprassgn", NULL},
     {DUMP_LRANGE, ".dumplrange", NULL},
+    {DUMP_LOSPRE, ".dumplospre", NULL},
+    {DUMP_CUSTOM, ".dumpcustom", NULL},
     {0, NULL, NULL}};
 
 /*-----------------------------------------------------------------*/
@@ -217,9 +219,10 @@ void dumpEbbsToFileExt(int id, ebbIndex *ebbi)
   for (i = 0; i < count; i++)
   {
     fprintf(of, "\n----------------------------------------------------------------\n");
-    fprintf(of, "Basic Block %s (df:%d bb:%d lvl:%d): loopDepth=%d%s%s%s\n",
+    fprintf(of, "Basic Block %s (df:%d bb:%d lvl:%ld:%ld): loopDepth=%d%s%s%s\n",
             ebbs[i]->entryLabel->name,
-            ebbs[i]->dfnum, ebbs[i]->bbnum, ebbs[i]->entryLabel->level,
+            ebbs[i]->dfnum, ebbs[i]->bbnum,
+            ebbs[i]->entryLabel->level / LEVEL_UNIT, ebbs[i]->entryLabel->level % LEVEL_UNIT,
             ebbs[i]->depth,
             ebbs[i]->noPath ? " noPath" : "",
             ebbs[i]->partOfLoop ? " partOfLoop" : "", ebbs[i]->isLastInLoop ? " isLastInLoop" : "");
@@ -308,6 +311,7 @@ iCode2eBBlock(iCode *ic)
 
   /* put the first one unconditionally */
   ebb->sch = ic;
+  ic->seq = 0;
 
   /* if this is a label then */
   if (ic->op == LABEL)
@@ -332,9 +336,17 @@ iCode2eBBlock(iCode *ic)
   /* if this is a function call */
   if (ic->op == CALL || ic->op == PCALL)
   {
+    sym_link *type = operandType(IC_LEFT(ic));
     ebb->hasFcall = 1;
     if (currFunc)
       FUNC_HASFCALL(currFunc->type) = 1;
+    if (IS_FUNCPTR(type))
+      type = type->next;
+    if (type && FUNC_ISNORETURN(type))
+    {
+      ebb->ech = ebb->sch;
+      return ebb;
+    }
   }
 
   if ((ic->next && ic->next->op == LABEL) || !ic->next)
@@ -346,6 +358,7 @@ iCode2eBBlock(iCode *ic)
   /* loop thru till we find one with a label */
   for (loop = ic->next; loop; loop = loop->next)
   {
+    loop->seq = 0;
 
     /* if this is the last one */
     if (!loop->next)
@@ -353,9 +366,14 @@ iCode2eBBlock(iCode *ic)
     /* if this is a function call */
     if (loop->op == CALL || loop->op == PCALL)
     {
+      sym_link *type = operandType(IC_LEFT(loop));
       ebb->hasFcall = 1;
       if (currFunc)
         FUNC_HASFCALL(currFunc->type) = 1;
+      if (IS_FUNCPTR(type))
+        type = type->next;
+      if (type && FUNC_ISNORETURN(type))
+        break;
     }
 
     /* if the next one is a label */
@@ -374,7 +392,7 @@ iCode2eBBlock(iCode *ic)
 /* eBBWithEntryLabel - finds the basic block with the entry label  */
 /*-----------------------------------------------------------------*/
 eBBlock *
-eBBWithEntryLabel(ebbIndex *ebbi, symbol *eLabel)
+eBBWithEntryLabel(ebbIndex *ebbi, const symbol *eLabel)
 {
   eBBlock **ebbs = ebbi->bbOrder;
   int count = ebbi->count;
@@ -727,6 +745,9 @@ void replaceLabel(eBBlock *ebp, symbol *fromLbl, symbol *toLbl)
       else if (isSymbolEqual(IC_FALSE(ic), fromLbl))
         IC_FALSE(ic) = toLbl;
       break;
+
+    case JUMPTABLE:
+      replaceSetItem(IC_JTLABELS(ic), fromLbl, toLbl);
     }
   }
 
@@ -748,7 +769,7 @@ iCodeFromeBBlock(eBBlock **ebbs, int count)
     if (ebbs[i]->sch == NULL)
       continue;
 
-    if (ebbs[i]->noPath && (ebbs[i]->entryLabel != entryLabel && ebbs[i]->entryLabel != returnLabel))
+    if (ebbs[i]->noPath && optimize.label4 && (ebbs[i]->entryLabel != entryLabel && ebbs[i]->entryLabel != returnLabel))
     {
       iCode *ic = NULL;
       bool foundNonlabel = 0;
@@ -823,4 +844,25 @@ int otherPathsPresent(eBBlock **ebbs, eBBlock *this)
     return 0;
   else
     return 1;
+}
+
+/*-----------------------------------------------------------------*/
+/* freeBBlockData - Deallocate data structures associated with     */
+/*      the current blocks. They will all be recomputed if the     */
+/*      iCode chain is divided into blocks again later.            */
+/*-----------------------------------------------------------------*/
+void freeeBBlockData(ebbIndex *ebbi)
+{
+  int i;
+  eBBlock **ebbs = ebbi->bbOrder;
+
+  for (i = 0; i < ebbi->count; i++)
+  {
+    deleteSet(&ebbs[i]->succList);
+    deleteSet(&ebbs[i]->predList);
+    freeBitVect(ebbs[i]->succVect);
+    freeBitVect(ebbs[i]->domVect);
+
+    freeCSEdata(ebbs[i]);
+  }
 }

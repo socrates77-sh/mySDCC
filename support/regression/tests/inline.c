@@ -7,6 +7,39 @@
 #pragma std_sdcc99
 #endif
 
+#ifndef __SDCC_pdk14 // Bug #2874
+/*--------------
+    bug 2591
+    inline definition with parameters not in registers
+	these parameters should not be allocated here
+    the corresponding external definition is in fwk/lib/extern1.c
+*/
+inline long bug2591 (long a, long b, long c)
+{
+  return a | b | c;
+}
+
+
+/*--------------
+    bug 2450
+*/
+
+static inline int bug2450isdigit (int c)
+{
+  return ((unsigned char)c >= (char)'0' && (unsigned char)c <= (char)'9');
+}
+
+/* Extracted from atof(). Using an inlined function in an expression */
+/* in a for-statment would leave some of the intermediate variables  */
+/* created for the inlining unallocated and thus missing an output   */
+/* storage class, which would then cause a fatal error for the code  */
+/* generator. */
+void bug2450(const char *s)
+{
+    for (; bug2450isdigit(*s););
+}
+
+
 /*--------------
     bug 1717305
 */
@@ -147,6 +180,9 @@ bug_1864577 (void)
 #if (defined(__APPLE__) && (__GNUC__ == 4) && (__GNUC_MINOR__ == 0) && (__GNUC_PATCHLEVEL__ == 1))
 #define SKIP_EXTERNAL
 #endif
+#if (defined(__OpenBSD__) && (__GNUC__ == 4) && (__GNUC_MINOR__ == 2) && (__GNUC_PATCHLEVEL__ == 1))
+#define SKIP_EXTERNAL
+#endif
 
 #ifdef SKIP_EXTERNAL
 #warning inline definition skipped
@@ -163,13 +199,77 @@ inline char inlined_function (void)
 /*  function pointer defined in fwk/lib/extern2.c initialized to the
     externally defined inlined_function */
 extern char (*inlined_function_pointer) (void);
+
+/*--------------
+    bug 2591
+    inline definition with parameters not in registers
+	these parameters should not be allocated here
+    the corresponding external definition is in fwk/lib/extern1.c
+*/
+inline long bug_2591 (long a, long b, long c)
+{
+  return a | b | c;
+}
 #endif
 
+/*--------------
+    bug 3564755
+*/
+
+static char a_3564755;
+static char b_3564755;
+
+#if defined(__SDCC_mcs51) || defined(__SDCC_ds390)
+#define BIT_T __bit
+#else
+#define BIT_T char
+#endif
+
+static inline BIT_T
+condition_func()
+{
+  return (a_3564755 == b_3564755);
+}
+
+void
+bug_3564755 (void)
+{
+  a_3564755 = 1;
+  b_3564755 = 250;
+
+  while (!condition_func()) /* inlined function returning bit caused segfault */
+    {
+      b_3564755 += 1;
+    }
+  ASSERT(a_3564755 == b_3564755);
+}
+
 /*--------------*/
+
+/*--------------
+    bug 2295
+*/
+
+void
+bug_2295 (void)
+{
+  char x = 0, y = 0, z = 0;
+  for (x = inlined_function(); inlined_function() - z; y += inlined_function())
+    {
+      z += inlined_function();
+    }
+  ASSERT (x == 1);
+  ASSERT (y == 1);
+  ASSERT (z == 1);
+}
+
+/*--------------*/
+#endif
 
 void
 testInline (void)
 {
+#ifndef __SDCC_pdk14 // Bug #2874
 #ifndef SKIP_EXTERNAL
   char x = inlined_function(); /* can use the inlined or the external implementation */
   ASSERT (x == 1 || x == 2);
@@ -178,4 +278,10 @@ testInline (void)
   bug_1717305 ();
   bug_1767885 ();
   bug_1864577 ();
+  bug_3564755 ();
+#ifndef SKIP_EXTERNAL
+  bug_2295 ();
+#endif
+#endif
 }
+

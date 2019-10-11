@@ -1,12 +1,11 @@
 mcs51
 z80
 ds390
-ds400
 mc30
 mc32
 mc35
 pic14
 pic16
 hc08
-avr
-xa51
+stm8
+pdk

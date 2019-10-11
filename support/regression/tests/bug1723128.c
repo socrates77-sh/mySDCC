@@ -10,6 +10,7 @@
 
 #include <stdbool.h>
 
+#ifndef __SDCC_pdk14 // Lack of memory
 #ifdef __bool_true_false_are_defined
 
 union USUINT {
@@ -29,7 +30,7 @@ typedef struct {
   unsigned char CRC;                         // 10
 } AUTOCAL_CFG;
 
-#if !defined(__SDCC_hc08) && !defined(__SDCC_s08)
+#if !defined(__SDCC_hc08) && !defined(__SDCC_s08) && !defined(__SDCC_pic14)
 __code __at (0x8000) AUTOCAL_CFG AutoCal_CFG = {0};
 #else
 /* The "__at (0x8000)" is suppressed on the hc08 to avoid */
@@ -97,13 +98,16 @@ NotZero (unsigned int t)
 }
 
 #endif //__bool_true_false_are_defined
+#endif
 
 void
 testBug (void)
 {
+#ifndef __SDCC_pdk14 // Lack of memory
 #ifdef __bool_true_false_are_defined
     rx_index = 1;
     ASSERT (VerifyCRC ());
     ASSERT (NotZero (300));
 #endif //__bool_true_false_are_defined
+#endif
 }

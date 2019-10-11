@@ -8,7 +8,6 @@
 #pragma std_c99
 #endif
 
-#ifndef __SDCC_mcs51
 #include <string.h>
 
 void foo (int *BM_tab, int j)
@@ -25,12 +24,11 @@ void foo (int *BM_tab, int j)
       *--BM_tab = j;
     }
 }
-#endif
 
 void
 testTortureExecute (void)
 {
-#ifndef __SDCC_mcs51
+#if !defined(__SDCC_mcs51) && !defined(__SDCC_pdk14) // Lack of memory
   int BM_tab[0400];
   memset (BM_tab, 0, sizeof (BM_tab));
   foo (BM_tab, 6);

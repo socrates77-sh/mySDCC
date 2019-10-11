@@ -7,10 +7,15 @@
 
 #ifdef __SDCC_pic16
 # define ADDRESS(x) (0x02 ## x)
+#elif defined(__SDCC_pic14)
+# define ADDRESS(x) (0x01 ## x)
+#elif defined(__SDCC_stm8)
+# define ADDRESS(x) (0x10 ## x)
 #else
 # define ADDRESS(x) (0xCA ## x)
 #endif
 
+#if !defined(__SDCC_pdk14) // TODO: Make test suitable for pdk14
 typedef struct
 {
   int a, b;
@@ -32,12 +37,14 @@ typedef char Array[2];
 
 typedef void (* const Function)(void);
 {mem} Function __at(ADDRESS(AC)) f = NULL;
+#endif
 
 char z = 'z';
 
 void
 testAbsolute(void)
 {
+#if !defined(__SDCC_pdk14) // TODO: Make test suitable for pdk14
 #if !defined(PORT_HOST)
   static {mem} __at(ADDRESS(B6)) char s = 's';
   char {mem} *pC = (char {mem} *)(ADDRESS(B0));
@@ -56,6 +63,7 @@ testAbsolute(void)
 
   //bug 2941749
   ASSERT((*((TestStruct *)&k)).a == 0x1234);
+#endif
 #endif
 }
 

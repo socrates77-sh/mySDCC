@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <Filter Include="Source Files">
@@ -158,6 +158,12 @@
     <ClCompile Include="SDCCgen.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="SDCClospre.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SDCCbtree.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="..\support\scripts\resource.rc">
@@ -166,6 +172,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="..\support\scripts\sdcc.ico" />
+    <None Include="SDCC.lex">
+      <Filter>Custom Build</Filter>
+    </None>
+    <None Include="SDCC.y">
+      <Filter>Custom Build</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="common.h">
@@ -288,13 +300,14 @@
     <ClInclude Include="SDCCgen.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <CustomBuild Include="SDCC.lex">
-      <Filter>Custom Build</Filter>
-    </CustomBuild>
-    <CustomBuild Include="SDCC.y">
-      <Filter>Custom Build</Filter>
-    </CustomBuild>
+    <ClInclude Include="version.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SDCClospre.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SDCCbtree.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

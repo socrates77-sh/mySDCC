@@ -54,7 +54,7 @@
  *
  */
 
-/* sdld 8051 & 6808 specific */
+/* sdld 8051 specific */
 /*JCF:  Creates some of the default areas so they are allocated in the right order.*/
 void Areas51 (void)
 {
@@ -116,14 +116,12 @@ void Areas51 (void)
                 }
         }
 
-        if (TARGET_IS_8051) {
-                sp = lkpsym("l_IRAM", 1);
-                sp->s_addr = ((iram_size>0) && (iram_size<=0x100)) ? iram_size : 0x0100;
-                sp->s_axp = NULL;
-                sp->s_type |= S_DEF;
-        }
+        sp = lkpsym("l_IRAM", 1);
+        sp->s_addr = ((iram_size>0) && (iram_size<=0x100)) ? iram_size : 0x0100;
+        sp->s_axp = NULL;
+        sp->s_type |= S_DEF;
 }
-/* end sdld 8051 & 6808 specific */
+/* end sdld 8051 specific */
 
 /*)Function     int     main(argc,argv)
  *
@@ -221,7 +219,7 @@ main(int argc, char *argv[])
         /* sdas initialization */
         sdld_init(argv[0]);
 
-        /* use these defaults for parsing the .lk script */
+        /* use these defaults for parsing the .lnk script */
         a_bytes = 4;
         a_mask = 0xFFFFFFFF;
         s_mask = 0x80000000;
@@ -269,9 +267,11 @@ main(int argc, char *argv[])
                                 case 'C':
                                 case 'S':
                                         strcat(ip, " ");
-                                        strcat(ip, argv[++i]);
+                                        if (i < argc - 1)
+                                                strcat(ip, argv[++i]);
+					else
+                                                strcpy(ip, "");
                                         break;
-
                                 /*
                                  * Preprocess these commands
                                  */
@@ -338,7 +338,7 @@ main(int argc, char *argv[])
                 radix = 10;
 
                 /* sdld specific */
-                if (TARGET_IS_8051 || TARGET_IS_6808)
+                if (TARGET_IS_8051)
                         Areas51(); /*JCF: Create the default 8051 areas in the right order*/
                 /* end sdld specific */
 
@@ -415,6 +415,32 @@ main(int argc, char *argv[])
 
                         if ((iram_size) && (!packflag))
                                 iramcheck();
+
+                        if (TARGET_IS_PDK) {
+                                unsigned ram = 0;
+                                unsigned rom = 0;
+                                for (struct area *it = areap; it; it = it->a_ap) {
+                                        if (!strcmp(it->a_id, "DATA")) {
+                                                ram += it->a_size;
+                                        } else if (!strcmp(it->a_id, "CODE") || 
+                                                   !strcmp(it->a_id, "CONST")) {
+                                                rom += it->a_size;
+                                        }
+                                }
+
+                                if (ram > 128) {
+                                        fprintf(stderr,
+                                                "?ASlink-Warning-"
+                                                "RAM value %u too large "
+                                                "(128B max)\n", ram);
+                                }
+                                if (rom > 4096) {
+                                        fprintf(stderr,
+                                                "?ASlink-Warning-"
+                                                "ROM value %u too large "
+                                                "(2048W max)\n", rom / 2);
+                                }
+                        }
                         /* end sdld specific */
 
                         /*
@@ -627,8 +653,8 @@ link_main()
                         a_mask = 0xFFFFFFFFl;
                         s_mask = 0x80000000l;
                         v_mask = 0x7FFFFFFFl;
-                                break;
-                        }
+                        break;
+                }
 #else
                 switch(a_bytes) {
                 default:
@@ -1053,7 +1079,7 @@ parse()
                                         break;
 
                                 case 'E':
-                                        if (TARGET_IS_6808) {
+                                        if (TARGET_IS_6808 || TARGET_IS_STM8) {
                                                 oflag = 4;
                                                 break;
                                         }

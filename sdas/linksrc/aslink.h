@@ -1,7 +1,7 @@
 /* aslink.h */
 
 /*
- *  Copyright (C) 1989-2010  Alan R. Baldwin
+ *  Copyright (C) 1989-2012  Alan R. Baldwin
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -40,6 +40,7 @@
  */
 
 #define VERSION "V03.00 + NoICE + sdld"
+#define	COPYRIGHT "2012"
 
 /*
  * To include NoICE Debugging set non-zero
@@ -159,9 +160,23 @@
  #if defined(__BORLANDC__) || defined(_MSC_VER)
   #include <stdlib.h>
   #define PATH_MAX      _MAX_PATH
+ #elif defined(__x86_64__)
+  #define PATH_MAX      4096
  #else
   #define PATH_MAX      255     /* define a reasonable value */
  #endif
+#endif
+
+#ifdef _WIN32           /* WIN32 native */
+#  define NATIVE_WIN32          1
+#  ifdef __MINGW32__    /* GCC MINGW32 depends on configure */
+#    include "../../sdccconf.h"
+#  else
+#    include "../../sdcc_vc.h"
+#    define PATH_MAX    _MAX_PATH
+#  endif
+#else                   /* Assume *nix style system */
+#  include "../../sdccconf.h"
 #endif
 
 #define LKOBJEXT        "rel"
@@ -214,6 +229,12 @@
  * is 16.  It should not be changed.
  */
 #define NTXT    16              /* T values */
+
+/*
+ * Opcode Cycle definitions (Must Be The Same In ASxxxx / ASLink)
+ */
+#define CYCNT_BGN       '['     /* Cycle count begin delimiter */
+#define CYCNT_END       ']'     /* Cycle count end   delimiter */
 
 /*
  * Internal ASxxxx Version Variable
@@ -644,6 +665,7 @@ struct  area
 /* sdld specific */
         char    *a_image;       /* Something for hc08/lkelf */
         char    *a_used;        /* Something for hc08/lkelf */
+        a_uint  a_imagesize;    /* Something for hc08/lkelf */
 /* end sdld specific */
 };
 
@@ -1090,7 +1112,7 @@ extern  int     sflag;          /*      JCF: Memory usage output flag
                                  */
 extern  int     packflag;       /*      Pack data memory flag
                                  */
-extern  int     stacksize;      /*      Pack data memory flag
+extern  int     stacksize;      /*      Stack size
                                  */
 extern int      rflag;          /*      Extended linear address record flag.
                                 */
@@ -1105,7 +1127,7 @@ extern  char *sdld_output;      /*      output file name, --output argument
 extern char *optsdcc;
 extern char *optsdcc_module;
 /* sdld 8015 specific */
-extern  char idatamap[];        /* 0:not used, 1:used
+extern  char idatamap[256];     /*      space is unused
                                  */
 /* end sdld 8051 specific */
 /* end sdld specific */

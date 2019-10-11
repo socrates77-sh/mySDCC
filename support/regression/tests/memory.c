@@ -4,8 +4,14 @@
 
 #include <string.h>
 
-unsigned char destination[4];
-const unsigned char source[4] = {0, 1, 2, 3};
+#if defined(__SDCC_stm8) || defined(PORT_HOST) || defined(__SDCC_ds390) || \
+	(defined(__SDCC_mcs51) && (defined(__SDCC_MODEL_LARGE) || defined(__SDCC_MODEL_HUGE))) || \
+    defined(__SDCC_z80) || defined(__SDCC_z180) || defined(__SDCC_r2k) || defined(__SDCC_r3ka)
+#define TEST_LARGE
+#endif
+
+unsigned char destination[9];
+const unsigned char source[9] = {0, 1, 2, 3};
 int c;
 
 void testmemory(void)
@@ -42,11 +48,19 @@ void testmemory(void)
   ASSERT(destination[3] == 23);
   memcpy(destination, source, one);
   ASSERT(destination[0] == 0);
+  memset(destination, 5, 9);
+  memcpy(destination, source, 8);
+  ASSERT(destination[7] == source[7]);
+  ASSERT(destination[8] == 5);
+  memset(destination, 5, 9);
+  memcpy(destination, source, 3);
+  ASSERT(destination[2] == source[2]);
+  ASSERT(destination[3] == 5);
 
   /* Test memcmp() */
   memcpy(destination, source, 4);
   ASSERT(memcmp(destination, source, 4) == 0);
-
+#ifndef __SDCC_pdk14 // Lack of memory
   /* Test memmove() */
   memcpy(destination, source, 4);
   memmove(destination, destination + 1, 3);
@@ -60,12 +74,35 @@ void testmemory(void)
   ASSERT(destination[3] == source[2]);
 
   /* Test memchr() */
+  memcpy(destination, source, 4);
   ASSERT(NULL == memchr(destination, 5, 4));
-  /*ASSERT(destination == memchr(destination, 0, 4));
-  ASSERT(destination + 3 == memchr(destination, 3, 4));*/
+  ASSERT(destination == memchr(destination, 0, 4));
+  ASSERT(destination + 3 == memchr(destination, 3, 4));
 
+  /* Test strlen() */
   ASSERT(strlen("test") == 4);
   ASSERT(strlen("t") == 1);
   ASSERT(strlen("") == 0);
+#endif
 }
 
+#ifdef TEST_LARGE
+unsigned char largedest[1050];
+unsigned char largesource[1050];
+#endif
+
+void testLarge(void)
+{
+#ifdef TEST_LARGE
+  memset(largedest, 0, 1050);
+  memset(largedest, 1, 4);
+  memset(largesource, 2, 1050);
+
+  memcpy(largedest + 1, largesource, 1024);
+
+  ASSERT(largedest[0] == 1);
+  ASSERT(largedest[1] == 2);
+  ASSERT(largedest[1024] == 2);
+  ASSERT(largedest[1025] == 0);
+#endif
+}

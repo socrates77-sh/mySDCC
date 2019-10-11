@@ -161,12 +161,12 @@ oclsExpense (struct memmap *oclass)
     MUST be terminated with a NULL.
 */
 static const char *_linkCmd[] = {
-	"linkavr", "", "\"$1\"", NULL
+	"linkavr", "", "$1", NULL
 };
 
 /* $3 is replaced by assembler.debug_opts resp. port->assembler.plain_opts */
 static const char *_asmCmd[] = {
-	"asavr", "$l" , "$3", "\"$1.s\"", NULL
+	"asavr", "$l" , "$3", "$1.s", NULL
 };
 
 /* Globals */
@@ -232,10 +232,10 @@ PORT avr_port = {
 	 },
         { NULL, NULL },
 	{
-	 -1, 1, 4, 1, 1, 0},
+	 -1, 1, 4, 1, 1, 0, 1},
 	/* avr has an 8 bit mul */
 	{
-          1, -1
+          1, -1, FALSE
         },
 	{
           avr_emitDebuggerSymbol

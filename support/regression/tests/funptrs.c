@@ -16,9 +16,9 @@
    on the z80.
 */
 typedef void (*NOARGFUNPTR)(void);
-typedef void (*ONEARGFUNPTR)({type}) REENTRANT;
-typedef long int (*FOURARGFUNPTR)(char, char, long int, long int) REENTRANT;
-typedef {type} (*TYPEFUNPTR)({type}, {type}) REENTRANT;
+typedef void (*ONEARGFUNPTR)({type}) __reentrant;
+typedef long int (*FOURARGFUNPTR)(char, char, long int, long int) __reentrant;
+typedef {type} (*TYPEFUNPTR)({type}, {type}) __reentrant;
 
 int count;
 FOURARGFUNPTR fafp;
@@ -31,12 +31,12 @@ incCount(void)
 }
 
 void
-incBy({type} a) REENTRANT
+incBy({type} a) __reentrant
 {
   count += a;
 }
 
-long int f6(char a, char b, long int c, long int d) REENTRANT
+long int f6(char a, char b, long int c, long int d) __reentrant
 {
   switch (a)
     {
@@ -85,7 +85,7 @@ callViaPtr3Ansi(void (*fptr)(void))
   fptr();
 }
 
-{type} f_ret({type} arg1, {type} arg2) REENTRANT
+{type} f_ret({type} arg1, {type} arg2) __reentrant
 {
   {type} local;
   local = !arg1;
@@ -93,10 +93,10 @@ callViaPtr3Ansi(void (*fptr)(void))
 }
 
 
-
 void
 testFunPtr(void)
 {
+#if !defined(__SDCC_pdk14) // Lack of memory
   fafp = f6;
 
   ASSERT(count == 0);
@@ -109,11 +109,13 @@ testFunPtr(void)
   ASSERT((*fafp)(1, 0x55, 0x12345678, 0x9abcdef0) == 0x55);
   ASSERT((*fafp)(2, 0x55, 0x12345678, 0x9abcdef0) == 0x12345678);
   ASSERT((*fafp)(3, 0x55, 0x12345678, 0x9abcdef0) == 0x9abcdef0);
+#endif
 }
 
 void
 testFunPtrAnsi(void)
 {
+#if !defined(__SDCC_pdk14) // Lack of memory
   fafp = f6;
 
   count = 0;
@@ -126,16 +128,19 @@ testFunPtrAnsi(void)
   ASSERT(fafp(1, 0x55, 0x12345678, 0x9abcdef0) == 0x55);
   ASSERT(fafp(2, 0x55, 0x12345678, 0x9abcdef0) == 0x12345678);
   ASSERT(fafp(3, 0x55, 0x12345678, 0x9abcdef0) == 0x9abcdef0);
+#endif
 }
 
 void
 testFunPtrReturn(void)
 {
+#if !defined(__SDCC_pdk14) // Lack of memory
   tfp = f_ret;
 
   ASSERT(tfp(0, 0) == 0);
   ASSERT(tfp(0, 1) == 1);
   ASSERT(tfp(1, 0) == 0);
   ASSERT(tfp(1, 1) == 0);
+#endif
 }
 

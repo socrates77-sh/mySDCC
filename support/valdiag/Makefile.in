@@ -1,5 +1,6 @@
 .SILENT:
 
+PYTHON       = @PYTHON@
 VPATH        = @srcdir@
 srcdir       = @srcdir@
 top_srcdir   = @top_srcdir@
@@ -9,7 +10,7 @@ TESTS_DIR = $(srcdir)/tests
 RESULTS_DIR = results
 PORTS_DIR = $(srcdir)/ports
 BUILD_DIR = gen
-ALL_PORTS = host mcs51 mcs51-large mcs51-stack-auto ds390 z80 hc08
+ALL_PORTS = mcs51 mcs51-large mcs51-stack-auto ds390 z80 z180 r2k gbz80 tlcs90 hc08 s08 stm8 pdk14
 
 ALL_TESTS = $(shell find $(TESTS_DIR) -name "*.c")
 
@@ -41,12 +42,12 @@ clean-port:
 	rm -rf $(PORT_BUILD_DIR)
 
 $(PORT_RESULTS_DIR)/%.out: $(TESTS_DIR)/%.c
-	echo Processing $<
-	python $(srcdir)/valdiag.py $(PORT) $< $(PORT_BUILD_DIR)/$* > $@
+	$(PYTHON) $(srcdir)/valdiag.py $(PORT) $< $(PORT_BUILD_DIR)/$* $(srcdir)/../../device/include > $@
+	grep FAIL $@ ; true
+	cat $@ | $(PYTHON) $(srcdir)/../regression/compact-results.py
 
 port-results: port-dirs $(PORT_RESULTS)
-	echo Summary for \'$(PORT)\': `cat $(PORT_RESULTS) | \
-	python $(srcdir)/../regression/collate-results.py`
+	cat $(PORT_RESULTS) | $(PYTHON) $(srcdir)/../regression/collate-results.py $(PORT)
 
 port-dirs:
 	mkdir -p $(PORT_RESULTS_DIR)

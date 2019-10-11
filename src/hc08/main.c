@@ -94,7 +94,7 @@ _s08_init (void)
 }
 
 static void
-_hc08_reset_regparm (void)
+_hc08_reset_regparm (struct sym_link *funcType)
 {
   regParmFlg = 0;
 }
@@ -146,8 +146,13 @@ _hc08_parseOptions (int *pargc, char **argv, int *i)
   return FALSE;
 }
 
+#define OPTION_SMALL_MODEL          "--model-small"
+#define OPTION_LARGE_MODEL          "--model-large"
+
 static OPTION _hc08_options[] =
   {
+    {0, OPTION_SMALL_MODEL, NULL, "8-bit address space for data"},
+    {0, OPTION_LARGE_MODEL, NULL, "16-bit address space for data (default)"},
     {0, "--out-fmt-elf", NULL, "Output executable in ELF format" },
     {0, "--oldralloc", NULL, "Use old register allocator"},
     {0, NULL }
@@ -351,7 +356,6 @@ hasExtBitOp (int op, int size)
 {
   if (op == RRC
       || op == RLC
-      || op == GETHBIT
       || (op == SWAP && size <= 2)
       || op == GETABIT
       || op == GETBYTE
@@ -398,6 +402,349 @@ hc08_dwarfRegNum (const struct reg_info *reg)
   return -1;
 }
 
+static bool
+_hasNativeMulFor (iCode *ic, sym_link *left, sym_link *right)
+{
+  return getSize (left) == 1 && getSize (right) == 1;
+}
+
+typedef struct asmLineNode
+  {
+    int size;
+  }
+asmLineNode;
+
+static asmLineNode *
+newAsmLineNode (void)
+{
+  asmLineNode *aln;
+
+  aln = Safe_alloc ( sizeof (asmLineNode));
+  aln->size = 0;
+
+  return aln;
+}
+
+typedef struct hc08opcodedata
+  {
+    char name[6];
+    char adrmode;
+    /* info for registers used and/or modified by an instruction will be added here */
+  }
+hc08opcodedata;
+
+#define HC08OP_STD 1
+#define HC08OP_RMW 2
+#define HC08OP_INH 3
+#define HC08OP_IM1 4
+#define HC08OP_BR 5
+#define HC08OP_BTB 6
+#define HC08OP_BSC 7
+#define HC08OP_MOV 8
+#define HC08OP_CBEQ 9
+#define HC08OP_CPHX 10
+#define HC08OP_LDHX 11
+#define HC08OP_STHX 12
+#define HC08OP_DBNZ 13
+
+/* These must be kept sorted by opcode name */
+static hc08opcodedata hc08opcodeDataTable[] =
+  {
+    {".db",   HC08OP_INH}, /* used by the code generator only in the jump table */
+    {"adc",   HC08OP_STD},
+    {"add",   HC08OP_STD},
+    {"ais",   HC08OP_IM1},
+    {"aix",   HC08OP_IM1},
+    {"and",   HC08OP_STD},
+    {"asl",   HC08OP_RMW},
+    {"asla",  HC08OP_INH},
+    {"aslx",  HC08OP_INH},
+    {"asr",   HC08OP_RMW},
+    {"asra",  HC08OP_INH},
+    {"asrx",  HC08OP_INH},
+    {"bcc",   HC08OP_BR,},
+    {"bclr",  HC08OP_BSC},
+    {"bcs",   HC08OP_BR},
+    {"beq",   HC08OP_BR},
+    {"bge",   HC08OP_BR},
+    {"bgnd",  HC08OP_INH},
+    {"bgt",   HC08OP_BR},
+    {"bhcc",  HC08OP_BR},
+    {"bhcs",  HC08OP_BR},
+    {"bhi",   HC08OP_BR},
+    {"bhs",   HC08OP_BR},
+    {"bih",   HC08OP_BR},
+    {"bil",   HC08OP_BR},
+    {"bit",   HC08OP_STD},
+    {"ble",   HC08OP_BR},
+    {"blo",   HC08OP_BR},
+    {"bls",   HC08OP_BR},
+    {"blt",   HC08OP_BR},
+    {"bmc",   HC08OP_BR},
+    {"bmi",   HC08OP_BR},
+    {"bms",   HC08OP_BR},
+    {"bne",   HC08OP_BR},
+    {"bpl",   HC08OP_BR},
+    {"bra",   HC08OP_BR},
+    {"brclr", HC08OP_BTB},
+    {"brn",   HC08OP_BR},
+    {"brset", HC08OP_BTB},
+    {"bset",  HC08OP_BSC},
+    {"bsr",   HC08OP_BR},
+    {"cbeq",  HC08OP_CBEQ},
+    {"cbeqa", HC08OP_CBEQ},
+    {"cbeqx", HC08OP_CBEQ},
+    {"clc",   HC08OP_INH},
+    {"cli",   HC08OP_INH},
+    {"clr",   HC08OP_RMW},
+    {"clra",  HC08OP_INH},
+    {"clrh",  HC08OP_INH},
+    {"clrx",  HC08OP_INH},
+    {"cmp",   HC08OP_STD},
+    {"com",   HC08OP_RMW},
+    {"coma",  HC08OP_INH},
+    {"comx",  HC08OP_INH},
+    {"cphx",  HC08OP_CPHX},
+    {"cpx",   HC08OP_STD},
+    {"daa",   HC08OP_INH},
+    {"dbnz",  HC08OP_DBNZ},
+    {"dbnza", HC08OP_BR},
+    {"dbnzx", HC08OP_BR},
+    {"dec",   HC08OP_RMW},
+    {"deca",  HC08OP_INH},
+    {"decx",  HC08OP_INH},
+    {"div",   HC08OP_INH},
+    {"eor",   HC08OP_STD},
+    {"inc",   HC08OP_RMW},
+    {"inca",  HC08OP_INH},
+    {"incx",  HC08OP_INH},
+    {"jmp",   HC08OP_STD},
+    {"jsr",   HC08OP_STD},
+    {"lda",   HC08OP_STD},
+    {"ldhx",  HC08OP_LDHX},
+    {"ldx",   HC08OP_STD},
+    {"lsl",   HC08OP_RMW},
+    {"lsla",  HC08OP_INH},
+    {"lslx",  HC08OP_INH},
+    {"lsr",   HC08OP_RMW},
+    {"lsra",  HC08OP_INH},
+    {"lsrx",  HC08OP_INH},
+    {"mov",   HC08OP_MOV},
+    {"mul",   HC08OP_INH},
+    {"neg",   HC08OP_RMW},
+    {"nega",  HC08OP_INH},
+    {"negx",  HC08OP_INH},
+    {"nop",   HC08OP_INH},
+    {"nsa",   HC08OP_INH},
+    {"ora",   HC08OP_STD},
+    {"psha",  HC08OP_INH},
+    {"pshh",  HC08OP_INH},
+    {"pshx",  HC08OP_INH},
+    {"pula",  HC08OP_INH},
+    {"pulh",  HC08OP_INH},
+    {"pulx",  HC08OP_INH},
+    {"rol",   HC08OP_RMW},
+    {"rola",  HC08OP_INH},
+    {"rolx",  HC08OP_INH},
+    {"ror",   HC08OP_RMW},
+    {"rora",  HC08OP_INH},
+    {"rorx",  HC08OP_INH},
+    {"rsp",   HC08OP_INH},
+    {"rti",   HC08OP_INH},
+    {"rts",   HC08OP_INH},
+    {"sbc",   HC08OP_STD},
+    {"sec",   HC08OP_INH},
+    {"sei",   HC08OP_INH},
+    {"sta",   HC08OP_STD},
+    {"sthx",  HC08OP_STHX},
+    {"stop",  HC08OP_INH},
+    {"stx",   HC08OP_STD},
+    {"sub",   HC08OP_STD},
+    {"swi",   HC08OP_INH},
+    {"tap",   HC08OP_INH},
+    {"tax",   HC08OP_INH},
+    {"tpa",   HC08OP_INH},
+    {"tst",   HC08OP_RMW},
+    {"tsta",  HC08OP_INH},
+    {"tstx",  HC08OP_INH},
+    {"tsx",   HC08OP_INH},
+    {"txa",   HC08OP_INH},
+    {"txs",   HC08OP_INH},
+    {"wait",  HC08OP_INH}
+  };
+
+static int
+hc08_opcodeCompare (const void *key, const void *member)
+{
+  return strcmp((const char *)key, ((hc08opcodedata *)member)->name);
+}
+
+/*--------------------------------------------------------------------*/
+/* Given an instruction and its first two operands, compute the       */
+/* instruction size. There are a few cases where it's too complicated */
+/* to distinguish between an 8-bit offset and 16-bit offset; in these */
+/* cases we conservatively assume the 16-bit offset size.             */
+/*--------------------------------------------------------------------*/
+static int
+hc08_instructionSize(const char *inst, const char *op1, const char *op2)
+{
+  hc08opcodedata *opcode;
+  int size;
+  long offset;
+  char * endnum = NULL;
+  
+  opcode = bsearch (inst, hc08opcodeDataTable,
+                    sizeof(hc08opcodeDataTable)/sizeof(hc08opcodedata),
+                    sizeof(hc08opcodedata), hc08_opcodeCompare);
+
+  if (!opcode)
+    return 999;
+  switch (opcode->adrmode)
+    {
+      case HC08OP_INH: /* Inherent addressing mode */
+        return 1;
+        
+      case HC08OP_BSC: /* Bit set/clear direct addressing mode */
+      case HC08OP_BR:  /* Branch (1 byte signed offset) */
+      case HC08OP_IM1: /* 1 byte immediate addressing mode */
+        return 2;
+        
+      case HC08OP_BTB:  /* Bit test direct addressing mode and branch */
+        return 3;
+        
+      case HC08OP_RMW: /* read/modify/write instructions */
+        if (!op2[0]) /* if not ,x or ,sp must be direct addressing mode */
+          return 2;
+        if (!op1[0])  /* if ,x with no offset */
+          return 1;
+        if (op2[0] == 'x')  /* if ,x with offset */
+          return 2;
+        return 3;  /* Otherwise, must be ,sp with offset */
+        
+      case HC08OP_STD: /* standard instruction */
+        if (!op2[0])
+          {
+            if (op1[0] == '#') /* Immediate addressing mode */
+              return 2;
+            if (op1[0] == '*') /* Direct addressing mode */
+              return 2;
+            return 3; /* Otherwise, must be extended addressing mode */
+          }
+        else
+          {
+            if (!op1[0]) /* if ,x with no offset */
+              return 1;
+            size = 2;
+            if (op2[0] == 's')
+              size++;
+            offset = strtol (op1, &endnum, 0) & 0xffff;
+            if (endnum && *endnum)
+              size++;
+            else if (offset > 0xff)
+              size++;
+            return size;
+          }
+      case HC08OP_MOV:
+        if (op2[0] == 'x')
+          return 2;
+        return 3;
+      case HC08OP_CBEQ:
+        if (op2[0] == 'x' && !op1[0])
+          return 2;  /* cbeq ,x+,rel */
+        if (op2[0] == 's')
+          return 4;  /* cbeq oprx8,sp,rel */
+        return 3;
+      case HC08OP_CPHX:
+        if (op1[0] == '*')
+          return 2;
+        return 3;
+      case HC08OP_DBNZ:
+        if (!op2[0])
+          return 2;
+        if (!op1[0] && op2[0] == 'x')
+          return 2;
+        if (op2[0] == 's')
+          return 4;
+        return 3;
+      case HC08OP_LDHX:
+      case HC08OP_STHX:
+        if (op1[0] == '*')
+          return 2;
+        if (!op1[0] && op2[0] == 'x')
+          return 2;
+        if (op2[0] == 's' || op1[0] == '#' || !op2[0])
+          return 3;
+        size = 3;
+        offset = strtol (op1, &endnum, 0) & 0xffff;
+        if (endnum && *endnum)
+          size++;
+        else if (offset > 0xff)
+          size++;
+        return size;
+      default:
+        return 4;
+    }
+}
+
+
+static asmLineNode *
+hc08_asmLineNodeFromLineNode (lineNode *ln)
+{
+  asmLineNode *aln = newAsmLineNode();
+  char *op, op1[256], op2[256];
+  int opsize;
+  const char *p;
+  char inst[8];
+
+  p = ln->line;
+
+  while (*p && isspace(*p)) p++;
+  for (op = inst, opsize=1; *p; p++)
+    {
+      if (isspace(*p) || *p == ';' || *p == ':' || *p == '=')
+        break;
+      else
+        if (opsize < sizeof(inst))
+          *op++ = tolower(*p), opsize++;
+    }
+  *op = '\0';
+
+  if (*p == ';' || *p == ':' || *p == '=')
+    return aln;
+
+  while (*p && isspace(*p)) p++;
+  if (*p == '=')
+    return aln;
+
+  for (op = op1, opsize=1; *p && *p != ','; p++)
+    {
+      if (!isspace(*p) && opsize < sizeof(op1))
+        *op++ = tolower(*p), opsize++;
+    }
+  *op = '\0';
+
+  if (*p == ',') p++;
+  for (op = op2, opsize=1; *p && *p != ','; p++)
+    {
+      if (!isspace(*p) && opsize < sizeof(op2))
+        *op++ = tolower(*p), opsize++;
+    }
+  *op = '\0';
+
+  aln->size = hc08_instructionSize(inst, op1, op2);
+
+  return aln;
+}
+
+static int
+hc08_getInstructionSize (lineNode *line)
+{
+  if (!line->aln)
+    line->aln = (asmLineNodeBase *) hc08_asmLineNodeFromLineNode (line);
+
+  return line->aln->size;
+}
+
 /** $1 is always the basename.
     $2 is always the output file.
     $3 varies
@@ -406,13 +753,13 @@ hc08_dwarfRegNum (const struct reg_info *reg)
 */
 static const char *_linkCmd[] =
 {
-  "sdld6808", "-nf", "\"$1\"", NULL
+  "sdld6808", "-nf", "$1", NULL
 };
 
 /* $3 is replaced by assembler.debug_opts resp. port->assembler.plain_opts */
 static const char *_asmCmd[] =
 {
-  "sdas6808", "$l", "$3", "\"$2\"", "\"$1.asm\"", NULL
+  "sdas6808", "$l", "$3", "$2", "$1.asm", NULL
 };
 
 static const char * const _libs_hc08[] = { "hc08", NULL, };
@@ -435,7 +782,7 @@ PORT hc08_port =
   {
     _asmCmd,
     NULL,
-    "-plosgffwc",               /* Options with debug */
+    "-plosgffwy",               /* Options with debug */
     "-plosgffw",                /* Options without debug */
     0,
     ".asm",
@@ -451,14 +798,15 @@ PORT hc08_port =
     _libs_hc08,                 /* libs */
   },
   {                             /* Peephole optimizer */
-    _hc08_defaultRules
+    _hc08_defaultRules,
+    hc08_getInstructionSize,
   },
   {
-        /* Sizes: char, short, int, long, long long, ptr, fptr, gptr, bit, float, max */
-    1, 2, 2, 4, 8, 2, 2, 2, 1, 4, 4
+    /* Sizes: char, short, int, long, long long, near ptr, far ptr, gptr, func ptr, banked func ptr, bit, float */
+    1, 2, 2, 4, 8, 2, 2, 2, 2, 0, 1, 4
   },
   /* tags for generic pointers */
-  { 0x00, 0x40, 0x60, 0x80 },           /* far, near, xstack, code */
+  { 0x00, 0x00, 0x00, 0x00 },           /* far, near, xstack, code */
   {
     "XSEG",
     "STACK",
@@ -474,14 +822,17 @@ PORT hc08_port =
     "GSFINAL (CODE)",
     "HOME    (CODE)",
     "XISEG",              // initialized xdata
-    "XINIT",              // a code copy of xiseg
+    "XINIT   (CODE)",     // a code copy of xiseg
     "CONST   (CODE)",     // const_name - const data (code or not)
     "CABS    (ABS,CODE)", // cabs_name - const absolute data (code or not)
     "XABS    (ABS)",      // xabs_name - absolute xdata
     "IABS    (ABS)",      // iabs_name - absolute data
+    NULL,                 // name of segment for initialized variables
+    NULL,                 // name of segment for copies of initialized variables in code space
     NULL,
     NULL,
-    1
+    1,
+    1                     // No fancy alignments supported.
   },
   { _hc08_genExtraAreas,
     NULL },
@@ -491,11 +842,11 @@ PORT hc08_port =
     4,          /* isr_overhead */
     2,          /* call_overhead */
     0,          /* reent_overhead */
-    0           /* banked_overhead (switch between code banks) */
+    0,          /* banked_overhead (switch between code banks) */
+    1           /* sp is offset by 1 from last item pushed */
   },
-    /* hc08 has an 8 bit mul */
   {
-    1, 5
+    5, FALSE
   },
   {
     hc08_emitDebuggerSymbol,
@@ -527,6 +878,8 @@ PORT hc08_port =
   _hc08_setDefaultOptions,
   hc08_assignRegisters,
   _hc08_getRegName,
+  0,
+  NULL,
   _hc08_keywords,
   _hc08_genAssemblerPreamble,
   _hc08_genAssemblerEnd,        /* no genAssemblerEnd */
@@ -537,7 +890,7 @@ PORT hc08_port =
   _hc08_regparm,
   NULL,                         /* process_pragma */
   NULL,                         /* getMangledFunctionName */
-  NULL,                         /* hasNativeMulFor */
+  _hasNativeMulFor,             /* hasNativeMulFor */
   hasExtBitOp,                  /* hasExtBitOp */
   oclsExpense,                  /* oclsExpense */
   TRUE,                         /* use_dw_for_init */
@@ -553,7 +906,8 @@ PORT hc08_port =
   NULL,                         /* no builtin functions */
   GPOINTER,                     /* treat unqualified pointers as "generic" pointers */
   1,                            /* reset labelKey to 1 */
-  1,                            /* globals & local static allowed */
+  1,                            /* globals & local statics allowed */
+  3,                            /* Number of registers handled in the tree-decomposition-based register allocator in SDCCralloc.hpp */
   PORT_MAGIC
 };
 
@@ -573,7 +927,7 @@ PORT s08_port =
   {
     _asmCmd,
     NULL,
-    "-plosgffwc",               /* Options with debug */
+    "-plosgffwy",               /* Options with debug */
     "-plosgffw",                /* Options without debug */
     0,
     ".asm",
@@ -589,14 +943,15 @@ PORT s08_port =
     _libs_s08,                  /* libs */
   },
   {                             /* Peephole optimizer */
-    _s08_defaultRules
+    _s08_defaultRules,
+    hc08_getInstructionSize,
   },
   {
-        /* Sizes: char, short, int, long, long long, ptr, fptr, gptr, bit, float, max */
-    1, 2, 2, 4, 8, 2, 2, 2, 1, 4, 4
+    /* Sizes: char, short, int, long, long long, near ptr, far ptr, gptr, func ptr, banked func ptr, bit, float */
+    1, 2, 2, 4, 8, 2, 2, 2, 2, 0, 1, 4
   },
   /* tags for generic pointers */
-  { 0x00, 0x40, 0x60, 0x80 },           /* far, near, xstack, code */
+  { 0x00, 0x00, 0x00, 0x00 },           /* far, near, xstack, code */
   {
     "XSEG",
     "STACK",
@@ -612,14 +967,17 @@ PORT s08_port =
     "GSFINAL (CODE)",
     "HOME    (CODE)",
     "XISEG",              // initialized xdata
-    "XINIT",              // a code copy of xiseg
+    "XINIT   (CODE)",     // a code copy of xiseg
     "CONST   (CODE)",     // const_name - const data (code or not)
     "CABS    (ABS,CODE)", // cabs_name - const absolute data (code or not)
     "XABS    (ABS)",      // xabs_name - absolute xdata
     "IABS    (ABS)",      // iabs_name - absolute data
+    NULL,                 // name of segment for initialized variables
+    NULL,                 // name of segment for copies of initialized variables in code space
     NULL,
     NULL,
-    1
+    1,
+    1                     // No fancy alignments supported.
   },
   { _hc08_genExtraAreas,
     NULL },
@@ -629,11 +987,11 @@ PORT s08_port =
     4,          /* isr_overhead */
     2,          /* call_overhead */
     0,          /* reent_overhead */
-    0           /* banked_overhead (switch between code banks) */
+    0,          /* banked_overhead (switch between code banks) */
+    1           /* sp is offset by 1 from last item pushed */
   },
-    /* hc08 has an 8 bit mul */
   {
-    1, 5
+    5, FALSE
   },
   {
     hc08_emitDebuggerSymbol,
@@ -665,6 +1023,8 @@ PORT s08_port =
   _hc08_setDefaultOptions,
   hc08_assignRegisters,
   _hc08_getRegName,
+  0,
+  NULL,
   _hc08_keywords,
   _hc08_genAssemblerPreamble,
   _hc08_genAssemblerEnd,        /* no genAssemblerEnd */
@@ -675,7 +1035,7 @@ PORT s08_port =
   _hc08_regparm,
   NULL,                         /* process_pragma */
   NULL,                         /* getMangledFunctionName */
-  NULL,                         /* hasNativeMulFor */
+  _hasNativeMulFor,             /* hasNativeMulFor */
   hasExtBitOp,                  /* hasExtBitOp */
   oclsExpense,                  /* oclsExpense */
   TRUE,                         /* use_dw_for_init */
@@ -691,7 +1051,8 @@ PORT s08_port =
   NULL,                         /* no builtin functions */
   GPOINTER,                     /* treat unqualified pointers as "generic" pointers */
   1,                            /* reset labelKey to 1 */
-  1,                            /* globals & local static allowed */
+  1,                            /* globals & local statics allowed */
+  3,                            /* Number of registers handled in the tree-decomposition-based register allocator in SDCCralloc.hpp */
   PORT_MAGIC
 };
 

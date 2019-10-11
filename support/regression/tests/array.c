@@ -22,11 +22,16 @@ volatile unsigned {type} idx2;
 void
 testArrayAccess(void)
 {
+#ifndef __SDCC_pdk14 // Not enough RAM for all the temporaries.
   idx = 2;
 
   ASSERT(array_const_char[idx] == TC(2));
   ASSERT(array_const_int [idx] == TI(2));
   ASSERT(array_const_long[idx] == TL(2));
+
+  ASSERT(idx[array_const_char] == TC(2));
+  ASSERT(idx[array_const_int ] == TI(2));
+  ASSERT(idx[array_const_long] == TL(2));
 
   ASSERT(array_const_char[2] == TC(2));
   ASSERT(array_const_int [2] == TI(2));
@@ -50,4 +55,6 @@ testArrayAccess(void)
   ASSERT(array_char[idx2] == (TC(3) | 0x80));
   ASSERT(array_int [idx2] == (TI(3) | 0x8080));
   ASSERT(array_long[idx2] == (TL(3) | 0x80808080));
+#endif
 }
+

@@ -11,8 +11,6 @@
 void
 testTortureExecute (void)
 {
-// Todo: Enable when sdcc supports long long constants!
-#if 0
   long long   x;
   int         n;
 
@@ -31,6 +29,5 @@ testTortureExecute (void)
     ASSERT (0);
 
   return;
-#endif
 }
 

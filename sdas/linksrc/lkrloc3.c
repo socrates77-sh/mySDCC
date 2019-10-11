@@ -311,13 +311,13 @@ relr3(void)
         /*
          * Base values
          */
-        rtbase = adb_2b(0, 0);
-        rtofst = 2;
+        rtbase = adb_xb(0, 0);
+        rtofst = a_bytes;
 
         /*
          * Relocate address
          */
-        pc = adb_2b(a[aindex]->a_addr, 0);
+        pc = adb_xb(a[aindex]->a_addr, 0);
 
         /*
          * Number of 'bytes' per PC address
@@ -390,10 +390,67 @@ relr3(void)
                         reli -= paga + pags;
                 }
 
+
+                /* pdk instruction fusion */
+                if (TARGET_IS_PDK) {
+                        relv = adb_3b(reli, rtp);
+
+                        /* pdk addresses in words, not in bytes,
+                         * for goto/call instructions and byte selections.
+                         */
+                        int jump = 1, mask = 0;
+                        if (rtval[rtp + 4] == 15) {
+                                jump = rtval[rtp + 3] & 0x70;
+                                mask = 0x40;
+                        } else if (rtval[rtp + 4] == 14) {
+                                jump = rtval[rtp + 3] & 0x38;
+                                mask = 0x20;
+                        } else if (rtval[rtp + 4] == 13) {
+                                jump = rtval[rtp + 3] & 0x1C;
+                                mask = 0x10;
+                        }
+
+                        const int icall =
+                            (mask >> 0) | (mask >> 1) | (mask >> 2);
+                        const int igoto = (mask >> 0) | (mask >> 1);
+                        if (((mode & R3_BYTE) && !(mode & R3_USGN)) ||
+                            jump == icall || jump == igoto) {
+                                /* Addresses cannot be bigger than N - 1 bits.
+                                 * Any bits that are set past that point are
+                                 * marker bits that should be not shifted.
+                                 */
+                                int marker = rtval[rtp + 1] & 0x80;
+                                rtval[rtp + 1] &= ~0x80;
+
+                                rtval[rtp] /= 2;
+                                rtval[rtp] |= (rtval[rtp + 1] & 1) << 7;
+                                rtval[rtp + 1] /= 2;
+                                rtval[rtp + 1] |= marker;
+                        }
+
+                        /* Do the actual opcode fusion and ignore the two 
+                         * bytes taken for the opcode by the assembler.
+                         */
+                        if (IS_R_J11(mode)) {
+                                rtval[rtp + 2] |= rtval[rtp];
+                                rtval[rtp + 3] |= rtval[rtp + 1];
+                        } else if (mode & R3_MSB) {
+                                rtval[rtp + 2] |= rtval[rtp + 1];
+                        } else {
+                                rtval[rtp + 2] |= rtval[rtp];
+                        }
+
+                        mode &= ~R3_USGN;
+                        rtflg[rtp] = 0;
+                        rtflg[rtp + 1] = 0;
+                        rtflg[rtp + 4] = 0;
+                        rtofst += 3;
+                }
+
                 /*
                  * R3_BYTE or R3_WORD operation
                  */
-                if (mode & R3_BYTE) {
+                else if (mode & R3_BYTE) {
                         if (mode & R_BYT3)
                         {
                                 /* This is a three byte address, of which
@@ -519,7 +576,7 @@ relr3(void)
                  */
                 if (mode & R3_BYTE) {
                         if (mode & R3_BYTX) {
-                                rtofst += 1;
+                                rtofst += (a_bytes - 1);
                         }
                 }
 
@@ -821,6 +878,8 @@ relerr3(char *str)
  *
  */
 
+const char errdmp3_null_srcname[] = "<missing>";
+
 VOID
 errdmp3(FILE *fptr, char *str)
 {
@@ -862,7 +921,7 @@ errdmp3(FILE *fptr, char *str)
 "         file              module            area              offset\n");
         fprintf(fptr,
 "  Refby  %-14.14s    %-14.14s    %-14.14s    ",
-                        hp->h_lfile->f_idp,
+                        (hp->h_lfile && hp->h_lfile->f_idp) ? hp->h_lfile->f_idp : errdmp3_null_srcname,
                         &hp->m_id[0],
                         &a[aindex]->a_bap->a_id[0]);
         prntval(fptr, rerr.rtbase);
@@ -880,7 +939,7 @@ errdmp3(FILE *fptr, char *str)
 /*        |                 |                 |                 |           */
         fprintf(fptr,
 "  Defin  %-14.14s    %-14.14s    %-14.14s    ",
-                        raxp->a_bhp->h_lfile->f_idp,
+                        (raxp->a_bhp->h_lfile && raxp->a_bhp->h_lfile->f_idp) ? raxp->a_bhp->h_lfile->f_idp : errdmp3_null_srcname,
                         &raxp->a_bhp->m_id[0],
                         &raxp->a_bap->a_id[0]);
         if (mode & R3_SYM) {
@@ -1017,15 +1076,16 @@ adb_bit(a_uint v, int i)
 }
 /* end sdld specific */
 
-/*)Function a_uint              adb_lo(v, i)
+/*)Function     a_uint  adb_lo(v, i)
  *
- *              int v           value to add to byte
- *              int i           rtval[] index
+ *              int     v               value to add to byte
+ *              int     i               rtval[] index
  *
  *      The function adb_lo() adds the value of v to the
- *      double byte value contained in rtval[i] and rtval[i+1].
- *      The new value of rtval[i] / rtval[i+1] is returned.
- *      The MSB rtflg[] is cleared.
+ *      value contained in rtval[i] through rtval[i + a_bytes - 1].
+ *      The new value of rtval[i] ... is returned.
+ *      The rtflg[] flags are cleared for all rtval[i] ... except
+ *      the LSB.
  *
  *      local variable:
  *              a_uint  j               temporary evaluation variable
@@ -1038,39 +1098,39 @@ adb_bit(a_uint v, int i)
  *
  *      side effects:
  *              The value of rtval[] is changed.
- *              The rtflg[] value corresponding to the
- *              MSB of the word value is cleared to reflect
+ *              The rtflg[] values corresponding to all bytes
+ *              except the LSB of the value are cleared to reflect
  *              the fact that the LSB is the selected byte.
  *
  */
 
 a_uint
 adb_lo(v, i)
-a_uint v;
-int i;
+a_uint  v;
+int     i;
 {
         a_uint j;
+        int m, n;
 
-        j = adb_2b(v, i);
+        j = adb_xb(v, i);
         /*
-         * Remove Hi byte
+         * LSB is lowest order byte of data
          */
-        if (hilo) {
-                rtflg[i] = 0;
-        } else {
-                rtflg[i+1] = 0;
+        m = (hilo ? a_bytes-1 : 0);
+        for (n=0; n<a_bytes; n++) {
+                if(n != m) rtflg[i+n] = 0;
         }
         return (j);
 }
 
-/*)Function a_uint              adb_hi(v, i)
+/*)Function     a_uint  adb_hi(v, i)
  *
- *              int v           value to add to byte
- *              int i           rtval[] index
+ *              int     v               value to add to byte
+ *              int     i               rtval[] index
  *
  *      The function adb_hi() adds the value of v to the
- *      double byte value contained in rtval[i] and rtval[i+1].
- *      The new value of rtval[i] / rtval[i+1] is returned.
+ *      value contained in rtval[i] through rtval[i + a_bytes - 1].
+ *      The new value of rtval[i] .... is returned.
  *      The LSB rtflg[] is cleared.
  *
  *      local variable:
@@ -1084,27 +1144,27 @@ int i;
  *
  *      side effects:
  *              The value of rtval[] is changed.
- *              The rtflg[] value corresponding to the
- *              LSB of the word value is cleared to reflect
+ *              The rtflg[] values corresponding to all bytes
+ *              except the 2nd byte (MSB) are cleared to reflect
  *              the fact that the MSB is the selected byte.
  *
  */
 
 a_uint
 adb_hi(v, i)
-a_uint v;
-int i;
+a_uint  v;
+int     i;
 {
         a_uint j;
+        int m, n;
 
-        j = adb_2b(v, i);
+        j = adb_xb(v, i);
         /*
-         * Remove Lo byte
+         * MSB is next lowest order byte of data
          */
-        if (hilo) {
-                rtflg[i+1] = 0;
-        } else {
-                rtflg[i] = 0;
+        m = (hilo ? a_bytes-2 : 1);
+        for (n=0; n<a_bytes; n++) {
+                if(n != m) rtflg[i+n] = 0;
         }
         return (j);
 }

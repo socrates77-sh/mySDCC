@@ -19,6 +19,12 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#include "SDCCglobl.h"
+#ifdef HAVE_BACKTRACE_SYMBOLS_FD
+#include <unistd.h>
+#include <execinfo.h>
+#endif
+
 #include "SDCCerr.h"
 
 #define NELEM(x) (sizeof(x) / sizeof *(x))
@@ -43,10 +49,10 @@ extern int fatalError;
  */
 struct
 {
-  int errIndex;
-  ERROR_LOG_LEVEL errType;
-  const char *errText;
-  char disabled;
+   int errIndex;
+   ERROR_LOG_LEVEL errType;
+   const char *errText;
+   char disabled;
 } ErrTab[] =
     {
         {E_DUPLICATE, ERROR_LEVEL_ERROR,
@@ -54,7 +60,7 @@ struct
         {E_SYNTAX_ERROR, ERROR_LEVEL_ERROR,
          "Syntax error, declaration ignored at '%s'", 0},
         {E_CONST_EXPECTED, ERROR_LEVEL_ERROR,
-         "Initializer element is not constant", 0},
+         "Initializer element is not a constant expression", 0},
         {E_OUT_OF_MEM, ERROR_LEVEL_ERROR,
          "'malloc' failed file '%s' for size %ld", 0},
         {E_FILE_OPEN_ERR, ERROR_LEVEL_ERROR,
@@ -113,10 +119,10 @@ struct
          "'unary %c': illegal operand", 0},
         {E_CONV_ERR, ERROR_LEVEL_ERROR,
          "conversion error: integral promotion failed", 0},
-        {E_INT_REQD, ERROR_LEVEL_ERROR,
-         "type must be INT for bit field definition", 0},
+        {E_BITFLD_TYPE, ERROR_LEVEL_ERROR,
+         "invalid type for bit-field", 0},
         {E_BITFLD_SIZE, ERROR_LEVEL_ERROR,
-         "bit field size cannot be greater than int (%d bits)", 0},
+         "bit-field size too wide for type (max %d bits)", 0},
         {W_TRUNCATION, ERROR_LEVEL_WARNING,
          "high order truncation might occur", 0},
         {E_CODE_WRITE, ERROR_LEVEL_ERROR,
@@ -124,7 +130,7 @@ struct
         {E_LVALUE_CONST, ERROR_LEVEL_ERROR,
          "Lvalue specifies constant object", 0},
         {E_ILLEGAL_ADDR, ERROR_LEVEL_ERROR,
-         "'&' illegal operand , %s", 0},
+         "'&' illegal operand, %s", 0},
         {E_CAST_ILLEGAL, ERROR_LEVEL_ERROR,
          "illegal cast (cast cannot be aggregate)", 0},
         {E_MULT_INTEGRAL, ERROR_LEVEL_ERROR,
@@ -142,15 +148,15 @@ struct
         {E_SHIFT_OP_INVALID, ERROR_LEVEL_ERROR,
          "invalid operand for shift operator", 0},
         {E_COMPARE_OP, ERROR_LEVEL_ERROR,
-         "compare operand cannot be struct/union", 0},
+         "operands are not comparable", 0},
         {E_BITWISE_OP, ERROR_LEVEL_ERROR,
          "operand invalid for bitwise operation", 0},
         {E_ANDOR_OP, ERROR_LEVEL_ERROR,
          "Invalid operand for '&&' or '||'", 0},
         {E_TYPE_MISMATCH, ERROR_LEVEL_ERROR,
          "indirections to different types %s %s ", 0},
-        {E_AGGR_ASSIGN, ERROR_LEVEL_ERROR,
-         "cannot assign values to aggregates", 0},
+        {E_ARRAY_ASSIGN, ERROR_LEVEL_ERROR,
+         "cannot assign values to arrays", 0},
         {E_ARRAY_DIRECT, ERROR_LEVEL_ERROR,
          "bit Arrays can be accessed by literal index only", 0},
         {E_BIT_ARRAY, ERROR_LEVEL_ERROR,
@@ -216,7 +222,7 @@ struct
         {W_NO_SIDE_EFFECTS, ERROR_LEVEL_WARNING,
          "%s expression has NO side effects. Expr eliminated", 0},
         {W_CONST_TOO_LARGE, ERROR_LEVEL_PEDANTIC,
-         "constant value '%s', out of range.", 0},
+         "constant value '%ld', out of range.", 0},
         {W_BAD_COMPARE, ERROR_LEVEL_WARNING,
          "comparison will either, ALWAYs succeed or ALWAYs fail", 0},
         {E_TERMINATING, ERROR_LEVEL_ERROR,
@@ -249,9 +255,9 @@ struct
          "Pre-Processor %s", 0},
         {E_STRUCT_AS_ARG, ERROR_LEVEL_ERROR,
          "SDCC cannot pass structure '%s' as function argument", 0},
-        {E_PREV_DEF_CONFLICT, ERROR_LEVEL_ERROR,
-         "conflict with previous definition of '%s' for attribute '%s'", 0},
-        {E_CODE_NO_INIT, ERROR_LEVEL_ERROR,
+        {E_PREV_DECL_CONFLICT, ERROR_LEVEL_ERROR,
+         "conflict with previous declaration of '%s' for attribute '%s' at %s:%d", 0},
+        {E_CODE_NO_INIT, ERROR_LEVEL_WARNING,
          "variable '%s' declared in code space must have initialiser", 0},
         {E_OPS_INTEGRAL, ERROR_LEVEL_ERROR,
          "operands not integral for assignment operation", 0},
@@ -291,14 +297,14 @@ struct
          "unknown compiler option '%s' ignored", 0},
         {W_UNSUPP_OPTION, ERROR_LEVEL_WARNING,
          "option '%s' no longer supported  '%s' ", 0},
-        {W_UNKNOWN_FEXT, ERROR_LEVEL_WARNING,
+        {E_UNKNOWN_FEXT, ERROR_LEVEL_ERROR,
          "don't know what to do with file '%s'. file extension unsupported", 0},
         {W_TOO_MANY_SRC, ERROR_LEVEL_WARNING,
          "cannot compile more than one source file. file '%s' ignored", 0},
         {I_CYCLOMATIC, ERROR_LEVEL_INFO,
          "function '%s', # edges %d , # nodes %d , cyclomatic complexity %d", 0},
-        {E_DIVIDE_BY_ZERO, ERROR_LEVEL_ERROR,
-         "dividing by ZERO", 0},
+        {E_DIVIDE_BY_ZERO, ERROR_LEVEL_WARNING,
+         "dividing by 0", 0},
         {E_FUNC_BIT, ERROR_LEVEL_ERROR,
          "function cannot return 'bit'", 0},
         {E_CAST_ZERO, ERROR_LEVEL_ERROR,
@@ -400,7 +406,7 @@ struct
         {W_SAVE_RESTORE, ERROR_LEVEL_PEDANTIC,
          "unmatched #pragma save and #pragma restore", 0},
         {E_INVALID_CRITICAL, ERROR_LEVEL_ERROR,
-         "not allowed in a critical section", 0},
+         "not allowed in a critical section or critical function", 0},
         {E_NOT_ALLOWED, ERROR_LEVEL_ERROR,
          "%s not allowed here", 0},
         {E_BAD_TAG, ERROR_LEVEL_ERROR,
@@ -417,7 +423,7 @@ struct
          "size of void is zero", 0},
         {W_POSSBUG2, ERROR_LEVEL_WARNING,
          "possible code generation error at %s line %d,\n"
-         " please report problem and send source code at SDCC-USER list on SF.Net"},
+         " please report problem and send source code at sdcc-user list on sourceforge.net"},
         {W_COMPLEMENT, ERROR_LEVEL_WARNING,
          "using ~ on bit/bool/unsigned char variables can give unexpected results due to promotion to int", 0},
         {E_SHADOWREGS_NO_ISR, ERROR_LEVEL_ERROR,
@@ -435,15 +441,15 @@ struct
         {W_C89_NO_FLEXARRAY, ERROR_LEVEL_PEDANTIC,
          "ISO C90 does not support flexible array members", 0},
         {E_FLEXARRAY_NOTATEND, ERROR_LEVEL_ERROR,
-         "flexible array member not at end of struct", 0},
+         "flexible array member '%s' not at end of struct", 0},
         {E_FLEXARRAY_INEMPTYSTRCT, ERROR_LEVEL_ERROR,
-         "flexible array in otherwise empty struct", 0},
+         "flexible array '%s' in otherwise empty struct", 0},
         {W_EMPTY_SOURCE_FILE, ERROR_LEVEL_PEDANTIC,
          "ISO C forbids an empty source file", 0},
         {W_BAD_PRAGMA_ARGUMENTS, ERROR_LEVEL_WARNING,
          "#pragma %s: bad argument(s); pragma ignored", 0},
         {E_BAD_RESTRICT, ERROR_LEVEL_ERROR,
-         "Only pointers may be qualified with 'restrict'", 0},
+         "Only object pointers may be qualified with 'restrict'", 0},
         {E_BAD_INLINE, ERROR_LEVEL_ERROR,
          "Only functions may be qualified with 'inline'", 0},
         {E_BAD_INT_ARGUMENT, ERROR_LEVEL_ERROR,
@@ -455,7 +461,7 @@ struct
         {W_DEPRECATED_KEYWORD, ERROR_LEVEL_WARNING,
          "keyword '%s' is deprecated, use '%s' instead", 0},
         {E_STORAGE_CLASS_FOR_PARAMETER, ERROR_LEVEL_ERROR,
-         "storage class specified for parameter '%s'", 0},
+         "storage class other than register specified for parameter '%s'", 0},
         {E_OFFSETOF_TYPE, ERROR_LEVEL_ERROR,
          "offsetof can only be applied to structs/unions", 0},
         {E_INCOMPLETE_FIELD, ERROR_LEVEL_ERROR,
@@ -467,9 +473,9 @@ struct
         {W_DUPLICATE_INIT, ERROR_LEVEL_WARNING,
          "Duplicate initializer at position %d; ignoring previous.", 0},
         {E_INVALID_UNIVERSAL, ERROR_LEVEL_ERROR,
-         "incomplete universal character name \\%s.", 0},
-        {W_UNIVERSAL_C99, ERROR_LEVEL_WARNING,
-         "universal character names are only valid in C99", 0},
+         "invalid universal character name \\%s.", 0},
+        {W_UNIVERSAL_C95, ERROR_LEVEL_WARNING,
+         "universal character names are only valid in C95 or later", 0},
         {E_SHORTLONG, ERROR_LEVEL_ERROR,
          "invalid combination of short / long", 0},
         {E_INTEGERSUFFIX, ERROR_LEVEL_ERROR,
@@ -483,9 +489,83 @@ struct
         {W_STRING_CANNOT_BE_TERMINATED, ERROR_LEVEL_PEDANTIC,
          "string '%s'cannot be terminated within array", 0},
         {W_LONGLONG_LITERAL, ERROR_LEVEL_WARNING,
-         "support for long long literals is incomplete", 0},
+         "support for large long long literals is incomplete", 1},
         {S_SYNTAX_ERROR, ERROR_LEVEL_SYNTAX_ERROR,
          "token -> '%s' ; column %d", 0},
+        {E_MIXING_CONFIG, ERROR_LEVEL_ERROR,
+         "mixing __CONFIG and CONFIG directives", 0},
+        {W_STATIC_ASSERTION, ERROR_LEVEL_WARNING,
+         "static assertion failed: %s", 0},
+        {E_ALIGNAS, ERROR_LEVEL_ERROR,
+         "invalid alignment specified: %d", 0},
+        {W_INTERNAL_ERROR, ERROR_LEVEL_WARNING,
+         "Non-fatal Compiler Internal Problem in file '%s' line number '%d' : %s \n"
+         "Contact Author with source code",
+         0},
+        {W_UNRECOGNIZED_ASM, ERROR_LEVEL_INFO,
+         "%s() failed to parse line node, assuming %d bytes\n'%s'\n", 0},
+        {W_FLEXARRAY_INSTRUCT, ERROR_LEVEL_WARNING,
+         "type of variable '%s' is struct with flexible array field", 0},
+        {E_TYPE_IS_FUNCTION, ERROR_LEVEL_ERROR,
+         "'%s' has function type", 0},
+        {W_INLINE_NAKED, ERROR_LEVEL_WARNING,
+         "inline function '%s' is __naked", 0},
+        {E_Z88DK_FASTCALL_PARAMETERS, ERROR_LEVEL_ERROR,
+         "invalid number of parameters for __z88dk_fastcall", 0},
+        {E_Z88DK_FASTCALL_PARAMETER, ERROR_LEVEL_ERROR,
+         "ivalid parameter type in __z88dk_fastcall", 0},
+        {W_REPEAT_QUALIFIER, ERROR_LEVEL_WARNING,
+         "duplicate specifier '%s'", 0},
+        {W_NO_TYPE_SPECIFIER, ERROR_LEVEL_WARNING,
+         "no type specifier for '%s'", 0},
+        {E_NO_TYPE_SPECIFIER, ERROR_LEVEL_ERROR,
+         "no type specifier for '%s'", 0},
+        {E_MULTIPLE_DEFAULT_IN_GENERIC, ERROR_LEVEL_ERROR,
+         "multiple default expressions in generic association", 0},
+        {E_MULTIPLE_MATCHES_IN_GENERIC, ERROR_LEVEL_ERROR,
+         "multiple matching expressions in generic association", 0},
+        {E_NO_MATCH_IN_GENERIC, ERROR_LEVEL_ERROR,
+         "no matching expression in generic association", 0},
+        {W_LABEL_WITHOUT_STATEMENT, ERROR_LEVEL_WARNING,
+         "label without statement", 0},
+        {E_WCHAR_CONST_C95, ERROR_LEVEL_ERROR,
+         "character constant of type wchar_t requires C95 or later", 0},
+        {E_WCHAR_CONST_C11, ERROR_LEVEL_ERROR,
+         "character constant of type char16_t or char32_t requires C11 or later", 0},
+        {E_WCHAR_STRING_C95, ERROR_LEVEL_ERROR,
+         "wide character string of type L requires C95 or later", 0},
+        {E_WCHAR_STRING_C11, ERROR_LEVEL_ERROR,
+         "wide character string of type u8, u, U requires C11 or later", 0},
+        {W_UNKNOWN_REG, ERROR_LEVEL_WARNING,
+         "unknown register specification %s", 0},
+        {E_HEXFLOAT_C99, ERROR_LEVEL_ERROR,
+         "hexadecimal floating constant requires ISO C99 or later", 0},
+        {E_ANONYMOUS_STRUCT_TAG, ERROR_LEVEL_ERROR,
+         "tagged anonymous struct/union '%s'", 0},
+        {W_INLINE_FUNCATTR, ERROR_LEVEL_WARNING,
+         "inline function '%s' might lose function attributes", 0},
+        {E_FOR_INITAL_DECLARATION_C99, ERROR_LEVEL_ERROR,
+         "initial declaration in for loop requires ISO C99 or later", 0},
+        {E_QUALIFIED_ARRAY_PARAM_C99, ERROR_LEVEL_ERROR,
+         "qualifiers in array parameters require ISO C99 or later", 0},
+        {E_QUALIFIED_ARRAY_NOPARAM, ERROR_LEVEL_ERROR,
+         "qualifier or static in array declarator that is not a parameter", 0},
+        {E_STATIC_ARRAY_PARAM_C99, ERROR_LEVEL_ERROR,
+         "static in array parameters requires ISO C99 or later", 0},
+        {E_INT_MULTIPLE, ERROR_LEVEL_ERROR,
+         "multiple interrupt numbers for '%s'", 0},
+        {W_INCOMPAT_PTYPES, ERROR_LEVEL_WARNING,
+         "pointer types incompatible ", 0},
+        {E_STATIC_ASSERTION_C2X, ERROR_LEVEL_ERROR,
+         "static assertion with one argument requires C2X or later", 0},
+        {W_STATIC_ASSERTION_2, ERROR_LEVEL_WARNING,
+         "static assertion failed", 0},
+        {E_DECL_AFTER_STATEMENT_C99, ERROR_LEVEL_ERROR,
+         "declaration after statement requires ISO C99 or later", 0},
+        {E_SHORTCALL_INVALID_VALUE, ERROR_LEVEL_ERROR,
+         "invalid value for __z88dk_shortcall %s parameter: %x", 0},
+        {E_DUPLICATE_PARAMTER_NAME, ERROR_LEVEL_ERROR,
+         "duplicate parameter name %s for function %s", 0},
 };
 
 /* -------------------------------------------------------------------------------
@@ -495,9 +575,9 @@ struct
 FILE *
 SetErrorOut(FILE *NewErrorOut)
 {
-  _SDCCERRG.out = NewErrorOut;
+   _SDCCERRG.out = NewErrorOut;
 
-  return NewErrorOut;
+   return NewErrorOut;
 }
 
 /* -------------------------------------------------------------------------------
@@ -507,7 +587,7 @@ SetErrorOut(FILE *NewErrorOut)
  */
 void setErrorLogLevel(ERROR_LOG_LEVEL level)
 {
-  _SDCCERRG.logLevel = level;
+   _SDCCERRG.logLevel = level;
 }
 
 /* -------------------------------------------------------------------------------
@@ -516,80 +596,80 @@ void setErrorLogLevel(ERROR_LOG_LEVEL level)
  */
 int vwerror(int errNum, va_list marker)
 {
-  if (_SDCCERRG.out == NULL)
-  {
-    _SDCCERRG.out = DEFAULT_ERROR_OUT;
-  }
+   if (_SDCCERRG.out == NULL)
+   {
+      _SDCCERRG.out = DEFAULT_ERROR_OUT;
+   }
 
-  if (errNum > NELEM(ErrTab))
-  {
-    fprintf(_SDCCERRG.out,
-            "Internal error: bad error number %d.", errNum);
-    return 0;
-  }
-  if (NELEM(ErrTab) != NUMBER_OF_ERROR_MESSAGES || ErrTab[errNum].errIndex != errNum)
-  {
-    fprintf(_SDCCERRG.out,
-            "Internal error: error table entry for %d inconsistent.", errNum);
-    return 0;
-  }
+   if (errNum > NELEM(ErrTab))
+   {
+      fprintf(_SDCCERRG.out,
+              "Internal error: bad error number %d.", errNum);
+      return 0;
+   }
+   if (NELEM(ErrTab) != NUMBER_OF_ERROR_MESSAGES || ErrTab[errNum].errIndex != errNum)
+   {
+      fprintf(_SDCCERRG.out,
+              "Internal error: error table entry for %d inconsistent.", errNum);
+      return 0;
+   }
 
-  if ((ErrTab[errNum].errType >= _SDCCERRG.logLevel) && (!ErrTab[errNum].disabled))
-  {
-    if (ErrTab[errNum].errType >= ERROR_LEVEL_ERROR || _SDCCERRG.werror)
-      fatalError++;
+   if ((ErrTab[errNum].errType >= _SDCCERRG.logLevel) && (!ErrTab[errNum].disabled))
+   {
+      if (ErrTab[errNum].errType >= ERROR_LEVEL_ERROR || _SDCCERRG.werror)
+         fatalError++;
 
-    if (filename && lineno)
-    {
-      if (_SDCCERRG.style)
-        fprintf(_SDCCERRG.out, "%s(%d) : ", filename, lineno);
+      if (filename && lineno)
+      {
+         if (_SDCCERRG.style)
+            fprintf(_SDCCERRG.out, "%s(%d) : ", filename, lineno);
+         else
+            fprintf(_SDCCERRG.out, "%s:%d: ", filename, lineno);
+      }
+      else if (lineno)
+      {
+         fprintf(_SDCCERRG.out, "at %d: ", lineno);
+      }
       else
-        fprintf(_SDCCERRG.out, "%s:%d: ", filename, lineno);
-    }
-    else if (lineno)
-    {
-      fprintf(_SDCCERRG.out, "at %d: ", lineno);
-    }
-    else
-    {
-      fprintf(_SDCCERRG.out, "-:0: ");
-    }
+      {
+         fprintf(_SDCCERRG.out, "-:0: ");
+      }
 
-    switch (ErrTab[errNum].errType)
-    {
-    case ERROR_LEVEL_SYNTAX_ERROR:
-      fprintf(_SDCCERRG.out, "syntax error: ");
-      break;
+      switch (ErrTab[errNum].errType)
+      {
+      case ERROR_LEVEL_SYNTAX_ERROR:
+         fprintf(_SDCCERRG.out, "syntax error: ");
+         break;
 
-    case ERROR_LEVEL_ERROR:
-      fprintf(_SDCCERRG.out, "error %d: ", errNum);
-      break;
+      case ERROR_LEVEL_ERROR:
+         fprintf(_SDCCERRG.out, "error %d: ", errNum);
+         break;
 
-    case ERROR_LEVEL_WARNING:
-    case ERROR_LEVEL_PEDANTIC:
-      if (_SDCCERRG.werror)
-        fprintf(_SDCCERRG.out, "error %d: ", errNum);
-      else
-        fprintf(_SDCCERRG.out, "warning %d: ", errNum);
-      break;
+      case ERROR_LEVEL_WARNING:
+      case ERROR_LEVEL_PEDANTIC:
+         if (_SDCCERRG.werror)
+            fprintf(_SDCCERRG.out, "error %d: ", errNum);
+         else
+            fprintf(_SDCCERRG.out, "warning %d: ", errNum);
+         break;
 
-    case ERROR_LEVEL_INFO:
-      fprintf(_SDCCERRG.out, "info %d: ", errNum);
-      break;
+      case ERROR_LEVEL_INFO:
+         fprintf(_SDCCERRG.out, "info %d: ", errNum);
+         break;
 
-    default:
-      break;
-    }
+      default:
+         break;
+      }
 
-    vfprintf(_SDCCERRG.out, ErrTab[errNum].errText, marker);
-    fprintf(_SDCCERRG.out, "\n");
-    return 1;
-  }
-  else
-  {
-    /* Below the logging level, drop. */
-    return 0;
-  }
+      vfprintf(_SDCCERRG.out, ErrTab[errNum].errText, marker);
+      fprintf(_SDCCERRG.out, "\n");
+      return 1;
+   }
+   else
+   {
+      /* Below the logging level, drop. */
+      return 0;
+   }
 }
 
 /* -------------------------------------------------------------------------------
@@ -598,12 +678,34 @@ int vwerror(int errNum, va_list marker)
  */
 int werror(int errNum, ...)
 {
-  int ret;
-  va_list marker;
-  va_start(marker, errNum);
-  ret = vwerror(errNum, marker);
-  va_end(marker);
-  return ret;
+   int ret;
+   va_list marker;
+   va_start(marker, errNum);
+   ret = vwerror(errNum, marker);
+   va_end(marker);
+   return ret;
+}
+
+/* -------------------------------------------------------------------------------
+werror_bt - like werror(), but als provide a backtrace
+ * -------------------------------------------------------------------------------
+ */
+int werror_bt(int errNum, ...)
+{
+#ifdef HAVE_BACKTRACE_SYMBOLS_FD
+   void *callstack[16];
+   int frames = backtrace(callstack, 16);
+   fprintf(stderr, "Backtrace:\n");
+   backtrace_symbols_fd(callstack, frames, STDERR_FILENO);
+#endif
+
+   int ret;
+   va_list marker;
+   va_start(marker, errNum);
+   ret = vwerror(errNum, marker);
+   va_end(marker);
+
+   return ret;
 }
 
 /* -------------------------------------------------------------------------------
@@ -613,21 +715,21 @@ int werror(int errNum, ...)
  */
 int werrorfl(char *newFilename, int newLineno, int errNum, ...)
 {
-  char *oldFilename = filename;
-  int oldLineno = lineno;
-  va_list marker;
-  int ret;
+   char *oldFilename = filename;
+   int oldLineno = lineno;
+   va_list marker;
+   int ret;
 
-  filename = newFilename;
-  lineno = newLineno;
+   filename = newFilename;
+   lineno = newLineno;
 
-  va_start(marker, errNum);
-  ret = vwerror(errNum, marker);
-  va_end(marker);
+   va_start(marker, errNum);
+   ret = vwerror(errNum, marker);
+   va_end(marker);
 
-  filename = oldFilename;
-  lineno = oldLineno;
-  return ret;
+   filename = oldFilename;
+   lineno = oldLineno;
+   return ret;
 }
 
 /* -------------------------------------------------------------------------------
@@ -637,12 +739,12 @@ int werrorfl(char *newFilename, int newLineno, int errNum, ...)
  */
 void fatal(int exitCode, int errNum, ...)
 {
-  va_list marker;
-  va_start(marker, errNum);
-  vwerror(errNum, marker);
-  va_end(marker);
+   va_list marker;
+   va_start(marker, errNum);
+   vwerror(errNum, marker);
+   va_end(marker);
 
-  exit(exitCode);
+   exit(exitCode);
 }
 
 /* -------------------------------------------------------------------------------
@@ -651,7 +753,7 @@ void fatal(int exitCode, int errNum, ...)
  */
 void MSVC_style(int style)
 {
-  _SDCCERRG.style = style;
+   _SDCCERRG.style = style;
 }
 
 /* -------------------------------------------------------------------------------
@@ -660,8 +762,23 @@ void MSVC_style(int style)
  */
 void setWarningDisabled(int errNum)
 {
-  if ((errNum >= 0) && (errNum < NELEM(ErrTab)) && (ErrTab[errNum].errType <= ERROR_LEVEL_WARNING))
-    ErrTab[errNum].disabled = 1;
+   if ((errNum >= 0) && (errNum < NELEM(ErrTab)) && (ErrTab[errNum].errType <= ERROR_LEVEL_WARNING))
+      ErrTab[errNum].disabled = 1;
+}
+
+/* -------------------------------------------------------------------------------
+ * disabledState - Enable/Disable output of specified warning
+ * -------------------------------------------------------------------------------
+ */
+int setWarningDisabledState(int errNum, int disabled)
+{
+   if ((errNum >= 0) && (errNum < NELEM(ErrTab)) && (ErrTab[errNum].errType <= ERROR_LEVEL_WARNING))
+   {
+      int originalState = ErrTab[errNum].disabled;
+      ErrTab[errNum].disabled = disabled;
+      return originalState;
+   }
+   return 0;
 }
 
 /* -------------------------------------------------------------------------------
@@ -670,5 +787,5 @@ void setWarningDisabled(int errNum)
  */
 void setWError(int flag)
 {
-  _SDCCERRG.werror = flag;
+   _SDCCERRG.werror = flag;
 }

@@ -15,6 +15,7 @@
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
 // Foundation, 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+
 //#define DEBUG_RALLOC_DEC // Uncomment to get debug messages while doing register allocation on the tree decomposition.
 //#define DEBUG_RALLOC_DEC_ASS // Uncomment to get debug messages about assignments while doing register allocation on the tree decomposition (much more verbose than the one above).
 
@@ -29,7 +30,7 @@ extern "C"
   #include "gen.h"
   unsigned char dryhc08iCode (iCode *ic);
   bool hc08_assignment_optimal;
-};
+}
 
 #define REG_A 0
 #define REG_X 1
@@ -115,7 +116,7 @@ static bool operand_sane(const operand *o, const assignment &a, unsigned short i
     return(true);
   
   // Register combinations code generation cannot handle yet (AH, XH, HA).
-  if(a.local.find(oi->second) != a.local.end() && a.local.find(oi2->second) != a.local.end())
+  if(std::binary_search(a.local.begin(), a.local.end(), oi->second) && std::binary_search(a.local.begin(), a.local.end(), oi2->second))
     {
       const reg_t l = a.global[oi->second];
       const reg_t h = a.global[oi2->second];
@@ -124,16 +125,16 @@ static bool operand_sane(const operand *o, const assignment &a, unsigned short i
     }
   
   // In registers.
-  if(a.local.find(oi->second) != a.local.end())
+  if(std::binary_search(a.local.begin(), a.local.end(), oi->second))
     {
       while(++oi != oi_end)
-        if(a.local.find(oi->second) == a.local.end())
+        if(!std::binary_search(a.local.begin(), a.local.end(), oi->second))
           return(false);
     }
   else
     {
        while(++oi != oi_end)
-        if(a.local.find(oi->second) != a.local.end())
+        if(std::binary_search(a.local.begin(), a.local.end(), oi->second))
           return(false);
     }
  
@@ -160,8 +161,13 @@ static bool operand_is_ax(const operand *o, const assignment &a, unsigned short 
   if(oi == oi_end)
     return(false);
 
+  oi2 = oi;
+  oi2++;
+  if (oi2 == oi_end)
+    return(false);
+  
   // Register combinations code generation cannot handle yet (AX, AH, XH, HA).
-  if(a.local.find(oi->second) != a.local.end() && a.local.find((oi2 = oi, ++oi2)->second) != a.local.end())
+  if(std::binary_search(a.local.begin(), a.local.end(), oi->second) && std::binary_search(a.local.begin(), a.local.end(), oi2->second))
     {
       const reg_t l = a.global[oi->second];
       const reg_t h = a.global[oi2->second];
@@ -188,6 +194,7 @@ static bool XAinst_ok(const assignment &a, unsigned short int i, const G_t &G, c
     ic->op == RETURN ||
     ic->op == LABEL ||
     ic->op == GOTO ||
+    ic->op == IFX ||
     ic->op == '+' ||
     ic->op == '-' ||
     ic->op == '*' ||
@@ -200,13 +207,13 @@ static bool XAinst_ok(const assignment &a, unsigned short int i, const G_t &G, c
     ic->op == '^' ||
     ic->op == '|' ||
     ic->op == BITWISEAND ||
-    ic->op == GETHBIT ||
     ic->op == GETABIT ||
     ic->op == GETBYTE ||
     ic->op == GETWORD ||
     ic->op == LEFT_OP ||
     ic->op == RIGHT_OP ||
-    ic->op == '=' && !POINTER_SET(ic) ||
+    ic->op == '=' ||  /* both regular assignment and POINTER_SET safe */
+    ic->op == GET_VALUE_AT_ADDRESS ||
     ic->op == ADDRESS_OF ||
     ic->op == CAST ||
     ic->op == DUMMY_READ_VOLATILE ||
@@ -239,7 +246,7 @@ static bool XAinst_ok(const assignment &a, unsigned short int i, const G_t &G, c
   bool left_in_A = operand_in_reg(result, REG_A, ia, i, G);
   bool left_in_X = operand_in_reg(result, REG_X, ia, i, G);
 
-  const std::set<var_t> &dying = G[i].dying;
+  const cfg_dying_t &dying = G[i].dying;
 
   bool dying_A = result_in_A || dying.find(ia.registers[REG_A][1]) != dying.end() || dying.find(ia.registers[REG_A][0]) != dying.end();
   bool dying_H = result_in_H || dying.find(ia.registers[REG_H][1]) != dying.end() || dying.find(ia.registers[REG_H][0]) != dying.end();
@@ -247,16 +254,10 @@ static bool XAinst_ok(const assignment &a, unsigned short int i, const G_t &G, c
 
   bool result_only_XA = (result_in_X || unused_X || dying_X) && (result_in_A || unused_A || dying_A);
 
-  if((ic->op == IFX || ic->op == JUMPTABLE) && (unused_A || dying_A))
+  if(ic->op == JUMPTABLE && (unused_A || dying_A))
     return(true);
 
   if(ic->op == IPUSH && (unused_A || dying_A || left_in_A || operand_in_reg(left, REG_H, ia, i, G) || left_in_X))
-    return(true);
-
-  if(ic->op == GET_VALUE_AT_ADDRESS && (unused_X || dying_X) && (unused_H || dying_H))
-	return(true);
-
-  if(ic->op == '=' && POINTER_SET(ic) && (unused_A || dying_A) && !operand_in_reg(right, REG_H, ia, i, G) && !operand_in_reg(right, REG_X, ia, i, G))
     return(true);
 
   if(ic->op == RECEIVE && (!ic->next || !(ic->next->op == RECEIVE) || !result_in_X || getSize(operandType(result)) >= 2))
@@ -302,7 +303,6 @@ static bool AXinst_ok(const assignment &a, unsigned short int i, const G_t &G, c
     ic->op == '^' ||
     ic->op == '|' ||
     ic->op == BITWISEAND ||
-    ic->op == GETHBIT ||
     ic->op == GETABIT ||
     ic->op == GETBYTE ||
     ic->op == GETWORD ||
@@ -351,25 +351,23 @@ static void set_surviving_regs(const assignment &a, unsigned short int i, const 
 {
   iCode *ic = G[i].ic;
   
-  ic->rSurv = newBitVect(NUM_REGS);
+  bitVectClear(ic->rMask);
+  bitVectClear(ic->rSurv);
   
-  std::set<var_t>::const_iterator v, v_end;
+  cfg_alive_t::const_iterator v, v_end;
   for (v = G[i].alive.begin(), v_end = G[i].alive.end(); v != v_end; ++v)
-    if(a.global[*v] >= 0 && G[i].dying.find(*v) == G[i].dying.end())
-      if(!((IC_RESULT(ic) && !POINTER_SET(ic)) && IS_SYMOP(IC_RESULT(ic)) && OP_SYMBOL_CONST(IC_RESULT(ic))->key == I[*v].v))
-        ic->rSurv = bitVectSetBit(ic->rSurv, a.global[*v]);
-}
-
-template<class G_t>
-static void unset_surviving_regs(unsigned short int i, const G_t &G)
-{
-  iCode *ic = G[i].ic;
-  
-  freeBitVect(ic->rSurv);
+    {
+      if(a.global[*v] < 0)
+        continue;
+      ic->rMask = bitVectSetBit(ic->rMask, a.global[*v]);
+      if(G[i].dying.find(*v) == G[i].dying.end())
+        if(!((IC_RESULT(ic) && !POINTER_SET(ic)) && IS_SYMOP(IC_RESULT(ic)) && OP_SYMBOL_CONST(IC_RESULT(ic))->key == I[*v].v))
+          ic->rSurv = bitVectSetBit(ic->rSurv, a.global[*v]);
+    }
 }
 
 template <class G_t, class I_t>
-void assign_operand_for_cost(operand *o, const assignment &a, unsigned short int i, const G_t &G, const I_t &I)
+static void assign_operand_for_cost(operand *o, const assignment &a, unsigned short int i, const G_t &G, const I_t &I)
 {
   if(!o || !IS_SYMOP(o))
     return;
@@ -482,7 +480,6 @@ static float instruction_cost(const assignment &a, unsigned short int i, const G
     case NE_OP:
     case AND_OP:
     case OR_OP:
-    case GETHBIT:
     case GETABIT:
     case GETBYTE:
     case GETWORD:
@@ -503,7 +500,6 @@ static float instruction_cost(const assignment &a, unsigned short int i, const G
       assign_operands_for_cost(a, i, G, I);
       set_surviving_regs(a, i, G, I);
       c = dryhc08iCode(ic);
-      unset_surviving_regs(i, G);
       return(c);
     default:
       return(0.0f);
@@ -524,8 +520,9 @@ static void get_best_local_assignment_biased(assignment &a, typename boost::grap
   a = *T[t].assignments.begin();
 
   std::set<var_t>::const_iterator vi, vi_end;
-  for(vi = T[t].alive.begin(), vi_end = T[t].alive.end(); vi != vi_end; ++vi)
-    a.local.insert(*vi);
+  varset_t newlocal;
+  std::set_union(T[t].alive.begin(), T[t].alive.end(), a.local.begin(), a.local.end(), std::inserter(newlocal, newlocal.end()));
+  a.local = newlocal;
 }
 
 // This is just a dummy for now, it probably isn't really needed for hc08 due to the low number of registers.
@@ -536,25 +533,33 @@ static float rough_cost_estimate(const assignment &a, unsigned short int i, cons
 }
 
 // Code for another ic is generated when generating this one. Mark the other as generated.
-static void extra_ic_generated(const iCode *ic)
+static void extra_ic_generated(iCode *ic)
 {
   if(ic->op == '>' || ic->op == '<' || ic->op == LE_OP || ic->op == GE_OP || ic->op == EQ_OP || ic->op == NE_OP || ic->op == '^' || ic->op == '|' || ic->op == BITWISEAND)
     {
       iCode *ifx;
       if (ifx = ifxForOp (IC_RESULT (ic), ic))
-      ifx->generated = 1;
+        {
+          OP_SYMBOL (IC_RESULT (ic))->for_newralloc = false;
+          OP_SYMBOL (IC_RESULT (ic))->regType = REG_CND;
+          ifx->generated = true;
+        }
     }
   if(ic->op == '-' && IS_VALOP (IC_RIGHT (ic)) && operandLitValue (IC_RIGHT (ic)) == 1 && getSize(operandType(IC_RESULT (ic))) == 1 && !isOperandInFarSpace (IC_RESULT (ic)) && isOperandEqual (IC_RESULT (ic), IC_LEFT (ic)))
     {
       iCode *ifx;
       if (ifx = ifxForOp (IC_RESULT (ic), ic))
-      ifx->generated = 1;
+        {
+          OP_SYMBOL (IC_RESULT (ic))->for_newralloc = false;
+          OP_SYMBOL (IC_RESULT (ic))->regType = REG_CND;
+          ifx->generated = true;
+        }
     }
   if(ic->op == GET_VALUE_AT_ADDRESS)
     {
       iCode *inc;
       if (inc = hasInchc08 (IC_LEFT (ic), ic,  getSize (operandType (IC_RIGHT (ic)))))
-         inc->generated = 1;
+         inc->generated = true;
     }
 }
 
@@ -580,6 +585,7 @@ static bool tree_dec_ralloc(T_t &T, G_t &G, const I_t &I)
   tree_dec_ralloc_nodes(T, find_root(T), G, I2, ac, &assignment_optimal);
 
   const assignment &winner = *(T[find_root(T)].assignments.begin());
+
 #ifdef DEBUG_RALLOC_DEC
   std::cout << "Winner: ";
   for(unsigned int i = 0; i < boost::num_vertices(I); i++)
@@ -590,6 +596,7 @@ static bool tree_dec_ralloc(T_t &T, G_t &G, const I_t &I)
   std::cout << "Cost: " << winner.s << "\n";
   std::cout.flush();
 #endif
+
   // Todo: Make this an assertion
   if(winner.global.size() != boost::num_vertices(I))
     {
@@ -620,7 +627,7 @@ static bool tree_dec_ralloc(T_t &T, G_t &G, const I_t &I)
     }
 
   for(unsigned int i = 0; i < boost::num_vertices(G); i++)
-    set_surviving_regs(winner, i, G, I);	// Never freed. Memory leak?
+    set_surviving_regs(winner, i, G, I);
 
   return(!assignment_optimal);
 }
@@ -647,9 +654,7 @@ iCode *hc08_ralloc2_cc(ebbIndex *ebbi)
 
   tree_dec_t tree_decomposition;
 
-  thorup_tree_decomposition(tree_decomposition, control_flow_graph);
-
-  nicify(tree_decomposition);
+  get_nice_tree_decomposition(tree_decomposition, control_flow_graph);
 
   alive_tree_dec(tree_decomposition, control_flow_graph);
 
@@ -659,6 +664,8 @@ iCode *hc08_ralloc2_cc(ebbIndex *ebbi)
 
   if(options.dump_graphs)
     dump_tree_decomposition(tree_decomposition);
+
+  guessCounts (ic, ebbi);
 
   hc08_assignment_optimal = !tree_dec_ralloc(tree_decomposition, control_flow_graph, conflict_graph);
 

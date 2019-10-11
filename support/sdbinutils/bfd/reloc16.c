@@ -1,6 +1,5 @@
 /* 8 and 16 bit COFF relocation functions, for BFD.
-   Copyright 1990, 1991, 1992, 1993, 1994, 1995, 1996, 1998, 2000, 2001,
-   2002, 2003, 2004, 2005, 2007, 2008, 2009 Free Software Foundation, Inc.
+   Copyright (C) 1990-2018 Free Software Foundation, Inc.
    Written by Cygnus Support.
 
    This file is part of BFD, the Binary File Descriptor library.
@@ -43,10 +42,9 @@
 #include "libcoff.h"
 
 bfd_vma
-bfd_coff_reloc16_get_value (reloc, link_info, input_section)
-     arelent *reloc;
-     struct bfd_link_info *link_info;
-     asection *input_section;
+bfd_coff_reloc16_get_value (arelent *reloc,
+			    struct bfd_link_info *link_info,
+			    asection *input_section)
 {
   bfd_vma value;
   asymbol *symbol = *(reloc->sym_ptr_ptr);
@@ -82,11 +80,9 @@ bfd_coff_reloc16_get_value (reloc, link_info, input_section)
 	value = 0;
       else
 	{
-	  if (!((*link_info->callbacks->undefined_symbol)
-		(link_info, bfd_asymbol_name (symbol),
-		 input_section->owner, input_section, reloc->address,
-		 TRUE)))
-	    abort ();
+	  (*link_info->callbacks->undefined_symbol)
+	    (link_info, bfd_asymbol_name (symbol),
+	     input_section->owner, input_section, reloc->address, TRUE);
 	  value = 0;
 	}
     }
@@ -104,11 +100,10 @@ bfd_coff_reloc16_get_value (reloc, link_info, input_section)
 }
 
 void
-bfd_perform_slip (abfd, slip, input_section, value)
-     bfd *abfd;
-     unsigned int slip;
-     asection *input_section;
-     bfd_vma value;
+bfd_perform_slip (bfd *abfd,
+		  unsigned int slip,
+		  asection *input_section,
+		  bfd_vma value)
 {
   asymbol **s;
 
@@ -143,11 +138,10 @@ bfd_perform_slip (abfd, slip, input_section, value)
 }
 
 bfd_boolean
-bfd_coff_reloc16_relax_section (abfd, input_section, link_info, again)
-     bfd *abfd;
-     asection *input_section;
-     struct bfd_link_info *link_info;
-     bfd_boolean *again;
+bfd_coff_reloc16_relax_section (bfd *abfd,
+				asection *input_section,
+				struct bfd_link_info *link_info,
+				bfd_boolean *again)
 {
   /* Get enough memory to hold the stuff.  */
   bfd *input_bfd = input_section->owner;
@@ -157,7 +151,7 @@ bfd_coff_reloc16_relax_section (abfd, input_section, link_info, again)
   arelent **reloc_vector = NULL;
   long reloc_count;
 
-  if (link_info->relocatable)
+  if (bfd_link_relocatable (link_info))
     (*link_info->callbacks->einfo)
       (_("%P%F: --relax and -r may not be used together\n"));
 
@@ -247,18 +241,13 @@ bfd_coff_reloc16_relax_section (abfd, input_section, link_info, again)
 }
 
 bfd_byte *
-bfd_coff_reloc16_get_relocated_section_contents (in_abfd,
-						 link_info,
-						 link_order,
-						 data,
-						 relocatable,
-						 symbols)
-     bfd *in_abfd;
-     struct bfd_link_info *link_info;
-     struct bfd_link_order *link_order;
-     bfd_byte *data;
-     bfd_boolean relocatable;
-     asymbol **symbols;
+bfd_coff_reloc16_get_relocated_section_contents
+  (bfd *in_abfd,
+   struct bfd_link_info *link_info,
+   struct bfd_link_order *link_order,
+   bfd_byte *data,
+   bfd_boolean relocatable,
+   asymbol **symbols)
 {
   /* Get enough memory to hold the stuff.  */
   bfd *input_bfd = link_order->u.indirect.section->owner;

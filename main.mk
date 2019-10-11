@@ -3,10 +3,10 @@
 #
 
 # Version
-VERSION         = 1.1.8
-VERSIONHI       = 1
-VERSIONLO       = 1
-VERSIONP        = 8
+VERSION         = 2.0.0
+VERSIONHI       = 2
+VERSIONLO       = 0
+VERSIONP        = 0
 
 # Programs
 SHELL		= /bin/sh
@@ -35,7 +35,7 @@ srcdir          = .
 # Flags
 DEFS            = $(subs -DHAVE_CONFIG_H,,-DHAVE_CONFIG_H)
 CPPFLAGS        =  -I$(PRJDIR)
-CFLAGS          = -fms-extensions -pipe -ggdb -g
+CFLAGS          =  -pipe -ggdb -g
 
 
 # Compiling entire program or any subproject

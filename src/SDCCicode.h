@@ -40,7 +40,8 @@ enum
   LEAF
 };
 
-typedef enum {
+typedef enum
+{
   SYMBOL = 1,
   VALUE,
   TYPE
@@ -75,12 +76,13 @@ typedef struct operand
   unsigned int isaddr : 1;   /* is an address   */
   unsigned int aggr2ptr : 2; /* 1: must change aggregate to pointer to aggregate */
   /* 2: aggregate has been changed to pointer to aggregate */
-  unsigned int isvolatile : 1; /* is a volatile operand */
-  unsigned int isGlobal : 1;   /* is a global operand */
-  unsigned int isPtr : 1;      /* is assigned a pointer */
-  unsigned int isGptr : 1;     /* is a generic pointer  */
-  unsigned int isParm : 1;     /* is a parameter        */
-  unsigned int isLiteral : 1;  /* operand is literal    */
+  unsigned int isvolatile : 1;       /* is a volatile operand */
+  unsigned int isGlobal : 1;         /* is a global operand */
+  unsigned int isPtr : 1;            /* is assigned a pointer */
+  unsigned int isGptr : 1;           /* is a generic pointer  */
+  unsigned int isParm : 1;           /* is a parameter        */
+  unsigned int isLiteral : 1;        /* operand is literal    */
+  unsigned int isConstElimnated : 1; /* if original const casted to non-const */
 
   int key;
   union {
@@ -102,6 +104,7 @@ extern const operand *validateOpTypeConst(const operand *op,
 #define OP_SYMBOL(op) validateOpType(op, "OP_SYMBOL", #op, SYMBOL, __FILE__, __LINE__)->svt.symOperand
 #define OP_SYMBOL_CONST(op) validateOpTypeConst(op, "OP_SYMBOL", #op, SYMBOL, __FILE__, __LINE__)->svt.symOperand
 #define OP_VALUE(op) validateOpType(op, "OP_VALUE", #op, VALUE, __FILE__, __LINE__)->svt.valOperand
+#define OP_VALUE_CONST(op) validateOpTypeConst(op, "OP_VALUE", #op, VALUE, __FILE__, __LINE__)->svt.valOperand
 #define OP_SYM_TYPE(op) validateOpType(op, "OP_SYM_TYPE", #op, SYMBOL, __FILE__, __LINE__)->svt.symOperand->type
 #define OP_SYM_ETYPE(op) validateOpType(op, "OP_SYM_ETYPE", #op, SYMBOL, __FILE__, __LINE__)->svt.symOperand->etype
 #define SPIL_LOC(op) validateOpType(op, "SPIL_LOC", #op, SYMBOL, __FILE__, __LINE__)->svt.symOperand->usl.spillLoc
@@ -131,7 +134,7 @@ typedef struct iCode
   int seq;                  /* sequence number within routine */
   int seqPoint;             /* sequence point */
   short depth;              /* loop depth of this iCode */
-  short level;              /* scope level */
+  long level;               /* scope level */
   short block;              /* sequential block number */
   unsigned nosupdate : 1;   /* don't update spillocation with this */
   unsigned generated : 1;   /* code generated for this one */
@@ -181,11 +184,14 @@ typedef struct iCode
   int lineno; /* file & lineno for debug information */
   char *filename;
 
-  int parmBytes;    /* if call/pcall, count of parameter bytes
+  int parmBytes;  /* if call/pcall, count of parameter bytes
                                    on stack */
-  int argreg;       /* argument regno for SEND/RECEIVE */
-  int eBBlockNum;   /* belongs to which eBBlock */
-  char riu;         /* after ralloc, the registers in use */
+  int argreg;     /* argument regno for SEND/RECEIVE */
+  int eBBlockNum; /* belongs to which eBBlock */
+  char riu;       /* after ralloc, the registers in use */
+  float count;    /* An execution count or probability */
+  float pcount;   /* For propagation of count */
+
   struct ast *tree; /* ast node for this iCode (if not NULL) */
 } iCode;
 
@@ -295,8 +301,8 @@ typedef struct icodeFuncTable
 /*-----------------------------------------------------------------*/
 iCode *reverseiCChain();
 bool isOperandOnStack(operand *);
-int isOperandVolatile(operand *, bool);
-int isOperandGlobal(operand *);
+int isOperandVolatile(const operand *, bool);
+int isOperandGlobal(const operand *);
 void printiCChain(iCode *, FILE *);
 operand *ast2iCode(ast *, int);
 operand *geniCodePtrPtrSubtract(operand *, operand *);
@@ -307,7 +313,8 @@ int isOperandEqual(const operand *, const operand *);
 iCodeTable *getTableEntry(int);
 int isOperandLiteral(const operand *const);
 operand *operandOperation(operand *, operand *, int, sym_link *);
-double operandLitValue(operand *);
+double operandLitValue(const operand *);
+unsigned long long operandLitValueUll(const operand *);
 operand *operandFromLit(double);
 operand *operandFromOperand(operand *);
 int isParameterToCall(value *, operand *);
@@ -332,6 +339,7 @@ void setOperandType(operand *, sym_link *);
 bool isOperandInFarSpace(operand *);
 bool isOperandInPagedSpace(operand *);
 bool isOperandInDirSpace(operand *);
+bool isOperandInBitSpace(operand *);
 bool isOperandInCodeSpace(operand *);
 operand *opFromOpWithDU(operand *, bitVect *, bitVect *);
 iCode *copyiCode(iCode *);

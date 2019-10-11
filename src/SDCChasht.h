@@ -48,7 +48,8 @@ typedef struct hTab
   int nItems;
 } hTab;
 
-typedef enum {
+typedef enum
+{
   DELETE_CHAIN = 1,
   DELETE_ITEM
 } DELETE_ACTION;

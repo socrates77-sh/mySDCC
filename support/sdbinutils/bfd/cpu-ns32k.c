@@ -1,6 +1,5 @@
 /* BFD support for the ns32k architecture.
-   Copyright 1990, 1991, 1994, 1995, 1998, 1999, 2000, 2001, 2002, 2003,
-   2004, 2005, 2007 Free Software Foundation, Inc.
+   Copyright (C) 1990-2018 Free Software Foundation, Inc.
    Almost totally rewritten by Ian Dall from initial work
    by Andrew Cagney.
 
@@ -27,7 +26,8 @@
 #include "ns32k.h"
 
 #define N(machine, printable, d, next)  \
-{  32, 32, 8, bfd_arch_ns32k, machine, "ns32k",printable,3,d,bfd_default_compatible,bfd_default_scan, next, }
+{  32, 32, 8, bfd_arch_ns32k, machine, "ns32k",printable,3,d, \
+   bfd_default_compatible,bfd_default_scan,bfd_arch_default_fill,next, }
 
 static const bfd_arch_info_type arch_info_struct[] =
 {
@@ -37,16 +37,8 @@ static const bfd_arch_info_type arch_info_struct[] =
 const bfd_arch_info_type bfd_ns32k_arch =
   N(32032,"ns32k:32032",FALSE, &arch_info_struct[0]);
 
-static bfd_reloc_status_type do_ns32k_reloc
-  PARAMS ((bfd *, arelent *, struct bfd_symbol *, PTR, asection *,
-	   bfd *, char **,
-	   bfd_vma (*) (bfd_byte *, int),
-	   void (*) (bfd_vma, bfd_byte *, int)));
-
 bfd_vma
-_bfd_ns32k_get_displacement (buffer, size)
-     bfd_byte *buffer;
-     int size;
+_bfd_ns32k_get_displacement (bfd_byte *buffer, int size)
 {
   bfd_signed_vma value;
 
@@ -77,10 +69,7 @@ _bfd_ns32k_get_displacement (buffer, size)
 }
 
 void
-_bfd_ns32k_put_displacement (value, buffer, size)
-     bfd_vma value;
-     bfd_byte *buffer;
-     int size;
+_bfd_ns32k_put_displacement (bfd_vma value, bfd_byte *buffer, int size)
 {
   switch (size)
     {
@@ -108,9 +97,7 @@ _bfd_ns32k_put_displacement (value, buffer, size)
 }
 
 bfd_vma
-_bfd_ns32k_get_immediate (buffer, size)
-     bfd_byte *buffer;
-     int size;
+_bfd_ns32k_get_immediate (bfd_byte *buffer, int size)
 {
   bfd_vma value = 0;
 
@@ -119,8 +106,10 @@ _bfd_ns32k_get_immediate (buffer, size)
     case 4:
       value = (value << 8) | (*buffer++ & 0xff);
       value = (value << 8) | (*buffer++ & 0xff);
+      /* Fall through.  */
     case 2:
       value = (value << 8) | (*buffer++ & 0xff);
+      /* Fall through.  */
     case 1:
       value = (value << 8) | (*buffer++ & 0xff);
       break;
@@ -131,10 +120,7 @@ _bfd_ns32k_get_immediate (buffer, size)
 }
 
 void
-_bfd_ns32k_put_immediate (value, buffer, size)
-     bfd_vma value;
-     bfd_byte *buffer;
-     int size;
+_bfd_ns32k_put_immediate (bfd_vma value, bfd_byte *buffer, int size)
 {
   buffer += size - 1;
   switch (size)
@@ -142,8 +128,10 @@ _bfd_ns32k_put_immediate (value, buffer, size)
     case 4:
       *buffer-- = (value & 0xff); value >>= 8;
       *buffer-- = (value & 0xff); value >>= 8;
+      /* Fall through.  */
     case 2:
       *buffer-- = (value & 0xff); value >>= 8;
+      /* Fall through.  */
     case 1:
       *buffer-- = (value & 0xff); value >>= 8;
     }
@@ -155,17 +143,15 @@ _bfd_ns32k_put_immediate (value, buffer, size)
    needs to be!  */
 
 static bfd_reloc_status_type
-do_ns32k_reloc (abfd, reloc_entry, symbol, data, input_section, output_bfd,
-		error_message, get_data, put_data)
-     bfd *abfd;
-     arelent *reloc_entry;
-     struct bfd_symbol *symbol;
-     PTR data;
-     asection *input_section;
-     bfd *output_bfd;
-     char **error_message ATTRIBUTE_UNUSED;
-     bfd_vma (*get_data) PARAMS ((bfd_byte *, int));
-     void (*put_data) PARAMS ((bfd_vma, bfd_byte *, int));
+do_ns32k_reloc (bfd *      abfd,
+		arelent *  reloc_entry,
+		struct bfd_symbol * symbol,
+		void *     data,
+		asection * input_section,
+		bfd *      output_bfd,
+		char **    error_message ATTRIBUTE_UNUSED,
+		bfd_vma (* get_data) (bfd_byte *, int),
+		void (*    put_data) (bfd_vma, bfd_byte *, int))
 {
   int overflow = 0;
   bfd_vma relocation;
@@ -176,7 +162,7 @@ do_ns32k_reloc (abfd, reloc_entry, symbol, data, input_section, output_bfd,
   asection *reloc_target_output_section;
   bfd_byte *location;
 
-  if ((symbol->section == &bfd_abs_section)
+  if (bfd_is_abs_section (symbol->section)
       && output_bfd != (bfd *) NULL)
     {
       reloc_entry->address += input_section->output_offset;
@@ -186,7 +172,7 @@ do_ns32k_reloc (abfd, reloc_entry, symbol, data, input_section, output_bfd,
   /* If we are not producing relocatable output, return an error if
      the symbol is not defined.  An undefined weak symbol is
      considered to have a value of zero (SVR4 ABI, p. 4-27).  */
-  if (symbol->section == &bfd_und_section
+  if (bfd_is_und_section (symbol->section)
       && (symbol->flags & BSF_WEAK) == 0
       && output_bfd == (bfd *) NULL)
     flag = bfd_reloc_undefined;
@@ -497,23 +483,23 @@ do_ns32k_reloc (abfd, reloc_entry, symbol, data, input_section, output_bfd,
      R result
 
      Do this:
-     i i i i i o o o o o        from bfd_get<size>
-     and           S S S S S    to get the size offset we want
-     +   r r r r r r r r r r  to get the final value to place
-     and           D D D D D  to chop to right size
+     i i i i i o o o o o	from bfd_get<size>
+     and	   S S S S S	to get the size offset we want
+     +	 r r r r r r r r r r  to get the final value to place
+     and	   D D D D D  to chop to right size
      -----------------------
      A A A A A
      And this:
-     ...   i i i i i o o o o o  from bfd_get<size>
-     and   N N N N N            get instruction
+     ...   i i i i i o o o o o	from bfd_get<size>
+     and   N N N N N		get instruction
      -----------------------
      ...   B B B B B
 
      And then:
      B B B B B
-     or              A A A A A
+     or		     A A A A A
      -----------------------
-     R R R R R R R R R R        put into bfd_put<size>.  */
+     R R R R R R R R R R	put into bfd_put<size>.  */
 
 #define DOIT(x) \
   x = ( (x & ~howto->dst_mask) | (((x & howto->src_mask) +  relocation) & howto->dst_mask))
@@ -582,14 +568,12 @@ do_ns32k_reloc (abfd, reloc_entry, symbol, data, input_section, output_bfd,
 /* Relocate a given location using a given value and howto.  */
 
 bfd_reloc_status_type
-_bfd_do_ns32k_reloc_contents (howto, input_bfd, relocation, location,
-			      get_data, put_data)
-     reloc_howto_type *howto;
-     bfd *input_bfd ATTRIBUTE_UNUSED;
-     bfd_vma relocation;
-     bfd_byte *location;
-     bfd_vma (*get_data) PARAMS ((bfd_byte *, int));
-     void (*put_data) PARAMS ((bfd_vma, bfd_byte *, int));
+_bfd_do_ns32k_reloc_contents (reloc_howto_type *howto,
+			      bfd *input_bfd ATTRIBUTE_UNUSED,
+			      bfd_vma relocation,
+			      bfd_byte *location,
+			      bfd_vma (*get_data) (bfd_byte *, int),
+			      void (*put_data) (bfd_vma, bfd_byte *, int))
 {
   int size;
   bfd_vma x;
@@ -605,8 +589,9 @@ _bfd_do_ns32k_reloc_contents (howto, input_bfd, relocation, location,
   switch (size)
     {
     default:
-    case 0:
       abort ();
+    case 0:
+      return bfd_reloc_ok;
     case 1:
     case 2:
     case 4:
@@ -757,15 +742,13 @@ _bfd_do_ns32k_reloc_contents (howto, input_bfd, relocation, location,
 }
 
 bfd_reloc_status_type
-_bfd_ns32k_reloc_disp (abfd, reloc_entry, symbol, data, input_section,
-		       output_bfd, error_message)
-     bfd *abfd;
-     arelent *reloc_entry;
-     struct bfd_symbol *symbol;
-     PTR data;
-     asection *input_section;
-     bfd *output_bfd;
-     char **error_message;
+_bfd_ns32k_reloc_disp (bfd *abfd,
+		       arelent *reloc_entry,
+		       struct bfd_symbol *symbol,
+		       void * data,
+		       asection *input_section,
+		       bfd *output_bfd,
+		       char **error_message)
 {
   return do_ns32k_reloc (abfd, reloc_entry, symbol, data, input_section,
 			 output_bfd, error_message,
@@ -774,15 +757,13 @@ _bfd_ns32k_reloc_disp (abfd, reloc_entry, symbol, data, input_section,
 }
 
 bfd_reloc_status_type
-_bfd_ns32k_reloc_imm (abfd, reloc_entry, symbol, data, input_section,
-		      output_bfd, error_message)
-     bfd *abfd;
-     arelent *reloc_entry;
-     struct bfd_symbol *symbol;
-     PTR data;
-     asection *input_section;
-     bfd *output_bfd;
-     char **error_message;
+_bfd_ns32k_reloc_imm (bfd *abfd,
+		      arelent *reloc_entry,
+		      struct bfd_symbol *symbol,
+		      void * data,
+		      asection *input_section,
+		      bfd *output_bfd,
+		      char **error_message)
 {
   return do_ns32k_reloc (abfd, reloc_entry, symbol, data, input_section,
 			 output_bfd, error_message, _bfd_ns32k_get_immediate,
@@ -790,15 +771,13 @@ _bfd_ns32k_reloc_imm (abfd, reloc_entry, symbol, data, input_section,
 }
 
 bfd_reloc_status_type
-_bfd_ns32k_final_link_relocate (howto, input_bfd, input_section, contents,
-				address, value, addend)
-     reloc_howto_type *howto;
-     bfd *input_bfd;
-     asection *input_section;
-     bfd_byte *contents;
-     bfd_vma address;
-     bfd_vma value;
-     bfd_vma addend;
+_bfd_ns32k_final_link_relocate (reloc_howto_type *howto,
+				bfd *input_bfd,
+				asection *input_section,
+				bfd_byte *contents,
+				bfd_vma address,
+				bfd_vma value,
+				bfd_vma addend)
 {
   bfd_vma relocation;
 

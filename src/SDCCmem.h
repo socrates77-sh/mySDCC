@@ -33,6 +33,7 @@ typedef struct memmap
 typedef struct namedspacemap
 {
   char *name;
+  bool is_const;
   memmap *map;
   struct namedspacemap *next;
 } namedspacemap;
@@ -44,6 +45,8 @@ extern FILE *junkFile;
 #define ISTACK_NAME port->mem.istack_name
 #define CODE_NAME port->mem.code_name
 #define DATA_NAME port->mem.data_name
+#define INITIALIZED_NAME port->mem.initialized_name
+#define INITIALIZER_NAME port->mem.initializer_name
 #define IDATA_NAME port->mem.idata_name
 #define PDATA_NAME port->mem.pdata_name
 #define XDATA_NAME port->mem.xdata_name
@@ -60,28 +63,30 @@ extern FILE *junkFile;
 #define IABS_NAME port->mem.iabs_name
 
 /* forward definition for variables */
-extern memmap *xstack;  /* xternal stack data           */
-extern memmap *istack;  /* internal stack               */
-extern memmap *code;    /* code segment                 */
-extern memmap *data;    /* internal data upto 128       */
-extern memmap *pdata;   /* paged external data upto 256 */
-extern memmap *xdata;   /* external data                */
-extern memmap *xidata;  /* the initialized xdata        */
-extern memmap *xinit;   /* the initializers for xidata  */
-extern memmap *idata;   /* internal data upto 256       */
-extern memmap *bit;     /* bit addressable space        */
-extern memmap *statsg;  /* static code segment          */
-extern memmap *c_abs;   /* constant absolute data       */
-extern memmap *x_abs;   /* absolute xdata/pdata         */
-extern memmap *i_abs;   /* absolute idata upto 256      */
-extern memmap *d_abs;   /* absolute data upto 128       */
-extern memmap *sfr;     /* register space               */
-extern memmap *sfrbit;  /* sfr bit space                */
-extern memmap *reg;     /* register space               */
-extern memmap *generic; /* unknown                      */
-extern memmap *overlay; /* the overlay segment          */
-extern memmap *eeprom;  /* eeprom space                 */
-extern memmap *home;    /* Non-banked home space        */
+extern memmap *xstack;      /* xternal stack data           */
+extern memmap *istack;      /* internal stack               */
+extern memmap *code;        /* code segment                 */
+extern memmap *data;        /* internal data upto 128       */
+extern memmap *initialized; /* initialized data, such as initalized, nonzero globals or local statics. */
+extern memmap *initializer; /* a copy of the values for the initalized data from initialized in code space */
+extern memmap *pdata;       /* paged external data upto 256 */
+extern memmap *xdata;       /* external data                */
+extern memmap *xidata;      /* the initialized xdata        */
+extern memmap *xinit;       /* the initializers for xidata  */
+extern memmap *idata;       /* internal data upto 256       */
+extern memmap *bit;         /* bit addressable space        */
+extern memmap *statsg;      /* static code segment          */
+extern memmap *c_abs;       /* constant absolute data       */
+extern memmap *x_abs;       /* absolute xdata/pdata         */
+extern memmap *i_abs;       /* absolute idata upto 256      */
+extern memmap *d_abs;       /* absolute data upto 128       */
+extern memmap *sfr;         /* register space               */
+extern memmap *sfrbit;      /* sfr bit space                */
+extern memmap *reg;         /* register space               */
+extern memmap *generic;     /* unknown                      */
+extern memmap *overlay;     /* the overlay segment          */
+extern memmap *eeprom;      /* eeprom space                 */
+extern memmap *home;        /* Non-banked home space        */
 
 extern namedspacemap *namedspacemaps;
 
@@ -106,13 +111,14 @@ void initMem();
 bool defaultOClass(struct symbol *);
 void allocGlobal(struct symbol *);
 void allocLocal(struct symbol *);
-void allocParms(struct value *);
+void allocParms(struct value *, bool smallc);
 void deallocParms(struct value *);
 void deallocLocal(struct symbol *);
 int allocVariables(struct symbol *);
 void overlay2Set();
 void overlay2data();
-void redoStackOffsets();
+void clearStackOffsets(void);
+void redoStackOffsets(void);
 void printAllocInfo(struct symbol *, struct dbuf_s *);
 void doOverlays(struct eBBlock **, int count);
 void deleteFromSeg(struct symbol *);

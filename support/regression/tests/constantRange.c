@@ -46,7 +46,7 @@ testConstantRange (void)
   ASSERT (  (INT8_MAX + 1 >  s8));
   ASSERT (! (INT8_MIN - 1 >= s8));
   ASSERT (  (INT8_MAX     >= s8));
-
+#if !defined(__SDCC_pdk14) // Lack of memory
   ASSERT (! (        0 - 1 == u8));
   ASSERT (! (UINT8_MAX + 1 == u8));
   ASSERT (  (        0 - 1 != u8));
@@ -85,6 +85,8 @@ testConstantRange (void)
   ASSERT (  (UINT16_MAX + 1L >  u16));
   ASSERT (  (UINT16_MAX      >= u16));
 
+  ASSERT (UINTMAX_C(4294967296) <= UINTMAX_MAX);
+
 #if defined(PORT_HOST)
 /* on 32bit host: -1 is presented as 32 bit int, 16 bit unsigned short is promoted to 32 bit int */
   ASSERT (  (         0 - 1  <  u16)); /* -1 > 0 */
@@ -122,11 +124,13 @@ testConstantRange (void)
 /* ASSERT (  (UINT32_MAX + 1 >  u32)); */
    ASSERT (! (         0 - 1 <= u32)); /* !(0xffffffff <= 0) */
    ASSERT (  (UINT32_MAX     >= u32));
+#endif
 }
 
 void
 testFoo1(void)
 {
+#if !defined(__SDCC_pdk14) // Lack of memory
 #ifdef __bool_true_false_are_defined
 
 #if !defined(__SDCC_WEIRD_BOOL)
@@ -180,11 +184,13 @@ testFoo1(void)
   ASSERT (! (-1 >= INT_CAST ub));
   ASSERT (  ( 0 >= ub));
 #endif //__bool_true_false_are_defined
+#endif
 }
 
 void
 testFoo2(void)
 {
+#if !defined(__SDCC_pdk14) // Lack of memory
   volatile struct {
       signed sb1:1;
       signed sb3:3;
@@ -217,4 +223,5 @@ testFoo2(void)
   ASSERT (  ( 0 == str.ub3));
   ASSERT (! ( 7 == str.ub3));
   ASSERT (! ( 8 == str.ub3));
+#endif
 }

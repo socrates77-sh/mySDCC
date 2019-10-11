@@ -329,6 +329,15 @@ typedef struct dwloclist
   struct dwloclist *next;
 } dwloclist;
 
+typedef struct dwcfilist
+{
+  char *startLabel;
+  char *endLabel;
+  int callsize;
+  dwlocregion *region;
+  struct dwcfilist *next;
+} dwcfilist;
+
 struct dwtag;
 
 typedef struct dwattr
@@ -388,10 +397,9 @@ typedef struct dwline
   struct dwline *next;
 } dwline;
 
-#if 0
 typedef struct dwblock
 {
-  unsigned char * data;
+  unsigned char *data;
   int length;
   int alloc;
 } dwblock;
@@ -399,24 +407,23 @@ typedef struct dwblock
 typedef struct dwcfop
 {
   int opcode;
-  char * label;
+  char *label;
   int operand1;
   int operand2;
-  struct dwcfop * next;
+  struct dwcfop *next;
 } dwcfop;
 
 typedef struct dwcfins
 {
-  dwcfop * first;
-  dwcfop * last;
+  dwcfop *first;
+  dwcfop *last;
 } dwcfins;
 
 typedef struct dwfde
 {
-  char * startLabel;
-  char * endLabel;
-  dwcfins * ins;
+  char *startLabel;
+  char *endLabel;
+  dwcfins *ins;
 } dwfde;
-#endif
 
 #endif

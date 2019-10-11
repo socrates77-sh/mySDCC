@@ -16,7 +16,7 @@ void foo(void)
 #ifdef TEST1
 void foo(void)
 {
-  c = 1  <<  7;
+  uc = 1 <<  7;	        /* IGNORE(SDCC) */ // Gives a false warning (bug #2733)
 
   i = c  << 10;
   i = 1  << 10;
@@ -25,8 +25,8 @@ void foo(void)
   i = uc << 16;		/* WARNING(SDCC) */
 
   l = l  << 31;
-  l = l  << 32;		/* WARNING */
-  l = ul << 32;		/* WARNING */
+  l = l  << 32;		/* WARNING(SDCC) */ /* IGNORE(GCC) */
+  l = ul << 32;		/* WARNING(SDCC) */ /* IGNORE(GCC) */
 }
 #endif
 
@@ -34,7 +34,7 @@ void foo(void)
 #ifdef TEST2
 void foo(void)
 {
-  i = 1  >> 40;		/* WARNING       */
+  i = 1  >> 40;		/* IGNORE(SDCC) */ /* WARNING(GCC) */ // Warning missing (bug #2734)
 
   i = uc >>  7;
   i = 1  >>  7;
@@ -43,15 +43,19 @@ void foo(void)
   i = 1  >>  8;		/* WARN___(SDCC) */
 #endif
 
-  i = i  >> 40;		/* WARNING(GCC)  */
+#if 0
+  i = i  >> 40;		/* WARN___(GCC)  */
+#endif
 
   i = u  >> 15;
   i = u  >> 16;		/* WARNING(SDCC) */
 
-  i = l  >> 40;		/* WARNING(GCC)  */
+#if 0
+  i = l  >> 40;		/* WARN___(GCC)  */
+#endif
 
   i = ul >> 31;
-  i = ul >> 32;		/* WARNING       */
+  i = ul >> 32;		/* WARNING(SDCC) */ /* IGNORE(GCC) */
 }
 #endif
 

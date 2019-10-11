@@ -7,6 +7,7 @@
 #ifdef __SDCC
 #pragma std_c99
 #pragma disable_warning 85
+#pragma disable_warning 196
 #endif
 
 #include <string.h>
@@ -25,7 +26,6 @@ void foo (char *s);
 void
 testTortureExecute (void)
 {
-#if 0
   s1.m1 = -1;
   p1 = &s1;
 
@@ -43,7 +43,6 @@ testTortureExecute (void)
     ASSERT (0);
 
   return;
-#endif
 }
 
 int func1(int *p) { return(*p); }

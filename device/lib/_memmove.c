@@ -15,7 +15,7 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 
-   You should have received a copy of the GNU General Public License 
+   You should have received a copy of the GNU General Public License
    along with this library; see the file COPYING. If not, write to the
    Free Software Foundation, 51 Franklin Street, Fifth Floor, Boston,
    MA 02110-1301, USA.
@@ -27,25 +27,15 @@
    not however invalidate any other reasons why the executable file
    might be covered by the GNU General Public License.
 -------------------------------------------------------------------------*/
-#include "string.h" 
+#include <string.h>
 #include <stdint.h>
 #include <sdcc-lib.h>
 
-#ifndef _SDCC_PORT_PROVIDES_MEMMOVE
-#define _SDCC_PORT_PROVIDES_MEMMOVE 0
-#endif
-
-#if !_SDCC_PORT_PROVIDES_MEMMOVE
-
-void * memmove (
-	void * dst,
-	void * src,
-	size_t acount
-	) 
+void * memmove (void * dst, const void * src, size_t acount)
 {
 	void * ret = dst;
 	char * d;
-	char * s;
+	const char * s;
 
 	if ((uintptr_t)src < (uintptr_t)dst) {
 		/*
@@ -70,5 +60,4 @@ void * memmove (
 
 	return(ret);
 }
-#endif
 

@@ -18,7 +18,7 @@ OBJECTS = tinibios.rel memcpyx.rel ds400rom.rel
 SOURCES = $(patsubst %.rel,%.c,$(OBJECTS))
 
 CPPFLAGS = -I$(srcdir)/../../include -I$(srcdir)/../../include/ds400
-CFLAGS = -mds400 $(CPPFLAGS) $(VERBOSE) --std-c99
+CFLAGS = -mds400 $(CPPFLAGS) $(VERBOSE) --std-c11
 
 all: $(OBJECTS) $(PORTDIR)/libds400.lib
 
@@ -35,10 +35,10 @@ ifeq ($(LIB_TYPE), SDCCLIB)
 	$(top_builddir)/bin/sdcclib -a $@ $(OBJECTS)
 else
   ifeq ($(LIB_TYPE), AR)
-	$(top_builddir)/bin/sdar -rcS $@ $(OBJECTS)
+	$(top_builddir)/bin/sdar -rcSD $@ $(OBJECTS)
   else
     ifeq ($(LIB_TYPE), RANLIB)
-	$(top_builddir)/bin/sdar -rc $@ $(OBJECTS)
+	$(top_builddir)/bin/sdar -rcD $@ $(OBJECTS)
     else
 	rm -f $@;
 	for libfile in $(basename $(OBJECTS)); do echo $$libfile >>$@; done

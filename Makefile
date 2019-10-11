@@ -21,14 +21,20 @@ SDCC_DOC        = doc
 SDCC_EXTRA      = support/regression support/valdiag
 
 SDCC_PACKIHX    = support/packihx
-SDCC_LIBRARIAN  = support/librarian
 SDCC_SDBINUTILS = support/sdbinutils
 
-TARGETS         = sdcc-librarian
-
-ifeq ($(OPT_DISABLE_HC08), 0)
+ifneq ($(OPT_DISABLE_HC08)$(OPT_DISABLE_S08), 11)
 SDCC_AS        += sdas/as6808
 SDCC_LD        += sdcc-ld6808
+endif
+
+ifeq ($(OPT_DISABLE_STM8), 0)
+SDCC_AS        += sdas/asstm8
+SDCC_LD        += sdcc-ldstm8
+endif
+
+ifneq ($(OPT_DISABLE_DS390)$(OPT_DISABLE_DS400), 11)
+SDCC_AS        += sdas/as8xcxxx
 endif
 
 ifeq ($(OPT_DISABLE_MCS51), 0)
@@ -37,19 +43,33 @@ SDCC_LD        += sdcc-ld8051
 SDCC_MISC      += debugger/mcs51
 endif
 
-ifeq ($(OPT_DISABLE_Z80), 0)
+ifneq ($(OPT_DISABLE_Z80)$(OPT_DISABLE_Z180), 11)
 SDCC_AS        += sdas/asz80
 SDCC_LD        += sdcc-ldz80
 endif
 
-ifeq ($(OPT_DISABLE_R2K), 0)
+ifneq ($(OPT_DISABLE_R2K)$(OPT_DISABLE_R3KA), 11)
 SDCC_AS        += sdas/asrab
 SDCC_LD        += sdcc-ldz80
+endif
+
+ifeq ($(OPT_DISABLE_TLCS90), 0)
+SDCC_AS        += sdas/astlcs90
 endif
 
 ifeq ($(OPT_DISABLE_GBZ80), 0)
 SDCC_AS        += sdas/asgb
 SDCC_LD        += sdcc-ldgb
+endif
+
+ifeq ($(OPT_DISABLE_PDK14), 0)
+SDCC_AS        += sdas/aspdk14
+SDCC_LD        += sdcc-ldpdk
+endif
+
+ifeq ($(OPT_DISABLE_PDK15), 0)
+SDCC_AS        += sdas/aspdk15
+SDCC_LD        += sdcc-ldpdk
 endif
 
 ifeq ($(OPT_DISABLE_UCSIM), 0)
@@ -62,13 +82,16 @@ SDCC_BINUTILS   =
 ifeq ($(OPT_DISABLE_SDBINUTILS), 0)
 TARGETS        += sdcc-sdbinutils
 PKGS           += $(SDCC_SDBINUTILS)
-SDBINUTILS_BINS = sdar$(EXEEXT) sdranlib$(EXEEXT) sdnm$(EXEEXT)
+SDBINUTILS_BINS = sdar$(EXEEXT) sdranlib$(EXEEXT) sdnm$(EXEEXT) sdobjcopy$(EXEEXT)
 SDCC_BINUTILS   = sdcc-sdbinutils
 endif
 
 ifeq ($(OPT_DISABLE_DEVICE_LIB), 0)
 TARGETS        += sdcc-device-lib
-PKGS           += device/lib device/non-free/lib
+PKGS           += device/lib
+ifeq ($(OPT_DISABLE_NON_FREE), 0)
+PKGS           += device/non-free/lib
+endif
 endif
 
 ifeq ($(OPT_DISABLE_PACKIHX), 0)
@@ -88,9 +111,11 @@ endif
 
 TARGETS        += sdcc-libs sdcc-cc sdcc-device-inc sdcc-as sdcc-ld sdcc-scripts
 
-PKGS           += $(SDCC_LIBS) src device/include device/non-free/include \
-                  $(SDCC_AS) sdas/linksrc $(SDCC_LIBRARIAN) \
-                  $(SDCC_SDBINUTILS) $(SDCC_SCRIPTS)
+PKGS           += $(SDCC_LIBS) src device/include
+ifeq ($(OPT_DISABLE_NON_FREE), 0)
+PKGS           += device/non-free/include
+endif
+PKGS           += $(SDCC_AS) sdas/linksrc $(SDCC_SCRIPTS)
 
 PORTS           = $(shell cat ports.build)
 ALLPORTS        = $(shell cat ports.all)
@@ -101,7 +126,7 @@ all: checkconf sdcc
 
 tini: checkconf sdcc-tini
 
-sdcc-libs:
+sdcc-libs: sdcc-sdbinutils
 	for lib in $(SDCC_LIBS); do $(MAKE) -C $$lib; done
 
 sdcc-cc: sdcc-libs
@@ -122,9 +147,6 @@ sdcc-scripts:
 sdcc-packihx:
 	$(MAKE) -C $(SDCC_PACKIHX)
 
-sdcc-librarian:
-	$(MAKE) -C $(SDCC_LIBRARIAN)
-
 sdcc-sdbinutils:
 	$(MAKE) -C $(SDCC_SDBINUTILS)
 	# in some cases (cygwin) the real binaries are in .libs
@@ -138,15 +160,21 @@ sdcc-sdbinutils:
 
 sdcc-device-inc:
 	$(MAKE) -C device/include
+ifeq ($(OPT_DISABLE_NON_FREE), 0)
 	$(MAKE) -C device/non-free/include
+endif
 
 sdcc-device-lib: sdcc-cc sdcc-as sdcc-ld $(SDCC_BINUTILS)
 	$(MAKE) -C device/lib
+ifeq ($(OPT_DISABLE_NON_FREE), 0)
 	$(MAKE) -C device/non-free/lib
+endif
 
 sdcc-device-tini:
 	$(MAKE) -C device/include
+ifeq ($(OPT_DISABLE_NON_FREE), 0)
 	$(MAKE) -C device/non-free/include
+endif
 	$(MAKE) -C device/lib model-ds390 model-ds400
 
 # doc depends on latex and latex2html
@@ -155,7 +183,7 @@ sdcc-doc:
 
 sdcc: $(TARGETS)
 
-sdcc-tini: sdcc-librarian sdcc-cc sdcc-as sdcc-ld sdcc-device-tini sdcc-packihx
+sdcc-tini: sdcc-cc sdcc-as sdcc-ld sdcc-device-tini sdcc-packihx
 	$(MAKE) -f main.mk all
 
 # Some interesting sub rules
@@ -218,15 +246,6 @@ realclean: distclean
 	for pkg in $(PKGS); do\
 	  $(MAKE) -C $$pkg PORTS="$(PORTS)" EXEEXT=$(EXEEXT) realclean ;\
 	done
-
-# Creating distribution
-# ---------------------
-dist: distclean
-	@if [ -f devel ]; then\
-	  rm -f devel; mkdist sdcc; touch devel;\
-	else\
-	  mkdist sdcc;\
-	fi
 
 # Performing self-test
 # --------------------

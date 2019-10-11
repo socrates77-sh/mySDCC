@@ -48,9 +48,13 @@
   typedef unsigned int size_t;
 #endif
 
+#if __STDC_VERSION__ >= 201112L
+  typedef unsigned char max_align_t;
+#endif
+
 #ifndef __WCHAR_T_DEFINED
 #define __WCHAR_T_DEFINED
-  typedef char wchar_t;
+  typedef unsigned long int wchar_t;
 #endif
 
 /* Bounds-checking interfaces from annex K of the C11 standard. */

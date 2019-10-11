@@ -2,10 +2,10 @@
 #
 #
 
-VERSION         = 1.1.8
-VERSIONHI       = 1
-VERSIONLO       = 1
-VERSIONP        = 8
+VERSION         = 3.9.0
+VERSIONHI       = 3
+VERSIONLO       = 9
+VERSIONP        = 0
 
 SHELL           = /bin/sh
 CPP             = gcc -E
@@ -30,6 +30,7 @@ infodir         = ${datarootdir}/info
 srcdir          = .
 
 non_free_include_dir_suffix = sdcc/non-free/include
+non_free_inclib_dir_suffix = sdcc/non-free
 
 sdcc_includedir    = $(DESTDIR)$(datadir)/$(non_free_include_dir_suffix)
 
@@ -58,6 +59,7 @@ install: all installdirs
 # --------------------------------
 uninstall:
 	rm -rf $(sdcc_includedir)
+	rm -rf $(DESTDIR)$(datadir)/$(non_free_inclib_dir_suffix)
 
 
 # Performing self-test

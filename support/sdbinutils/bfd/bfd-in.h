@@ -1,8 +1,6 @@
 /* Main header file for the bfd library -- portable access to object files.
 
-   Copyright 1990, 1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999,
-   2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011
-   Free Software Foundation, Inc.
+   Copyright (C) 1990-2018 Free Software Foundation, Inc.
 
    Contributed by Cygnus Support.
 
@@ -25,12 +23,20 @@
 #ifndef __BFD_H_SEEN__
 #define __BFD_H_SEEN__
 
+/* PR 14072: Ensure that config.h is included first.  */
+#if !defined PACKAGE && !defined PACKAGE_VERSION
+#error config.h must be included before this header
+#endif
+
 #ifdef __cplusplus
 extern "C" {
 #endif
 
 #include "ansidecl.h"
 #include "symcat.h"
+#include <stdarg.h>
+#include <sys/stat.h>
+
 #if defined (__STDC__) || defined (ALMOST_STDC) || defined (HAVE_STRINGIZE)
 #ifndef SABER
 /* This hack is to avoid a problem with some strict ANSI C preprocessors.
@@ -55,7 +61,7 @@ extern "C" {
    problem for example when trying to use STRING_COMMA_LEN to build
    the arguments to the strncmp() macro.  Hence this alternative
    definition of strncmp is provided here.
-   
+
    Note - these macros do NOT work if STR2 is not a constant string.  */
 #define CONST_STRNEQ(STR1,STR2) (strncmp ((STR1), (STR2), sizeof (STR2) - 1) == 0)
   /* strcpy() can have a similar problem, but since we know we are
@@ -98,7 +104,7 @@ typedef BFD_HOST_U_64_BIT bfd_uint64_t;
 #endif
 
 /* Declaring a type wide enough to hold a host long and a host pointer.  */
-#define BFD_HOSTPTR_T	@BFD_HOSTPTR_T@
+#define BFD_HOSTPTR_T @BFD_HOSTPTR_T@
 typedef BFD_HOSTPTR_T bfd_hostptr_t;
 
 /* Forward declaration.  */
@@ -241,7 +247,7 @@ carsym;			/* To make these you call a carsymogen.  */
 
 /* Used in generating armaps (archive tables of contents).
    Perhaps just a forward definition would do?  */
-struct orl 			/* Output ranlib.  */
+struct orl		/* Output ranlib.  */
 {
   char **name;		/* Symbol name.  */
   union
@@ -251,7 +257,7 @@ struct orl 			/* Output ranlib.  */
   } u;			/* bfd* or file position.  */
   int namidx;		/* Index into string table.  */
 };
-
+
 /* Linenumber stuff.  */
 typedef struct lineno_cache_entry
 {
@@ -259,50 +265,56 @@ typedef struct lineno_cache_entry
   union
   {
     struct bfd_symbol *sym;	/* Function name.  */
-    bfd_vma offset;	    		/* Offset into section.  */
+    bfd_vma offset;		/* Offset into section.  */
   } u;
 }
 alent;
 
 /* Object and core file sections.  */
-
-#define	align_power(addr, align)	\
-  (((addr) + ((bfd_vma) 1 << (align)) - 1) & ((bfd_vma) -1 << (align)))
-
 typedef struct bfd_section *sec_ptr;
 
-#define bfd_get_section_name(bfd, ptr) ((ptr)->name + 0)
-#define bfd_get_section_vma(bfd, ptr) ((ptr)->vma + 0)
-#define bfd_get_section_lma(bfd, ptr) ((ptr)->lma + 0)
-#define bfd_get_section_alignment(bfd, ptr) ((ptr)->alignment_power + 0)
+#define	align_power(addr, align)	\
+  (((addr) + ((bfd_vma) 1 << (align)) - 1) & (-((bfd_vma) 1 << (align))))
+
+/* Align an address upward to a boundary, expressed as a number of bytes.
+   E.g. align to an 8-byte boundary with argument of 8.  Take care never
+   to wrap around if the address is within boundary-1 of the end of the
+   address space.  */
+#define BFD_ALIGN(this, boundary)					  \
+  ((((bfd_vma) (this) + (boundary) - 1) >= (bfd_vma) (this))		  \
+   ? (((bfd_vma) (this) + ((boundary) - 1)) & ~ (bfd_vma) ((boundary)-1)) \
+   : ~ (bfd_vma) 0)
+
+#define bfd_get_section_name(bfd, ptr) ((void) bfd, (ptr)->name)
+#define bfd_get_section_vma(bfd, ptr) ((void) bfd, (ptr)->vma)
+#define bfd_get_section_lma(bfd, ptr) ((void) bfd, (ptr)->lma)
+#define bfd_get_section_alignment(bfd, ptr) ((void) bfd, \
+					     (ptr)->alignment_power)
 #define bfd_section_name(bfd, ptr) ((ptr)->name)
 #define bfd_section_size(bfd, ptr) ((ptr)->size)
 #define bfd_get_section_size(ptr) ((ptr)->size)
 #define bfd_section_vma(bfd, ptr) ((ptr)->vma)
 #define bfd_section_lma(bfd, ptr) ((ptr)->lma)
 #define bfd_section_alignment(bfd, ptr) ((ptr)->alignment_power)
-#define bfd_get_section_flags(bfd, ptr) ((ptr)->flags + 0)
-#define bfd_get_section_userdata(bfd, ptr) ((ptr)->userdata)
+#define bfd_get_section_flags(bfd, ptr) ((void) bfd, (ptr)->flags)
+#define bfd_get_section_userdata(bfd, ptr) ((void) bfd, (ptr)->userdata)
 
 #define bfd_is_com_section(ptr) (((ptr)->flags & SEC_IS_COMMON) != 0)
 
-#define bfd_set_section_vma(bfd, ptr, val) (((ptr)->vma = (ptr)->lma = (val)), ((ptr)->user_set_vma = TRUE), TRUE)
-#define bfd_set_section_alignment(bfd, ptr, val) (((ptr)->alignment_power = (val)),TRUE)
-#define bfd_set_section_userdata(bfd, ptr, val) (((ptr)->userdata = (val)),TRUE)
+#define bfd_get_section_limit_octets(bfd, sec)			\
+  ((bfd)->direction != write_direction && (sec)->rawsize != 0	\
+   ? (sec)->rawsize : (sec)->size)
+
 /* Find the address one past the end of SEC.  */
 #define bfd_get_section_limit(bfd, sec) \
-  (((bfd)->direction != write_direction && (sec)->rawsize != 0	\
-    ? (sec)->rawsize : (sec)->size) / bfd_octets_per_byte (bfd))
+  (bfd_get_section_limit_octets(bfd, sec) / bfd_octets_per_byte (bfd))
 
 /* Return TRUE if input section SEC has been discarded.  */
-#define elf_discarded_section(sec)				\
+#define discarded_section(sec)				\
   (!bfd_is_abs_section (sec)					\
    && bfd_is_abs_section ((sec)->output_section)		\
-   && (sec)->sec_info_type != ELF_INFO_TYPE_MERGE		\
-   && (sec)->sec_info_type != ELF_INFO_TYPE_JUST_SYMS)
-
-/* Forward define.  */
-struct stat;
+   && (sec)->sec_info_type != SEC_INFO_TYPE_MERGE		\
+   && (sec)->sec_info_type != SEC_INFO_TYPE_JUST_SYMS)
 
 typedef enum bfd_print_symbol
 {
@@ -317,11 +329,11 @@ typedef struct _symbol_info
 {
   symvalue value;
   char type;
-  const char *name;            /* Symbol name.  */
-  unsigned char stab_type;     /* Stab type.  */
-  char stab_other;             /* Stab other.  */
-  short stab_desc;             /* Stab desc.  */
-  const char *stab_name;       /* String for stab type.  */
+  const char *name;		/* Symbol name.  */
+  unsigned char stab_type;	/* Stab type.  */
+  char stab_other;		/* Stab other.  */
+  short stab_desc;		/* Stab desc.  */
+  const char *stab_name;	/* String for stab type.  */
 } symbol_info;
 
 /* Get the name of a stabs type code.  */
@@ -359,7 +371,7 @@ struct bfd_hash_table
      only if the argument is NULL.  */
   struct bfd_hash_entry *(*newfunc)
     (struct bfd_hash_entry *, struct bfd_hash_table *, const char *);
-   /* An objalloc for this hash table.  This is a struct objalloc *,
+  /* An objalloc for this hash table.  This is a struct objalloc *,
      but we use void * to avoid requiring the inclusion of objalloc.h.  */
   void *memory;
   /* The number of slots in the hash table.  */
@@ -434,6 +446,16 @@ extern void bfd_hash_traverse
    this size.  */
 extern unsigned long bfd_hash_set_default_size (unsigned long);
 
+/* Types of compressed DWARF debug sections.  We currently support
+   zlib.  */
+enum compressed_debug_section_type
+{
+  COMPRESS_DEBUG_NONE = 0,
+  COMPRESS_DEBUG = 1 << 0,
+  COMPRESS_DEBUG_GNU_ZLIB = COMPRESS_DEBUG | 1 << 1,
+  COMPRESS_DEBUG_GABI_ZLIB = COMPRESS_DEBUG | 1 << 2
+};
+
 /* This structure is used to keep track of stabs in sections
    information while linking.  */
 
@@ -464,20 +486,20 @@ extern int bfd_stat (bfd *, struct stat *);
 /* Deprecated old routines.  */
 #if __GNUC__
 #define bfd_read(BUF, ELTSIZE, NITEMS, ABFD)				\
-  (warn_deprecated ("bfd_read", __FILE__, __LINE__, __FUNCTION__),	\
+  (_bfd_warn_deprecated ("bfd_read", __FILE__, __LINE__, __FUNCTION__),	\
    bfd_bread ((BUF), (ELTSIZE) * (NITEMS), (ABFD)))
 #define bfd_write(BUF, ELTSIZE, NITEMS, ABFD)				\
-  (warn_deprecated ("bfd_write", __FILE__, __LINE__, __FUNCTION__),	\
+  (_bfd_warn_deprecated ("bfd_write", __FILE__, __LINE__, __FUNCTION__), \
    bfd_bwrite ((BUF), (ELTSIZE) * (NITEMS), (ABFD)))
 #else
 #define bfd_read(BUF, ELTSIZE, NITEMS, ABFD)				\
-  (warn_deprecated ("bfd_read", (const char *) 0, 0, (const char *) 0), \
+  (_bfd_warn_deprecated ("bfd_read", (const char *) 0, 0, (const char *) 0), \
    bfd_bread ((BUF), (ELTSIZE) * (NITEMS), (ABFD)))
 #define bfd_write(BUF, ELTSIZE, NITEMS, ABFD)				\
-  (warn_deprecated ("bfd_write", (const char *) 0, 0, (const char *) 0),\
+  (_bfd_warn_deprecated ("bfd_write", (const char *) 0, 0, (const char *) 0),\
    bfd_bwrite ((BUF), (ELTSIZE) * (NITEMS), (ABFD)))
 #endif
-extern void warn_deprecated (const char *, const char *, int, const char *);
+extern void _bfd_warn_deprecated (const char *, const char *, int, const char *);
 
 /* Cast from const char * to char * so that caller can assign to
    a char * without a warning.  */
@@ -498,7 +520,6 @@ extern void warn_deprecated (const char *, const char *, int, const char *);
 #define bfd_get_file_flags(abfd) ((abfd)->flags)
 #define bfd_applicable_file_flags(abfd) ((abfd)->xvec->object_flags)
 #define bfd_applicable_section_flags(abfd) ((abfd)->xvec->section_flags)
-#define bfd_my_archive(abfd) ((abfd)->my_archive)
 #define bfd_has_map(abfd) ((abfd)->has_armap)
 #define bfd_is_thin_archive(abfd) ((abfd)->is_thin_archive)
 
@@ -513,8 +534,6 @@ extern void warn_deprecated (const char *, const char *, int, const char *);
 #define bfd_get_dynamic_symcount(abfd) ((abfd)->dynsymcount)
 
 #define bfd_get_symbol_leading_char(abfd) ((abfd)->xvec->symbol_leading_char)
-
-#define bfd_set_cacheable(abfd,bool) (((abfd)->cacheable = bool), TRUE)
 
 extern bfd_boolean bfd_cache_close
   (bfd *abfd);
@@ -643,6 +662,8 @@ extern struct bfd_link_needed_list *bfd_elf_get_needed_list
   (bfd *, struct bfd_link_info *);
 extern bfd_boolean bfd_elf_get_bfd_needed_list
   (bfd *, struct bfd_link_needed_list **);
+extern bfd_boolean bfd_elf_stack_segment_size (bfd *, struct bfd_link_info *,
+					       const char *, bfd_vma);
 extern bfd_boolean bfd_elf_size_dynamic_sections
   (bfd *, const char *, const char *, const char *, const char *, const char *,
    const char * const *, struct bfd_link_info *, struct bfd_section **);
@@ -658,7 +679,7 @@ extern int bfd_elf_get_dyn_lib_class
   (bfd *);
 extern struct bfd_link_needed_list *bfd_elf_get_runpath_list
   (bfd *, struct bfd_link_info *);
-extern bfd_boolean bfd_elf_discard_info
+extern int bfd_elf_discard_info
   (bfd *, struct bfd_link_info *);
 extern unsigned int _bfd_elf_default_action_discarded
   (struct bfd_section *);
@@ -680,31 +701,29 @@ extern int bfd_get_elf_phdrs
   (bfd *abfd, void *phdrs);
 
 /* Create a new BFD as if by bfd_openr.  Rather than opening a file,
-   reconstruct an ELF file by reading the segments out of remote memory
-   based on the ELF file header at EHDR_VMA and the ELF program headers it
-   points to.  If not null, *LOADBASEP is filled in with the difference
-   between the VMAs from which the segments were read, and the VMAs the
-   file headers (and hence BFD's idea of each section's VMA) put them at.
+   reconstruct an ELF file by reading the segments out of remote
+   memory based on the ELF file header at EHDR_VMA and the ELF program
+   headers it points to.  If non-zero, SIZE is the known extent of the
+   object.  If not null, *LOADBASEP is filled in with the difference
+   between the VMAs from which the segments were read, and the VMAs
+   the file headers (and hence BFD's idea of each section's VMA) put
+   them at.
 
-   The function TARGET_READ_MEMORY is called to copy LEN bytes from the
-   remote memory at target address VMA into the local buffer at MYADDR; it
-   should return zero on success or an `errno' code on failure.  TEMPL must
-   be a BFD for an ELF target with the word size and byte order found in
-   the remote memory.  */
+   The function TARGET_READ_MEMORY is called to copy LEN bytes from
+   the remote memory at target address VMA into the local buffer at
+   MYADDR; it should return zero on success or an `errno' code on
+   failure.  TEMPL must be a BFD for a target with the word size and
+   byte order found in the remote memory.  */
 extern bfd *bfd_elf_bfd_from_remote_memory
-  (bfd *templ, bfd_vma ehdr_vma, bfd_vma *loadbasep,
-   int (*target_read_memory) (bfd_vma vma, bfd_byte *myaddr, int len));
-
-/* Return the arch_size field of an elf bfd, or -1 if not elf.  */
-extern int bfd_get_arch_size
-  (bfd *);
-
-/* Return TRUE if address "naturally" sign extends, or -1 if not elf.  */
-extern int bfd_get_sign_extend_vma
-  (bfd *);
+  (bfd *templ, bfd_vma ehdr_vma, bfd_size_type size, bfd_vma *loadbasep,
+   int (*target_read_memory) (bfd_vma vma, bfd_byte *myaddr,
+			      bfd_size_type len));
 
 extern struct bfd_section *_bfd_elf_tls_setup
   (bfd *, struct bfd_link_info *);
+
+extern struct bfd_section *
+_bfd_nearby_section (bfd *, struct bfd_section *, bfd_vma);
 
 extern void _bfd_fix_excluded_sec_syms
   (bfd *, struct bfd_link_info *);
@@ -808,12 +827,6 @@ struct internal_syment;
 union internal_auxent;
 #endif
 
-extern bfd_boolean bfd_coff_get_syment
-  (bfd *, struct bfd_symbol *, struct internal_syment *);
-
-extern bfd_boolean bfd_coff_get_auxent
-  (bfd *, struct bfd_symbol *, int, union internal_auxent *);
-
 extern bfd_boolean bfd_coff_set_symbol_class
   (bfd *, struct bfd_symbol *, unsigned int);
 
@@ -844,6 +857,23 @@ extern bfd_boolean bfd_elf32_arm_vfp11_erratum_scan
 extern void bfd_elf32_arm_vfp11_fix_veneer_locations
   (bfd *, struct bfd_link_info *);
 
+/* ARM STM STM32L4XX erratum workaround support.  */
+typedef enum
+{
+  BFD_ARM_STM32L4XX_FIX_NONE,
+  BFD_ARM_STM32L4XX_FIX_DEFAULT,
+  BFD_ARM_STM32L4XX_FIX_ALL
+} bfd_arm_stm32l4xx_fix;
+
+extern void bfd_elf32_arm_set_stm32l4xx_fix
+  (bfd *, struct bfd_link_info *);
+
+extern bfd_boolean bfd_elf32_arm_stm32l4xx_erratum_scan
+  (bfd *, struct bfd_link_info *);
+
+extern void bfd_elf32_arm_stm32l4xx_fix_veneer_locations
+  (bfd *, struct bfd_link_info *);
+
 /* ARM Interworking support.  Called from linker.  */
 extern bfd_boolean bfd_arm_allocate_interworking_sections
   (struct bfd_link_info *);
@@ -871,9 +901,27 @@ extern bfd_boolean bfd_elf32_arm_allocate_interworking_sections
 extern bfd_boolean bfd_elf32_arm_process_before_allocation
   (bfd *, struct bfd_link_info *);
 
-void bfd_elf32_arm_set_target_relocs
-  (bfd *, struct bfd_link_info *, int, char *, int, int, bfd_arm_vfp11_fix,
-   int, int, int, int, int);
+struct elf32_arm_params {
+  char *thumb_entry_symbol;
+  int byteswap_code;
+  int target1_is_rel;
+  char * target2_type;
+  int fix_v4bx;
+  int use_blx;
+  bfd_arm_vfp11_fix vfp11_denorm_fix;
+  bfd_arm_stm32l4xx_fix stm32l4xx_fix;
+  int no_enum_size_warning;
+  int no_wchar_size_warning;
+  int pic_veneer;
+  int fix_cortex_a8;
+  int fix_arm1176;
+  int merge_exidx_entries;
+  int cmse_implib;
+  bfd *in_implib_bfd;
+};
+
+void bfd_elf32_arm_set_target_params
+  (bfd *, struct bfd_link_info *, struct elf32_arm_params *);
 
 extern bfd_boolean bfd_elf32_arm_get_bfd_for_interworking
   (bfd *, struct bfd_link_info *);
@@ -881,15 +929,22 @@ extern bfd_boolean bfd_elf32_arm_get_bfd_for_interworking
 extern bfd_boolean bfd_elf32_arm_add_glue_sections_to_bfd
   (bfd *, struct bfd_link_info *);
 
-/* ELF ARM mapping symbol support */
+extern void bfd_elf32_arm_keep_private_stub_output_sections
+  (struct bfd_link_info *);
+
+/* ELF ARM mapping symbol support.  */
 #define BFD_ARM_SPECIAL_SYM_TYPE_MAP	(1 << 0)
 #define BFD_ARM_SPECIAL_SYM_TYPE_TAG	(1 << 1)
-#define BFD_ARM_SPECIAL_SYM_TYPE_OTHER  (1 << 2)
+#define BFD_ARM_SPECIAL_SYM_TYPE_OTHER	(1 << 2)
 #define BFD_ARM_SPECIAL_SYM_TYPE_ANY	(~0)
-extern bfd_boolean bfd_is_arm_special_symbol_name
-  (const char * name, int type);
 
-extern void bfd_elf32_arm_set_byteswap_code (struct bfd_link_info *, int);
+extern bfd_boolean bfd_is_arm_special_symbol_name
+  (const char *, int);
+
+extern void bfd_elf32_arm_set_byteswap_code
+  (struct bfd_link_info *, int);
+
+extern void bfd_elf32_arm_use_long_plt (void);
 
 /* ARM Note section processing.  */
 extern bfd_boolean bfd_arm_merge_machines
@@ -908,7 +963,9 @@ extern void elf32_arm_next_input_section
   (struct bfd_link_info *, struct bfd_section *);
 extern bfd_boolean elf32_arm_size_stubs
   (bfd *, bfd *, struct bfd_link_info *, bfd_signed_vma,
-   struct bfd_section * (*) (const char *, struct bfd_section *), void (*) (void));
+   struct bfd_section * (*) (const char *, struct bfd_section *,
+			     struct bfd_section *, unsigned int),
+   void (*) (void));
 extern bfd_boolean elf32_arm_build_stubs
   (struct bfd_link_info *);
 
@@ -920,12 +977,49 @@ extern bfd_boolean elf32_arm_fix_exidx_coverage
 extern bfd_boolean elf32_tic6x_fix_exidx_coverage
 (struct bfd_section **, unsigned int, struct bfd_link_info *, bfd_boolean);
 
-/* PowerPC @tls opcode transform/validate.  */
-extern unsigned int _bfd_elf_ppc_at_tls_transform
-  (unsigned int, unsigned int);
-/* PowerPC @tprel opcode transform/validate.  */
-extern unsigned int _bfd_elf_ppc_at_tprel_transform
-  (unsigned int, unsigned int);
+extern void bfd_elf64_aarch64_init_maps
+  (bfd *);
+
+extern void bfd_elf32_aarch64_init_maps
+  (bfd *);
+
+extern void bfd_elf64_aarch64_set_options
+  (bfd *, struct bfd_link_info *, int, int, int, int, int, int);
+
+extern void bfd_elf32_aarch64_set_options
+  (bfd *, struct bfd_link_info *, int, int, int, int, int, int);
+
+/* ELF AArch64 mapping symbol support.  */
+#define BFD_AARCH64_SPECIAL_SYM_TYPE_MAP	(1 << 0)
+#define BFD_AARCH64_SPECIAL_SYM_TYPE_TAG	(1 << 1)
+#define BFD_AARCH64_SPECIAL_SYM_TYPE_OTHER	(1 << 2)
+#define BFD_AARCH64_SPECIAL_SYM_TYPE_ANY	(~0)
+extern bfd_boolean bfd_is_aarch64_special_symbol_name
+  (const char * name, int type);
+
+/* AArch64 stub generation support for ELF64.  Called from the linker.  */
+extern int elf64_aarch64_setup_section_lists
+  (bfd *, struct bfd_link_info *);
+extern void elf64_aarch64_next_input_section
+  (struct bfd_link_info *, struct bfd_section *);
+extern bfd_boolean elf64_aarch64_size_stubs
+  (bfd *, bfd *, struct bfd_link_info *, bfd_signed_vma,
+   struct bfd_section * (*) (const char *, struct bfd_section *),
+   void (*) (void));
+extern bfd_boolean elf64_aarch64_build_stubs
+  (struct bfd_link_info *);
+/* AArch64 stub generation support for ELF32.  Called from the linker.  */
+extern int elf32_aarch64_setup_section_lists
+  (bfd *, struct bfd_link_info *);
+extern void elf32_aarch64_next_input_section
+  (struct bfd_link_info *, struct bfd_section *);
+extern bfd_boolean elf32_aarch64_size_stubs
+  (bfd *, bfd *, struct bfd_link_info *, bfd_signed_vma,
+   struct bfd_section * (*) (const char *, struct bfd_section *),
+   void (*) (void));
+extern bfd_boolean elf32_aarch64_build_stubs
+  (struct bfd_link_info *);
+
 
 /* TI COFF load page support.  */
 extern void bfd_ticoff_set_section_load_page
@@ -945,23 +1039,13 @@ extern void bfd_elf32_ia64_after_parse
 extern void bfd_elf64_ia64_after_parse
   (int);
 
-/* This structure is used for a comdat section, as in PE.  A comdat
-   section is associated with a particular symbol.  When the linker
-   sees a comdat section, it keeps only one of the sections with a
-   given name and associated with a given symbol.  */
+/* V850 Note manipulation routines.  */
+extern bfd_boolean v850_elf_create_sections
+  (struct bfd_link_info *);
 
-struct coff_comdat_info
-{
-  /* The name of the symbol associated with a comdat section.  */
-  const char *name;
+extern bfd_boolean v850_elf_set_note
+  (bfd *, unsigned int, unsigned int);
 
-  /* The local symbol table index of the symbol associated with a
-     comdat section.  This is only meaningful to the object file format
-     specific code; it is not an index into the list returned by
-     bfd_canonicalize_symtab.  */
-  long symbol;
-};
-
-extern struct coff_comdat_info *bfd_coff_get_comdat_section
-  (bfd *, struct bfd_section *);
-
+/* MIPS ABI flags data access.  For the disassembler.  */
+struct elf_internal_abiflags_v0;
+extern struct elf_internal_abiflags_v0 *bfd_mips_elf_get_abiflags (bfd *);

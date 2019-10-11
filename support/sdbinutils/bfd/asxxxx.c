@@ -22,21 +22,21 @@
 
 
 /* SUBSECTION
-        The object module contains the following designators:  
+        The object module contains the following designators:
 
                 [XDQ][HL][234]
-                        X       Hexidecimal radix
+                        X       Hexadecimal radix
                         D       Decimal radix
                         Q       Octal radix
-        
+
                         H       Most significant byte first
                         L       Least significant byte first
-        
+
                         2       16-Bit Addressing
                         3       24-Bit Addressing
                         4       32-Bit Addressing
-        
-                H       Header 
+
+                H       Header
                 M       Module
                 G       Merge Mode
                 B       Bank
@@ -49,34 +49,34 @@
         3.5.1  Object Module Format
                 [XDQ][HL][234]
 
-        3.5.2  Header Line 
-                H aa areas gg global symbols 
+        3.5.2  Header Line
+                H aa areas gg global symbols
 
-        3.5.3  Module Line 
-                M name 
+        3.5.3  Module Line
+                M name
 
-        3.5.4  Merge Mode Line 
-                G nn ii 00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F 
+        3.5.4  Merge Mode Line
+                G nn ii 00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F
 
-        3.5.5  Bank Line 
-                B name base nn size nn map nn flags nn fsfx string 
+        3.5.5  Bank Line
+                B name base nn size nn map nn flags nn fsfx string
 
-        3.5.6  Area Line 
-                A label size ss flags ff 
+        3.5.6  Area Line
+                A label size ss flags ff
 
-        3.5.7  Symbol Line 
-                S name Defnnnn 
-                        or 
-                S name Refnnnn 
+        3.5.7  Symbol Line
+                S name Defnnnn
+                        or
+                S name Refnnnn
 
-        3.5.8  T Line 
-                T xx xx nn nn nn nn nn ...  
+        3.5.8  T Line
+                T xx xx nn nn nn nn nn ...
 
-        3.5.9  R Line 
-                R 0 0 nn nn n1 n2 xx xx ...  
+        3.5.9  R Line
+                R 0 0 nn nn n1 n2 xx xx ...
 
-        3.5.10  P Line 
-                P 0 0 nn nn n1 n2 xx xx 
+        3.5.10  P Line
+                P 0 0 nn nn n1 n2 xx xx
  */
 
 #include "sysdep.h"
@@ -166,14 +166,8 @@
 
 /* Macros for converting between hex and binary.  */
 
-static const char digs[] = "0123456789ABCDEF";
-
 #define NIBBLE(x)    hex_value(x)
 #define HEX(buffer) ((NIBBLE ((buffer)[0])<<4) + NIBBLE ((buffer)[1]))
-#define TOHEX(d, x, ch) \
-        d[1] = digs[(x) & 0xf]; \
-        d[0] = digs[((x)>>4)&0xf]; \
-        ch += ((x) & 0xff);
 #define ISHEX(x)    hex_p(x)
 
 /* When scanning the asxxxx .rel file, a linked list of asxxxx_symbol
@@ -330,7 +324,7 @@ asxxxx_bad_byte (bfd *abfd,
     }
   else
     {
-      char buf[10];
+      char buf[16];
 
       if (! ISPRINT (c))
         sprintf (buf, "\\%03o", (unsigned int) c);
@@ -681,10 +675,10 @@ asxxxx_scan (bfd *abfd, unsigned int *p_lineno)
 
             if (! asxxxx_skip_spaces (abfd, &c, *p_lineno, &error))
               goto error_return;
- 
+
             if (! asxxxx_skip_word (abfd, "size", &c, *p_lineno, &error))
               goto error_return;
- 
+
             if (! asxxxx_skip_spaces (abfd, &c, *p_lineno, &error))
               goto error_return;
 
@@ -833,6 +827,9 @@ asxxxx_is_rel (bfd *abfd, unsigned int *p_lineno)
   int c;
   bfd_boolean error = FALSE;
 
+__begin_check:
+  error = FALSE;
+
   /* [XDQ][HL][234] */
   switch (c = asxxxx_get_byte (abfd, &error))
     {
@@ -840,7 +837,6 @@ asxxxx_is_rel (bfd *abfd, unsigned int *p_lineno)
       /* unknown line */
       asxxxx_bad_byte (abfd, c, *p_lineno, error);
       return FALSE;
-      break;
 
     case ';':
       c = asxxxx_get_byte (abfd, &error);
@@ -852,7 +848,7 @@ asxxxx_is_rel (bfd *abfd, unsigned int *p_lineno)
       /* eat the rest of line */
       if (! asxxxx_skip_line (abfd, &c, p_lineno, &error))
         return FALSE;
-      break;
+      goto __begin_check;
 
     case 'X':
       SET_RADIX (abfd, RADIX_HEX);
@@ -868,7 +864,6 @@ asxxxx_is_rel (bfd *abfd, unsigned int *p_lineno)
         default:
           asxxxx_bad_byte (abfd, c, *p_lineno, error);
           return FALSE;
-          break;
 
         case 'H':
           SET_ENDIAN (abfd, ENDIAN_BIG);
@@ -881,7 +876,6 @@ asxxxx_is_rel (bfd *abfd, unsigned int *p_lineno)
             default:
               asxxxx_bad_byte (abfd, c, *p_lineno, error);
               return FALSE;
-              break;
 
             case '\n':
               ++*p_lineno;
@@ -899,14 +893,14 @@ asxxxx_is_rel (bfd *abfd, unsigned int *p_lineno)
             case '4':
               SET_ADDRESS_SIZE (abfd, ADDR_SIZE_4);
             get_eol:
+              c = asxxxx_get_byte (abfd, &error);
               if (! asxxxx_get_eol (abfd, &c, p_lineno, &error))
                 return FALSE;
               break;
-
-              break;
-           }
+            }
           break;
         }
+      break;
     }
 
   return error ? FALSE : TRUE;
@@ -1040,6 +1034,8 @@ asxxxx_get_symbol_info (bfd *ignore_abfd ATTRIBUTE_UNUSED,
   bfd_symbol_info (symbol, ret);
 }
 
+#define asxxxx_get_symbol_version_string _bfd_nosymbols_get_symbol_version_string
+
 static void
 asxxxx_print_symbol (bfd *abfd,
                    void * afile,
@@ -1061,6 +1057,7 @@ asxxxx_print_symbol (bfd *abfd,
     }
 }
 
+#define asxxxx_find_line                            _bfd_nosymbols_find_line
 #define asxxxx_close_and_cleanup                    _bfd_generic_close_and_cleanup
 #define asxxxx_bfd_free_cached_info                 _bfd_generic_bfd_free_cached_info
 #define asxxxx_new_section_hook                     _bfd_generic_new_section_hook
@@ -1087,10 +1084,11 @@ asxxxx_print_symbol (bfd *abfd,
 #define asxxxx_bfd_link_hash_table_free             _bfd_generic_link_hash_table_free
 #define asxxxx_bfd_link_add_symbols                 _bfd_generic_link_add_symbols
 #define asxxxx_bfd_link_just_syms                   _bfd_generic_link_just_syms
-#define asxxxx_bfd_copy_link_hash_symbol_type \
-  _bfd_generic_copy_link_hash_symbol_type
+#define asxxxx_bfd_copy_link_hash_symbol_type       _bfd_generic_copy_link_hash_symbol_type
 #define asxxxx_bfd_final_link                       _bfd_generic_final_link
 #define asxxxx_bfd_link_split_section               _bfd_generic_link_split_section
+#define asxxxx_bfd_link_check_relocs                _bfd_generic_link_check_relocs
+#define asxxxx_bfd_define_start_stop                bfd_generic_define_start_stop
 
 const bfd_target asxxxx_vec =
 {

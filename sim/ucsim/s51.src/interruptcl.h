@@ -40,11 +40,12 @@ class cl_interrupt: public cl_hw
 public:
   class cl_address_space *sfr;
   bool was_reti, bit_IT0, bit_IT1, bit_INT0, bit_INT1;
-  class cl_memory_cell *cell_tcon;
+  class cl_memory_cell *cell_tcon, *cell_it0, *cell_it1;
 public:
   cl_interrupt(class cl_uc *auc);
   virtual int init(void);
-
+  //virtual char *cfg_help(t_addr addr);
+  
   virtual void added_to_uc(void);
 
   //virtual t_mem read(class cl_memory_cell *cell);

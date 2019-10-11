@@ -1,7 +1,5 @@
 /* sysdep.h -- handle host dependencies for binutils
-   Copyright 1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999, 2000,
-   2001, 2002, 2003, 2005, 2006, 2007, 2008, 2009
-   Free Software Foundation, Inc.
+   Copyright (C) 1991-2018 Free Software Foundation, Inc.
 
    This file is part of GNU Binutils.
 
@@ -46,6 +44,10 @@ extern int errno;
 #include <unistd.h>
 #endif
 
+#ifdef STRING_WITH_STRINGS
+#include <string.h>
+#include <strings.h>
+#else
 #ifdef HAVE_STRING_H
 #include <string.h>
 #else
@@ -54,6 +56,7 @@ extern int errno;
 #else
 extern char *strchr ();
 extern char *strrchr ();
+#endif
 #endif
 #endif
 
@@ -67,6 +70,10 @@ extern char *strrchr ();
 #ifdef HAVE_SYS_FILE_H
 #include <sys/file.h>
 #endif
+#endif
+
+#ifdef HAVE_SYS_STAT_H
+#include <sys/stat.h>
 #endif
 
 #include "binary-io.h"
@@ -103,6 +110,10 @@ extern int snprintf(char *, size_t, const char *, ...);
 
 #if !HAVE_DECL_VSNPRINTF
 extern int vsnprintf(char *, size_t, const char *, va_list);
+#endif
+
+#if !HAVE_DECL_STRNLEN
+size_t strnlen (const char *, size_t);
 #endif
 
 #ifndef O_RDONLY
@@ -148,8 +159,14 @@ extern int vsnprintf(char *, size_t, const char *, va_list);
 # define gettext(Msgid) (Msgid)
 # define dgettext(Domainname, Msgid) (Msgid)
 # define dcgettext(Domainname, Msgid, Category) (Msgid)
-# define textdomain(Domainname) while (0) /* nothing */
-# define bindtextdomain(Domainname, Dirname) while (0) /* nothing */
+# define ngettext(Msgid1, Msgid2, n) \
+  (n == 1 ? Msgid1 : Msgid2)
+# define dngettext(Domainname, Msgid1, Msgid2, n) \
+  (n == 1 ? Msgid1 : Msgid2)
+# define dcngettext(Domainname, Msgid1, Msgid2, n, Category) \
+  (n == 1 ? Msgid1 : Msgid2)
+# define textdomain(Domainname) do {} while (0)
+# define bindtextdomain(Domainname, Dirname) do {} while (0)
 # define _(String) (String)
 # define N_(String) (String)
 #endif
@@ -174,6 +191,14 @@ extern int vsnprintf(char *, size_t, const char *, va_list);
 #   define PATH_MAX 1024
 #  endif
 # endif
+#endif
+
+#if defined HAVE_LONG_LONG && SIZEOF_LONG_LONG > SIZEOF_LONG
+/* We can't use any bfd types here since readelf may define BFD64 and
+   objdump may not.  */
+#define HOST_WIDEST_INT	long long
+#else
+#define HOST_WIDEST_INT long
 #endif
 
 #endif /* _BIN_SYSDEP_H */

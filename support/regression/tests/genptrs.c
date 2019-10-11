@@ -4,6 +4,11 @@
 #include <testfwk.h>
 #include <stdlib.h>
 
+#if !((defined __SDCC_stm8) && defined (__SDCC_MODEL_LARGE))
+#define CAN_ASSIGN_VOID_TO_FPTR 1
+#pragma disable_warning 244
+#endif
+
 char eq(void * p1, void * p2)
 {
 	return (p1 == p2);
@@ -43,6 +48,7 @@ char         * gp2 = (char __pdata *)0x0002;
 
 void testPtrs(void)
 {
+#ifndef __SDCC_pic16
 #if defined (__SDCC_MODEL_HUGE)
 	char __code  * cp2 = (char __code *)0x0002;
 	void (* fp2)(void) = (void (*)(void))0x0002;
@@ -68,7 +74,9 @@ void testPtrs(void)
 	ASSERT (eq(xp0, ip0));
 	ASSERT (eq(xp0, pp0));
 	ASSERT (eq(xp0, cp0));
+#ifdef CAN_ASSIGN_VOID_TO_FPTR
 	ASSERT (eq(xp0, fp0));
+#endif
 	ASSERT (eq(xp0, gp0));
 
 #if defined(__SDCC_mcs51) || defined(__SDCC_ds390)
@@ -90,7 +98,9 @@ void testPtrs(void)
 	ASSERT (!smaller(xp0, fp0) && !greater(xp0, fp0));
 	ASSERT (!smaller(xp0, gp0) && !greater(xp0, gp0));
 #endif
-
+#ifdef CAN_ASSIGN_VOID_TO_FPTR
 	ASSERT (eq(cp1, fp1));
+#endif
 	ASSERT (smaller(pp1, gp2));
+#endif
 }

@@ -115,7 +115,8 @@ cpp_set_lang (cpp_reader *pfile, enum c_lang lang)
   CPP_OPTION (pfile, extended_numbers)		 = l->extended_numbers;
   CPP_OPTION (pfile, extended_identifiers)	 = l->extended_identifiers;
   CPP_OPTION (pfile, std)			 = l->std;
-  CPP_OPTION (pfile, trigraphs)			 = l->std;
+  /* Trigraphs processing is always enabled in sdcpp */
+  CPP_OPTION (pfile, trigraphs)			 = 1;
   CPP_OPTION (pfile, cplusplus_comments)	 = l->cplusplus_comments;
   CPP_OPTION (pfile, digraphs)			 = l->digraphs;
   CPP_OPTION (pfile, uliterals)			 = l->uliterals;
@@ -160,7 +161,8 @@ cpp_create_reader (enum c_lang lang, hash_table *table,
   CPP_OPTION (pfile, discard_comments_in_macro_exp) = 1;
   CPP_OPTION (pfile, tabstop) = 8;
   CPP_OPTION (pfile, operator_names) = 1;
-  CPP_OPTION (pfile, warn_trigraphs) = 2;
+  /* Trigraphs wrning is always enabled in sdcpp */
+  CPP_OPTION (pfile, warn_trigraphs) = 1;
   CPP_OPTION (pfile, warn_endif_labels) = 1;
   CPP_OPTION (pfile, cpp_warn_deprecated) = 1;
   CPP_OPTION (pfile, cpp_warn_long_long) = 0;
@@ -227,7 +229,7 @@ cpp_create_reader (enum c_lang lang, hash_table *table,
 
   /* Initialize the buffer obstack.  */
   _obstack_begin (&pfile->buffer_ob, 0, 0,
-		  (void *(*) (long)) xmalloc,
+		  (void *(*) (size_t)) xmalloc,
 		  (void (*) (void *)) free);
 
   _cpp_init_files (pfile);
@@ -347,6 +349,7 @@ static const struct builtin_macro builtin_array[] =
   B("__TIME__",		 BT_TIME,          false),
   B("__DATE__",		 BT_DATE,          false),
   B("__FILE__",		 BT_FILE,          false),
+  B("__func__",		 BT_FUNCTION,      false),
   B("__BASE_FILE__",	 BT_BASE_FILE,     false),
   B("__LINE__",		 BT_SPECLINE,      true),
   B("__INCLUDE_LEVEL__", BT_INCLUDE_LEVEL, true),
@@ -462,7 +465,7 @@ cpp_init_builtins (cpp_reader *pfile, int hosted)
     _cpp_define_builtin (pfile, "__STDC_VERSION__ 199409L");
   else if (CPP_OPTION (pfile, lang) == CLK_STDC1X
 	   || CPP_OPTION (pfile, lang) == CLK_GNUC1X)
-    _cpp_define_builtin (pfile, "__STDC_VERSION__ 201000L");
+    _cpp_define_builtin (pfile, "__STDC_VERSION__ 201112L");
   else if (CPP_OPTION (pfile, c99))
     _cpp_define_builtin (pfile, "__STDC_VERSION__ 199901L");
 
@@ -711,14 +714,8 @@ post_options (cpp_reader *pfile)
       CPP_OPTION (pfile, traditional) = 0;
     }
 
-  if (CPP_OPTION (pfile, warn_trigraphs) == 2)
-    CPP_OPTION (pfile, warn_trigraphs) = !CPP_OPTION (pfile, trigraphs);
-
   if (CPP_OPTION (pfile, traditional))
     {
       CPP_OPTION (pfile, cplusplus_comments) = 0;
-
-      CPP_OPTION (pfile, trigraphs) = 0;
-      CPP_OPTION (pfile, warn_trigraphs) = 0;
     }
 }

@@ -1,5 +1,5 @@
 /*-----------------------------------------------------------------
-    SDCCset.h - contains support routines for sets .
+    SDCCset.h - contains support routines for doubly linked lists.
 
     Written By - Sandeep Dutta . sandeep.dutta@usa.net (1998)
 
@@ -51,8 +51,10 @@ void *addSet(set **, void *);
 void *addSetHead(set **, void *);
 void *getSet(set **);
 void deleteSetItem(set **, void *);
+void replaceSetItem(set *, void *olditem, void *newitem);
 void deleteItemIf(set **, int (*cond)(void *, va_list), ...);
-int isinSet(set *, void *);
+void destructItemIf(set **, void (*destructor)(void *), int (*cond)(void *, va_list), ...);
+int isinSet(const set *, const void *);
 typedef int (*insetwithFunc)(void *, void *);
 int isinSetWith(set *, void *, insetwithFunc cfunc);
 int applyToSet(set *list, int (*somefunc)(void *, va_list), ...);
@@ -62,15 +64,15 @@ set *unionSets(set *, set *, int);
 set *unionSetsWith(set *, set *, int (*cFunc)(), int);
 set *intersectSets(set *, set *, int);
 void *addSetIfnotP(set **, void *);
-set *setFromSet(set *);
-set *setFromSetNonRev(set *);
-int isSetsEqual(set *, set *);
+set *setFromSet(const set *);
+set *setFromSetNonRev(const set *);
+int isSetsEqual(const set *, const set *);
 set *subtractFromSet(set *, set *, int);
-int elementsInSet(set *);
+int elementsInSet(const set *);
 void *indexSet(set *, int);
 set *intersectSetsWith(set *, set *, int (*cFunc)(void *, void *), int);
 int isSetsEqualWith(set *, set *, int (*cFunc)(void *, void *));
-void *peekSet(set *);
+void *peekSet(const set *);
 void *setFirstItem(set *);
 void *setNextItem(set *);
 void setToNull(void **);

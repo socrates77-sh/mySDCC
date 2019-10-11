@@ -28,6 +28,7 @@
 #include "ralloc.h"
 #include "gen.h"
 #include "peep.h"
+#include "rtrack.h"
 #include "dbuf_string.h"
 #include "../SDCCutil.h"
 
@@ -36,15 +37,24 @@ static char _defaultRules[] =
 #include "peeph.rul"
 };
 
+#define OPTION_SMALL_MODEL          "--model-small"
+#define OPTION_MEDIUM_MODEL         "--model-medium"
+#define OPTION_LARGE_MODEL          "--model-large"
+#define OPTION_HUGE_MODEL           "--model-huge"
 #define OPTION_STACK_SIZE       "--stack-size"
 
 static OPTION _mcs51_options[] =
   {
+    { 0, OPTION_SMALL_MODEL, NULL, "internal data space is used (default)"},
+    { 0, OPTION_MEDIUM_MODEL, NULL, "external paged data space is used"},
+    { 0, OPTION_LARGE_MODEL, NULL, "external data space is used"},
+    { 0, OPTION_HUGE_MODEL, NULL, "functions are banked, data in external space"},
     { 0, OPTION_STACK_SIZE,  &options.stack_size, "Tells the linker to allocate this space for stack", CLAT_INTEGER },
     { 0, "--parms-in-bank1", &options.parms_in_bank1, "use Bank1 for parameter passing"},
     { 0, "--pack-iram",      NULL, "Tells the linker to pack variables in internal ram (default)"},
     { 0, "--no-pack-iram",   &options.no_pack_iram, "Deprecated: Tells the linker not to pack variables in internal ram"},
     { 0, "--acall-ajmp",     &options.acall_ajmp, "Use acall/ajmp instead of lcall/ljmp" },
+    { 0, "--no-ret-without-call", &options.no_ret_without_call, "Do not use ret independent of acall/lcall" },
     { 0, NULL }
   };
 
@@ -90,7 +100,7 @@ _mcs51_init (void)
 }
 
 static void
-_mcs51_reset_regparm (void)
+_mcs51_reset_regparm (struct sym_link *funcType)
 {
   regParmFlg = 0;
   regBitParmFlg = 0;
@@ -161,18 +171,18 @@ _mcs51_finaliseOptions (void)
     case MODEL_SMALL:
       port->mem.default_local_map = data;
       port->mem.default_globl_map = data;
-      port->s.gptr_size = 3;
+      port->s.ptr_size = 3;
       break;
     case MODEL_MEDIUM:
       port->mem.default_local_map = pdata;
       port->mem.default_globl_map = pdata;
-      port->s.gptr_size = 3;
+      port->s.ptr_size = 3;
       break;
     case MODEL_LARGE:
     case MODEL_HUGE:
       port->mem.default_local_map = xdata;
       port->mem.default_globl_map = xdata;
-      port->s.gptr_size = 3;
+      port->s.ptr_size = 3;
       break;
     default:
       port->mem.default_local_map = data;
@@ -215,7 +225,7 @@ _mcs51_genAssemblerPreamble (FILE * of)
     {
       int i;
       for (i=0; i < 8 ; i++ )
-        fprintf (of,"b1_%d = 0x%x \n",i,8+i);
+        fprintf (of, "\tb1_%d = 0x%x \n", i, 8+i);
     }
 }
 
@@ -325,7 +335,6 @@ hasExtBitOp (int op, int size)
 {
   if (op == RRC
       || op == RLC
-      || op == GETHBIT
       || op == GETABIT
       || op == GETBYTE
       || op == GETWORD
@@ -344,6 +353,12 @@ oclsExpense (struct memmap *oclass)
     return 1;
 
   return 0;
+}
+
+static bool
+_hasNativeMulFor (iCode *ic, sym_link *left, sym_link *right)
+{
+  return getSize (left) == 1 && getSize (right) == 1;
 }
 
 static int
@@ -771,13 +786,13 @@ get_model (void)
 */
 static const char *_linkCmd[] =
 {
-  "sdld", "-nf", "\"$1\"", NULL
+  "sdld", "-nf", "$1", NULL
 };
 
 /* $3 is replaced by assembler.debug_opts resp. port->assembler.plain_opts */
 static const char *_asmCmd[] =
 {
-  "sdas8051", "$l", "$3", "\"$2\"", "\"$1.asm\"", NULL
+  "sdas8051", "$l", "$3", "$2", "$1.asm", NULL
 };
 
 static const char * const _libs[] = { "mcs51", STD_LIB, STD_INT_LIB, STD_LONG_LIB, STD_FP_LIB, NULL, };
@@ -799,7 +814,7 @@ PORT mcs51_port =
   {                             /* Assembler */
     _asmCmd,
     NULL,
-    "-plosgffwc",               /* Options with debug */
+    "-plosgffwy",               /* Options with debug */
     "-plosgffw",                /* Options without debug */
     0,
     ".asm",
@@ -820,13 +835,13 @@ PORT mcs51_port =
     getRegsRead,
     getRegsWritten,
     mcs51DeadMove,
-    0,
-    0,
+    NULL,
+    NULL,
+    NULL,
+    NULL,
   },
-  {
-    /* Sizes: char, short, int, long, long long, ptr, fptr, gptr, bit, float, max */
-    1, 2, 2, 4, 8, 1, 2, 3, 1, 4, 4
-  },
+  /* Sizes: char, short, int, long, long long, near ptr, far ptr, gptr, func ptr, banked func ptr, bit, float */
+  { 1, 2, 2, 4, 8, 1, 2, 3, 2, 3, 1, 4 },
   /* tags for generic pointers */
   { 0x00, 0x40, 0x60, 0x80 },   /* far, near, xstack, code */
   {
@@ -843,15 +858,18 @@ PORT mcs51_port =
     "OSEG    (OVR,DATA)",       // overlay_name
     "GSFINAL (CODE)",           // post_static_name
     "HOME    (CODE)",           // home_name
-    "XISEG   (XDATA)",          // xidata_name - initialized xdata   initialized xdata
+    "XISEG   (XDATA)",          // xidata_name - initialized xdata
     "XINIT   (CODE)",           // xinit_name - a code copy of xiseg
     "CONST   (CODE)",           // const_name - const data (code or not)
     "CABS    (ABS,CODE)",       // cabs_name - const absolute data (code or not)
     "XABS    (ABS,XDATA)",      // xabs_name - absolute xdata/pdata
     "IABS    (ABS,DATA)",       // iabs_name - absolute idata/data
+    NULL,                       // name of segment for initialized variables
+    NULL,                       // name of segment for copies of initialized variables in code space
     NULL,
     NULL,
-    1
+    1,
+    1                           // No fancy alignments supported.
   },
   { _mcs51_genExtraAreas, NULL },
   {
@@ -860,15 +878,11 @@ PORT mcs51_port =
     4,          /* isr_overhead */
     1,          /* call_overhead (2 for return address - 1 for pre-incrementing push */
     1,          /* reent_overhead */
-    1           /* banked_overhead (switch between code banks) */
+    1,          /* banked_overhead (switch between code banks) */
+    0           /* sp points directly at last item pushed */
   },
-  {
-    /* mcs51 has an 8 bit mul */
-    1, -1
-  },
-  {
-    mcs51_emitDebuggerSymbol
-  },
+  { -1, FALSE },
+  { mcs51_emitDebuggerSymbol },
   {
     256,        /* maxCount */
     2,          /* sizeofElement */
@@ -886,6 +900,8 @@ PORT mcs51_port =
   _mcs51_setDefaultOptions,
   mcs51_assignRegisters,
   _mcs51_getRegName,
+  0,
+  _mcs51_rtrackUpdate,
   _mcs51_keywords,
   _mcs51_genAssemblerPreamble,
   NULL,                         /* no genAssemblerEnd */
@@ -896,7 +912,7 @@ PORT mcs51_port =
   _mcs51_regparm,
   NULL,                         /* process_pragma */
   NULL,                         /* getMangledFunctionName */
-  NULL,                         /* hasNativeMulFor */
+  _hasNativeMulFor,             /* hasNativeMulFor */
   hasExtBitOp,                  /* hasExtBitOp */
   oclsExpense,                  /* oclsExpense */
   FALSE,                        /* use_dw_for_init */
@@ -912,6 +928,7 @@ PORT mcs51_port =
   NULL,                         /* no builtin functions */
   GPOINTER,                     /* treat unqualified pointers as "generic" pointers */
   1,                            /* reset labelKey to 1 */
-  1,                            /* globals & local static allowed */
+  1,                            /* globals & local statics allowed */
+  0,                            /* Number of registers handled in the tree-decomposition-based register allocator in SDCCralloc.hpp */
   PORT_MAGIC
 };

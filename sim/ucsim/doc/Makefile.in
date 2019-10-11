@@ -39,7 +39,7 @@ doc: checkconf
 # ---------------------------------------------------
 install: all installdirs
 	cp $(srcdir)/*.html $(DESTDIR)$(docdir)
-	cp $(srcdir)/*.gif $(DESTDIR)$(docdir)
+	cp $(srcdir)/*.svg $(DESTDIR)$(docdir)
 	cp $(srcdir)/*.jpg $(DESTDIR)$(docdir)
 	cp $(srcdir)/*.fig $(DESTDIR)$(docdir)
 
@@ -66,6 +66,7 @@ installcheck:
 # ---------------------------------
 installdirs:
 	test -d $(DESTDIR)$(docdir) || $(INSTALL) -d $(DESTDIR)$(docdir)
+	test -d $(DESTDIR)$(man1dir) || $(INSTALL) -d $(DESTDIR)$(man1dir)
 
 
 # Creating dependencies
@@ -79,7 +80,7 @@ include $(srcdir)/clean.mk
 # ----------------------
 checkconf:
 	@if [ -f $(top_builddir)/devel ]; then\
-	  $(MAKE) -f conf.mk srcdir="$(srcdir)" top_builddir="$(top_builddir)" freshconf;\
+	  $(MAKE) -C $(top_builddir) -f conf.mk srcdir="$(srcdir)" top_builddir="$(top_builddir)" freshconf;\
 	fi
 
 # End of s51.src/Makefile.in

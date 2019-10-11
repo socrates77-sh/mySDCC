@@ -115,6 +115,8 @@ struct
 void
 test_snprintf (void)
 {
+#ifndef __SDCC_pdk14 // Lack of memory
+#ifndef __SDCC_pic16
   unsigned char buf[32];
   unsigned char i;
 
@@ -134,5 +136,7 @@ test_snprintf (void)
     }
 
   ASSERT (buf[sizeof buf - 10] == 0xfe);        /* check for cookie */
+#endif
+#endif
 }
 

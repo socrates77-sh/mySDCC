@@ -6,11 +6,13 @@
  */
 #include <testfwk.h>
 
+#include <float.h> /* bug #2314 was a conflict between iso646.h and float.h */
 #include <iso646.h>
 
 static void
 testTwoOpBitwise(void)
 {
+#if !defined(__SDCC_pdk14) // Lack of memory
   {storage} {attr} {type} left, right;
 
   left = ({type})0x3df7;
@@ -30,6 +32,7 @@ testTwoOpBitwise(void)
   ASSERT(({type})(right xor left) == ({type})0xFC1B);
   ASSERT(({type})(left xor 0xc1ec) == ({type})0xFC1B);
   ASSERT(({type})(0x3df7 xor right) == ({type})0xFC1B);
+#endif
 }
 
 static {type}

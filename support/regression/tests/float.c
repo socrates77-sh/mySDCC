@@ -32,6 +32,7 @@
 #  define XDATA
 #endif
 
+#if !defined(__SDCC_pdk14) // Lack of memory
 XDATA volatile float left, right, result;
 
 struct {
@@ -87,10 +88,12 @@ compare (float is, float should)
       return 1;
     }
 }
+#endif
 
 void
 testFloatMath (void)
 {
+#if !defined(__SDCC_pdk14) // Lack of memory
   int i;
   int t = sizeof (cases) / sizeof (cases[0]);
   float result;
@@ -129,17 +132,20 @@ testFloatMath (void)
       #endif
     }
   DEBUG (printf ("%d tests, %d errors\n", tests, errors));
+#endif
 }
 
 void
 testFloatMulRound (void)
 {
+#if !defined(__SDCC_pdk14) // Lack of memory
     right = 2.0 / 10.61;
     result = 10.61 * right;
     compare (result, 2.0);
+#endif
 }
 
-#ifndef REENTRANT
+#if 0
 void
 main (void)
 {
@@ -147,3 +153,4 @@ main (void)
   testFloatMulRound ();
 }
 #endif
+

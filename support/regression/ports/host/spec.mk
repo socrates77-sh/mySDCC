@@ -1,6 +1,6 @@
 # Port specification for compiling on the host machines version of gcc
 SDCC = gcc
-SDCCFLAGS = -fms-extensions -pipe -ggdb -g --std=c99 $(CPPFLAGS) -DPORT_HOST=1 -DREENTRANT= -I$(top_builddir) -I$(top_srcdir)
+SDCCFLAGS =  -pipe -ggdb -g --std=c99 $(CPPFLAGS) -DPORT_HOST=1 -DREENTRANT= -I$(top_builddir) -I$(top_srcdir)
 SDLDFLAGS = 
 # disable all warnings:
 SDCCFLAGS+= -w

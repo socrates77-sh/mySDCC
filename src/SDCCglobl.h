@@ -27,30 +27,14 @@
 #include <stdio.h>
 
 #ifndef __cplusplus
-#ifndef _MSC_VER
 #include <stdbool.h>
+#endif
+
 #ifndef TRUE
 #define TRUE true
 #endif
 #ifndef FALSE
 #define FALSE false
-#endif
-#else
-typedef unsigned char bool;
-#ifndef TRUE
-#define TRUE 1
-#endif
-#ifndef FALSE
-#define FALSE 0
-#endif
-#endif
-#else
-#ifndef TRUE
-#define TRUE true
-#endif
-#ifndef FALSE
-#define FALSE false
-#endif
 #endif
 
 #include "SDCCset.h"
@@ -109,7 +93,6 @@ typedef unsigned char bool;
 #include "SDCCerr.h"
 
 #define SPACE ' '
-#define ZERO 0
 
 #include <limits.h> /* PATH_MAX                  */
 #if !defined(PATH_MAX) || (PATH_MAX < 2048)
@@ -137,24 +120,21 @@ typedef unsigned char bool;
 #define THROW_BOTH 3
 #endif
 
-/* size's in bytes  */
+/* sizes in bytes  */
 #define BOOLSIZE port->s.char_size
 #define CHARSIZE port->s.char_size
 #define SHORTSIZE port->s.short_size
 #define INTSIZE port->s.int_size
 #define LONGSIZE port->s.long_size
 #define LONGLONGSIZE port->s.longlong_size
-#define PTRSIZE port->s.ptr_size
-#define FPTRSIZE port->s.fptr_size
-#define GPTRSIZE port->s.gptr_size
+#define NEARPTRSIZE port->s.near_ptr_size
+#define FARPTRSIZE port->s.far_ptr_size
+#define GPTRSIZE port->s.ptr_size
+#define FUNCPTRSIZE port->s.funcptr_size
+#define BFUNCPTRSIZE port->s.banked_funcptr_size
 #define BITSIZE port->s.bit_size
 #define FLOATSIZE port->s.float_size
-#define MAXBASESIZE port->s.max_base_size
 
-#define SMALL_MODEL 0
-#define LARGE_MODEL 1
-
-#define MAX_TVAR 6
 #define INITIAL_INLINEASM (4 * 1024)
 #define DEFPOOLSTACK(type, size) \
   type *type##Pool;              \
@@ -179,12 +159,6 @@ typedef unsigned char bool;
   typedef type t_##stack;            \
   t_##stack stack[size];             \
   t_##stack(*p_##stack) = stack - 1;
-
-/* define extern stack */
-#define EXTERN_STACK_DCL(stack, type, size) \
-  typedef type t_##stack;                   \
-  extern t_##stack stack[size];             \
-  extern t_##stack *p_##stack;
 
 #define STACK_EMPTY(stack) ((p_##stack) < stack)
 #define STACK_FULL(stack) ((p_##stack) >= (stack + \
@@ -212,11 +186,11 @@ typedef unsigned char bool;
                                              ? "overflow"        \
                                              : "empty"))
 
+/* for semantically partitioned nest level values */
+#define LEVEL_UNIT 65536
+#define SUBLEVEL_UNIT 1
+
 /* optimization options */
-/*
- * cloneOptimize function in SDCC.lex should be updated every time
- * a new set is added to the optimize structure!
- */
 struct optimize
 {
   int global_cse;
@@ -227,10 +201,12 @@ struct optimize
   int label4;
   int loopInvariant;
   int loopInduction;
-  int noJTabBoundary;
   int noLoopReverse;
   int codeSpeed;
   int codeSize;
+  int lospre;
+  int allow_unsafe_read;
+  int noStdLibCall;
 };
 
 /** Build model.
@@ -245,8 +221,8 @@ enum
   MODEL_MEDIUM = 4,
   MODEL_LARGE = 8,
   MODEL_FLAT24 = 16,
-  MODEL_PAGE0 = 32, /* for the xa51 port */
-  MODEL_HUGE = 64   /* for banked support */
+  //  MODEL_PAGE0 = 32, /* disabled, was for the xa51 port */
+  MODEL_HUGE = 64 /* for banked support */
 };
 
 /* overlay segment name and the functions
@@ -258,6 +234,13 @@ typedef struct
   char *funcs[128]; /* function name that belong to this */
 } olay;
 
+enum
+{
+  NO_DEPENDENCY_FILE_OPT = 0,
+  SYSTEM_DEPENDENCY_FILE_OPT = 1,
+  USER_DEPENDENCY_FILE_OPT = 2
+};
+
 /* other command line options */
 /*
  * cloneOptions function in SDCC.lex should be updated every time
@@ -265,80 +248,77 @@ typedef struct
  */
 struct options
 {
-  int model;             /* see MODEL_* defines above */
-  int stackAuto;         /* Stack Automatic  */
-  int useXstack;         /* use Xternal Stack */
-  int stack10bit;        /* use 10 bit stack (flat24 model only) */
-  int dump_raw;          /* dump after intermediate code generation */
-  int dump_gcse;         /* dump after gcse */
-  int dump_loop;         /* dump after loop optimizations */
-  int dump_kill;         /* dump after dead code elimination */
-  int dump_range;        /* dump after live range analysis */
-  int dump_pack;         /* dump after register packing */
-  int dump_rassgn;       /* dump after register assignment */
-  int dump_tree;         /* dump front-end tree before lowering to iCode */
-  int dump_graphs;       /* Dump graphs in .dot format (control-flow, conflict, etc) */
-  int cc_only;           /* compile only flag              */
-  int intlong_rent;      /* integer & long support routines reentrant */
-  int float_rent;        /* floating point routines are reentrant */
-  int out_fmt;           /* 0 = undefined, 'i' = intel Hex format, 's' = motorola S19 format, 'E' = elf format, 'Z' = gb format */
-  int cyclomatic;        /* print cyclomatic information */
-  int noOverlay;         /* don't overlay local variables & parameters */
-  int mainreturn;        /* issue a return after main */
-  int xram_movc;         /* use movc instead of movx to read xram (mcs51) */
-  int nopeep;            /* no peep hole optimization */
-  int asmpeep;           /* pass inline assembler thru peep hole */
-  int peepReturn;        /* enable peephole optimization for return instructions */
-  int debug;             /* generate extra debug info */
-  int c1mode;            /* Act like c1 - no pre-proc, asm or link */
-  char *peep_file;       /* additional rules for peep hole */
-  int nostdlib;          /* Don't use standard lib files */
-  int nostdinc;          /* Don't use standard include files */
-  int noRegParams;       /* Disable passing some parameters in registers */
-  int verbose;           /* Show what the compiler is doing */
-  int shortis8bits;      /* treat short like int or char */
-  int lessPedantic;      /* disable some warnings */
-  int profile;           /* Turn on extra profiling information */
-  int omitFramePtr;      /* Turn off the frame pointer. */
-  int useAccelerator;    /* use ds390 Arithmetic Accelerator */
-  int noiv;              /* do not generate irq vector table entries */
-  int all_callee_saves;  /* callee saves for all functions */
-  int stack_probe;       /* insert call to function __stack_probe */
-  int tini_libid;        /* library ID for TINI */
-  int protect_sp_update; /* DS390 - will disable interrupts during ESP:SP updates */
-  int parms_in_bank1;    /* DS390 - use reg bank1 to pass parameters */
-  int stack_size;        /* MCS51/DS390 - Tells the linker to allocate this space for stack */
-  int no_pack_iram;      /* MCS51/DS390 - Deprecated: Tells the linker not to pack variables in internal ram */
-  int acall_ajmp;        /* MCS51 - Use acall/ajmp instead of lcall/ljmp */
-  int use_non_free;      /* Search / include non-free licensed libraries and header files */
+  int model;               /* see MODEL_* defines above */
+  int stackAuto;           /* Stack Automatic  */
+  int useXstack;           /* use Xternal Stack */
+  int stack10bit;          /* use 10 bit stack (flat24 model only) */
+  int dump_ast;            /* dump front-end tree before lowering to iCode */
+  int dump_i_code;         /* dump iCode at various stages */
+  int dump_graphs;         /* Dump graphs in .dot format (control-flow, conflict, etc) */
+  int cc_only;             /* compile only flag              */
+  int intlong_rent;        /* integer & long support routines reentrant */
+  int float_rent;          /* floating point routines are reentrant */
+  int out_fmt;             /* 0 = undefined, 'i' = intel Hex format, 's' = motorola S19 format, 'E' = elf format, 'Z' = gb format */
+  int cyclomatic;          /* print cyclomatic information */
+  int noOverlay;           /* don't overlay local variables & parameters */
+  int xram_movc;           /* use movc instead of movx to read xram (mcs51) */
+  int nopeep;              /* no peep hole optimization */
+  int asmpeep;             /* pass inline assembler thru peep hole */
+  int peepReturn;          /* enable peephole optimization for return instructions */
+  int debug;               /* generate extra debug info */
+  int c1mode;              /* Act like c1 - no pre-proc, asm or link */
+  char *peep_file;         /* additional rules for peep hole */
+  int nostdlib;            /* Don't use standard lib files */
+  int nostdinc;            /* Don't use standard include files */
+  int noRegParams;         /* Disable passing some parameters in registers */
+  int verbose;             /* Show what the compiler is doing */
+  int lessPedantic;        /* disable some warnings */
+  int profile;             /* Turn on extra profiling information */
+  int omitFramePtr;        /* Turn off the frame pointer. */
+  int useAccelerator;      /* use ds390 Arithmetic Accelerator */
+  int noiv;                /* do not generate irq vector table entries */
+  int all_callee_saves;    /* callee saves for all functions */
+  int stack_probe;         /* insert call to function __stack_probe */
+  int tini_libid;          /* library ID for TINI */
+  int protect_sp_update;   /* DS390 - will disable interrupts during ESP:SP updates */
+  int parms_in_bank1;      /* DS390 - use reg bank1 to pass parameters */
+  int stack_size;          /* MCS51/DS390 - Tells the linker to allocate this space for stack */
+  int no_pack_iram;        /* MCS51/DS390 - Deprecated: Tells the linker not to pack variables in internal ram */
+  int acall_ajmp;          /* MCS51 - Use acall/ajmp instead of lcall/ljmp */
+  int no_ret_without_call; /* MCS51 - Do not use ret independent of acall/lcall */
+  int use_non_free;        /* Search / include non-free licensed libraries and header files */
   /* starting address of the segments */
-  int xstack_loc;       /* initial location of external stack */
-  int stack_loc;        /* initial value of internal stack pointer */
-  int xdata_loc;        /* xternal ram starts at address */
-  int data_loc;         /* interram start location       */
-  int idata_loc;        /* indirect address space        */
-  int code_loc;         /* code location start           */
-  int iram_size;        /* internal ram size (used only for error checking) */
-  int xram_size;        /* external ram size (used only for error checking) */
-  bool xram_size_set;   /* since xram_size=0 is a possibility */
-  int code_size;        /* code size (used only for error checking) */
-  int verboseExec;      /* show what we are doing */
-  int noXinitOpt;       /* don't optimize initialized xdata */
-  int noCcodeInAsm;     /* hide c-code from asm */
-  int iCodeInAsm;       /* show i-code in asm */
-  int noPeepComments;   /* hide peephole optimizer comments */
-  int verboseAsm;       /* include comments generated with gen.c */
-  int printSearchDirs;  /* display the directories in the compiler's search path */
-  int vc_err_style;     /* errors and warnings are compatible with Micro$oft visual studio */
-  int use_stdout;       /* send errors to stdout instead of stderr */
-  int no_std_crt0;      /* for the z80/gbz80 do not link default crt0.o*/
-  int std_c99;          /* enable C99 keywords/constructs */
-  int std_c11;          /* enable C11 keywords/constructs */
-  int std_sdcc;         /* enable SDCC extensions to C */
-  int dollars_in_ident; /* zero means dollar signs are punctuation */
-  int unsigned_char;    /* use unsigned for char without signed/unsigned modifier */
-  char *code_seg;       /* segment name to use instead of CSEG */
-  char *const_seg;      /* segment name to use instead of CONST */
+  int xstack_loc;        /* initial location of external stack */
+  int stack_loc;         /* initial value of internal stack pointer */
+  int xdata_loc;         /* xternal ram starts at address */
+  int data_loc;          /* interram start location       */
+  int idata_loc;         /* indirect address space        */
+  int code_loc;          /* code location start           */
+  int iram_size;         /* internal ram size (used only for error checking) */
+  int xram_size;         /* external ram size (used only for error checking) */
+  bool xram_size_set;    /* since xram_size=0 is a possibility */
+  int code_size;         /* code size (used only for error checking) */
+  int verboseExec;       /* show what we are doing */
+  int noXinitOpt;        /* don't optimize initialized xdata */
+  int noCcodeInAsm;      /* hide c-code from asm */
+  int iCodeInAsm;        /* show i-code in asm */
+  int noPeepComments;    /* hide peephole optimizer comments */
+  int verboseAsm;        /* include comments generated with gen.c */
+  int printSearchDirs;   /* display the directories in the compiler's search path */
+  int vc_err_style;      /* errors and warnings are compatible with Micro$oft visual studio */
+  int use_stdout;        /* send errors to stdout instead of stderr */
+  int no_std_crt0;       /* for the z80/gbz80 do not link default crt0.o*/
+  int std_c95;           /* enable C95 keywords/constructs */
+  int std_c99;           /* enable C99 keywords/constructs */
+  int std_c11;           /* enable C11 keywords/constructs */
+  int std_c2x;           /* enable C2X keywords/constructs */
+  int std_sdcc;          /* enable SDCC extensions to C */
+  int dollars_in_ident;  /* zero means dollar signs are punctuation */
+  int signed_char;       /* use signed for char without signed/unsigned modifier */
+  char *code_seg;        /* segment name to use instead of CSEG */
+  char *const_seg;       /* segment name to use instead of CONST */
+  char *data_seg;        /* segment name to use instead of DATA */
+  int dependencyFileOpt; /* write dependencies to given file */
   /* sets */
   set *calleeSavesSet;     /* list of functions using callee save */
   set *excludeRegsSet;     /* registers excluded from saving */
@@ -364,7 +344,7 @@ extern int seqPointNo;              /* current sequence point */
 extern FILE *yyin;                  /* */
 extern FILE *asmFile;               /* assembly output file */
 extern FILE *cdbFile;               /* debugger symbol file */
-extern int NestLevel;               /* NestLevel                 SDCC.y */
+extern long NestLevel;              /* NestLevel                 SDCC.y */
 extern int stackPtr;                /* stack pointer             SDCC.y */
 extern int xstackPtr;               /* external stack pointer    SDCC.y */
 extern int reentrant;               /* /X flag has been sent     SDCC.y */
@@ -373,7 +353,7 @@ extern int currRegBank;             /* register bank being used  SDCCgens.c */
 extern int RegBankUsed[4];          /* JCF: register banks used  SDCCmain.c */
 extern int BitBankUsed;             /* MB: overlayable bit bank  SDCCmain.c */
 extern struct symbol *currFunc;     /* current function    SDCCgens.c */
-extern int cNestLevel;              /* block nest level  SDCCval.c */
+extern long cNestLevel;             /* block nest level  SDCCval.c */
 extern int blockNo;                 /* maximum sequential block number */
 extern int currBlockno;             /* sequential block number */
 extern struct optimize optimize;
@@ -393,23 +373,28 @@ void setParseWithComma(set **, const char *);
 /** An assert() macro that will go out through sdcc's error
     system.
 */
-#define wassertl(a, s) ((a) ? 0 : (werror(E_INTERNAL_ERROR, __FILE__, __LINE__, s), 0))
+#define wassertl(a, s) (void)((a) ? 0 : (werror(E_INTERNAL_ERROR, __FILE__, __LINE__, s), 0))
 
 #define wassert(a) wassertl(a, "code generator internal error")
 
-#define DUMP_RAW0 1
-#define DUMP_RAW1 DUMP_RAW0 + 1
-#define DUMP_CSE DUMP_RAW1 + 1
-#define DUMP_DFLOW DUMP_CSE + 1
-#define DUMP_GCSE DUMP_DFLOW + 1
-#define DUMP_DEADCODE DUMP_GCSE + 1
-#define DUMP_LOOP DUMP_DEADCODE + 1
-#define DUMP_LOOPG DUMP_LOOP + 1
-#define DUMP_LOOPD DUMP_LOOPG + 1
-#define DUMP_RANGE DUMP_LOOPD + 1
-#define DUMP_PACK DUMP_RANGE + 1
-#define DUMP_RASSGN DUMP_PACK + 1
-#define DUMP_LRANGE DUMP_RASSGN + 1
+enum
+{
+  DUMP_RAW0 = 1,
+  DUMP_RAW1,
+  DUMP_CSE,
+  DUMP_DFLOW,
+  DUMP_GCSE,
+  DUMP_DEADCODE,
+  DUMP_LOOP,
+  DUMP_LOOPG,
+  DUMP_LOOPD,
+  DUMP_RANGE,
+  DUMP_PACK,
+  DUMP_RASSGN,
+  DUMP_LRANGE,
+  DUMP_LOSPRE,
+  DUMP_CUSTOM /* For temporary dump points */
+};
 
 struct _dumpFiles
 {

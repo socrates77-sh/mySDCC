@@ -8,8 +8,8 @@
 #pragma std_c99
 #endif
 
-// TODO: Enable when sdcc supports long long constants!
-#if 0
+// Some ports do not support long long yet.
+#if !defined(__SDCC_pic14) && !defined(__SDCC_pic16)
 static void
 compare (long long foo)
 {
@@ -21,7 +21,8 @@ compare (long long foo)
 void
 testTortureExecute (void)
 {
-#if 0
+// Some ports do not support long long yet.
+#if !defined(__SDCC_pic14) && !defined(__SDCC_pic16)
   compare (8589934591LL);
   return;
 #endif

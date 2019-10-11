@@ -1,5 +1,5 @@
 /* auto-host.h.  Generated from config.in by configure.  */
-/* config.in.  Generated from configure.in by autoheader.  */
+/* config.in.  Generated from configure.ac by autoheader.  */
 /* Define to 1 if NLS is requested.  */
 /* #undef ENABLE_NLS */
 
@@ -48,31 +48,31 @@
 #define HAVE_CLOCK 1
 
 /* Define to 1 if we found this declaration otherwise define to 0. */
-#define HAVE_DECL_ABORT 1
+#define HAVE_DECL_ABORT 0
 
 /* Define to 1 if we found this declaration otherwise define to 0. */
-#define HAVE_DECL_CALLOC 1
+#define HAVE_DECL_CALLOC 0
 
 /* Define to 1 if we found this declaration otherwise define to 0. */
-#define HAVE_DECL_CLOCK 1
+#define HAVE_DECL_CLOCK 0
 
 /* Define to 1 if we found this declaration otherwise define to 0. */
-#define HAVE_DECL_ERRNO 1
+#define HAVE_DECL_ERRNO 0
 
 /* Define to 1 if we found this declaration otherwise define to 0. */
-#define HAVE_DECL_FREE 1
+#define HAVE_DECL_FREE 0
 
 /* Define to 1 if we found this declaration otherwise define to 0. */
-#define HAVE_DECL_GETENV 1
+#define HAVE_DECL_GETENV 0
 
 /* Define to 1 if we found this declaration otherwise define to 0. */
-#define HAVE_DECL_MALLOC 1
+#define HAVE_DECL_MALLOC 0
 
 /* Define to 1 if we found this declaration otherwise define to 0. */
-#define HAVE_DECL_REALLOC 1
+#define HAVE_DECL_REALLOC 0
 
 /* Define to 1 if we found this declaration otherwise define to 0. */
-#define HAVE_DECL_STRSIGNAL 1
+#define HAVE_DECL_STRSIGNAL 0
 
 /* Define to 1 if you have the <direct.h> header file. */
 #define HAVE_DIRECT_H 1

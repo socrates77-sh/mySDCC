@@ -39,6 +39,8 @@
 
 #define D(x)
 
+extern char **fReturnDS390;
+
 /* Global data */
 static struct
 {
@@ -102,6 +104,8 @@ static void spillThis (symbol *);
 static void freeAllRegs ();
 static iCode *packRegsDPTRuse (operand *);
 static int packRegsDPTRnuse (operand *, unsigned);
+
+
 
 /*-----------------------------------------------------------------*/
 /* allocReg - allocates register of given type                     */
@@ -221,6 +225,36 @@ isOperandInReg (operand * op)
   if (OP_SYMBOL (op)->dptr)
     return 1;
   return bitVectBitValue (_G.totRegAssigned, OP_SYMBOL (op)->key);
+}
+
+/* When the spill locations aren't fully initialized, the usual
+ * isOperandInFarSpace() function may return false for a spilled
+ * operand that will ultimately end up in far space, but is not
+ * quite there yet. This function returns TRUE if the operand
+ * is either currently in far space or will be by the time code
+ * generation begins */
+static bool
+isOperandInFarSpace2 (operand * op)
+{
+  symbol * opsym;
+  
+  if (isOperandInFarSpace (op))
+    return TRUE;
+
+  if (!IS_ITEMP (op))
+    return FALSE;
+    
+  opsym = OP_SYMBOL (op);
+  if (isOperandInReg (op))
+    return FALSE;
+
+  if ((currFunc && IFFUNC_ISREENT (currFunc->type)) || options.stackAuto)
+    return FALSE;  /* Will spill to internal stack */
+
+  if (options.model == MODEL_SMALL)
+    return FALSE; /* Will spill to internal data memory */
+
+  return TRUE; /* No other option; must spill to external data memory */
 }
 
 /*-----------------------------------------------------------------*/
@@ -1151,45 +1185,92 @@ willCauseSpill (int nr, int rt)
   return 1;
 }
 
-/*-----------------------------------------------------------------*/
+/*------------------------------------------------------------------*/
 /* positionRegs - the allocator can allocate same registers to res- */
-/* ult and operand, if this happens make sure they are in the same */
-/* position as the operand otherwise chaos results                 */
-/*-----------------------------------------------------------------*/
+/* ult and operand, if this happens make sure they are in the same  */
+/* position as the operand otherwise chaos results                  */
+/*------------------------------------------------------------------*/
 static int
-positionRegs (symbol * result, symbol * opsym)
+positionRegs (symbol *result, symbol *opsym, int chOp)
 {
   int count = min (result->nRegs, opsym->nRegs);
   int i, j = 0, shared = 0;
   int change = 0;
 
   /* if the result has been spilt then cannot share */
-  if (opsym->isspilt)
+  if (result->isspilt || opsym->isspilt)
     return 0;
-again:
-  shared = 0;
-  /* first make sure that they actually share */
-  for (i = 0; i < count; i++)
+
+  for (;;)
     {
-      for (j = 0; j < count; j++)
-        {
+      shared = 0;
+      /* first make sure that they actually share */
+      for (i = 0; i < count; i++)
+        for (j = 0; j < count; j++)
           if (result->regs[i] == opsym->regs[j] && i != j)
             {
               shared = 1;
               goto xchgPositions;
             }
-        }
-    }
 xchgPositions:
-  if (shared)
-    {
-      reg_info *tmp = result->regs[i];
-      result->regs[i] = result->regs[j];
-      result->regs[j] = tmp;
-      change++;
-      goto again;
+      if (shared)
+        if (!chOp)
+          {
+            reg_info *tmp = result->regs[i];
+            result->regs[i] = result->regs[j];
+            result->regs[j] = tmp;
+            change++;
+          }
+        else
+          {
+            reg_info *tmp = opsym->regs[i];
+            opsym->regs[i] = opsym->regs[j];
+            opsym->regs[j] = tmp;
+            change++;
+          }
+      else
+        return change;
     }
-  return change;
+}
+
+/*-----------------------------------------------------------------*/
+/* positionRegs - the allocator can allocate the registers of the  */
+/* return value to the result, if this happens make sure they are  */
+/* in the same position as the return value otherwise chaos results*/
+/*-----------------------------------------------------------------*/
+static int
+positionRegsReturned (symbol *result)
+{
+  int count = result->nRegs;
+  int i, j = 0, shared = 0;
+  int change = 0;
+
+  /* if the result has been spilt then cannot share */
+  if (result->isspilt)
+    return 0;
+
+  for (;;)
+    {
+      shared = 0;
+      /* first make sure that they actually share */
+      for (i = 0; i < count; i++)
+        for (j = 0; j < count; j++)
+          if (!strcmp(result->regs[i]->name, fReturnDS390[j]) && i != j)
+            {
+              shared = 1;
+              goto xchgPositions;
+            }
+xchgPositions:
+      if (shared)
+        {
+            reg_info *tmp = result->regs[i];
+            result->regs[i] = result->regs[j];
+            result->regs[j] = tmp;
+            change++;
+        }
+      else
+        return change;
+    }
 }
 
 /*-----------------------------------------------------------------*/
@@ -1465,7 +1546,7 @@ serialRegAssign (eBBlock ** ebbs, int count)
 
               /* if we need ptr regs for the right side
                  then mark it */
-              if (POINTER_GET (ic) && IS_SYMOP (IC_LEFT (ic)) && getSize (OP_SYMBOL (IC_LEFT (ic))->type) <= (unsigned) PTRSIZE)
+              if (POINTER_GET (ic) && IS_SYMOP (IC_LEFT (ic)) && getSize (OP_SYMBOL (IC_LEFT (ic))->type) <= (unsigned) NEARPTRSIZE)
                 {
                   ds390_ptrRegReq++;
                   ptrRegSet = 1;
@@ -1496,13 +1577,18 @@ serialRegAssign (eBBlock ** ebbs, int count)
                 {
                   if (IC_LEFT (ic) && IS_SYMOP (IC_LEFT (ic)) && OP_SYMBOL (IC_LEFT (ic))->nRegs)
                     {
-                      positionRegs (OP_SYMBOL (IC_RESULT (ic)), OP_SYMBOL (IC_LEFT (ic)));
+                      positionRegs (OP_SYMBOL (IC_RESULT (ic)), OP_SYMBOL (IC_LEFT (ic)), 0);
                     }
                   /* do the same for the right operand */
                   if (IC_RIGHT (ic) && IS_SYMOP (IC_RIGHT (ic)) && OP_SYMBOL (IC_RIGHT (ic))->nRegs)
                     {
-                      positionRegs (OP_SYMBOL (IC_RESULT (ic)), OP_SYMBOL (IC_RIGHT (ic)));
+                      positionRegs (OP_SYMBOL (IC_RESULT (ic)), OP_SYMBOL (IC_RIGHT (ic)), 0);
                     }
+                }
+
+              if (ic->op == CALL || ic->op == PCALL || ic->op == RECEIVE)
+                {
+                  positionRegsReturned (OP_SYMBOL (IC_RESULT (ic)));
                 }
 
               if (ptrRegSet)
@@ -1692,11 +1778,11 @@ fillGaps ()
                       /* if left is assigned to registers */
                       if (IS_SYMOP (IC_LEFT (ic)) && bitVectBitValue (_G.totRegAssigned, OP_SYMBOL (IC_LEFT (ic))->key))
                         {
-                          pdone += (positionRegs (sym, OP_SYMBOL (IC_LEFT (ic))) > 0);
+                          pdone += (positionRegs (sym, OP_SYMBOL (IC_LEFT (ic)), 0) > 0);
                         }
                       if (IS_SYMOP (IC_RIGHT (ic)) && bitVectBitValue (_G.totRegAssigned, OP_SYMBOL (IC_RIGHT (ic))->key))
                         {
-                          pdone += (positionRegs (sym, OP_SYMBOL (IC_RIGHT (ic))) > 0);
+                          pdone += (positionRegs (sym, OP_SYMBOL (IC_RIGHT (ic)), 0) > 0);
                         }
                       if (pdone > 1)
                         break;
@@ -1717,7 +1803,7 @@ fillGaps ()
                       /* if result is assigned to registers */
                       if (IS_SYMOP (IC_RESULT (ic)) && bitVectBitValue (_G.totRegAssigned, OP_SYMBOL (IC_RESULT (ic))->key))
                         {
-                          pdone += (positionRegs (sym, OP_SYMBOL (IC_RESULT (ic))) > 0);
+                          pdone += (positionRegs (sym, OP_SYMBOL (IC_RESULT (ic)), 0) > 0);
                         }
                       if (pdone > 1)
                         break;
@@ -2038,9 +2124,9 @@ regTypeNum ()
           sym->nRegs = ((IS_AGGREGATE (sym->type) || sym->isptr) ?
                         getSize (sym->type = aggrToPtr (sym->type, FALSE)) : getSize (sym->type));
 
-          if (sym->nRegs > 4)
+          if (sym->nRegs > 8)
             {
-              fprintf (stderr, "allocated more than 4 or 0 registers for type ");
+              fprintf (stderr, "allocated more than 8 or 0 registers for type ");
               printTypeChain (sym->type, stderr);
               fprintf (stderr, "\n");
             }
@@ -2442,6 +2528,7 @@ right:
 }
 
 
+
 /*-------------------------------------------------------------------*/
 /* packRegsDPTRnuse - color live ranges that can go into extra DPTRS */
 /*-------------------------------------------------------------------*/
@@ -2511,35 +2598,35 @@ packRegsDPTRnuse (operand * op, unsigned dptr)
       /* four special cases first */
       if (POINTER_GET (ic) && !isOperandEqual (IC_LEFT (ic), op) &&     /* pointer get */
           !OP_SYMBOL (IC_LEFT (ic))->ruonly &&                          /* with result in far space */
-          (isOperandInFarSpace (IC_RESULT (ic)) && !isOperandInReg (IC_RESULT (ic))))
+          (isOperandInFarSpace2 (IC_RESULT (ic)) && !isOperandInReg (IC_RESULT (ic))))
         {
           return 0;
         }
 
       if (POINTER_GET (ic) && !isOperandEqual (IC_LEFT (ic), op) &&     /* pointer get */
           !OP_SYMBOL (IC_LEFT (ic))->ruonly &&                          /* with left in far space */
-          (isOperandInFarSpace (IC_LEFT (ic)) && !isOperandInReg (IC_LEFT (ic))))
+          (isOperandInFarSpace2 (IC_LEFT (ic)) && !isOperandInReg (IC_LEFT (ic))))
         {
           return 0;
         }
 
       if (POINTER_SET (ic) && !isOperandEqual (IC_RESULT (ic), op) &&   /* pointer set */
           !OP_SYMBOL (IC_RESULT (ic))->ruonly &&                        /* with right in far space */
-          (isOperandInFarSpace (IC_RIGHT (ic)) && !isOperandInReg (IC_RIGHT (ic))))
+          (isOperandInFarSpace2 (IC_RIGHT (ic)) && !isOperandInReg (IC_RIGHT (ic))))
         {
           return 0;
         }
 
       if (POINTER_SET (ic) && !isOperandEqual (IC_RESULT (ic), op) &&   /* pointer set */
           !OP_SYMBOL (IC_RESULT (ic))->ruonly &&                        /* with result in far space */
-          (isOperandInFarSpace (IC_RESULT (ic)) && !isOperandInReg (IC_RESULT (ic))))
+          (isOperandInFarSpace2 (IC_RESULT (ic)) && !isOperandInReg (IC_RESULT (ic))))
         {
           return 0;
         }
 
       if (IC_RESULT (ic) && IS_SYMOP (IC_RESULT (ic)) &&    /* if symbol operand */
           !isOperandEqual (IC_RESULT (ic), op) &&		    /* not the same as this */
-          ((isOperandInFarSpace (IC_RESULT (ic)) ||         /* in farspace or */
+          ((isOperandInFarSpace2 (IC_RESULT (ic)) ||         /* in farspace or */
             OP_SYMBOL (IC_RESULT (ic))->onStack) &&         /* on the stack   */
            !isOperandInReg (IC_RESULT (ic))))               /* and not in register */
         {
@@ -2548,7 +2635,7 @@ packRegsDPTRnuse (operand * op, unsigned dptr)
       /* same for left */
       if (IC_LEFT (ic) && IS_SYMOP (IC_LEFT (ic)) &&        /* if symbol operand */
           !isOperandEqual (IC_LEFT (ic), op) &&             /* not the same as this */
-          ((isOperandInFarSpace (IC_LEFT (ic)) ||           /* in farspace or */
+          ((isOperandInFarSpace2 (IC_LEFT (ic)) ||           /* in farspace or */
             OP_SYMBOL (IC_LEFT (ic))->onStack) &&           /* on the stack   */
            !isOperandInReg (IC_LEFT (ic))))                 /* and not in register */
         {
@@ -2557,7 +2644,7 @@ packRegsDPTRnuse (operand * op, unsigned dptr)
       /* same for right */
       if (IC_RIGHT (ic) && IS_SYMOP (IC_RIGHT (ic)) &&      /* if symbol operand */
           !isOperandEqual (IC_RIGHT (ic), op) &&            /* not the same as this */
-          ((isOperandInFarSpace (IC_RIGHT (ic)) ||          /* in farspace or */
+          ((isOperandInFarSpace2 (IC_RIGHT (ic)) ||          /* in farspace or */
             OP_SYMBOL (IC_RIGHT (ic))->onStack) &&          /* on the stack   */
            !isOperandInReg (IC_RIGHT (ic))))                /* and not in register */
         {
@@ -2643,7 +2730,7 @@ packRegsDPTRuse (operand * op)
 
       /* if SEND & not the first parameter then give up */
       if (ic->op == SEND && ic->argreg != 1 &&
-          ((isOperandInFarSpace (IC_LEFT (ic)) && !isOperandInReg (IC_LEFT (ic))) || isOperandEqual (op, IC_LEFT (ic))))
+          ((isOperandInFarSpace2 (IC_LEFT (ic)) && !isOperandInReg (IC_LEFT (ic))) || isOperandEqual (op, IC_LEFT (ic))))
         return NULL;
 
       /* if CALL then make sure it is VOID || return value not used
@@ -2661,7 +2748,7 @@ packRegsDPTRuse (operand * op)
       /* special case of add with a [remat] */
       if (ic->op == '+' &&
           IS_SYMOP (IC_LEFT (ic)) && OP_SYMBOL (IC_LEFT (ic))->remat &&
-          isOperandInFarSpace (IC_RIGHT (ic)) && !isOperandInReg (IC_RIGHT (ic)))
+          isOperandInFarSpace2 (IC_RIGHT (ic)) && !isOperandInReg (IC_RIGHT (ic)))
         {
           return NULL;
         }
@@ -2694,7 +2781,7 @@ packRegsDPTRuse (operand * op)
       /* general case */
       if (IC_RESULT (ic) && IS_SYMOP (IC_RESULT (ic)) &&
           !isOperandEqual (IC_RESULT (ic), op) &&
-          (((isOperandInFarSpace (IC_RESULT (ic)) || OP_SYMBOL (IC_RESULT (ic))->onStack) &&
+          (((isOperandInFarSpace2 (IC_RESULT (ic)) || OP_SYMBOL (IC_RESULT (ic))->onStack) &&
             !isOperandInReg (IC_RESULT (ic))) || OP_SYMBOL (IC_RESULT (ic))->ruonly))
         return NULL;
 
@@ -2703,7 +2790,7 @@ packRegsDPTRuse (operand * op)
           (OP_SYMBOL (IC_RIGHT (ic))->liveTo >= ic->seq ||
            IS_TRUE_SYMOP (IC_RIGHT (ic)) ||
            OP_SYMBOL (IC_RIGHT (ic))->ruonly) &&
-          ((isOperandInFarSpace (IC_RIGHT (ic)) || OP_SYMBOL (IC_RIGHT (ic))->onStack) && !isOperandInReg (IC_RIGHT (ic))))
+          ((isOperandInFarSpace2 (IC_RIGHT (ic)) || OP_SYMBOL (IC_RIGHT (ic))->onStack) && !isOperandInReg (IC_RIGHT (ic))))
         return NULL;
 
       if (IC_LEFT (ic) && IS_SYMOP (IC_LEFT (ic)) &&
@@ -2711,13 +2798,13 @@ packRegsDPTRuse (operand * op)
           (OP_SYMBOL (IC_LEFT (ic))->liveTo >= ic->seq ||
            IS_TRUE_SYMOP (IC_LEFT (ic)) ||
            OP_SYMBOL (IC_LEFT (ic))->ruonly) &&
-          ((isOperandInFarSpace (IC_LEFT (ic)) || OP_SYMBOL (IC_LEFT (ic))->onStack) && !isOperandInReg (IC_LEFT (ic))))
+          ((isOperandInFarSpace2 (IC_LEFT (ic)) || OP_SYMBOL (IC_LEFT (ic))->onStack) && !isOperandInReg (IC_LEFT (ic))))
         return NULL;
 
       if (IC_LEFT (ic) && IC_RIGHT (ic) &&
           IS_ITEMP (IC_LEFT (ic)) && IS_ITEMP (IC_RIGHT (ic)) &&
-          (isOperandInFarSpace (IC_LEFT (ic)) && !isOperandInReg (IC_LEFT (ic))) &&
-          (isOperandInFarSpace (IC_RIGHT (ic)) && !isOperandInReg (IC_RIGHT (ic))))
+          (isOperandInFarSpace2 (IC_LEFT (ic)) && !isOperandInReg (IC_LEFT (ic))) &&
+          (isOperandInFarSpace2 (IC_RIGHT (ic)) && !isOperandInReg (IC_RIGHT (ic))))
         return NULL;
     }
   OP_SYMBOL (op)->ruonly = 1;
@@ -3169,7 +3256,7 @@ packRegisters (eBBlock ** ebpp, int blockno)
       /* if pointer set & left has a size more than
          one and right is not in far space */
       if (POINTER_SET (ic) &&
-          !isOperandInFarSpace (IC_RIGHT (ic)) &&
+          !isOperandInFarSpace2 (IC_RIGHT (ic)) &&
           IS_SYMOP (IC_RESULT (ic)) &&
           !OP_SYMBOL (IC_RESULT (ic))->remat &&
           !IS_OP_RUONLY (IC_RIGHT (ic)) && getSize (aggrToPtr (operandType (IC_RESULT (ic)), FALSE)) > 1)
@@ -3180,7 +3267,7 @@ packRegisters (eBBlock ** ebpp, int blockno)
 
       /* if pointer get */
       if (POINTER_GET (ic) &&
-          !isOperandInFarSpace (IC_RESULT (ic)) &&
+          !isOperandInFarSpace2 (IC_RESULT (ic)) &&
           IS_SYMOP (IC_LEFT (ic)) &&
           !OP_SYMBOL (IC_LEFT (ic))->remat &&
           !IS_OP_RUONLY (IC_RESULT (ic)) && getSize (aggrToPtr (operandType (IC_LEFT (ic)), FALSE)) > 1)
@@ -3272,6 +3359,32 @@ packRegisters (eBBlock ** ebpp, int blockno)
     }
 }
 
+/*------------------------------------------------------------------------*/
+/* positionRegsReverse - positioning registers from end to begin to avoid */
+/* conflict among result, left and right operands in some extrem cases    */
+/*------------------------------------------------------------------------*/
+static void
+positionRegsReverse (eBBlock ** ebbs, int count)
+{
+  int i;
+  iCode *ic;
+
+  for (i = count - 1; i >= 0; i--)
+    for (ic = ebbs[i]->ech; ic; ic = ic->prev)
+      {
+        if (IC_LEFT (ic) && IS_SYMOP (IC_LEFT (ic)) && OP_SYMBOL (IC_LEFT (ic))->nRegs &&
+            IC_RESULT (ic) && IS_SYMOP (IC_RESULT (ic)) && OP_SYMBOL (IC_RESULT (ic))->nRegs)
+          {
+            positionRegs (OP_SYMBOL (IC_RESULT (ic)), OP_SYMBOL (IC_LEFT (ic)), 1);    
+          }
+        if (IC_RIGHT (ic) && IS_SYMOP (IC_RIGHT (ic)) && OP_SYMBOL (IC_RIGHT (ic))->nRegs &&
+            IC_RESULT (ic) && IS_SYMOP (IC_RESULT (ic)) && OP_SYMBOL (IC_RESULT (ic))->nRegs)
+          {
+            positionRegs (OP_SYMBOL (IC_RESULT (ic)), OP_SYMBOL (IC_RIGHT (ic)), 1);    
+          }
+      }
+}
+
 /*-----------------------------------------------------------------*/
 /* assignRegisters - assigns registers to each live range as need  */
 /*-----------------------------------------------------------------*/
@@ -3308,9 +3421,9 @@ ds390_assignRegisters (ebbIndex * ebbi)
 
   /* liveranges probably changed by register packing
      so we compute them again */
-  recomputeLiveRanges (ebbs, count);
+  recomputeLiveRanges (ebbs, count, FALSE);
 
-  if (options.dump_pack)
+  if (options.dump_i_code)
     dumpEbbsToFileExt (DUMP_PACK, ebbi);
 
   /* first determine for each live range the number of
@@ -3323,6 +3436,7 @@ ds390_assignRegisters (ebbIndex * ebbi)
   ds390_nRegs = 8;
   freeAllRegs ();
   fillGaps ();
+  positionRegsReverse (ebbs, count);
   ds390_nRegs = 12 + ds390_nBitRegs;
 
   /* if stack was extended then tell the user */
@@ -3356,7 +3470,7 @@ ds390_assignRegisters (ebbIndex * ebbi)
       currFunc->regsUsed = bitVectSetBit (currFunc->regsUsed, R1_IDX);
     }
 
-  if (options.dump_rassgn)
+  if (options.dump_i_code)
     {
       dumpEbbsToFileExt (DUMP_RASSGN, ebbi);
       dumpLiveRanges (DUMP_LRANGE, liveRanges);

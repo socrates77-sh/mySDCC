@@ -38,6 +38,7 @@ deref2(char *cp)
 void
 testCondOpPtrTypes1(void)
 {
+#if !defined(__SDCC_pdk14) // Lack of memory
   int *ip1;
   int *ip2;
   void *vp1;
@@ -86,11 +87,13 @@ testCondOpPtrTypes1(void)
   /* the char * parameter */
   ASSERT (deref2 (cond ? testarray : vp1) == 3);
   ASSERT (deref2 (cond ? ip1 : vp1) == 7);
+#endif
 }
 
 void
 testCondOpPtrTypes2(void)
 {
+#if !defined(__SDCC_pdk14) // Lack of memory
   int *ip1;
   int *ip2;
   void *vp1;
@@ -138,4 +141,29 @@ testCondOpPtrTypes2(void)
   /* the char * parameter */
   ASSERT (deref2 (cond ? vp1 : testarray) == 3);
   ASSERT (deref2 (cond ? vp1 : ip1) == 7);
+#endif
+}
+
+int
+foo0(int a, int b, int c)
+{
+  return a > 10 ? ++b, ++c : b + c;
+}
+
+int
+foo1(int a, int b, int c, int d)
+{
+  return a > 20 ? ++b, ++c, ++d + b + c : b < 100 ? c + ++d : c - --d;
+}
+
+void
+testBug2412(void)
+{
+  ASSERT (foo0 (2, 4, 5) == 9);
+  ASSERT (foo0 (72, 84, 5) == 6);
+  ASSERT (foo0 (7, 84, 75) == 159);
+
+  ASSERT (foo1 (110, 12, 13, 15) == 43);
+  ASSERT (foo1 (18, 12, 13, 15) == 29);
+  ASSERT (foo1 (12, 129, 13, 13) == 1);
 }

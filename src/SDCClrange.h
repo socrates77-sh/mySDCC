@@ -32,12 +32,16 @@ extern hTab *iCodeSeqhTab;
 
 int notUsedInBlock(symbol *, eBBlock *, iCode *);
 bool allDefsOutOfRange(bitVect *, int, int);
-void computeLiveRanges(eBBlock **, int, bool);
-void recomputeLiveRanges(eBBlock **, int);
+void computeLiveRanges(eBBlock **ebbs, int count, bool emitWarnings);
+void recomputeLiveRanges(eBBlock **ebbs, int count, bool emitWarnings);
 
 void setToRange(operand *, int, bool);
 void hashiCodeKeys(eBBlock **, int);
 
 void adjustIChain(eBBlock **ebbs, int count);
+
+int separateLiveRanges(iCode *sic, ebbIndex *ebbi); /* Split iTemps that have non-connected live-ranges. */
+
+int shortenLiveRanges(iCode *sic, ebbIndex *ebbi); /* Do some optimizations that shorten live ranges. */
 
 #endif

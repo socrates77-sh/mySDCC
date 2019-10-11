@@ -1,5 +1,5 @@
 /*-----------------------------------------------------------------
-    SDCCset.c - contains support routines for sets
+    SDCCset.c - contains support routines for doubly linked lists.
 
     Written By - Sandeep Dutta . sandeep.dutta@usa.net (1998)
 
@@ -43,7 +43,7 @@ set *newSet(void)
 /* setFromSet - creates a list from another list; the order of     */
 /*              elements in new list is reverted                   */
 /*-----------------------------------------------------------------*/
-set *setFromSet(set *lp)
+set *setFromSet(const set *lp)
 {
   set *lfl = NULL;
 
@@ -60,7 +60,7 @@ set *setFromSet(set *lp)
 /* setFromSet - creates a list from another list; the order of     */
 /*              elements in retained                               */
 /*-----------------------------------------------------------------*/
-set *setFromSetNonRev(set *lp)
+set *setFromSetNonRev(const set *lp)
 {
   set *lfl = NULL;
 
@@ -77,9 +77,9 @@ set *setFromSetNonRev(set *lp)
 /* isSetsEqual - are the lists equal, they are equal if they have  */
 /*               the same objects & the same number of objects     */
 /*-----------------------------------------------------------------*/
-int isSetsEqual(set *dest, set *src)
+int isSetsEqual(const set *dest, const set *src)
 {
-  set *src1 = src;
+  const set *src1 = src;
 
   for (; dest && src; dest = dest->next, src = src->next)
   {
@@ -165,6 +165,8 @@ addSet(set **list, void *item)
       ;
     lp = lp->next = newSet();
   }
+  if (!list)
+    werror(E_OUT_OF_MEM, __FILE__, __LINE__, "Can't add to set.");
 
   /* lp now all set */
   lp->item = item;
@@ -191,6 +193,37 @@ void deleteItemIf(set **sset, int (*cond)(void *, va_list), ...)
 
     if ((*cond)(sp->item, ap))
     {
+      deleteSetItem(sset, sp->item);
+      sp = *sset;
+      continue;
+    }
+
+    va_end(ap);
+    sp = sp->next;
+  }
+}
+
+/*-------------------------------------------------------------------*/
+/* destructItemIf - will delete from set if cond function returns 1, */
+/*                  upon deletion, item's destructor is also called  */
+/*-------------------------------------------------------------------*/
+void destructItemIf(set **sset, void (*destructor)(void *item), int (*cond)(void *, va_list), ...)
+{
+  set *sp = *sset;
+  va_list ap;
+
+  while (sp)
+  {
+    /*
+       * On the x86 va_list is just a pointer, so due to pass by value
+       * ap is not mofified by the called function.  On the PPC va_list
+       * is a pointer to a structure, so ap is modified.  Re-init each time.
+       */
+    va_start(ap, cond);
+
+    if ((*cond)(sp->item, ap))
+    {
+      destructor(sp->item);
       deleteSetItem(sset, sp->item);
       sp = *sset;
       continue;
@@ -237,11 +270,27 @@ void deleteSetItem(set **list, void *item)
 }
 
 /*-----------------------------------------------------------------*/
+/* replaceSetItem - will replace a given item in the list          */
+/*-----------------------------------------------------------------*/
+void replaceSetItem(set *list, void *olditem, void *newitem)
+{
+  /* find the item in the list */
+  for (; list; list = list->next)
+    if (list->item == olditem)
+    {
+      list->item = newitem;
+      return;
+    }
+
+  /* could not find it */
+}
+
+/*-----------------------------------------------------------------*/
 /* isinSet - the item is present in the linked list                */
 /*-----------------------------------------------------------------*/
-int isinSet(set *list, void *item)
+int isinSet(const set *list, const void *item)
 {
-  set *lp;
+  const set *lp;
 
   for (lp = list; lp; lp = lp->next)
     if (lp->item == item)
@@ -291,9 +340,23 @@ set *unionSets(set *list1, set *list2, int throw)
   set *un = NULL;
   set *lp;
 
-  /* add all elements in the first list */
-  for (lp = list1; lp; lp = lp->next)
-    addSet(&un, lp->item);
+  /* If we were going to throw away the destination list */
+  /* anyway, save memory and time by using it as the */
+  /* starting point for the new list. */
+  if (throw == THROW_DEST || throw == THROW_BOTH)
+  {
+    un = list1;
+    if (throw == THROW_BOTH)
+      throw = THROW_SRC;
+    else
+      throw = THROW_NONE;
+  }
+  else
+  {
+    /* add all elements in the first list */
+    for (lp = list1; lp; lp = lp->next)
+      addSet(&un, lp->item);
+  }
 
   /* now for all those in list2 which does not */
   /* already exist in the list add             */
@@ -414,9 +477,9 @@ set *intersectSetsWith(set *list1, set *list2,
 /*-----------------------------------------------------------------*/
 /* elementsInSet - elements count of a set                         */
 /*-----------------------------------------------------------------*/
-int elementsInSet(set *s)
+int elementsInSet(const set *s)
 {
-  set *loop = s;
+  const set *loop = s;
   int count = 0;
 
   while (loop)
@@ -539,7 +602,7 @@ int applyToSetFTrue(set *list, int (*somefunc)(void *, va_list), ...)
 /* peekSet - will return the first element of the set              */
 /*-----------------------------------------------------------------*/
 void *
-peekSet(set *sp)
+peekSet(const set *sp)
 {
   if (!sp)
     return NULL;

@@ -1,7 +1,7 @@
-%option noinput nounput
+%option noinput nounput noyywrap
 
 %{
-/* Copyright 2001, 2003, 2005, 2007, 2011 Free Software Foundation, Inc.
+/* Copyright (C) 2001-2018 Free Software Foundation, Inc.
 
    This file is part of GNU Binutils.
 
@@ -20,7 +20,8 @@
    Software Foundation, 51 Franklin Street - Fifth Floor, Boston, MA
    02110-1301, USA.  */
 
-#include "config.h"
+/* Note: config.h is #included via syslex_wrap.c.  */
+
 #ifdef HAVE_STRING_H
 #include <string.h>
 #else
@@ -28,14 +29,11 @@
 #include <strings.h>
 #endif
 #endif
+
 #include "sysinfo.h"
 
 #ifndef YY_NO_UNPUT
 #define YY_NO_UNPUT
-#endif
-
-#ifndef yywrap
-static int yywrap (void) { return 1; }
 #endif
 
 extern int yylex (void);
@@ -46,7 +44,7 @@ extern int yylex (void);
 "[" { return '[';}
 "]" { return ']';}
 " " { ; }
-";".* { ; } 
+";".* { ; }
 "\t" { ; }
 "\n" { ; }
 "\""[^\"]*"\"" {

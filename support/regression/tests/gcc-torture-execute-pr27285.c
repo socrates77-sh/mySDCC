@@ -8,6 +8,8 @@
 #pragma std_c99
 #endif
 
+#if !defined (__SDCC_pdk14) // Lack of memory
+
 /* PR tree-optimization/27285 */
 
 extern void abort (void);
@@ -41,17 +43,19 @@ foo (struct S *x, struct S *y)
       a++;
     }
 }
+#endif
 
 void
 testTortureExecute (void)
 {
+#if !defined (__SDCC_pdk14) // Lack of memory
   struct S x = { 0, 25, 0, { 0xaa, 0xbb, 0xcc, 0xdd }};
   struct S y = { 0, 0, 0, { 0 }};
-
   foo (&x, &y);
   if (x.d[0] != y.d[0] || x.d[1] != y.d[1]
       || x.d[2] != y.d[2] || (x.d[3] & 0x80) != y.d[3])
     ASSERT (0);
   return;
+#endif
 }
 

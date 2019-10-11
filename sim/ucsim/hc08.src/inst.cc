@@ -1091,7 +1091,7 @@ cl_hc08::inst_cbeq(t_mem code, bool prefix)
   if (operand1==operand2)
     PC += ofs;  
 
-  if (code == 0x71 || code == 0x61)
+  if (code == 0x71 || (!prefix && code == 0x61))
     incx();
   tick(1); // extra cycle to reload pipeline
 
@@ -1189,18 +1189,18 @@ cl_hc08::inst_sthx(t_mem code, bool prefix)
     ea = fetch();
     tick(1);
   }
-  else if ((code == 0x96) && (type == CPU_HCS08))
+  else if ((code == 0x96) && (type->type == CPU_HCS08))
   {
     ea = fetch2();
     tick(2);
   }
-  else if (prefix && (code == 0xff) && (type == CPU_HCS08))
+  else if (prefix && (code == 0xff) && (type->type == CPU_HCS08))
   {
     ea = regs.SP + fetch();
     tick(1);
   }
   else
-    return(resHALT);
+    return(resINV_INST);
   
   store1(ea, regs.H);
   tick(1);
@@ -1232,7 +1232,7 @@ cl_hc08::inst_ldhx(t_mem code, bool prefix)
     regs.X = get1(ea+1);
     tick(1);
   }
-  else if ((code == 0x32) && (type == CPU_HCS08)) {
+  else if ((code == 0x32) && (type->type == CPU_HCS08)) {
     ea = fetch2();
     tick(2);
     regs.H = get1(ea);
@@ -1240,7 +1240,7 @@ cl_hc08::inst_ldhx(t_mem code, bool prefix)
     regs.X = get1(ea+1);
     tick(1);
   }
-  else if (prefix && (code == 0xae) && (type == CPU_HCS08)) {
+  else if (prefix && (code == 0xae) && (type->type == CPU_HCS08)) {
     ea = (regs.H << 8) | regs.X;
     tick(1);
     regs.H = get1(ea);
@@ -1248,7 +1248,7 @@ cl_hc08::inst_ldhx(t_mem code, bool prefix)
     regs.X = get1(ea+1);
     tick(1);
   }
-  else if (prefix && (code == 0xbe) && (type == CPU_HCS08)) {
+  else if (prefix && (code == 0xbe) && (type->type == CPU_HCS08)) {
     ea = ((regs.H << 8) | regs.X) + fetch2();
     tick(2);
     regs.H = get1(ea);
@@ -1256,7 +1256,7 @@ cl_hc08::inst_ldhx(t_mem code, bool prefix)
     regs.X = get1(ea+1);
     tick(1);
   }
-  else if (prefix && (code == 0xce) && (type == CPU_HCS08)) {
+  else if (prefix && (code == 0xce) && (type->type == CPU_HCS08)) {
     ea = ((regs.H << 8) | regs.X) + fetch();
     tick(1);
     regs.H = get1(ea);
@@ -1264,7 +1264,7 @@ cl_hc08::inst_ldhx(t_mem code, bool prefix)
     regs.X = get1(ea+1);
     tick(1);
   }
-  else if (prefix && (code == 0xfe) && (type == CPU_HCS08)) {
+  else if (prefix && (code == 0xfe) && (type->type == CPU_HCS08)) {
     ea = regs.SP + fetch();
     tick(1);
     regs.H = get1(ea);
@@ -1273,7 +1273,7 @@ cl_hc08::inst_ldhx(t_mem code, bool prefix)
     tick(1);
   }
   else
-    return(resHALT);
+    return(resINV_INST);
   
   FLAG_CLEAR(BIT_V);
   FLAG_ASSIGN(BIT_N, regs.H & 0x80);
@@ -1301,14 +1301,14 @@ cl_hc08::inst_cphx(t_mem code, bool prefix)
     tick(2);
     tick(1);
   }
-  else if ((code == 0x3e) && (type == CPU_HCS08)) {
+  else if ((code == 0x3e) && (type->type == CPU_HCS08)) {
     ea = fetch2();
     tick(2);
     operand = (get1(ea) << 8) | get1(ea+1);
     tick(2);
     tick(1);
   }
-  else if (prefix && (code == 0xf3) && (type == CPU_HCS08)) {
+  else if (prefix && (code == 0xf3) && (type->type == CPU_HCS08)) {
     ea = ((unsigned char)fetch())+regs.SP;
     tick(1);
     operand = (get1(ea) << 8) | get1(ea+1);
@@ -1316,7 +1316,7 @@ cl_hc08::inst_cphx(t_mem code, bool prefix)
     tick(1);
   }
   else
-    return(resHALT);
+    return(resINV_INST);
 
   hx = (regs.H << 8) | regs.X;
   result = hx-operand;

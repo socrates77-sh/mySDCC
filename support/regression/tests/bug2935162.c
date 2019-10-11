@@ -39,6 +39,7 @@ const float a[] =
 
 void testBug (void)
 {
+#if !defined(__SDCC_pic14) && !defined(__SDCC_pdk14) // Lack of memory
     volatile int right;
 
     right = -120;
@@ -56,4 +57,6 @@ void testBug (void)
     ASSERT(a[6] > +2.1e9);
     ASSERT(a[7] < -2.1e9);
     ASSERT(a[8] > +4.2e9);
+#endif
 }
+

@@ -8,7 +8,7 @@
 #pragma std_c99
 #endif
 
-#if 0
+#ifndef __SDCC_pdk14 // Bug #2874
 static inline int
 p (int *p)
 {
@@ -27,10 +27,8 @@ f (int *q)
 void
 testTortureExecute (void)
 {
-#if 0
-  if (f ((int*) 0xffffffff) != 0)
-    ASSERT (0);
+#ifndef __SDCC_pdk14 // Bug #2874
+  ASSERT (f ((int __code *) 0xffffffff) == 0);
   return;
 #endif
 }
-

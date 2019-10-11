@@ -43,6 +43,17 @@ enum
 #define REG_GPR 0x02
 #define REG_CND 0x04
 
+/* Must preserve the relation HC08MASK_H > HC08MASK_X > MC08MASK_A  */
+/* so that HC08MASK_REV can be automatically applied when reversing */
+/* the usual register pair ordering. */
+#define HC08MASK_A 0x01
+#define HC08MASK_X 0x02
+#define HC08MASK_H 0x04
+#define HC08MASK_REV 0x08
+#define HC08MASK_XA (HC08MASK_X | HC08MASK_A)
+#define HC08MASK_HX (HC08MASK_H | HC08MASK_X)
+#define HC08MASK_AX (HC08MASK_REV | HC08MASK_X | HC08MASK_A)
+    
 /* definition for the registers */
 typedef struct reg_info
   {
@@ -55,6 +66,8 @@ typedef struct reg_info
     int aopofs;			/* last operand offset */
     unsigned isFree:1;		/* is currently unassigned */
     unsigned isDead:1;      /* does not need to survive current instruction */
+    unsigned isLitConst:1;      /* has an literal constant loaded */
+    int litConst;		/* last literal constant */
   }
 reg_info;
 extern reg_info regshc08[];

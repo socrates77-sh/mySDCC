@@ -63,6 +63,6 @@ typedef struct
 } OPTION;
 
 char *getStringArg(const char *szStart, char **argv, int *pi, int argc);
-int getIntArg(const char *szStart, char **argv, int *pi, int argc);
+long getIntArg(const char *szStart, char **argv, int *pi, int argc);
 
 #endif

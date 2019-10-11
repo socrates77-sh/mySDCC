@@ -1,5 +1,5 @@
 /* sdccconf.h.  Generated from sdccconf_in.h by configure.  */
-/* sdccconf_in.h.  Generated from configure.in by autoheader.  */
+/* sdccconf_in.h.  Generated from configure.ac by autoheader.  */
 
 #ifndef SDCCCONF_HEADER
 #define SDCCCONF_HEADER
@@ -25,12 +25,21 @@
 /* XXX */
 #define EXEC_PREFIX "\\usr\\local"
 
+/* Define to 1 if you have the `backtrace_symbols_fd' function. */
+/* #undef HAVE_BACKTRACE_SYMBOLS_FD */
+
 /* Define to 1 if you have the <boost/graph/adjacency_list.hpp> header file.
    */
 #define HAVE_BOOST_GRAPH_ADJACENCY_LIST_HPP 1
 
+/* define if the compiler supports basic C++11 syntax */
+#define HAVE_CXX11 1
+
 /* Define to 1 if you have the <endian.h> header file. */
 /* #undef HAVE_ENDIAN_H */
+
+/* Define to 1 if you have the <gala/graph.h> header file. */
+/* #undef HAVE_GALA_GRAPH_H */
 
 /* Define to 1 if you have the <inttypes.h> header file. */
 #define HAVE_INTTYPES_H 1
@@ -47,8 +56,8 @@
 /* Define to 1 if you have the `mkstemp' function. */
 #define HAVE_MKSTEMP 1
 
-/* Define to 1 if you have the `snprintf' function. */
-#define HAVE_SNPRINTF 1
+/* Define to 1 if you have the `setrlimit' function. */
+/* #undef HAVE_SETRLIMIT */
 
 /* Define to 1 if you have the <stdint.h> header file. */
 #define HAVE_STDINT_H 1
@@ -65,11 +74,8 @@
 /* Define to 1 if you have the <string.h> header file. */
 #define HAVE_STRING_H 1
 
-/* Define to 1 if you have the <stx/btree_map.h> header file. */
-/* #undef HAVE_STX_BTREE_MAP_H */
-
-/* Define to 1 if you have the <stx/btree_set.h> header file. */
-/* #undef HAVE_STX_BTREE_SET_H */
+/* Define to 1 if you have the `strndup' function. */
+/* #undef HAVE_STRNDUP */
 
 /* Define to 1 if you have the <sys/endian.h> header file. */
 /* #undef HAVE_SYS_ENDIAN_H */
@@ -83,14 +89,11 @@
 /* Define to 1 if you have the <sys/types.h> header file. */
 #define HAVE_SYS_TYPES_H 1
 
+/* Define to 1 if you have the <treedec/combinations.hpp> header file. */
+/* #undef HAVE_TREEDEC_COMBINATIONS_HPP */
+
 /* Define to 1 if you have the <unistd.h> header file. */
 #define HAVE_UNISTD_H 1
-
-/* Define to 1 if you have the `vsnprintf' function. */
-#define HAVE_VSNPRINTF 1
-
-/* Define to 1 if you have the `vsprintf' function. */
-#define HAVE_VSPRINTF 1
 
 /* XXX */
 #define INCLUDE_DIR_SUFFIX DIR_SEPARATOR_STRING "sdcc\\include"
@@ -104,7 +107,7 @@
 /* XXX */
 #define NON_FREE_LIB_DIR_SUFFIX DIR_SEPARATOR_STRING "sdcc\\non-free\\lib"
 
-/* XXX */
+/* Define to 1 to disable the AVR port */
 #define OPT_DISABLE_AVR 1
 
 /* XXX */
@@ -117,6 +120,9 @@
 #define OPT_DISABLE_DS400 1
 
 /* XXX */
+#define OPT_DISABLE_EZ80_Z80 1
+
+/* XXX */
 #define OPT_DISABLE_GBZ80 1
 
 /* XXX */
@@ -126,13 +132,34 @@
 #define OPT_DISABLE_MCS51 1
 
 /* XXX */
+#define OPT_DISABLE_NON_FREE 1
+
+/* XXX */
 #define OPT_DISABLE_PACKIHX 1
 
 /* XXX */
-#define OPT_DISABLE_PIC14 1
+#define OPT_DISABLE_PDK13 1
 
 /* XXX */
-#define OPT_DISABLE_PIC16 1
+#define OPT_DISABLE_PDK14 1
+
+/* XXX */
+#define OPT_DISABLE_PDK15 1
+
+/* XXX */
+#define OPT_DISABLE_MC30 1
+
+/* XXX */
+#define OPT_DISABLE_MC32 1
+
+/* XXX */
+#define OPT_DISABLE_MC35 1
+
+/* XXX */
+#define OPT_DISABLE_PIC14 0
+
+/* XXX */
+#define OPT_DISABLE_PIC16 0
 
 /* XXX */
 #define OPT_DISABLE_R2K 1
@@ -153,13 +180,16 @@
 #define OPT_DISABLE_SDCPP 0
 
 /* XXX */
+#define OPT_DISABLE_STM8 1
+
+/* XXX */
 #define OPT_DISABLE_TININative 1
 
 /* XXX */
-#define OPT_DISABLE_UCSIM 1
+#define OPT_DISABLE_TLCS90 1
 
 /* XXX */
-#define OPT_DISABLE_XA51 1
+#define OPT_DISABLE_UCSIM 1
 
 /* XXX */
 #define OPT_DISABLE_Z180 1
@@ -213,16 +243,16 @@
 #define SDCC_LIB_NAME "SDCC_LIB"
 
 /* XXX */
-#define SDCC_VERSION_HI 1
+#define SDCC_VERSION_HI 2
 
 /* XXX */
-#define SDCC_VERSION_LO 1
+#define SDCC_VERSION_LO 0
 
 /* XXX */
-#define SDCC_VERSION_P 8
+#define SDCC_VERSION_P 0
 
 /* XXX */
-#define SDCC_VERSION_STR "1.1.8"
+#define SDCC_VERSION_STR "2.0.0"
 
 /* The size of `char', as computed by sizeof. */
 #define SIZEOF_CHAR 1
@@ -261,9 +291,6 @@
 #define STD_LONG_LIB "liblong"
 
 /* XXX */
-#define STD_XA51_LIB "libxa51"
-
-/* XXX */
 #define TYPE_BYTE char
 
 /* XXX */
@@ -286,9 +313,6 @@
 
 /* XXX */
 #define TYPE_WORD short
-
-/* Define to 1 if c supports tags in unnamed struct. */
-#define UNNAMED_STRUCT_TAG 1
 
 /* Define WORDS_BIGENDIAN to 1 if your processor stores words with the most
    significant byte first (like Motorola and SPARC, unlike Intel). */

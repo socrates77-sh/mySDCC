@@ -54,6 +54,7 @@ class cl_cmdline: public cl_base
 public:
   class cl_app *app;
   char *cmd;
+  char *rest;
   //char *name;
   class cl_list *params;
   class cl_ustrings *tokens;
@@ -79,6 +80,7 @@ public:
   virtual bool syntax_match(class cl_uc *uc, const char *syntax);
   virtual bool set_data_list(class cl_cmd_arg *parm, int *iparm);
   virtual int nuof_params(void) { return(params->get_count()); }
+  virtual bool restart_at_rest(void);
 private:
   char *skip_delims(char *start);
 };
@@ -97,31 +99,35 @@ public:
   enum cmd_operate_on operate_on;
   class cl_strings *names;
   int  can_repeat;
-  const char *short_help;
-  const char *long_help;
+  chars usage_help;
+  chars short_help;
+  chars long_help;
 
 public:
   cl_cmd(enum cmd_operate_on opon,
-         const char *aname,
-         int  can_rep,
-         const char *short_hlp,
-         const char *long_hlp);
+	 const char *aname,
+	 int  can_rep);
   virtual ~cl_cmd(void);
 
+  virtual int init(void) { set_help(); return 0; }
+  virtual void set_help(void) {}
+  virtual void set_help(const char *usage_hlp, const char *short_hlp, const char *long_hlp);
   virtual class cl_cmdset *get_subcommands(void) { return(0); }
   virtual void add_name(const char *nam);
   virtual int name_match(const char *aname, int strict);
   virtual int name_match(class cl_cmdline *cmdline, int strict);
   virtual int syntax_ok(class cl_cmdline *cmdline);
   virtual int work(class cl_app *app,
-                   class cl_cmdline *cmdline, class cl_console_base *con);
+		   class cl_cmdline *cmdline, class cl_console_base *con);
   virtual int do_work(class cl_cmdline *cmdline, class cl_console_base *con);
   virtual int do_work(class cl_app *app,
-                      class cl_cmdline *cmdline, class cl_console_base *con);
+		      class cl_cmdline *cmdline, class cl_console_base *con);
   virtual int do_work(class cl_sim *sim,
-                      class cl_cmdline *cmdline, class cl_console_base *con);
+		      class cl_cmdline *cmdline, class cl_console_base *con);
   virtual int do_work(class cl_uc *uc,
-                      class cl_cmdline *cmdline, class cl_console_base *con);
+		      class cl_cmdline *cmdline, class cl_console_base *con);
+  virtual void print_short(class cl_console_base *con);
+  virtual void syntax_error(class cl_console_base *con);
 };
 
 #define COMMAND_HEAD(CLASS_NAME) \
@@ -134,40 +140,34 @@ class CLASS_NAME : public ANCESTOR \
 #define COMMAND_METHODS(CLASS_NAME) \
 public:\
   CLASS_NAME (const char *aname,\
-              int  can_rep,\
-              const char *short_help,\
-              const char *long_help):\
-    cl_cmd(operate_on_none, aname, can_rep, short_help, long_help) {}\
-  virtual int do_work(class cl_cmdline *cmdline, class cl_console_base *con);
+              int  can_rep):\
+  cl_cmd(operate_on_none, aname, can_rep) {} \
+  virtual int do_work(class cl_cmdline *cmdline, class cl_console_base *con);\
+  virtual void set_help(void);
 
 #define COMMAND_METHODS_ON(ON,CLASS_NAME) \
 public:\
   CLASS_NAME (const char *aname,\
-              int  can_rep,\
-              const char *short_help,\
-              const char *long_help):\
-    cl_cmd(operate_on_ ## ON, aname, can_rep, short_help, long_help) {}\
+              int  can_rep):\
+  cl_cmd(operate_on_ ## ON, aname, can_rep) {} \
   virtual int do_work(class cl_ ## ON * ON ,\
-                      class cl_cmdline *cmdline, class cl_console_base *con);
+		      class cl_cmdline *cmdline, class cl_console_base *con);\
+  virtual void set_help(void);
 
 #define COMMAND_METHODS_ANCESTOR(CLASS_NAME,ANCESTOR) \
 public:\
-  CLASS_NAME (const char *aname,\
-              int  can_rep,\
-              const char *short_help,\
-              const char *long_help):\
-    ANCESTOR (aname, can_rep, short_help, long_help) {}\
-  virtual int do_work(class cl_cmdline *cmdline, class cl_console_base *con);
+  CLASS_NAME (const char *aname, int  can_rep):\
+  ANCESTOR (aname, can_rep) {}	\
+  virtual int do_work(class cl_cmdline *cmdline, class cl_console_base *con);\
+  virtual void set_help(void);
 
 #define COMMAND_METHODS_ANCESTOR_ON(ON,CLASS_NAME,ANCESTOR) \
 public:\
-  CLASS_NAME (const char *aname,\
-              int  can_rep,\
-              const char *short_help,\
-              const char *long_help):\
-    ANCESTOR (aname, can_rep, short_help, long_help) {}\
+  CLASS_NAME (const char *aname, int  can_rep):\
+  ANCESTOR (aname, can_rep) {}	\
   virtual int do_work(class cl_ ## ON * ON ,\
-                      class cl_cmdline *cmdline, class cl_console_base *con); \
+		      class cl_cmdline *cmdline, class cl_console_base *con);\
+  virtual void set_help(void); \
 
 
 #define COMMAND_TAIL }
@@ -217,15 +217,24 @@ CLASS_NAME::do_work(class cl_cmdline *cmdline, class cl_console_base *con)
 #define COMMAND_DO_WORK_APP(CLASS_NAME) \
 int \
 CLASS_NAME::do_work(class cl_app *app,\
-                    class cl_cmdline *cmdline, class cl_console_base *con)
+		    class cl_cmdline *cmdline, class cl_console_base *con)
 #define COMMAND_DO_WORK_SIM(CLASS_NAME) \
 int \
 CLASS_NAME::do_work(class cl_sim *sim,\
-                    class cl_cmdline *cmdline, class cl_console_base *con)
+		    class cl_cmdline *cmdline, class cl_console_base *con)
 #define COMMAND_DO_WORK_UC(CLASS_NAME) \
 int \
 CLASS_NAME::do_work(class cl_uc *uc,\
-                    class cl_cmdline *cmdline, class cl_console_base *con)
+		    class cl_cmdline *cmdline, class cl_console_base *con)
+
+#define CMDHELP(CLASS_NAME,USAGE_HLP,SHORT_HLP,LONG_HLP) \
+  void \
+  CLASS_NAME::set_help(void) \
+  { \
+    usage_help=(char*)USAGE_HLP;		\
+    short_help=(char*)SHORT_HLP;		\
+    long_help=(char*)LONG_HLP;			\
+  }
 
 // Command set is list of cl_cmd objects
 class cl_cmdset: public cl_list
@@ -252,15 +261,13 @@ public:
 
 public:
   cl_super_cmd(const char *aname,
-               int  can_rep,
-               const char *short_hlp,
-               const char *long_hlp,
-               class cl_cmdset *acommands);
+	       int  can_rep,
+	       class cl_cmdset *acommands);
   virtual ~cl_super_cmd(void);
 
   virtual class cl_cmdset *get_subcommands(void) { return(commands); }
   virtual int work(class cl_app *app,
-                   class cl_cmdline *cmdline, class cl_console_base *con);
+		   class cl_cmdline *cmdline, class cl_console_base *con);
 };
 
 

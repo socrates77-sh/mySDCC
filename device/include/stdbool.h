@@ -29,20 +29,12 @@
 #ifndef __SDC51_STDBOOL_H
 #define __SDC51_STDBOOL_H 1
 
-#define true 1
-#define false 0
+/* Define true and false of type _Bool in a way compatible with the preprocessor (see N 2229 for details). */
+#define true ((_Bool)+1)
+#define false ((_Bool)+0)
 
-#if defined (__SDCC_ds390) || defined (__SDCC_mcs51) || defined (__SDCC_xa51)
- /* The ports that have __bit and use it as an imperfect substitute for bool */
- #define _Bool __bit
- #define bool  _Bool
- #define __bool_true_false_are_defined 1
- #define __SDCC_WEIRD_BOOL 1
-#else
- /* The ports that have bool */
- #define bool _Bool
- #define __bool_true_false_are_defined 1
-#endif
+#define bool _Bool
+#define __bool_true_false_are_defined 1
 
 #endif
 

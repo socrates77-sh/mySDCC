@@ -1,6 +1,5 @@
 /* BFD backend for hp-ux 9000/300
-   Copyright 1990, 1991, 1993, 1994, 1995, 1997, 1999, 2000, 2001, 2002,
-   2003, 2004, 2005, 2007, 2010 Free Software Foundation, Inc.
+   Copyright (C) 1990-2018 Free Software Foundation, Inc.
    Written by Glenn Engel.
 
    This file is part of BFD, the Binary File Descriptor library.
@@ -21,9 +20,9 @@
    MA 02110-1301, USA.  */
 
 
-/*  hpux native  ------------> |               |
-                               | hp300hpux bfd | ----------> hpux w/gnu ext
-    hpux w/gnu extension ----> |               |
+/*  hpux native	 ------------> |	       |
+			       | hp300hpux bfd | ----------> hpux w/gnu ext
+    hpux w/gnu extension ----> |	       |
 
     Support for the 9000/[34]00 has several limitations.
       1. Shared libraries are not supported.
@@ -53,12 +52,12 @@
     code where a unique implementation is needed:
 
     {
-        #define a bunch of stuff
-        #include <aoutx.h>
+	#define a bunch of stuff
+	#include <aoutx.h>
 
-        implement a bunch of functions
+	implement a bunch of functions
 
-        #include "aout-target.h"
+	#include "aout-target.h"
     }
 
     The hp symbol table is a bit different than other a.out targets.  Instead
@@ -105,7 +104,7 @@
 /* Do not "beautify" the CONCAT* macro args.  Traditional C will not
    remove whitespace added here, and thus will fail to concatenate
    the tokens.  */
-#define MY(OP) CONCAT2 (hp300hpux_,OP)
+#define MY(OP) CONCAT2 (m68k_aout_hp300hpux_,OP)
 
 #define external_exec hp300hpux_exec_bytes
 #define external_nlist hp300hpux_nlist_bytes
@@ -130,10 +129,10 @@
 /* these don't use MY because that causes problems within JUMP_TABLE
    (CONCAT2 winds up being expanded recursively, which ANSI C compilers
    will not do).  */
-#define MY_canonicalize_symtab hp300hpux_canonicalize_symtab
-#define MY_get_symtab_upper_bound hp300hpux_get_symtab_upper_bound
-#define MY_canonicalize_reloc hp300hpux_canonicalize_reloc
-#define MY_write_object_contents hp300hpux_write_object_contents
+#define MY_canonicalize_symtab m68k_aout_hp300hpux_canonicalize_symtab
+#define MY_get_symtab_upper_bound m68k_aout_hp300hpux_get_symtab_upper_bound
+#define MY_canonicalize_reloc m68k_aout_hp300hpux_canonicalize_reloc
+#define MY_write_object_contents m68k_aout_hp300hpux_write_object_contents
 
 #define MY_read_minisymbols _bfd_generic_read_minisymbols
 #define MY_minisymbol_to_symbol _bfd_generic_minisymbol_to_symbol
@@ -149,7 +148,7 @@
    were allocated using malloc.  */
 #define MY_bfd_free_cached_info bfd_true
 
-#define hp300hpux_write_syms aout_32_write_syms
+#define m68k_aout_hp300hpux_write_syms aout_32_write_syms
 
 #define MY_callback MY(callback)
 
@@ -169,16 +168,16 @@
 
 #define HP_SYMTYPE_ALIGN	0x10
 #define HP_SYMTYPE_EXTERNAL	0x20
-#define HP_SECONDARY_SYMBOL     0x40
+#define HP_SECONDARY_SYMBOL	0x40
 
 /* RELOCATION DEFINITIONS */
 #define HP_RSEGMENT_TEXT	0x00
 #define HP_RSEGMENT_DATA	0x01
 #define HP_RSEGMENT_BSS		0x02
 #define HP_RSEGMENT_EXTERNAL	0x03
-#define HP_RSEGMENT_PCREL       0x04
-#define HP_RSEGMENT_RDLT        0x05
-#define HP_RSEGMENT_RPLT        0x06
+#define HP_RSEGMENT_PCREL	0x04
+#define HP_RSEGMENT_RDLT	0x05
+#define HP_RSEGMENT_RPLT	0x06
 #define HP_RSEGMENT_NOOP	0x3F
 
 #define HP_RLENGTH_BYTE		0x00
@@ -195,26 +194,19 @@
 
 #include "aoutx.h"
 
-static const bfd_target * MY (callback)
-  PARAMS ((bfd *));
-static bfd_boolean MY (write_object_contents)
-  PARAMS ((bfd *));
+static const bfd_target * MY (callback) (bfd *);
+static bfd_boolean MY (write_object_contents) (bfd *);
 static void convert_sym_type
-  PARAMS ((struct external_nlist *, aout_symbol_type *, bfd *));
+  (struct external_nlist *, aout_symbol_type *, bfd *);
 
-bfd_boolean MY (slurp_symbol_table)
-  PARAMS ((bfd *));
+bfd_boolean MY (slurp_symbol_table) (bfd *);
 void MY (swap_std_reloc_in)
-  PARAMS ((bfd *, struct hp300hpux_reloc *, arelent *, asymbol **,
-	   bfd_size_type));
+  (bfd *, struct hp300hpux_reloc *, arelent *, asymbol **, bfd_size_type);
 bfd_boolean MY (slurp_reloc_table)
-  PARAMS ((bfd *, sec_ptr, asymbol **));
-long MY (canonicalize_symtab)
-  PARAMS ((bfd *, asymbol **));
-long MY (get_symtab_upper_bound)
-  PARAMS ((bfd *));
-long MY (canonicalize_reloc)
-  PARAMS ((bfd *, sec_ptr, arelent **, asymbol **));
+  (bfd *, sec_ptr, asymbol **);
+long MY (canonicalize_symtab)  (bfd *, asymbol **);
+long MY (get_symtab_upper_bound)  (bfd *);
+long MY (canonicalize_reloc)  (bfd *, sec_ptr, arelent **, asymbol **);
 
 /* Since the hpux symbol table has nlist elements interspersed with
    strings and we need to insert som strings for secondary symbols, we
@@ -227,38 +219,37 @@ long MY (canonicalize_reloc)
 /* Set parameters about this a.out file that are machine-dependent.
    This routine is called from some_aout_object_p just before it returns.  */
 static const bfd_target *
-MY (callback) (abfd)
-     bfd *abfd;
+MY (callback) (bfd *abfd)
 {
   struct internal_exec *execp = exec_hdr (abfd);
 
   /* Calculate the file positions of the parts of a newly read aout header */
-  obj_textsec (abfd)->size = N_TXTSIZE (*execp);
+  obj_textsec (abfd)->size = N_TXTSIZE (execp);
 
   /* The virtual memory addresses of the sections */
-  obj_textsec (abfd)->vma = N_TXTADDR (*execp);
-  obj_datasec (abfd)->vma = N_DATADDR (*execp);
-  obj_bsssec (abfd)->vma = N_BSSADDR (*execp);
+  obj_textsec (abfd)->vma = N_TXTADDR (execp);
+  obj_datasec (abfd)->vma = N_DATADDR (execp);
+  obj_bsssec (abfd)->vma = N_BSSADDR (execp);
 
   obj_textsec (abfd)->lma = obj_textsec (abfd)->vma;
   obj_datasec (abfd)->lma = obj_datasec (abfd)->vma;
   obj_bsssec (abfd)->lma = obj_bsssec (abfd)->vma;
 
   /* The file offsets of the sections */
-  obj_textsec (abfd)->filepos = N_TXTOFF (*execp);
-  obj_datasec (abfd)->filepos = N_DATOFF (*execp);
+  obj_textsec (abfd)->filepos = N_TXTOFF (execp);
+  obj_datasec (abfd)->filepos = N_DATOFF (execp);
 
   /* The file offsets of the relocation info */
-  obj_textsec (abfd)->rel_filepos = N_TRELOFF (*execp);
-  obj_datasec (abfd)->rel_filepos = N_DRELOFF (*execp);
+  obj_textsec (abfd)->rel_filepos = N_TRELOFF (execp);
+  obj_datasec (abfd)->rel_filepos = N_DRELOFF (execp);
 
   /* The file offsets of the string table and symbol table.  */
-  obj_sym_filepos (abfd) = N_SYMOFF (*execp);
-  obj_str_filepos (abfd) = N_STROFF (*execp);
+  obj_sym_filepos (abfd) = N_SYMOFF (execp);
+  obj_str_filepos (abfd) = N_STROFF (execp);
 
   /* Determine the architecture and machine type of the object file.  */
 #ifdef SET_ARCH_MACH
-  SET_ARCH_MACH (abfd, *execp);
+  SET_ARCH_MACH (abfd, execp);
 #else
   bfd_default_set_arch_mach (abfd, DEFAULT_ARCH, 0);
 #endif
@@ -266,11 +257,11 @@ MY (callback) (abfd)
   if (obj_aout_subformat (abfd) == gnu_encap_format)
     {
       /* The file offsets of the relocation info */
-      obj_textsec (abfd)->rel_filepos = N_GNU_TRELOFF (*execp);
-      obj_datasec (abfd)->rel_filepos = N_GNU_DRELOFF (*execp);
+      obj_textsec (abfd)->rel_filepos = N_GNU_TRELOFF (execp);
+      obj_datasec (abfd)->rel_filepos = N_GNU_DRELOFF (execp);
 
       /* The file offsets of the string table and symbol table.  */
-      obj_sym_filepos (abfd) = N_GNU_SYMOFF (*execp);
+      obj_sym_filepos (abfd) = N_GNU_SYMOFF (execp);
       obj_str_filepos (abfd) = (obj_sym_filepos (abfd) + execp->a_syms);
 
       abfd->flags |= HAS_LINENO | HAS_DEBUG | HAS_SYMS | HAS_LOCALS;
@@ -282,24 +273,20 @@ MY (callback) (abfd)
   return abfd->xvec;
 }
 
-extern bfd_boolean aout_32_write_syms
-  PARAMS ((bfd * abfd));
+extern bfd_boolean aout_32_write_syms (bfd *);
 
 static bfd_boolean
-MY (write_object_contents) (abfd)
-     bfd *abfd;
+MY (write_object_contents) (bfd * abfd)
 {
   struct external_exec exec_bytes;
   struct internal_exec *execp = exec_hdr (abfd);
-  bfd_size_type text_size;	/* dummy vars */
-  file_ptr text_end;
 
   memset (&exec_bytes, 0, sizeof (exec_bytes));
 
   obj_reloc_entry_size (abfd) = RELOC_STD_SIZE;
 
   if (adata (abfd).magic == undecided_magic)
-    NAME (aout,adjust_sizes_and_vmas) (abfd, &text_size, &text_end);
+    NAME (aout,adjust_sizes_and_vmas) (abfd);
   execp->a_syms = 0;
 
   execp->a_entry = bfd_get_start_address (abfd);
@@ -309,8 +296,8 @@ MY (write_object_contents) (abfd)
   execp->a_drsize = ((obj_datasec (abfd)->reloc_count) *
 		     obj_reloc_entry_size (abfd));
 
-  N_SET_MACHTYPE (*execp, 0xc);
-  N_SET_FLAGS (*execp, aout_backend_info (abfd)->exec_hdr_flags);
+  N_SET_MACHTYPE (execp, 0xc);
+  N_SET_FLAGS (execp, aout_backend_info (abfd)->exec_hdr_flags);
 
   NAME (aout,swap_exec_header_out) (abfd, execp, &exec_bytes);
 
@@ -320,7 +307,7 @@ MY (write_object_contents) (abfd)
   H_PUT_32 (abfd, (bfd_get_symcount (abfd) * 12), exec_bytes.e_drelocs);
 
   if (bfd_seek (abfd, (file_ptr) 0, FALSE) != 0
-      || (bfd_bwrite ((PTR) &exec_bytes, (bfd_size_type) EXEC_BYTES_SIZE, abfd)
+      || (bfd_bwrite (&exec_bytes, (bfd_size_type) EXEC_BYTES_SIZE, abfd)
 	  != EXEC_BYTES_SIZE))
     return FALSE;
 
@@ -330,7 +317,7 @@ MY (write_object_contents) (abfd)
   if (bfd_get_symcount (abfd) != 0)
     {
       /* Skip the relocs to where we want to put the symbols.  */
-      if (bfd_seek (abfd, (file_ptr) (N_DRELOFF (*execp) + execp->a_drsize),
+      if (bfd_seek (abfd, (file_ptr) (N_DRELOFF (execp) + execp->a_drsize),
 		    SEEK_SET) != 0)
 	return FALSE;
     }
@@ -340,11 +327,11 @@ MY (write_object_contents) (abfd)
 
   if (bfd_get_symcount (abfd) != 0)
     {
-      if (bfd_seek (abfd, (file_ptr) N_TRELOFF (*execp), SEEK_CUR) != 0)
+      if (bfd_seek (abfd, (file_ptr) N_TRELOFF (execp), SEEK_CUR) != 0)
 	return FALSE;
       if (!NAME (aout,squirt_out_relocs) (abfd, obj_textsec (abfd)))
 	return FALSE;
-      if (bfd_seek (abfd, (file_ptr) N_DRELOFF (*execp), SEEK_CUR) != 0)
+      if (bfd_seek (abfd, (file_ptr) N_DRELOFF (execp), SEEK_CUR) != 0)
 	return FALSE;
       if (!NAME (aout,squirt_out_relocs) (abfd, obj_datasec (abfd)))
 	return FALSE;
@@ -353,14 +340,13 @@ MY (write_object_contents) (abfd)
   return TRUE;
 }
 
-/* convert the hp symbol type to be the same as aout64.h usage so we */
-/* can piggyback routines in aoutx.h.                                */
+/* Convert the hp symbol type to be the same as aout64.h usage so we
+   can piggyback routines in aoutx.h.  */
 
 static void
-convert_sym_type (sym_pointer, cache_ptr, abfd)
-     struct external_nlist *sym_pointer ATTRIBUTE_UNUSED;
-     aout_symbol_type *cache_ptr;
-     bfd *abfd ATTRIBUTE_UNUSED;
+convert_sym_type (struct external_nlist *sym_pointer ATTRIBUTE_UNUSED,
+		  aout_symbol_type *cache_ptr,
+		  bfd *abfd ATTRIBUTE_UNUSED)
 {
   int name_type;
   int new_type;
@@ -419,9 +405,9 @@ convert_sym_type (sym_pointer, cache_ptr, abfd)
 	      abort ();
 	    case N_UNDF | N_EXT:
 	      /* If the value is nonzero, then just treat this as a
-                 common symbol.  I don't know if this is correct in
-                 all cases, but it is more correct than treating it as
-                 a weak undefined symbol.  */
+		 common symbol.  I don't know if this is correct in
+		 all cases, but it is more correct than treating it as
+		 a weak undefined symbol.  */
 	      if (cache_ptr->symbol.value == 0)
 		new_type = N_WEAKU;
 	      break;
@@ -446,16 +432,15 @@ convert_sym_type (sym_pointer, cache_ptr, abfd)
 
 /*
 DESCRIPTION
-        Swaps the information in an executable header taken from a raw
-        byte stream memory image, into the internal exec_header
-        structure.
+	Swaps the information in an executable header taken from a raw
+	byte stream memory image, into the internal exec_header
+	structure.
 */
 
 void
-NAME (aout,swap_exec_header_in) (abfd, raw_bytes, execp)
-     bfd *abfd;
-     struct external_exec *raw_bytes;
-     struct internal_exec *execp;
+NAME (aout,swap_exec_header_in) (bfd *abfd,
+				 struct external_exec *raw_bytes,
+				 struct internal_exec *execp)
 {
   struct external_exec *bytes = (struct external_exec *) raw_bytes;
 
@@ -478,7 +463,7 @@ NAME (aout,swap_exec_header_in) (abfd, raw_bytes, execp)
   /* check the header to see if it was generated by a bfd output */
   /* this is detected rather bizarrely by requiring a bunch of   */
   /* header fields to be zero and an old unused field (now used) */
-  /* to be set.                                                  */
+  /* to be set.							 */
   /***************************************************************/
   do
     {
@@ -536,8 +521,7 @@ NAME (aout,swap_exec_header_in) (abfd, raw_bytes, execp)
 */
 
 bfd_boolean
-MY (slurp_symbol_table) (abfd)
-     bfd *abfd;
+MY (slurp_symbol_table) (bfd *abfd)
 {
   bfd_size_type symbol_bytes;
   struct external_nlist *syms;
@@ -559,7 +543,7 @@ MY (slurp_symbol_table) (abfd)
     return FALSE;
   syms = (struct external_nlist *) (strings + SYM_EXTRA_BYTES);
   if (bfd_seek (abfd, obj_sym_filepos (abfd), SEEK_SET) != 0
-      || bfd_bread ((PTR) syms, symbol_bytes, abfd) != symbol_bytes)
+      || bfd_bread (syms, symbol_bytes, abfd) != symbol_bytes)
     {
       bfd_release (abfd, syms);
       return FALSE;
@@ -618,7 +602,7 @@ MY (slurp_symbol_table) (abfd)
 	    /**************************************************************/
 	    /* the hp string is not null terminated so we create a new one*/
 	    /* by copying the string to overlap the just vacated nlist    */
-	    /* structure before it in memory.                             */
+	    /* structure before it in memory.				  */
 	    /**************************************************************/
 	    cache_ptr->symbol.name = strings;
 	    memcpy (strings, sym_pointer + 1, length);
@@ -640,12 +624,11 @@ MY (slurp_symbol_table) (abfd)
 }
 
 void
-MY (swap_std_reloc_in) (abfd, bytes, cache_ptr, symbols, symcount)
-     bfd *abfd;
-     struct hp300hpux_reloc *bytes;
-     arelent *cache_ptr;
-     asymbol **symbols;
-     bfd_size_type symcount ATTRIBUTE_UNUSED;
+MY (swap_std_reloc_in) (bfd *abfd,
+			struct hp300hpux_reloc *bytes,
+			arelent *cache_ptr,
+			asymbol **symbols,
+			bfd_size_type symcount ATTRIBUTE_UNUSED)
 {
   int r_index;
   int r_extern = 0;
@@ -709,7 +692,7 @@ MY (swap_std_reloc_in) (abfd, bytes, cache_ptr, symbols, symcount)
     {
       /* The GNU linker assumes any offset from beginning of section */
       /* is already incorporated into the image while the HP linker  */
-      /* adds this in later.  Add it in now...                       */
+      /* adds this in later.  Add it in now...			     */
       MOVE_ADDRESS (-cache_ptr->address);
     }
   else
@@ -719,14 +702,11 @@ MY (swap_std_reloc_in) (abfd, bytes, cache_ptr, symbols, symcount)
 }
 
 bfd_boolean
-MY (slurp_reloc_table) (abfd, asect, symbols)
-     bfd *abfd;
-     sec_ptr asect;
-     asymbol **symbols;
+MY (slurp_reloc_table) (bfd *abfd, sec_ptr asect, asymbol **symbols)
 {
   bfd_size_type count;
   bfd_size_type reloc_size;
-  PTR relocs;
+  void * relocs;
   arelent *reloc_cache;
   size_t each_size;
   struct hp300hpux_reloc *rptr;
@@ -765,7 +745,7 @@ doit:
   if (!reloc_cache && count != 0)
     return FALSE;
 
-  relocs = (PTR) bfd_alloc (abfd, reloc_size);
+  relocs = bfd_alloc (abfd, reloc_size);
   if (!relocs && reloc_size != 0)
     {
       bfd_release (abfd, reloc_cache);
@@ -798,21 +778,15 @@ doit:
 /************************************************************************/
 /* The following functions are identical to functions in aoutx.h except */
 /* they refer to MY(func) rather than NAME(aout,func) and they also     */
-/* call aout_32 versions if the input file was generated by gcc         */
+/* call aout_32 versions if the input file was generated by gcc		*/
 /************************************************************************/
 
-long aout_32_canonicalize_symtab
-  PARAMS ((bfd * abfd, asymbol ** location));
-long aout_32_get_symtab_upper_bound
-  PARAMS ((bfd * abfd));
-long aout_32_canonicalize_reloc
-  PARAMS ((bfd * abfd, sec_ptr section, arelent ** relptr,
-	   asymbol ** symbols));
+long aout_32_canonicalize_symtab  (bfd *, asymbol **);
+long aout_32_get_symtab_upper_bound  (bfd *);
+long aout_32_canonicalize_reloc  (bfd *, sec_ptr, arelent **, asymbol **);
 
 long
-MY (canonicalize_symtab) (abfd, location)
-     bfd *abfd;
-     asymbol **location;
+MY (canonicalize_symtab) (bfd *abfd, asymbol **location)
 {
   unsigned int counter = 0;
   aout_symbol_type *symbase;
@@ -830,8 +804,7 @@ MY (canonicalize_symtab) (abfd, location)
 }
 
 long
-MY (get_symtab_upper_bound) (abfd)
-     bfd *abfd;
+MY (get_symtab_upper_bound) (bfd *abfd)
 {
   if (obj_aout_subformat (abfd) == gnu_encap_format)
     return aout_32_get_symtab_upper_bound (abfd);
@@ -842,14 +815,14 @@ MY (get_symtab_upper_bound) (abfd)
 }
 
 long
-MY (canonicalize_reloc) (abfd, section, relptr, symbols)
-     bfd *abfd;
-     sec_ptr section;
-     arelent **relptr;
-     asymbol **symbols;
+MY (canonicalize_reloc) (bfd *abfd,
+			 sec_ptr section,
+			 arelent **relptr,
+			 asymbol **symbols)
 {
   arelent *tblptr = section->relocation;
   unsigned int count;
+
   if (obj_aout_subformat (abfd) == gnu_encap_format)
     return aout_32_canonicalize_reloc (abfd, section, relptr, symbols);
 

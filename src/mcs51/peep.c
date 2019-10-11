@@ -22,8 +22,10 @@
   what you give them.   Help stamp out software-hoarding!
 -------------------------------------------------------------------------*/
 
+#include <ctype.h>
 #include "common.h"
 #include "ralloc.h"
+#include "gen.h"
 
 #define D(x) x
 #define DEADMOVEERROR() do {werror(E_INTERNAL_ERROR, __FILE__, __LINE__, "error in deadmove");} while(0)
@@ -191,8 +193,8 @@ findLabel (const lineNode *pl)
   /* 3. search lineNode with label definition and return it */
   for (cpl = _G.head; cpl; cpl = cpl->next)
     {
-      if (   cpl->isLabel
-          && strcmp (p, cpl->line) == 0)
+      if (cpl->isLabel
+          && strncmp (p, cpl->line, strlen(p)) == 0)
         {
           return cpl;
         }
@@ -219,25 +221,26 @@ isFunc (const lineNode *pl)
 /* termScanAtFunc - returns S4O_TERM if it's a 'normal' function   */
 /* call and it's a 'caller save'. returns S4O_CONTINUE if it's     */
 /* 'callee save' or 'naked'. returns S4O_ABORT if it's 'banked'    */
-/* uses the register for the destination.                          */
+/* and uses the register for the destination.                      */
 /*-----------------------------------------------------------------*/
 static S4O_RET
 termScanAtFunc (const lineNode *pl, int rIdx)
 {
   sym_link *ftype;
+  bool banked_reg = (rIdx == R0_IDX) || (rIdx == R1_IDX) || (rIdx == R2_IDX);
 
   if (!isFunc (pl))
     return S4O_CONTINUE;
   // let's assume calls to literally given locations use the default
   // most notably :  (*(void (*)()) 0) ();  see bug 1749275
   if (IS_VALOP (IC_LEFT (pl->ic)))
-    return !options.all_callee_saves;
-
+    return (options.model == MODEL_HUGE) && banked_reg ? S4O_ABORT : options.all_callee_saves ? S4O_CONTINUE : S4O_TERM;
   ftype = OP_SYM_TYPE(IC_LEFT(pl->ic));
   if (IS_FUNCPTR (ftype))
     ftype = ftype->next;
-  if (IFFUNC_ISBANKEDCALL(ftype) &&
-      ((rIdx == R0_IDX) || (rIdx == R1_IDX) || (rIdx == R2_IDX)))
+  if (IFFUNC_ISBANKEDCALL(ftype) && banked_reg)
+    return S4O_ABORT;
+  if (FUNC_ARGS (ftype) && getSize (FUNC_ARGS (ftype)->type) > 4)
     return S4O_ABORT;
   if (FUNC_CALLEESAVES(ftype))
     return S4O_CONTINUE;
@@ -259,7 +262,7 @@ termScanAtFunc (const lineNode *pl, int rIdx)
 /*       points to a register (e.g. "ar0"). scan4op() tests for    */
 /*       read or write operations with this register               */
 /*    const char *untilOp                                          */
-/*       points to NULL or a opcode (e.g. "push").                 */
+/*       points to NULL or an opcode (e.g. "push").                */
 /*       scan4op() returns if it hits this opcode.                 */
 /*    lineNode **plCond                                            */
 /*       If a conditional branch is met plCond points to the       */
@@ -444,6 +447,20 @@ scan4op (lineNode **pl, const char *pReg, const char *untilOp,
           case 'l':
             if (strncmp ("lcall", (*pl)->line, 5) == 0)
               {
+                const char *p = (*pl)->line+5;
+                while (*p == ' ' || *p == '\t')
+                  p++;
+                while (isdigit (*p))
+                  p++;
+                if (isdigit(p[-1]) && *p == '$') /* at least one digit */
+                  {
+                    /* this is a temp label for a pcall */
+                    *pl = findLabel (*pl);
+                    if (!*pl)
+                      return S4O_ABORT;
+                    break;
+                  }
+
                 ret = termScanAtFunc (*pl, rIdx);
                 /* If it's a 'normal' 'caller save' function call, all
                    registers have been saved until the 'lcall'. The
@@ -490,6 +507,18 @@ scan4op (lineNode **pl, const char *pReg, const char *untilOp,
                   }
 
                 /* it's a normal function return */
+                if (!((*pl)->ic))
+                  return S4O_ABORT; /* but no ic? */
+                if (!currFunc->type)
+                  return S4O_ABORT;  /* not a function? */
+                if (FUNC_CALLEESAVES (currFunc->type))
+                  return S4O_ABORT; /* returning from callee saves function */
+                if (getSize(currFunc->etype) > 4)
+                  {
+                    for (unsigned i = 0; i < getSize(currFunc->etype); i++)
+                      if (strstr (pReg, fReturn8051[i]))
+                        return S4O_ABORT; /* return value is partially in r4-r7 */
+                  }
                 return S4O_TERM;
               }
             break;
@@ -543,6 +572,7 @@ doPushScan (lineNode **pl, const char *pReg)
             /* already checked */
             return TRUE;
           case S4O_CONDJMP:
+#if 0
             /* two possible destinations: recurse */
               {
                 lineNode *pushPl2 = plConditional;
@@ -552,6 +582,10 @@ doPushScan (lineNode **pl, const char *pReg)
                 pushPl = pushPl2;
               }
             continue;
+#else
+            /* two possible destinations: give up */
+            return FALSE;
+#endif   
           default:
             return FALSE;
         }
@@ -632,7 +666,7 @@ removeDeadPopPush (const char *pReg, lineNode *currPl, lineNode *head)
 
       ; An "acall", "lcall" (not callee save), "ret" (not PCALL with
       ; callee save), "reti" or write access of r0 terminate
-      ; the search, and the "mov r0,a" can safely be removed.
+      ; the search, and the "pop/push ar0" can safely be removed.
   */
 
   /* area 1 */

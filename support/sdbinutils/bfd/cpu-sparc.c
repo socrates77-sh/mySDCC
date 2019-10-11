@@ -1,6 +1,5 @@
 /* BFD support for the SPARC architecture.
-   Copyright 1992, 1995, 1996, 1998, 2000, 2002, 2005, 2007
-   Free Software Foundation, Inc.
+   Copyright (C) 1992-2018 Free Software Foundation, Inc.
 
    This file is part of BFD, the Binary File Descriptor library.
 
@@ -37,6 +36,7 @@ static const bfd_arch_info_type arch_info_struct[] =
     FALSE,
     bfd_default_compatible,
     bfd_default_scan,
+    bfd_arch_default_fill,
     &arch_info_struct[1],
   },
   {
@@ -51,6 +51,7 @@ static const bfd_arch_info_type arch_info_struct[] =
     FALSE,
     bfd_default_compatible,
     bfd_default_scan,
+    bfd_arch_default_fill,
     &arch_info_struct[2],
   },
   {
@@ -65,6 +66,7 @@ static const bfd_arch_info_type arch_info_struct[] =
     FALSE,
     bfd_default_compatible,
     bfd_default_scan,
+    bfd_arch_default_fill,
     &arch_info_struct[3],
   },
   {
@@ -79,6 +81,7 @@ static const bfd_arch_info_type arch_info_struct[] =
     FALSE,
     bfd_default_compatible,
     bfd_default_scan,
+    bfd_arch_default_fill,
     &arch_info_struct[4],
   },
   {
@@ -93,6 +96,7 @@ static const bfd_arch_info_type arch_info_struct[] =
     FALSE,
     bfd_default_compatible,
     bfd_default_scan,
+    bfd_arch_default_fill,
     &arch_info_struct[5],
   },
   {
@@ -107,6 +111,7 @@ static const bfd_arch_info_type arch_info_struct[] =
     FALSE,
     bfd_default_compatible,
     bfd_default_scan,
+    bfd_arch_default_fill,
     &arch_info_struct[6],
   },
   {
@@ -121,6 +126,7 @@ static const bfd_arch_info_type arch_info_struct[] =
     FALSE,
     bfd_default_compatible,
     bfd_default_scan,
+    bfd_arch_default_fill,
     &arch_info_struct[7],
   },
   {
@@ -135,6 +141,7 @@ static const bfd_arch_info_type arch_info_struct[] =
     FALSE,
     bfd_default_compatible,
     bfd_default_scan,
+    bfd_arch_default_fill,
     &arch_info_struct[8],
   },
   {
@@ -149,6 +156,187 @@ static const bfd_arch_info_type arch_info_struct[] =
     FALSE,
     bfd_default_compatible,
     bfd_default_scan,
+    bfd_arch_default_fill,
+    &arch_info_struct[9],
+  },
+  {
+    32,	/* bits in a word */
+    32,	/* bits in an address */
+    8,	/* bits in a byte */
+    bfd_arch_sparc,
+    bfd_mach_sparc_v8plusc,
+    "sparc",
+    "sparc:v8plusc",
+    3,
+    FALSE,
+    bfd_default_compatible,
+    bfd_default_scan,
+    bfd_arch_default_fill,
+    &arch_info_struct[10],
+  },
+  {
+    64,	/* bits in a word */
+    64,	/* bits in an address */
+    8,	/* bits in a byte */
+    bfd_arch_sparc,
+    bfd_mach_sparc_v9c,
+    "sparc",
+    "sparc:v9c",
+    3,
+    FALSE,
+    bfd_default_compatible,
+    bfd_default_scan,
+    bfd_arch_default_fill,
+    &arch_info_struct[11],
+  },
+  {
+    32,	/* bits in a word */
+    32,	/* bits in an address */
+    8,	/* bits in a byte */
+    bfd_arch_sparc,
+    bfd_mach_sparc_v8plusd,
+    "sparc",
+    "sparc:v8plusd",
+    3,
+    FALSE,
+    bfd_default_compatible,
+    bfd_default_scan,
+    bfd_arch_default_fill,
+    &arch_info_struct[12],
+  },
+  {
+    64,	/* bits in a word */
+    64,	/* bits in an address */
+    8,	/* bits in a byte */
+    bfd_arch_sparc,
+    bfd_mach_sparc_v9d,
+    "sparc",
+    "sparc:v9d",
+    3,
+    FALSE,
+    bfd_default_compatible,
+    bfd_default_scan,
+    bfd_arch_default_fill,
+    &arch_info_struct[13],
+  },
+  {
+    32,	/* bits in a word */
+    32,	/* bits in an address */
+    8,	/* bits in a byte */
+    bfd_arch_sparc,
+    bfd_mach_sparc_v8pluse,
+    "sparc",
+    "sparc:v8pluse",
+    3,
+    FALSE,
+    bfd_default_compatible,
+    bfd_default_scan,
+    bfd_arch_default_fill,
+    &arch_info_struct[14],
+  },
+  {
+    64,	/* bits in a word */
+    64,	/* bits in an address */
+    8,	/* bits in a byte */
+    bfd_arch_sparc,
+    bfd_mach_sparc_v9e,
+    "sparc",
+    "sparc:v9e",
+    3,
+    FALSE,
+    bfd_default_compatible,
+    bfd_default_scan,
+    bfd_arch_default_fill,
+    &arch_info_struct[15],
+  },
+  {
+    32,	/* bits in a word */
+    32,	/* bits in an address */
+    8,	/* bits in a byte */
+    bfd_arch_sparc,
+    bfd_mach_sparc_v8plusv,
+    "sparc",
+    "sparc:v8plusv",
+    3,
+    FALSE,
+    bfd_default_compatible,
+    bfd_default_scan,
+    bfd_arch_default_fill,
+    &arch_info_struct[16],
+  },
+  {
+    64,	/* bits in a word */
+    64,	/* bits in an address */
+    8,	/* bits in a byte */
+    bfd_arch_sparc,
+    bfd_mach_sparc_v9v,
+    "sparc",
+    "sparc:v9v",
+    3,
+    FALSE,
+    bfd_default_compatible,
+    bfd_default_scan,
+    bfd_arch_default_fill,
+    &arch_info_struct[17],
+  },
+  {
+    32,	/* bits in a word */
+    32,	/* bits in an address */
+    8,	/* bits in a byte */
+    bfd_arch_sparc,
+    bfd_mach_sparc_v8plusm,
+    "sparc",
+    "sparc:v8plusm",
+    3,
+    FALSE,
+    bfd_default_compatible,
+    bfd_default_scan,
+    bfd_arch_default_fill,
+    &arch_info_struct[18],
+  },
+  {
+    64,	/* bits in a word */
+    64,	/* bits in an address */
+    8,	/* bits in a byte */
+    bfd_arch_sparc,
+    bfd_mach_sparc_v9m,
+    "sparc",
+    "sparc:v9m",
+    3,
+    FALSE,
+    bfd_default_compatible,
+    bfd_default_scan,
+    bfd_arch_default_fill,
+    &arch_info_struct[19],
+  },
+  {
+    32,	/* bits in a word */
+    32,	/* bits in an address */
+    8,	/* bits in a byte */
+    bfd_arch_sparc,
+    bfd_mach_sparc_v8plusm8,
+    "sparc",
+    "sparc:v8plusm8",
+    3,
+    FALSE,
+    bfd_default_compatible,
+    bfd_default_scan,
+    bfd_arch_default_fill,
+    &arch_info_struct[20],
+  },
+  {
+    64,	/* bits in a word */
+    64,	/* bits in an address */
+    8,	/* bits in a byte */
+    bfd_arch_sparc,
+    bfd_mach_sparc_v9m8,
+    "sparc",
+    "sparc:v9m8",
+    3,
+    FALSE,
+    bfd_default_compatible,
+    bfd_default_scan,
+    bfd_arch_default_fill,
     0,
   }
 };
@@ -166,5 +354,6 @@ const bfd_arch_info_type bfd_sparc_arch =
     TRUE, /* the default */
     bfd_default_compatible,
     bfd_default_scan,
+    bfd_arch_default_fill,
     &arch_info_struct[0],
   };

@@ -44,7 +44,7 @@ public:
   class cl_memory_cell *cell_cl, *cell_ch;
   class cl_memory_cell *cell_ccapl[5], *cell_ccaph[5], *cell_ccapm[5];
   t_mem ccapm[5];
-  class cl_memory_cell *cell_cmod, *cell_ccon;
+  class cl_memory_cell *cell_cmod, *cell_ccon, *cell_cr;
   long t0_overflows, ECI_edge;
   t_mem clk_source;
   bool bit_CIDL, bit_WDTE, bit_ECF, bit_CR;
@@ -52,7 +52,8 @@ public:
 public:
   cl_pca(class cl_uc *auc, int aid);
   virtual int init(void);
-
+  //virtual char *cfg_help(t_addr addr);
+  
   virtual void added_to_uc(void);
 
   //virtual t_mem read(class cl_memory_cell *cell);

@@ -9,7 +9,7 @@
 ### This file may be distributed under the terms of the the
 ### GNU General Public License (GPL). See GPL for details.
 ###
-### $Id: Makefile.common.in 6048 2010-11-02 21:52:07Z borutr $
+### $Id: Makefile.common.in 8895 2013-11-11 00:17:19Z tecodev $
 ###
 
 #################################################
@@ -28,6 +28,7 @@ CFLAGS ?=
 CFLAGS += -mpic14 -p16f$(ARCH)
 CFLAGS += --std-c99
 CFLAGS += -I. -I$(top_srcdir)/../../include/pic14 -I$(top_srcdir)/../../non-free/include/pic14
+CFLAGS += --no-warn-non-free
 
 #################################################
 ### optimization flags
