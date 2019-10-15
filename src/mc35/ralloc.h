@@ -82,18 +82,20 @@ extern set *mc35_dynDirectBitRegs;
 extern set *mc35_dynInternalRegs;
 
 // zwr 1.0.0
-typedef struct Q_ValList
+typedef struct QValList
 {
   char *funname;
   symbol *firstval;
   symbol *val;
   set *next;
   set *firstItem;
-} Q_ValList;
+} QValList;
 
 void mc35_initStack(int base_address, int size, int shared);
 reg_info *mc35_pic14_regWithIdx(int);
-reg_info *mc35_dirregWithName(char *name);
+// zwr 2.0.0
+reg_info *mc35_dirregWithName(const char *name);
+// reg_info *mc35_dirregWithName(char *name);
 void mc35_assignRegisters(ebbIndex *ebbi);
 reg_info *mc35_findFreeReg(short type);
 reg_info *mc35_allocWithIdx(int idx);
@@ -104,9 +106,13 @@ void mc35_debugLogClose(void);
 void mc35_writeUsedRegs(FILE *of);
 
 reg_info *mc35_allocDirReg(operand *op);
-reg_info *mc35_allocInternalRegister(int rIdx, char *name, PIC_OPTYPE po_type, int alias);
-reg_info *mc35_allocProcessorRegister(int rIdx, char *name, short po_type, int alias);
-reg_info *mc35_allocRegByName(char *name, int size);
+// zwr 2.0.0
+reg_info *mc35_allocInternalRegister(int rIdx, const char *name, PIC_OPTYPE po_type, int alias);
+reg_info *mc35_allocProcessorRegister(int rIdx, const char *name, short po_type, int alias);
+reg_info *mc35_allocRegByName(const char *name, int size);
+// reg_info *mc35_allocInternalRegister(int rIdx, char *name, PIC_OPTYPE po_type, int alias);
+// reg_info *mc35_allocProcessorRegister(int rIdx, char *name, short po_type, int alias);
+// reg_info *mc35_allocRegByName(char *name, int size);
 reg_info *mc35_allocNewDirReg(sym_link *symlnk, const char *name);
 
 /* Define register address that are constant across PIC family */

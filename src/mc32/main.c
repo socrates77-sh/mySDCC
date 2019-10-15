@@ -45,11 +45,15 @@ static OPTION _mc32_poptions[] =
         // zwr 1.1.0
         {0, LONG_CALL, &mc32_long_call, "enable lcall/lgoto"},
         {0, OPTION_STACK_SIZE, &options.stack_size, "sets the size if the argument passing stack (default: 16, minimum: 4)", CLAT_INTEGER},
+        // zwr 2.0.0
+        {0, "--no-extended-instructions", &mc32_options.no_ext_instr, "forbid use of the extended instruction set (e.g., ADDFSR)"},
+        {0, "--no-warn-non-free", &mc32_options.no_warn_non_free, "suppress warning on absent --use-non-free option"},
         {0, NULL, NULL, NULL}};
 
 /* list of key words used by pic14 */
 static char *_mc32_keywords[] =
     {
+      // zwr 2.0.0
         "at",
         //"bit",
         "code",
@@ -58,20 +62,21 @@ static char *_mc32_keywords[] =
         "far",
         "idata",
         "interrupt",
+        "naked",
         "near",
-        "pdata",
+        // "pdata",
         "reentrant",
         "sfr",
         //"sbit",
         "using",
         "xdata",
-        "_data",
-        "_code",
-        "_generic",
-        "_near",
-        "_xdata",
-        "_pdata",
-        "_idata",
+        // "_data",
+        // "_code",
+        // "_generic",
+        // "_near",
+        // "_xdata",
+        // "_pdata",
+        // "_idata",
         NULL};
 
 static int mc32_regParmFlg = 0; /* determine if we can register a parameter */
@@ -100,8 +105,11 @@ _mc32_init(void)
   memset(&mc32_options, 0, sizeof(mc32_options));
 }
 
+// zwr 2.0.0
 static void
-_mc32_reset_regparm(void)
+_mc32_reset_regparm(struct sym_link *funcType)
+// static void
+// _mc32_reset_regparm(void)
 {
   mc32_regParmFlg = 0;
 }
@@ -251,74 +259,155 @@ mc32_oclsExpense(struct memmap *oclass)
 static void
 _mc32_do_link(void)
 {
-  hTab *linkValues = NULL;
-  char lfrm[256];
-  char *lcmd;
-  char temp[PATH_MAX];
-  set *tSet = NULL;
-  int ret;
-  char *procName;
-
   /*
    * link command format:
    * {linker} {incdirs} {lflags} -o {outfile} {spec_ofiles} {ofiles} {libs}
    *
    */
-
-  // zwr 1.0.0
-  // sprintf(lfrm, "{linker} {incdirs} {sysincdirs} {lflags} -w -r -o \"{outfile}\" \"{user_ofile}\" {spec_ofiles} {ofiles} {libs}");
-  sprintf(lfrm, "{linker} {incdirs} {sysincdirs} {lflags} -w -r -m -o \"{outfile}\" \"{user_ofile}\" {spec_ofiles} {ofiles} {libs}");
+// zwr 1.0.0
+#define LFRM "{linker} {incdirs} {sysincdirs} {lflags} -w -r -m -o {outfile} {user_ofile} {spec_ofiles} {ofiles} {libs}"
+// #define LFRM "{linker} {incdirs} {sysincdirs} {lflags} -w -r -o {outfile} {user_ofile} {spec_ofiles} {ofiles} {libs}"
+  hTab *linkValues = NULL;
+  char *lcmd;
+  set *tSet = NULL;
+  int ret;
+  char *procName;
 
   shash_add(&linkValues, "linker", "gplink");
 
   /* LIBRARY SEARCH DIRS */
   mergeSets(&tSet, libPathsSet);
   mergeSets(&tSet, libDirsSet);
-  shash_add(&linkValues, "incdirs", joinStrSet(appendStrSet(tSet, "-I\"", "\"")));
+  shash_add(&linkValues, "incdirs", joinStrSet(processStrSet(tSet, "-I", NULL, shell_escape)));
 
-  joinStrSet(appendStrSet(libDirsSet, "-I\"", "\""));
-  shash_add(&linkValues, "sysincdirs", joinStrSet(appendStrSet(libDirsSet, "-I\"", "\"")));
+  joinStrSet(processStrSet(libDirsSet, "-I", NULL, shell_escape));
+  shash_add(&linkValues, "sysincdirs", joinStrSet(processStrSet(libDirsSet, "-I", NULL, shell_escape)));
 
   shash_add(&linkValues, "lflags", joinStrSet(linkOptionsSet));
 
-  shash_add(&linkValues, "outfile", fullDstFileName ? fullDstFileName : dstFileName);
+  {
+    char *s = shell_escape(fullDstFileName ? fullDstFileName : dstFileName);
+
+    shash_add(&linkValues, "outfile", s);
+    Safe_free(s);
+  }
 
   if (fullSrcFileName)
   {
-    SNPRINTF(temp, sizeof(temp), "%s.o", fullDstFileName ? fullDstFileName : dstFileName);
-    shash_add(&linkValues, "user_ofile", temp);
+    struct dbuf_s dbuf;
+    char *s;
+
+    dbuf_init(&dbuf, 128);
+
+    dbuf_append_str(&dbuf, fullDstFileName ? fullDstFileName : dstFileName);
+    dbuf_append(&dbuf, ".o", 2);
+    s = shell_escape(dbuf_c_str(&dbuf));
+    dbuf_destroy(&dbuf);
+    shash_add(&linkValues, "user_ofile", s);
+    Safe_free(s);
   }
 
-  shash_add(&linkValues, "ofiles", joinStrSet(appendStrSet(relFilesSet, "\"", "\"")));
+  shash_add(&linkValues, "ofiles", joinStrSet(processStrSet(relFilesSet, NULL, NULL, shell_escape)));
 
   /* LIBRARIES */
   procName = mc32_processor_base_name();
   if (!procName)
-  {
     procName = "16f877";
-  }
 
-  if (mc32_getPIC()->isEnhancedCore)
+  addSet(&libFilesSet, Safe_strdup(mc32_getPIC()->isEnhancedCore ? "libsdcce.lib" : "libsdcc.lib"));
+
   {
-    addSet(&libFilesSet, Safe_strdup("libsdcce.lib"));
-  }
-  else
-  {
-    addSet(&libFilesSet, Safe_strdup("libsdcc.lib"));
-  }
-  SNPRINTF(temp, sizeof(temp), "%s.lib", procName); // zwr 1.0.0
-  addSet(&libFilesSet, Safe_strdup(temp));
-  shash_add(&linkValues, "libs", joinStrSet(appendStrSet(libFilesSet, "\"", "\"")));
+    struct dbuf_s dbuf;
 
-  lcmd = msprintf(linkValues, lfrm);
+    dbuf_init(&dbuf, 128);
+    dbuf_append(&dbuf, "pic", sizeof("pic") - 1);
+    // zwr 1.0.0
+    // dbuf_append_str(&dbuf, procName);
+    dbuf_append(&dbuf, ".lib", sizeof(".lib") - 1);
+    addSet(&libFilesSet, dbuf_detach_c_str(&dbuf));
+  }
 
+  shash_add(&linkValues, "libs", joinStrSet(processStrSet(libFilesSet, NULL, NULL, shell_escape)));
+
+  lcmd = msprintf(linkValues, LFRM);
   ret = sdcc_system(lcmd);
-
   Safe_free(lcmd);
 
   if (ret)
     exit(1);
 }
+
+// static void
+// _mc32_do_link(void)
+// {
+//   hTab *linkValues = NULL;
+//   char lfrm[256];
+//   char *lcmd;
+//   char temp[PATH_MAX];
+//   set *tSet = NULL;
+//   int ret;
+//   char *procName;
+
+//   /*
+//    * link command format:
+//    * {linker} {incdirs} {lflags} -o {outfile} {spec_ofiles} {ofiles} {libs}
+//    *
+//    */
+
+//   // zwr 1.0.0
+//   // sprintf(lfrm, "{linker} {incdirs} {sysincdirs} {lflags} -w -r -o \"{outfile}\" \"{user_ofile}\" {spec_ofiles} {ofiles} {libs}");
+//   sprintf(lfrm, "{linker} {incdirs} {sysincdirs} {lflags} -w -r -m -o \"{outfile}\" \"{user_ofile}\" {spec_ofiles} {ofiles} {libs}");
+
+//   shash_add(&linkValues, "linker", "gplink");
+
+//   /* LIBRARY SEARCH DIRS */
+//   mergeSets(&tSet, libPathsSet);
+//   mergeSets(&tSet, libDirsSet);
+//   shash_add(&linkValues, "incdirs", joinStrSet(appendStrSet(tSet, "-I\"", "\"")));
+
+//   joinStrSet(appendStrSet(libDirsSet, "-I\"", "\""));
+//   shash_add(&linkValues, "sysincdirs", joinStrSet(appendStrSet(libDirsSet, "-I\"", "\"")));
+
+//   shash_add(&linkValues, "lflags", joinStrSet(linkOptionsSet));
+
+//   shash_add(&linkValues, "outfile", fullDstFileName ? fullDstFileName : dstFileName);
+
+//   if (fullSrcFileName)
+//   {
+//     SNPRINTF(temp, sizeof(temp), "%s.o", fullDstFileName ? fullDstFileName : dstFileName);
+//     shash_add(&linkValues, "user_ofile", temp);
+//   }
+
+//   shash_add(&linkValues, "ofiles", joinStrSet(appendStrSet(relFilesSet, "\"", "\"")));
+
+//   /* LIBRARIES */
+//   procName = mc32_processor_base_name();
+//   if (!procName)
+//   {
+//     procName = "16f877";
+//   }
+
+//   if (mc32_getPIC()->isEnhancedCore)
+//   {
+//     addSet(&libFilesSet, Safe_strdup("libsdcce.lib"));
+//   }
+//   else
+//   {
+//     addSet(&libFilesSet, Safe_strdup("libsdcc.lib"));
+//   }
+//   SNPRINTF(temp, sizeof(temp), "%s.lib", procName); // zwr 1.0.0
+//   addSet(&libFilesSet, Safe_strdup(temp));
+//   shash_add(&linkValues, "libs", joinStrSet(appendStrSet(libFilesSet, "\"", "\"")));
+
+//   lcmd = msprintf(linkValues, lfrm);
+
+//   ret = sdcc_system(lcmd);
+
+//   Safe_free(lcmd);
+
+//   if (ret)
+//     exit(1);
+// }
 
 /* Globals */
 PORT mc32_port =
@@ -353,8 +442,8 @@ PORT mc32_port =
         {/* Peephole optimizer */
          _mc32_defaultRules},
         {
-            /* Sizes: char, short, int, long, long long, ptr, fptr, gptr, bit, float, max */
-            1, 2, 2, 4, 8, 2, 2, 3, 1, 4, 4
+            /* Sizes: char, short, int, long, long long, near ptr, far ptr, gptr, func ptr, banked func ptr, bit, float */
+            1, 2, 2, 4, 8, 2, 2, 3, 2, 3, 1, 4
             /* TSD - I changed the size of gptr from 3 to 1. However, it should be
        2 so that we can accomodate the PIC's with 4 register banks (like the
        16f877)
@@ -384,13 +473,16 @@ PORT mc32_port =
             "IABS    (ABS,DATA)",  // iabs_name - absolute data
             NULL,
             NULL,
-            1 // code is read only
+            NULL,
+            NULL,
+            1, // code is read only
+            1  // No fancy alignments supported.
         },
         {NULL, NULL},
-        {+1, 1, 4, 1, 1, 0},
+        {+1, 1, 4, 1, 1, 0, 0},
         /* pic14 has an 8 bit mul */
         {
-            1, -1},
+            1, FALSE},
         {mc32_emitDebuggerSymbol},
         {
             255 / 3, /* maxCount */
@@ -411,6 +503,8 @@ PORT mc32_port =
         _mc32_setDefaultOptions,
         mc32_assignRegisters,
         _mc32_getRegName,
+        0,
+        NULL,
         _mc32_keywords,
         _mc32_genAssemblerPreamble,
         NULL, /* no genAssemblerEnd */
@@ -439,4 +533,5 @@ PORT mc32_port =
         GPOINTER, /* treat unqualified pointers as "generic" pointers */
         1,        /* reset labelKey to 1 */
         1,        /* globals & local static allowed */
+        0,        /* Number of registers handled in the tree-decomposition-based register allocator in SDCCralloc.hpp */
         PORT_MAGIC};

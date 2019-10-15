@@ -93,9 +93,9 @@ struct reg_info;
 /***********************************************************************
  *  PIC status bits - this will move into device dependent headers
  ***********************************************************************/
-#define PIC_C_BIT 2		// zwr 1.0.0
+#define PIC_C_BIT 0
 #define PIC_DC_BIT 1
-#define PIC_Z_BIT 0		// zwr 1.0.0
+#define PIC_Z_BIT 2
 #define PIC_RP0_BIT 5 /* Register Bank select bits RP1:0 : */
 #define PIC_RP1_BIT 6 /* 00 - bank 0, 01 - bank 1, 10 - bank 2, 11 - bank 3 */
 #define PIC_IRP_BIT 7 /* Indirect register page select */
@@ -196,7 +196,6 @@ typedef enum {
 	POC_MOVLW,
 	POC_MOVWF,
 	POC_NOP,
-	POC_XCH,	// zwr 1.0.0 inst
 	POC_RETLW,
 	POC_RETURN,
 	POC_RETFIE,
@@ -560,7 +559,8 @@ typedef struct pCodeFunction
 
 	int ncalled;		   /* Number of times function is called */
 	unsigned isPublic : 1; /* True if the fn is not static and can be called from another module (ie a another c or asm file) */
-
+	// zwr 2.0.0
+	unsigned isInterrupt : 1; /* True if the fn is interrupt. */
 } pCodeFunction;
 
 /*************************************************
@@ -778,10 +778,15 @@ typedef struct peepCommand
  *-----------------------------------------------------------------*/
 
 pCode *mc35_newpCode(PIC_OPCODE op, pCodeOp *pcop);			// Create a new pCode given an operand
-pCode *mc35_newpCodeCharP(char *cP);							// Create a new pCode given a char *
-pCode *mc35_newpCodeFunction(char *g, char *f, int);			// Create a new function
-pCode *mc35_newpCodeLabel(char *name, int key);				// Create a new label given a key
-pCode *mc35_newpCodeCSource(int ln, char *f, const char *l); // Create a new symbol line
+// zwr 2.0.0
+pCode *mc35_newpCodeCharP(const char *cP);							 // Create a new pCode given a char *
+pCode *mc35_newpCodeFunction(const char *g, const char *f, int, int); // Create a new function.
+pCode *mc35_newpCodeLabel(const char *name, int key);				 // Create a new label given a key
+pCode *mc35_newpCodeCSource(int ln, const char *f, const char *l);	// Create a new symbol line.
+// pCode *mc35_newpCodeCharP(char *cP);							// Create a new pCode given a char *
+// pCode *mc35_newpCodeFunction(char *g, char *f, int);			// Create a new function
+// pCode *mc35_newpCodeLabel(char *name, int key);				// Create a new label given a key
+// pCode *mc35_newpCodeCSource(int ln, char *f, const char *l); // Create a new symbol line
 pCode *mc35_newpCodeWild(int pCodeID, pCodeOp *optional_operand, pCodeOp *optional_label);
 pCode *mc35_findNextInstruction(pCode *pci);
 pCode *mc35_findPrevInstruction(pCode *pci);
@@ -808,15 +813,26 @@ void mc35_pCodeInsertAfter(pCode *pc1, pCode *pc2);
 void mc35_pCodeInsertBefore(pCode *pc1, pCode *pc2);
 void mc35_pCodeDeleteChain(pCode *f, pCode *t);
 
-pCode *mc35_newpCodeAsmDir(char *asdir, char *argfmt, ...);
+// zwr 2.0.0
+pCode *mc35_newpCodeAsmDir(const char *asdir, const char *argfmt, ...);
 
-pCodeOp *mc35_newpCodeOpLabel(char *name, int key);
-pCodeOp *mc35_newpCodeOpImmd(char *name, int offset, int index, int code_space, int is_func);
+pCodeOp *mc35_newpCodeOpLabel(const char *name, int key);
+pCodeOp *mc35_newpCodeOpImmd(const char *name, int offset, int index, int code_space, int is_func);
 pCodeOp *mc35_newpCodeOpLit(int lit);
-pCodeOp *mc35_newpCodeOpBit(char *name, int bit, int inBitSpace);
+pCodeOp *mc35_newpCodeOpBit(const char *name, int bit, int inBitSpace);
 pCodeOp *mc35_newpCodeOpWild(int id, pCodeWildBlock *pcwb, pCodeOp *subtype);
-pCodeOp *mc35_newpCodeOpRegFromStr(char *name);
-pCodeOp *mc35_newpCodeOp(char *name, PIC_OPTYPE p);
+pCodeOp *mc35_newpCodeOpRegFromStr(const char *name);
+pCodeOp *mc35_newpCodeOp(const char *name, PIC_OPTYPE p);
+
+// pCode *mc35_newpCodeAsmDir(char *asdir, char *argfmt, ...);
+
+// pCodeOp *mc35_newpCodeOpLabel(char *name, int key);
+// pCodeOp *mc35_newpCodeOpImmd(char *name, int offset, int index, int code_space, int is_func);
+// pCodeOp *mc35_newpCodeOpLit(int lit);
+// pCodeOp *mc35_newpCodeOpBit(char *name, int bit, int inBitSpace);
+// pCodeOp *mc35_newpCodeOpWild(int id, pCodeWildBlock *pcwb, pCodeOp *subtype);
+// pCodeOp *mc35_newpCodeOpRegFromStr(char *name);
+// pCodeOp *mc35_newpCodeOp(char *name, PIC_OPTYPE p);
 pCodeOp *mc35_pCodeOpCopy(pCodeOp *pcop);
 pCodeOp *mc35_popCopyGPR2Bit(pCodeOp *pc, int bitval);
 pCodeOp *mc35_popCopyReg(pCodeOpReg *pc);
@@ -858,8 +874,12 @@ extern pCodeInstruction *mc35_pic14Mnemonics[MAX_PIC14MNEMONICS];
 /*
  * From pcodepeep.h:
  */
-int mc35_getpCode(char *mnem, unsigned dest);
-int mc35_getpCodePeepCommand(char *cmd);
+
+// zwr 2.0.0
+int mc35_getpCode(const char *mnem, unsigned dest);
+int mc35_getpCodePeepCommand(const char *cmd);
+// int mc35_getpCode(char *mnem, unsigned dest);
+// int mc35_getpCodePeepCommand(char *cmd);
 int mc35_pCodeSearchCondition(pCode *pc, unsigned int cond, int contIfSkip);
 
 #endif // __PCODE_H__

@@ -39,16 +39,17 @@ extern struct dbuf_s *codeOutBuf;
 
 // zwr 1.0.0
 extern struct dbuf_s *ValLog;
-extern struct QValList *ValList;
+extern struct QValList *mc30_ValList;
+extern void printValsInfo(QValList *, struct dbuf_s *);
 
 extern void initialComments(FILE *afile);
 extern operand *operandFromAst(ast *tree, int lvl);
 extern value *initPointer(initList *ilist, sym_link *toType);
 
-set *pic14_localFunctions = NULL;
-int pic14_hasInterrupt = 0; // Indicates whether to emit interrupt handler or not
+set *mc30_localFunctions = NULL;
+int mc30_hasInterrupt = 0; // Indicates whether to emit interrupt handler or not
 
-int pic14_stringInSet(const char *str, set **world, int autoAdd);
+int mc30_stringInSet(const char *str, set **world, int autoAdd);
 
 #ifdef WORDS_BIGENDIAN
 #define _ENDIAN(x) (3 - x)
@@ -64,12 +65,12 @@ int pic14_stringInSet(const char *str, set **world, int autoAdd);
  * extern, and global declarations */
 static struct dbuf_s *ivalBuf, *extBuf, *gloBuf, *gloDefBuf;
 
-static set *emitted = NULL;
+static set *mc30_emitted = NULL;
 
-static void showAllMemmaps(FILE *of); // XXX: emits initialized symbols
+static void mc30_showAllMemmaps(FILE *of); // XXX: emits initialized symbols
 
 static void
-emitPseudoStack(struct dbuf_s *oBuf, struct dbuf_s *oBufExt)
+mc30_emitPseudoStack(struct dbuf_s *oBuf, struct dbuf_s *oBufExt)
 {
     int shared, low, high, size, i;
 
@@ -78,8 +79,8 @@ emitPseudoStack(struct dbuf_s *oBuf, struct dbuf_s *oBufExt)
      *      differently sized sharebanks, since STK12 will be
      *      required by larger devices but only up to STK03 might
      *      be defined using smaller devices. */
-    shared = pic14_getSharedStack(&low, &high, &size);
-    if (!pic14_options.isLibrarySource)
+    shared = mc30_getSharedStack(&low, &high, &size);
+    if (!mc30_options.isLibrarySource)
     {
         dbuf_printf(oBuf, "\n");
         // zwr 1.0.0
@@ -138,17 +139,17 @@ emitPseudoStack(struct dbuf_s *oBuf, struct dbuf_s *oBufExt)
             char buffer[128];
             SNPRINTF(&buffer[0], 127, "STK%02d", i);
             dbuf_printf(oBufExt, "\textern %s\n", &buffer[0]);
-            pic14_stringInSet(&buffer[0], &emitted, 1);
+            mc30_stringInSet(&buffer[0], &mc30_emitted, 1);
         } // for i
     }
     dbuf_printf(oBuf, "\n");
 }
 
 static int
-emitIfNew(struct dbuf_s *oBuf, set **emitted, const char *fmt,
+mc30_emitIfNew(struct dbuf_s *oBuf, set **mc30_emitted, const char *fmt,
           const char *name)
 {
-    int wasPresent = pic14_stringInSet(name, emitted, 1);
+    int wasPresent = mc30_stringInSet(name, mc30_emitted, 1);
 
     if (!wasPresent)
     {
@@ -158,7 +159,7 @@ emitIfNew(struct dbuf_s *oBuf, set **emitted, const char *fmt,
 }
 
 static void
-pic14_constructAbsMap(struct dbuf_s *oBuf, struct dbuf_s *gloBuf)
+mc30_constructAbsMap(struct dbuf_s *oBuf, struct dbuf_s *gloBuf)
 {
     memmap *maps[] = {data, sfr, NULL};
     int i;
@@ -178,13 +179,13 @@ pic14_constructAbsMap(struct dbuf_s *oBuf, struct dbuf_s *gloBuf)
                 addr = SPEC_ADDR(sym->etype);
 
                 /* handle CONFIG words here */
-                if (IS_CONFIG_ADDRESS(addr))
+                if (MC30_IS_CONFIG_ADDRESS(addr))
                 {
                     //fprintf( stderr, "%s: assignment to CONFIG@0x%x found\n", __FUNCTION__, addr );
                     //fprintf( stderr, "ival: %p (0x%x)\n", sym->ival, (int)list2int( sym->ival ) );
                     if (sym->ival)
                     {
-                        pic14_assignConfigWordValue(addr, (int)list2int(sym->ival));
+                        mc30_assignConfigWordValue(addr, (int)list2int(sym->ival));
                     }
                     else
                     {
@@ -257,8 +258,8 @@ pic14_constructAbsMap(struct dbuf_s *oBuf, struct dbuf_s *gloBuf)
 
                 if (IS_GLOBAL(sym) && !IS_STATIC(sym->etype))
                 {
-                    //emitIfNew(gloBuf, &emitted, "\tglobal\t%s\n", sym->name);
-                    emitIfNew(gloBuf, &emitted, "\tglobal\t%s\n", sym->rname);
+                    //mc30_emitIfNew(gloBuf, &mc30_emitted, "\tglobal\t%s\n", sym->name);
+                    mc30_emitIfNew(gloBuf, &mc30_emitted, "\tglobal\t%s\n", sym->rname);
                 } // if
             }     // for
             dbuf_printf(oBuf, "\tres\t%d\n", size);
@@ -270,7 +271,7 @@ pic14_constructAbsMap(struct dbuf_s *oBuf, struct dbuf_s *gloBuf)
 /* createInterruptVect - creates the interrupt vector              */
 /*-----------------------------------------------------------------*/
 static void
-pic14createInterruptVect(struct dbuf_s *vBuf)
+mc30_createInterruptVect(struct dbuf_s *vBuf)
 {
     mainf = newSymbol("main", 0);
     mainf->block = 0;
@@ -300,57 +301,60 @@ pic14createInterruptVect(struct dbuf_s *vBuf)
     dbuf_printf(vBuf, "%s", iComments2);
     // Lkr file should place section STARTUP at address 0x0, but does not ...
 
-    // zwr 1.1.0
-    dbuf_printf(vBuf, "STARTUP\t%s 0x%04x\n", CODE_NAME, mc30_start_addr);
-    // dbuf_printf(vBuf, "STARTUP\t%s 0x0000\n", CODE_NAME);
     // zwr 1.0.0
+    dbuf_printf(vBuf, "STARTUP\t%s 0x0000\n", CODE_NAME);
     //dbuf_printf(vBuf, "\tnop\n"); /* first location for used by incircuit debugger */
     //dbuf_printf(vBuf, "\tpagesel __sdcc_gsinit_startup\n");
     // dbuf_printf(vBuf, "\tgoto\t__sdcc_gsinit_startup\n");
-    // popGetExternal("__sdcc_gsinit_startup", 0);
-    dbuf_printf(vBuf, "\tgoto\t_main\n");
-    popGetExternal("_main", 0);
+    // mc30_popGetExternal("__sdcc_gsinit_startup", 0);
+
+    // zwr 1.1.0
+    if(!mc30_long_call)
+        dbuf_printf(vBuf, "\tgoto\t_main\n");
+    else
+        dbuf_printf(vBuf, "\tlgoto\t_main\n");
+    mc30_popGetExternal("_main", 0);
 }
 
 /*-----------------------------------------------------------------*/
 /* initialComments - puts in some initial comments                 */
 /*-----------------------------------------------------------------*/
 static void
-pic14initialComments(FILE *afile)
+mc30_initialComments(FILE *afile)
 {
     initialComments(afile);
     fprintf(afile, "; MC30 port for the RISC core\n"); // zwr 1.1.0
     fprintf(afile, "%s", iComments2);
 }
 
-int pic14_stringInSet(const char *str, set **world, int autoAdd)
+int mc30_stringInSet(const char *str, set **world, int autoAdd)
 {
     char *s;
 
     if (!str)
-        return 1;
+        return TRUE;
     assert(world);
 
     for (s = setFirstItem(*world); s; s = setNextItem(*world))
     {
         /* found in set */
         if (0 == strcmp(s, str))
-            return 1;
+            return TRUE;
     }
 
     /* not found */
     if (autoAdd)
         addSet(world, Safe_strdup(str));
-    return 0;
+    return FALSE;
 }
 
 static void
-pic14printLocals(struct dbuf_s *oBuf)
+mc30_printLocals(struct dbuf_s *oBuf)
 {
-    set *allregs[6] = {dynAllocRegs /*, dynStackRegs, dynProcessorRegs*/,
-                       dynDirectRegs, dynDirectBitRegs /*, dynInternalRegs */};
+    set *allregs[6] = {mc30_dynAllocRegs /*, mc30_dynStackRegs, mc30_dynProcessorRegs*/,
+                       mc30_dynDirectRegs, mc30_dynDirectBitRegs /*, mc30_dynInternalRegs */};
     reg_info *reg;
-    int i, is_first = 1;
+    int i, is_first = TRUE;
     static unsigned sectionNr = 0;
 
     /* emit all registers from all possible sets */
@@ -366,7 +370,7 @@ pic14printLocals(struct dbuf_s *oBuf)
 
             if (reg->wasUsed && !reg->isExtern)
             {
-                if (!pic14_stringInSet(reg->name, &emitted, 1))
+                if (!mc30_stringInSet(reg->name, &mc30_emitted, TRUE))
                 {
                     if (reg->isFixed)
                     {
@@ -390,14 +394,14 @@ pic14printLocals(struct dbuf_s *oBuf)
                             if (is_first)
                             {
                                 dbuf_printf(oBuf, "UDL_%s_%u\tudata\n", moduleName, sectionNr++);
-                                is_first = 0;
+                                is_first = FALSE;
                             }
                             dbuf_printf(oBuf, "%s\tres\t%d\n", reg->name, reg->size);
                         }
                     }
                 }
             }
-            reg->isEmitted = 1;
+            reg->isEmitted = TRUE;
         } // for
     }     // for
 }
@@ -406,7 +410,7 @@ pic14printLocals(struct dbuf_s *oBuf)
 /* emitOverlay - will emit code for the overlay stuff              */
 /*-----------------------------------------------------------------*/
 static void
-pic14emitOverlay(struct dbuf_s *aBuf)
+mc30_emitOverlay(struct dbuf_s *aBuf)
 {
     set *ovrset;
 
@@ -507,9 +511,9 @@ pic14emitOverlay(struct dbuf_s *aBuf)
 }
 
 static void
-pic14_emitInterruptHandler(FILE *asmFile)
+mc30_emitInterruptHandler(FILE *asmFile)
 {
-    if (pic14_hasInterrupt)
+    if (mc30_hasInterrupt)
     {
 
         fprintf(asmFile, "%s", iComments2);
@@ -524,14 +528,14 @@ pic14_emitInterruptHandler(FILE *asmFile)
 
         /* interrupt service routine */
         fprintf(asmFile, "__sdcc_interrupt\n");
-        copypCode(asmFile, 'I');
+        mc30_copypCode(asmFile, 'I');
     }
 }
 
 /*-----------------------------------------------------------------*/
 /* glue - the final glue that hold the whole thing together        */
 /*-----------------------------------------------------------------*/
-void picglue()
+void mc30_picglue(void)
 {
     FILE *asmFile;
     struct dbuf_s ovrBuf;
@@ -540,7 +544,7 @@ void picglue()
     dbuf_init(&ovrBuf, 4096);
     dbuf_init(&vBuf, 4096);
 
-    pCodeInitRegisters();
+    mc30_pCodeInitRegisters();
 
     /* check for main() */
     mainf = newSymbol("main", 0);
@@ -551,54 +555,58 @@ void picglue()
     {
         /* main missing -- import stack from main module */
         //fprintf (stderr, "main() missing -- assuming we are NOT the main module\n");
-        pic14_options.isLibrarySource = 1;
+        mc30_options.isLibrarySource = TRUE;
     }
 
     /* At this point we've got all the code in the form of pCode structures */
     /* Now it needs to be rearranged into the order it should be placed in the */
     /* code space */
 
-    movepBlock2Head('P'); // Last
-    movepBlock2Head(code->dbName);
-    movepBlock2Head('X');
-    movepBlock2Head(statsg->dbName); // First
+    mc30_movepBlock2Head('P'); // Last
+    mc30_movepBlock2Head(code->dbName);
+    mc30_movepBlock2Head('X');
+    mc30_movepBlock2Head(statsg->dbName); // First
 
     /* print the global struct definitions */
     if (options.debug)
         cdbStructBlock(0);
 
     /* do the overlay segments */
-    pic14emitOverlay(&ovrBuf);
+    mc30_emitOverlay(&ovrBuf);
 
     /* PENDING: this isnt the best place but it will do */
     if (port->general.glue_up_main)
     {
         /* create the interrupt vector table */
-        pic14createInterruptVect(&vBuf);
+        mc30_createInterruptVect(&vBuf);
     }
 
-    AnalyzepCode('*');
+    mc30_AnalyzepCode('*');
 
-    ReuseReg(); // ReuseReg where call tree permits
+    mc30_ReuseReg(); // mc30_ReuseReg where call tree permits
 
-    InlinepCode();
+    mc30_InlinepCode();
 
-    AnalyzepCode('*');
+    mc30_AnalyzepCode('*');
 
     if (options.debug)
-        pcode_test();
+        mc30_pcode_test();
 
     /* now put it all together into the assembler file */
     /* create the assembler file name */
 
     if ((noAssemble || options.c1mode) && fullDstFileName)
     {
-        sprintf(buffer, "%s", fullDstFileName);
+        // zwr 2.0.0
+        SNPRINTF(buffer, sizeof(buffer), "%s", fullDstFileName);
+        // sprintf(buffer, "%s", fullDstFileName);
     }
     else
     {
-        sprintf(buffer, "%s", dstFileName);
-        strcat(buffer, ".asm");
+        // zwr 2.0.0
+        SNPRINTF(buffer, sizeof(buffer), "%s.asm", dstFileName);
+        // sprintf(buffer, "%s", dstFileName);
+        // strcat(buffer, ".asm");
     }
 
     if (!(asmFile = fopen(buffer, "w")))
@@ -608,10 +616,10 @@ void picglue()
     }
 
     /* prepare statistics */
-    resetpCodeStatistics();
+    mc30_resetpCodeStatistics();
 
     /* initial comments */
-    pic14initialComments(asmFile);
+    mc30_initialComments(asmFile);
 
     /* print module name */
     fprintf(asmFile, "%s\t.file\t\"%s\"\n",
@@ -624,20 +632,20 @@ void picglue()
     }
 
     /* Put all variables into a cblock */
-    AnalyzeBanking();
+    mc30_AnalyzeBanking();
 
     /* emit initialized data */
-    showAllMemmaps(asmFile);
+    mc30_showAllMemmaps(asmFile);
 
     // zwr 1.0.0
-    if (ValList)
+    if (mc30_ValList)
     {
-        printValsInfo(ValList, ValLog);
-        fprintf(asmFile, "\n%s\n", ValLog->buf);
+        printValsInfo(mc30_ValList, ValLog);
+        fprintf(asmFile, "\n%s\n", (char*)(ValLog->buf));
     }
     
     /* print the locally defined variables in this module */
-    writeUsedRegs(asmFile);
+    mc30_writeUsedRegs(asmFile);
 
     /* create the overlay segments */
     fprintf(asmFile, "%s", iComments2);
@@ -652,7 +660,7 @@ void picglue()
         dbuf_destroy(&vBuf);
 
     /* create interupt ventor handler */
-    pic14_emitInterruptHandler(asmFile);
+    mc30_emitInterruptHandler(asmFile);
 
     /* copy over code */
     fprintf(asmFile, "%s", iComments2);
@@ -661,23 +669,23 @@ void picglue()
     fprintf(asmFile, "code_%s\t%s\n", moduleName, port->mem.code_name);
 
     /* unknown */
-    copypCode(asmFile, 'X');
+    mc30_copypCode(asmFile, 'X');
 
     /* _main function */
-    copypCode(asmFile, 'M');
+    mc30_copypCode(asmFile, 'M');
 
     /* other functions */
-    copypCode(asmFile, code->dbName);
+    mc30_copypCode(asmFile, code->dbName);
 
     /* unknown */
-    copypCode(asmFile, 'P');
+    mc30_copypCode(asmFile, 'P');
 
-    dumppCodeStatistics(asmFile);
+    mc30_dumppCodeStatistics(asmFile);
 
     fprintf(asmFile, "\tend\n");
 
     fclose(asmFile);
-    pic14_debugLogClose();
+    mc30_debugLogClose();
 }
 
 /*
@@ -693,7 +701,7 @@ void picglue()
 #endif
 
 static char *
-parseIvalAst(ast *node, int *inCodeSpace)
+mc30_parseIvalAst(ast *node, int *inCodeSpace)
 {
 #define LEN 4096
     char *buffer = NULL;
@@ -705,11 +713,11 @@ parseIvalAst(ast *node, int *inCodeSpace)
         symbol *sym = IS_AST_SYM_VALUE(node) ? AST_SYMBOL(node) : NULL;
         if (inCodeSpace && val->type && (IS_FUNC(val->type) || IS_CODE(getSpec(val->type))))
         {
-            *inCodeSpace = 1;
+            *inCodeSpace = TRUE;
         }
         if (inCodeSpace && sym && (IS_FUNC(sym->type) || IS_CODE(getSpec(sym->type))))
         {
-            *inCodeSpace = 1;
+            *inCodeSpace = TRUE;
         }
 
         DEBUGprintf("%s: AST_VALUE\n", __FUNCTION__);
@@ -741,18 +749,18 @@ parseIvalAst(ast *node, int *inCodeSpace)
         {
         case CAST:
             assert(node->right);
-            buffer = parseIvalAst(node->right, inCodeSpace);
+            buffer = mc30_parseIvalAst(node->right, inCodeSpace);
             DEBUGprintf("%s: %s\n", __FUNCTION__, buffer);
             break;
         case '&':
             assert(node->left && !node->right);
-            buffer = parseIvalAst(node->left, inCodeSpace);
+            buffer = mc30_parseIvalAst(node->left, inCodeSpace);
             DEBUGprintf("%s: %s\n", __FUNCTION__, buffer);
             break;
         case '+':
             assert(node->left && node->right);
-            left = parseIvalAst(node->left, inCodeSpace);
-            right = parseIvalAst(node->right, inCodeSpace);
+            left = mc30_parseIvalAst(node->left, inCodeSpace);
+            right = mc30_parseIvalAst(node->right, inCodeSpace);
             buffer = Safe_alloc(LEN);
             SNPRINTF(buffer, LEN, "(%s + %s)", left, right);
             DEBUGprintf("%s: %s\n", __FUNCTION__, buffer);
@@ -762,7 +770,7 @@ parseIvalAst(ast *node, int *inCodeSpace)
         case '[':
             assert(node->left && node->right);
             assert(IS_AST_VALUE(node->left) && AST_VALUE(node->left)->sym);
-            right = parseIvalAst(node->right, inCodeSpace);
+            right = mc30_parseIvalAst(node->right, inCodeSpace);
             buffer = Safe_alloc(LEN);
             SNPRINTF(buffer, LEN, "(%s + %u * %s)",
                      AST_VALUE(node->left)->sym->rname, getSize(AST_VALUE(node->left)->type), right);
@@ -787,10 +795,10 @@ parseIvalAst(ast *node, int *inCodeSpace)
  * symbol name(s) for intialized data.
  */
 static int
-emitIvalLabel(struct dbuf_s *oBuf, symbol *sym)
+mc30_emitIvalLabel(struct dbuf_s *oBuf, symbol *sym)
 {
     char *segname;
-    static int in_code = 0;
+    static int in_code = FALSE;
     static int sectionNr = 0;
 
     if (sym)
@@ -799,12 +807,12 @@ emitIvalLabel(struct dbuf_s *oBuf, symbol *sym)
         if (IS_CODE(getSpec(sym->type)))
         {
             segname = "code";
-            in_code = 1;
+            in_code = TRUE;
         }
         else
         {
             segname = "idata";
-            in_code = 0;
+            in_code = FALSE;
         }
         dbuf_printf(oBuf, "\nID_%s_%d\t%s", moduleName, sectionNr++, segname);
         if (SPEC_ABSA(getSpec(sym->type)))
@@ -814,7 +822,7 @@ emitIvalLabel(struct dbuf_s *oBuf, symbol *sym)
         } // if
         dbuf_printf(oBuf, "\n%s\n", sym->rname);
 
-        addSet(&emitted, sym->rname);
+        addSet(&mc30_emitted, sym->rname);
     }
     return (in_code);
 }
@@ -823,13 +831,13 @@ emitIvalLabel(struct dbuf_s *oBuf, symbol *sym)
  * Actually emit the initial values in .asm format.
  */
 static void
-emitIvals(struct dbuf_s *oBuf, symbol *sym, initList *list, long lit, int size)
+mc30_emitIvals(struct dbuf_s *oBuf, symbol *sym, initList *list, long lit, int size)
 {
     int i;
     ast *node;
     operand *op;
     value *val = NULL;
-    int inCodeSpace = 0;
+    int inCodeSpace = FALSE;
     char *str = NULL;
     int in_code;
 
@@ -837,7 +845,7 @@ emitIvals(struct dbuf_s *oBuf, symbol *sym, initList *list, long lit, int size)
     assert(!list || (list->type == INIT_NODE));
     node = list ? list->init.node : NULL;
 
-    in_code = emitIvalLabel(oBuf, sym);
+    in_code = mc30_emitIvalLabel(oBuf, sym);
     if (!in_code)
         dbuf_printf(oBuf, "\tdb\t");
 
@@ -847,8 +855,8 @@ emitIvals(struct dbuf_s *oBuf, symbol *sym, initList *list, long lit, int size)
         {
             if (in_code)
             {
-                // zwr 1.0.0
-                dbuf_printf(oBuf, "\tretai 0x%02x\n", (int)(lit & 0xff));
+                // zwr 1.1.0
+                dbuf_printf(oBuf, "\tdw 0x%02x\n", (int)(lit & 0xff));
                 // dbuf_printf (oBuf, "\tretlw 0x00\n"); // conflict from merge of sf-patch-2991122 ?
             }
             else
@@ -874,7 +882,7 @@ emitIvals(struct dbuf_s *oBuf, symbol *sym, initList *list, long lit, int size)
     }
     else if (IS_AST_OP(node))
     {
-        str = parseIvalAst(node, &inCodeSpace);
+        str = mc30_parseIvalAst(node, &inCodeSpace);
         DEBUGprintf("%s: AST_OP: %s\n", __FUNCTION__, str);
         op = NULL;
     }
@@ -885,7 +893,7 @@ emitIvals(struct dbuf_s *oBuf, symbol *sym, initList *list, long lit, int size)
 
     if (op)
     {
-        aopOp(op, NULL, 1);
+        mc30_aopOp(op, NULL, 1);
         assert(AOP(op));
         //printOperand(op, of);
     }
@@ -901,18 +909,18 @@ emitIvals(struct dbuf_s *oBuf, symbol *sym, initList *list, long lit, int size)
         {
             /* This branch is introduced to fix #1427663. */
             PCOI(AOP(op)->aopu.pcop)->offset += i;
-            text = get_op(AOP(op)->aopu.pcop, NULL, 0);
+            text = mc30_get_op(AOP(op)->aopu.pcop, NULL, 0);
             PCOI(AOP(op)->aopu.pcop)->offset -= i;
         }
         else
         {
-            text = op ? aopGet(AOP(op), i, 0, 0)
-                      : get_op(newpCodeOpImmd(str, i, 0, inCodeSpace, 0), NULL, 0);
+            text = op ? mc30_aopGet(AOP(op), i, 0, 0)
+                      : mc30_get_op(mc30_newpCodeOpImmd(str, i, 0, inCodeSpace, 0), NULL, 0);
         } // if
         if (in_code)
         {
-            // zwr 1.0.0
-            dbuf_printf(oBuf, "\tretai %s\n", text);
+            // zwr 1.1.0
+            dbuf_printf(oBuf, "\tdw %s\n", text);
         }
         else
         {
@@ -930,7 +938,7 @@ emitIvals(struct dbuf_s *oBuf, symbol *sym, initList *list, long lit, int size)
  * Returns the type of the first `fitting' member.
  */
 static sym_link *
-matchIvalToUnion(initList *list, sym_link *type, int size)
+mc30_matchIvalToUnion(initList *list, sym_link *type, int size)
 {
     symbol *sym;
 
@@ -972,7 +980,7 @@ matchIvalToUnion(initList *list, sym_link *type, int size)
             while (sym)
             {
                 DEBUGprintf("Checking STRUCT member %s\n", sym->name);
-                if (!matchIvalToUnion(list, sym->type, 0))
+                if (!mc30_matchIvalToUnion(list, sym->type, 0))
                 {
                     DEBUGprintf("ERROR, STRUCT member %s\n", sym->name);
                     return (NULL);
@@ -1009,7 +1017,7 @@ matchIvalToUnion(initList *list, sym_link *type, int size)
                     sym = sym->next;
                 }
                 DEBUGprintf("Checking UNION member %s.\n", sym->name);
-                if (((IS_STRUCT(sym->type) || getSize(sym->type) == size)) && matchIvalToUnion(list, sym->type, size))
+                if (((IS_STRUCT(sym->type) || getSize(sym->type) == size)) && mc30_matchIvalToUnion(list, sym->type, size))
                 {
                     DEBUGprintf("Matched UNION member %s.\n", sym->name);
                     return (sym->type);
@@ -1034,7 +1042,7 @@ matchIvalToUnion(initList *list, sym_link *type, int size)
  * Parse the type and its initializer and emit it (recursively).
  */
 static void
-emitInitVal(struct dbuf_s *oBuf, symbol *topsym, sym_link *my_type, initList *list)
+mc30_emitInitVal(struct dbuf_s *oBuf, symbol *topsym, sym_link *my_type, initList *list)
 {
     symbol *sym;
     int size;
@@ -1065,18 +1073,18 @@ emitInitVal(struct dbuf_s *oBuf, symbol *topsym, sym_link *my_type, initList *li
     if (IS_PTR(my_type))
     {
         DEBUGprintf("(pointer, %d byte) 0x%x\n", size, list ? (unsigned int)list2int(list) : 0);
-        emitIvals(oBuf, topsym, list, 0, size);
+        mc30_emitIvals(oBuf, topsym, list, 0, size);
         return;
     }
 
     if (IS_ARRAY(my_type) && topsym && topsym->isstrlit)
     {
         str = (unsigned char *)SPEC_CVAL(topsym->etype).v_char;
-        emitIvalLabel(oBuf, topsym);
+        mc30_emitIvalLabel(oBuf, topsym);
         do
         {
-            // zwr 1.0.0
-            dbuf_printf(oBuf, "\tretai 0x%02x ; '%c'\n", str[0], (str[0] >= 0x20 && str[0] < 128) ? str[0] : '.');
+            // zwr 1.1.0
+            dbuf_printf(oBuf, "\tdw 0x%02x ; '%c'\n", str[0], (str[0] >= 0x20 && str[0] < 128) ? str[0] : '.');
         } while (*(str++));
         return;
     }
@@ -1098,7 +1106,7 @@ emitInitVal(struct dbuf_s *oBuf, symbol *topsym, sym_link *my_type, initList *li
             list = list->init.deep;
         for (i = 0; i < DCL_ELEM(my_type); i++)
         {
-            emitInitVal(oBuf, topsym, my_type->next, list);
+            mc30_emitInitVal(oBuf, topsym, my_type->next, list);
             topsym = NULL;
             if (list)
                 list = list->next;
@@ -1110,15 +1118,18 @@ emitInitVal(struct dbuf_s *oBuf, symbol *topsym, sym_link *my_type, initList *li
     {
         // float, 32 bit
         DEBUGprintf("(float, %d byte) %lf\n", size, list ? list2int(list) : 0.0);
-        emitIvals(oBuf, topsym, list, 0, size);
+        mc30_emitIvals(oBuf, topsym, list, 0, size);
         return;
     }
 
-    if (IS_CHAR(my_type) || IS_INT(my_type) || IS_LONG(my_type))
+    // zwr 2.0.0
+    if (IS_CHAR(my_type) || IS_INT(my_type) || IS_LONG(my_type) ||
+        IS_BOOL(my_type))
+    // if (IS_CHAR(my_type) || IS_INT(my_type) || IS_LONG(my_type))
     {
         // integral type, 8, 16, or 32 bit
         DEBUGprintf("(integral, %d byte) 0x%lx/%ld\n", size, list ? (long)list2int(list) : 0, list ? (long)list2int(list) : 0);
-        emitIvals(oBuf, topsym, list, 0, size);
+        mc30_emitIvals(oBuf, topsym, list, 0, size);
         return;
     }
     else if (IS_STRUCT(my_type) && SPEC_STRUCT(my_type)->type == STRUCT)
@@ -1154,13 +1165,13 @@ emitInitVal(struct dbuf_s *oBuf, symbol *topsym, sym_link *my_type, initList *li
                 }                               // while
                 assert(len < sizeof(long) * 8); // did we overflow our initializer?!?
                 len = (len + 7) & ~0x07;        // round up to full bytes
-                emitIvals(oBuf, topsym, NULL, bitfield, len / 8);
+                mc30_emitIvals(oBuf, topsym, NULL, bitfield, len / 8);
                 topsym = NULL;
             } // if
 
             if (sym)
             {
-                emitInitVal(oBuf, topsym, sym->type, list);
+                mc30_emitInitVal(oBuf, topsym, sym->type, list);
                 topsym = NULL;
                 sym = sym->next;
                 if (list)
@@ -1180,16 +1191,16 @@ emitInitVal(struct dbuf_s *oBuf, symbol *topsym, sym_link *my_type, initList *li
         assert(list && list->type == INIT_DEEP);
 
         // iterate over union members and initList, try to map number and type of fields and initializers
-        my_type = matchIvalToUnion(list, my_type, size);
+        my_type = mc30_matchIvalToUnion(list, my_type, size);
         if (my_type)
         {
-            emitInitVal(oBuf, topsym, my_type, list->init.deep);
+            mc30_emitInitVal(oBuf, topsym, my_type, list->init.deep);
             topsym = NULL;
             size -= getSize(my_type);
             if (size > 0)
             {
                 // pad with (leading) zeros
-                emitIvals(oBuf, NULL, NULL, 0, size);
+                mc30_emitIvals(oBuf, NULL, NULL, 0, size);
             }
             return;
         } // if
@@ -1214,11 +1225,11 @@ emitInitVal(struct dbuf_s *oBuf, symbol *topsym, sym_link *my_type, initList *li
  *        2: assume all symbols in set to be extern
  */
 static void
-emitSymbolSet(set *s, int type)
+mc30_emitSymbolSet(set *s, int type)
 {
     symbol *sym;
     initList *list;
-    unsigned sectionNr = 0;
+    unsigned int sectionNr = 0;
 
     for (sym = setFirstItem(s); sym; sym = setNextItem(s))
     {
@@ -1227,19 +1238,19 @@ emitSymbolSet(set *s, int type)
                 sym->name, sym->rname, sym->level, sym->block, sym->key, sym->islocal, sym->ival, IS_STATIC(sym->etype), sym->cdef, sym->used);
 #endif
 
-        if (sym->etype && SPEC_ABSA(sym->etype) && IS_CONFIG_ADDRESS(SPEC_ADDR(sym->etype)) && sym->ival)
+        if (sym->etype && SPEC_ABSA(sym->etype) && MC30_IS_CONFIG_ADDRESS(SPEC_ADDR(sym->etype)) && sym->ival)
         {
             // handle config words
-            pic14_assignConfigWordValue(SPEC_ADDR(sym->etype),
+            mc30_assignConfigWordValue(SPEC_ADDR(sym->etype),
                                         (int)list2int(sym->ival));
-            pic14_stringInSet(sym->rname, &emitted, 1);
+            mc30_stringInSet(sym->rname, &mc30_emitted, 1);
             continue;
         }
 
         if (sym->isstrlit)
         {
             // special case: string literals
-            emitInitVal(ivalBuf, sym, sym->type, NULL);
+            mc30_emitInitVal(ivalBuf, sym, sym->type, NULL);
             continue;
         }
 
@@ -1250,20 +1261,20 @@ emitSymbolSet(set *s, int type)
                 continue;
 
             /* export or import non-static globals */
-            if (!pic14_stringInSet(sym->rname, &emitted, 0))
+            if (!mc30_stringInSet(sym->rname, &mc30_emitted, 0))
             {
 
                 if (type == 2 || IS_EXTERN(sym->etype) || sym->cdef)
                 {
-                    /* do not add to emitted set, it might occur again! */
+                    /* do not add to mc30_emitted set, it might occur again! */
                     //if (!sym->used) continue;
                     // declare symbol
-                    emitIfNew(extBuf, &emitted, "\textern\t%s\n", sym->rname);
+                    mc30_emitIfNew(extBuf, &mc30_emitted, "\textern\t%s\n", sym->rname);
                 }
                 else
                 {
                     // declare symbol
-                    emitIfNew(gloBuf, &emitted, "\tglobal\t%s\n", sym->rname);
+                    mc30_emitIfNew(gloBuf, &mc30_emitted, "\tglobal\t%s\n", sym->rname);
                     if (!sym->ival && !IS_FUNC(sym->type))
                     {
                         // also define symbol
@@ -1271,7 +1282,7 @@ emitSymbolSet(set *s, int type)
                         {
                             // absolute location?
                             //dbuf_printf (gloDefBuf, "UD_%s_%u\tudata\t0x%04X\n", moduleName, sectionNr++, SPEC_ADDR(sym->etype));
-                            // deferred to pic14_constructAbsMap
+                            // deferred to mc30_constructAbsMap
                         }
                         else
                         {
@@ -1280,7 +1291,7 @@ emitSymbolSet(set *s, int type)
                         }
                     } // if
                 }     // if
-                pic14_stringInSet(sym->rname, &emitted, 1);
+                mc30_stringInSet(sym->rname, &mc30_emitted, 1);
             } // if
         }     // if
         list = sym->ival;
@@ -1288,7 +1299,7 @@ emitSymbolSet(set *s, int type)
         if (list)
         {
             resolveIvalSym(list, sym->type);
-            emitInitVal(ivalBuf, sym, sym->type, sym->ival);
+            mc30_emitInitVal(ivalBuf, sym, sym->type, sym->ival);
             dbuf_printf(ivalBuf, "\n");
         }
     } // for sym
@@ -1298,7 +1309,7 @@ emitSymbolSet(set *s, int type)
  * Iterate over all memmaps and emit their contents (attributes, symbols).
  */
 static void
-showAllMemmaps(FILE *of)
+mc30_showAllMemmaps(FILE *of)
 {
     struct dbuf_s locBuf;
     memmap *maps[] = {
@@ -1337,18 +1348,18 @@ showAllMemmaps(FILE *of)
                     map->sloc, map->fmap, map->paged, map->direct, map->bitsp,
                     map->codesp, map->regsp, map->syms);
 #endif
-            emitSymbolSet(map->syms, 0);
+            mc30_emitSymbolSet(map->syms, 0);
         } // if (map)
     }     // for i
     DEBUGprintf("---end of memmaps---\n");
 
-    emitSymbolSet(publics, 1);
-    emitSymbolSet(externs, 2);
+    mc30_emitSymbolSet(publics, 1);
+    mc30_emitSymbolSet(externs, 2);
 
-    emitPseudoStack(gloBuf, extBuf);
-    pic14_constructAbsMap(gloDefBuf, gloBuf);
-    pic14printLocals(&locBuf);
-    pic14_emitConfigWord(of); // must be done after all the rest
+    mc30_emitPseudoStack(gloBuf, extBuf);
+    mc30_constructAbsMap(gloDefBuf, gloBuf);
+    mc30_printLocals(&locBuf);
+    mc30_emitConfigWord(of); // must be done after all the rest
 
     dbuf_write_and_destroy(extBuf, of);
     dbuf_write_and_destroy(gloBuf, of);

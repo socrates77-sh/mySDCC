@@ -59,14 +59,14 @@ typedef struct memRange
 } memRange;
 
 /* Processor unique attributes */
-typedef struct PIC_device
+typedef struct MC30_device
 {
 	char *name; /* the processor name */
 
 	memRange *ram; /* RAM memory map */
 	memRange *sfr; /* SFR memory map */
 
-	int maxRAMaddress;  /* maximum value for a data address */
+	int mc30_maxRAMaddress;  /* maximum value for a data address */
 	int defMaxRAMaddrs; /* default maximum value for a data address */
 	int bankMask;		/* Bitmask that is ANDed with address to extract banking bits */
 	//  int hasAliasedRAM:1;        /* True if there are bank independent registers */
@@ -79,17 +79,17 @@ typedef struct PIC_device
 	int ioPins;			/* number of I/O pins - for device listing only */
 	int isEnhancedCore; /* enhanced cores (19f1934) feature automatic context saving */
 
-} PIC_device;
+} MC30_device;
 
-PIC_device *init_pic(char *pic_type);
-int picIsInitialized(void);
-char *processor_base_name(void);
-int IS_CONFIG_ADDRESS(int addr);
-void pic14_assignConfigWordValue(int address, int value);
-int pic14_emitConfigWord(FILE *vFile);
+MC30_device *mc30_init_pic(char *pic_type);
+int mc30_picIsInitialized(void);
+char *mc30_processor_base_name(void);
+int MC30_IS_CONFIG_ADDRESS(int addr);
+void mc30_assignConfigWordValue(int address, int value);
+int mc30_emitConfigWord(FILE *vFile);
 
-int pic14_allRAMShared(void);
-int pic14_getSharedStack(int *low, int *high, int *size);
-PIC_device *pic14_getPIC(void);
+int mc30_allRAMShared(void);
+int mc30_getSharedStack(int *low, int *high, int *size);
+MC30_device *mc30_getPIC(void);
 
 #endif /* __DEVICE_H__ */

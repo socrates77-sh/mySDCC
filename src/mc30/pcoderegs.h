@@ -43,9 +43,9 @@ typedef struct pCodeRegLives
 
 } pCodeRegLives;
 
-void pCodeRegMapLiveRanges(struct pBlock *pb);
-void pCodeRegOptimizeRegUsage(int level);
-void RegsUnMapLiveRanges(void);
-void RemoveUnusedRegisters(void);
+void mc30_pCodeRegMapLiveRanges(struct pBlock *pb);
+void mc30_pCodeRegOptimizeRegUsage(int level);
+void mc30_RegsUnMapLiveRanges(void);
+void mc30_RemoveUnusedRegisters(void);
 
 #endif //  __PCODEREGS_H__

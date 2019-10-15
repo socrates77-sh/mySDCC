@@ -348,6 +348,7 @@ static void mc32_genAddLit(iCode *ic, int lit)
                                         mc32_emitpcode(POC_ADDWF, mc32_popGet(AOP(result), 0));
                                         mc32_emitSKPNC;
                                         mc32_emitpcode(POC_INCF, mc32_popGet(AOP(result), MSB16));
+                                        break;
                                 }
                                 break;
 
@@ -370,6 +371,15 @@ static void mc32_genAddLit(iCode *ic, int lit)
                                         mc32_emitpcode(POC_INCFSZW, mc32_popGet(AOP(result), 0));
                                         mc32_emitpcode(POC_INCF, mc32_popGet(AOP(result), MSB16));
                                         mc32_emitpcode(POC_INCF, mc32_popGet(AOP(result), MSB16));
+                                // zwr 2.0.0
+                                        break;  
+                                default:
+                                        mc32_emitpcode(POC_MOVLW, mc32_popGetLit(lo));
+                                        mc32_emitpcode(POC_ADDWF, mc32_popGet(AOP(result), 0));
+                                        mc32_emitSKPNC;
+                                        mc32_emitpcode(POC_INCF, mc32_popGet(AOP(result), MSB16));
+                                        mc32_emitpcode(POC_INCF, mc32_popGet(AOP(result), MSB16));
+                                        break;
                                 }
                                 break;
 
@@ -390,6 +400,7 @@ static void mc32_genAddLit(iCode *ic, int lit)
                                         mc32_emitpcode(POC_ADDWF, mc32_popGet(AOP(result), 0));
                                         mc32_emitSKPC;
                                         mc32_emitpcode(POC_DECF, mc32_popGet(AOP(result), MSB16));
+                                        break;
                                 }
 
                                 break;
@@ -418,6 +429,7 @@ static void mc32_genAddLit(iCode *ic, int lit)
                                         mc32_emitpcode(POC_ADDWF, mc32_popGet(AOP(result), MSB16));
                                         break;
                                 }
+                                break;
                         }
                 }
                 else
@@ -563,7 +575,9 @@ static void mc32_genAddLit(iCode *ic, int lit)
 
                                                 mc32_emitpcode(POC_MOVLW, mc32_popGetLit(lit & 0xff));
                                                 mc32_emitpcode(POC_ADDFW, mc32_popGet(AOP(left), offset));
-                                                mc32_emitpcode(POC_MOVWF, mc32_popGet(AOP(left), offset));
+                                                // zwr 2.0.0
+                                                mc32_emitpcode(POC_MOVWF, mc32_popGet(AOP(result), offset));
+                                                // mc32_emitpcode(POC_MOVWF, mc32_popGet(AOP(left), offset));
 
                                                 clear_carry = 0;
                                         }

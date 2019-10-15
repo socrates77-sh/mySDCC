@@ -147,19 +147,19 @@
 #define OPT_DISABLE_PDK15 1
 
 /* XXX */
-#define OPT_DISABLE_MC30 1
+#define OPT_DISABLE_MC30 0
 
 /* XXX */
-#define OPT_DISABLE_MC32 1
+#define OPT_DISABLE_MC32 0
 
 /* XXX */
-#define OPT_DISABLE_MC35 1
+#define OPT_DISABLE_MC35 0
 
 /* XXX */
-#define OPT_DISABLE_PIC14 0
+#define OPT_DISABLE_PIC14 1
 
 /* XXX */
-#define OPT_DISABLE_PIC16 0
+#define OPT_DISABLE_PIC16 1
 
 /* XXX */
 #define OPT_DISABLE_R2K 1

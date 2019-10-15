@@ -84,7 +84,7 @@ static void mc32_pCodeRegMapLiveRangesInFlow(pCodeFlow *pcfl)
 				addSetIfnotP(&(reg->reglives.assignedpFlows), pcfl);
 
 			addSetIfnotP(&(reg->reglives.usedpCodes), pc);
-			reg->wasUsed = 1;
+			reg->wasUsed = TRUE;
 		}
 
 		//pc = mc32_findNextInstruction(pc->next);
@@ -216,8 +216,8 @@ static void mc32_RemoveRegsFromSet(set *regset)
 			if (used == 0)
 			{
 				//fprintf(stderr," getting rid of reg %s\n",reg->name);
-				reg->isFree = 1;
-				reg->wasUsed = 0;
+				reg->isFree = TRUE;
+				reg->wasUsed = FALSE;
 			}
 			else
 			{
@@ -261,8 +261,8 @@ static void mc32_RemoveRegsFromSet(set *regset)
 					mc32_unlinkpCode(pc);
 					deleteSetItem (&(reg->reglives.usedpCodes),pc);
 					*/
-					reg->isFree = 1;
-					reg->wasUsed = 0;
+					reg->isFree = TRUE;
+					reg->wasUsed = FALSE;
 					mc32_total_registers_saved++; // debugging stats.
 				}
 			}
@@ -342,8 +342,8 @@ static void mc32_Remove2pcodes(pCode *pcflow, pCode *pc1, pCode *pc2, reg_info *
 
 		if (can_free)
 		{
-			reg->isFree = 1;
-			reg->wasUsed = 0;
+			reg->isFree = TRUE;
+			reg->wasUsed = FALSE;
 		}
 	}
 
@@ -725,8 +725,8 @@ static void mc32_OptimizeRegUsage(set *fregs, int optimize_multi_uses, int optim
 					pc = setNextItem(reg->reglives.usedpCodes);
 				}
 
-				reg->isFree = 1;
-				reg->wasUsed = 0;
+				reg->isFree = TRUE;
+				reg->wasUsed = FALSE;
 
 				mc32_total_registers_saved++; // debugging stats.
 			}

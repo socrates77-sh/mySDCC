@@ -1229,10 +1229,14 @@ void mc35_peepRules2pCode(peepRule *rules)
 
     //DFPRINTF((stderr,"\nRule:\n\n"));
 
-    pcps = Safe_calloc(1, sizeof(pCodePeepSnippets));
+    // zwr 2.0.0
+    pcps = Safe_alloc(sizeof(pCodePeepSnippets));
+    // pcps = Safe_calloc(1, sizeof(pCodePeepSnippets));
     mc35_peepSnippets = mc35_DLL_append((DLList *)mc35_peepSnippets, (DLList *)pcps);
 
-    currentRule = pcps->peep = Safe_calloc(1, sizeof(pCodePeep));
+    // zwr 2.0.0
+    currentRule = pcps->peep = Safe_alloc(sizeof(pCodePeep));
+    // currentRule = pcps->peep = Safe_calloc(1, sizeof(pCodePeep));
     mc35_initpCodePeep(currentRule);
 
     /* Convert the target block */
@@ -1921,7 +1925,7 @@ int mc35_pCodePeepMatchRule(pCode *pc)
       inefficient code with the optimized version */
 #ifdef PCODE_DEBUG
       DFPRINTF((stderr, "Found a pcode peep match:\nRule:\n"));
-      //mc35_printpCodeString(stderr,peepBlock->target.pb->pcHead,10);
+      //printpCodeString(stderr,peepBlock->target.pb->pcHead,10);
       DFPRINTF((stderr, "first thing matched\n"));
       pc->print(stderr, pc);
       if (pcin)

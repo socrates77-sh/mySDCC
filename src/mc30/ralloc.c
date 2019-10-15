@@ -28,16 +28,16 @@
 #include "gen.h"
 #include "ralloc.h"
 
-set *dynAllocRegs = NULL;
-set *dynStackRegs = NULL;
-set *dynProcessorRegs = NULL;
-set *dynDirectRegs = NULL;
-set *dynDirectBitRegs = NULL;
-set *dynInternalRegs = NULL;
+set *mc30_dynAllocRegs = NULL;
+set *mc30_dynStackRegs = NULL;
+set *mc30_dynProcessorRegs = NULL;
+set *mc30_dynDirectRegs = NULL;
+set *mc30_dynDirectBitRegs = NULL;
+set *mc30_dynInternalRegs = NULL;
 
 // zwr 1.0.0
 extern struct dbuf_s *ValLog;
-struct QValList *ValList;
+struct QValList *mc30_ValList;
 
 #ifdef DEBUG_FENTRY2
 #define FENTRY2 printf
@@ -70,25 +70,28 @@ static struct
         int dataExtend;
 } _G;
 
-static int pic14_ptrRegReq; /* one byte pointer register required */
+static int mc30_ptrRegReq; /* one byte pointer register required */
 
-static hTab *dynDirectRegNames = NULL;
+static hTab *mc30_dynDirectRegNames = NULL;
 // static hTab  *regHash = NULL;    /* a hash table containing ALL registers */
 
-static int dynrIdx = 0x1000;
+static int mc30_dynrIdx = 0x1000;
 
-int Gstack_base_addr = 0; /* The starting address of registers that
+int mc30_Gstack_base_addr = 0; /* The starting address of registers that
                          * are used to pass and return parameters */
-static int Gstack_size = 0;
+static int mc30_Gstack_size = 0;
 
-static int debug = 0; // should be 0 when committed, creates .d files
-static FILE *debugF = NULL;
+static int mc30_debug = 0; // should be 0 when committed, creates .d files
+static FILE *mc30_debugF = NULL;
 
 /*-----------------------------------------------------------------*/
-/* debugLog - open a file for debugging information                */
+/* mc30_debugLog - open a file for debugging information                */
 /*-----------------------------------------------------------------*/
+// zwr 2.0.0
 static void
-debugLog(char *fmt, ...)
+mc30_debugLog(const char *fmt, ...)
+// static void
+// mc30_debugLog(char *fmt, ...)
 {
         static int append = 0; // First time through, open the file without append.
 
@@ -96,72 +99,80 @@ debugLog(char *fmt, ...)
         //char *bufferP=buffer;
         va_list ap;
 
-        if (!debug || !dstFileName)
+        if (!mc30_debug || !dstFileName)
                 return;
 
-        if (!debugF)
+        if (!mc30_debugF)
         {
                 /* create the file name */
-                strcpy(buffer, dstFileName);
-                strcat(buffer, ".d");
+                // zwr 2.0.0
+                SNPRINTF(buffer, sizeof(buffer), "%s.d", dstFileName);
+                // strcpy(buffer, dstFileName);
+                // strcat(buffer, ".d");
 
-                if (!(debugF = fopen(buffer, (append ? "a+" : "w"))))
+                if (!(mc30_debugF = fopen(buffer, (append ? "a+" : "w"))))
                 {
                         werror(E_FILE_OPEN_ERR, buffer);
                         exit(1);
                 }
-                append = 1; // Next time debugLog is called, we'll append the debug info
+                append = 1; // Next time mc30_debugLog is called, we'll append the mc30_debug info
         }
 
         va_start(ap, fmt);
         vsprintf(buffer, fmt, ap);
         va_end(ap);
 
-        fprintf(debugF, "%s", buffer);
+        fprintf(mc30_debugF, "%s", buffer);
         //if (options.verbose) fprintf (stderr, "%s: %s", __FUNCTION__, buffer);
 }
 
 static void
-debugNewLine(void)
+mc30_debugNewLine(void)
 {
-        if (debugF)
-                fputc('\n', debugF);
+        if (mc30_debugF)
+                fputc('\n', mc30_debugF);
 }
 /*-----------------------------------------------------------------*/
-/* pic14_debugLogClose - closes the debug log file (if opened)           */
+/* mc30_debugLogClose - closes the mc30_debug log file (if opened)           */
 /*-----------------------------------------------------------------*/
-void pic14_debugLogClose(void)
+void mc30_debugLogClose(void)
 {
-        if (debugF)
+        if (mc30_debugF)
         {
-                fclose(debugF);
-                debugF = NULL;
+                fclose(mc30_debugF);
+                mc30_debugF = NULL;
         }
 }
 
+// zwr 2.0.0
 static char *
-debugAopGet(char *str, operand *op)
+mc30_debugAopGet(const char *str, operand *op)
+// static char *
+// mc30_debugAopGet(char *str, operand *op)
 {
-        if (!debug)
+        if (!mc30_debug)
                 return NULL;
 
         if (str)
-                debugLog(str);
+                mc30_debugLog(str);
 
-        printOperand(op, debugF);
-        debugNewLine();
+        printOperand(op, mc30_debugF);
+        mc30_debugNewLine();
 
         return NULL;
 }
 
-static char *
-decodeOp(unsigned int op)
+// zwr 2.0.0
+static const char *
+mc30_decodeOp(unsigned int op)
+// static char *
+// mc30_decodeOp(unsigned int op)
 {
 
         if (op < 128 && op > ' ')
         {
                 buffer[0] = (op & 0xff);
-                buffer[1] = 0;
+                buffer[1] = '\0';
                 return buffer;
         }
 
@@ -368,13 +379,18 @@ decodeOp(unsigned int op)
         case SEND:
                 return "SEND";
         }
-        sprintf(buffer, "unknown op %d %c", op, op & 0xff);
+        // zwr 2.0.0
+        SNPRINTF(buffer, sizeof(buffer), "unknown op %d %c", op, op & 0xff);
+        // sprintf(buffer, "unknown op %d %c", op, op & 0xff);
         return buffer;
 }
 /*-----------------------------------------------------------------*/
 /*-----------------------------------------------------------------*/
-static char *
-debugLogRegType(short type)
+// zwr 2.0.0
+static const char *
+mc30_debugLogRegType(short type)
+// static char *
+// mc30_debugLogRegType(short type)
 {
 
         switch (type)
@@ -387,13 +403,14 @@ debugLogRegType(short type)
                 return "REG_CND";
         }
 
-        sprintf(buffer, "unknown reg type %d", type);
+        SNPRINTF(buffer, sizeof(buffer), "unknown reg type %d", type);
+        // sprintf(buffer, "unknown reg type %d", type);
         return buffer;
 }
 
 /*-----------------------------------------------------------------*/
 /*-----------------------------------------------------------------*/
-static int regname2key(char const *name)
+static int mc30_regname2key(char const *name)
 {
         int key = 0;
 
@@ -410,10 +427,10 @@ static int regname2key(char const *name)
 }
 
 /*-----------------------------------------------------------------*/
-/* regWithIdx - Search through a set of registers that matches idx */
+/* mc30_regWithIdx - Search through a set of registers that matches idx */
 /*-----------------------------------------------------------------*/
 static reg_info *
-regWithIdx(set *dRegs, int idx, int fixed)
+mc30_regWithIdx(set *dRegs, int idx, int fixed)
 {
         reg_info *dReg;
 
@@ -433,15 +450,17 @@ regWithIdx(set *dRegs, int idx, int fixed)
 }
 
 /*-----------------------------------------------------------------*/
-/* newReg - allocate and init memory for a new register            */
+/* mc30_newReg - allocate and init memory for a new register            */
 /*-----------------------------------------------------------------*/
-static reg_info *newReg(short type, PIC_OPTYPE pc_type, int rIdx, char *name, int size, int alias)
+// zwr 2.0.0
+static reg_info *mc30_newReg(short type, PIC_OPTYPE pc_type, int rIdx, const char *name, int size, int alias)
+// static reg_info *mc30_newReg(short type, PIC_OPTYPE pc_type, int rIdx, char *name, int size, int alias)
 {
 
         reg_info *dReg, *reg_alias;
 
         /* check whether a matching register already exists */
-        dReg = dirregWithName(name);
+        dReg = mc30_dirregWithName(name);
         if (dReg)
         {
                 //printf( "%s: already present: %s\n", __FUNCTION__, name );
@@ -449,9 +468,9 @@ static reg_info *newReg(short type, PIC_OPTYPE pc_type, int rIdx, char *name, in
         }
 
         // check whether a register at that location exists
-        reg_alias = regWithIdx(dynDirectRegs, rIdx, 0);
+        reg_alias = mc30_regWithIdx(mc30_dynDirectRegs, rIdx, FALSE);
         if (!reg_alias)
-                reg_alias = regWithIdx(dynDirectRegs, rIdx, 1);
+                reg_alias = mc30_regWithIdx(mc30_dynDirectRegs, rIdx, TRUE);
 
         // create a new register
         dReg = Safe_calloc(1, sizeof(reg_info));
@@ -464,20 +483,24 @@ static reg_info *newReg(short type, PIC_OPTYPE pc_type, int rIdx, char *name, in
         }
         else
         {
-                sprintf(buffer, "r0x%02X", dReg->rIdx);
+                // zwr 2.0.0
+                SNPRINTF(buffer, sizeof(buffer), "r0x%02X", dReg->rIdx);
+                // sprintf(buffer, "r0x%02X", dReg->rIdx);
                 dReg->name = Safe_strdup(buffer);
         }
-        dReg->isFree = 0;
-        dReg->wasUsed = 0;
-        if (type == REG_SFR)
-                dReg->isFixed = 1;
-        else
-                dReg->isFixed = 0;
+        dReg->isFree = FALSE;
+        dReg->wasUsed = FALSE;
+        // zwr 2.0.0
+        dReg->isFixed = (type == REG_SFR) ? TRUE : FALSE;
+        // if (type == REG_SFR)
+        //         dReg->isFixed = 1;
+        // else
+        //         dReg->isFixed = 0;
 
-        dReg->isMapped = 0;
-        dReg->isEmitted = 0;
-        dReg->isPublic = 0;
-        dReg->isExtern = 0;
+        dReg->isMapped = FALSE;
+        dReg->isEmitted = FALSE;
+        dReg->isPublic = FALSE;
+        dReg->isExtern = FALSE;
         dReg->address = 0;
         dReg->size = size;
         dReg->alias = alias;
@@ -485,17 +508,17 @@ static reg_info *newReg(short type, PIC_OPTYPE pc_type, int rIdx, char *name, in
         dReg->reglives.usedpFlows = newSet();
         dReg->reglives.assignedpFlows = newSet();
         if (type != REG_STK)
-                hTabAddItem(&dynDirectRegNames, regname2key(dReg->name), dReg);
-        debugLog("%s: Created register %s.\n", __FUNCTION__, dReg->name);
+                hTabAddItem(&mc30_dynDirectRegNames, mc30_regname2key(dReg->name), dReg);
+        mc30_debugLog("%s: Created register %s.\n", __FUNCTION__, dReg->name);
 
         return dReg;
 }
 
 /*-----------------------------------------------------------------*/
-/* regWithName - Search through a set of registers that matches name */
+/* mc30_regWithName - Search through a set of registers that matches name */
 /*-----------------------------------------------------------------*/
 static reg_info *
-regWithName(set *dRegs, const char *name)
+mc30_regWithName(set *dRegs, const char *name)
 {
         reg_info *dReg;
 
@@ -513,45 +536,45 @@ regWithName(set *dRegs, const char *name)
 }
 
 /*-----------------------------------------------------------------*/
-/* regWithName - Search for a registers that matches name          */
+/* mc30_regWithName - Search for a registers that matches name          */
 /*-----------------------------------------------------------------*/
 reg_info *
-regFindWithName(const char *name)
+mc30_regFindWithName(const char *name)
 {
         reg_info *dReg;
 
-        if ((dReg = regWithName(dynDirectRegs, name)) != NULL)
+        if ((dReg = mc30_regWithName(mc30_dynDirectRegs, name)) != NULL)
         {
-                debugLog("Found a Direct Register!\n");
+                mc30_debugLog("Found a Direct Register!\n");
                 return dReg;
         }
-        if ((dReg = regWithName(dynDirectBitRegs, name)) != NULL)
+        if ((dReg = mc30_regWithName(mc30_dynDirectBitRegs, name)) != NULL)
         {
-                debugLog("Found a Direct Bit Register!\n");
+                mc30_debugLog("Found a Direct Bit Register!\n");
                 return dReg;
         }
 
         if (*name == '_')
                 name++; // Step passed '_'
 
-        if ((dReg = regWithName(dynAllocRegs, name)) != NULL)
+        if ((dReg = mc30_regWithName(mc30_dynAllocRegs, name)) != NULL)
         {
-                debugLog("Found a Dynamic Register!\n");
+                mc30_debugLog("Found a Dynamic Register!\n");
                 return dReg;
         }
-        if ((dReg = regWithName(dynProcessorRegs, name)) != NULL)
+        if ((dReg = mc30_regWithName(mc30_dynProcessorRegs, name)) != NULL)
         {
-                debugLog("Found a Processor Register!\n");
+                mc30_debugLog("Found a Processor Register!\n");
                 return dReg;
         }
-        if ((dReg = regWithName(dynInternalRegs, name)) != NULL)
+        if ((dReg = mc30_regWithName(mc30_dynInternalRegs, name)) != NULL)
         {
-                debugLog("Found an Internal Register!\n");
+                mc30_debugLog("Found an Internal Register!\n");
                 return dReg;
         }
-        if ((dReg = regWithName(dynStackRegs, name)) != NULL)
+        if ((dReg = mc30_regWithName(mc30_dynStackRegs, name)) != NULL)
         {
-                debugLog("Found an Stack Register!\n");
+                mc30_debugLog("Found an Stack Register!\n");
                 return dReg;
         }
 
@@ -559,10 +582,10 @@ regFindWithName(const char *name)
 }
 
 /*-----------------------------------------------------------------*/
-/* regFindFree - Search for a free register in a set of registers  */
+/* mc30_regFindFree - Search for a free register in a set of registers  */
 /*-----------------------------------------------------------------*/
 static reg_info *
-regFindFree(set *dRegs)
+mc30_regFindFree(set *dRegs)
 {
         reg_info *dReg;
 
@@ -577,87 +600,98 @@ regFindFree(set *dRegs)
         return NULL;
 }
 /*-----------------------------------------------------------------*/
-/* initStack - allocate registers for a pseudo stack               */
+/* mc30_initStack - allocate registers for a pseudo stack               */
 /*-----------------------------------------------------------------*/
-void initStack(int base_address, int size, int shared)
+void mc30_initStack(int base_address, int size, int shared)
 {
 
         int i;
-        PIC_device *pic;
+        MC30_device *pic;
 
-        pic = pic14_getPIC();
-        Gstack_base_addr = base_address;
-        Gstack_size = size;
-        //fprintf(stderr,"initStack [base:0x%02x, size:%d]\n", base_address, size);
+        pic = mc30_getPIC();
+        mc30_Gstack_base_addr = base_address;
+        mc30_Gstack_size = size;
+        //fprintf(stderr,"mc30_initStack [base:0x%02x, size:%d]\n", base_address, size);
 
         for (i = 0; i < size; i++)
         {
                 char buffer[16];
                 reg_info *r;
-                SNPRINTF(&buffer[0], 16, "STK%02d", i);
+                // zwr 2.0.0
+                SNPRINTF(buffer, sizeof(buffer), "STK%02d", i);
+                // SNPRINTF(&buffer[0], 16, "STK%02d", i);
                 // multi-bank device, sharebank prohibited by user
-                r = newReg(REG_STK, PO_GPR_TEMP, base_address--, buffer, 1, shared ? (pic ? pic->bankMask : 0x180) : 0x0);
-                r->isFixed = 1;
-                r->isPublic = 1;
-                r->isEmitted = 1;
+                r = mc30_newReg(REG_STK, PO_GPR_TEMP, base_address--, buffer, 1, shared ? (pic ? pic->bankMask : 0x180) : 0x0);
+                r->isFixed = TRUE;
+                r->isPublic = TRUE;
+                r->isEmitted = TRUE;
                 //r->name[0] = 's';
-                addSet(&dynStackRegs, r);
+                addSet(&mc30_dynStackRegs, r);
         }
 }
 
 /*-----------------------------------------------------------------*
 *-----------------------------------------------------------------*/
+// zwr 2.0.0
 reg_info *
-allocProcessorRegister(int rIdx, char *name, short po_type, int alias)
+mc30_allocProcessorRegister(int rIdx, const char *name, short po_type, int alias)
+// reg_info *
+// mc30_allocProcessorRegister(int rIdx, char *name, short po_type, int alias)
 {
 
-        //fprintf(stderr,"allocProcessorRegister %s addr =0x%x\n",name,rIdx);
-        return addSet(&dynProcessorRegs, newReg(REG_SFR, po_type, rIdx, name, 1, alias));
+        //fprintf(stderr,"mc30_allocProcessorRegister %s addr =0x%x\n",name,rIdx);
+        return addSet(&mc30_dynProcessorRegs, mc30_newReg(REG_SFR, po_type, rIdx, name, 1, alias));
 }
 
 /*-----------------------------------------------------------------*
 *-----------------------------------------------------------------*/
 
+// zwr 2.0.0
 reg_info *
-allocInternalRegister(int rIdx, char *name, PIC_OPTYPE po_type, int alias)
+mc30_allocInternalRegister(int rIdx, const char *name, PIC_OPTYPE po_type, int alias)
+// reg_info *
+// mc30_allocInternalRegister(int rIdx, char *name, PIC_OPTYPE po_type, int alias)
 {
-        reg_info *reg = newReg(REG_GPR, po_type, rIdx, name, 1, alias);
+        reg_info *reg = mc30_newReg(REG_GPR, po_type, rIdx, name, 1, alias);
 
-        //fprintf(stderr,"allocInternalRegister %s addr =0x%x\n",name,rIdx);
+        //fprintf(stderr,"mc30_allocInternalRegister %s addr =0x%x\n",name,rIdx);
         if (reg)
         {
-                reg->wasUsed = 0;
-                return addSet(&dynInternalRegs, reg);
+                reg->wasUsed = FALSE;
+                return addSet(&mc30_dynInternalRegs, reg);
         }
 
         return NULL;
 }
 /*-----------------------------------------------------------------*/
-/* allocReg - allocates register of given type                     */
+/* mc30_allocReg - allocates register of given type                     */
 /*-----------------------------------------------------------------*/
 static reg_info *
-allocReg(short type)
+mc30_allocReg(short type)
 {
         reg_info *reg;
 
-        debugLog("%s of type %s\n", __FUNCTION__, debugLogRegType(type));
-        //fprintf(stderr,"allocReg\n");
+        mc30_debugLog("%s of type %s\n", __FUNCTION__, mc30_debugLogRegType(type));
+        //fprintf(stderr,"mc30_allocReg\n");
 
-        reg = pic14_findFreeReg(type);
+        reg = mc30_findFreeReg(type);
 
-        reg->isFree = 0;
-        reg->wasUsed = 1;
+        reg->isFree = FALSE;
+        reg->wasUsed = TRUE;
 
         return reg;
 
-        //return addSet(&dynAllocRegs,newReg(REG_GPR, PO_GPR_TEMP,dynrIdx++,NULL,1,0));
+        //return addSet(&mc30_dynAllocRegs,mc30_newReg(REG_GPR, PO_GPR_TEMP,mc30_dynrIdx++,NULL,1,0));
 }
 
 /*-----------------------------------------------------------------*/
-/* dirregWithName - search for register by name                    */
+/* mc30_dirregWithName - search for register by name                    */
 /*-----------------------------------------------------------------*/
+// zwr 2.0.0
 reg_info *
-dirregWithName(char *name)
+mc30_dirregWithName(const char *name)
+// reg_info *
+// mc30_dirregWithName(char *name)
 {
         int hkey;
         reg_info *reg;
@@ -667,9 +701,9 @@ dirregWithName(char *name)
 
         /* hash the name to get a key */
 
-        hkey = regname2key(name);
+        hkey = mc30_regname2key(name);
 
-        reg = hTabFirstItemWK(dynDirectRegNames, hkey);
+        reg = hTabFirstItemWK(mc30_dynDirectRegNames, hkey);
 
         while (reg)
         {
@@ -682,17 +716,17 @@ dirregWithName(char *name)
                         return (reg);
                 }
 
-                reg = hTabNextItemWK(dynDirectRegNames);
+                reg = hTabNextItemWK(mc30_dynDirectRegNames);
         }
 
         return NULL; // name wasn't found in the hash table
 }
 
 /*-----------------------------------------------------------------*/
-/* allocNewDirReg - allocates a new register of given type         */
+/* mc30_allocNewDirReg - allocates a new register of given type         */
 /*-----------------------------------------------------------------*/
 reg_info *
-allocNewDirReg(sym_link *symlnk, const char *name)
+mc30_allocNewDirReg(sym_link *symlnk, const char *name)
 {
         reg_info *reg;
         int address = 0;
@@ -707,10 +741,10 @@ allocNewDirReg(sym_link *symlnk, const char *name)
 
         /* Register wasn't found in hash, so let's create
         * a new one and put it in the hash table AND in the
-        * dynDirectRegNames set */
-        if (IS_CONFIG_ADDRESS(address))
+        * mc30_dynDirectRegNames set */
+        if (MC30_IS_CONFIG_ADDRESS(address))
         {
-                debugLog("  -- %s is declared at a config word address (0x%x)\n", name, address);
+                mc30_debugLog("  -- %s is declared at a config word address (0x%x)\n", name, address);
                 reg = 0;
         }
         else
@@ -725,10 +759,10 @@ allocNewDirReg(sym_link *symlnk, const char *name)
                 }
                 else
                 {
-                        idx = dynrIdx++;
+                        idx = mc30_dynrIdx++;
                 }
-                reg = newReg(REG_GPR, PO_DIR, idx, (char *)name, getSize(symlnk), 0);
-                debugLog("  -- added %s to hash, size = %d\n", (char *)name, reg->size);
+                reg = mc30_newReg(REG_GPR, PO_DIR, idx, (char *)name, getSize(symlnk), 0);
+                mc30_debugLog("  -- added %s to hash, size = %d\n", (char *)name, reg->size);
 
                 if (SPEC_ABSA(spec))
                 {
@@ -737,37 +771,37 @@ allocNewDirReg(sym_link *symlnk, const char *name)
 
                 if (IS_BITVAR(spec))
                 {
-                        addSet(&dynDirectBitRegs, reg);
-                        reg->isBitField = 1;
+                        addSet(&mc30_dynDirectBitRegs, reg);
+                        reg->isBitField = TRUE;
                 }
                 else
-                        addSet(&dynDirectRegs, reg);
+                        addSet(&mc30_dynDirectRegs, reg);
 
                 if (!IS_STATIC(spec))
                 {
-                        reg->isPublic = 1;
+                        reg->isPublic = TRUE;
                 }
                 if (IS_EXTERN(spec))
                 {
-                        reg->isExtern = 1;
+                        reg->isExtern = TRUE;
                 }
         }
 
         if (address && reg)
         {
-                reg->isFixed = 1;
+                reg->isFixed = TRUE;
                 reg->address = address;
-                debugLog("  -- and it is at a fixed address 0x%02x\n", reg->address);
+                mc30_debugLog("  -- and it is at a fixed address 0x%02x\n", reg->address);
         }
 
         return reg;
 }
 
 /*-----------------------------------------------------------------*/
-/* allocDirReg - allocates register of given type                  */
+/* mc30_allocDirReg - allocates register of given type                  */
 /*-----------------------------------------------------------------*/
 reg_info *
-allocDirReg(operand *op)
+mc30_allocDirReg(operand *op)
 {
 
         reg_info *reg;
@@ -775,7 +809,7 @@ allocDirReg(operand *op)
 
         if (!IS_SYMOP(op))
         {
-                debugLog("%s BAD, op is NULL\n", __FUNCTION__);
+                mc30_debugLog("%s BAD, op is NULL\n", __FUNCTION__);
                 return NULL;
         }
 
@@ -788,25 +822,25 @@ allocDirReg(operand *op)
         //if (SPEC_ABSA ( OP_SYM_ETYPE(op)) && (*name == '_'))
         //name++;
 
-        debugLog("%s symbol name %s\n", __FUNCTION__, name);
+        mc30_debugLog("%s symbol name %s\n", __FUNCTION__, name);
         {
                 if (SPEC_CONST(OP_SYM_ETYPE(op)) && (IS_CHAR(OP_SYM_ETYPE(op))))
                 {
-                        debugLog(" %d  const char\n", __LINE__);
-                        debugLog(" value = %s \n", SPEC_CVAL(OP_SYM_ETYPE(op)));
+                        mc30_debugLog(" %d  const char\n", __LINE__);
+                        mc30_debugLog(" value = %s \n", SPEC_CVAL(OP_SYM_ETYPE(op)));
                 }
 
-                debugLog("  %d  storage class %d \n", __LINE__, SPEC_SCLS(OP_SYM_ETYPE(op)));
+                mc30_debugLog("  %d  storage class %d \n", __LINE__, SPEC_SCLS(OP_SYM_ETYPE(op)));
                 if (IS_CODE(OP_SYM_ETYPE(op)))
-                        debugLog(" %d  code space\n", __LINE__);
+                        mc30_debugLog(" %d  code space\n", __LINE__);
 
                 if (IS_INTEGRAL(OP_SYM_ETYPE(op)))
-                        debugLog(" %d  integral\n", __LINE__);
+                        mc30_debugLog(" %d  integral\n", __LINE__);
                 if (IS_LITERAL(OP_SYM_ETYPE(op)))
-                        debugLog(" %d  literal\n", __LINE__);
+                        mc30_debugLog(" %d  literal\n", __LINE__);
                 if (IS_SPEC(OP_SYM_ETYPE(op)))
-                        debugLog(" %d  specifier\n", __LINE__);
-                debugAopGet(NULL, op);
+                        mc30_debugLog(" %d  specifier\n", __LINE__);
+                mc30_debugAopGet(NULL, op);
         }
 
         if (IS_CODE(OP_SYM_ETYPE(op)))
@@ -815,7 +849,7 @@ allocDirReg(operand *op)
         /* First, search the hash table to see if there is a register with this name */
         if (SPEC_ABSA(OP_SYM_ETYPE(op)) && !(IS_BITVAR(OP_SYM_ETYPE(op))))
         {
-                reg = regWithIdx(dynProcessorRegs, SPEC_ADDR(OP_SYM_ETYPE(op)), 1);
+                reg = mc30_regWithIdx(mc30_dynProcessorRegs, SPEC_ADDR(OP_SYM_ETYPE(op)), TRUE);
                 /*
                 if(!reg)
                 fprintf(stderr,"ralloc %s is at fixed address but not a processor reg, addr=0x%x\n",
@@ -829,7 +863,7 @@ allocDirReg(operand *op)
         {
                 //fprintf(stderr,"ralloc:%d %s \n", __LINE__,name);
 
-                reg = dirregWithName(name);
+                reg = mc30_dirregWithName(name);
         }
 
 #if 0
@@ -844,14 +878,14 @@ allocDirReg(operand *op)
 
                 /* Register wasn't found in hash, so let's create
                 * a new one and put it in the hash table AND in the
-                * dynDirectRegNames set */
-                if(!IS_CONFIG_ADDRESS(address)) {
+                * mc30_dynDirectRegNames set */
+                if(!MC30_IS_CONFIG_ADDRESS(address)) {
                         //fprintf(stderr,"allocating new reg %s\n",name);
 
-                        reg = newReg(REG_GPR, PO_DIR, dynrIdx++, name,getSize (OP_SYMBOL (op)->type),0 );
-                        debugLog ("  -- added %s to hash, size = %d\n", name,reg->size);
+                        reg = mc30_newReg(REG_GPR, PO_DIR, mc30_dynrIdx++, name,getSize (OP_SYMBOL (op)->type),0 );
+                        mc30_debugLog ("  -- added %s to hash, size = %d\n", name,reg->size);
 
-                        //hTabAddItem(&dynDirectRegNames, regname2key(name), reg);
+                        //hTabAddItem(&mc30_dynDirectRegNames, mc30_regname2key(name), reg);
 
                         if (SPEC_ABSA ( OP_SYM_ETYPE(op)) ) {
 
@@ -860,10 +894,10 @@ allocDirReg(operand *op)
                         }
 
                         if (IS_BITVAR (OP_SYM_ETYPE(op))) {
-                                addSet(&dynDirectBitRegs, reg);
+                                addSet(&mc30_dynDirectBitRegs, reg);
                                 reg->isBitField = 1;
                         } else
-                                addSet(&dynDirectRegs, reg);
+                                addSet(&mc30_dynDirectRegs, reg);
 
                         if (!IS_STATIC (OP_SYM_ETYPE(op))) {
                                 reg->isPublic = 1;
@@ -874,7 +908,7 @@ allocDirReg(operand *op)
 
 
                 } else {
-                        debugLog ("  -- %s is declared at a config word address (0x%x)\n",name, address);
+                        mc30_debugLog ("  -- %s is declared at a config word address (0x%x)\n",name, address);
 
                 }
         }
@@ -882,7 +916,7 @@ allocDirReg(operand *op)
         if (SPEC_ABSA ( OP_SYM_ETYPE(op)) ) {
                 reg->isFixed = 1;
                 reg->address = SPEC_ADDR ( OP_SYM_ETYPE(op));
-                debugLog ("  -- and it is at a fixed address 0x%02x\n",reg->address);
+                mc30_debugLog ("  -- and it is at a fixed address 0x%02x\n",reg->address);
         }
 #endif
 
@@ -890,24 +924,27 @@ allocDirReg(operand *op)
         {
                 if (SPEC_ABSA(OP_SYM_ETYPE(op)))
                 {
-                        reg->isFixed = 1;
+                        reg->isFixed = TRUE;
                         reg->address = SPEC_ADDR(OP_SYM_ETYPE(op));
-                        debugLog("  -- and it is at a fixed address 0x%02x\n", reg->address);
+                        mc30_debugLog("  -- and it is at a fixed address 0x%02x\n", reg->address);
                 }
         }
         else
         {
-                allocNewDirReg(OP_SYM_TYPE(op), name);
+                mc30_allocNewDirReg(OP_SYM_TYPE(op), name);
         }
 
         return reg;
 }
 
 /*-----------------------------------------------------------------*/
-/* allocRegByName - allocates register with given name             */
+/* mc30_allocRegByName - allocates register with given name             */
 /*-----------------------------------------------------------------*/
+// zwr 2.0.0
 reg_info *
-allocRegByName(char *name, int size)
+mc30_allocRegByName(const char *name, int size)
+// reg_info *
+// mc30_allocRegByName(char *name, int size)
 {
 
         reg_info *reg;
@@ -919,36 +956,36 @@ allocRegByName(char *name, int size)
         }
 
         /* First, search the hash table to see if there is a register with this name */
-        reg = dirregWithName(name);
+        reg = mc30_dirregWithName(name);
 
         if (!reg)
         {
-                int found = 0;
+                int found = FALSE;
                 symbol *sym;
                 /* Register wasn't found in hash, so let's create
                 * a new one and put it in the hash table AND in the
-                * dynDirectRegNames set */
+                * mc30_dynDirectRegNames set */
                 //fprintf (stderr,"%s symbol name %s, size:%d\n", __FUNCTION__,name,size);
-                reg = newReg(REG_GPR, PO_DIR, dynrIdx++, name, size, 0);
+                reg = mc30_newReg(REG_GPR, PO_DIR, mc30_dynrIdx++, name, size, 0);
                 for (sym = setFirstItem(sfr->syms); sym; sym = setNextItem(sfr->syms))
                 {
                         if (strcmp(reg->name + 1, sym->name) == 0)
                         {
                                 unsigned a = SPEC_ADDR(sym->etype);
                                 reg->address = a;
-                                reg->isFixed = 1;
+                                reg->isFixed = TRUE;
                                 reg->type = REG_SFR;
                                 if (!IS_STATIC(sym->etype))
                                 {
-                                        reg->isPublic = 1;
+                                        reg->isPublic = TRUE;
                                 }
                                 if (IS_EXTERN(sym->etype))
                                 {
-                                        reg->isExtern = 1;
+                                        reg->isExtern = TRUE;
                                 }
                                 if (IS_BITVAR(sym->etype))
-                                        reg->isBitField = 1;
-                                found = 1;
+                                        reg->isBitField = TRUE;
+                                found = TRUE;
                                 break;
                         }
                 }
@@ -962,29 +999,29 @@ allocRegByName(char *name, int size)
                                         reg->address = a;
                                         if (!IS_STATIC(sym->etype))
                                         {
-                                                reg->isPublic = 1;
+                                                reg->isPublic = TRUE;
                                         }
                                         if (IS_EXTERN(sym->etype))
                                         {
-                                                reg->isExtern = 1;
+                                                reg->isExtern = TRUE;
                                         }
                                         if (IS_BITVAR(sym->etype))
-                                                reg->isBitField = 1;
-                                        found = 1;
+                                                reg->isBitField = TRUE;
+                                        found = TRUE;
                                         break;
                                 }
                         }
                 }
 
-                debugLog("  -- added %s to hash, size = %d\n", name, reg->size);
+                mc30_debugLog("  -- added %s to hash, size = %d\n", name, reg->size);
 
-                //hTabAddItem(&dynDirectRegNames, regname2key(name), reg);
+                //hTabAddItem(&mc30_dynDirectRegNames, mc30_regname2key(name), reg);
                 if (reg->isBitField)
                 {
-                        addSet(&dynDirectBitRegs, reg);
+                        addSet(&mc30_dynDirectBitRegs, reg);
                 }
                 else
-                        addSet(&dynDirectRegs, reg);
+                        addSet(&mc30_dynDirectRegs, reg);
         }
 
         return reg;
@@ -994,52 +1031,52 @@ allocRegByName(char *name, int size)
 /* RegWithIdx - returns pointer to register with index number       */
 /*-----------------------------------------------------------------*/
 reg_info *
-typeRegWithIdx(int idx, int type, int fixed)
+mc30_typeRegWithIdx(int idx, int type, int fixed)
 {
 
         reg_info *dReg;
 
-        debugLog("%s - requesting index = 0x%x\n", __FUNCTION__, idx);
+        mc30_debugLog("%s - requesting index = 0x%x\n", __FUNCTION__, idx);
 
         switch (type)
         {
 
         case REG_GPR:
-                if ((dReg = regWithIdx(dynAllocRegs, idx, fixed)) != NULL)
+                if ((dReg = mc30_regWithIdx(mc30_dynAllocRegs, idx, fixed)) != NULL)
                 {
 
-                        debugLog("Found a Dynamic Register!\n");
+                        mc30_debugLog("Found a Dynamic Register!\n");
                         return dReg;
                 }
-                if ((dReg = regWithIdx(dynDirectRegs, idx, fixed)) != NULL)
+                if ((dReg = mc30_regWithIdx(mc30_dynDirectRegs, idx, fixed)) != NULL)
                 {
-                        debugLog("Found a Direct Register!\n");
+                        mc30_debugLog("Found a Direct Register!\n");
                         return dReg;
                 }
 
                 break;
         case REG_STK:
-                if ((dReg = regWithIdx(dynStackRegs, idx, 0)) != NULL)
+                if ((dReg = mc30_regWithIdx(mc30_dynStackRegs, idx, FALSE)) != NULL)
                 {
-                        debugLog("Found a Stack Register!\n");
+                        mc30_debugLog("Found a Stack Register!\n");
                         return dReg;
                 }
-                else if ((dReg = regWithIdx(dynStackRegs, idx, 1)) != NULL)
+                else if ((dReg = mc30_regWithIdx(mc30_dynStackRegs, idx, TRUE)) != NULL)
                 {
-                        debugLog("Found a Stack Register!\n");
+                        mc30_debugLog("Found a Stack Register!\n");
                         return dReg;
                 }
                 else
                 {
                         werror(E_STACK_OUT, "Register");
                         /* return an existing register just to avoid the SDCC crash */
-                        return regWithIdx(dynStackRegs, 0x7f, 0);
+                        return mc30_regWithIdx(mc30_dynStackRegs, 0x7f, 0);
                 }
                 break;
         case REG_SFR:
-                if ((dReg = regWithIdx(dynProcessorRegs, idx, fixed)) != NULL)
+                if ((dReg = mc30_regWithIdx(mc30_dynProcessorRegs, idx, fixed)) != NULL)
                 {
-                        debugLog("Found a Processor Register!\n");
+                        mc30_debugLog("Found a Processor Register!\n");
                         return dReg;
                 }
 
@@ -1053,74 +1090,74 @@ typeRegWithIdx(int idx, int type, int fixed)
 }
 
 /*-----------------------------------------------------------------*/
-/* pic14_regWithIdx - returns pointer to register with index number*/
+/* mc30_pic14_regWithIdx - returns pointer to register with index number*/
 /*-----------------------------------------------------------------*/
 reg_info *
-pic14_regWithIdx(int idx)
+mc30_pic14_regWithIdx(int idx)
 {
         reg_info *dReg;
 
-        if ((dReg = typeRegWithIdx(idx, REG_GPR, 0)) != NULL)
+        if ((dReg = mc30_typeRegWithIdx(idx, REG_GPR, 0)) != NULL)
                 return dReg;
 
-        if ((dReg = typeRegWithIdx(idx, REG_SFR, 0)) != NULL)
+        if ((dReg = mc30_typeRegWithIdx(idx, REG_SFR, 0)) != NULL)
                 return dReg;
 
         return NULL;
 }
 
 /*-----------------------------------------------------------------*/
-/* pic14_regWithIdx - returns pointer to register with index number       */
+/* mc30_pic14_regWithIdx - returns pointer to register with index number       */
 /*-----------------------------------------------------------------*/
 reg_info *
-pic14_allocWithIdx(int idx)
+mc30_allocWithIdx(int idx)
 {
 
         reg_info *dReg;
 
-        debugLog("%s - allocating with index = 0x%x\n", __FUNCTION__, idx);
+        mc30_debugLog("%s - allocating with index = 0x%x\n", __FUNCTION__, idx);
 
-        if ((dReg = regWithIdx(dynAllocRegs, idx, 0)) != NULL)
+        if ((dReg = mc30_regWithIdx(mc30_dynAllocRegs, idx, FALSE)) != NULL)
         {
 
-                debugLog("Found a Dynamic Register!\n");
+                mc30_debugLog("Found a Dynamic Register!\n");
         }
-        else if ((dReg = regWithIdx(dynStackRegs, idx, 0)) != NULL)
+        else if ((dReg = mc30_regWithIdx(mc30_dynStackRegs, idx, FALSE)) != NULL)
         {
-                debugLog("Found a Stack Register!\n");
+                mc30_debugLog("Found a Stack Register!\n");
         }
-        else if ((dReg = regWithIdx(dynProcessorRegs, idx, 0)) != NULL)
+        else if ((dReg = mc30_regWithIdx(mc30_dynProcessorRegs, idx, FALSE)) != NULL)
         {
-                debugLog("Found a Processor Register!\n");
+                mc30_debugLog("Found a Processor Register!\n");
         }
-        else if ((dReg = regWithIdx(dynInternalRegs, idx, 0)) != NULL)
+        else if ((dReg = mc30_regWithIdx(mc30_dynInternalRegs, idx, FALSE)) != NULL)
         {
-                debugLog("Found an Internal Register!\n");
+                mc30_debugLog("Found an Internal Register!\n");
         }
-        else if ((dReg = regWithIdx(dynInternalRegs, idx, 1)) != NULL)
+        else if ((dReg = mc30_regWithIdx(mc30_dynInternalRegs, idx, TRUE)) != NULL)
         {
-                debugLog("Found an Internal Register!\n");
+                mc30_debugLog("Found an Internal Register!\n");
         }
         else
         {
 
-                debugLog("Dynamic Register not found\n");
+                mc30_debugLog("Dynamic Register not found\n");
 
                 //fprintf(stderr,"%s %d - requested register: 0x%x\n",__FUNCTION__,__LINE__,idx);
                 werror(E_INTERNAL_ERROR, __FILE__, __LINE__,
-                       "regWithIdx not found");
+                       "mc30_regWithIdx not found");
                 exit(1);
         }
 
-        dReg->wasUsed = 1;
-        dReg->isFree = 0;
+        dReg->wasUsed = TRUE;
+        dReg->isFree = FALSE;
 
         return dReg;
 }
 /*-----------------------------------------------------------------*/
 /*-----------------------------------------------------------------*/
 reg_info *
-pic14_findFreeReg(short type)
+mc30_findFreeReg(short type)
 {
         //  int i;
         reg_info *dReg;
@@ -1128,13 +1165,13 @@ pic14_findFreeReg(short type)
         switch (type)
         {
         case REG_GPR:
-                if ((dReg = regFindFree(dynAllocRegs)) != NULL)
+                if ((dReg = mc30_regFindFree(mc30_dynAllocRegs)) != NULL)
                         return dReg;
-                return addSet(&dynAllocRegs, newReg(REG_GPR, PO_GPR_TEMP, dynrIdx++, NULL, 1, 0));
+                return addSet(&mc30_dynAllocRegs, mc30_newReg(REG_GPR, PO_GPR_TEMP, mc30_dynrIdx++, NULL, 1, 0));
 
         case REG_STK:
 
-                if ((dReg = regFindFree(dynStackRegs)) != NULL)
+                if ((dReg = mc30_regFindFree(mc30_dynStackRegs)) != NULL)
                         return dReg;
 
                 return NULL;
@@ -1147,20 +1184,20 @@ pic14_findFreeReg(short type)
         }
 }
 /*-----------------------------------------------------------------*/
-/* freeReg - frees a register                                      */
+/* mc30_freeReg - frees a register                                      */
 /*-----------------------------------------------------------------*/
 static void
-freeReg(reg_info *reg)
+mc30_freeReg(reg_info *reg)
 {
-        debugLog("%s\n", __FUNCTION__);
-        reg->isFree = 1;
+        mc30_debugLog("%s\n", __FUNCTION__);
+        reg->isFree = TRUE;
 }
 
 /*-----------------------------------------------------------------*/
-/* nFreeRegs - returns number of free registers                    */
+/* mc30_nFreeRegs - returns number of free registers                    */
 /*-----------------------------------------------------------------*/
 static int
-nFreeRegs(int type)
+mc30_nFreeRegs(int type)
 {
         /* dynamically allocate as many as we need and worry about
         * fitting them into a PIC later */
@@ -1170,7 +1207,7 @@ nFreeRegs(int type)
         int i;
         int nfr = 0;
 
-        debugLog ("%s\n", __FUNCTION__);
+        mc30_debugLog ("%s\n", __FUNCTION__);
         for (i = 0; i < pic14_nRegs; i++)
                 if (regspic14[i].isFree && regspic14[i].type == type)
                         nfr++;
@@ -1179,23 +1216,23 @@ nFreeRegs(int type)
 }
 
 /*-----------------------------------------------------------------*/
-/* nfreeRegsType - free registers with type                         */
+/* mc30_nfreeRegsType - free registers with type                         */
 /*-----------------------------------------------------------------*/
 static int
-nfreeRegsType(int type)
+mc30_nfreeRegsType(int type)
 {
         int nfr;
-        debugLog("%s\n", __FUNCTION__);
+        mc30_debugLog("%s\n", __FUNCTION__);
         if (type == REG_PTR)
         {
-                if ((nfr = nFreeRegs(type)) == 0)
-                        return nFreeRegs(REG_GPR);
+                if ((nfr = mc30_nFreeRegs(type)) == 0)
+                        return mc30_nFreeRegs(REG_GPR);
         }
 
-        return nFreeRegs(type);
+        return mc30_nFreeRegs(type);
 }
 
-static void packBits(set *bregs)
+static void mc30_packBits(set *bregs)
 {
         set *regset;
         reg_info *breg;
@@ -1210,29 +1247,31 @@ static void packBits(set *bregs)
         {
 
                 breg = regset->item;
-                breg->isBitField = 1;
+                breg->isBitField = TRUE;
                 //fprintf(stderr,"bit reg: %s\n",breg->name);
 
                 if (breg->isFixed)
                 {
                         //fprintf(stderr,"packing bit at fixed address = 0x%03x\n",breg->address);
 
-                        bitfield = typeRegWithIdx(breg->address >> 3, -1, 1);
+                        bitfield = mc30_typeRegWithIdx(breg->address >> 3, -1, 1);
                         breg->rIdx = breg->address & 7;
                         breg->address >>= 3;
 
                         if (!bitfield)
                         {
                                 //sprintf (buffer, "fbitfield%02x", breg->address);
-                                sprintf(buffer, "0x%02x", breg->address);
+                                // zwr 2.0.0
+                                SNPRINTF(buffer, sizeof(buffer), "0x%02x", breg->address);
+                                // sprintf(buffer, "0x%02x", breg->address);
                                 //fprintf(stderr,"new bit field\n");
-                                bitfield = newReg(REG_SFR, PO_GPR_BIT, breg->address, buffer, 1, 0);
-                                bitfield->isBitField = 1;
-                                bitfield->isFixed = 1;
+                                bitfield = mc30_newReg(REG_SFR, PO_GPR_BIT, breg->address, buffer, 1, 0);
+                                bitfield->isBitField = TRUE;
+                                bitfield->isFixed = TRUE;
                                 bitfield->address = breg->address;
-                                //addSet(&dynDirectRegs,bitfield);
-                                addSet(&dynInternalRegs, bitfield);
-                                //hTabAddItem(&dynDirectRegNames, regname2key(buffer), bitfield);
+                                //addSet(&mc30_dynDirectRegs,bitfield);
+                                addSet(&mc30_dynInternalRegs, bitfield);
+                                //hTabAddItem(&mc30_dynDirectRegNames, mc30_regname2key(buffer), bitfield);
                         }
                         else
                         {
@@ -1248,23 +1287,25 @@ static void packBits(set *bregs)
                         {
                                 byte_no++;
                                 bit_no = 0;
-                                sprintf(buffer, "bitfield%d", byte_no);
+                                // zwr 2.0.0
+                                SNPRINTF(buffer, sizeof(buffer), "bitfield%d", byte_no);
+                                // sprintf(buffer, "bitfield%d", byte_no);
                                 //fprintf(stderr,"new relocatable bit field\n");
-                                relocbitfield = newReg(REG_GPR, PO_GPR_BIT, dynrIdx++, buffer, 1, 0);
-                                relocbitfield->isBitField = 1;
-                                //addSet(&dynDirectRegs,relocbitfield);
-                                addSet(&dynInternalRegs, relocbitfield);
-                                //hTabAddItem(&dynDirectRegNames, regname2key(buffer), relocbitfield);
+                                relocbitfield = mc30_newReg(REG_GPR, PO_GPR_BIT, mc30_dynrIdx++, buffer, 1, 0);
+                                relocbitfield->isBitField = TRUE;
+                                //addSet(&mc30_dynDirectRegs,relocbitfield);
+                                addSet(&mc30_dynInternalRegs, relocbitfield);
+                                //hTabAddItem(&mc30_dynDirectRegNames, mc30_regname2key(buffer), relocbitfield);
                         }
 
                         breg->reg_alias = relocbitfield;
-                        breg->address = dynrIdx; /* byte_no; */
+                        breg->address = mc30_dynrIdx; /* byte_no; */
                         breg->rIdx = bit_no++;
                 }
         }
 }
 
-static void bitEQUs(FILE *of, set *bregs)
+static void mc30_bitEQUs(FILE *of, set *bregs)
 {
         reg_info *breg, *bytereg;
         int bit_no = 0;
@@ -1296,23 +1337,23 @@ static void bitEQUs(FILE *of, set *bregs)
         }
 }
 
-void writeUsedRegs(FILE *of)
+void mc30_writeUsedRegs(FILE *of)
 {
 
-        packBits(dynDirectBitRegs);
+        mc30_packBits(mc30_dynDirectBitRegs);
 
-        bitEQUs(of, dynDirectBitRegs);
+        mc30_bitEQUs(of, mc30_dynDirectBitRegs);
 }
 
 /*-----------------------------------------------------------------*/
-/* computeSpillable - given a point find the spillable live ranges */
+/* mc30_computeSpillable - given a point find the spillable live ranges */
 /*-----------------------------------------------------------------*/
 static bitVect *
-computeSpillable(iCode *ic)
+mc30_computeSpillable(iCode *ic)
 {
         bitVect *spillable;
 
-        debugLog("%s\n", __FUNCTION__);
+        mc30_debugLog("%s\n", __FUNCTION__);
         /* spillable live ranges are those that are live at this
         point . the following categories need to be subtracted
         from this set.
@@ -1331,92 +1372,92 @@ computeSpillable(iCode *ic)
 }
 
 /*-----------------------------------------------------------------*/
-/* noSpilLoc - return true if a variable has no spil location      */
+/* mc30_noSpilLoc - return true if a variable has no spil location      */
 /*-----------------------------------------------------------------*/
 static int
-noSpilLoc(symbol *sym, eBBlock *ebp, iCode *ic)
+mc30_noSpilLoc(symbol *sym, eBBlock *ebp, iCode *ic)
 {
-        debugLog("%s\n", __FUNCTION__);
-        return (sym->usl.spillLoc ? 0 : 1);
+        mc30_debugLog("%s\n", __FUNCTION__);
+        return (sym->usl.spillLoc ? FALSE : TRUE);
 }
 
 /*-----------------------------------------------------------------*/
-/* hasSpilLoc - will return 1 if the symbol has spil location      */
+/* mc30_hasSpilLoc - will return 1 if the symbol has spil location      */
 /*-----------------------------------------------------------------*/
 static int
-hasSpilLoc(symbol *sym, eBBlock *ebp, iCode *ic)
+mc30_hasSpilLoc(symbol *sym, eBBlock *ebp, iCode *ic)
 {
-        debugLog("%s\n", __FUNCTION__);
-        return (sym->usl.spillLoc ? 1 : 0);
+        mc30_debugLog("%s\n", __FUNCTION__);
+        return (sym->usl.spillLoc ? TRUE : FALSE);
 }
 
 /*-----------------------------------------------------------------*/
-/* directSpilLoc - will return 1 if the splilocation is in direct  */
+/* mc30_directSpilLoc - will return 1 if the splilocation is in direct  */
 /*-----------------------------------------------------------------*/
 static int
-directSpilLoc(symbol *sym, eBBlock *ebp, iCode *ic)
+mc30_directSpilLoc(symbol *sym, eBBlock *ebp, iCode *ic)
 {
-        debugLog("%s\n", __FUNCTION__);
+        mc30_debugLog("%s\n", __FUNCTION__);
         if (sym->usl.spillLoc &&
             (IN_DIRSPACE(SPEC_OCLS(sym->usl.spillLoc->etype))))
-                return 1;
+                return TRUE;
         else
-                return 0;
+                return FALSE;
 }
 
 /*-----------------------------------------------------------------*/
-/* hasSpilLocnoUptr - will return 1 if the symbol has spil location */
+/* mc30_hasSpilLocnoUptr - will return 1 if the symbol has spil location */
 /*                    but is not used as a pointer                 */
 /*-----------------------------------------------------------------*/
 static int
-hasSpilLocnoUptr(symbol *sym, eBBlock *ebp, iCode *ic)
+mc30_hasSpilLocnoUptr(symbol *sym, eBBlock *ebp, iCode *ic)
 {
-        debugLog("%s\n", __FUNCTION__);
-        return ((sym->usl.spillLoc && !sym->uptr) ? 1 : 0);
+        mc30_debugLog("%s\n", __FUNCTION__);
+        return ((sym->usl.spillLoc && !sym->uptr) ? TRUE : FALSE);
 }
 
 /*-----------------------------------------------------------------*/
-/* rematable - will return 1 if the remat flag is set              */
+/* mc30_rematable - will return 1 if the remat flag is set              */
 /*-----------------------------------------------------------------*/
 static int
-rematable(symbol *sym, eBBlock *ebp, iCode *ic)
+mc30_rematable(symbol *sym, eBBlock *ebp, iCode *ic)
 {
-        debugLog("%s\n", __FUNCTION__);
+        mc30_debugLog("%s\n", __FUNCTION__);
         return sym->remat;
 }
 
 /*-----------------------------------------------------------------*/
-/* notUsedInRemaining - not used or defined in remain of the block */
+/* mc30_notUsedInRemaining - not used or defined in remain of the block */
 /*-----------------------------------------------------------------*/
 static int
-notUsedInRemaining(symbol *sym, eBBlock *ebp, iCode *ic)
+mc30_notUsedInRemaining(symbol *sym, eBBlock *ebp, iCode *ic)
 {
-        debugLog("%s\n", __FUNCTION__);
+        mc30_debugLog("%s\n", __FUNCTION__);
         return ((usedInRemaining(operandFromSymbol(sym), ic) ? 0 : 1) &&
                 allDefsOutOfRange(sym->defs, ebp->fSeq, ebp->lSeq));
 }
 
 /*-----------------------------------------------------------------*/
-/* allLRs - return true for all                                    */
+/* mc30_allLRs - return true for all                                    */
 /*-----------------------------------------------------------------*/
 static int
-allLRs(symbol *sym, eBBlock *ebp, iCode *ic)
+mc30_allLRs(symbol *sym, eBBlock *ebp, iCode *ic)
 {
-        debugLog("%s\n", __FUNCTION__);
+        mc30_debugLog("%s\n", __FUNCTION__);
         return 1;
 }
 
 /*-----------------------------------------------------------------*/
-/* liveRangesWith - applies function to a given set of live range  */
+/* mc30_liveRangesWith - applies function to a given set of live range  */
 /*-----------------------------------------------------------------*/
 static set *
-liveRangesWith(bitVect *lrs, int(func)(symbol *, eBBlock *, iCode *),
-               eBBlock *ebp, iCode *ic)
+mc30_liveRangesWith(bitVect *lrs, int(func)(symbol *, eBBlock *, iCode *),
+                    eBBlock *ebp, iCode *ic)
 {
         set *rset = NULL;
         int i;
 
-        debugLog("%s\n", __FUNCTION__);
+        mc30_debugLog("%s\n", __FUNCTION__);
         if (!lrs || !lrs->size)
                 return NULL;
 
@@ -1431,7 +1472,7 @@ liveRangesWith(bitVect *lrs, int(func)(symbol *, eBBlock *, iCode *),
                 if (!(sym = hTabItemWithKey(liveRanges, i)))
                 {
                         werror(E_INTERNAL_ERROR, __FILE__, __LINE__,
-                               "liveRangesWith could not find liveRange");
+                               "mc30_liveRangesWith could not find liveRange");
                         exit(1);
                 }
 
@@ -1443,14 +1484,14 @@ liveRangesWith(bitVect *lrs, int(func)(symbol *, eBBlock *, iCode *),
 }
 
 /*-----------------------------------------------------------------*/
-/* leastUsedLR - given a set determines which is the least used    */
+/* mc30_leastUsedLR - given a set determines which is the least used    */
 /*-----------------------------------------------------------------*/
 static symbol *
-leastUsedLR(set *sset)
+mc30_leastUsedLR(set *sset)
 {
         symbol *sym = NULL, *lsym = NULL;
 
-        debugLog("%s\n", __FUNCTION__);
+        mc30_debugLog("%s\n", __FUNCTION__);
         sym = lsym = setFirstItem(sset);
 
         if (!lsym)
@@ -1476,22 +1517,22 @@ leastUsedLR(set *sset)
 }
 
 /*-----------------------------------------------------------------*/
-/* noOverLap - will iterate through the list looking for over lap  */
+/* mc30_noOverLap - will iterate through the list looking for over lap  */
 /*-----------------------------------------------------------------*/
 static int
-noOverLap(set *itmpStack, symbol *fsym)
+mc30_noOverLap(set *itmpStack, symbol *fsym)
 {
         symbol *sym;
-        debugLog("%s\n", __FUNCTION__);
+        mc30_debugLog("%s\n", __FUNCTION__);
 
         for (sym = setFirstItem(itmpStack); sym;
              sym = setNextItem(itmpStack))
         {
                 if (sym->liveTo > fsym->liveFrom)
-                        return 0;
+                        return FALSE;
         }
 
-        return 1;
+        return TRUE;
 }
 
 /*-----------------------------------------------------------------*/
@@ -1503,36 +1544,36 @@ static DEFSETFUNC(isFree)
         V_ARG(symbol **, sloc);
         V_ARG(symbol *, fsym);
 
-        debugLog("%s\n", __FUNCTION__);
+        mc30_debugLog("%s\n", __FUNCTION__);
         /* if already found */
         if (*sloc)
-                return 0;
+                return FALSE;
 
         /* if it is free && and the itmp assigned to
                 this does not have any overlapping live ranges
                 with the one currently being assigned and
         the size can be accomodated  */
         if (sym->isFree &&
-            noOverLap(sym->usl.itmpStack, fsym) &&
+            mc30_noOverLap(sym->usl.itmpStack, fsym) &&
             getSize(sym->type) >= getSize(fsym->type))
         {
                 *sloc = sym;
-                return 1;
+                return TRUE;
         }
 
-        return 0;
+        return FALSE;
 }
 
 /*-----------------------------------------------------------------*/
-/* spillLRWithPtrReg :- will spil those live ranges which use PTR  */
+/* mc30_spillLRWithPtrReg :- will spil those live ranges which use PTR  */
 /*-----------------------------------------------------------------*/
 static void
-spillLRWithPtrReg(symbol *forSym)
+mc30_spillLRWithPtrReg(symbol *forSym)
 {
         symbol *lrsym;
         int k;
 
-        debugLog("%s\n", __FUNCTION__);
+        mc30_debugLog("%s\n", __FUNCTION__);
         if (!_G.regAssigned ||
             bitVectIsZero(_G.regAssigned))
                 return;
@@ -1553,16 +1594,18 @@ spillLRWithPtrReg(symbol *forSym)
 }
 
 /*-----------------------------------------------------------------*/
-/* createStackSpil - create a location on the stack to spil        */
+/* mc30_createStackSpil - create a location on the stack to spil        */
 /*-----------------------------------------------------------------*/
 static symbol *
-createStackSpil(symbol *sym)
+mc30_createStackSpil(symbol *sym)
 {
         symbol *sloc = NULL;
         int useXstack, model, noOverlay;
 
-        char slocBuffer[30];
-        debugLog("%s\n", __FUNCTION__);
+        // zwr 2.0.0
+        char slocBuffer[120];
+        // char slocBuffer[30];
+        mc30_debugLog("%s\n", __FUNCTION__);
 
         FENTRY2("called.");
 
@@ -1573,7 +1616,7 @@ createStackSpil(symbol *sym)
                 /* found a free one : just update & return */
                 sym->usl.spillLoc = sloc;
                 sym->stackSpil = 1;
-                sloc->isFree = 0;
+                sloc->isFree = FALSE;
                 addSetHead(&sloc->usl.itmpStack, sym);
                 return sym;
         }
@@ -1582,12 +1625,14 @@ createStackSpil(symbol *sym)
         we need to allocate this on the stack : this is really a
         hack!! but cannot think of anything better at this time */
 
-        if (sprintf(slocBuffer, "sloc%d", _G.slocNum++) >= sizeof(slocBuffer))
-        {
-                fprintf(stderr, "kkkInternal error: slocBuffer overflowed: %s:%d\n",
-                        __FILE__, __LINE__);
-                exit(1);
-        }
+        // zwr 2.0.0
+        SNPRINTF(slocBuffer, sizeof(slocBuffer), "sloc%d", _G.slocNum++);
+        // if (sprintf(slocBuffer, "sloc%d", _G.slocNum++) >= sizeof(slocBuffer))
+        // {
+        //         fprintf(stderr, "kkkInternal error: slocBuffer overflowed: %s:%d\n",
+        //                 __FILE__, __LINE__);
+        //         exit(1);
+        // }
 
         sloc = newiTemp(slocBuffer);
 
@@ -1640,14 +1685,14 @@ createStackSpil(symbol *sym)
 }
 
 /*-----------------------------------------------------------------*/
-/* isSpiltOnStack - returns true if the spil location is on stack  */
+/* mc30_isSpiltOnStack - returns true if the spil location is on stack  */
 /*-----------------------------------------------------------------*/
 static bool
-isSpiltOnStack(symbol *sym)
+mc30_isSpiltOnStack(symbol *sym)
 {
         sym_link *etype;
 
-        debugLog("%s\n", __FUNCTION__);
+        mc30_debugLog("%s\n", __FUNCTION__);
         FENTRY2("called.");
 
         if (!sym)
@@ -1670,20 +1715,20 @@ isSpiltOnStack(symbol *sym)
 }
 
 /*-----------------------------------------------------------------*/
-/* spillThis - spils a specific operand                            */
+/* mc30_spillThis - spils a specific operand                            */
 /*-----------------------------------------------------------------*/
 static void
-spillThis(symbol *sym)
+mc30_spillThis(symbol *sym)
 {
         int i;
-        debugLog("%s : %s\n", __FUNCTION__, sym->rname);
+        mc30_debugLog("%s : %s\n", __FUNCTION__, sym->rname);
         FENTRY2("sym: %s, spillLoc:%p (%s)\n", sym->rname, sym->usl.spillLoc, sym->usl.spillLoc ? sym->usl.spillLoc->rname : "<unknown>");
 
         /* if this is rematerializable or has a spillLocation
         we are okay, else we need to create a spillLocation
         for it */
         if (!(sym->remat || sym->usl.spillLoc))
-                createStackSpil(sym);
+                mc30_createStackSpil(sym);
 
         /* mark it has spilt & put it in the spilt set */
         sym->isspilt = 1;
@@ -1695,7 +1740,7 @@ spillThis(symbol *sym)
         {
                 if (sym->regs[i])
                 {
-                        freeReg(sym->regs[i]);
+                        mc30_freeReg(sym->regs[i]);
                         sym->regs[i] = NULL;
                 }
         }
@@ -1703,44 +1748,45 @@ spillThis(symbol *sym)
         /* if spilt on stack then free up r0 & r1
         if they could have been assigned to some
         LIVE ranges */
-        if (!pic14_ptrRegReq && isSpiltOnStack(sym))
+        if (!mc30_ptrRegReq && mc30_isSpiltOnStack(sym))
         {
-                pic14_ptrRegReq++;
-                spillLRWithPtrReg(sym);
+                mc30_ptrRegReq++;
+                mc30_spillLRWithPtrReg(sym);
         }
 
         if (sym->usl.spillLoc && !sym->remat)
                 sym->usl.spillLoc->allocreq = 1;
 
-        return;
+        // zwr 2.0.0
+        // return;
 }
 
 /*-----------------------------------------------------------------*/
-/* selectSpil - select a iTemp to spil : rather a simple procedure */
+/* mc30_selectSpil - select a iTemp to spil : rather a simple procedure */
 /*-----------------------------------------------------------------*/
 static symbol *
-selectSpil(iCode *ic, eBBlock *ebp, symbol *forSym)
+mc30_selectSpil(iCode *ic, eBBlock *ebp, symbol *forSym)
 {
         bitVect *lrcs = NULL;
         set *selectS;
         symbol *sym;
 
-        debugLog("%s\n", __FUNCTION__);
+        mc30_debugLog("%s\n", __FUNCTION__);
         FENTRY2("called.");
         /* get the spillable live ranges */
-        lrcs = computeSpillable(ic);
+        lrcs = mc30_computeSpillable(ic);
 
         /* get all live ranges that are rematerizable */
-        if ((selectS = liveRangesWith(lrcs, rematable, ebp, ic)))
+        if ((selectS = mc30_liveRangesWith(lrcs, mc30_rematable, ebp, ic)))
         {
                 /* return the least used of these */
-                return leastUsedLR(selectS);
+                return mc30_leastUsedLR(selectS);
         }
 
         /* get live ranges with spillLocations in direct space */
-        if ((selectS = liveRangesWith(lrcs, directSpilLoc, ebp, ic)))
+        if ((selectS = mc30_liveRangesWith(lrcs, mc30_directSpilLoc, ebp, ic)))
         {
-                sym = leastUsedLR(selectS);
+                sym = mc30_leastUsedLR(selectS);
                 strcpy(sym->rname, (sym->usl.spillLoc->rname[0] ? sym->usl.spillLoc->rname : sym->usl.spillLoc->name));
                 sym->spildir = 1;
                 /* mark it as allocation required */
@@ -1754,9 +1800,9 @@ selectSpil(iCode *ic, eBBlock *ebp, symbol *forSym)
 
                 /* check if there are any live ranges allocated
                 to registers that are not used in this block */
-                if (!_G.blockSpil && (selectS = liveRangesWith(lrcs, notUsedInBlock, ebp, ic)))
+                if (!_G.blockSpil && (selectS = mc30_liveRangesWith(lrcs, notUsedInBlock, ebp, ic)))
                 {
-                        sym = leastUsedLR(selectS);
+                        sym = mc30_leastUsedLR(selectS);
                         /* if this is not rematerializable */
                         if (!sym->remat)
                         {
@@ -1770,9 +1816,9 @@ selectSpil(iCode *ic, eBBlock *ebp, symbol *forSym)
                 used in the remainder of the block */
                 if (!_G.blockSpil &&
                     !isiCodeInFunctionCall(ic) &&
-                    (selectS = liveRangesWith(lrcs, notUsedInRemaining, ebp, ic)))
+                    (selectS = mc30_liveRangesWith(lrcs, mc30_notUsedInRemaining, ebp, ic)))
                 {
-                        sym = leastUsedLR(selectS);
+                        sym = mc30_leastUsedLR(selectS);
                         if (!sym->remat)
                         {
                                 sym->remainSpil = 1;
@@ -1783,20 +1829,20 @@ selectSpil(iCode *ic, eBBlock *ebp, symbol *forSym)
         }
 
         /* find live ranges with spillocation && not used as pointers */
-        if ((selectS = liveRangesWith(lrcs, hasSpilLocnoUptr, ebp, ic)))
+        if ((selectS = mc30_liveRangesWith(lrcs, mc30_hasSpilLocnoUptr, ebp, ic)))
         {
 
-                sym = leastUsedLR(selectS);
+                sym = mc30_leastUsedLR(selectS);
                 /* mark this as allocation required */
                 sym->usl.spillLoc->allocreq = 1;
                 return sym;
         }
 
         /* find live ranges with spillocation */
-        if ((selectS = liveRangesWith(lrcs, hasSpilLoc, ebp, ic)))
+        if ((selectS = mc30_liveRangesWith(lrcs, mc30_hasSpilLoc, ebp, ic)))
         {
 
-                sym = leastUsedLR(selectS);
+                sym = mc30_leastUsedLR(selectS);
                 sym->usl.spillLoc->allocreq = 1;
                 return sym;
         }
@@ -1804,33 +1850,33 @@ selectSpil(iCode *ic, eBBlock *ebp, symbol *forSym)
         /* couldn't find then we need to create a spil
         location on the stack , for which one? the least
         used ofcourse */
-        if ((selectS = liveRangesWith(lrcs, noSpilLoc, ebp, ic)))
+        if ((selectS = mc30_liveRangesWith(lrcs, mc30_noSpilLoc, ebp, ic)))
         {
 
                 /* return a created spil location */
-                sym = createStackSpil(leastUsedLR(selectS));
+                sym = mc30_createStackSpil(mc30_leastUsedLR(selectS));
                 sym->usl.spillLoc->allocreq = 1;
                 return sym;
         }
 
         /* this is an extreme situation we will spill
         this one : happens very rarely but it does happen */
-        spillThis(forSym);
+        mc30_spillThis(forSym);
         return forSym;
 }
 
 /*-----------------------------------------------------------------*/
-/* spilSomething - spil some variable & mark registers as free     */
+/* mc30_spilSomething - spil some variable & mark registers as free     */
 /*-----------------------------------------------------------------*/
 static bool
-spilSomething(iCode *ic, eBBlock *ebp, symbol *forSym)
+mc30_spilSomething(iCode *ic, eBBlock *ebp, symbol *forSym)
 {
         symbol *ssym;
         int i;
 
-        debugLog("%s\n", __FUNCTION__);
+        mc30_debugLog("%s\n", __FUNCTION__);
         /* get something we can spil */
-        ssym = selectSpil(ic, ebp, forSym);
+        ssym = mc30_selectSpil(ic, ebp, forSym);
 
         /* mark it as spilt */
         ssym->isspilt = 1;
@@ -1843,14 +1889,14 @@ spilSomething(iCode *ic, eBBlock *ebp, symbol *forSym)
         /* mark the registers as free */
         for (i = 0; i < ssym->nRegs; i++)
                 if (ssym->regs[i])
-                        freeReg(ssym->regs[i]);
+                        mc30_freeReg(ssym->regs[i]);
 
         /* if spilt on stack then free up r0 & r1
                 if they could have been assigned to as gprs */
-        if (!pic14_ptrRegReq && isSpiltOnStack(ssym))
+        if (!mc30_ptrRegReq && mc30_isSpiltOnStack(ssym))
         {
-                pic14_ptrRegReq++;
-                spillLRWithPtrReg(ssym);
+                mc30_ptrRegReq++;
+                mc30_spillLRWithPtrReg(ssym);
         }
 
         /* if this was a block level spil then insert push & pop
@@ -1880,87 +1926,89 @@ spilSomething(iCode *ic, eBBlock *ebp, symbol *forSym)
                 addiCodeToeBBlock(ebp, nic, NULL);
         }
 
-        if (ssym == forSym)
-                return FALSE;
-        else
-                return TRUE;
+        // zwr 2.0.0
+        return ((ssym == forSym) ? FALSE : TRUE);
+        // if (ssym == forSym)
+        //         return FALSE;
+        // else
+        //         return TRUE;
 }
 
 /*-----------------------------------------------------------------*/
-/* getRegPtr - will try for PTR if not a GPR type if not spil      */
+/* mc30_getRegPtr - will try for PTR if not a GPR type if not spil      */
 /*-----------------------------------------------------------------*/
 static reg_info *
-getRegPtr(iCode *ic, eBBlock *ebp, symbol *sym)
+mc30_getRegPtr(iCode *ic, eBBlock *ebp, symbol *sym)
 {
         reg_info *reg;
         int j;
 
-        debugLog("%s\n", __FUNCTION__);
+        mc30_debugLog("%s\n", __FUNCTION__);
 tryAgain:
         /* try for a ptr type */
-        if ((reg = allocReg(REG_PTR)))
+        if ((reg = mc30_allocReg(REG_PTR)))
                 return reg;
 
         /* try for gpr type */
-        if ((reg = allocReg(REG_GPR)))
+        if ((reg = mc30_allocReg(REG_GPR)))
                 return reg;
 
         /* we have to spil */
-        if (!spilSomething(ic, ebp, sym))
+        if (!mc30_spilSomething(ic, ebp, sym))
                 return NULL;
 
         /* make sure partially assigned registers aren't reused */
         for (j = 0; j <= sym->nRegs; j++)
                 if (sym->regs[j])
-                        sym->regs[j]->isFree = 0;
+                        sym->regs[j]->isFree = FALSE;
 
         /* this looks like an infinite loop but
-                in really selectSpil will abort  */
+                in really mc30_selectSpil will abort  */
         goto tryAgain;
 }
 
 /*-----------------------------------------------------------------*/
-/* getRegGpr - will try for GPR if not spil                        */
+/* mc30_getRegGpr - will try for GPR if not spil                        */
 /*-----------------------------------------------------------------*/
 static reg_info *
-getRegGpr(iCode *ic, eBBlock *ebp, symbol *sym)
+mc30_getRegGpr(iCode *ic, eBBlock *ebp, symbol *sym)
 {
         reg_info *reg;
         int j;
 
-        debugLog("%s\n", __FUNCTION__);
+        mc30_debugLog("%s\n", __FUNCTION__);
 tryAgain:
         /* try for gpr type */
-        if ((reg = allocReg(REG_GPR)))
+        if ((reg = mc30_allocReg(REG_GPR)))
                 return reg;
 
-        if (!pic14_ptrRegReq)
-                if ((reg = allocReg(REG_PTR)))
+        if (!mc30_ptrRegReq)
+                if ((reg = mc30_allocReg(REG_PTR)))
                         return reg;
 
         /* we have to spil */
-        if (!spilSomething(ic, ebp, sym))
+        if (!mc30_spilSomething(ic, ebp, sym))
                 return NULL;
 
         /* make sure partially assigned registers aren't reused */
         for (j = 0; j <= sym->nRegs; j++)
                 if (sym->regs[j])
-                        sym->regs[j]->isFree = 0;
+                        sym->regs[j]->isFree = FALSE;
 
         /* this looks like an infinite loop but
-                        in really selectSpil will abort  */
+                        in really mc30_selectSpil will abort  */
         goto tryAgain;
 }
 
 /*-----------------------------------------------------------------*/
-/* symHasReg - symbol has a given register                         */
+/* mc30_symHasReg - symbol has a given register                         */
 /*-----------------------------------------------------------------*/
 static bool
-symHasReg(symbol *sym, reg_info *reg)
+mc30_symHasReg(symbol *sym, reg_info *reg)
 {
         int i;
 
-        debugLog("%s\n", __FUNCTION__);
+        mc30_debugLog("%s\n", __FUNCTION__);
         for (i = 0; i < sym->nRegs; i++)
                 if (sym->regs[i] == reg)
                         return TRUE;
@@ -1969,17 +2017,17 @@ symHasReg(symbol *sym, reg_info *reg)
 }
 
 /*-----------------------------------------------------------------*/
-/* deassignLRs - check the live to and if they have registers & are */
+/* mc30_deassignLRs - check the live to and if they have registers & are */
 /*               not spilt then free up the registers              */
 /*-----------------------------------------------------------------*/
 static void
-deassignLRs(iCode *ic, eBBlock *ebp)
+mc30_deassignLRs(iCode *ic, eBBlock *ebp)
 {
         symbol *sym;
         int k;
         symbol *result;
 
-        debugLog("%s\n", __FUNCTION__);
+        mc30_debugLog("%s\n", __FUNCTION__);
         for (sym = hTabFirstItem(liveRanges, &k); sym;
              sym = hTabNextItem(liveRanges, &k))
         {
@@ -2024,7 +2072,7 @@ deassignLRs(iCode *ic, eBBlock *ebp)
                 {
                         if (sym->stackSpil)
                         {
-                                sym->usl.spillLoc->isFree = 1;
+                                sym->usl.spillLoc->isFree = TRUE;
                                 sym->stackSpil = 0;
                         }
                         continue;
@@ -2073,7 +2121,7 @@ deassignLRs(iCode *ic, eBBlock *ebp)
                             !bitVectBitValue(_G.regAssigned, result->key) &&
                             /* the number of free regs + number of regs in this LR
                                 can accomodate the what result Needs */
-                            ((nfreeRegsType(result->regType) +
+                            ((mc30_nfreeRegsType(result->regType) +
                               sym->nRegs) >= result->nRegs))
                         {
 
@@ -2081,7 +2129,7 @@ deassignLRs(iCode *ic, eBBlock *ebp)
                                         if (i < sym->nRegs)
                                                 result->regs[i] = sym->regs[i];
                                         else
-                                                result->regs[i] = getRegGpr(ic, ebp, result);
+                                                result->regs[i] = mc30_getRegGpr(ic, ebp, result);
 
                                 _G.regAssigned = bitVectSetBit(_G.regAssigned, result->key);
                         }
@@ -2091,26 +2139,26 @@ deassignLRs(iCode *ic, eBBlock *ebp)
                         {
                                 if (psym)
                                 {
-                                        if (!symHasReg(psym, sym->regs[i]))
-                                                freeReg(sym->regs[i]);
+                                        if (!mc30_symHasReg(psym, sym->regs[i]))
+                                                mc30_freeReg(sym->regs[i]);
                                 }
                                 else
-                                        freeReg(sym->regs[i]);
+                                        mc30_freeReg(sym->regs[i]);
                         }
                 }
         }
 }
 
 /*-----------------------------------------------------------------*/
-/* reassignLR - reassign this to registers                         */
+/* mc30_reassignLR - reassign this to registers                         */
 /*-----------------------------------------------------------------*/
 static void
-reassignLR(operand *op)
+mc30_reassignLR(operand *op)
 {
         symbol *sym = OP_SYMBOL(op);
         int i;
 
-        debugLog("%s\n", __FUNCTION__);
+        mc30_debugLog("%s\n", __FUNCTION__);
         /* not spilt any more */
         // zwr 1.0.0
         sym->isspilt = sym->spillA = sym->blockSpil = sym->remainSpil = 0;
@@ -2121,16 +2169,16 @@ reassignLR(operand *op)
         _G.blockSpil--;
 
         for (i = 0; i < sym->nRegs; i++)
-                sym->regs[i]->isFree = 0;
+                sym->regs[i]->isFree = FALSE;
 }
 
 /*-----------------------------------------------------------------*/
-/* willCauseSpill - determines if allocating will cause a spill    */
+/* mc30_willCauseSpill - determines if allocating will cause a spill    */
 /*-----------------------------------------------------------------*/
 static int
-willCauseSpill(int nr, int rt)
+mc30_willCauseSpill(int nr, int rt)
 {
-        debugLog("%s\n", __FUNCTION__);
+        mc30_debugLog("%s\n", __FUNCTION__);
         /* first check if there are any avlb registers
         of te type required */
         if (rt == REG_PTR)
@@ -2138,49 +2186,49 @@ willCauseSpill(int nr, int rt)
                 /* special case for pointer type
         if pointer type not avlb then
                 check for type gpr */
-                if (nFreeRegs(rt) >= nr)
-                        return 0;
-                if (nFreeRegs(REG_GPR) >= nr)
-                        return 0;
+                if (mc30_nFreeRegs(rt) >= nr)
+                        return FALSE;
+                if (mc30_nFreeRegs(REG_GPR) >= nr)
+                        return FALSE;
         }
         else
         {
-                if (pic14_ptrRegReq)
+                if (mc30_ptrRegReq)
                 {
-                        if (nFreeRegs(rt) >= nr)
-                                return 0;
+                        if (mc30_nFreeRegs(rt) >= nr)
+                                return FALSE;
                 }
                 else
                 {
-                        if (nFreeRegs(REG_PTR) +
-                                nFreeRegs(REG_GPR) >=
+                        if (mc30_nFreeRegs(REG_PTR) +
+                                mc30_nFreeRegs(REG_GPR) >=
                             nr)
-                                return 0;
+                                return FALSE;
                 }
         }
 
-        debugLog(" ... yep it will (cause a spill)\n");
+        mc30_debugLog(" ... yep it will (cause a spill)\n");
         /* it will cause a spil */
-        return 1;
+        return TRUE;
 }
 
 /*-----------------------------------------------------------------*/
-/* positionRegs - the allocator can allocate same registers to res- */
+/* mc30_positionRegs - the allocator can allocate same registers to res- */
 /* ult and operand, if this happens make sure they are in the same */
 /* position as the operand otherwise chaos results                 */
 /*-----------------------------------------------------------------*/
 static void
-positionRegs(symbol *result, symbol *opsym, int lineno)
+mc30_positionRegs(symbol *result, symbol *opsym, int lineno)
 {
         int count = min(result->nRegs, opsym->nRegs);
-        int i, j = 0, shared = 0;
+        int i, j = 0, shared = FALSE;
 
-        debugLog("%s\n", __FUNCTION__);
+        mc30_debugLog("%s\n", __FUNCTION__);
         /* if the result has been spilt then cannot share */
         if (opsym->isspilt)
                 return;
 again:
-        shared = 0;
+        shared = FALSE;
         /* first make sure that they actually share */
         for (i = 0; i < count; i++)
         {
@@ -2188,7 +2236,7 @@ again:
                 {
                         if (result->regs[i] == opsym->regs[j] && i != j)
                         {
-                                shared = 1;
+                                shared = TRUE;
                                 goto xchgPositions;
                         }
                 }
@@ -2204,13 +2252,13 @@ xchgPositions:
 }
 
 /*------------------------------------------------------------------*/
-/* verifyRegsAssigned - make sure an iTemp is properly initialized; */
+/* mc30_verifyRegsAssigned - make sure an iTemp is properly initialized; */
 /* it should either have registers or have beed spilled. Otherwise, */
 /* there was an uninitialized variable, so just spill this to get   */
 /* the operand in a valid state.                                    */
 /*------------------------------------------------------------------*/
 static void
-verifyRegsAssigned(operand *op, iCode *ic)
+mc30_verifyRegsAssigned(operand *op, iCode *ic)
 {
         symbol *sym;
 
@@ -2229,18 +2277,18 @@ verifyRegsAssigned(operand *op, iCode *ic)
 
         werrorfl(ic->filename, ic->lineno, W_LOCAL_NOINIT,
                  sym->prereqv ? sym->prereqv->name : sym->name);
-        spillThis(sym);
+        mc30_spillThis(sym);
 }
 
 /*-----------------------------------------------------------------*/
-/* serialRegAssign - serially allocate registers to the variables  */
+/* mc30_serialRegAssign - serially allocate registers to the variables  */
 /*-----------------------------------------------------------------*/
 static void
-serialRegAssign(eBBlock **ebbs, int count)
+mc30_serialRegAssign(eBBlock **ebbs, int count)
 {
         int i;
 
-        debugLog("%s\n", __FUNCTION__);
+        mc30_debugLog("%s\n", __FUNCTION__);
         /* for all blocks */
         for (i = 0; i < count; i++)
         {
@@ -2255,12 +2303,12 @@ serialRegAssign(eBBlock **ebbs, int count)
                 /* of all instructions do */
                 for (ic = ebbs[i]->sch; ic; ic = ic->next)
                 {
-                        debugLog("  op: %s\n", decodeOp(ic->op));
+                        mc30_debugLog("  op: %s\n", mc30_decodeOp(ic->op));
 
                         /* if this is an ipop that means some live
                         range will have to be assigned again */
                         if (ic->op == IPOP)
-                                reassignLR(IC_LEFT(ic));
+                                mc30_reassignLR(IC_LEFT(ic));
 
                         /* if result is present && is a true symbol */
                         if (IC_RESULT(ic) && ic->op != IFX &&
@@ -2269,7 +2317,7 @@ serialRegAssign(eBBlock **ebbs, int count)
 
                         /* take away registers from live
                         ranges that end at this instruction */
-                        deassignLRs(ic, ebbs[i]);
+                        mc30_deassignLRs(ic, ebbs[i]);
 
                         /* some don't need registers */
                         if (SKIP_IC2(ic) ||
@@ -2311,25 +2359,25 @@ serialRegAssign(eBBlock **ebbs, int count)
                                 to be safe */
                                 if (_G.blockSpil && sym->liveTo > ebbs[i]->lSeq)
                                 {
-                                        spillThis(sym);
+                                        mc30_spillThis(sym);
                                         continue;
                                 }
                                 /* if trying to allocate this will cause
                                 a spill and there is nothing to spill
                                 or this one is rematerializable then
                                 spill this one */
-                                willCS = willCauseSpill(sym->nRegs, sym->regType);
+                                willCS = mc30_willCauseSpill(sym->nRegs, sym->regType);
 
                                 // zwr 1.0.0
                                 /* explicit turn off register spilling */
                                 willCS = 0;
 
-                                spillable = computeSpillable(ic);
+                                spillable = mc30_computeSpillable(ic);
                                 if (sym->remat ||
                                     (willCS && bitVectIsZero(spillable)))
                                 {
 
-                                        spillThis(sym);
+                                        mc30_spillThis(sym);
                                         continue;
                                 }
 
@@ -2340,7 +2388,7 @@ serialRegAssign(eBBlock **ebbs, int count)
                                    symbol instead and let fillGaps handle the allocation. */
                                 if (sym->liveFrom < ic->seq)
                                 {
-                                        spillThis(sym);
+                                        mc30_spillThis(sym);
                                         continue;
                                 }
 
@@ -2350,11 +2398,11 @@ serialRegAssign(eBBlock **ebbs, int count)
                                 {
                                         if (sym->usl.spillLoc)
                                         {
-                                                symbol *leastUsed = leastUsedLR(liveRangesWith(spillable,
-                                                                                               allLRs, ebbs[i], ic));
+                                                symbol *leastUsed = mc30_leastUsedLR(mc30_liveRangesWith(spillable,
+                                                                                                         mc30_allLRs, ebbs[i], ic));
                                                 if (leastUsed && leastUsed->used > sym->used)
                                                 {
-                                                        spillThis(sym);
+                                                        mc30_spillThis(sym);
                                                         continue;
                                                 }
                                         }
@@ -2362,12 +2410,12 @@ serialRegAssign(eBBlock **ebbs, int count)
                                         {
                                                 /* if none of the liveRanges have a spillLocation then better
                                                 to spill this one than anything else already assigned to registers */
-                                                if (liveRangesWith(spillable, noSpilLoc, ebbs[i], ic))
+                                                if (mc30_liveRangesWith(spillable, mc30_noSpilLoc, ebbs[i], ic))
                                                 {
                                                         /* if this is local to this block then we might find a block spil */
                                                         if (!(sym->liveFrom >= ebbs[i]->fSeq && sym->liveTo <= ebbs[i]->lSeq))
                                                         {
-                                                                spillThis(sym);
+                                                                mc30_spillThis(sym);
                                                                 continue;
                                                         }
                                                 }
@@ -2375,54 +2423,54 @@ serialRegAssign(eBBlock **ebbs, int count)
                                 }
 
                                 if (ic->op == RECEIVE)
-                                        debugLog("When I get clever, I'll optimize the receive logic\n");
+                                        mc30_debugLog("When I get clever, I'll optimize the receive logic\n");
 
                                 /* if we need ptr regs for the right side
                                 then mark it */
-                                if (POINTER_GET(ic) && IS_SYMOP(IC_LEFT(ic)) && getSize(OP_SYMBOL(IC_LEFT(ic))->type) <= (unsigned)PTRSIZE)
+                                if (POINTER_GET(ic) && IS_SYMOP(IC_LEFT(ic)) && getSize(OP_SYMBOL(IC_LEFT(ic))->type) <= (unsigned)NEARPTRSIZE)
                                 {
-                                        pic14_ptrRegReq++;
+                                        mc30_ptrRegReq++;
                                         ptrRegSet = 1;
                                 }
                                 /* else we assign registers to it */
                                 _G.regAssigned = bitVectSetBit(_G.regAssigned, sym->key);
 
-                                debugLog("  %d - \n", __LINE__);
-                                if (debugF)
-                                        bitVectDebugOn(_G.regAssigned, debugF);
+                                mc30_debugLog("  %d - \n", __LINE__);
+                                if (mc30_debugF)
+                                        bitVectDebugOn(_G.regAssigned, mc30_debugF);
                                 for (j = 0; j < sym->nRegs; j++)
                                 {
                                         if (sym->regType == REG_PTR)
-                                                sym->regs[j] = getRegPtr(ic, ebbs[i], sym);
+                                                sym->regs[j] = mc30_getRegPtr(ic, ebbs[i], sym);
                                         else
-                                                sym->regs[j] = getRegGpr(ic, ebbs[i], sym);
+                                                sym->regs[j] = mc30_getRegGpr(ic, ebbs[i], sym);
 
                                         /* if the allocation failed which means
                                         this was spilt then break */
                                         if (!sym->regs[j])
                                                 break;
                                 }
-                                debugLog("  %d - \n", __LINE__);
+                                mc30_debugLog("  %d - \n", __LINE__);
 
                                 /* if it shares registers with operands make sure
                                 that they are in the same position */
                                 if (IC_LEFT(ic) && IS_SYMOP(IC_LEFT(ic)) &&
                                     IS_SYMOP(IC_RESULT(ic)) &&
                                     OP_SYMBOL(IC_LEFT(ic))->nRegs && ic->op != '=')
-                                        positionRegs(OP_SYMBOL(IC_RESULT(ic)),
-                                                     OP_SYMBOL(IC_LEFT(ic)), ic->lineno);
+                                        mc30_positionRegs(OP_SYMBOL(IC_RESULT(ic)),
+                                                          OP_SYMBOL(IC_LEFT(ic)), ic->lineno);
                                 /* do the same for the right operand */
                                 if (IC_RIGHT(ic) && IS_SYMOP(IC_RIGHT(ic)) &&
                                     IS_SYMOP(IC_RESULT(ic)) &&
                                     OP_SYMBOL(IC_RIGHT(ic))->nRegs && ic->op != '=')
-                                        positionRegs(OP_SYMBOL(IC_RESULT(ic)),
-                                                     OP_SYMBOL(IC_RIGHT(ic)), ic->lineno);
+                                        mc30_positionRegs(OP_SYMBOL(IC_RESULT(ic)),
+                                                          OP_SYMBOL(IC_RIGHT(ic)), ic->lineno);
 
-                                debugLog("  %d - \n", __LINE__);
+                                mc30_debugLog("  %d - \n", __LINE__);
                                 if (ptrRegSet)
                                 {
-                                        debugLog("  %d - \n", __LINE__);
-                                        pic14_ptrRegReq--;
+                                        mc30_debugLog("  %d - \n", __LINE__);
+                                        mc30_ptrRegReq--;
                                         ptrRegSet = 0;
                                 }
                         }
@@ -2446,34 +2494,34 @@ serialRegAssign(eBBlock **ebbs, int count)
 
                         if (ic->op == IFX)
                         {
-                                verifyRegsAssigned(IC_COND(ic), ic);
+                                mc30_verifyRegsAssigned(IC_COND(ic), ic);
                                 continue;
                         }
 
                         if (ic->op == JUMPTABLE)
                         {
-                                verifyRegsAssigned(IC_JTCOND(ic), ic);
+                                mc30_verifyRegsAssigned(IC_JTCOND(ic), ic);
                                 continue;
                         }
 
-                        verifyRegsAssigned(IC_RESULT(ic), ic);
-                        verifyRegsAssigned(IC_LEFT(ic), ic);
-                        verifyRegsAssigned(IC_RIGHT(ic), ic);
+                        mc30_verifyRegsAssigned(IC_RESULT(ic), ic);
+                        mc30_verifyRegsAssigned(IC_LEFT(ic), ic);
+                        mc30_verifyRegsAssigned(IC_RIGHT(ic), ic);
                 }
         }
 }
 
 /*-----------------------------------------------------------------*/
-/* rUmaskForOp :- returns register mask for an operand             */
+/* mc30_rUmaskForOp :- returns register mask for an operand             */
 /*-----------------------------------------------------------------*/
 static bitVect *
-rUmaskForOp(operand *op)
+mc30_rUmaskForOp(operand *op)
 {
         bitVect *rumask;
         symbol *sym;
         int j;
 
-        debugLog("%s\n", __FUNCTION__);
+        mc30_debugLog("%s\n", __FUNCTION__);
         /* only temporaries are assigned registers */
         if (!IS_ITEMP(op))
                 return NULL;
@@ -2497,27 +2545,31 @@ rUmaskForOp(operand *op)
 }
 
 /*-----------------------------------------------------------------*/
-/* regsUsedIniCode :- returns bit vector of registers used in iCode */
+/* mc30_regsUsedIniCode :- returns bit vector of registers used in iCode */
 /*-----------------------------------------------------------------*/
 static bitVect *
-regsUsedIniCode(iCode *ic)
+mc30_regsUsedIniCode(iCode *ic)
 {
         bitVect *rmask = newBitVect(pic14_nRegs);
 
-        debugLog("%s\n", __FUNCTION__);
+        mc30_debugLog("%s\n", __FUNCTION__);
         /* do the special cases first */
         if (ic->op == IFX)
         {
-                rmask = bitVectUnion(rmask,
-                                     rUmaskForOp(IC_COND(ic)));
-                goto ret;
+                // zwr 2.0.0
+                return bitVectUnion(rmask, mc30_rUmaskForOp(IC_COND(ic)));
+                // rmask = bitVectUnion(rmask,
+                //                      mc30_rUmaskForOp(IC_COND(ic)));
+                // goto ret;
         }
 
         /* for the jumptable */
         if (ic->op == JUMPTABLE)
         {
-                rmask = bitVectUnion(rmask,
-                                     rUmaskForOp(IC_JTCOND(ic)));
+                // zwr 2.0.0
+                return bitVectUnion(rmask, mc30_rUmaskForOp(IC_JTCOND(ic)));
+                // rmask = bitVectUnion(rmask,
+                //                      mc30_rUmaskForOp(IC_JTCOND(ic)));
 
                 goto ret;
         }
@@ -2525,29 +2577,29 @@ regsUsedIniCode(iCode *ic)
         /* of all other cases */
         if (IC_LEFT(ic))
                 rmask = bitVectUnion(rmask,
-                                     rUmaskForOp(IC_LEFT(ic)));
+                                     mc30_rUmaskForOp(IC_LEFT(ic)));
 
         if (IC_RIGHT(ic))
                 rmask = bitVectUnion(rmask,
-                                     rUmaskForOp(IC_RIGHT(ic)));
+                                     mc30_rUmaskForOp(IC_RIGHT(ic)));
 
         if (IC_RESULT(ic))
                 rmask = bitVectUnion(rmask,
-                                     rUmaskForOp(IC_RESULT(ic)));
+                                     mc30_rUmaskForOp(IC_RESULT(ic)));
 
 ret:
         return rmask;
 }
 
 /*-----------------------------------------------------------------*/
-/* createRegMask - for each instruction will determine the regsUsed */
+/* mc30_createRegMask - for each instruction will determine the regsUsed */
 /*-----------------------------------------------------------------*/
 static void
-createRegMask(eBBlock **ebbs, int count)
+mc30_createRegMask(eBBlock **ebbs, int count)
 {
         int i;
 
-        debugLog("%s\n", __FUNCTION__);
+        mc30_debugLog("%s\n", __FUNCTION__);
         /* for all blocks */
         for (i = 0; i < count; i++)
         {
@@ -2569,7 +2621,7 @@ createRegMask(eBBlock **ebbs, int count)
 
                         /* first mark the registers used in this
                         instruction */
-                        ic->rUsed = regsUsedIniCode(ic);
+                        ic->rUsed = mc30_regsUsedIniCode(ic);
                         _G.funcrUsed = bitVectUnion(_G.funcrUsed, ic->rUsed);
 
                         /* now create the register mask for those
@@ -2591,7 +2643,7 @@ createRegMask(eBBlock **ebbs, int count)
                                 if (!(sym = hTabItemWithKey(liveRanges, j)))
                                 {
                                         werror(E_INTERNAL_ERROR, __FILE__, __LINE__,
-                                               "createRegMask cannot find live range");
+                                               "mc30_createRegMask cannot find live range");
                                         exit(0);
                                 }
 
@@ -2610,22 +2662,22 @@ createRegMask(eBBlock **ebbs, int count)
 }
 
 /*-----------------------------------------------------------------*/
-/* regTypeNum - computes the type & number of registers required   */
+/* mc30_regTypeNum - computes the type & number of registers required   */
 /*-----------------------------------------------------------------*/
 static void
-regTypeNum()
+mc30_regTypeNum(void)
 {
         symbol *sym;
         int k;
         //iCode *ic;
 
-        debugLog("%s\n", __FUNCTION__);
+        mc30_debugLog("%s\n", __FUNCTION__);
         /* for each live range do */
         for (sym = hTabFirstItem(liveRanges, &k); sym;
              sym = hTabNextItem(liveRanges, &k))
         {
 
-                debugLog("  %d - %s\n", __LINE__, sym->rname);
+                mc30_debugLog("  %d - %s\n", __LINE__, sym->rname);
 
                 /* if used zero times then no registers needed */
                 if ((sym->liveTo - sym->liveFrom) == 0)
@@ -2635,7 +2687,7 @@ regTypeNum()
                 if (sym->isitmp)
                 {
 
-                        debugLog("  %d - itemp register\n", __LINE__);
+                        mc30_debugLog("  %d - itemp register\n", __LINE__);
 
                         /* if the type is marked as a conditional */
                         if (sym->regType == REG_CND)
@@ -2647,7 +2699,7 @@ regTypeNum()
                         {
                                 if (IS_AGGREGATE(sym->type) || sym->isptr)
                                         sym->type = aggrToPtr(sym->type, FALSE);
-                                debugLog("  %d - no reg needed - accumulator used\n", __LINE__);
+                                mc30_debugLog("  %d - no reg needed - accumulator used\n", __LINE__);
 
                                 continue;
                         }
@@ -2656,12 +2708,12 @@ regTypeNum()
                         {
                                 //if (IS_AGGREGATE (sym->type) || sym->isptr)
                                 //  sym->type = aggrToPtr (sym->type, FALSE);
-                                debugLog("  %d - used as a return\n", __LINE__);
+                                mc30_debugLog("  %d - used as a return\n", __LINE__);
 
                                 //continue;
                         }
 
-/* if the symbol has only one definition &
+                                /* if the symbol has only one definition &
                         that definition is a get_pointer and the
                         pointer we are getting is rematerializable and
                         in "data" space */
@@ -2678,7 +2730,7 @@ regTypeNum()
 
                                         symbol *psym;
 
-                                        debugLog ("  %d - \n", __LINE__);
+                                        mc30_debugLog ("  %d - \n", __LINE__);
 
                                         /* create a pseudo symbol & force a spil */
                                         //X symbol *psym = newSymbol (rematStr (OP_SYMBOL (IC_LEFT (ic))), 1);
@@ -2703,7 +2755,7 @@ regTypeNum()
 
                         if (IS_PTR_CONST(sym->type))
                         {
-                                debugLog("  %d const pointer type requires %d registers, changing to 2\n", __LINE__, sym->nRegs);
+                                mc30_debugLog("  %d const pointer type requires %d registers, changing to 2\n", __LINE__, sym->nRegs);
                                 sym->nRegs = 2;
                         }
 
@@ -2722,7 +2774,7 @@ regTypeNum()
                         else
                                 sym->regType = REG_GPR;
 
-                        debugLog("  reg name %s,  reg type %s\n", sym->rname, debugLogRegType(sym->regType));
+                        mc30_debugLog("  reg name %s,  reg type %s\n", sym->rname, mc30_debugLogRegType(sym->regType));
                 }
                 else
                         /* for the first run we don't provide */
@@ -2739,20 +2791,20 @@ static DEFSETFUNC(deallocStackSpil)
 {
         symbol *sym = item;
 
-        debugLog("%s\n", __FUNCTION__);
+        mc30_debugLog("%s\n", __FUNCTION__);
         deallocLocal(sym);
         return 0;
 }
 
 /*-----------------------------------------------------------------*/
-/* farSpacePackable - returns the packable icode for far variables */
+/* mc30_farSpacePackable - returns the packable icode for far variables */
 /*-----------------------------------------------------------------*/
 static iCode *
-farSpacePackable(iCode *ic)
+mc30_farSpacePackable(iCode *ic)
 {
         iCode *dic;
 
-        debugLog("%s\n", __FUNCTION__);
+        mc30_debugLog("%s\n", __FUNCTION__);
         /* go thru till we find a definition for the
         symbol on the right */
         for (dic = ic->prev; dic; dic = dic->prev)
@@ -2813,32 +2865,32 @@ farSpacePackable(iCode *ic)
 }
 
 /*-----------------------------------------------------------------*/
-/* packRegsForAssign - register reduction for assignment           */
+/* mc30_packRegsForAssign - register reduction for assignment           */
 /*-----------------------------------------------------------------*/
 static int
-packRegsForAssign(iCode *ic, eBBlock *ebp)
+mc30_packRegsForAssign(iCode *ic, eBBlock *ebp)
 {
 
         iCode *dic, *sic;
 
-        debugLog("%s\n", __FUNCTION__);
+        mc30_debugLog("%s\n", __FUNCTION__);
 
-        debugAopGet("  result:", IC_RESULT(ic));
-        debugAopGet("  left:", IC_LEFT(ic));
-        debugAopGet("  right:", IC_RIGHT(ic));
+        mc30_debugAopGet("  result:", IC_RESULT(ic));
+        mc30_debugAopGet("  left:", IC_LEFT(ic));
+        mc30_debugAopGet("  right:", IC_RIGHT(ic));
 
         /* if this is at an absolute address, then get the address. */
         if (SPEC_ABSA(OP_SYM_ETYPE(IC_RESULT(ic))))
         {
-                if (IS_CONFIG_ADDRESS(SPEC_ADDR(OP_SYM_ETYPE(IC_RESULT(ic)))))
+                if (MC30_IS_CONFIG_ADDRESS(SPEC_ADDR(OP_SYM_ETYPE(IC_RESULT(ic)))))
                 {
-                        debugLog("  %d - found config word declaration\n", __LINE__);
+                        mc30_debugLog("  %d - found config word declaration\n", __LINE__);
                         if (IS_VALOP(IC_RIGHT(ic)))
                         {
-                                debugLog("  setting config word to %x\n",
-                                         (int)ulFromVal(OP_VALUE(IC_RIGHT(ic))));
-                                pic14_assignConfigWordValue(SPEC_ADDR(OP_SYM_ETYPE(IC_RESULT(ic))),
-                                                            (int)ulFromVal(OP_VALUE(IC_RIGHT(ic))));
+                                mc30_debugLog("  setting config word to %x\n",
+                                              (int)ulFromVal(OP_VALUE(IC_RIGHT(ic))));
+                                mc30_assignConfigWordValue(SPEC_ADDR(OP_SYM_ETYPE(IC_RESULT(ic))),
+                                                           (int)ulFromVal(OP_VALUE(IC_RIGHT(ic))));
                         }
 
                         /* remove the assignment from the iCode chain. */
@@ -2847,47 +2899,47 @@ packRegsForAssign(iCode *ic, eBBlock *ebp)
                         bitVectUnSetBit(OP_SYMBOL(IC_RESULT(ic))->defs, ic->key);
                         hTabDeleteItem(&iCodehTab, ic->key, ic, DELETE_ITEM, NULL);
 
-                        return 1;
+                        return TRUE;
                 }
         }
 
         if (!IS_ITEMP(IC_RESULT(ic)))
         {
-                allocDirReg(IC_RESULT(ic));
-                debugLog("  %d - result is not temp\n", __LINE__);
+                mc30_allocDirReg(IC_RESULT(ic));
+                mc30_debugLog("  %d - result is not temp\n", __LINE__);
         }
         /*
         if (IC_LEFT (ic) && !IS_ITEMP (IC_LEFT (ic))) {
-        debugLog ("  %d - left is not temp, allocating\n", __LINE__);
-        allocDirReg(IC_LEFT (ic));
+        mc30_debugLog ("  %d - left is not temp, allocating\n", __LINE__);
+        mc30_allocDirReg(IC_LEFT (ic));
         }
         */
 
         if (!IS_ITEMP(IC_RIGHT(ic)))
         {
-                debugLog("  %d - not packing - right is not temp\n", __LINE__);
+                mc30_debugLog("  %d - not packing - right is not temp\n", __LINE__);
 
                 /* only pack if this is not a function pointer */
                 if (!IS_REF(IC_RIGHT(ic)))
-                        allocDirReg(IC_RIGHT(ic));
-                return 0;
+                        mc30_allocDirReg(IC_RIGHT(ic));
+                return FALSE;
         }
 
         if (OP_SYMBOL(IC_RIGHT(ic))->isind ||
             OP_LIVETO(IC_RIGHT(ic)) > ic->seq)
         {
-                debugLog("  %d - not packing - right side fails \n", __LINE__);
-                return 0;
+                mc30_debugLog("  %d - not packing - right side fails \n", __LINE__);
+                return FALSE;
         }
 
         /* if the true symbol is defined in far space or on stack
         then we should not since this will increase register pressure */
         if (isOperandInFarSpace(IC_RESULT(ic)))
         {
-                if ((dic = farSpacePackable(ic)))
+                if ((dic = mc30_farSpacePackable(ic)))
                         goto pack;
                 else
-                        return 0;
+                        return FALSE;
         }
         /* find the definition of iTempNN scanning backwards if we find a
         a use of the true symbol before we find the definition then
@@ -2901,7 +2953,7 @@ packRegsForAssign(iCode *ic, eBBlock *ebp)
                     (OP_SYMBOL(IC_RESULT(ic))->_isparm &&
                      !OP_SYMBOL(IC_RESULT(ic))->ismyparm))
                 {
-                        debugLog("  %d - \n", __LINE__);
+                        mc30_debugLog("  %d - \n", __LINE__);
                         dic = NULL;
                         break;
                 }
@@ -2912,7 +2964,7 @@ packRegsForAssign(iCode *ic, eBBlock *ebp)
                 if (IS_TRUE_SYMOP(IC_RESULT(dic)) &&
                     IS_OP_VOLATILE(IC_RESULT(dic)))
                 {
-                        debugLog("  %d - dic is VOLATILE \n", __LINE__);
+                        mc30_debugLog("  %d - dic is VOLATILE \n", __LINE__);
                         dic = NULL;
                         break;
                 }
@@ -2921,8 +2973,8 @@ packRegsForAssign(iCode *ic, eBBlock *ebp)
                     IC_RESULT(dic)->key == IC_RIGHT(ic)->key)
                 {
                         /* A previous result was assigned to the same register - we'll our definition */
-                        debugLog("  %d - dic result key == ic right key -- pointer set=%c\n",
-                                 __LINE__, ((POINTER_SET(dic)) ? 'Y' : 'N'));
+                        mc30_debugLog("  %d - dic result key == ic right key -- pointer set=%c\n",
+                                      __LINE__, ((POINTER_SET(dic)) ? 'Y' : 'N'));
                         if (POINTER_SET(dic))
                                 dic = NULL;
 
@@ -2933,7 +2985,7 @@ packRegsForAssign(iCode *ic, eBBlock *ebp)
                     (IC_RIGHT(dic)->key == IC_RESULT(ic)->key ||
                      IC_RIGHT(dic)->key == IC_RIGHT(ic)->key))
                 {
-                        debugLog("  %d - dic right key == ic rightor result key\n", __LINE__);
+                        mc30_debugLog("  %d - dic right key == ic rightor result key\n", __LINE__);
                         dic = NULL;
                         break;
                 }
@@ -2942,7 +2994,7 @@ packRegsForAssign(iCode *ic, eBBlock *ebp)
                     (IC_LEFT(dic)->key == IC_RESULT(ic)->key ||
                      IC_LEFT(dic)->key == IC_RIGHT(ic)->key))
                 {
-                        debugLog("  %d - dic left key == ic rightor result key\n", __LINE__);
+                        mc30_debugLog("  %d - dic left key == ic rightor result key\n", __LINE__);
                         dic = NULL;
                         break;
                 }
@@ -2950,15 +3002,15 @@ packRegsForAssign(iCode *ic, eBBlock *ebp)
                 if (POINTER_SET(dic) &&
                     IC_RESULT(dic)->key == IC_RESULT(ic)->key)
                 {
-                        debugLog("  %d - dic result key == ic result key -- pointer set=Y\n",
-                                 __LINE__);
+                        mc30_debugLog("  %d - dic result key == ic result key -- pointer set=Y\n",
+                                      __LINE__);
                         dic = NULL;
                         break;
                 }
         }
 
         if (!dic)
-                return 0; /* did not find */
+                return FALSE; /* did not find */
 
         /* if assignment then check that right is not a bit */
         if (ASSIGNMENT(ic) && !POINTER_SET(ic))
@@ -2969,7 +3021,7 @@ packRegsForAssign(iCode *ic, eBBlock *ebp)
                         /* if result is a bit too then it's ok */
                         etype = operandType(IC_RESULT(ic));
                         if (!IS_BITFIELD(etype))
-                                return 0;
+                                return FALSE;
                 }
         }
 
@@ -2989,11 +3041,11 @@ packRegsForAssign(iCode *ic, eBBlock *ebp)
                        IC_RESULT(ic)->key == IC_LEFT(dic)->key) ||
                       (IC_RIGHT(dic) &&
                        IC_RESULT(ic)->key == IC_RIGHT(dic)->key)))
-                        return 0;
+                        return FALSE;
         }
 pack:
-        debugLog("  packing. removing %s\n", OP_SYMBOL(IC_RIGHT(ic))->rname);
-        debugLog("  replacing with %s\n", OP_SYMBOL(IC_RESULT(dic))->rname);
+        mc30_debugLog("  packing. removing %s\n", OP_SYMBOL(IC_RIGHT(ic))->rname);
+        mc30_debugLog("  replacing with %s\n", OP_SYMBOL(IC_RESULT(dic))->rname);
         /* found the definition */
         /* replace the result with the result of */
         /* this assignment and remove this assignment */
@@ -3018,18 +3070,18 @@ pack:
         bitVectUnSetBit(OP_SYMBOL(IC_RESULT(ic))->defs, ic->key);
         hTabDeleteItem(&iCodehTab, ic->key, ic, DELETE_ITEM, NULL);
         OP_DEFS(IC_RESULT(dic)) = bitVectSetBit(OP_DEFS(IC_RESULT(dic)), dic->key);
-        return 1;
+        return TRUE;
 }
 
 /*-----------------------------------------------------------------*/
-/* findAssignToSym : scanning backwards looks for first assig found */
+/* mc30_findAssignToSym : scanning backwards looks for first assig found */
 /*-----------------------------------------------------------------*/
 static iCode *
-findAssignToSym(operand *op, iCode *ic)
+mc30_findAssignToSym(operand *op, iCode *ic)
 {
         iCode *dic;
 
-        debugLog("%s\n", __FUNCTION__);
+        mc30_debugLog("%s\n", __FUNCTION__);
         for (dic = ic->prev; dic; dic = dic->prev)
         {
 
@@ -3038,7 +3090,7 @@ findAssignToSym(operand *op, iCode *ic)
                     !POINTER_SET(dic) &&
                     IC_RESULT(dic)->key == op->key
                     /*          &&  IS_TRUE_SYMOP(IC_RIGHT(dic)) */
-                    )
+                )
                 {
 
                         /* we are interested only if defined in far space */
@@ -3097,27 +3149,27 @@ findAssignToSym(operand *op, iCode *ic)
 }
 
 /*-----------------------------------------------------------------*/
-/* packRegsForSupport :- reduce some registers for support calls   */
+/* mc30_packRegsForSupport :- reduce some registers for support calls   */
 /*-----------------------------------------------------------------*/
 static int
-packRegsForSupport(iCode *ic, eBBlock *ebp)
+mc30_packRegsForSupport(iCode *ic, eBBlock *ebp)
 {
         int change = 0;
 
-        debugLog("%s\n", __FUNCTION__);
+        mc30_debugLog("%s\n", __FUNCTION__);
         /* for the left & right operand :- look to see if the
         left was assigned a true symbol in far space in that
         case replace them */
         if (IS_ITEMP(IC_LEFT(ic)) &&
             OP_SYMBOL(IC_LEFT(ic))->liveTo <= ic->seq)
         {
-                iCode *dic = findAssignToSym(IC_LEFT(ic), ic);
+                iCode *dic = mc30_findAssignToSym(IC_LEFT(ic), ic);
                 iCode *sic;
 
                 if (!dic)
                         goto right;
 
-                debugAopGet("removing left:", IC_LEFT(ic));
+                mc30_debugAopGet("removing left:", IC_LEFT(ic));
 
                 /* found it we need to remove it from the
                 block */
@@ -3138,7 +3190,7 @@ right:
             IS_ITEMP(IC_RIGHT(ic)) &&
             OP_SYMBOL(IC_RIGHT(ic))->liveTo <= ic->seq)
         {
-                iCode *dic = findAssignToSym(IC_RIGHT(ic), ic);
+                iCode *dic = mc30_findAssignToSym(IC_RIGHT(ic), ic);
                 iCode *sic;
 
                 if (!dic)
@@ -3153,7 +3205,7 @@ right:
                                 return change;
                 }
 
-                debugAopGet("removing right:", IC_RIGHT(ic));
+                mc30_debugAopGet("removing right:", IC_RIGHT(ic));
 
                 /* found it we need to remove it from the
                 block */
@@ -3173,22 +3225,22 @@ right:
 }
 
 /*-----------------------------------------------------------------*/
-/* packRegsForOneuse : - will reduce some registers for single Use */
+/* mc30_packRegsForOneuse : - will reduce some registers for single Use */
 /*-----------------------------------------------------------------*/
 static iCode *
-packRegsForOneuse(iCode *ic, operand *op, eBBlock *ebp)
+mc30_packRegsForOneuse(iCode *ic, operand *op, eBBlock *ebp)
 {
         bitVect *uses;
         iCode *dic, *sic;
 
-        debugLog("%s\n", __FUNCTION__);
+        mc30_debugLog("%s\n", __FUNCTION__);
         /* if returning a literal then do nothing */
         if (!IS_SYMOP(op))
                 return NULL;
 
         /* only upto 2 bytes since we cannot predict
         the usage of b, & acc */
-        if (getSize(operandType(op)) > (fReturnSizePic - 2) &&
+        if (getSize(operandType(op)) > (mc30_fReturnSizePic - 2) &&
             ic->op != RETURN &&
             ic->op != SEND)
                 return NULL;
@@ -3304,15 +3356,15 @@ packRegsForOneuse(iCode *ic, operand *op, eBBlock *ebp)
 }
 
 /*-----------------------------------------------------------------*/
-/* isBitwiseOptimizable - requirements of JEAN LOUIS VERN          */
+/* mc30_isBitwiseOptimizable - requirements of JEAN LOUIS VERN          */
 /*-----------------------------------------------------------------*/
 static bool
-isBitwiseOptimizable(iCode *ic)
+mc30_isBitwiseOptimizable(iCode *ic)
 {
         sym_link *ltype = getSpec(operandType(IC_LEFT(ic)));
         sym_link *rtype = getSpec(operandType(IC_RIGHT(ic)));
 
-        debugLog("%s\n", __FUNCTION__);
+        mc30_debugLog("%s\n", __FUNCTION__);
         /* bitwise operations are considered optimizable
         under the following conditions (Jean-Louis VERN)
 
@@ -3334,14 +3386,14 @@ isBitwiseOptimizable(iCode *ic)
 }
 
 /*-----------------------------------------------------------------*/
-/* packRegsForAccUse - pack registers for acc use                  */
+/* mc30_packRegsForAccUse - pack registers for acc use                  */
 /*-----------------------------------------------------------------*/
 static void
-packRegsForAccUse(iCode *ic)
+mc30_packRegsForAccUse(iCode *ic)
 {
         //iCode *uic;
 
-        debugLog("%s\n", __FUNCTION__);
+        mc30_debugLog("%s\n", __FUNCTION__);
 
         /* result too large for WREG? */
         if (getSize(operandType(IC_RESULT(ic))) > 1)
@@ -3359,14 +3411,14 @@ packRegsForAccUse(iCode *ic)
         if (IS_AGGREGATE(operandType(IC_RESULT(ic)))) {
                 return;
         }
-        debugLog ("  %s:%d\n", __FUNCTION__,__LINE__);
+        mc30_debugLog ("  %s:%d\n", __FUNCTION__,__LINE__);
 
         /* if + or - then it has to be one byte result */
         if ((ic->op == '+' || ic->op == '-')
                 && getSize (operandType (IC_RESULT (ic))) > 1)
                 return;
 
-        debugLog ("  %s:%d\n", __FUNCTION__,__LINE__);
+        mc30_debugLog ("  %s:%d\n", __FUNCTION__,__LINE__);
         /* if shift operation make sure right side is not a literal */
         if (ic->op == RIGHT_OP &&
                 (isOperandLiteral (IC_RIGHT (ic)) ||
@@ -3396,7 +3448,7 @@ packRegsForAccUse(iCode *ic)
                 bitVectFirstBit (OP_USES (IC_RESULT (ic))))))
                 return;
 
-        debugLog ("  %s:%d\n", __FUNCTION__,__LINE__);
+        mc30_debugLog ("  %s:%d\n", __FUNCTION__,__LINE__);
         if (ic->next != uic)
                 return;
 
@@ -3413,7 +3465,7 @@ packRegsForAccUse(iCode *ic)
                 getSize (aggrToPtr (operandType (IC_RESULT (uic)), FALSE)) > 1)
                 return;
 
-        debugLog ("  %s:%d\n", __FUNCTION__,__LINE__);
+        mc30_debugLog ("  %s:%d\n", __FUNCTION__,__LINE__);
         if (uic->op != '=' &&
                 !IS_ARITHMETIC_OP (uic) &&
                 !IS_BITWISE_OP (uic) &&
@@ -3421,7 +3473,7 @@ packRegsForAccUse(iCode *ic)
                 uic->op != RIGHT_OP)
                 return;
 
-        debugLog ("  %s:%d\n", __FUNCTION__,__LINE__);
+        mc30_debugLog ("  %s:%d\n", __FUNCTION__,__LINE__);
         /* if used in ^ operation then make sure right is not a
         literl */
         if (uic->op == '^' && isOperandLiteral (IC_RIGHT (uic)))
@@ -3462,7 +3514,7 @@ packRegsForAccUse(iCode *ic)
                 IC_LEFT (uic)->key != IC_RESULT (ic)->key)
                 return;
 
-        debugLog ("  %s:%d\n", __FUNCTION__,__LINE__);
+        mc30_debugLog ("  %s:%d\n", __FUNCTION__,__LINE__);
         /* if one of them is a literal then we can */
         if ( ((IC_LEFT (uic) && IS_OP_LITERAL (IC_LEFT (uic))) ||
                 (IC_RIGHT (uic) && IS_OP_LITERAL (IC_RIGHT (uic))))  &&
@@ -3472,7 +3524,7 @@ packRegsForAccUse(iCode *ic)
                 return;
         }
 
-        debugLog ("  %s:%d\n", __FUNCTION__,__LINE__);
+        mc30_debugLog ("  %s:%d\n", __FUNCTION__,__LINE__);
         /* if the other one is not on stack then we can */
         if (IC_LEFT (uic)->key == IC_RESULT (ic)->key &&
                 (IS_ITEMP (IC_RIGHT (uic)) ||
@@ -3489,23 +3541,23 @@ packRegsForAccUse(iCode *ic)
         return;
 
 accuse:
-        debugLog ("%s - Yes we are using the accumulator\n", __FUNCTION__);
+        mc30_debugLog ("%s - Yes we are using the accumulator\n", __FUNCTION__);
         OP_SYMBOL (IC_RESULT (ic))->accuse = 1;
 #endif
 }
 
 /*-----------------------------------------------------------------*/
-/* packForPush - hueristics to reduce iCode for pushing            */
+/* mc30_packForPush - hueristics to reduce iCode for pushing            */
 /*-----------------------------------------------------------------*/
 static void
-packForReceive(iCode *ic, eBBlock *ebp)
+mc30_packForReceive(iCode *ic, eBBlock *ebp)
 {
         iCode *dic;
 
-        debugLog("%s\n", __FUNCTION__);
-        debugAopGet("  result:", IC_RESULT(ic));
-        debugAopGet("  left:", IC_LEFT(ic));
-        debugAopGet("  right:", IC_RIGHT(ic));
+        mc30_debugLog("%s\n", __FUNCTION__);
+        mc30_debugAopGet("  result:", IC_RESULT(ic));
+        mc30_debugAopGet("  left:", IC_LEFT(ic));
+        mc30_debugAopGet("  right:", IC_RIGHT(ic));
 
         if (!ic->next)
                 return;
@@ -3514,30 +3566,30 @@ packForReceive(iCode *ic, eBBlock *ebp)
         {
 
                 if (IC_LEFT(dic) && (IC_RESULT(ic)->key == IC_LEFT(dic)->key))
-                        debugLog("    used on left\n");
+                        mc30_debugLog("    used on left\n");
                 if (IC_RIGHT(dic) && IC_RESULT(ic)->key == IC_RIGHT(dic)->key)
-                        debugLog("    used on right\n");
+                        mc30_debugLog("    used on right\n");
                 if (IC_RESULT(dic) && IC_RESULT(ic)->key == IC_RESULT(dic)->key)
-                        debugLog("    used on result\n");
+                        mc30_debugLog("    used on result\n");
 
                 if ((IC_LEFT(dic) && (IC_RESULT(ic)->key == IC_LEFT(dic)->key)) ||
                     (IC_RESULT(dic) && IC_RESULT(ic)->key == IC_RESULT(dic)->key))
                         return;
         }
 
-        debugLog("  hey we can remove this unnecessary assign\n");
+        mc30_debugLog("  hey we can remove this unnecessary assign\n");
 }
 /*-----------------------------------------------------------------*/
-/* packForPush - hueristics to reduce iCode for pushing            */
+/* mc30_packForPush - hueristics to reduce iCode for pushing            */
 /*-----------------------------------------------------------------*/
 static void
-packForPush(iCode *ic, eBBlock *ebp)
+mc30_packForPush(iCode *ic, eBBlock *ebp)
 {
         iCode *dic, *lic;
         bitVect *dbv;
         int disallowHiddenAssignment = 0;
 
-        debugLog("%s\n", __FUNCTION__);
+        mc30_debugLog("%s\n", __FUNCTION__);
         if (ic->op != IPUSH || !IS_ITEMP(IC_LEFT(ic)))
                 return;
 
@@ -3555,7 +3607,7 @@ packForPush(iCode *ic, eBBlock *ebp)
                 return;
 
         /* If the defining iCode is outside of this block, we need to recompute */
-        /* ebp (see the mcs51 version of packForPush), but we weren't passed    */
+        /* ebp (see the mcs51 version of mc30_packForPush), but we weren't passed    */
         /* enough data to do that. Just bail out instead if that happens. */
         if (dic->seq < ebp->fSeq)
                 return;
@@ -3606,31 +3658,31 @@ packForPush(iCode *ic, eBBlock *ebp)
         hTabDeleteItem(&iCodehTab, dic->key, dic, DELETE_ITEM, NULL);
 }
 
-static void printSymType(char *str, sym_link *sl)
+static void mc30_printSymType(char *str, sym_link *sl)
 {
-        if (debug)
+        if (mc30_debug)
         {
-                debugLog("    %s Symbol type: ", str);
-                printTypeChain(sl, debugF);
-                debugLog("\n");
+                mc30_debugLog("    %s Symbol type: ", str);
+                printTypeChain(sl, mc30_debugF);
+                mc30_debugLog("\n");
         }
 }
 
 /*-----------------------------------------------------------------*/
-/* some debug code to print the symbol S_TYPE. Note that
+/* some mc30_debug code to print the symbol S_TYPE. Note that
 * the function checkSClass in src/SDCCsymt.c dinks with
 * the S_TYPE in ways the PIC port doesn't fully like...*/
 /*-----------------------------------------------------------------*/
-static void isData(sym_link *sl)
+static void mc30_isData(sym_link *sl)
 {
         FILE *of = stderr;
 
         // avoid garbage `data' and `sfr' output
-        if (!sl || !debugF)
+        if (!sl || !mc30_debugF)
                 return;
 
-        if (debugF)
-                of = debugF;
+        if (mc30_debugF)
+                of = mc30_debugF;
 
         for (; sl; sl = sl->next)
         {
@@ -3683,16 +3735,16 @@ static void isData(sym_link *sl)
 }
 
 /*-----------------------------------------------------------------*/
-/* packRegisters - does some transformations to reduce register    */
+/* mc30_packRegisters - does some transformations to reduce register    */
 /*                   pressure                                      */
 /*-----------------------------------------------------------------*/
 static void
-packRegisters(eBBlock *ebp)
+mc30_packRegisters(eBBlock *ebp)
 {
         iCode *ic;
         int change = 0;
 
-        debugLog("%s\n", __FUNCTION__);
+        mc30_debugLog("%s\n", __FUNCTION__);
 
         while (1)
         {
@@ -3708,15 +3760,15 @@ packRegisters(eBBlock *ebp)
 
                         /* find assignment of the form TrueSym := iTempNN:1 */
                         if (ic->op == '=' && !POINTER_SET(ic))
-                                change += packRegsForAssign(ic, ebp);
-                        /* debug stuff */
+                                change += mc30_packRegsForAssign(ic, ebp);
+                        /* mc30_debug stuff */
                         if (ic->op == '=')
                         {
                                 if (POINTER_SET(ic))
-                                        debugLog("pointer is set\n");
-                                debugAopGet("  result:", IC_RESULT(ic));
-                                debugAopGet("  left:", IC_LEFT(ic));
-                                debugAopGet("  right:", IC_RIGHT(ic));
+                                        mc30_debugLog("pointer is set\n");
+                                mc30_debugAopGet("  result:", IC_RESULT(ic));
+                                mc30_debugAopGet("  left:", IC_LEFT(ic));
+                                mc30_debugAopGet("  right:", IC_RIGHT(ic));
                         }
                 }
 
@@ -3731,32 +3783,32 @@ packRegisters(eBBlock *ebp)
                 {
                         sym_link *etype = getSpec(operandType(IC_LEFT(ic)));
 
-                        debugAopGet("  left:", IC_LEFT(ic));
+                        mc30_debugAopGet("  left:", IC_LEFT(ic));
                         if (IS_PTR_CONST(OP_SYMBOL(IC_LEFT(ic))->type))
-                                debugLog("    is a pointer\n");
+                                mc30_debugLog("    is a pointer\n");
 
                         if (IS_OP_VOLATILE(IC_LEFT(ic)))
-                                debugLog("    is volatile\n");
+                                mc30_debugLog("    is volatile\n");
 
-                        isData(etype);
+                        mc30_isData(etype);
 
-                        printSymType("   ", OP_SYMBOL(IC_LEFT(ic))->type);
+                        mc30_printSymType("   ", OP_SYMBOL(IC_LEFT(ic))->type);
                 }
 
                 if (IS_SYMOP(IC_RIGHT(ic)))
                 {
-                        debugAopGet("  right:", IC_RIGHT(ic));
-                        printSymType("    ", OP_SYMBOL(IC_RIGHT(ic))->type);
+                        mc30_debugAopGet("  right:", IC_RIGHT(ic));
+                        mc30_printSymType("    ", OP_SYMBOL(IC_RIGHT(ic))->type);
                 }
 
                 if (IS_SYMOP(IC_RESULT(ic)))
                 {
-                        debugAopGet("  result:", IC_RESULT(ic));
-                        printSymType("     ", OP_SYMBOL(IC_RESULT(ic))->type);
+                        mc30_debugAopGet("  result:", IC_RESULT(ic));
+                        mc30_printSymType("     ", OP_SYMBOL(IC_RESULT(ic))->type);
                 }
 
                 if (POINTER_SET(ic))
-                        debugLog("  %d - Pointer set\n", __LINE__);
+                        mc30_debugLog("  %d - Pointer set\n", __LINE__);
 
                 /* Look for two subsequent iCodes with */
                 /*   iTemp := _c;         */
@@ -3806,7 +3858,7 @@ packRegisters(eBBlock *ebp)
                     !OP_SYMBOL(IC_LEFT(ic))->onStack)
                 {
 
-                        debugLog("  %d - %s. result is rematerializable\n", __LINE__, __FUNCTION__);
+                        mc30_debugLog("  %d - %s. result is rematerializable\n", __LINE__, __FUNCTION__);
 
                         OP_SYMBOL(IC_RESULT(ic))->remat = 1;
                         OP_SYMBOL(IC_RESULT(ic))->rematiCode = ic;
@@ -3821,7 +3873,7 @@ packRegisters(eBBlock *ebp)
                     OP_SYMBOL(IC_RIGHT(ic))->remat &&
                     bitVectnBitsOn(OP_SYMBOL(IC_RESULT(ic))->defs) <= 1)
                 {
-                        debugLog("  %d - %s. straight rematerializable\n", __LINE__, __FUNCTION__);
+                        mc30_debugLog("  %d - %s. straight rematerializable\n", __LINE__, __FUNCTION__);
 
                         OP_SYMBOL(IC_RESULT(ic))->remat =
                             OP_SYMBOL(IC_RIGHT(ic))->remat;
@@ -3838,7 +3890,7 @@ packRegisters(eBBlock *ebp)
                      bitVectnBitsOn(OP_DEFS(IC_RESULT(ic))) == 1 &&
                      IS_OP_LITERAL(IC_RIGHT(ic))))
                 {
-                        debugLog("  %d - %s. rematerializable because op is +/-\n", __LINE__, __FUNCTION__);
+                        mc30_debugLog("  %d - %s. rematerializable because op is +/-\n", __LINE__, __FUNCTION__);
                         //int i =
                         operandLitValue(IC_RIGHT(ic));
                         OP_SYMBOL(IC_RESULT(ic))->remat = 1;
@@ -3850,50 +3902,50 @@ packRegisters(eBBlock *ebp)
                 if (POINTER_SET(ic) && IS_SYMOP(IC_RESULT(ic)))
                 {
                         OP_SYMBOL(IC_RESULT(ic))->uptr = 1;
-                        debugLog("  marking as a pointer (set) =>");
-                        debugAopGet("  result:", IC_RESULT(ic));
+                        mc30_debugLog("  marking as a pointer (set) =>");
+                        mc30_debugAopGet("  result:", IC_RESULT(ic));
                 }
                 if (POINTER_GET(ic) && IS_SYMOP(IC_LEFT(ic)))
                 {
                         OP_SYMBOL(IC_LEFT(ic))->uptr = 1;
-                        debugLog("  marking as a pointer (get) =>");
-                        debugAopGet("  left:", IC_LEFT(ic));
+                        mc30_debugLog("  marking as a pointer (get) =>");
+                        mc30_debugAopGet("  left:", IC_LEFT(ic));
                 }
 
                 if (!SKIP_IC2(ic))
                 {
                         /* if we are using a symbol on the stack
-                        then we should say pic14_ptrRegReq */
+                        then we should say mc30_ptrRegReq */
                         if (ic->op == IFX && IS_SYMOP(IC_COND(ic)))
-                                pic14_ptrRegReq += ((OP_SYMBOL(IC_COND(ic))->onStack ||
-                                                     OP_SYMBOL(IC_COND(ic))->iaccess)
-                                                        ? 1
-                                                        : 0);
+                                mc30_ptrRegReq += ((OP_SYMBOL(IC_COND(ic))->onStack ||
+                                                    OP_SYMBOL(IC_COND(ic))->iaccess)
+                                                       ? 1
+                                                       : 0);
                         else if (ic->op == JUMPTABLE && IS_SYMOP(IC_JTCOND(ic)))
-                                pic14_ptrRegReq += ((OP_SYMBOL(IC_JTCOND(ic))->onStack ||
-                                                     OP_SYMBOL(IC_JTCOND(ic))->iaccess)
-                                                        ? 1
-                                                        : 0);
+                                mc30_ptrRegReq += ((OP_SYMBOL(IC_JTCOND(ic))->onStack ||
+                                                    OP_SYMBOL(IC_JTCOND(ic))->iaccess)
+                                                       ? 1
+                                                       : 0);
                         else
                         {
                                 if (IS_SYMOP(IC_LEFT(ic)))
-                                        pic14_ptrRegReq += ((OP_SYMBOL(IC_LEFT(ic))->onStack ||
-                                                             OP_SYMBOL(IC_LEFT(ic))->iaccess)
-                                                                ? 1
-                                                                : 0);
+                                        mc30_ptrRegReq += ((OP_SYMBOL(IC_LEFT(ic))->onStack ||
+                                                            OP_SYMBOL(IC_LEFT(ic))->iaccess)
+                                                               ? 1
+                                                               : 0);
                                 if (IS_SYMOP(IC_RIGHT(ic)))
-                                        pic14_ptrRegReq += ((OP_SYMBOL(IC_RIGHT(ic))->onStack ||
-                                                             OP_SYMBOL(IC_RIGHT(ic))->iaccess)
-                                                                ? 1
-                                                                : 0);
+                                        mc30_ptrRegReq += ((OP_SYMBOL(IC_RIGHT(ic))->onStack ||
+                                                            OP_SYMBOL(IC_RIGHT(ic))->iaccess)
+                                                               ? 1
+                                                               : 0);
                                 if (IS_SYMOP(IC_RESULT(ic)))
-                                        pic14_ptrRegReq += ((OP_SYMBOL(IC_RESULT(ic))->onStack ||
-                                                             OP_SYMBOL(IC_RESULT(ic))->iaccess)
-                                                                ? 1
-                                                                : 0);
+                                        mc30_ptrRegReq += ((OP_SYMBOL(IC_RESULT(ic))->onStack ||
+                                                            OP_SYMBOL(IC_RESULT(ic))->iaccess)
+                                                               ? 1
+                                                               : 0);
                         }
 
-                        debugLog("  %d - pointer reg req = %d\n", __LINE__, pic14_ptrRegReq);
+                        mc30_debugLog("  %d - pointer reg req = %d\n", __LINE__, mc30_ptrRegReq);
                 }
 
                 /* if the condition of an if instruction
@@ -3903,32 +3955,32 @@ packRegisters(eBBlock *ebp)
                      ((ic->op == BITWISEAND ||
                        ic->op == '|' ||
                        ic->op == '^') &&
-                      isBitwiseOptimizable(ic))) &&
+                      mc30_isBitwiseOptimizable(ic))) &&
                     ic->next && ic->next->op == IFX &&
                     isOperandEqual(IC_RESULT(ic), IC_COND(ic->next)) &&
                     OP_SYMBOL(IC_RESULT(ic))->liveTo <= ic->next->seq)
                 {
 
-                        debugLog("  %d\n", __LINE__);
+                        mc30_debugLog("  %d\n", __LINE__);
                         OP_SYMBOL(IC_RESULT(ic))->regType = REG_CND;
                         continue;
                 }
 
                 /* reduce for support function calls */
                 if (ic->supportRtn || ic->op == '+' || ic->op == '-')
-                        packRegsForSupport(ic, ebp);
+                        mc30_packRegsForSupport(ic, ebp);
 
                 /* if a parameter is passed, it's in W, so we may not
                 need to place a copy in a register */
                 if (ic->op == RECEIVE)
-                        packForReceive(ic, ebp);
+                        mc30_packForReceive(ic, ebp);
 
                 /* some cases the redundant moves can
                 can be eliminated for return statements */
                 if ((ic->op == RETURN || ic->op == SEND) &&
                     !isOperandInFarSpace(IC_LEFT(ic)) &&
                     !options.model)
-                        packRegsForOneuse(ic, IC_LEFT(ic), ebp);
+                        mc30_packRegsForOneuse(ic, IC_LEFT(ic), ebp);
 
                 /* if pointer set & left has a size more than
                 one and right is not in far space */
@@ -3939,7 +3991,7 @@ packRegisters(eBBlock *ebp)
                     !IS_OP_RUONLY(IC_RIGHT(ic)) &&
                     getSize(aggrToPtr(operandType(IC_RESULT(ic)), FALSE)) > 1)
 
-                        packRegsForOneuse(ic, IC_RESULT(ic), ebp);
+                        mc30_packRegsForOneuse(ic, IC_RESULT(ic), ebp);
 
                 /* if pointer get */
                 if (POINTER_GET(ic) &&
@@ -3949,7 +4001,7 @@ packRegisters(eBBlock *ebp)
                     !IS_OP_RUONLY(IC_RESULT(ic)) &&
                     getSize(aggrToPtr(operandType(IC_LEFT(ic)), FALSE)) > 1)
 
-                        packRegsForOneuse(ic, IC_LEFT(ic), ebp);
+                        mc30_packRegsForOneuse(ic, IC_LEFT(ic), ebp);
 
                 /* if this is cast for intergral promotion then
                 check if only use of  the definition of the
@@ -3962,13 +4014,13 @@ packRegisters(eBBlock *ebp)
                         sym_link *fromType = operandType(IC_RIGHT(ic));
                         sym_link *toType = operandType(IC_LEFT(ic));
 
-                        debugLog("  %d - casting\n", __LINE__);
+                        mc30_debugLog("  %d - casting\n", __LINE__);
 
                         if (IS_INTEGRAL(fromType) && IS_INTEGRAL(toType) &&
                             getSize(fromType) != getSize(toType))
                         {
 
-                                iCode *dic = packRegsForOneuse(ic, IC_RIGHT(ic), ebp);
+                                iCode *dic = mc30_packRegsForOneuse(ic, IC_RIGHT(ic), ebp);
                                 if (dic)
                                 {
 
@@ -3997,7 +4049,7 @@ packRegisters(eBBlock *ebp)
                                                 operandType(IC_LEFT(ic))) == 1)
                                 {
 
-                                        iCode *dic = packRegsForOneuse(ic, IC_RIGHT(ic), ebp);
+                                        iCode *dic = mc30_packRegsForOneuse(ic, IC_RIGHT(ic), ebp);
                                         if (dic)
                                         {
 
@@ -4021,7 +4073,7 @@ packRegisters(eBBlock *ebp)
                 */
                 if (ic->op == IPUSH)
                 {
-                        packForPush(ic, ebp);
+                        mc30_packForPush(ic, ebp);
                 }
 
                 /* pack registers for accumulator use, when the
@@ -4042,71 +4094,71 @@ packRegisters(eBBlock *ebp)
                     IS_ITEMP(IC_RESULT(ic)) &&
                     getSize(operandType(IC_RESULT(ic))) <= 2)
 
-                        packRegsForAccUse(ic);
+                        mc30_packRegsForAccUse(ic);
         }
 }
 
 static void
-dumpEbbsToDebug(eBBlock **ebbs, int count)
+mc30_dumpEbbsToDebug(eBBlock **ebbs, int count)
 {
         int i;
 
-        if (!debug || !debugF)
+        if (!mc30_debug || !mc30_debugF)
                 return;
 
         for (i = 0; i < count; i++)
         {
-                fprintf(debugF, "\n----------------------------------------------------------------\n");
-                fprintf(debugF, "Basic Block %s : loop Depth = %d noPath = %d , lastinLoop = %d\n",
+                fprintf(mc30_debugF, "\n----------------------------------------------------------------\n");
+                fprintf(mc30_debugF, "Basic Block %s : loop Depth = %d noPath = %d , lastinLoop = %d\n",
                         ebbs[i]->entryLabel->name,
                         ebbs[i]->depth,
                         ebbs[i]->noPath,
                         ebbs[i]->isLastInLoop);
-                fprintf(debugF, "depth 1st num %d : bbnum = %d 1st iCode = %d , last iCode = %d\n",
+                fprintf(mc30_debugF, "depth 1st num %d : bbnum = %d 1st iCode = %d , last iCode = %d\n",
                         ebbs[i]->dfnum,
                         ebbs[i]->bbnum,
                         ebbs[i]->fSeq,
                         ebbs[i]->lSeq);
-                fprintf(debugF, "visited %d : hasFcall = %d\n",
+                fprintf(mc30_debugF, "visited %d : hasFcall = %d\n",
                         ebbs[i]->visited,
                         ebbs[i]->hasFcall);
 
-                fprintf(debugF, "\ndefines bitVector :");
-                bitVectDebugOn(ebbs[i]->defSet, debugF);
-                fprintf(debugF, "\nlocal defines bitVector :");
-                bitVectDebugOn(ebbs[i]->ldefs, debugF);
-                fprintf(debugF, "\npointers Set bitvector :");
-                bitVectDebugOn(ebbs[i]->ptrsSet, debugF);
-                fprintf(debugF, "\nin pointers Set bitvector :");
-                bitVectDebugOn(ebbs[i]->inPtrsSet, debugF);
-                fprintf(debugF, "\ninDefs Set bitvector :");
-                bitVectDebugOn(ebbs[i]->inDefs, debugF);
-                fprintf(debugF, "\noutDefs Set bitvector :");
-                bitVectDebugOn(ebbs[i]->outDefs, debugF);
-                fprintf(debugF, "\nusesDefs Set bitvector :");
-                bitVectDebugOn(ebbs[i]->usesDefs, debugF);
-                fprintf(debugF, "\n----------------------------------------------------------------\n");
-                printiCChain(ebbs[i]->sch, debugF);
+                fprintf(mc30_debugF, "\ndefines bitVector :");
+                bitVectDebugOn(ebbs[i]->defSet, mc30_debugF);
+                fprintf(mc30_debugF, "\nlocal defines bitVector :");
+                bitVectDebugOn(ebbs[i]->ldefs, mc30_debugF);
+                fprintf(mc30_debugF, "\npointers Set bitvector :");
+                bitVectDebugOn(ebbs[i]->ptrsSet, mc30_debugF);
+                fprintf(mc30_debugF, "\nin pointers Set bitvector :");
+                bitVectDebugOn(ebbs[i]->inPtrsSet, mc30_debugF);
+                fprintf(mc30_debugF, "\ninDefs Set bitvector :");
+                bitVectDebugOn(ebbs[i]->inDefs, mc30_debugF);
+                fprintf(mc30_debugF, "\noutDefs Set bitvector :");
+                bitVectDebugOn(ebbs[i]->outDefs, mc30_debugF);
+                fprintf(mc30_debugF, "\nusesDefs Set bitvector :");
+                bitVectDebugOn(ebbs[i]->usesDefs, mc30_debugF);
+                fprintf(mc30_debugF, "\n----------------------------------------------------------------\n");
+                printiCChain(ebbs[i]->sch, mc30_debugF);
         }
 }
 
 /*-----------------------------------------------------------------*/
 /* assignRegisters - assigns registers to each live range as need  */
 /*-----------------------------------------------------------------*/
-void pic14_assignRegisters(ebbIndex *ebbi)
+void mc30_assignRegisters(ebbIndex *ebbi)
 {
         int i;
         iCode *ic;
         eBBlock **ebbs = ebbi->bbOrder;
         int count = ebbi->count;
 
-        debugLog("<><><><><><><><><><><><><><><><><>\nstarting\t%s:%s\n",
-                 __FILE__, __FUNCTION__);
-        debugLog("ebbs before optimizing:\n");
-        dumpEbbsToDebug(ebbs, count);
+        mc30_debugLog("<><><><><><><><><><><><><><><><><>\nstarting\t%s:%s\n",
+                      __FILE__, __FUNCTION__);
+        mc30_debugLog("ebbs before optimizing:\n");
+        mc30_dumpEbbsToDebug(ebbs, count);
 
         setToNull((void *)&_G.funcrUsed);
-        pic14_ptrRegReq = _G.stackExtend = _G.dataExtend = 0;
+        mc30_ptrRegReq = _G.stackExtend = _G.dataExtend = 0;
 
         /* mark all r0xZZZZ registers as 'used' to guarantee that
    * disjoint sets of registers are allocated to functions */
@@ -4114,18 +4166,18 @@ void pic14_assignRegisters(ebbIndex *ebbi)
         {
                 reg_info *r;
 
-                for (r = setFirstItem(dynAllocRegs);
+                for (r = setFirstItem(mc30_dynAllocRegs);
                      r;
-                     r = setNextItem(dynAllocRegs))
+                     r = setNextItem(mc30_dynAllocRegs))
                 {
-                        r->isFree = 0;
+                        r->isFree = FALSE;
                 }
         }
 
         /* change assignments this will remove some
      live ranges reducing some register pressure */
         for (i = 0; i < count; i++)
-                packRegisters(ebbs[i]);
+                mc30_packRegisters(ebbs[i]);
 
         if (1)
         {
@@ -4133,26 +4185,28 @@ void pic14_assignRegisters(ebbIndex *ebbi)
                 int hkey;
                 int i = 0;
 
-                debugLog("dir registers allocated so far:\n");
-                reg = hTabFirstItem(dynDirectRegNames, &hkey);
+                mc30_debugLog("dir registers allocated so far:\n");
+                reg = hTabFirstItem(mc30_dynDirectRegNames, &hkey);
 
                 while (reg)
                 {
-                        debugLog("  -- #%d reg = %s  key %d, rIdx = %d, size %d\n",
-                                 i++, reg->name, hkey, reg->rIdx, reg->size);
-                        reg = hTabNextItem(dynDirectRegNames, &hkey);
+                        mc30_debugLog("  -- #%d reg = %s  key %d, rIdx = %d, size %d\n",
+                                      i++, reg->name, hkey, reg->rIdx, reg->size);
+                        reg = hTabNextItem(mc30_dynDirectRegNames, &hkey);
                 }
         }
 
-        if (options.dump_pack)
+        // zwr 2.0.0
+        if (options.dump_i_code)
+        // if (options.dump_pack)
                 dumpEbbsToFileExt(DUMP_PACK, ebbi);
 
         /* first determine for each live range the number of
      registers & the type of registers required for each */
-        regTypeNum();
+        mc30_regTypeNum();
 
         /* and serially allocate registers */
-        serialRegAssign(ebbs, count);
+        mc30_serialRegAssign(ebbs, count);
 
         /* if stack was extended then tell the user */
         if (_G.stackExtend)
@@ -4166,21 +4220,23 @@ void pic14_assignRegisters(ebbIndex *ebbi)
         }
 
         /* after that create the register mask for each of the instruction */
-        createRegMask(ebbs, count);
+        mc30_createRegMask(ebbs, count);
 
         /* redo that offsets for stacked automatic variables */
         redoStackOffsets();
 
-        if (options.dump_rassgn)
+        // zwr 2.0.0
+        if (options.dump_i_code)
+        // if (options.dump_rassgn)
                 dumpEbbsToFileExt(DUMP_RASSGN, ebbi);
 
         /* now get back the chain */
         ic = iCodeLabelOptimize(iCodeFromeBBlock(ebbs, count));
 
-        debugLog("ebbs after optimizing:\n");
-        dumpEbbsToDebug(ebbs, count);
+        mc30_debugLog("ebbs after optimizing:\n");
+        mc30_dumpEbbsToDebug(ebbs, count);
 
-        genpic14Code(ic);
+        mc30_genpic14Code(ic);
 
         /* free up any _G.stackSpil locations allocated */
         applyToSet(_G.stackSpil, deallocStackSpil);
@@ -4188,6 +4244,6 @@ void pic14_assignRegisters(ebbIndex *ebbi)
         setToNull((void *)&_G.stackSpil);
         setToNull((void *)&_G.spiltSet);
 
-        debugLog("leaving\n<><><><><><><><><><><><><><><><><>\n");
-        pic14_debugLogClose();
+        mc30_debugLog("leaving\n<><><><><><><><><><><><><><><><><>\n");
+        mc30_debugLogClose();
 }

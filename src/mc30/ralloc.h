@@ -67,19 +67,19 @@ typedef struct reg_info
   pCodeRegLives reglives;     /* live range mapping */
 } reg_info;
 extern reg_info regspic14[];
-extern int Gstack_base_addr;
+extern int mc30_Gstack_base_addr;
 
 /*
   As registers are created, they're added to a set (based on the
   register type). Here are the sets of registers that are supported
   in the PIC port:
 */
-extern set *dynAllocRegs;
-extern set *dynStackRegs;
-extern set *dynProcessorRegs;
-extern set *dynDirectRegs;
-extern set *dynDirectBitRegs;
-extern set *dynInternalRegs;
+extern set *mc30_dynAllocRegs;
+extern set *mc30_dynStackRegs;
+extern set *mc30_dynProcessorRegs;
+extern set *mc30_dynDirectRegs;
+extern set *mc30_dynDirectBitRegs;
+extern set *mc30_dynInternalRegs;
 
 // zwr 1.0.0
 typedef struct QValList
@@ -91,23 +91,29 @@ typedef struct QValList
   set *firstItem;
 } QValList;
 
-void initStack(int base_address, int size, int shared);
-reg_info *pic14_regWithIdx(int);
-reg_info *dirregWithName(char *name);
-void pic14_assignRegisters(ebbIndex *ebbi);
-reg_info *pic14_findFreeReg(short type);
-reg_info *pic14_allocWithIdx(int idx);
-reg_info *typeRegWithIdx(int idx, int type, int fixed);
-reg_info *regFindWithName(const char *name);
+void mc30_initStack(int base_address, int size, int shared);
+reg_info *mc30_pic14_regWithIdx(int);
+// zwr 2.0.0
+reg_info *mc30_dirregWithName(const char *name);
+// reg_info *mc30_dirregWithName(char *name);
+void mc30_assignRegisters(ebbIndex *ebbi);
+reg_info *mc30_findFreeReg(short type);
+reg_info *mc30_allocWithIdx(int idx);
+reg_info *mc30_typeRegWithIdx(int idx, int type, int fixed);
+reg_info *mc30_regFindWithName(const char *name);
 
-void pic14_debugLogClose(void);
-void writeUsedRegs(FILE *of);
+void mc30_debugLogClose(void);
+void mc30_writeUsedRegs(FILE *of);
 
-reg_info *allocDirReg(operand *op);
-reg_info *allocInternalRegister(int rIdx, char *name, PIC_OPTYPE po_type, int alias);
-reg_info *allocProcessorRegister(int rIdx, char *name, short po_type, int alias);
-reg_info *allocRegByName(char *name, int size);
-reg_info *allocNewDirReg(sym_link *symlnk, const char *name);
+reg_info *mc30_allocDirReg(operand *op);
+// zwr 2.0.0
+reg_info *mc30_allocInternalRegister(int rIdx, const char *name, PIC_OPTYPE po_type, int alias);
+reg_info *mc30_allocProcessorRegister(int rIdx, const char *name, short po_type, int alias);
+reg_info *mc30_allocRegByName(const char *name, int size);
+// reg_info *mc30_allocInternalRegister(int rIdx, char *name, PIC_OPTYPE po_type, int alias);
+// reg_info *mc30_allocProcessorRegister(int rIdx, char *name, short po_type, int alias);
+// reg_info *mc30_allocRegByName(char *name, int size);
+reg_info *mc30_allocNewDirReg(sym_link *symlnk, const char *name);
 
 /* Define register address that are constant across PIC family */
 #define IDX_INDF 0

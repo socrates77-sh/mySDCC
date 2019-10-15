@@ -27,10 +27,10 @@
 
 #include "common.h"
 
-extern int pic14_hasInterrupt;
-extern set *pic14_localFunctions;
+extern int mc30_hasInterrupt;
+extern set *mc30_localFunctions;
 
-void picglue(void);
-int pic14_stringInSet(const char *str, set **world, int autoAdd);
+void mc30_picglue(void);
+int mc30_stringInSet(const char *str, set **world, int autoAdd);
 
 #endif

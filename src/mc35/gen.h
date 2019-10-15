@@ -138,7 +138,6 @@ extern unsigned mc35_fReturnSizePic;
 #define mc35_emitSETDC mc35_emitpcode(POC_BSF, mc35_popCopyGPR2Bit(PCOP(&mc35_pc_status), PIC_DC_BIT))
 #define mc35_emitSETIRP mc35_emitpcode(POC_BSF, mc35_popCopyGPR2Bit(PCOP(&mc35_pc_status), PIC_IRP_BIT))
 
-// zwr 1.0.0
 void mc35_emitpcodeNULLop(PIC_OPCODE poc);
 int mc35_getDataSize(operand *op);
 void mc35_emitpcode_real(PIC_OPCODE poc, pCodeOp *pcop);
@@ -153,8 +152,11 @@ void mc35_emitpcode_real(PIC_OPCODE poc, pCodeOp *pcop);
         } while (0)
 void mc35_emitpComment(const char *fmt, ...);
 void mc35_emitpLabel(int key);
-void mc35_pic14_emitcode(char *inst, char *fmt, ...);
-void DEBUGmc35_pic14_emitcode(char *inst, char *fmt, ...);
+// zwr 2.0.0
+void mc35_pic14_emitcode(const char *inst, const char *fmt, ...);
+void DEBUGmc35_pic14_emitcode(const char *inst, const char *fmt, ...);
+// void mc35_pic14_emitcode(char *inst, char *fmt, ...);
+// void DEBUGmc35_pic14_emitcode(char *inst, char *fmt, ...);
 void mc35_emitDebuggerSymbol(const char *);
 bool mc35_sameRegs(asmop *aop1, asmop *aop2);
 char *mc35_aopGet(asmop *aop, int offset, bool bit16, bool dname);
@@ -163,11 +165,15 @@ void mc35_genpic14Code(iCode *lic);
 
 pCodeOp *mc35_popGet(asmop *aop, int offset); //, bool bit16, bool dname);
 pCodeOp *mc35_popGetAddr(asmop *aop, int offset, int index);
-pCodeOp *mc35_popGetExternal(char *str, int isReg);
+// zwr 2.0.0
+pCodeOp *mc35_popGetExternal(const char *str, int isReg);
+// pCodeOp *mc35_popGetExternal(char *str, int isReg);
 pCodeOp *mc35_popGetLabel(unsigned int key);
 pCodeOp *mc35_popGetLit(unsigned int lit);
 
-void mc35_aopPut(asmop *aop, char *s, int offset);
+// zwr 2.0.0
+void mc35_aopPut(asmop *aop, const char *s, int offset);
+// void mc35_aopPut(asmop *aop, char *s, int offset);
 void mc35_outAcc(operand *result);
 void mc35_aopOp(operand *op, iCode *ic, bool result);
 void mc35_freeAsmop(operand *op, asmop *aaop, iCode *ic, bool pop);

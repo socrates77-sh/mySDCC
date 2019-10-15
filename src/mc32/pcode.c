@@ -93,7 +93,7 @@ static void mc32_genericDestruct(pCode *pc);
 static void mc32_genericPrint(FILE *of, pCode *pc);
 
 static void mc32_pBlockStats(FILE *of, pBlock *pb);
-static pCode *mc32_findFunction(char *fname);
+static pCode *mc32_findFunction(const char *fname);
 static void mc32_pCodePrintLabel(FILE *of, pCode *pc);
 static void mc32_pCodePrintFunction(FILE *of, pCode *pc);
 static void mc32_pCodeOpPrint(FILE *of, pCodeOp *pcop);
@@ -110,18 +110,18 @@ static pCodeInstruction mc32_pciADDWF = {
 	 mc32_genericPrint},
 	POC_ADDWF,
 	"ADDRA",
-	NULL, // from branch
-	NULL, // to branch
-	NULL, // label
-	NULL, // operand
-	NULL, // flow block
-	NULL, // C source
-	1,	// num ops
-	1,
-	0, // dest, bit instruction
-	0,
-	0, // branch, skip
-	0, // literal operand
+	NULL,  // from branch
+	NULL,  // to branch
+	NULL,  // label
+	NULL,  // operand
+	NULL,  // flow block
+	NULL,  // C source
+	1,	 // num ops
+	TRUE,  // dest
+	FALSE, // bit instruction
+	FALSE, // branch
+	FALSE, // skip
+	FALSE, // literal operand
 	POC_NOP,
 	(PCC_W | PCC_REGISTER),					// inCond
 	(PCC_REGISTER | PCC_C | PCC_DC | PCC_Z) // outCond
@@ -133,18 +133,18 @@ static pCodeInstruction mc32_pciADDFW = {
 	 mc32_genericPrint},
 	POC_ADDFW,
 	"ADDAR",
-	NULL, // from branch
-	NULL, // to branch
-	NULL, // label
-	NULL, // operand
-	NULL, // flow block
-	NULL, // C source
-	1,	// num ops
-	0,
-	0, // dest, bit instruction
-	0,
-	0, // branch, skip
-	0, // literal operand
+	NULL,  // from branch
+	NULL,  // to branch
+	NULL,  // label
+	NULL,  // operand
+	NULL,  // flow block
+	NULL,  // C source
+	1,	 // num ops
+	FALSE, // dest
+	FALSE, // bit instruction
+	FALSE, // branch
+	FALSE, // skip
+	FALSE, // literal operand
 	POC_NOP,
 	(PCC_W | PCC_REGISTER),			 // inCond
 	(PCC_W | PCC_C | PCC_DC | PCC_Z) // outCond
@@ -156,18 +156,18 @@ static pCodeInstruction mc32_pciADDLW = {
 	 mc32_genericPrint},
 	POC_ADDLW,
 	"ADDAI",
-	NULL, // from branch
-	NULL, // to branch
-	NULL, // label
-	NULL, // operand
-	NULL, // flow block
-	NULL, // C source
-	1,	// num ops
-	0,
-	0, // dest, bit instruction
-	0,
-	0, // branch, skip
-	1, // literal operand
+	NULL,  // from branch
+	NULL,  // to branch
+	NULL,  // label
+	NULL,  // operand
+	NULL,  // flow block
+	NULL,  // C source
+	1,	 // num ops
+	FALSE, // dest
+	FALSE, // bit instruction
+	FALSE, // branch
+	FALSE, // skip
+	TRUE,  // literal operand
 	POC_NOP,
 	(PCC_W | PCC_LITERAL),			 // inCond
 	(PCC_W | PCC_Z | PCC_C | PCC_DC) // outCond
@@ -179,18 +179,18 @@ static pCodeInstruction mc32_pciANDLW = {
 	 mc32_genericPrint},
 	POC_ANDLW,
 	"ANDAI",
-	NULL, // from branch
-	NULL, // to branch
-	NULL, // label
-	NULL, // operand
-	NULL, // flow block
-	NULL, // C source
-	1,	// num ops
-	0,
-	0, // dest, bit instruction
-	0,
-	0, // branch, skip
-	1, // literal operand
+	NULL,  // from branch
+	NULL,  // to branch
+	NULL,  // label
+	NULL,  // operand
+	NULL,  // flow block
+	NULL,  // C source
+	1,	 // num ops
+	FALSE, // dest
+	FALSE, // bit instruction
+	FALSE, // branch
+	FALSE, // skip
+	TRUE,  // literal operand
 	POC_NOP,
 	(PCC_W | PCC_LITERAL), // inCond
 	(PCC_W | PCC_Z)		   // outCond
@@ -202,18 +202,18 @@ static pCodeInstruction mc32_pciANDWF = {
 	 mc32_genericPrint},
 	POC_ANDWF,
 	"ANDRA",
-	NULL, // from branch
-	NULL, // to branch
-	NULL, // label
-	NULL, // operand
-	NULL, // flow block
-	NULL, // C source
-	1,	// num ops
-	1,
-	0, // dest, bit instruction
-	0,
-	0, // branch, skip
-	0, // literal operand
+	NULL,  // from branch
+	NULL,  // to branch
+	NULL,  // label
+	NULL,  // operand
+	NULL,  // flow block
+	NULL,  // C source
+	1,	 // num ops
+	TRUE,  // dest
+	FALSE, // bit instruction
+	FALSE, // branch
+	FALSE, // skip
+	FALSE, // literal operand
 	POC_NOP,
 	(PCC_W | PCC_REGISTER), // inCond
 	(PCC_REGISTER | PCC_Z)  // outCond
@@ -225,18 +225,18 @@ static pCodeInstruction mc32_pciANDFW = {
 	 mc32_genericPrint},
 	POC_ANDFW,
 	"ANDAR",
-	NULL, // from branch
-	NULL, // to branch
-	NULL, // label
-	NULL, // operand
-	NULL, // flow block
-	NULL, // C source
-	1,	// num ops
-	0,
-	0, // dest, bit instruction
-	0,
-	0, // branch, skip
-	0, // literal operand
+	NULL,  // from branch
+	NULL,  // to branch
+	NULL,  // label
+	NULL,  // operand
+	NULL,  // flow block
+	NULL,  // C source
+	1,	 // num ops
+	FALSE, // dest
+	FALSE, // bit instruction
+	FALSE, // branch
+	FALSE, // skip
+	FALSE, // literal operand
 	POC_NOP,
 	(PCC_W | PCC_REGISTER), // inCond
 	(PCC_W | PCC_Z)			// outCond
@@ -248,18 +248,18 @@ static pCodeInstruction mc32_pciBCF = {
 	 mc32_genericPrint},
 	POC_BCF,
 	"BCLR",
-	NULL, // from branch
-	NULL, // to branch
-	NULL, // label
-	NULL, // operand
-	NULL, // flow block
-	NULL, // C source
-	2,	// num ops
-	1,
-	1, // dest, bit instruction
-	0,
-	0, // branch, skip
-	0, // literal operand
+	NULL,  // from branch
+	NULL,  // to branch
+	NULL,  // label
+	NULL,  // operand
+	NULL,  // flow block
+	NULL,  // C source
+	2,	 // num ops
+	TRUE,  // dest
+	TRUE,  // bit instruction
+	FALSE, // branch
+	FALSE, // skip
+	FALSE, // literal operand
 	POC_BSF,
 	(PCC_REGISTER | PCC_EXAMINE_PCOP), // inCond
 	(PCC_REGISTER | PCC_EXAMINE_PCOP)  // outCond
@@ -271,18 +271,18 @@ static pCodeInstruction mc32_pciBSF = {
 	 mc32_genericPrint},
 	POC_BSF,
 	"BSET",
-	NULL, // from branch
-	NULL, // to branch
-	NULL, // label
-	NULL, // operand
-	NULL, // flow block
-	NULL, // C source
-	2,	// num ops
-	1,
-	1, // dest, bit instruction
-	0,
-	0, // branch, skip
-	0, // literal operand
+	NULL,  // from branch
+	NULL,  // to branch
+	NULL,  // label
+	NULL,  // operand
+	NULL,  // flow block
+	NULL,  // C source
+	2,	 // num ops
+	TRUE,  // dest
+	TRUE,  // bit instruction
+	FALSE, // branch
+	FALSE, // skip
+	FALSE, // literal operand
 	POC_BCF,
 	(PCC_REGISTER | PCC_EXAMINE_PCOP), // inCond
 	(PCC_REGISTER | PCC_EXAMINE_PCOP)  // outCond
@@ -294,18 +294,18 @@ static pCodeInstruction mc32_pciBTFSC = {
 	 mc32_genericPrint},
 	POC_BTFSC,
 	"JBCLR",
-	NULL, // from branch
-	NULL, // to branch
-	NULL, // label
-	NULL, // operand
-	NULL, // flow block
-	NULL, // C source
-	2,	// num ops
-	0,
-	1, // dest, bit instruction
-	1,
-	1, // branch, skip
-	0, // literal operand
+	NULL,  // from branch
+	NULL,  // to branch
+	NULL,  // label
+	NULL,  // operand
+	NULL,  // flow block
+	NULL,  // C source
+	2,	 // num ops
+	FALSE, // dest
+	TRUE,  // bit instruction
+	TRUE,  // branch
+	TRUE,  // skip
+	FALSE, // literal operand
 	POC_BTFSS,
 	(PCC_REGISTER | PCC_EXAMINE_PCOP), // inCond
 	PCC_NONE						   // outCond
@@ -317,18 +317,18 @@ static pCodeInstruction mc32_pciBTFSS = {
 	 mc32_genericPrint},
 	POC_BTFSS,
 	"JBSET",
-	NULL, // from branch
-	NULL, // to branch
-	NULL, // label
-	NULL, // operand
-	NULL, // flow block
-	NULL, // C source
-	2,	// num ops
-	0,
-	1, // dest, bit instruction
-	1,
-	1, // branch, skip
-	0, // literal operand
+	NULL,  // from branch
+	NULL,  // to branch
+	NULL,  // label
+	NULL,  // operand
+	NULL,  // flow block
+	NULL,  // C source
+	2,	 // num ops
+	FALSE, // dest
+	TRUE,  // bit instruction
+	TRUE,  // branch
+	TRUE,  // skip
+	FALSE, // literal operand
 	POC_BTFSC,
 	(PCC_REGISTER | PCC_EXAMINE_PCOP), // inCond
 	PCC_NONE						   // outCond
@@ -340,23 +340,22 @@ static pCodeInstruction mc32_pciCALL = {
 	 mc32_genericPrint},
 	POC_CALL,
 	"CALL",
-	NULL, // from branch
-	NULL, // to branch
-	NULL, // label
-	NULL, // operand
-	NULL, // flow block
-	NULL, // C source
-	1,	// num ops
-	0,
-	0, // dest, bit instruction
-	1,
-	0, // branch, skip
-	0, // literal operand
+	NULL,  // from branch
+	NULL,  // to branch
+	NULL,  // label
+	NULL,  // operand
+	NULL,  // flow block
+	NULL,  // C source
+	1,	 // num ops
+	FALSE, // dest
+	FALSE, // bit instruction
+	TRUE,  // branch
+	FALSE, // skip
+	FALSE, // literal operand
 	POC_NOP,
 	(PCC_NONE | PCC_W),							// inCond, reads argument from WREG
 	(PCC_NONE | PCC_W | PCC_C | PCC_DC | PCC_Z) // outCond, flags are destroyed by called function
 };
-
 
 // zwr 1.1.0
 static pCodeInstruction mc32_pciLCALL = {
@@ -365,18 +364,18 @@ static pCodeInstruction mc32_pciLCALL = {
 	 mc32_genericPrint},
 	POC_CALL,
 	"LCALL",
-	NULL, // from branch
-	NULL, // to branch
-	NULL, // label
-	NULL, // operand
-	NULL, // flow block
-	NULL, // C source
-	1,	// num ops
-	0,
-	0, // dest, bit instruction
-	1,
-	0, // branch, skip
-	0, // literal operand
+	NULL,  // from branch
+	NULL,  // to branch
+	NULL,  // label
+	NULL,  // operand
+	NULL,  // flow block
+	NULL,  // C source
+	1,	 // num ops
+	FALSE, // dest
+	FALSE, // bit instruction
+	TRUE,  // branch
+	FALSE, // skip
+	FALSE, // literal operand
 	POC_NOP,
 	(PCC_NONE | PCC_W),							// inCond, reads argument from WREG
 	(PCC_NONE | PCC_W | PCC_C | PCC_DC | PCC_Z) // outCond, flags are destroyed by called function
@@ -388,18 +387,18 @@ static pCodeInstruction mc32_pciCOMF = {
 	 mc32_genericPrint},
 	POC_COMF,
 	"COMR",
-	NULL, // from branch
-	NULL, // to branch
-	NULL, // label
-	NULL, // operand
-	NULL, // flow block
-	NULL, // C source
-	1,	// num ops
-	1,
-	0, // dest, bit instruction
-	0,
-	0, // branch, skip
-	0, // literal operand
+	NULL,  // from branch
+	NULL,  // to branch
+	NULL,  // label
+	NULL,  // operand
+	NULL,  // flow block
+	NULL,  // C source
+	1,	 // num ops
+	TRUE,  // dest
+	FALSE, // bit instruction
+	FALSE, // branch
+	FALSE, // skip
+	FALSE, // literal operand
 	POC_NOP,
 	PCC_REGISTER,		 // inCond
 	PCC_REGISTER | PCC_Z // outCond
@@ -411,18 +410,18 @@ static pCodeInstruction mc32_pciCOMFW = {
 	 mc32_genericPrint},
 	POC_COMFW,
 	"COMAR",
-	NULL, // from branch
-	NULL, // to branch
-	NULL, // label
-	NULL, // operand
-	NULL, // flow block
-	NULL, // C source
-	1,	// num ops
-	0,
-	0, // dest, bit instruction
-	0,
-	0, // branch, skip
-	0, // literal operand
+	NULL,  // from branch
+	NULL,  // to branch
+	NULL,  // label
+	NULL,  // operand
+	NULL,  // flow block
+	NULL,  // C source
+	1,	 // num ops
+	FALSE, // dest
+	FALSE, // bit instruction
+	FALSE, // branch
+	FALSE, // skip
+	FALSE, // literal operand
 	POC_NOP,
 	PCC_REGISTER, // inCond
 	PCC_W | PCC_Z // outCond
@@ -434,18 +433,18 @@ static pCodeInstruction mc32_pciCLRF = {
 	 mc32_genericPrint},
 	POC_CLRF,
 	"CLRR",
-	NULL, // from branch
-	NULL, // to branch
-	NULL, // label
-	NULL, // operand
-	NULL, // flow block
-	NULL, // C source
-	1,	// num ops
-	0,
-	0, // dest, bit instruction
-	0,
-	0, // branch, skip
-	0, // literal operand
+	NULL,  // from branch
+	NULL,  // to branch
+	NULL,  // label
+	NULL,  // operand
+	NULL,  // flow block
+	NULL,  // C source
+	1,	 // num ops
+	FALSE, // dest
+	FALSE, // bit instruction
+	FALSE, // branch
+	FALSE, // skip
+	FALSE, // literal operand
 	POC_NOP,
 	PCC_NONE,			 // inCond
 	PCC_REGISTER | PCC_Z // outCond
@@ -457,18 +456,18 @@ static pCodeInstruction mc32_pciCLRW = {
 	 mc32_genericPrint},
 	POC_CLRW,
 	"CLRA",
-	NULL, // from branch
-	NULL, // to branch
-	NULL, // label
-	NULL, // operand
-	NULL, // flow block
-	NULL, // C source
-	0,	// num ops
-	0,
-	0, // dest, bit instruction
-	0,
-	0, // branch, skip
-	0, // literal operand
+	NULL,  // from branch
+	NULL,  // to branch
+	NULL,  // label
+	NULL,  // operand
+	NULL,  // flow block
+	NULL,  // C source
+	0,	 // num ops
+	FALSE, // dest
+	FALSE, // bit instruction
+	FALSE, // branch
+	FALSE, // skip
+	FALSE, // literal operand
 	POC_NOP,
 	PCC_NONE,	 // inCond
 	PCC_W | PCC_Z // outCond
@@ -480,18 +479,18 @@ static pCodeInstruction mc32_pciCLRWDT = {
 	 mc32_genericPrint},
 	POC_CLRWDT,
 	"CLRWDT",
-	NULL, // from branch
-	NULL, // to branch
-	NULL, // label
-	NULL, // operand
-	NULL, // flow block
-	NULL, // C source
-	0,	// num ops
-	0,
-	0, // dest, bit instruction
-	0,
-	0, // branch, skip
-	0, // literal operand
+	NULL,  // from branch
+	NULL,  // to branch
+	NULL,  // label
+	NULL,  // operand
+	NULL,  // flow block
+	NULL,  // C source
+	0,	 // num ops
+	FALSE, // dest
+	FALSE, // bit instruction
+	FALSE, // branch
+	FALSE, // skip
+	FALSE, // literal operand
 	POC_NOP,
 	PCC_NONE, // inCond
 	PCC_NONE  // outCond
@@ -503,18 +502,18 @@ static pCodeInstruction mc32_pciDECF = {
 	 mc32_genericPrint},
 	POC_DECF,
 	"DECR",
-	NULL, // from branch
-	NULL, // to branch
-	NULL, // label
-	NULL, // operand
-	NULL, // flow block
-	NULL, // C source
-	1,	// num ops
-	1,
-	0, // dest, bit instruction
-	0,
-	0, // branch, skip
-	0, // literal operand
+	NULL,  // from branch
+	NULL,  // to branch
+	NULL,  // label
+	NULL,  // operand
+	NULL,  // flow block
+	NULL,  // C source
+	1,	 // num ops
+	TRUE,  // dest
+	FALSE, // bit instruction
+	FALSE, // branch
+	FALSE, // skip
+	FALSE, // literal operand
 	POC_NOP,
 	PCC_REGISTER,		 // inCond
 	PCC_REGISTER | PCC_Z // outCond
@@ -526,18 +525,18 @@ static pCodeInstruction mc32_pciDECFW = {
 	 mc32_genericPrint},
 	POC_DECFW,
 	"DECAR",
-	NULL, // from branch
-	NULL, // to branch
-	NULL, // label
-	NULL, // operand
-	NULL, // flow block
-	NULL, // C source
-	1,	// num ops
-	0,
-	0, // dest, bit instruction
-	0,
-	0, // branch, skip
-	0, // literal operand
+	NULL,  // from branch
+	NULL,  // to branch
+	NULL,  // label
+	NULL,  // operand
+	NULL,  // flow block
+	NULL,  // C source
+	1,	 // num ops
+	FALSE, // dest
+	FALSE, // bit instruction
+	FALSE, // branch
+	FALSE, // skip
+	FALSE, // literal operand
 	POC_NOP,
 	PCC_REGISTER, // inCond
 	PCC_W | PCC_Z // outCond
@@ -549,18 +548,18 @@ static pCodeInstruction mc32_pciDECFSZ = {
 	 mc32_genericPrint},
 	POC_DECFSZ,
 	"DJZR",
-	NULL, // from branch
-	NULL, // to branch
-	NULL, // label
-	NULL, // operand
-	NULL, // flow block
-	NULL, // C source
-	1,	// num ops
-	1,
-	0, // dest, bit instruction
-	1,
-	1,					 // branch, skip
-	0,					 // literal operand
+	NULL,				 // from branch
+	NULL,				 // to branch
+	NULL,				 // label
+	NULL,				 // operand
+	NULL,				 // flow block
+	NULL,				 // C source
+	1,					 // num ops
+	TRUE,				 // dest
+	FALSE,				 // bit instruction
+	TRUE,				 // branch
+	TRUE,				 // skip
+	FALSE,				 // literal operand
 	POC_DECF,			 // followed by BTFSC STATUS, Z --> also kills STATUS
 	PCC_REGISTER,		 // inCond
 	PCC_REGISTER | PCC_Z // outCond
@@ -572,18 +571,18 @@ static pCodeInstruction mc32_pciDECFSZW = {
 	 mc32_genericPrint},
 	POC_DECFSZW,
 	"DJZAR",
-	NULL, // from branch
-	NULL, // to branch
-	NULL, // label
-	NULL, // operand
-	NULL, // flow block
-	NULL, // C source
-	1,	// num ops
-	0,
-	0, // dest, bit instruction
-	1,
-	1,			  // branch, skip
-	0,			  // literal operand
+	NULL,		  // from branch
+	NULL,		  // to branch
+	NULL,		  // label
+	NULL,		  // operand
+	NULL,		  // flow block
+	NULL,		  // C source
+	1,			  // num ops
+	FALSE,		  // dest
+	FALSE,		  // bit instruction
+	TRUE,		  // branch
+	TRUE,		  // skip
+	FALSE,		  // literal operand
 	POC_DECFW,	// followed by BTFSC STATUS, Z --> also kills STATUS
 	PCC_REGISTER, // inCond
 	PCC_W | PCC_Z // outCond
@@ -595,23 +594,22 @@ static pCodeInstruction mc32_pciGOTO = {
 	 mc32_genericPrint},
 	POC_GOTO,
 	"GOTO",
-	NULL, // from branch
-	NULL, // to branch
-	NULL, // label
-	NULL, // operand
-	NULL, // flow block
-	NULL, // C source
-	1,	// num ops
-	0,
-	0, // dest, bit instruction
-	1,
-	0, // branch, skip
-	0, // literal operand
+	NULL,  // from branch
+	NULL,  // to branch
+	NULL,  // label
+	NULL,  // operand
+	NULL,  // flow block
+	NULL,  // C source
+	1,	 // num ops
+	FALSE, // dest
+	FALSE, // bit instruction
+	TRUE,  // branch
+	FALSE, // skip
+	FALSE, // literal operand
 	POC_NOP,
 	PCC_NONE, // inCond
 	PCC_NONE  // outCond
 };
-
 
 // zwr 1.1.0
 static pCodeInstruction mc32_pciLGOTO = {
@@ -620,18 +618,18 @@ static pCodeInstruction mc32_pciLGOTO = {
 	 mc32_genericPrint},
 	POC_GOTO,
 	"LGOTO",
-	NULL, // from branch
-	NULL, // to branch
-	NULL, // label
-	NULL, // operand
-	NULL, // flow block
-	NULL, // C source
-	1,	// num ops
-	0,
-	0, // dest, bit instruction
-	1,
-	0, // branch, skip
-	0, // literal operand
+	NULL,  // from branch
+	NULL,  // to branch
+	NULL,  // label
+	NULL,  // operand
+	NULL,  // flow block
+	NULL,  // C source
+	1,	 // num ops
+	FALSE, // dest
+	FALSE, // bit instruction
+	TRUE,  // branch
+	FALSE, // skip
+	FALSE, // literal operand
 	POC_NOP,
 	PCC_NONE, // inCond
 	PCC_NONE  // outCond
@@ -643,18 +641,18 @@ static pCodeInstruction mc32_pciINCF = {
 	 mc32_genericPrint},
 	POC_INCF,
 	"INCR",
-	NULL, // from branch
-	NULL, // to branch
-	NULL, // label
-	NULL, // operand
-	NULL, // flow block
-	NULL, // C source
-	1,	// num ops
-	1,
-	0, // dest, bit instruction
-	0,
-	0, // branch, skip
-	0, // literal operand
+	NULL,  // from branch
+	NULL,  // to branch
+	NULL,  // label
+	NULL,  // operand
+	NULL,  // flow block
+	NULL,  // C source
+	1,	 // num ops
+	TRUE,  // dest
+	FALSE, // bit instruction
+	FALSE, // branch
+	FALSE, // skip
+	FALSE, // literal operand
 	POC_NOP,
 	PCC_REGISTER,		 // inCond
 	PCC_REGISTER | PCC_Z // outCond
@@ -666,18 +664,18 @@ static pCodeInstruction mc32_pciINCFW = {
 	 mc32_genericPrint},
 	POC_INCFW,
 	"INCAR",
-	NULL, // from branch
-	NULL, // to branch
-	NULL, // label
-	NULL, // operand
-	NULL, // flow block
-	NULL, // C source
-	1,	// num ops
-	0,
-	0, // dest, bit instruction
-	0,
-	0, // branch, skip
-	0, // literal operand
+	NULL,  // from branch
+	NULL,  // to branch
+	NULL,  // label
+	NULL,  // operand
+	NULL,  // flow block
+	NULL,  // C source
+	1,	 // num ops
+	FALSE, // dest
+	FALSE, // bit instruction
+	FALSE, // branch
+	FALSE, // skip
+	FALSE, // literal operand
 	POC_NOP,
 	PCC_REGISTER, // inCond
 	PCC_W | PCC_Z // outCond
@@ -689,18 +687,18 @@ static pCodeInstruction mc32_pciINCFSZ = {
 	 mc32_genericPrint},
 	POC_INCFSZ,
 	"JZR",
-	NULL, // from branch
-	NULL, // to branch
-	NULL, // label
-	NULL, // operand
-	NULL, // flow block
-	NULL, // C source
-	1,	// num ops
-	1,
-	0, // dest, bit instruction
-	1,
-	1,					 // branch, skip
-	0,					 // literal operand
+	NULL,				 // from branch
+	NULL,				 // to branch
+	NULL,				 // label
+	NULL,				 // operand
+	NULL,				 // flow block
+	NULL,				 // C source
+	1,					 // num ops
+	TRUE,				 // dest
+	FALSE,				 // bit instruction
+	TRUE,				 // branch
+	TRUE,				 // skip
+	FALSE,				 // literal operand
 	POC_INCF,			 // followed by BTFSC STATUS, Z --> also kills STATUS
 	PCC_REGISTER,		 // inCond
 	PCC_REGISTER | PCC_Z // outCond
@@ -712,18 +710,18 @@ static pCodeInstruction mc32_pciINCFSZW = {
 	 mc32_genericPrint},
 	POC_INCFSZW,
 	"JZAR",
-	NULL, // from branch
-	NULL, // to branch
-	NULL, // label
-	NULL, // operand
-	NULL, // flow block
-	NULL, // C source
-	1,	// num ops
-	0,
-	0, // dest, bit instruction
-	1,
-	1,			  // branch, skip
-	0,			  // literal operand
+	NULL,		  // from branch
+	NULL,		  // to branch
+	NULL,		  // label
+	NULL,		  // operand
+	NULL,		  // flow block
+	NULL,		  // C source
+	1,			  // num ops
+	FALSE,		  // dest
+	FALSE,		  // bit instruction
+	TRUE,		  // branch
+	TRUE,		  // skip
+	FALSE,		  // literal operand
 	POC_INCFW,	// followed by BTFSC STATUS, Z --> also kills STATUS
 	PCC_REGISTER, // inCond
 	PCC_W | PCC_Z // outCond
@@ -735,18 +733,18 @@ static pCodeInstruction mc32_pciIORWF = {
 	 mc32_genericPrint},
 	POC_IORWF,
 	"ORRA",
-	NULL, // from branch
-	NULL, // to branch
-	NULL, // label
-	NULL, // operand
-	NULL, // flow block
-	NULL, // C source
-	1,	// num ops
-	1,
-	0, // dest, bit instruction
-	0,
-	0, // branch, skip
-	0, // literal operand
+	NULL,  // from branch
+	NULL,  // to branch
+	NULL,  // label
+	NULL,  // operand
+	NULL,  // flow block
+	NULL,  // C source
+	1,	 // num ops
+	TRUE,  // dest
+	FALSE, // bit instruction
+	FALSE, // branch
+	FALSE, // skip
+	FALSE, // literal operand
 	POC_NOP,
 	(PCC_W | PCC_REGISTER), // inCond
 	(PCC_REGISTER | PCC_Z)  // outCond
@@ -758,18 +756,18 @@ static pCodeInstruction mc32_pciIORFW = {
 	 mc32_genericPrint},
 	POC_IORFW,
 	"ORAR",
-	NULL, // from branch
-	NULL, // to branch
-	NULL, // label
-	NULL, // operand
-	NULL, // flow block
-	NULL, // C source
-	1,	// num ops
-	0,
-	0, // dest, bit instruction
-	0,
-	0, // branch, skip
-	0, // literal operand
+	NULL,  // from branch
+	NULL,  // to branch
+	NULL,  // label
+	NULL,  // operand
+	NULL,  // flow block
+	NULL,  // C source
+	1,	 // num ops
+	FALSE, // dest
+	FALSE, // bit instruction
+	FALSE, // branch
+	FALSE, // skip
+	FALSE, // literal operand
 	POC_NOP,
 	(PCC_W | PCC_REGISTER), // inCond
 	(PCC_W | PCC_Z)			// outCond
@@ -781,18 +779,18 @@ static pCodeInstruction mc32_pciIORLW = {
 	 mc32_genericPrint},
 	POC_IORLW,
 	"ORAI",
-	NULL, // from branch
-	NULL, // to branch
-	NULL, // label
-	NULL, // operand
-	NULL, // flow block
-	NULL, // C source
-	1,	// num ops
-	0,
-	0, // dest, bit instruction
-	0,
-	0, // branch, skip
-	1, // literal operand
+	NULL,  // from branch
+	NULL,  // to branch
+	NULL,  // label
+	NULL,  // operand
+	NULL,  // flow block
+	NULL,  // C source
+	1,	 // num ops
+	FALSE, // dest
+	FALSE, // bit instruction
+	FALSE, // branch
+	FALSE, // skip
+	TRUE,  // literal operand
 	POC_NOP,
 	(PCC_W | PCC_LITERAL), // inCond
 	(PCC_W | PCC_Z)		   // outCond
@@ -804,18 +802,18 @@ static pCodeInstruction mc32_pciMOVF = {
 	 mc32_genericPrint},
 	POC_MOVF,
 	"MOVR",
-	NULL, // from branch
-	NULL, // to branch
-	NULL, // label
-	NULL, // operand
-	NULL, // flow block
-	NULL, // C source
-	1,	// num ops
-	1,
-	0, // dest, bit instruction
-	0,
-	0, // branch, skip
-	0, // literal operand
+	NULL,  // from branch
+	NULL,  // to branch
+	NULL,  // label
+	NULL,  // operand
+	NULL,  // flow block
+	NULL,  // C source
+	1,	 // num ops
+	TRUE,  // dest
+	FALSE, // bit instruction
+	FALSE, // branch
+	FALSE, // skip
+	FALSE, // literal operand
 	POC_NOP,
 	PCC_REGISTER, // inCond
 	PCC_Z		  // outCond
@@ -827,18 +825,18 @@ static pCodeInstruction mc32_pciMOVFW = {
 	 mc32_genericPrint},
 	POC_MOVFW,
 	"MOVAR",
-	NULL, // from branch
-	NULL, // to branch
-	NULL, // label
-	NULL, // operand
-	NULL, // flow block
-	NULL, // C source
-	1,	// num ops
-	0,
-	0, // dest, bit instruction
-	0,
-	0, // branch, skip
-	0, // literal operand
+	NULL,  // from branch
+	NULL,  // to branch
+	NULL,  // label
+	NULL,  // operand
+	NULL,  // flow block
+	NULL,  // C source
+	1,	 // num ops
+	FALSE, // dest
+	FALSE, // bit instruction
+	FALSE, // branch
+	FALSE, // skip
+	FALSE, // literal operand
 	POC_NOP,
 	PCC_REGISTER,   // inCond
 	(PCC_W | PCC_Z) // outCond
@@ -850,18 +848,18 @@ static pCodeInstruction mc32_pciMOVWF = {
 	 mc32_genericPrint},
 	POC_MOVWF,
 	"MOVRA",
-	NULL, // from branch
-	NULL, // to branch
-	NULL, // label
-	NULL, // operand
-	NULL, // flow block
-	NULL, // C source
-	1,	// num ops
-	0,
-	0, // dest, bit instruction
-	0,
-	0, // branch, skip
-	0, // literal operand
+	NULL,  // from branch
+	NULL,  // to branch
+	NULL,  // label
+	NULL,  // operand
+	NULL,  // flow block
+	NULL,  // C source
+	1,	 // num ops
+	FALSE, // dest
+	FALSE, // bit instruction
+	FALSE, // branch
+	FALSE, // skip
+	FALSE, // literal operand
 	POC_NOP,
 	PCC_W,		 // inCond
 	PCC_REGISTER // outCond
@@ -873,18 +871,18 @@ static pCodeInstruction mc32_pciMOVLW = {
 	 mc32_genericPrint},
 	POC_MOVLW,
 	"MOVAI",
-	NULL, // from branch
-	NULL, // to branch
-	NULL, // label
-	NULL, // operand
-	NULL, // flow block
-	NULL, // C source
-	1,	// num ops
-	0,
-	0, // dest, bit instruction
-	0,
-	0, // branch, skip
-	1, // literal operand
+	NULL,  // from branch
+	NULL,  // to branch
+	NULL,  // label
+	NULL,  // operand
+	NULL,  // flow block
+	NULL,  // C source
+	1,	 // num ops
+	FALSE, // dest
+	FALSE, // bit instruction
+	FALSE, // branch
+	FALSE, // skip
+	TRUE,  // literal operand
 	POC_NOP,
 	(PCC_NONE | PCC_LITERAL), // inCond
 	PCC_W					  // outCond
@@ -896,18 +894,18 @@ static pCodeInstruction mc32_pciNOP = {
 	 mc32_genericPrint},
 	POC_NOP,
 	"NOP",
-	NULL, // from branch
-	NULL, // to branch
-	NULL, // label
-	NULL, // operand
-	NULL, // flow block
-	NULL, // C source
-	0,	// num ops
-	0,
-	0, // dest, bit instruction
-	0,
-	0, // branch, skip
-	0, // literal operand
+	NULL,  // from branch
+	NULL,  // to branch
+	NULL,  // label
+	NULL,  // operand
+	NULL,  // flow block
+	NULL,  // C source
+	0,	 // num ops
+	FALSE, // dest
+	FALSE, // bit instruction
+	FALSE, // branch
+	FALSE, // skip
+	FALSE, // literal operand
 	POC_NOP,
 	PCC_NONE, // inCond
 	PCC_NONE  // outCond
@@ -919,18 +917,18 @@ static pCodeInstruction mc32_pciRETFIE = {
 	 mc32_genericPrint},
 	POC_RETFIE,
 	"RETIE",
-	NULL, // from branch
-	NULL, // to branch
-	NULL, // label
-	NULL, // operand
-	NULL, // flow block
-	NULL, // C source
-	0,	// num ops
-	0,
-	0, // dest, bit instruction
-	1,
-	0, // branch, skip
-	0, // literal operand
+	NULL,  // from branch
+	NULL,  // to branch
+	NULL,  // label
+	NULL,  // operand
+	NULL,  // flow block
+	NULL,  // C source
+	0,	 // num ops
+	FALSE, // dest
+	FALSE, // bit instruction
+	TRUE,  // branch
+	FALSE, // skip
+	FALSE, // literal operand
 	POC_NOP,
 	PCC_NONE,							// inCond
 	(PCC_NONE | PCC_C | PCC_DC | PCC_Z) // outCond (not true... affects the GIE bit too), STATUS bit are retored
@@ -942,18 +940,18 @@ static pCodeInstruction mc32_pciRETLW = {
 	 mc32_genericPrint},
 	POC_RETLW,
 	"RETAI",
-	NULL, // from branch
-	NULL, // to branch
-	NULL, // label
-	NULL, // operand
-	NULL, // flow block
-	NULL, // C source
-	1,	// num ops
-	0,
-	0, // dest, bit instruction
-	1,
-	0, // branch, skip
-	1, // literal operand
+	NULL,  // from branch
+	NULL,  // to branch
+	NULL,  // label
+	NULL,  // operand
+	NULL,  // flow block
+	NULL,  // C source
+	1,	 // num ops
+	FALSE, // dest
+	FALSE, // bit instruction
+	TRUE,  // branch
+	FALSE, // skip
+	TRUE,  // literal operand
 	POC_NOP,
 	PCC_LITERAL,					 // inCond
 	(PCC_W | PCC_C | PCC_DC | PCC_Z) // outCond, STATUS bits are irrelevant after RETLW
@@ -965,18 +963,18 @@ static pCodeInstruction mc32_pciRETURN = {
 	 mc32_genericPrint},
 	POC_RETURN,
 	"RETURN",
-	NULL, // from branch
-	NULL, // to branch
-	NULL, // label
-	NULL, // operand
-	NULL, // flow block
-	NULL, // C source
-	0,	// num ops
-	0,
-	0, // dest, bit instruction
-	1,
-	0, // branch, skip
-	0, // literal operand
+	NULL,  // from branch
+	NULL,  // to branch
+	NULL,  // label
+	NULL,  // operand
+	NULL,  // flow block
+	NULL,  // C source
+	0,	 // num ops
+	FALSE, // dest
+	FALSE, // bit instruction
+	TRUE,  // branch
+	FALSE, // skip
+	FALSE, // literal operand
 	POC_NOP,
 	PCC_NONE | PCC_W,					// inCond, return value is possibly present in W
 	(PCC_NONE | PCC_C | PCC_DC | PCC_Z) // outCond, STATUS bits are irrelevant after RETURN
@@ -988,18 +986,18 @@ static pCodeInstruction mc32_pciRLF = {
 	 mc32_genericPrint},
 	POC_RLF,
 	"RLR",
-	NULL, // from branch
-	NULL, // to branch
-	NULL, // label
-	NULL, // operand
-	NULL, // flow block
-	NULL, // C source
-	1,	// num ops
-	1,
-	0, // dest, bit instruction
-	0,
-	0, // branch, skip
-	0, // literal operand
+	NULL,  // from branch
+	NULL,  // to branch
+	NULL,  // label
+	NULL,  // operand
+	NULL,  // flow block
+	NULL,  // C source
+	1,	 // num ops
+	TRUE,  // dest
+	FALSE, // bit instruction
+	FALSE, // branch
+	FALSE, // skip
+	FALSE, // literal operand
 	POC_NOP,
 	(PCC_C | PCC_REGISTER), // inCond
 	(PCC_REGISTER | PCC_C)  // outCond
@@ -1011,18 +1009,18 @@ static pCodeInstruction mc32_pciRLFW = {
 	 mc32_genericPrint},
 	POC_RLFW,
 	"RLAR",
-	NULL, // from branch
-	NULL, // to branch
-	NULL, // label
-	NULL, // operand
-	NULL, // flow block
-	NULL, // C source
-	1,	// num ops
-	0,
-	0, // dest, bit instruction
-	0,
-	0, // branch, skip
-	0, // literal operand
+	NULL,  // from branch
+	NULL,  // to branch
+	NULL,  // label
+	NULL,  // operand
+	NULL,  // flow block
+	NULL,  // C source
+	1,	 // num ops
+	FALSE, // dest
+	FALSE, // bit instruction
+	FALSE, // branch
+	FALSE, // skip
+	FALSE, // literal operand
 	POC_NOP,
 	(PCC_C | PCC_REGISTER), // inCond
 	(PCC_W | PCC_C)			// outCond
@@ -1034,18 +1032,18 @@ static pCodeInstruction mc32_pciRRF = {
 	 mc32_genericPrint},
 	POC_RRF,
 	"RRR",
-	NULL, // from branch
-	NULL, // to branch
-	NULL, // label
-	NULL, // operand
-	NULL, // flow block
-	NULL, // C source
-	1,	// num ops
-	1,
-	0, // dest, bit instruction
-	0,
-	0, // branch, skip
-	0, // literal operand
+	NULL,  // from branch
+	NULL,  // to branch
+	NULL,  // label
+	NULL,  // operand
+	NULL,  // flow block
+	NULL,  // C source
+	1,	 // num ops
+	TRUE,  // dest
+	FALSE, // bit instruction
+	FALSE, // branch
+	FALSE, // skip
+	FALSE, // literal operand
 	POC_NOP,
 	(PCC_C | PCC_REGISTER), // inCond
 	(PCC_REGISTER | PCC_C)  // outCond
@@ -1057,18 +1055,18 @@ static pCodeInstruction mc32_pciRRFW = {
 	 mc32_genericPrint},
 	POC_RRFW,
 	"RRAR",
-	NULL, // from branch
-	NULL, // to branch
-	NULL, // label
-	NULL, // operand
-	NULL, // flow block
-	NULL, // C source
-	1,	// num ops
-	0,
-	0, // dest, bit instruction
-	0,
-	0, // branch, skip
-	0, // literal operand
+	NULL,  // from branch
+	NULL,  // to branch
+	NULL,  // label
+	NULL,  // operand
+	NULL,  // flow block
+	NULL,  // C source
+	1,	 // num ops
+	FALSE, // dest
+	FALSE, // bit instruction
+	FALSE, // branch
+	FALSE, // skip
+	FALSE, // literal operand
 	POC_NOP,
 	(PCC_C | PCC_REGISTER), // inCond
 	(PCC_W | PCC_C)			// outCond
@@ -1080,18 +1078,18 @@ static pCodeInstruction mc32_pciSUBWF = {
 	 mc32_genericPrint},
 	POC_SUBWF,
 	"RSUBRA",
-	NULL, // from branch
-	NULL, // to branch
-	NULL, // label
-	NULL, // operand
-	NULL, // flow block
-	NULL, // C source
-	1,	// num ops
-	1,
-	0, // dest, bit instruction
-	0,
-	0, // branch, skip
-	0, // literal operand
+	NULL,  // from branch
+	NULL,  // to branch
+	NULL,  // label
+	NULL,  // operand
+	NULL,  // flow block
+	NULL,  // C source
+	1,	 // num ops
+	TRUE,  // dest
+	FALSE, // bit instruction
+	FALSE, // branch
+	FALSE, // skip
+	FALSE, // literal operand
 	POC_NOP,
 	(PCC_W | PCC_REGISTER),					// inCond
 	(PCC_REGISTER | PCC_C | PCC_DC | PCC_Z) // outCond
@@ -1103,18 +1101,18 @@ static pCodeInstruction mc32_pciSUBFW = {
 	 mc32_genericPrint},
 	POC_SUBFW,
 	"RSUBAR",
-	NULL, // from branch
-	NULL, // to branch
-	NULL, // label
-	NULL, // operand
-	NULL, // flow block
-	NULL, // C source
-	1,	// num ops
-	0,
-	0, // dest, bit instruction
-	0,
-	0, // branch, skip
-	0, // literal operand
+	NULL,  // from branch
+	NULL,  // to branch
+	NULL,  // label
+	NULL,  // operand
+	NULL,  // flow block
+	NULL,  // C source
+	1,	 // num ops
+	FALSE, // dest
+	FALSE, // bit instruction
+	FALSE, // branch
+	FALSE, // skip
+	FALSE, // literal operand
 	POC_NOP,
 	(PCC_W | PCC_REGISTER),			 // inCond
 	(PCC_W | PCC_C | PCC_DC | PCC_Z) // outCond
@@ -1126,18 +1124,18 @@ static pCodeInstruction mc32_pciSUBLW = {
 	 mc32_genericPrint},
 	POC_SUBLW,
 	"ISUBAI",
-	NULL, // from branch
-	NULL, // to branch
-	NULL, // label
-	NULL, // operand
-	NULL, // flow block
-	NULL, // C source
-	1,	// num ops
-	0,
-	0, // dest, bit instruction
-	0,
-	0, // branch, skip
-	1, // literal operand
+	NULL,  // from branch
+	NULL,  // to branch
+	NULL,  // label
+	NULL,  // operand
+	NULL,  // flow block
+	NULL,  // C source
+	1,	 // num ops
+	FALSE, // dest
+	FALSE, // bit instruction
+	FALSE, // branch
+	FALSE, // skip
+	TRUE,  // literal operand
 	POC_NOP,
 	(PCC_W | PCC_LITERAL),			 // inCond
 	(PCC_W | PCC_Z | PCC_C | PCC_DC) // outCond
@@ -1149,18 +1147,18 @@ static pCodeInstruction mc32_pciSWAPF = {
 	 mc32_genericPrint},
 	POC_SWAPF,
 	"SWAPR",
-	NULL, // from branch
-	NULL, // to branch
-	NULL, // label
-	NULL, // operand
-	NULL, // flow block
-	NULL, // C source
-	1,	// num ops
-	1,
-	0, // dest, bit instruction
-	0,
-	0, // branch, skip
-	0, // literal operand
+	NULL,  // from branch
+	NULL,  // to branch
+	NULL,  // label
+	NULL,  // operand
+	NULL,  // flow block
+	NULL,  // C source
+	1,	 // num ops
+	TRUE,  // dest
+	FALSE, // bit instruction
+	FALSE, // branch
+	FALSE, // skip
+	FALSE, // literal operand
 	POC_NOP,
 	(PCC_REGISTER), // inCond
 	(PCC_REGISTER)  // outCond
@@ -1172,18 +1170,18 @@ static pCodeInstruction mc32_pciSWAPFW = {
 	 mc32_genericPrint},
 	POC_SWAPFW,
 	"SWAPAR",
-	NULL, // from branch
-	NULL, // to branch
-	NULL, // label
-	NULL, // operand
-	NULL, // flow block
-	NULL, // C source
-	1,	// num ops
-	0,
-	0, // dest, bit instruction
-	0,
-	0, // branch, skip
-	0, // literal operand
+	NULL,  // from branch
+	NULL,  // to branch
+	NULL,  // label
+	NULL,  // operand
+	NULL,  // flow block
+	NULL,  // C source
+	1,	 // num ops
+	FALSE, // dest
+	FALSE, // bit instruction
+	FALSE, // branch
+	FALSE, // skip
+	FALSE, // literal operand
 	POC_NOP,
 	(PCC_REGISTER), // inCond
 	(PCC_W)			// outCond
@@ -1195,18 +1193,18 @@ static pCodeInstruction mc32_pciTRIS = {
 	 mc32_genericPrint},
 	POC_TRIS,
 	"TRIS",
-	NULL, // from branch
-	NULL, // to branch
-	NULL, // label
-	NULL, // operand
-	NULL, // flow block
-	NULL, // C source
-	1,	// num ops
-	0,
-	0, // dest, bit instruction
-	0,
-	0, // branch, skip
-	0, // literal operand
+	NULL,  // from branch
+	NULL,  // to branch
+	NULL,  // label
+	NULL,  // operand
+	NULL,  // flow block
+	NULL,  // C source
+	1,	 // num ops
+	FALSE, // dest
+	FALSE, // bit instruction
+	FALSE, // branch
+	FALSE, // skip
+	FALSE, // literal operand
 	POC_NOP,
 	PCC_NONE,	// inCond /* FIXME: what's TRIS doing? */
 	PCC_REGISTER // outCond	/* FIXME: what's TRIS doing */
@@ -1218,18 +1216,18 @@ static pCodeInstruction mc32_pciXORWF = {
 	 mc32_genericPrint},
 	POC_XORWF,
 	"XORRA",
-	NULL, // from branch
-	NULL, // to branch
-	NULL, // label
-	NULL, // operand
-	NULL, // flow block
-	NULL, // C source
-	1,	// num ops
-	1,
-	0, // dest, bit instruction
-	0,
-	0, // branch, skip
-	0, // literal operand
+	NULL,  // from branch
+	NULL,  // to branch
+	NULL,  // label
+	NULL,  // operand
+	NULL,  // flow block
+	NULL,  // C source
+	1,	 // num ops
+	TRUE,  // dest
+	FALSE, // bit instruction
+	FALSE, // branch
+	FALSE, // skip
+	FALSE, // literal operand
 	POC_NOP,
 	(PCC_W | PCC_REGISTER), // inCond
 	(PCC_REGISTER | PCC_Z)  // outCond
@@ -1241,18 +1239,18 @@ static pCodeInstruction mc32_pciXORFW = {
 	 mc32_genericPrint},
 	POC_XORFW,
 	"XORAR",
-	NULL, // from branch
-	NULL, // to branch
-	NULL, // label
-	NULL, // operand
-	NULL, // flow block
-	NULL, // C source
-	1,	// num ops
-	0,
-	0, // dest, bit instruction
-	0,
-	0, // branch, skip
-	0, // literal operand
+	NULL,  // from branch
+	NULL,  // to branch
+	NULL,  // label
+	NULL,  // operand
+	NULL,  // flow block
+	NULL,  // C source
+	1,	 // num ops
+	FALSE, // dest
+	FALSE, // bit instruction
+	FALSE, // branch
+	FALSE, // skip
+	FALSE, // literal operand
 	POC_NOP,
 	(PCC_W | PCC_REGISTER), // inCond
 	(PCC_W | PCC_Z)			// outCond
@@ -1264,18 +1262,18 @@ static pCodeInstruction mc32_pciXORLW = {
 	 mc32_genericPrint},
 	POC_XORLW,
 	"XORAI",
-	NULL, // from branch
-	NULL, // to branch
-	NULL, // label
-	NULL, // operand
-	NULL, // flow block
-	NULL, // C source
-	1,	// num ops
-	0,
-	0, // dest, bit instruction
-	0,
-	0, // branch, skip
-	1, // literal operand
+	NULL,  // from branch
+	NULL,  // to branch
+	NULL,  // label
+	NULL,  // operand
+	NULL,  // flow block
+	NULL,  // C source
+	1,	 // num ops
+	FALSE, // dest
+	FALSE, // bit instruction
+	FALSE, // branch
+	FALSE, // skip
+	TRUE,  // literal operand
 	POC_NOP,
 	(PCC_W | PCC_LITERAL), // inCond
 	(PCC_W | PCC_Z)		   // outCond
@@ -1287,18 +1285,18 @@ static pCodeInstruction mc32_pciBANKSEL = {
 	 mc32_genericPrint},
 	POC_BANKSEL,
 	"BANKSEL",
-	NULL, // from branch
-	NULL, // to branch
-	NULL, // label
-	NULL, // operand
-	NULL, // flow block
-	NULL, // C source
-	1,	// num ops
-	0,
-	0, // dest, bit instruction
-	0,
-	0, // branch, skip
-	0, // literal operand
+	NULL,  // from branch
+	NULL,  // to branch
+	NULL,  // label
+	NULL,  // operand
+	NULL,  // flow block
+	NULL,  // C source
+	1,	 // num ops
+	FALSE, // dest
+	FALSE, // bit instruction
+	FALSE, // branch
+	FALSE, // skip
+	FALSE, // literal operand
 	POC_NOP,
 	PCC_NONE, // inCond
 	PCC_NONE  // outCond
@@ -1310,18 +1308,18 @@ static pCodeInstruction mc32_pciPAGESEL = {
 	 mc32_genericPrint},
 	POC_PAGESEL,
 	"PAGESEL",
-	NULL, // from branch
-	NULL, // to branch
-	NULL, // label
-	NULL, // operand
-	NULL, // flow block
-	NULL, // C source
-	1,	// num ops
-	0,
-	0, // dest, bit instruction
-	0,
-	0, // branch, skip
-	0, // literal operand
+	NULL,  // from branch
+	NULL,  // to branch
+	NULL,  // label
+	NULL,  // operand
+	NULL,  // flow block
+	NULL,  // C source
+	1,	 // num ops
+	FALSE, // dest
+	FALSE, // bit instruction
+	FALSE, // branch
+	FALSE, // skip
+	FALSE, // literal operand
 	POC_NOP,
 	PCC_NONE, // inCond
 	PCC_NONE  // outCond
@@ -1474,7 +1472,7 @@ static void pic14initMnemonics(void)
 	mc32_pic14Mnemonics[POC_DECFW] = &mc32_pciDECFW;
 	mc32_pic14Mnemonics[POC_DECFSZ] = &mc32_pciDECFSZ;
 	mc32_pic14Mnemonics[POC_DECFSZW] = &mc32_pciDECFSZW;
-	
+
 	mc32_pic14Mnemonics[POC_INCF] = &mc32_pciINCF;
 	mc32_pic14Mnemonics[POC_INCFW] = &mc32_pciINCFW;
 	mc32_pic14Mnemonics[POC_INCFSZ] = &mc32_pciINCFSZ;
@@ -1520,11 +1518,11 @@ static void pic14initMnemonics(void)
 	mc32_mnemonics_initialized = 1;
 }
 
-int mc32_getpCode(char *mnem, unsigned dest)
+int mc32_getpCode(const char *mnem, unsigned dest)
 {
 
 	pCodeInstruction *pci;
-	int key = mnem2key((unsigned char *)mnem);
+	int key = mnem2key((const unsigned char *)mnem);
 
 	if (!mc32_mnemonics_initialized)
 		pic14initMnemonics();
@@ -1560,7 +1558,7 @@ void mc32_initpCodePeepCommands(void)
 	do
 	{
 		hTabAddItem(&mc32_pCodePeepCommandsHash,
-					mnem2key((unsigned char *)mc32_peepCommands[i].cmd), &mc32_peepCommands[i]);
+					mnem2key((const unsigned char *)mc32_peepCommands[i].cmd), &mc32_peepCommands[i]);
 		i++;
 	} while (mc32_peepCommands[i].cmd);
 
@@ -1578,11 +1576,11 @@ void mc32_initpCodePeepCommands(void)
 *
 *-----------------------------------------------------------------*/
 
-int mc32_getpCodePeepCommand(char *cmd)
+int mc32_getpCodePeepCommand(const char *cmd)
 {
 
 	peepCommand *pcmd;
-	int key = mnem2key((unsigned char *)cmd);
+	int key = mnem2key((const unsigned char *)cmd);
 
 	pcmd = hTabFirstItemWK(mc32_pCodePeepCommandsHash, key);
 
@@ -1716,8 +1714,10 @@ void mc32_pcode_test(void)
 		char buffer[100];
 
 		/* create the file name */
-		strcpy(buffer, dstFileName);
-		strcat(buffer, ".p");
+		// zwr 2.0.0
+		SNPRINTF(buffer, sizeof(buffer), "%s.p", dstFileName);
+		// strcpy(buffer, dstFileName);
+		// strcat(buffer, ".p");
 
 		if (!(pFile = fopen(buffer, "w")))
 		{
@@ -1756,7 +1756,7 @@ static int mc32_RegCond(pCodeOp *pcop)
 
 	if (pcop->type == PO_GPR_BIT)
 	{
-		char *name = pcop->name;
+		const char *name = pcop->name;
 		if (!name)
 			name = PCOR(pcop)->r->name;
 		if (strcmp(name, mc32_pc_status.pcop.name) == 0)
@@ -1850,7 +1850,9 @@ pCode *mc32_newpCodeWild(int pCodeID, pCodeOp *optional_operand, pCodeOp *option
 
 	pCodeWild *pcw;
 
-	pcw = Safe_calloc(1, sizeof(pCodeWild));
+	// zwr 2.0.0
+	pcw = Safe_alloc(sizeof(pCodeWild));
+	// pcw = Safe_calloc(1, sizeof(pCodeWild));
 
 	pcw->pci.pc.type = PC_WILD;
 	pcw->pci.pc.prev = pcw->pci.pc.next = NULL;
@@ -1876,7 +1878,7 @@ pCode *mc32_newpCodeWild(int pCodeID, pCodeOp *optional_operand, pCodeOp *option
 /* newPcodeCharP - create a new pCode from a char string           */
 /*-----------------------------------------------------------------*/
 
-pCode *mc32_newpCodeCharP(char *cP)
+pCode *mc32_newpCodeCharP(const char *cP)
 {
 
 	pCodeComment *pcc;
@@ -1903,12 +1905,15 @@ pCode *mc32_newpCodeCharP(char *cP)
 /*-----------------------------------------------------------------*/
 /* mc32_newpCodeFunction -                                              */
 /*-----------------------------------------------------------------*/
-
-pCode *mc32_newpCodeFunction(char *mod, char *f, int isPublic)
+// zwr 2.0.0
+pCode *mc32_newpCodeFunction(const char *mod, const char *f, int isPublic, int isInterrupt)
+// pCode *mc32_newpCodeFunction(char *mod, char *f, int isPublic)
 {
 	pCodeFunction *pcf;
 
-	pcf = Safe_calloc(1, sizeof(pCodeFunction));
+	// zwr 2.0.0
+	pcf = Safe_alloc(sizeof(pCodeFunction));
+	// pcf = Safe_calloc(1, sizeof(pCodeFunction));
 	//_ALLOC(pcf,sizeof(pCodeFunction));
 
 	pcf->pc.type = PC_FUNCTION;
@@ -1922,25 +1927,31 @@ pCode *mc32_newpCodeFunction(char *mod, char *f, int isPublic)
 
 	pcf->ncalled = 0;
 
-	if (mod)
-	{
-		//_ALLOC_ATOMIC(pcf->modname,strlen(mod)+1);
-		pcf->modname = Safe_calloc(1, strlen(mod) + 1);
-		strcpy(pcf->modname, mod);
-	}
-	else
-		pcf->modname = NULL;
+	// zwr 2.0.0
+	pcf->modname = (mod != NULL) ? Safe_strdup(mod) : NULL;
+	pcf->fname = (f != NULL) ? Safe_strdup(f) : NULL;
 
-	if (f)
-	{
-		//_ALLOC_ATOMIC(pcf->fname,strlen(f)+1);
-		pcf->fname = Safe_calloc(1, strlen(f) + 1);
-		strcpy(pcf->fname, f);
-	}
-	else
-		pcf->fname = NULL;
+	pcf->isPublic = (unsigned int)isPublic;
+	pcf->isInterrupt = (unsigned int)isInterrupt;
+	// if (mod)
+	// {
+	// 	//_ALLOC_ATOMIC(pcf->modname,strlen(mod)+1);
+	// 	pcf->modname = Safe_calloc(1, strlen(mod) + 1);
+	// 	strcpy(pcf->modname, mod);
+	// }
+	// else
+	// 	pcf->modname = NULL;
 
-	pcf->isPublic = (unsigned)isPublic;
+	// if (f)
+	// {
+	// 	//_ALLOC_ATOMIC(pcf->fname,strlen(f)+1);
+	// 	pcf->fname = Safe_calloc(1, strlen(f) + 1);
+	// 	strcpy(pcf->fname, f);
+	// }
+	// else
+	// 	pcf->fname = NULL;
+
+	// pcf->isPublic = (unsigned)isPublic;
 
 	return ((pCode *)pcf);
 }
@@ -1970,7 +1981,10 @@ static pCode *mc32_newpCodeFlow(void)
 	pCodeFlow *pcflow;
 
 	//_ALLOC(pcflow,sizeof(pCodeFlow));
-	pcflow = Safe_calloc(1, sizeof(pCodeFlow));
+
+	// zwr 2.0.0
+	pcflow = Safe_alloc(sizeof(pCodeFlow));
+	// pcflow = Safe_calloc(1, sizeof(pCodeFlow));
 
 	pcflow->pc.type = PC_FLOW;
 	pcflow->pc.prev = pcflow->pc.next = NULL;
@@ -2016,13 +2030,16 @@ static pCodeFlowLink *mc32_newpCodeFlowLink(pCodeFlow *pcflow)
 /*-----------------------------------------------------------------*/
 /* mc32_newpCodeCSource - create a new pCode Source Symbol              */
 /*-----------------------------------------------------------------*/
-
-pCode *mc32_newpCodeCSource(int ln, char *f, const char *l)
+// zwr 2.0.0
+pCode *mc32_newpCodeCSource(int ln, const char *f, const char *l)
+// pCode *mc32_newpCodeCSource(int ln, char *f, const char *l)
 {
 
 	pCodeCSource *pccs;
 
-	pccs = Safe_calloc(1, sizeof(pCodeCSource));
+	// zwr 2.0.0
+	pccs = Safe_alloc(sizeof(pCodeCSource));
+	// pccs = Safe_calloc(1, sizeof(pCodeCSource));
 
 	pccs->pc.type = PC_CSOURCE;
 	pccs->pc.prev = pccs->pc.next = NULL;
@@ -2050,15 +2067,18 @@ pCode *mc32_newpCodeCSource(int ln, char *f, const char *l)
 /* pic16_newpCodeAsmDir - create a new pCode Assembler Directive   */
 /*                        added by VR 6-Jun-2003                   */
 /*******************************************************************/
-
-pCode *mc32_newpCodeAsmDir(char *asdir, char *argfmt, ...)
+// zwr 2.0.0
+pCode *mc32_newpCodeAsmDir(const char *asdir, const char *argfmt, ...)
+// pCode *mc32_newpCodeAsmDir(char *asdir, char *argfmt, ...)
 {
 	pCodeAsmDir *pcad;
 	va_list ap;
 	char buffer[512];
 	char *lbp = buffer;
 
-	pcad = Safe_calloc(1, sizeof(pCodeAsmDir));
+	// zwr 2.0.0
+	pcad = Safe_alloc(sizeof(pCodeAsmDir));
+	// pcad = Safe_calloc(1, sizeof(pCodeAsmDir));
 	pcad->pci.pc.type = PC_ASMDIR;
 	pcad->pci.pc.prev = pcad->pci.pc.next = NULL;
 	pcad->pci.pc.pb = NULL;
@@ -2106,10 +2126,14 @@ static void mc32_pCodeLabelDestruct(pCode *pc)
 	free(pc);
 }
 
-pCode *mc32_newpCodeLabel(char *name, int key)
+// zwr 2.0.0
+pCode *mc32_newpCodeLabel(const char *name, int key)
+// pCode *mc32_newpCodeLabel(char *name, int key)
 {
 
-	char *s = buffer;
+	// zwr 2.0.0
+	const char *s;
+	// char *s = buffer;
 	pCodeLabel *pcl;
 
 	pcl = Safe_calloc(1, sizeof(pCodeLabel));
@@ -2128,7 +2152,10 @@ pCode *mc32_newpCodeLabel(char *name, int key)
 	pcl->label = NULL;
 	if (key > 0)
 	{
-		sprintf(s, "_%05d_DS_", key);
+		// zwr 2.0.0
+		SNPRINTF(buffer, sizeof(buffer), "_%05d_DS_", key);
+		s = buffer;
+		// sprintf(s, "_%05d_DS_", key);
 	}
 	else
 		s = name;
@@ -2148,7 +2175,9 @@ static pBlock *mc32_newpBlock(void)
 
 	pBlock *PpB;
 
-	PpB = Safe_calloc(1, sizeof(pBlock));
+	// zwr 2.0.0
+	PpB = Safe_alloc(sizeof(pBlock));
+	// PpB = Safe_calloc(1, sizeof(pBlock));
 	PpB->next = PpB->prev = NULL;
 
 	PpB->function_entries = PpB->function_exits = PpB->function_calls = NULL;
@@ -2185,10 +2214,13 @@ pBlock *mc32_newpCodeChain(memmap *cm, char c, pCode *pc)
 /*  (and hence a wild card label) used in the pCodePeep            */
 /*   optimizations).                                               */
 /*-----------------------------------------------------------------*/
-
-pCodeOp *mc32_newpCodeOpLabel(char *name, int key)
+// zwr 2.0.0
+pCodeOp *mc32_newpCodeOpLabel(const char *name, int key)
+// pCodeOp *mc32_newpCodeOpLabel(char *name, int key)
 {
-	char *s = NULL;
+	// zwr 2.0.0
+	const char *s;
+	// char *s = NULL;
 	static int label_key = -1;
 
 	pCodeOp *pcop;
@@ -2198,10 +2230,22 @@ pCodeOp *mc32_newpCodeOpLabel(char *name, int key)
 
 	pcop->name = NULL;
 
+	// zwr 2.0.0
 	if (key > 0)
-		sprintf(s = buffer, "_%05d_DS_", key);
+	{
+		SNPRINTF(buffer, sizeof(buffer), "_%05d_DS_", key);
+		s = buffer;
+	}
 	else
-		s = name, key = label_key--;
+	{
+		s = name;
+		key = label_key--;
+	}
+
+	// if (key > 0)
+	// 	sprintf(s = buffer, "_%05d_DS_", key);
+	// else
+	// 	s = name, key = label_key--;
 
 	PCOLAB(pcop)->offset = 0;
 	if (s)
@@ -2217,18 +2261,23 @@ pCodeOp *mc32_newpCodeOpLabel(char *name, int key)
 /*-----------------------------------------------------------------*/
 pCodeOp *mc32_newpCodeOpLit(int lit)
 {
-	char *s = buffer;
+	// char *s = buffer;
 	pCodeOp *pcop;
 
-	pcop = Safe_calloc(1, sizeof(pCodeOpLit));
+	// zwr 2.0.0
+	pcop = Safe_alloc(sizeof(pCodeOpLit));
+	// pcop = Safe_calloc(1, sizeof(pCodeOpLit));
 	pcop->type = PO_LITERAL;
 
 	pcop->name = NULL;
 	if (lit >= 0)
 	{
-		sprintf(s, "0x%02x", (unsigned char)lit);
-		if (s)
-			pcop->name = Safe_strdup(s);
+		// zwr 2.0.0
+		SNPRINTF(buffer, sizeof(buffer), "0x%02x", (unsigned char)lit);
+		pcop->name = Safe_strdup(buffer);
+		// sprintf(s, "0x%02x", (unsigned char)lit);
+		// if (s)
+		// 	pcop->name = Safe_strdup(s);
 	}
 
 	((pCodeOpLit *)pcop)->lit = (unsigned char)lit;
@@ -2238,11 +2287,15 @@ pCodeOp *mc32_newpCodeOpLit(int lit)
 
 /*-----------------------------------------------------------------*/
 /*-----------------------------------------------------------------*/
-pCodeOp *mc32_newpCodeOpImmd(char *name, int offset, int index, int code_space, int is_func)
+// zwr 2.0.0
+pCodeOp *mc32_newpCodeOpImmd(const char *name, int offset, int index, int code_space, int is_func)
+// pCodeOp *mc32_newpCodeOpImmd(char *name, int offset, int index, int code_space, int is_func)
 {
 	pCodeOp *pcop;
 
-	pcop = Safe_calloc(1, sizeof(pCodeOpImmd));
+	// zwr 2.0.0
+	pcop = Safe_alloc(sizeof(pCodeOpImmd));
+	// pcop = Safe_calloc(1, sizeof(pCodeOpImmd));
 	pcop->type = PO_IMMEDIATE;
 	if (name)
 	{
@@ -2282,7 +2335,8 @@ pCodeOp *mc32_newpCodeOpImmd(char *name, int offset, int index, int code_space, 
 /*-----------------------------------------------------------------*/
 pCodeOp *mc32_newpCodeOpWild(int id, pCodeWildBlock *pcwb, pCodeOp *subtype)
 {
-	char *s = buffer;
+	// zwr 2.0.0
+	// char *s = buffer;
 	pCodeOp *pcop;
 
 	if (!pcwb || !subtype)
@@ -2291,10 +2345,15 @@ pCodeOp *mc32_newpCodeOpWild(int id, pCodeWildBlock *pcwb, pCodeOp *subtype)
 		exit(1);
 	}
 
-	pcop = Safe_calloc(1, sizeof(pCodeOpWild));
+	// zwr 2.0.0
+	pcop = Safe_alloc(sizeof(pCodeOpWild));
 	pcop->type = PO_WILD;
-	sprintf(s, "%%%d", id);
-	pcop->name = Safe_strdup(s);
+	SNPRINTF(buffer, sizeof(buffer), "%%%d", id);
+	pcop->name = Safe_strdup(buffer);
+	// pcop = Safe_calloc(1, sizeof(pCodeOpWild));
+	// pcop->type = PO_WILD;
+	// sprintf(s, "%%%d", id);
+	// pcop->name = Safe_strdup(s);
 
 	PCOW(pcop)->id = id;
 	PCOW(pcop)->pcwb = pcwb;
@@ -2320,12 +2379,16 @@ static symbol *mc32_symFindWithName(memmap *map, const char *name)
 
 /*-----------------------------------------------------------------*/
 /*-----------------------------------------------------------------*/
-pCodeOp *mc32_newpCodeOpBit(char *name, int ibit, int inBitSpace)
+// zwr 2.0.0
+pCodeOp *mc32_newpCodeOpBit(const char *name, int ibit, int inBitSpace)
+// pCodeOp *mc32_newpCodeOpBit(char *name, int ibit, int inBitSpace)
 {
 	pCodeOp *pcop;
 	struct reg_info *r = 0;
 
-	pcop = Safe_calloc(1, sizeof(pCodeOpRegBit));
+	// zwr 2.0.0
+	pcop = Safe_alloc(sizeof(pCodeOpRegBit));
+	// pcop = Safe_calloc(1, sizeof(pCodeOpRegBit));
 	pcop->type = PO_GPR_BIT;
 
 	PCORB(pcop)->bit = ibit;
@@ -2386,7 +2449,9 @@ static pCodeOp *mc32_newpCodeOpReg(int rIdx)
 {
 	pCodeOp *pcop;
 
-	pcop = Safe_calloc(1, sizeof(pCodeOpReg));
+	// zwr 2.0.0
+	pcop = Safe_alloc(sizeof(pCodeOpReg));
+	// pcop = Safe_calloc(1, sizeof(pCodeOpReg));
 
 	pcop->name = NULL;
 
@@ -2409,7 +2474,9 @@ static pCodeOp *mc32_newpCodeOpReg(int rIdx)
 	return pcop;
 }
 
-pCodeOp *mc32_newpCodeOpRegFromStr(char *name)
+// zwr 2.0.0
+pCodeOp *mc32_newpCodeOpRegFromStr(const char *name)
+// pCodeOp *mc32_newpCodeOpRegFromStr(char *name)
 {
 	pCodeOp *pcop;
 
@@ -2422,7 +2489,9 @@ pCodeOp *mc32_newpCodeOpRegFromStr(char *name)
 	return pcop;
 }
 
-static pCodeOp *mc32_newpCodeOpStr(char *name)
+// zwr 2.0.0
+static pCodeOp *mc32_newpCodeOpStr(const char *name)
+// static pCodeOp *mc32_newpCodeOpStr(char *name)
 {
 	pCodeOp *pcop;
 
@@ -2438,7 +2507,9 @@ static pCodeOp *mc32_newpCodeOpStr(char *name)
 /*-----------------------------------------------------------------*/
 /*-----------------------------------------------------------------*/
 
-pCodeOp *mc32_newpCodeOp(char *name, PIC_OPTYPE type)
+// zwr 2.0.0
+pCodeOp *mc32_newpCodeOp(const char *name, PIC_OPTYPE type)
+// pCodeOp *mc32_newpCodeOp(char *name, PIC_OPTYPE type)
 {
 	pCodeOp *pcop;
 
@@ -2474,12 +2545,16 @@ pCodeOp *mc32_newpCodeOp(char *name, PIC_OPTYPE type)
 		break;
 
 	default:
-		pcop = Safe_calloc(1, sizeof(pCodeOp));
+		// zwr 2.0.0
+		pcop = Safe_alloc(sizeof(pCodeOp));
 		pcop->type = type;
-		if (name)
-			pcop->name = Safe_strdup(name);
-		else
-			pcop->name = NULL;
+		pcop->name = (name != NULL) ? Safe_strdup(name) : NULL;
+		// pcop = Safe_calloc(1, sizeof(pCodeOp));
+		// pcop->type = type;
+		// if (name)
+		// 	pcop->name = Safe_strdup(name);
+		// else
+		// 	pcop->name = NULL;
 	}
 
 	return pcop;
@@ -2524,7 +2599,9 @@ void mc32_addpBlock(pBlock *pb)
 	{
 		/* First time called, we'll pass through here. */
 		//_ALLOC(mc32_the_pFile,sizeof(pFile));
-		mc32_the_pFile = Safe_calloc(1, sizeof(pFile));
+		// zwr 2.0.0
+		mc32_the_pFile = Safe_alloc(sizeof(pFile));
+		// mc32_the_pFile = Safe_calloc(1, sizeof(pFile));
 		mc32_the_pFile->pbHead = mc32_the_pFile->pbTail = pb;
 		mc32_the_pFile->functions = NULL;
 		return;
@@ -2605,6 +2682,12 @@ void mc32_printpBlock(FILE *of, pBlock *pb)
 
 	for (pc = pb->pcHead; pc; pc = pc->next)
 	{
+		// zwr 2.0.0
+		if (isPCF(pc) && PCF(pc)->fname && !PCF(pc)->isInterrupt)
+		{
+			fprintf(of, "S_%s_%s\tcode\n", PCF(pc)->modname, PCF(pc)->fname);
+		}
+
 		mc32_printpCode(of, pc);
 
 		if (isPCI(pc))
@@ -2773,7 +2856,9 @@ pCodeOp *mc32_pCodeOpCopy(pCodeOp *pcop)
 	{
 	case PO_NONE:
 	case PO_STR:
-		pcopnew = Safe_calloc(1, sizeof(pCodeOp));
+		// zwr 2.0.0
+		pcopnew = Safe_malloc(sizeof(pCodeOp));
+		// pcopnew = Safe_calloc(1, sizeof(pCodeOp));
 		memcpy(pcopnew, pcop, sizeof(pCodeOp));
 		break;
 
@@ -2790,19 +2875,25 @@ pCodeOp *mc32_pCodeOpCopy(pCodeOp *pcop)
 	case PO_PCLATH:
 	case PO_DIR:
 		//DFPRINTF((stderr,"mc32_pCodeOpCopy GPR register\n"));
-		pcopnew = Safe_calloc(1, sizeof(pCodeOpReg));
+		// zwr 2.0.0
+		pcopnew = Safe_malloc(sizeof(pCodeOpReg));
+		// pcopnew = Safe_calloc(1, sizeof(pCodeOpReg));
 		memcpy(pcopnew, pcop, sizeof(pCodeOpReg));
 		DFPRINTF((stderr, " register index %d\n", PCOR(pcop)->r->rIdx));
 		break;
 
 	case PO_LITERAL:
 		//DFPRINTF((stderr,"mc32_pCodeOpCopy lit\n"));
-		pcopnew = Safe_calloc(1, sizeof(pCodeOpLit));
+		// zwr 2.0.0
+		pcopnew = Safe_malloc(sizeof(pCodeOpLit));
+		// pcopnew = Safe_calloc(1, sizeof(pCodeOpLit));
 		memcpy(pcopnew, pcop, sizeof(pCodeOpLit));
 		break;
 
 	case PO_IMMEDIATE:
-		pcopnew = Safe_calloc(1, sizeof(pCodeOpImmd));
+		// zwr 2.0.0
+		pcopnew = Safe_malloc(sizeof(pCodeOpImmd));
+		// pcopnew = Safe_calloc(1, sizeof(pCodeOpImmd));
 		memcpy(pcopnew, pcop, sizeof(pCodeOpImmd));
 		break;
 
@@ -2810,13 +2901,17 @@ pCodeOp *mc32_pCodeOpCopy(pCodeOp *pcop)
 	case PO_CRY:
 	case PO_BIT:
 		//DFPRINTF((stderr,"mc32_pCodeOpCopy bit\n"));
-		pcopnew = Safe_calloc(1, sizeof(pCodeOpRegBit));
+		// zwr 2.0.0
+		pcopnew = Safe_malloc(sizeof(pCodeOpRegBit));
+		// pcopnew = Safe_calloc(1, sizeof(pCodeOpRegBit));
 		memcpy(pcopnew, pcop, sizeof(pCodeOpRegBit));
 		break;
 
 	case PO_LABEL:
 		//DFPRINTF((stderr,"mc32_pCodeOpCopy label\n"));
-		pcopnew = Safe_calloc(1, sizeof(pCodeOpLabel));
+		// zwr 2.0.0
+		pcopnew = Safe_malloc(sizeof(pCodeOpLabel));
+		// pcopnew = Safe_calloc(1, sizeof(pCodeOpLabel));
 		memcpy(pcopnew, pcop, sizeof(pCodeOpLabel));
 		break;
 
@@ -2842,10 +2937,12 @@ pCodeOp *mc32_pCodeOpCopy(pCodeOp *pcop)
 		break;
 	} // switch
 
-	if (pcop->name)
-		pcopnew->name = Safe_strdup(pcop->name);
-	else
-		pcopnew->name = NULL;
+	// zwr 2.0.0
+	pcopnew->name = (pcop->name != NULL) ? Safe_strdup(pcop->name) : NULL;
+	// if (pcop->name)
+	// 	pcopnew->name = Safe_strdup(pcop->name);
+	// else
+	// 	pcopnew->name = NULL;
 
 	return pcopnew;
 }
@@ -2857,7 +2954,9 @@ pCodeOp *mc32_popCopyReg(pCodeOpReg *pc)
 {
 	pCodeOpReg *pcor;
 
-	pcor = Safe_calloc(1, sizeof(pCodeOpReg));
+	// zwr 2.0.0
+	pcor = Safe_alloc(sizeof(pCodeOpReg));
+	// pcor = Safe_calloc(1, sizeof(pCodeOpReg));
 	pcor->pcop.type = pc->pcop.type;
 	if (pc->pcop.name)
 	{
@@ -3061,7 +3160,7 @@ char *mc32_get_op(pCodeOp *pcop, char *buffer, size_t size)
 				}
 				return PCOR(pcop)->r->name;
 			}
-		/* fall through to the default case */
+			/* fall through to the default case */
 
 		default:
 			if (pcop->name)
@@ -3237,7 +3336,9 @@ static void mc32_genericPrint(FILE *of, pCode *pc)
 			if (pci->cline)
 				mc32_genericPrint(of, PCODE(pci->cline));
 
-			mc32_pCode2str(str, 256, pc);
+			// zwr 2.0.0
+			mc32_pCode2str(str, sizeof(str), pc);
+			// mc32_pCode2str(str, 256, pc);
 
 			fprintf(of, "%s", str);
 
@@ -3462,7 +3563,9 @@ static void mc32_pBranchLink(pCodeFunction *f, pCodeFunction *t)
 	// Declare a new branch object for the 'from' pCode.
 
 	//_ALLOC(b,sizeof(pBranch));
-	b = Safe_calloc(1, sizeof(pBranch));
+	// zwr 2.0.0
+	b = Safe_alloc(sizeof(pBranch));
+	// b = Safe_calloc(1, sizeof(pBranch));
 	b->pc = PCODE(t); // The link to the 'to' pCode.
 	b->next = NULL;
 
@@ -3471,7 +3574,9 @@ static void mc32_pBranchLink(pCodeFunction *f, pCodeFunction *t)
 	// Now do the same for the 'to' pCode.
 
 	//_ALLOC(b,sizeof(pBranch));
-	b = Safe_calloc(1, sizeof(pBranch));
+	// zwr 2.0.0
+	b = Safe_alloc(sizeof(pBranch));
+	// b = Safe_calloc(1, sizeof(pBranch));
 	b->pc = PCODE(f);
 	b->next = NULL;
 
@@ -4624,7 +4729,9 @@ static pCode *mc32_findInstructionUsingLabel(pCodeLabel *pcl, pCode *pcs)
 static void mc32_exchangeLabels(pCodeLabel *pcl, pCode *pc)
 {
 
-	char *s = NULL;
+	// zwr 2.0.0
+	const char *s;
+	// char *s = NULL;
 
 	if (isPCI(pc) &&
 		(PCI(pc)->pcop) &&
@@ -4641,7 +4748,12 @@ static void mc32_exchangeLabels(pCodeLabel *pcl, pCode *pc)
 		* a function and the name is already defined */
 
 		if (pcl->key > 0)
-			sprintf(s = buffer, "_%05d_DS_", pcl->key);
+		// zwr 2.0.0
+		{
+			SNPRINTF(buffer, sizeof(buffer), "_%05d_DS_", pcl->key);
+			s = buffer;
+		}
+			// sprintf(s = buffer, "_%05d_DS_", pcl->key);
 		else
 			s = pcl->label;
 
@@ -4780,7 +4892,9 @@ void mc32_pBlockMergeLabels(pBlock *pb)
 				// opposed to being a single member of the pCodeInstruction.)
 
 				//_ALLOC(pbr,sizeof(pBranch));
-				pbr = Safe_calloc(1, sizeof(pBranch));
+				// zwr 2.0.0
+				pbr = Safe_alloc(sizeof(pBranch));
+				// pbr = Safe_calloc(1, sizeof(pBranch));
 				pbr->pc = pc;
 				pbr->next = NULL;
 
@@ -5037,7 +5151,7 @@ static void mc32_AnalyzeFlow(int level)
 
 void mc32_AnalyzeBanking(void)
 {
-	pBlock *pb;
+	// pBlock *pb;
 
 	if (!mc32_picIsInitialized())
 	{
@@ -5221,7 +5335,9 @@ mc32_register_reassign(pBlock *pb, unsigned startIdx, unsigned level)
 				r->rIdx = idx++;
 				if (mc32_peakIdx < idx)
 					mc32_peakIdx = idx;
-				sprintf(s, "r0x%02X", r->rIdx);
+				// zwr 2.0.0
+				SNPRINTF(s, sizeof(s), "r0x%02X", r->rIdx);
+				// sprintf(s, "r0x%02X", r->rIdx);
 				DFPRINTF((stderr,
 						  "%*s(%u) reassigning register %p \"%s\" to \"%s\"\n",
 						  4 * level, "", level, r, r->name, s));
@@ -5334,7 +5450,9 @@ static void mc32_buildCallTree(void)
 						pb->dbName = 'M';
 					}
 
-					pbr = Safe_calloc(1, sizeof(pBranch));
+					// zwr 2.0.0
+					pbr = Safe_alloc(sizeof(pBranch));
+					// pbr = Safe_calloc(1, sizeof(pBranch));
 					pbr->pc = pc_fstart = pc;
 					pbr->next = NULL;
 
@@ -5425,7 +5543,9 @@ void mc32_AnalyzepCode(char dbName)
 /* (note - I expect this to change because I'm planning to limit   */
 /*  pBlock's to just one function declaration                      */
 /*-----------------------------------------------------------------*/
-static pCode *mc32_findFunction(char *fname)
+// zwr 2.0.0
+static pCode *mc32_findFunction(const char *fname)
+// static pCode *mc32_findFunction(char *fname)
 {
 	pBlock *pb;
 	pCode *pc;
@@ -5459,12 +5579,13 @@ static void mc32_pBlockStats(FILE *of, pBlock *pb)
 	fprintf(of, ";***\n;  pBlock Stats: dbName = %c\n;***\n", mc32_getpBlock_dbName(pb));
 
 	// for now just print the first element of each set
-	pc = setFirstItem(pb->function_entries);
-	if (pc)
-	{
-		fprintf(of, ";entry:  ");
-		pc->print(of, pc);
-	}
+	// zwr 2.0.0
+	// pc = setFirstItem(pb->function_entries);
+	// if (pc)
+	// {
+	// 	fprintf(of, ";entry:  ");
+	// 	pc->print(of, pc);
+	// }
 	pc = setFirstItem(pb->function_exits);
 	if (pc)
 	{
@@ -5710,7 +5831,9 @@ static void mc32_InlineFunction(pBlock *pb)
 
 				/* Convert the function name into a label */
 
-				pbr = Safe_calloc(1, sizeof(pBranch));
+				// zwr 2.0.0
+				pbr = Safe_alloc(sizeof(pBranch));
+				// pbr = Safe_calloc(1, sizeof(pBranch));
 				pbr->pc = mc32_newpCodeLabel(PCF(pcn)->fname, -1);
 				pbr->next = NULL;
 				PCI(pct)->label = mc32_pBranchAppend(PCI(pct)->label, pbr);
@@ -5733,7 +5856,7 @@ static void mc32_InlineFunction(pBlock *pb)
 						pce->prev->next = pc_call->next;
 						pc_call->next->prev = pce->prev;
 						PCI(pc_call_next)->label = mc32_pBranchAppend(PCI(pc_call_next)->label,
-																 PCI(pce)->label);
+																	  PCI(pce)->label);
 					}
 
 					pce = pce_next;

@@ -39,7 +39,8 @@ extern struct dbuf_s *codeOutBuf;
 
 // zwr 1.0.0
 extern struct dbuf_s *ValLog;
-extern struct Q_ValList *mc35_ValList;
+extern struct QValList *mc35_ValList;
+extern void printValsInfo(QValList *, struct dbuf_s *);
 
 extern void initialComments(FILE *afile);
 extern operand *operandFromAst(ast *tree, int lvl);
@@ -257,7 +258,7 @@ mc35_constructAbsMap(struct dbuf_s *oBuf, struct dbuf_s *gloBuf)
 
                 if (IS_GLOBAL(sym) && !IS_STATIC(sym->etype))
                 {
-                    //mc35_emitIfNew(gloBuf, &emitted, "\tglobal\t%s\n", sym->name);
+                    //mc35_emitIfNew(gloBuf, &mc35_emitted, "\tglobal\t%s\n", sym->name);
                     mc35_emitIfNew(gloBuf, &mc35_emitted, "\tglobal\t%s\n", sym->rname);
                 } // if
             }     // for
@@ -306,7 +307,12 @@ mc35_createInterruptVect(struct dbuf_s *vBuf)
     //dbuf_printf(vBuf, "\tpagesel __sdcc_gsinit_startup\n");
     // dbuf_printf(vBuf, "\tgoto\t__sdcc_gsinit_startup\n");
     // mc35_popGetExternal("__sdcc_gsinit_startup", 0);
-    dbuf_printf(vBuf, "\tgoto\t_main\n");
+
+    // zwr 1.1.0
+    if(!mc35_long_call)
+        dbuf_printf(vBuf, "\tgoto\t_main\n");
+    else
+        dbuf_printf(vBuf, "\tlgoto\t_main\n");
     mc35_popGetExternal("_main", 0);
 }
 
@@ -317,7 +323,7 @@ static void
 mc35_initialComments(FILE *afile)
 {
     initialComments(afile);
-    fprintf(afile, "; MC35 port for the RISC core\n"); // zwr 1.0.0
+    fprintf(afile, "; MC35 port for the RISC core\n"); // zwr 1.1.0
     fprintf(afile, "%s", iComments2);
 }
 
@@ -326,20 +332,20 @@ int mc35_stringInSet(const char *str, set **world, int autoAdd)
     char *s;
 
     if (!str)
-        return 1;
+        return TRUE;
     assert(world);
 
     for (s = setFirstItem(*world); s; s = setNextItem(*world))
     {
         /* found in set */
         if (0 == strcmp(s, str))
-            return 1;
+            return TRUE;
     }
 
     /* not found */
     if (autoAdd)
         addSet(world, Safe_strdup(str));
-    return 0;
+    return FALSE;
 }
 
 static void
@@ -348,7 +354,7 @@ mc35_printLocals(struct dbuf_s *oBuf)
     set *allregs[6] = {mc35_dynAllocRegs /*, mc35_dynStackRegs, mc35_dynProcessorRegs*/,
                        mc35_dynDirectRegs, mc35_dynDirectBitRegs /*, mc35_dynInternalRegs */};
     reg_info *reg;
-    int i, is_first = 1;
+    int i, is_first = TRUE;
     static unsigned sectionNr = 0;
 
     /* emit all registers from all possible sets */
@@ -364,7 +370,7 @@ mc35_printLocals(struct dbuf_s *oBuf)
 
             if (reg->wasUsed && !reg->isExtern)
             {
-                if (!mc35_stringInSet(reg->name, &mc35_emitted, 1))
+                if (!mc35_stringInSet(reg->name, &mc35_emitted, TRUE))
                 {
                     if (reg->isFixed)
                     {
@@ -388,14 +394,14 @@ mc35_printLocals(struct dbuf_s *oBuf)
                             if (is_first)
                             {
                                 dbuf_printf(oBuf, "UDL_%s_%u\tudata\n", moduleName, sectionNr++);
-                                is_first = 0;
+                                is_first = FALSE;
                             }
                             dbuf_printf(oBuf, "%s\tres\t%d\n", reg->name, reg->size);
                         }
                     }
                 }
             }
-            reg->isEmitted = 1;
+            reg->isEmitted = TRUE;
         } // for
     }     // for
 }
@@ -529,7 +535,7 @@ mc35_emitInterruptHandler(FILE *asmFile)
 /*-----------------------------------------------------------------*/
 /* glue - the final glue that hold the whole thing together        */
 /*-----------------------------------------------------------------*/
-void mc35_picglue()
+void mc35_picglue(void)
 {
     FILE *asmFile;
     struct dbuf_s ovrBuf;
@@ -549,7 +555,7 @@ void mc35_picglue()
     {
         /* main missing -- import stack from main module */
         //fprintf (stderr, "main() missing -- assuming we are NOT the main module\n");
-        mc35_options.isLibrarySource = 1;
+        mc35_options.isLibrarySource = TRUE;
     }
 
     /* At this point we've got all the code in the form of pCode structures */
@@ -577,7 +583,7 @@ void mc35_picglue()
 
     mc35_AnalyzepCode('*');
 
-    mc35_ReuseReg(); // ReuseReg where call tree permits
+    mc35_ReuseReg(); // mc35_ReuseReg where call tree permits
 
     mc35_InlinepCode();
 
@@ -591,12 +597,16 @@ void mc35_picglue()
 
     if ((noAssemble || options.c1mode) && fullDstFileName)
     {
-        sprintf(buffer, "%s", fullDstFileName);
+        // zwr 2.0.0
+        SNPRINTF(buffer, sizeof(buffer), "%s", fullDstFileName);
+        // sprintf(buffer, "%s", fullDstFileName);
     }
     else
     {
-        sprintf(buffer, "%s", dstFileName);
-        strcat(buffer, ".asm");
+        // zwr 2.0.0
+        SNPRINTF(buffer, sizeof(buffer), "%s.asm", dstFileName);
+        // sprintf(buffer, "%s", dstFileName);
+        // strcat(buffer, ".asm");
     }
 
     if (!(asmFile = fopen(buffer, "w")))
@@ -631,7 +641,7 @@ void mc35_picglue()
     if (mc35_ValList)
     {
         printValsInfo(mc35_ValList, ValLog);
-        fprintf(asmFile, "\n%s\n", ValLog->buf);
+        fprintf(asmFile, "\n%s\n", (char*)(ValLog->buf));
     }
     
     /* print the locally defined variables in this module */
@@ -703,11 +713,11 @@ mc35_parseIvalAst(ast *node, int *inCodeSpace)
         symbol *sym = IS_AST_SYM_VALUE(node) ? AST_SYMBOL(node) : NULL;
         if (inCodeSpace && val->type && (IS_FUNC(val->type) || IS_CODE(getSpec(val->type))))
         {
-            *inCodeSpace = 1;
+            *inCodeSpace = TRUE;
         }
         if (inCodeSpace && sym && (IS_FUNC(sym->type) || IS_CODE(getSpec(sym->type))))
         {
-            *inCodeSpace = 1;
+            *inCodeSpace = TRUE;
         }
 
         DEBUGprintf("%s: AST_VALUE\n", __FUNCTION__);
@@ -788,7 +798,7 @@ static int
 mc35_emitIvalLabel(struct dbuf_s *oBuf, symbol *sym)
 {
     char *segname;
-    static int in_code = 0;
+    static int in_code = FALSE;
     static int sectionNr = 0;
 
     if (sym)
@@ -797,12 +807,12 @@ mc35_emitIvalLabel(struct dbuf_s *oBuf, symbol *sym)
         if (IS_CODE(getSpec(sym->type)))
         {
             segname = "code";
-            in_code = 1;
+            in_code = TRUE;
         }
         else
         {
             segname = "idata";
-            in_code = 0;
+            in_code = FALSE;
         }
         dbuf_printf(oBuf, "\nID_%s_%d\t%s", moduleName, sectionNr++, segname);
         if (SPEC_ABSA(getSpec(sym->type)))
@@ -827,7 +837,7 @@ mc35_emitIvals(struct dbuf_s *oBuf, symbol *sym, initList *list, long lit, int s
     ast *node;
     operand *op;
     value *val = NULL;
-    int inCodeSpace = 0;
+    int inCodeSpace = FALSE;
     char *str = NULL;
     int in_code;
 
@@ -845,7 +855,7 @@ mc35_emitIvals(struct dbuf_s *oBuf, symbol *sym, initList *list, long lit, int s
         {
             if (in_code)
             {
-                // zwr 1.0.0 inst
+                // zwr 1.1.0
                 dbuf_printf(oBuf, "\tdw 0x%02x\n", (int)(lit & 0xff));
                 // dbuf_printf (oBuf, "\tretlw 0x00\n"); // conflict from merge of sf-patch-2991122 ?
             }
@@ -909,9 +919,8 @@ mc35_emitIvals(struct dbuf_s *oBuf, symbol *sym, initList *list, long lit, int s
         } // if
         if (in_code)
         {
-            // zwr 1.0.0 inst
+            // zwr 1.1.0
             dbuf_printf(oBuf, "\tdw %s\n", text);
-            // dbuf_printf(oBuf, "\tretai %s\n", text);
         }
         else
         {
@@ -1074,9 +1083,8 @@ mc35_emitInitVal(struct dbuf_s *oBuf, symbol *topsym, sym_link *my_type, initLis
         mc35_emitIvalLabel(oBuf, topsym);
         do
         {
-            // zwr 1.0.0 inst
+            // zwr 1.1.0
             dbuf_printf(oBuf, "\tdw 0x%02x ; '%c'\n", str[0], (str[0] >= 0x20 && str[0] < 128) ? str[0] : '.');
-            // dbuf_printf(oBuf, "\tretai 0x%02x ; '%c'\n", str[0], (str[0] >= 0x20 && str[0] < 128) ? str[0] : '.');
         } while (*(str++));
         return;
     }
@@ -1114,7 +1122,10 @@ mc35_emitInitVal(struct dbuf_s *oBuf, symbol *topsym, sym_link *my_type, initLis
         return;
     }
 
-    if (IS_CHAR(my_type) || IS_INT(my_type) || IS_LONG(my_type))
+    // zwr 2.0.0
+    if (IS_CHAR(my_type) || IS_INT(my_type) || IS_LONG(my_type) ||
+        IS_BOOL(my_type))
+    // if (IS_CHAR(my_type) || IS_INT(my_type) || IS_LONG(my_type))
     {
         // integral type, 8, 16, or 32 bit
         DEBUGprintf("(integral, %d byte) 0x%lx/%ld\n", size, list ? (long)list2int(list) : 0, list ? (long)list2int(list) : 0);
@@ -1218,7 +1229,7 @@ mc35_emitSymbolSet(set *s, int type)
 {
     symbol *sym;
     initList *list;
-    unsigned sectionNr = 0;
+    unsigned int sectionNr = 0;
 
     for (sym = setFirstItem(s); sym; sym = setNextItem(s))
     {
@@ -1255,7 +1266,7 @@ mc35_emitSymbolSet(set *s, int type)
 
                 if (type == 2 || IS_EXTERN(sym->etype) || sym->cdef)
                 {
-                    /* do not add to emitted set, it might occur again! */
+                    /* do not add to mc35_emitted set, it might occur again! */
                     //if (!sym->used) continue;
                     // declare symbol
                     mc35_emitIfNew(extBuf, &mc35_emitted, "\textern\t%s\n", sym->rname);

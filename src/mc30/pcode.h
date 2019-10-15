@@ -559,7 +559,8 @@ typedef struct pCodeFunction
 
 	int ncalled;		   /* Number of times function is called */
 	unsigned isPublic : 1; /* True if the fn is not static and can be called from another module (ie a another c or asm file) */
-
+	// zwr 2.0.0
+	unsigned isInterrupt : 1; /* True if the fn is interrupt. */
 } pCodeFunction;
 
 /*************************************************
@@ -776,89 +777,109 @@ typedef struct peepCommand
  * pCode functions.
  *-----------------------------------------------------------------*/
 
-pCode *newpCode(PIC_OPCODE op, pCodeOp *pcop);			// Create a new pCode given an operand
-pCode *newpCodeCharP(char *cP);							// Create a new pCode given a char *
-pCode *newpCodeFunction(char *g, char *f, int);			// Create a new function
-pCode *newpCodeLabel(char *name, int key);				// Create a new label given a key
-pCode *newpCodeCSource(int ln, char *f, const char *l); // Create a new symbol line
-pCode *newpCodeWild(int pCodeID, pCodeOp *optional_operand, pCodeOp *optional_label);
-pCode *findNextInstruction(pCode *pci);
-pCode *findPrevInstruction(pCode *pci);
-pCode *findNextpCode(pCode *pc, PC_TYPE pct);
-pCode *pCodeInstructionCopy(pCodeInstruction *pci, int invert);
+pCode *mc30_newpCode(PIC_OPCODE op, pCodeOp *pcop);			// Create a new pCode given an operand
+// zwr 2.0.0
+pCode *mc30_newpCodeCharP(const char *cP);							 // Create a new pCode given a char *
+pCode *mc30_newpCodeFunction(const char *g, const char *f, int, int); // Create a new function.
+pCode *mc30_newpCodeLabel(const char *name, int key);				 // Create a new label given a key
+pCode *mc30_newpCodeCSource(int ln, const char *f, const char *l);	// Create a new symbol line.
+// pCode *mc30_newpCodeCharP(char *cP);							// Create a new pCode given a char *
+// pCode *mc30_newpCodeFunction(char *g, char *f, int);			// Create a new function
+// pCode *mc30_newpCodeLabel(char *name, int key);				// Create a new label given a key
+// pCode *mc30_newpCodeCSource(int ln, char *f, const char *l); // Create a new symbol line
+pCode *mc30_newpCodeWild(int pCodeID, pCodeOp *optional_operand, pCodeOp *optional_label);
+pCode *mc30_findNextInstruction(pCode *pci);
+pCode *mc30_findPrevInstruction(pCode *pci);
+pCode *mc30_findNextpCode(pCode *pc, PC_TYPE pct);
+pCode *mc30_pCodeInstructionCopy(pCodeInstruction *pci, int invert);
 
-pBlock *newpCodeChain(memmap *cm, char c, pCode *pc); // Create a new pBlock
-void printpBlock(FILE *of, pBlock *pb);				  // Write a pBlock to a file
-void printpCode(FILE *of, pCode *pc);				  // Write a pCode to a file
-void addpCode2pBlock(pBlock *pb, pCode *pc);		  // Add a pCode to a pBlock
-void addpBlock(pBlock *pb);							  // Add a pBlock to a pFile
-void unlinkpCode(pCode *pc);
-void copypCode(FILE *of, char dbName); // Write all pBlocks with dbName to *of
-void movepBlock2Head(char dbName);	 // move pBlocks around
-void AnalyzeBanking(void);
-void ReuseReg(void);
-void AnalyzepCode(char dbName);
-void InlinepCode(void);
-void pCodeInitRegisters(void);
-void pic14initpCodePeepCommands(void);
-void pBlockConvert2ISR(pBlock *pb);
-void pBlockMergeLabels(pBlock *pb);
-void pCodeInsertAfter(pCode *pc1, pCode *pc2);
-void pCodeInsertBefore(pCode *pc1, pCode *pc2);
-void pCodeDeleteChain(pCode *f, pCode *t);
+pBlock *mc30_newpCodeChain(memmap *cm, char c, pCode *pc); // Create a new pBlock
+void mc30_printpBlock(FILE *of, pBlock *pb);				  // Write a pBlock to a file
+void mc30_printpCode(FILE *of, pCode *pc);				  // Write a pCode to a file
+void mc30_addpCode2pBlock(pBlock *pb, pCode *pc);		  // Add a pCode to a pBlock
+void mc30_addpBlock(pBlock *pb);							  // Add a pBlock to a pFile
+void mc30_unlinkpCode(pCode *pc);
+void mc30_copypCode(FILE *of, char dbName); // Write all pBlocks with dbName to *of
+void mc30_movepBlock2Head(char dbName);	 // move pBlocks around
+void mc30_AnalyzeBanking(void);
+void mc30_ReuseReg(void);
+void mc30_AnalyzepCode(char dbName);
+void mc30_InlinepCode(void);
+void mc30_pCodeInitRegisters(void);
+void mc30_initpCodePeepCommands(void);
+void mc30_pBlockConvert2ISR(pBlock *pb);
+void mc30_pBlockMergeLabels(pBlock *pb);
+void mc30_pCodeInsertAfter(pCode *pc1, pCode *pc2);
+void mc30_pCodeInsertBefore(pCode *pc1, pCode *pc2);
+void mc30_pCodeDeleteChain(pCode *f, pCode *t);
 
-pCode *newpCodeAsmDir(char *asdir, char *argfmt, ...);
+// zwr 2.0.0
+pCode *mc30_newpCodeAsmDir(const char *asdir, const char *argfmt, ...);
 
-pCodeOp *newpCodeOpLabel(char *name, int key);
-pCodeOp *newpCodeOpImmd(char *name, int offset, int index, int code_space, int is_func);
-pCodeOp *newpCodeOpLit(int lit);
-pCodeOp *newpCodeOpBit(char *name, int bit, int inBitSpace);
-pCodeOp *newpCodeOpWild(int id, pCodeWildBlock *pcwb, pCodeOp *subtype);
-pCodeOp *newpCodeOpRegFromStr(char *name);
-pCodeOp *newpCodeOp(char *name, PIC_OPTYPE p);
-pCodeOp *pCodeOpCopy(pCodeOp *pcop);
-pCodeOp *popCopyGPR2Bit(pCodeOp *pc, int bitval);
-pCodeOp *popCopyReg(pCodeOpReg *pc);
+pCodeOp *mc30_newpCodeOpLabel(const char *name, int key);
+pCodeOp *mc30_newpCodeOpImmd(const char *name, int offset, int index, int code_space, int is_func);
+pCodeOp *mc30_newpCodeOpLit(int lit);
+pCodeOp *mc30_newpCodeOpBit(const char *name, int bit, int inBitSpace);
+pCodeOp *mc30_newpCodeOpWild(int id, pCodeWildBlock *pcwb, pCodeOp *subtype);
+pCodeOp *mc30_newpCodeOpRegFromStr(const char *name);
+pCodeOp *mc30_newpCodeOp(const char *name, PIC_OPTYPE p);
 
-pBranch *pBranchAppend(pBranch *h, pBranch *n);
+// pCode *mc30_newpCodeAsmDir(char *asdir, char *argfmt, ...);
 
-struct reg_info *getRegFromInstruction(pCode *pc);
+// pCodeOp *mc30_newpCodeOpLabel(char *name, int key);
+// pCodeOp *mc30_newpCodeOpImmd(char *name, int offset, int index, int code_space, int is_func);
+// pCodeOp *mc30_newpCodeOpLit(int lit);
+// pCodeOp *mc30_newpCodeOpBit(char *name, int bit, int inBitSpace);
+// pCodeOp *mc30_newpCodeOpWild(int id, pCodeWildBlock *pcwb, pCodeOp *subtype);
+// pCodeOp *mc30_newpCodeOpRegFromStr(char *name);
+// pCodeOp *mc30_newpCodeOp(char *name, PIC_OPTYPE p);
+pCodeOp *mc30_pCodeOpCopy(pCodeOp *pcop);
+pCodeOp *mc30_popCopyGPR2Bit(pCodeOp *pc, int bitval);
+pCodeOp *mc30_popCopyReg(pCodeOpReg *pc);
 
-char *get_op(pCodeOp *pcop, char *buff, size_t buf_size);
-char *pCode2str(char *str, size_t size, pCode *pc);
+pBranch *mc30_pBranchAppend(pBranch *h, pBranch *n);
 
-int pCodePeepMatchRule(pCode *pc);
+struct reg_info *mc30_getRegFromInstruction(pCode *pc);
 
-void pcode_test(void);
-void resetpCodeStatistics(void);
-void dumppCodeStatistics(FILE *of);
+char *mc30_get_op(pCodeOp *pcop, char *buff, size_t buf_size);
+char *mc30_pCode2str(char *str, size_t size, pCode *pc);
+
+int mc30_pCodePeepMatchRule(pCode *pc);
+
+void mc30_pcode_test(void);
+void mc30_resetpCodeStatistics(void);
+void mc30_dumppCodeStatistics(FILE *of);
 
 /*-----------------------------------------------------------------*
  * pCode objects.
  *-----------------------------------------------------------------*/
 
-extern pCodeOpReg pc_status;
-extern pCodeOpReg pc_intcon;
-extern pCodeOpReg pc_fsr;
-extern pCodeOpReg pc_fsr0l;
-extern pCodeOpReg pc_fsr0h;
-extern pCodeOpReg *pc_indf; /* pointer to either pc_indf_ or pc_indf0 */
-extern pCodeOpReg pc_indf_;
-extern pCodeOpReg pc_indf0;
-extern pCodeOpReg pc_pcl;
-extern pCodeOpReg pc_pclath;
-extern pCodeOpReg pc_wsave; /* wsave, ssave and psave are used to save W, the Status and PCLATH*/
-extern pCodeOpReg pc_ssave; /* registers during an interrupt */
-extern pCodeOpReg pc_psave; /* registers during an interrupt */
+extern pCodeOpReg mc30_pc_status;
+extern pCodeOpReg mc30_pc_intcon;
+extern pCodeOpReg mc30_pc_fsr;
+extern pCodeOpReg mc30_pc_fsr0l;
+extern pCodeOpReg mc30_pc_fsr0h;
+extern pCodeOpReg *mc30_pc_indf; /* pointer to either mc30_pc_indf_ or mc30_pc_indf0 */
+extern pCodeOpReg mc30_pc_indf_;
+extern pCodeOpReg mc30_pc_indf0;
+extern pCodeOpReg mc30_pc_pcl;
+extern pCodeOpReg mc30_pc_pclath;
+extern pCodeOpReg mc30_pc_wsave; /* wsave, ssave and psave are used to save W, the Status and PCLATH*/
+extern pCodeOpReg mc30_pc_ssave; /* registers during an interrupt */
+extern pCodeOpReg mc30_pc_psave; /* registers during an interrupt */
 
-extern pFile *the_pFile;
-extern pCodeInstruction *pic14Mnemonics[MAX_PIC14MNEMONICS];
+extern pFile *mc30_the_pFile;
+extern pCodeInstruction *mc30_pic14Mnemonics[MAX_PIC14MNEMONICS];
 
 /*
  * From pcodepeep.h:
  */
-int getpCode(char *mnem, unsigned dest);
-int getpCodePeepCommand(char *cmd);
-int pCodeSearchCondition(pCode *pc, unsigned int cond, int contIfSkip);
+
+// zwr 2.0.0
+int mc30_getpCode(const char *mnem, unsigned dest);
+int mc30_getpCodePeepCommand(const char *cmd);
+// int mc30_getpCode(char *mnem, unsigned dest);
+// int mc30_getpCodePeepCommand(char *cmd);
+int mc30_pCodeSearchCondition(pCode *pc, unsigned int cond, int contIfSkip);
 
 #endif // __PCODE_H__

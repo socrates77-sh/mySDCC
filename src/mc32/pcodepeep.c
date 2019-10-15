@@ -1229,10 +1229,14 @@ void mc32_peepRules2pCode(peepRule *rules)
 
     //DFPRINTF((stderr,"\nRule:\n\n"));
 
-    pcps = Safe_calloc(1, sizeof(pCodePeepSnippets));
+    // zwr 2.0.0
+    pcps = Safe_alloc(sizeof(pCodePeepSnippets));
+    // pcps = Safe_calloc(1, sizeof(pCodePeepSnippets));
     mc32_peepSnippets = mc32_DLL_append((DLList *)mc32_peepSnippets, (DLList *)pcps);
 
-    currentRule = pcps->peep = Safe_calloc(1, sizeof(pCodePeep));
+    // zwr 2.0.0
+    currentRule = pcps->peep = Safe_alloc(sizeof(pCodePeep));
+    // currentRule = pcps->peep = Safe_calloc(1, sizeof(pCodePeep));
     mc32_initpCodePeep(currentRule);
 
     /* Convert the target block */

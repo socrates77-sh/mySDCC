@@ -34,12 +34,12 @@ static void dbg_dumpFlow(pBlock *pb)
 {
 	pCode *pcflow;
 	
-	for( pcflow = findNextpCode(pb->pcHead, PC_FLOW); 
+	for( pcflow = mc30_findNextpCode(pb->pcHead, PC_FLOW); 
 	pcflow != NULL;
-	pcflow = findNextpCode(pcflow->next, PC_FLOW) ) {
+	pcflow = mc30_findNextpCode(pcflow->next, PC_FLOW) ) {
 		
 		if(!isPCFL(pcflow))
-			fprintf(stderr, "LinkFlow - pcflow is not a flow object ");
+			fprintf(stderr, "mc30_LinkFlow - pcflow is not a flow object ");
 		
 		fprintf(stderr, "Flow: 0x%x",pcflow->seq);
 		if(PCFL(pcflow) && PCFL(pcflow)->ancestor)
@@ -61,9 +61,9 @@ static void dbg_dumpFlow(pBlock *pb)
 
 #if 0
 /*-----------------------------------------------------------------*
-* void BuildFlowSegment(set *segment, pCodeFlow *pcflow)
+* void mc30_BuildFlowSegment(set *segment, pCodeFlow *pcflow)
 *-----------------------------------------------------------------*/
-static void BuildFlowSegment(pCodeFlow *pcflow)
+static void mc30_BuildFlowSegment(pCodeFlow *pcflow)
 {
 	static int recursion=0;
 	pCodeFlow *pcflow_other;
@@ -149,7 +149,7 @@ static void BuildFlowSegment(pCodeFlow *pcflow)
 	if(pcflow->ancestor && pcflow->to) {
 		flowset = pcflow->to;
 		while(flowset) {
-			BuildFlowSegment(PCFLINK(flowset->item)->pcflow);
+			mc30_BuildFlowSegment(PCFLINK(flowset->item)->pcflow);
 			flowset = flowset->next;
 		}
 	}
@@ -157,13 +157,13 @@ static void BuildFlowSegment(pCodeFlow *pcflow)
 }
 #endif
 
-void BuildFlowTree(pBlock *pb)
+void mc30_BuildFlowTree(pBlock *pb)
 {
 	pCodeFlow *first_pcflow, *pcflow;
 
-	//  fprintf(stderr,"BuildFlowTree \n");
+	//  fprintf(stderr,"mc30_BuildFlowTree \n");
 
-	first_pcflow = PCFL(findNextpCode(pb->pcHead, PC_FLOW));
+	first_pcflow = PCFL(mc30_findNextpCode(pb->pcHead, PC_FLOW));
 	if (!first_pcflow)
 		return;
 
@@ -175,7 +175,7 @@ void BuildFlowTree(pBlock *pb)
 
 	/* For each flow that has only one predecessor, it's easy to 
 	identify the ancestor */
-	pcflow = PCFL(findNextpCode(first_pcflow->pc.next, PC_FLOW));
+	pcflow = PCFL(mc30_findNextpCode(first_pcflow->pc.next, PC_FLOW));
 
 	while (pcflow)
 	{
@@ -190,10 +190,10 @@ void BuildFlowTree(pBlock *pb)
 			*/
 		}
 
-		pcflow = PCFL(findNextpCode(pcflow->pc.next, PC_FLOW));
+		pcflow = PCFL(mc30_findNextpCode(pcflow->pc.next, PC_FLOW));
 	}
 
-	pcflow = PCFL(findNextpCode(first_pcflow->pc.next, PC_FLOW));
+	pcflow = PCFL(mc30_findNextpCode(first_pcflow->pc.next, PC_FLOW));
 
 	while (pcflow)
 	{
@@ -217,10 +217,10 @@ void BuildFlowTree(pBlock *pb)
 			*/
 		}
 
-		pcflow = PCFL(findNextpCode(pcflow->pc.next, PC_FLOW));
+		pcflow = PCFL(mc30_findNextpCode(pcflow->pc.next, PC_FLOW));
 	}
 
-	//  BuildFlowSegment(pcflow);
+	//  mc30_BuildFlowSegment(pcflow);
 
 	//dbg_dumpFlow(pb);
 }

@@ -44,7 +44,7 @@
 
 #define BYTEofLONG(l, b) ((l >> (b << 3)) & 0xff)
 
-const char *AopType(short type)
+const char *mc30_AopType(short type)
 {
         switch (type)
         {
@@ -77,7 +77,7 @@ const char *AopType(short type)
         return "BAD TYPE";
 }
 
-const char *pCodeOpType(pCodeOp *pcop)
+const char *mc30_pCodeOpType(pCodeOp *pcop)
 {
 
         if (pcop)
@@ -135,19 +135,19 @@ const char *pCodeOpType(pCodeOp *pcop)
 }
 
 /*-----------------------------------------------------------------*/
-/* genPlusIncr :- does addition with increment if possible         */
+/* mc30_genPlusIncr :- does addition with increment if possible         */
 /*-----------------------------------------------------------------*/
-static bool genPlusIncr(iCode *ic)
+static bool mc30_genPlusIncr(iCode *ic)
 {
         unsigned int icount;
-        unsigned int size = pic14_getDataSize(IC_RESULT(ic));
+        unsigned int size = mc30_getDataSize(IC_RESULT(ic));
         FENTRY;
 
-        DEBUGpic14_emitcode("; ***", "%s  %d", __FUNCTION__, __LINE__);
-        DEBUGpic14_emitcode("; ", "result %s, left %s, right %s",
-                            AopType(AOP_TYPE(IC_RESULT(ic))),
-                            AopType(AOP_TYPE(IC_LEFT(ic))),
-                            AopType(AOP_TYPE(IC_RIGHT(ic))));
+        DEBUGmc30_pic14_emitcode("; ***", "%s  %d", __FUNCTION__, __LINE__);
+        DEBUGmc30_pic14_emitcode("; ", "result %s, left %s, right %s",
+                                 mc30_AopType(AOP_TYPE(IC_RESULT(ic))),
+                                 mc30_AopType(AOP_TYPE(IC_LEFT(ic))),
+                                 mc30_AopType(AOP_TYPE(IC_RIGHT(ic))));
 
         /* will try to generate an increment */
         /* if the right side is not a literal 
@@ -155,54 +155,54 @@ static bool genPlusIncr(iCode *ic)
         if (AOP_TYPE(IC_RIGHT(ic)) != AOP_LIT)
                 return FALSE;
 
-        DEBUGpic14_emitcode("; ", "%s  %d", __FUNCTION__, __LINE__);
+        DEBUGmc30_pic14_emitcode("; ", "%s  %d", __FUNCTION__, __LINE__);
         /* if the literal value of the right hand side
         is greater than 1 then it is faster to add */
         if ((icount = (unsigned int)ulFromVal(AOP(IC_RIGHT(ic))->aopu.aop_lit)) > 2)
                 return FALSE;
 
         /* if increment 16 bits in register */
-        if (pic14_sameRegs(AOP(IC_LEFT(ic)), AOP(IC_RESULT(ic))) &&
+        if (mc30_sameRegs(AOP(IC_LEFT(ic)), AOP(IC_RESULT(ic))) &&
             (icount == 1))
         {
 
                 int offset = MSB16;
 
-                emitpcode(POC_INCF, popGet(AOP(IC_RESULT(ic)), LSB));
-                //pic14_emitcode("incf","%s,f",aopGet(AOP(IC_RESULT(ic)),LSB,FALSE,FALSE));
+                mc30_emitpcode(POC_INCF, mc30_popGet(AOP(IC_RESULT(ic)), LSB));
+                //mc30_pic14_emitcode("incf","%s,f",mc30_aopGet(AOP(IC_RESULT(ic)),LSB,FALSE,FALSE));
 
                 while (--size)
                 {
-                        emitSKPNZ;
-                        emitpcode(POC_INCF, popGet(AOP(IC_RESULT(ic)), offset++));
-                        //pic14_emitcode(" incf","%s,f",aopGet(AOP(IC_RESULT(ic)),offset++,FALSE,FALSE));
+                        mc30_emitSKPNZ;
+                        mc30_emitpcode(POC_INCF, mc30_popGet(AOP(IC_RESULT(ic)), offset++));
+                        //mc30_pic14_emitcode(" incf","%s,f",mc30_aopGet(AOP(IC_RESULT(ic)),offset++,FALSE,FALSE));
                 }
 
                 return TRUE;
         }
 
-        DEBUGpic14_emitcode("; ", "%s  %d", __FUNCTION__, __LINE__);
+        DEBUGmc30_pic14_emitcode("; ", "%s  %d", __FUNCTION__, __LINE__);
         /* if left is in accumulator  - probably a bit operation*/
-        if (strcmp(aopGet(AOP(IC_LEFT(ic)), 0, FALSE, FALSE), "a") &&
+        if (strcmp(mc30_aopGet(AOP(IC_LEFT(ic)), 0, FALSE, FALSE), "a") &&
             (AOP_TYPE(IC_RESULT(ic)) == AOP_CRY))
         {
 
-                emitpcode(POC_BCF, popGet(AOP(IC_RESULT(ic)), 0));
-                pic14_emitcode("bcf", "(%s >> 3), (%s & 7)",
-                               AOP(IC_RESULT(ic))->aopu.aop_dir,
-                               AOP(IC_RESULT(ic))->aopu.aop_dir);
+                mc30_emitpcode(POC_BCF, mc30_popGet(AOP(IC_RESULT(ic)), 0));
+                mc30_pic14_emitcode("bcf", "(%s >> 3), (%s & 7)",
+                                    AOP(IC_RESULT(ic))->aopu.aop_dir,
+                                    AOP(IC_RESULT(ic))->aopu.aop_dir);
                 if (icount)
-                        emitpcode(POC_XORLW, popGetLit(1));
-                //pic14_emitcode("xorlw","1");
+                        mc30_emitpcode(POC_XORLW, mc30_popGetLit(1));
+                //mc30_pic14_emitcode("xorlw","1");
                 else
-                        emitpcode(POC_ANDLW, popGetLit(1));
-                //pic14_emitcode("andlw","1");
+                        mc30_emitpcode(POC_ANDLW, mc30_popGetLit(1));
+                //mc30_pic14_emitcode("andlw","1");
 
-                emitSKPZ;
-                emitpcode(POC_BSF, popGet(AOP(IC_RESULT(ic)), 0));
-                pic14_emitcode("bsf", "(%s >> 3), (%s & 7)",
-                               AOP(IC_RESULT(ic))->aopu.aop_dir,
-                               AOP(IC_RESULT(ic))->aopu.aop_dir);
+                mc30_emitSKPZ;
+                mc30_emitpcode(POC_BSF, mc30_popGet(AOP(IC_RESULT(ic)), 0));
+                mc30_pic14_emitcode("bsf", "(%s >> 3), (%s & 7)",
+                                    AOP(IC_RESULT(ic))->aopu.aop_dir,
+                                    AOP(IC_RESULT(ic))->aopu.aop_dir);
 
                 return TRUE;
         }
@@ -214,17 +214,17 @@ static bool genPlusIncr(iCode *ic)
 
         /* If we are incrementing the same register by two: */
 
-        if (pic14_sameRegs(AOP(IC_LEFT(ic)), AOP(IC_RESULT(ic))))
+        if (mc30_sameRegs(AOP(IC_LEFT(ic)), AOP(IC_RESULT(ic))))
         {
 
                 while (icount--)
-                        emitpcode(POC_INCF, popGet(AOP(IC_RESULT(ic)), 0));
-                //pic14_emitcode("incf","%s,f",aopGet(AOP(IC_RESULT(ic)),0,FALSE,FALSE));
+                        mc30_emitpcode(POC_INCF, mc30_popGet(AOP(IC_RESULT(ic)), 0));
+                //mc30_pic14_emitcode("incf","%s,f",mc30_aopGet(AOP(IC_RESULT(ic)),0,FALSE,FALSE));
 
                 return TRUE;
         }
 
-        DEBUGpic14_emitcode("; ", "couldn't increment ");
+        DEBUGmc30_pic14_emitcode("; ", "couldn't increment ");
 
         return FALSE;
 }
@@ -232,7 +232,7 @@ static bool genPlusIncr(iCode *ic)
 /*-----------------------------------------------------------------*/
 /* genAddlit - generates code for addition                         */
 /*-----------------------------------------------------------------*/
-static void genAddLit2byte(operand *result, int offr, int lit)
+static void mc30_genAddLit2byte(operand *result, int offr, int lit)
 {
         FENTRY;
 
@@ -241,27 +241,27 @@ static void genAddLit2byte(operand *result, int offr, int lit)
         case 0:
                 break;
         case 1:
-                emitpcode(POC_INCF, popGet(AOP(result), offr));
+                mc30_emitpcode(POC_INCF, mc30_popGet(AOP(result), offr));
                 break;
         case 0xff:
-                emitpcode(POC_DECF, popGet(AOP(result), offr));
+                mc30_emitpcode(POC_DECF, mc30_popGet(AOP(result), offr));
                 break;
         default:
-                emitpcode(POC_MOVLW, popGetLit(lit & 0xff));
-                emitpcode(POC_ADDWF, popGet(AOP(result), offr));
+                mc30_emitpcode(POC_MOVLW, mc30_popGetLit(lit & 0xff));
+                mc30_emitpcode(POC_ADDWF, mc30_popGet(AOP(result), offr));
         }
 }
 
-static void emitMOVWF(operand *reg, int offset)
+static void mc30_emitMOVWF(operand *reg, int offset)
 {
         FENTRY;
         if (!reg)
                 return;
 
-        emitpcode(POC_MOVWF, popGet(AOP(reg), offset));
+        mc30_emitpcode(POC_MOVWF, mc30_popGet(AOP(reg), offset));
 }
 
-static void genAddLit(iCode *ic, int lit)
+static void mc30_genAddLit(iCode *ic, int lit)
 {
         int size, same;
         int lo;
@@ -270,14 +270,14 @@ static void genAddLit(iCode *ic, int lit)
         operand *left;
 
         FENTRY;
-        DEBUGpic14_emitcode("; ***", "%s  %d", __FUNCTION__, __LINE__);
+        DEBUGmc30_pic14_emitcode("; ***", "%s  %d", __FUNCTION__, __LINE__);
 
         left = IC_LEFT(ic);
         result = IC_RESULT(ic);
-        same = pic14_sameRegs(AOP(left), AOP(result));
-        size = pic14_getDataSize(result);
-        if (size > pic14_getDataSize(left))
-                size = pic14_getDataSize(left);
+        same = mc30_sameRegs(AOP(left), AOP(result));
+        size = mc30_getDataSize(result);
+        if (size > mc30_getDataSize(left))
+                size = mc30_getDataSize(left);
 
         /*
          * Fix accessing libsdcc/<*>/idata.c:_cinit in __code space.
@@ -285,25 +285,25 @@ static void genAddLit(iCode *ic, int lit)
         if (AOP_PCODE == AOP_TYPE(IC_LEFT(ic)))
         {
                 int u;
-                if (debug_verbose)
+                if (mc30_debug_verbose)
                 {
                         printf("%s:%u: CHECK: using address of '%s' instead of contents\n",
                                ic->filename, ic->lineno,
-                               popGetAddr(AOP(IC_LEFT(ic)), 0, lit & 0xff)->name);
+                               mc30_popGetAddr(AOP(IC_LEFT(ic)), 0, lit & 0xff)->name);
                 } // if
                 for (u = 0; u < size; ++u)
                 {
-                        emitpcode(POC_MOVLW, popGetAddr(AOP(IC_LEFT(ic)), u, lit));
-                        emitpcode(POC_MOVWF, popGet(AOP(IC_RESULT(ic)), u));
+                        mc30_emitpcode(POC_MOVLW, mc30_popGetAddr(AOP(IC_LEFT(ic)), u, lit));
+                        mc30_emitpcode(POC_MOVWF, mc30_popGet(AOP(IC_RESULT(ic)), u));
                 } // for
 
-                if (size < pic14_getDataSize(result))
+                if (size < mc30_getDataSize(result))
                 {
-                        for (u = size; u < pic14_getDataSize(result); ++u)
+                        for (u = size; u < mc30_getDataSize(result); ++u)
                         {
                                 /* XXX: Might fail for u >= size?!? */
-                                emitpcode(POC_MOVLW, popGetAddr(AOP(IC_LEFT(ic)), u, lit));
-                                emitpcode(POC_MOVWF, popGet(AOP(IC_RESULT(ic)), u));
+                                mc30_emitpcode(POC_MOVLW, mc30_popGetAddr(AOP(IC_LEFT(ic)), u, lit));
+                                mc30_emitpcode(POC_MOVWF, mc30_popGet(AOP(IC_RESULT(ic)), u));
                         } // for
                 }         // if
 
@@ -315,7 +315,7 @@ static void genAddLit(iCode *ic, int lit)
 
                 /* Handle special cases first */
                 if (size == 1)
-                        genAddLit2byte(result, 0, lit);
+                        mc30_genAddLit2byte(result, 0, lit);
 
                 else if (size == 2)
                 {
@@ -327,97 +327,109 @@ static void genAddLit(iCode *ic, int lit)
                         case 0:
 
                                 /* lit = 0x00LL */
-                                DEBUGpic14_emitcode("; hi = 0", "%s  %d", __FUNCTION__, __LINE__);
+                                DEBUGmc30_pic14_emitcode("; hi = 0", "%s  %d", __FUNCTION__, __LINE__);
                                 switch (lo)
                                 {
                                 case 0:
                                         break;
                                 case 1:
-                                        emitpcode(POC_INCF, popGet(AOP(result), 0));
-                                        emitSKPNZ;
-                                        emitpcode(POC_INCF, popGet(AOP(result), MSB16));
+                                        mc30_emitpcode(POC_INCF, mc30_popGet(AOP(result), 0));
+                                        mc30_emitSKPNZ;
+                                        mc30_emitpcode(POC_INCF, mc30_popGet(AOP(result), MSB16));
                                         break;
                                 case 0xff:
-                                        emitpcode(POC_DECF, popGet(AOP(result), 0));
-                                        emitpcode(POC_INCFSZW, popGet(AOP(result), 0));
-                                        emitpcode(POC_INCF, popGet(AOP(result), MSB16));
+                                        mc30_emitpcode(POC_DECF, mc30_popGet(AOP(result), 0));
+                                        mc30_emitpcode(POC_INCFSZW, mc30_popGet(AOP(result), 0));
+                                        mc30_emitpcode(POC_INCF, mc30_popGet(AOP(result), MSB16));
 
                                         break;
                                 default:
-                                        emitpcode(POC_MOVLW, popGetLit(lit & 0xff));
-                                        emitpcode(POC_ADDWF, popGet(AOP(result), 0));
-                                        emitSKPNC;
-                                        emitpcode(POC_INCF, popGet(AOP(result), MSB16));
+                                        mc30_emitpcode(POC_MOVLW, mc30_popGetLit(lit & 0xff));
+                                        mc30_emitpcode(POC_ADDWF, mc30_popGet(AOP(result), 0));
+                                        mc30_emitSKPNC;
+                                        mc30_emitpcode(POC_INCF, mc30_popGet(AOP(result), MSB16));
+                                        break;
                                 }
                                 break;
 
                         case 1:
                                 /* lit = 0x01LL */
-                                DEBUGpic14_emitcode("; hi = 1", "%s  %d", __FUNCTION__, __LINE__);
+                                DEBUGmc30_pic14_emitcode("; hi = 1", "%s  %d", __FUNCTION__, __LINE__);
                                 switch (lo)
                                 {
                                 case 0: /* 0x0100 */
-                                        emitpcode(POC_INCF, popGet(AOP(result), MSB16));
+                                        mc30_emitpcode(POC_INCF, mc30_popGet(AOP(result), MSB16));
                                         break;
                                 case 1: /* 0x0101  */
-                                        emitpcode(POC_INCF, popGet(AOP(result), MSB16));
-                                        emitpcode(POC_INCF, popGet(AOP(result), 0));
-                                        emitSKPNZ;
-                                        emitpcode(POC_INCF, popGet(AOP(result), MSB16));
+                                        mc30_emitpcode(POC_INCF, mc30_popGet(AOP(result), MSB16));
+                                        mc30_emitpcode(POC_INCF, mc30_popGet(AOP(result), 0));
+                                        mc30_emitSKPNZ;
+                                        mc30_emitpcode(POC_INCF, mc30_popGet(AOP(result), MSB16));
                                         break;
                                 case 0xff: /* 0x01ff */
-                                        emitpcode(POC_DECF, popGet(AOP(result), 0));
-                                        emitpcode(POC_INCFSZW, popGet(AOP(result), 0));
-                                        emitpcode(POC_INCF, popGet(AOP(result), MSB16));
-                                        emitpcode(POC_INCF, popGet(AOP(result), MSB16));
+                                        mc30_emitpcode(POC_DECF, mc30_popGet(AOP(result), 0));
+                                        mc30_emitpcode(POC_INCFSZW, mc30_popGet(AOP(result), 0));
+                                        mc30_emitpcode(POC_INCF, mc30_popGet(AOP(result), MSB16));
+                                        mc30_emitpcode(POC_INCF, mc30_popGet(AOP(result), MSB16));
+                                // zwr 2.0.0
+                                        break;  
+                                default:
+                                        mc30_emitpcode(POC_MOVLW, mc30_popGetLit(lo));
+                                        mc30_emitpcode(POC_ADDWF, mc30_popGet(AOP(result), 0));
+                                        mc30_emitSKPNC;
+                                        mc30_emitpcode(POC_INCF, mc30_popGet(AOP(result), MSB16));
+                                        mc30_emitpcode(POC_INCF, mc30_popGet(AOP(result), MSB16));
+                                        break;
                                 }
                                 break;
 
                         case 0xff:
-                                DEBUGpic14_emitcode("; hi = ff", "%s  %d", __FUNCTION__, __LINE__);
+                                DEBUGmc30_pic14_emitcode("; hi = ff", "%s  %d", __FUNCTION__, __LINE__);
                                 /* lit = 0xffLL */
                                 switch (lo)
                                 {
                                 case 0: /* 0xff00 */
-                                        emitpcode(POC_DECF, popGet(AOP(result), MSB16));
+                                        mc30_emitpcode(POC_DECF, mc30_popGet(AOP(result), MSB16));
                                         break;
                                 case 1: /*0xff01 */
-                                        emitpcode(POC_INCFSZ, popGet(AOP(result), 0));
-                                        emitpcode(POC_DECF, popGet(AOP(result), MSB16));
+                                        mc30_emitpcode(POC_INCFSZ, mc30_popGet(AOP(result), 0));
+                                        mc30_emitpcode(POC_DECF, mc30_popGet(AOP(result), MSB16));
                                         break;
                                 default:
-                                        emitpcode(POC_MOVLW, popGetLit(lo));
-                                        emitpcode(POC_ADDWF, popGet(AOP(result), 0));
-                                        emitSKPC;
-                                        emitpcode(POC_DECF, popGet(AOP(result), MSB16));
+                                        mc30_emitpcode(POC_MOVLW, mc30_popGetLit(lo));
+                                        mc30_emitpcode(POC_ADDWF, mc30_popGet(AOP(result), 0));
+                                        mc30_emitSKPC;
+                                        mc30_emitpcode(POC_DECF, mc30_popGet(AOP(result), MSB16));
+                                        break;
                                 }
 
                                 break;
 
                         default:
-                                DEBUGpic14_emitcode("; hi is generic", "%d   %s  %d", hi, __FUNCTION__, __LINE__);
+                                DEBUGmc30_pic14_emitcode("; hi is generic", "%d   %s  %d", hi, __FUNCTION__, __LINE__);
 
                                 /* lit = 0xHHLL */
                                 switch (lo)
                                 {
                                 case 0: /* 0xHH00 */
-                                        genAddLit2byte(result, MSB16, hi);
+                                        mc30_genAddLit2byte(result, MSB16, hi);
                                         break;
                                 case 1: /* 0xHH01 */
-                                        emitpcode(POC_MOVLW, popGetLit((hi + 1) & 0xff));
-                                        emitpcode(POC_INCFSZ, popGet(AOP(result), 0));
-                                        emitpcode(POC_MOVLW, popGetLit(hi));
-                                        emitpcode(POC_ADDWF, popGet(AOP(result), MSB16));
+                                        mc30_emitpcode(POC_MOVLW, mc30_popGetLit((hi + 1) & 0xff));
+                                        mc30_emitpcode(POC_INCFSZ, mc30_popGet(AOP(result), 0));
+                                        mc30_emitpcode(POC_MOVLW, mc30_popGetLit(hi));
+                                        mc30_emitpcode(POC_ADDWF, mc30_popGet(AOP(result), MSB16));
                                         break;
                                 default: /* 0xHHLL */
-                                        emitpcode(POC_MOVLW, popGetLit(lo));
-                                        emitpcode(POC_ADDWF, popGet(AOP(result), 0));
-                                        emitpcode(POC_MOVLW, popGetLit(hi));
-                                        emitSKPNC;
-                                        emitpcode(POC_MOVLW, popGetLit((hi + 1) & 0xff));
-                                        emitpcode(POC_ADDWF, popGet(AOP(result), MSB16));
+                                        mc30_emitpcode(POC_MOVLW, mc30_popGetLit(lo));
+                                        mc30_emitpcode(POC_ADDWF, mc30_popGet(AOP(result), 0));
+                                        mc30_emitpcode(POC_MOVLW, mc30_popGetLit(hi));
+                                        mc30_emitSKPNC;
+                                        mc30_emitpcode(POC_MOVLW, mc30_popGetLit((hi + 1) & 0xff));
+                                        mc30_emitpcode(POC_ADDWF, mc30_popGet(AOP(result), MSB16));
                                         break;
                                 }
+                                break;
                         }
                 }
                 else
@@ -425,7 +437,7 @@ static void genAddLit(iCode *ic, int lit)
                         int carry_info = 0;
                         int offset = 0;
                         /* size > 2 */
-                        DEBUGpic14_emitcode(";  add lit to long", "%s  %d", __FUNCTION__, __LINE__);
+                        DEBUGmc30_pic14_emitcode(";  add lit to long", "%s  %d", __FUNCTION__, __LINE__);
 
                         while (size--)
                         {
@@ -439,37 +451,37 @@ static void genAddLit(iCode *ic, int lit)
                                                 switch (carry_info)
                                                 {
                                                 case 1:
-                                                        emitSKPNZ;
-                                                        emitpcode(POC_INCF, popGet(AOP(result), offset));
+                                                        mc30_emitSKPNZ;
+                                                        mc30_emitpcode(POC_INCF, mc30_popGet(AOP(result), offset));
                                                         break;
                                                 case 2:
-                                                        emitpcode(POC_RLFW, popGet(AOP(result), offset));
-                                                        emitpcode(POC_ANDLW, popGetLit(1));
-                                                        emitpcode(POC_ADDWF, popGet(AOP(result), offset));
+                                                        mc30_emitpcode(POC_RLFW, mc30_popGet(AOP(result), offset));
+                                                        mc30_emitpcode(POC_ANDLW, mc30_popGetLit(1));
+                                                        mc30_emitpcode(POC_ADDWF, mc30_popGet(AOP(result), offset));
                                                         break;
                                                 default: /* carry_info = 3  */
-                                                        emitSKPNC;
-                                                        emitpcode(POC_INCF, popGet(AOP(result), offset));
+                                                        mc30_emitSKPNC;
+                                                        mc30_emitpcode(POC_INCF, mc30_popGet(AOP(result), offset));
                                                         carry_info = 1;
                                                         break;
                                                 }
                                                 break;
                                         case 0xff:
-                                                emitpcode(POC_MOVLW, popGetLit(lo));
+                                                mc30_emitpcode(POC_MOVLW, mc30_popGetLit(lo));
                                                 if (carry_info == 1)
-                                                        emitSKPZ;
+                                                        mc30_emitSKPZ;
                                                 else
-                                                        emitSKPC;
-                                                emitpcode(POC_ADDWF, popGet(AOP(result), offset));
+                                                        mc30_emitSKPC;
+                                                mc30_emitpcode(POC_ADDWF, mc30_popGet(AOP(result), offset));
                                                 break;
                                         default:
-                                                emitpcode(POC_MOVLW, popGetLit(lo));
+                                                mc30_emitpcode(POC_MOVLW, mc30_popGetLit(lo));
                                                 if (carry_info == 1)
-                                                        emitSKPNZ;
+                                                        mc30_emitSKPNZ;
                                                 else
-                                                        emitSKPNC;
-                                                emitpcode(POC_MOVLW, popGetLit(lo + 1));
-                                                emitpcode(POC_ADDWF, popGet(AOP(result), offset));
+                                                        mc30_emitSKPNC;
+                                                mc30_emitpcode(POC_MOVLW, mc30_popGetLit(lo + 1));
+                                                mc30_emitpcode(POC_ADDWF, mc30_popGet(AOP(result), offset));
                                                 carry_info = 2;
                                                 break;
                                         }
@@ -483,12 +495,12 @@ static void genAddLit(iCode *ic, int lit)
                                         case 0:
                                                 break;
                                         case 1:
-                                                emitpcode(POC_INCF, popGet(AOP(result), offset));
+                                                mc30_emitpcode(POC_INCF, mc30_popGet(AOP(result), offset));
                                                 carry_info = 1;
                                                 break;
                                         default:
-                                                emitpcode(POC_MOVLW, popGetLit(lo));
-                                                emitpcode(POC_ADDWF, popGet(AOP(result), offset));
+                                                mc30_emitpcode(POC_MOVLW, mc30_popGetLit(lo));
+                                                mc30_emitpcode(POC_ADDWF, mc30_popGet(AOP(result), offset));
                                                 if (lit < 0x100)
                                                         carry_info = 3; /* Were adding only one byte and propogating the carry */
                                                 else
@@ -504,7 +516,7 @@ static void genAddLit(iCode *ic, int lit)
         else
         {
                 int offset = 1;
-                DEBUGpic14_emitcode(";  left and result aren't same", "%s  %d", __FUNCTION__, __LINE__);
+                DEBUGmc30_pic14_emitcode(";  left and result aren't same", "%s  %d", __FUNCTION__, __LINE__);
 
                 if (size == 1)
                 {
@@ -513,24 +525,24 @@ static void genAddLit(iCode *ic, int lit)
                         switch (lit & 0xff)
                         {
                         case 0:
-                                emitpcode(POC_MOVFW, popGet(AOP(left), 0));
-                                emitMOVWF(result, 0);
+                                mc30_emitpcode(POC_MOVFW, mc30_popGet(AOP(left), 0));
+                                mc30_emitMOVWF(result, 0);
                                 break;
                         case 1:
-                                emitpcode(POC_INCFW, popGet(AOP(left), 0));
-                                emitMOVWF(result, 0);
+                                mc30_emitpcode(POC_INCFW, mc30_popGet(AOP(left), 0));
+                                mc30_emitMOVWF(result, 0);
                                 break;
                         case 0xff:
-                                emitpcode(POC_DECFW, popGet(AOP(left), 0));
+                                mc30_emitpcode(POC_DECFW, mc30_popGet(AOP(left), 0));
                                 // zwr 1.1.8
-                                emitMOVWF(left, 0);
+                                mc30_emitMOVWF(left, 0);
                                 
-                                emitMOVWF(result, 0);
+                                mc30_emitMOVWF(result, 0);
                                 break;
                         default:
-                                emitpcode(POC_MOVLW, popGetLit(lit & 0xff));
-                                emitpcode(POC_ADDFW, popGet(AOP(left), 0));
-                                emitMOVWF(result, 0);
+                                mc30_emitpcode(POC_MOVLW, mc30_popGetLit(lit & 0xff));
+                                mc30_emitpcode(POC_ADDFW, mc30_popGet(AOP(left), 0));
+                                mc30_emitMOVWF(result, 0);
                         }
                 }
                 else
@@ -540,16 +552,16 @@ static void genAddLit(iCode *ic, int lit)
                         /* left is not the accumulator */
                         if (lit & 0xff)
                         {
-                                emitpcode(POC_MOVLW, popGetLit(lit & 0xff));
-                                emitpcode(POC_ADDFW, popGet(AOP(left), 0));
+                                mc30_emitpcode(POC_MOVLW, mc30_popGetLit(lit & 0xff));
+                                mc30_emitpcode(POC_ADDFW, mc30_popGet(AOP(left), 0));
                         }
                         else
                         {
-                                emitpcode(POC_MOVFW, popGet(AOP(left), 0));
+                                mc30_emitpcode(POC_MOVFW, mc30_popGet(AOP(left), 0));
                                 /* We don't know the state of the carry bit at this point */
                                 clear_carry = 1;
                         }
-                        emitMOVWF(result, 0);
+                        mc30_emitMOVWF(result, 0);
                         while (--size)
                         {
 
@@ -561,28 +573,30 @@ static void genAddLit(iCode *ic, int lit)
                                                 /* The ls byte of the lit must've been zero - that 
                                                 means we don't have to deal with carry */
 
-                                                emitpcode(POC_MOVLW, popGetLit(lit & 0xff));
-                                                emitpcode(POC_ADDFW, popGet(AOP(left), offset));
-                                                emitpcode(POC_MOVWF, popGet(AOP(left), offset));
+                                                mc30_emitpcode(POC_MOVLW, mc30_popGetLit(lit & 0xff));
+                                                mc30_emitpcode(POC_ADDFW, mc30_popGet(AOP(left), offset));
+                                                // zwr 2.0.0
+                                                mc30_emitpcode(POC_MOVWF, mc30_popGet(AOP(result), offset));
+                                                // mc30_emitpcode(POC_MOVWF, mc30_popGet(AOP(left), offset));
 
                                                 clear_carry = 0;
                                         }
                                         else
                                         {
-                                                emitpcode(POC_MOVLW, popGetLit(lit & 0xff));
-                                                emitMOVWF(result, offset);
-                                                emitpcode(POC_MOVFW, popGet(AOP(left), offset));
-                                                emitSKPNC;
-                                                emitpcode(POC_INCFSZW, popGet(AOP(left), offset));
-                                                emitpcode(POC_ADDWF, popGet(AOP(result), offset));
+                                                mc30_emitpcode(POC_MOVLW, mc30_popGetLit(lit & 0xff));
+                                                mc30_emitMOVWF(result, offset);
+                                                mc30_emitpcode(POC_MOVFW, mc30_popGet(AOP(left), offset));
+                                                mc30_emitSKPNC;
+                                                mc30_emitpcode(POC_INCFSZW, mc30_popGet(AOP(left), offset));
+                                                mc30_emitpcode(POC_ADDWF, mc30_popGet(AOP(result), offset));
                                         }
                                 }
                                 else
                                 {
-                                        emitpcode(POC_CLRF, popGet(AOP(result), offset));
-                                        emitpcode(POC_RLF, popGet(AOP(result), offset));
-                                        emitpcode(POC_MOVFW, popGet(AOP(left), offset));
-                                        emitpcode(POC_ADDWF, popGet(AOP(result), offset));
+                                        mc30_emitpcode(POC_CLRF, mc30_popGet(AOP(result), offset));
+                                        mc30_emitpcode(POC_RLF, mc30_popGet(AOP(result), offset));
+                                        mc30_emitpcode(POC_MOVFW, mc30_popGet(AOP(left), offset));
+                                        mc30_emitpcode(POC_ADDWF, mc30_popGet(AOP(result), offset));
                                 }
                                 offset++;
                         }
@@ -590,28 +604,28 @@ static void genAddLit(iCode *ic, int lit)
         }
 
 out:
-        size = pic14_getDataSize(result);
-        if (size > pic14_getDataSize(left))
-                size = pic14_getDataSize(left);
-        addSign(result, size, 0);
+        size = mc30_getDataSize(result);
+        if (size > mc30_getDataSize(left))
+                size = mc30_getDataSize(left);
+        mc30_addSign(result, size, 0);
 }
 
 /*-----------------------------------------------------------------*/
-/* genPlus - generates code for addition                           */
+/* mc30_genPlus - generates code for addition                           */
 /*-----------------------------------------------------------------*/
-void genPlus(iCode *ic)
+void mc30_genPlus(iCode *ic)
 {
         int size, offset = 0;
 
         /* special cases :- */
-        DEBUGpic14_emitcode("; ***", "%s  %d", __FUNCTION__, __LINE__);
+        DEBUGmc30_pic14_emitcode("; ***", "%s  %d", __FUNCTION__, __LINE__);
         FENTRY;
 
-        aopOp(IC_LEFT(ic), ic, FALSE);
-        aopOp(IC_RIGHT(ic), ic, FALSE);
-        aopOp(IC_RESULT(ic), ic, TRUE);
+        mc30_aopOp(IC_LEFT(ic), ic, FALSE);
+        mc30_aopOp(IC_RIGHT(ic), ic, FALSE);
+        mc30_aopOp(IC_RESULT(ic), ic, TRUE);
 
-        DEBUGpic14_AopType(__LINE__, IC_LEFT(ic), IC_RIGHT(ic), IC_RESULT(ic));
+        DEBUGmc30_pic14_AopType(__LINE__, IC_LEFT(ic), IC_RIGHT(ic), IC_RESULT(ic));
 
         /* if literal, literal on the right or
         if left requires ACC or right is already
@@ -633,20 +647,20 @@ void genPlus(iCode *ic)
                 {
                         if (ulFromVal(AOP(IC_RIGHT(ic))->aopu.aop_lit) != 0L)
                         {
-                                emitpcode(POC_MOVLW, popGet(AOP(IC_RESULT(ic)), 0));
-                                if (!pic14_sameRegs(AOP(IC_LEFT(ic)), AOP(IC_RESULT(ic))))
-                                        emitpcode(POC_BTFSC, popGet(AOP(IC_LEFT(ic)), 0));
-                                emitpcode(POC_XORWF, popGet(AOP(IC_RESULT(ic)), 0));
+                                mc30_emitpcode(POC_MOVLW, mc30_popGet(AOP(IC_RESULT(ic)), 0));
+                                if (!mc30_sameRegs(AOP(IC_LEFT(ic)), AOP(IC_RESULT(ic))))
+                                        mc30_emitpcode(POC_BTFSC, mc30_popGet(AOP(IC_LEFT(ic)), 0));
+                                mc30_emitpcode(POC_XORWF, mc30_popGet(AOP(IC_RESULT(ic)), 0));
                         }
                 }
                 else
                 {
-                        size = pic14_getDataSize(IC_RESULT(ic));
+                        size = mc30_getDataSize(IC_RESULT(ic));
                         while (size--)
                         {
-                                MOVA(aopGet(AOP(IC_RIGHT(ic)), offset, FALSE, FALSE));
-                                pic14_emitcode("addc", "a,#00  ;%d", __LINE__);
-                                aopPut(AOP(IC_RESULT(ic)), "a", offset++);
+                                MOVA(mc30_aopGet(AOP(IC_RIGHT(ic)), offset, FALSE, FALSE));
+                                mc30_pic14_emitcode("addc", "a,#00  ;%d", __LINE__);
+                                mc30_aopPut(AOP(IC_RESULT(ic)), "a", offset++);
                         }
                 }
                 goto release;
@@ -654,107 +668,107 @@ void genPlus(iCode *ic)
 
         /* if I can do an increment instead
         of add then GOOD for ME */
-        if (genPlusIncr(ic) == TRUE)
+        if (mc30_genPlusIncr(ic) == TRUE)
                 goto release;
 
-        size = pic14_getDataSize(IC_RESULT(ic));
+        size = mc30_getDataSize(IC_RESULT(ic));
 
         if (AOP(IC_RIGHT(ic))->type == AOP_LIT)
         {
                 /* Add a literal to something else */
                 unsigned lit = (unsigned)ulFromVal(AOP(IC_RIGHT(ic))->aopu.aop_lit);
-                DEBUGpic14_emitcode(";", "adding lit to something. size %d", size);
+                DEBUGmc30_pic14_emitcode(";", "adding lit to something. size %d", size);
 
-                genAddLit(ic, lit);
+                mc30_genAddLit(ic, lit);
                 goto release;
         }
         else if (AOP_TYPE(IC_RIGHT(ic)) == AOP_CRY)
         {
 
-                pic14_emitcode(";bitadd", "right is bit: %s", aopGet(AOP(IC_RIGHT(ic)), 0, FALSE, FALSE));
-                pic14_emitcode(";bitadd", "left is bit: %s", aopGet(AOP(IC_LEFT(ic)), 0, FALSE, FALSE));
-                pic14_emitcode(";bitadd", "result is bit: %s", aopGet(AOP(IC_RESULT(ic)), 0, FALSE, FALSE));
+                mc30_pic14_emitcode(";bitadd", "right is bit: %s", mc30_aopGet(AOP(IC_RIGHT(ic)), 0, FALSE, FALSE));
+                mc30_pic14_emitcode(";bitadd", "left is bit: %s", mc30_aopGet(AOP(IC_LEFT(ic)), 0, FALSE, FALSE));
+                mc30_pic14_emitcode(";bitadd", "result is bit: %s", mc30_aopGet(AOP(IC_RESULT(ic)), 0, FALSE, FALSE));
 
                 /* here we are adding a bit to a char or int */
                 if (size == 1)
                 {
-                        if (pic14_sameRegs(AOP(IC_LEFT(ic)), AOP(IC_RESULT(ic))))
+                        if (mc30_sameRegs(AOP(IC_LEFT(ic)), AOP(IC_RESULT(ic))))
                         {
-                                emitpcode(POC_BTFSC, popGet(AOP(IC_RIGHT(ic)), 0));
-                                emitpcode(POC_INCF, popGet(AOP(IC_RESULT(ic)), 0));
+                                mc30_emitpcode(POC_BTFSC, mc30_popGet(AOP(IC_RIGHT(ic)), 0));
+                                mc30_emitpcode(POC_INCF, mc30_popGet(AOP(IC_RESULT(ic)), 0));
                         }
                         else
                         {
 
-                                emitpcode(POC_MOVFW, popGet(AOP(IC_LEFT(ic)), 0));
-                                emitpcode(POC_BTFSC, popGet(AOP(IC_RIGHT(ic)), 0));
-                                emitpcode(POC_INCFW, popGet(AOP(IC_LEFT(ic)), 0));
+                                mc30_emitpcode(POC_MOVFW, mc30_popGet(AOP(IC_LEFT(ic)), 0));
+                                mc30_emitpcode(POC_BTFSC, mc30_popGet(AOP(IC_RIGHT(ic)), 0));
+                                mc30_emitpcode(POC_INCFW, mc30_popGet(AOP(IC_LEFT(ic)), 0));
 
                                 if (AOP_TYPE(IC_RESULT(ic)) == AOP_CRY)
                                 {
-                                        emitpcode(POC_ANDLW, popGetLit(1));
-                                        emitpcode(POC_BCF, popGet(AOP(IC_RESULT(ic)), 0));
-                                        emitSKPZ;
-                                        emitpcode(POC_BSF, popGet(AOP(IC_RESULT(ic)), 0));
+                                        mc30_emitpcode(POC_ANDLW, mc30_popGetLit(1));
+                                        mc30_emitpcode(POC_BCF, mc30_popGet(AOP(IC_RESULT(ic)), 0));
+                                        mc30_emitSKPZ;
+                                        mc30_emitpcode(POC_BSF, mc30_popGet(AOP(IC_RESULT(ic)), 0));
                                 }
                                 else
                                 {
-                                        emitpcode(POC_MOVWF, popGet(AOP(IC_RESULT(ic)), 0));
+                                        mc30_emitpcode(POC_MOVWF, mc30_popGet(AOP(IC_RESULT(ic)), 0));
                                 }
                         }
                 }
                 else
                 {
                         int offset = 1;
-                        DEBUGpic14_emitcode("; ***", "%s  %d", __FUNCTION__, __LINE__);
-                        if (pic14_sameRegs(AOP(IC_LEFT(ic)), AOP(IC_RESULT(ic))))
+                        DEBUGmc30_pic14_emitcode("; ***", "%s  %d", __FUNCTION__, __LINE__);
+                        if (mc30_sameRegs(AOP(IC_LEFT(ic)), AOP(IC_RESULT(ic))))
                         {
-                                emitCLRZ;
-                                emitpcode(POC_BTFSC, popGet(AOP(IC_RIGHT(ic)), 0));
-                                emitpcode(POC_INCF, popGet(AOP(IC_RESULT(ic)), 0));
+                                mc30_emitCLRZ;
+                                mc30_emitpcode(POC_BTFSC, mc30_popGet(AOP(IC_RIGHT(ic)), 0));
+                                mc30_emitpcode(POC_INCF, mc30_popGet(AOP(IC_RESULT(ic)), 0));
                         }
                         else
                         {
 
-                                emitpcode(POC_MOVFW, popGet(AOP(IC_LEFT(ic)), 0));
-                                emitpcode(POC_BTFSC, popGet(AOP(IC_RIGHT(ic)), 0));
-                                emitpcode(POC_INCFW, popGet(AOP(IC_LEFT(ic)), 0));
-                                emitMOVWF(IC_RIGHT(ic), 0);
+                                mc30_emitpcode(POC_MOVFW, mc30_popGet(AOP(IC_LEFT(ic)), 0));
+                                mc30_emitpcode(POC_BTFSC, mc30_popGet(AOP(IC_RIGHT(ic)), 0));
+                                mc30_emitpcode(POC_INCFW, mc30_popGet(AOP(IC_LEFT(ic)), 0));
+                                mc30_emitMOVWF(IC_RIGHT(ic), 0);
                         }
 
                         while (--size)
                         {
-                                emitSKPZ;
-                                emitpcode(POC_INCF, popGet(AOP(IC_RESULT(ic)), offset++));
+                                mc30_emitSKPZ;
+                                mc30_emitpcode(POC_INCF, mc30_popGet(AOP(IC_RESULT(ic)), offset++));
                         }
                 }
         }
         else
         {
-                DEBUGpic14_emitcode("; ***", "%s  %d", __FUNCTION__, __LINE__);
+                DEBUGmc30_pic14_emitcode("; ***", "%s  %d", __FUNCTION__, __LINE__);
 
                 /* Add the first bytes */
 
-                if (strcmp(aopGet(AOP(IC_LEFT(ic)), 0, FALSE, FALSE), "a") == 0)
+                if (strcmp(mc30_aopGet(AOP(IC_LEFT(ic)), 0, FALSE, FALSE), "a") == 0)
                 {
-                        emitpcode(POC_ADDFW, popGet(AOP(IC_RIGHT(ic)), 0));
-                        emitpcode(POC_MOVWF, popGet(AOP(IC_RESULT(ic)), 0));
+                        mc30_emitpcode(POC_ADDFW, mc30_popGet(AOP(IC_RIGHT(ic)), 0));
+                        mc30_emitpcode(POC_MOVWF, mc30_popGet(AOP(IC_RESULT(ic)), 0));
                 }
                 else
                 {
 
-                        emitpcode(POC_MOVFW, popGet(AOP(IC_RIGHT(ic)), 0));
+                        mc30_emitpcode(POC_MOVFW, mc30_popGet(AOP(IC_RIGHT(ic)), 0));
 
-                        if (pic14_sameRegs(AOP(IC_LEFT(ic)), AOP(IC_RESULT(ic))))
-                                emitpcode(POC_ADDWF, popGet(AOP(IC_LEFT(ic)), 0));
+                        if (mc30_sameRegs(AOP(IC_LEFT(ic)), AOP(IC_RESULT(ic))))
+                                mc30_emitpcode(POC_ADDWF, mc30_popGet(AOP(IC_LEFT(ic)), 0));
                         else
                         {
                                 PIC_OPCODE poc = POC_ADDFW;
 
-                                if (op_isLitLike(IC_LEFT(ic)))
+                                if (mc30_op_isLitLike(IC_LEFT(ic)))
                                         poc = POC_ADDLW;
-                                emitpcode(poc, popGetAddr(AOP(IC_LEFT(ic)), 0, 0));
-                                emitpcode(POC_MOVWF, popGet(AOP(IC_RESULT(ic)), 0));
+                                mc30_emitpcode(poc, mc30_popGetAddr(AOP(IC_LEFT(ic)), 0, 0));
+                                mc30_emitpcode(POC_MOVWF, mc30_popGet(AOP(IC_RESULT(ic)), 0));
                         }
                 }
 
@@ -763,17 +777,17 @@ void genPlus(iCode *ic)
 
                 if (size)
                 {
-                        if (pic14_sameRegs(AOP(IC_RIGHT(ic)), AOP(IC_RESULT(ic))))
+                        if (mc30_sameRegs(AOP(IC_RIGHT(ic)), AOP(IC_RESULT(ic))))
                         {
-                                if (op_isLitLike(IC_LEFT(ic)))
+                                if (mc30_op_isLitLike(IC_LEFT(ic)))
                                 {
                                         while (size--)
                                         {
-                                                emitpcode(POC_MOVFW, popGet(AOP(IC_RIGHT(ic)), offset));
-                                                emitSKPNC;
-                                                emitpcode(POC_INCFSZW, popGet(AOP(IC_RIGHT(ic)), offset));
-                                                emitpcode(POC_ADDLW, popGetAddr(AOP(IC_LEFT(ic)), offset, 0));
-                                                emitpcode(POC_MOVWF, popGet(AOP(IC_RESULT(ic)), offset));
+                                                mc30_emitpcode(POC_MOVFW, mc30_popGet(AOP(IC_RIGHT(ic)), offset));
+                                                mc30_emitSKPNC;
+                                                mc30_emitpcode(POC_INCFSZW, mc30_popGet(AOP(IC_RIGHT(ic)), offset));
+                                                mc30_emitpcode(POC_ADDLW, mc30_popGetAddr(AOP(IC_LEFT(ic)), offset, 0));
+                                                mc30_emitpcode(POC_MOVWF, mc30_popGet(AOP(IC_RESULT(ic)), offset));
                                                 offset++;
                                         }
                                 }
@@ -781,10 +795,10 @@ void genPlus(iCode *ic)
                                 {
                                         while (size--)
                                         {
-                                                emitpcode(POC_MOVFW, popGet(AOP(IC_LEFT(ic)), offset));
-                                                emitSKPNC;
-                                                emitpcode(POC_INCFSZW, popGet(AOP(IC_LEFT(ic)), offset));
-                                                emitpcode(POC_ADDWF, popGet(AOP(IC_RESULT(ic)), offset));
+                                                mc30_emitpcode(POC_MOVFW, mc30_popGet(AOP(IC_LEFT(ic)), offset));
+                                                mc30_emitSKPNC;
+                                                mc30_emitpcode(POC_INCFSZW, mc30_popGet(AOP(IC_LEFT(ic)), offset));
+                                                mc30_emitpcode(POC_ADDWF, mc30_popGet(AOP(IC_RESULT(ic)), offset));
                                                 offset++;
                                         }
                                 }
@@ -792,19 +806,19 @@ void genPlus(iCode *ic)
                         else
                         {
                                 PIC_OPCODE poc = POC_MOVFW;
-                                if (op_isLitLike(IC_LEFT(ic)))
+                                if (mc30_op_isLitLike(IC_LEFT(ic)))
                                         poc = POC_MOVLW;
                                 while (size--)
                                 {
-                                        if (!pic14_sameRegs(AOP(IC_LEFT(ic)), AOP(IC_RESULT(ic))))
+                                        if (!mc30_sameRegs(AOP(IC_LEFT(ic)), AOP(IC_RESULT(ic))))
                                         {
-                                                emitpcode(poc, popGetAddr(AOP(IC_LEFT(ic)), offset, 0));
-                                                emitpcode(POC_MOVWF, popGet(AOP(IC_RESULT(ic)), offset));
+                                                mc30_emitpcode(poc, mc30_popGetAddr(AOP(IC_LEFT(ic)), offset, 0));
+                                                mc30_emitpcode(POC_MOVWF, mc30_popGet(AOP(IC_RESULT(ic)), offset));
                                         }
-                                        emitpcode(POC_MOVFW, popGet(AOP(IC_RIGHT(ic)), offset));
-                                        emitSKPNC;
-                                        emitpcode(POC_INCFSZW, popGet(AOP(IC_RIGHT(ic)), offset));
-                                        emitpcode(POC_ADDWF, popGet(AOP(IC_RESULT(ic)), offset));
+                                        mc30_emitpcode(POC_MOVFW, mc30_popGet(AOP(IC_RIGHT(ic)), offset));
+                                        mc30_emitSKPNC;
+                                        mc30_emitpcode(POC_INCFSZW, mc30_popGet(AOP(IC_RIGHT(ic)), offset));
+                                        mc30_emitpcode(POC_ADDWF, mc30_popGet(AOP(IC_RESULT(ic)), offset));
                                         offset++;
                                 }
                         }
@@ -824,16 +838,16 @@ void genPlus(iCode *ic)
                 {
                         int leftsize = AOP_SIZE(IC_LEFT(ic)) - AOP_SIZE(IC_RIGHT(ic));
                         PIC_OPCODE poc = POC_MOVFW;
-                        if (op_isLitLike(IC_LEFT(ic)))
+                        if (mc30_op_isLitLike(IC_LEFT(ic)))
                                 poc = POC_MOVLW;
                         while (leftsize-- > 0)
                         {
-                                emitpcode(poc, popGetAddr(AOP(IC_LEFT(ic)), offset, 0));
-                                emitSKPNC;
-                                emitpcode(POC_ADDLW, popGetLit(0x01));
-                                emitpcode(POC_MOVWF, popGet(AOP(IC_RESULT(ic)), offset));
-                                //emitSKPNC;
-                                //emitpcode(POC_INCF, popGet(AOP(IC_RESULT(ic)),offset)); /* INCF does not update Carry! */
+                                mc30_emitpcode(poc, mc30_popGetAddr(AOP(IC_LEFT(ic)), offset, 0));
+                                mc30_emitSKPNC;
+                                mc30_emitpcode(POC_ADDLW, mc30_popGetLit(0x01));
+                                mc30_emitpcode(POC_MOVWF, mc30_popGet(AOP(IC_RESULT(ic)), offset));
+                                //mc30_emitSKPNC;
+                                //mc30_emitpcode(POC_INCF, mc30_popGet(AOP(IC_RESULT(ic)),offset)); /* INCF does not update Carry! */
                                 offset++;
                                 if (size)
                                         size--;
@@ -843,8 +857,8 @@ void genPlus(iCode *ic)
                 }
                 else
                 {
-                        emitpcode(POC_CLRF, popGet(AOP(IC_RESULT(ic)), offset));
-                        emitpcode(POC_RLF, popGet(AOP(IC_RESULT(ic)), offset));
+                        mc30_emitpcode(POC_CLRF, mc30_popGet(AOP(IC_RESULT(ic)), offset));
+                        mc30_emitpcode(POC_RLF, mc30_popGet(AOP(IC_RESULT(ic)), offset));
                 }
 
                 if (sign && offset > 0 && offset < AOP_SIZE(IC_RESULT(ic)))
@@ -852,17 +866,17 @@ void genPlus(iCode *ic)
                         /* Now this is really horrid. Gotta check the sign of the addends and propogate
                         * to the result */
 
-                        emitpcode(POC_BTFSC, newpCodeOpBit(aopGet(AOP(IC_LEFT(ic)), offset - 1, FALSE, FALSE), 7, 0));
-                        emitpcode(POC_DECF, popGet(AOP(IC_RESULT(ic)), offset));
-                        emitpcode(POC_BTFSC, newpCodeOpBit(aopGet(AOP(IC_RIGHT(ic)), offset - 1, FALSE, FALSE), 7, 0));
-                        emitpcode(POC_DECF, popGet(AOP(IC_RESULT(ic)), offset));
+                        mc30_emitpcode(POC_BTFSC, mc30_newpCodeOpBit(mc30_aopGet(AOP(IC_LEFT(ic)), offset - 1, FALSE, FALSE), 7, 0));
+                        mc30_emitpcode(POC_DECF, mc30_popGet(AOP(IC_RESULT(ic)), offset));
+                        mc30_emitpcode(POC_BTFSC, mc30_newpCodeOpBit(mc30_aopGet(AOP(IC_RIGHT(ic)), offset - 1, FALSE, FALSE), 7, 0));
+                        mc30_emitpcode(POC_DECF, mc30_popGet(AOP(IC_RESULT(ic)), offset));
 
                         /* if chars or ints or being signed extended to longs: */
                         if (size)
                         {
-                                emitpcode(POC_MOVLW, popGetLit(0));
-                                emitpcode(POC_BTFSC, newpCodeOpBit(aopGet(AOP(IC_RESULT(ic)), offset, FALSE, FALSE), 7, 0));
-                                emitpcode(POC_MOVLW, popGetLit(0xff));
+                                mc30_emitpcode(POC_MOVLW, mc30_popGetLit(0));
+                                mc30_emitpcode(POC_BTFSC, mc30_newpCodeOpBit(mc30_aopGet(AOP(IC_RESULT(ic)), offset, FALSE, FALSE), 7, 0));
+                                mc30_emitpcode(POC_MOVLW, mc30_popGetLit(0xff));
                         }
                 }
 
@@ -871,9 +885,9 @@ void genPlus(iCode *ic)
                 {
 
                         if (sign)
-                                emitpcode(POC_MOVWF, popGet(AOP(IC_RESULT(ic)), offset));
+                                mc30_emitpcode(POC_MOVWF, mc30_popGet(AOP(IC_RESULT(ic)), offset));
                         else
-                                emitpcode(POC_CLRF, popGet(AOP(IC_RESULT(ic)), offset));
+                                mc30_emitpcode(POC_CLRF, mc30_popGet(AOP(IC_RESULT(ic)), offset));
 
                         offset++;
                 }
@@ -882,18 +896,18 @@ void genPlus(iCode *ic)
         //adjustArithmeticResult(ic);
 
 release:
-        freeAsmop(IC_LEFT(ic), NULL, ic, (RESULTONSTACK(ic) ? FALSE : TRUE));
-        freeAsmop(IC_RIGHT(ic), NULL, ic, (RESULTONSTACK(ic) ? FALSE : TRUE));
-        freeAsmop(IC_RESULT(ic), NULL, ic, TRUE);
+        mc30_freeAsmop(IC_LEFT(ic), NULL, ic, (RESULTONSTACK(ic) ? FALSE : TRUE));
+        mc30_freeAsmop(IC_RIGHT(ic), NULL, ic, (RESULTONSTACK(ic) ? FALSE : TRUE));
+        mc30_freeAsmop(IC_RESULT(ic), NULL, ic, TRUE);
 }
 
 /*-----------------------------------------------------------------*/
-/* addSign - propogate sign bit to higher bytes                    */
+/* mc30_addSign - propogate sign bit to higher bytes                    */
 /*-----------------------------------------------------------------*/
-void addSign(operand *result, int offset, int sign)
+void mc30_addSign(operand *result, int offset, int sign)
 {
-        int size = (pic14_getDataSize(result) - offset);
-        DEBUGpic14_emitcode("; ***", "%s  %d", __FUNCTION__, __LINE__);
+        int size = (mc30_getDataSize(result) - offset);
+        DEBUGmc30_pic14_emitcode("; ***", "%s  %d", __FUNCTION__, __LINE__);
         FENTRY;
 
         if (size > 0)
@@ -903,30 +917,30 @@ void addSign(operand *result, int offset, int sign)
 
                         if (size == 1)
                         {
-                                emitpcode(POC_CLRF, popGet(AOP(result), offset));
-                                emitpcode(POC_BTFSC, newpCodeOpBit(aopGet(AOP(result), offset - 1, FALSE, FALSE), 7, 0));
-                                emitpcode(POC_DECF, popGet(AOP(result), offset));
+                                mc30_emitpcode(POC_CLRF, mc30_popGet(AOP(result), offset));
+                                mc30_emitpcode(POC_BTFSC, mc30_newpCodeOpBit(mc30_aopGet(AOP(result), offset - 1, FALSE, FALSE), 7, 0));
+                                mc30_emitpcode(POC_DECF, mc30_popGet(AOP(result), offset));
                         }
                         else
                         {
 
-                                emitpcode(POC_MOVLW, popGetLit(0));
-                                emitpcode(POC_BTFSC, newpCodeOpBit(aopGet(AOP(result), offset - 1, FALSE, FALSE), 7, 0));
-                                emitpcode(POC_MOVLW, popGetLit(0xff));
+                                mc30_emitpcode(POC_MOVLW, mc30_popGetLit(0));
+                                mc30_emitpcode(POC_BTFSC, mc30_newpCodeOpBit(mc30_aopGet(AOP(result), offset - 1, FALSE, FALSE), 7, 0));
+                                mc30_emitpcode(POC_MOVLW, mc30_popGetLit(0xff));
                                 while (size--)
-                                        emitpcode(POC_MOVWF, popGet(AOP(result), offset + size));
+                                        mc30_emitpcode(POC_MOVWF, mc30_popGet(AOP(result), offset + size));
                         }
                 }
                 else
                         while (size--)
-                                emitpcode(POC_CLRF, popGet(AOP(result), offset++));
+                                mc30_emitpcode(POC_CLRF, mc30_popGet(AOP(result), offset++));
         }
 }
 
 /*-----------------------------------------------------------------*/
-/* genMinus - generates code for subtraction                       */
+/* mc30_genMinus - generates code for subtraction                       */
 /*-----------------------------------------------------------------*/
-void genMinus(iCode *ic)
+void mc30_genMinus(iCode *ic)
 {
         int size, offset = 0, same = 0;
         unsigned long lit = 0L;
@@ -935,10 +949,10 @@ void genMinus(iCode *ic)
         asmop *left, *right, *result;
 
         FENTRY;
-        DEBUGpic14_emitcode("; ***", "%s  %d", __FUNCTION__, __LINE__);
-        aopOp(IC_LEFT(ic), ic, FALSE);
-        aopOp(IC_RIGHT(ic), ic, FALSE);
-        aopOp(IC_RESULT(ic), ic, TRUE);
+        DEBUGmc30_pic14_emitcode("; ***", "%s  %d", __FUNCTION__, __LINE__);
+        mc30_aopOp(IC_LEFT(ic), ic, FALSE);
+        mc30_aopOp(IC_RIGHT(ic), ic, FALSE);
+        mc30_aopOp(IC_RESULT(ic), ic, TRUE);
 
         if (AOP_TYPE(IC_RESULT(ic)) == AOP_CRY &&
             AOP_TYPE(IC_RIGHT(ic)) == AOP_LIT)
@@ -948,24 +962,24 @@ void genMinus(iCode *ic)
                 IC_LEFT(ic) = t;
         }
 
-        DEBUGpic14_emitcode("; ", "result %s, left %s, right %s",
-                            AopType(AOP_TYPE(IC_RESULT(ic))),
-                            AopType(AOP_TYPE(IC_LEFT(ic))),
-                            AopType(AOP_TYPE(IC_RIGHT(ic))));
+        DEBUGmc30_pic14_emitcode("; ", "result %s, left %s, right %s",
+                                 mc30_AopType(AOP_TYPE(IC_RESULT(ic))),
+                                 mc30_AopType(AOP_TYPE(IC_LEFT(ic))),
+                                 mc30_AopType(AOP_TYPE(IC_RIGHT(ic))));
 
         left = AOP(IC_LEFT(ic));
         right = AOP(IC_RIGHT(ic));
         result = AOP(IC_RESULT(ic));
 
-        size = pic14_getDataSize(IC_RESULT(ic));
-        same = pic14_sameRegs(right, result);
+        size = mc30_getDataSize(IC_RESULT(ic));
+        same = mc30_sameRegs(right, result);
 
-        if ((AOP_TYPE(IC_LEFT(ic)) != AOP_LIT) && (pic14_getDataSize(IC_LEFT(ic)) < size))
+        if ((AOP_TYPE(IC_LEFT(ic)) != AOP_LIT) && (mc30_getDataSize(IC_LEFT(ic)) < size))
         {
                 fprintf(stderr, "%s:%d(%s):WARNING: left operand too short for result\n",
                         ic->filename, ic->lineno, __FUNCTION__);
         } // if
-        if ((AOP_TYPE(IC_RIGHT(ic)) != AOP_LIT) && (pic14_getDataSize(IC_RIGHT(ic)) < size))
+        if ((AOP_TYPE(IC_RIGHT(ic)) != AOP_LIT) && (mc30_getDataSize(IC_RIGHT(ic)) < size))
         {
                 fprintf(stderr, "%s:%d(%s):WARNING: right operand too short for result\n",
                         ic->filename, ic->lineno, __FUNCTION__);
@@ -978,24 +992,24 @@ void genMinus(iCode *ic)
                 lit = ulFromVal(right->aopu.aop_lit);
                 lit = -(long)lit;
 
-                genAddLit(ic, lit);
+                mc30_genAddLit(ic, lit);
         }
         else if (AOP_TYPE(IC_RIGHT(ic)) == AOP_CRY)
         {
                 // bit subtraction
 
-                pic14_emitcode(";bitsub", "right is bit: %s", aopGet(right, 0, FALSE, FALSE));
-                pic14_emitcode(";bitsub", "left is bit: %s", aopGet(left, 0, FALSE, FALSE));
-                pic14_emitcode(";bitsub", "result is bit: %s", aopGet(result, 0, FALSE, FALSE));
+                mc30_pic14_emitcode(";bitsub", "right is bit: %s", mc30_aopGet(right, 0, FALSE, FALSE));
+                mc30_pic14_emitcode(";bitsub", "left is bit: %s", mc30_aopGet(left, 0, FALSE, FALSE));
+                mc30_pic14_emitcode(";bitsub", "result is bit: %s", mc30_aopGet(result, 0, FALSE, FALSE));
 
                 /* here we are subtracting a bit from a char or int */
                 if (size == 1)
                 {
-                        if (pic14_sameRegs(left, result))
+                        if (mc30_sameRegs(left, result))
                         {
 
-                                emitpcode(POC_BTFSC, popGet(right, 0));
-                                emitpcode(POC_DECF, popGet(result, 0));
+                                mc30_emitpcode(POC_BTFSC, mc30_popGet(right, 0));
+                                mc30_emitpcode(POC_DECF, mc30_popGet(result, 0));
                         }
                         else
                         {
@@ -1013,41 +1027,41 @@ void genMinus(iCode *ic)
 
                                         if (AOP_TYPE(IC_RESULT(ic)) == AOP_CRY)
                                         {
-                                                if (pic14_sameRegs(right, result))
+                                                if (mc30_sameRegs(right, result))
                                                 {
                                                         if (lit & 1)
                                                         {
-                                                                emitpcode(POC_MOVLW, popGet(right, 0));
-                                                                emitpcode(POC_XORWF, popGet(result, 0));
+                                                                mc30_emitpcode(POC_MOVLW, mc30_popGet(right, 0));
+                                                                mc30_emitpcode(POC_XORWF, mc30_popGet(result, 0));
                                                         }
                                                 }
                                                 else
                                                 {
-                                                        emitpcode(POC_BCF, popGet(result, 0));
+                                                        mc30_emitpcode(POC_BCF, mc30_popGet(result, 0));
                                                         if (lit & 1)
-                                                                emitpcode(POC_BTFSS, popGet(right, 0));
+                                                                mc30_emitpcode(POC_BTFSS, mc30_popGet(right, 0));
                                                         else
-                                                                emitpcode(POC_BTFSC, popGet(right, 0));
-                                                        emitpcode(POC_BSF, popGet(result, 0));
+                                                                mc30_emitpcode(POC_BTFSC, mc30_popGet(right, 0));
+                                                        mc30_emitpcode(POC_BSF, mc30_popGet(result, 0));
                                                 }
                                                 goto release;
                                         }
                                         else
                                         {
-                                                emitpcode(POC_MOVLW, popGetLit(lit & 0xff));
-                                                emitpcode(POC_BTFSC, popGet(right, 0));
-                                                emitpcode(POC_MOVLW, popGetLit((lit - 1) & 0xff));
-                                                emitpcode(POC_MOVWF, popGet(result, 0));
+                                                mc30_emitpcode(POC_MOVLW, mc30_popGetLit(lit & 0xff));
+                                                mc30_emitpcode(POC_BTFSC, mc30_popGet(right, 0));
+                                                mc30_emitpcode(POC_MOVLW, mc30_popGetLit((lit - 1) & 0xff));
+                                                mc30_emitpcode(POC_MOVWF, mc30_popGet(result, 0));
                                         }
                                 }
                                 else
                                 {
                                         // result = register - bit
                                         // XXX: Fails for lit-like left operands
-                                        emitpcode(POC_MOVFW, popGet(left, 0));
-                                        emitpcode(POC_BTFSC, popGet(right, 0));
-                                        emitpcode(POC_DECFW, popGet(left, 0));
-                                        emitpcode(POC_MOVWF, popGet(result, 0));
+                                        mc30_emitpcode(POC_MOVFW, mc30_popGet(left, 0));
+                                        mc30_emitpcode(POC_BTFSC, mc30_popGet(right, 0));
+                                        mc30_emitpcode(POC_DECFW, mc30_popGet(left, 0));
+                                        mc30_emitpcode(POC_MOVWF, mc30_popGet(result, 0));
                                 }
                         }
                 }
@@ -1070,10 +1084,10 @@ void genMinus(iCode *ic)
                 {
                         lit = ulFromVal(left->aopu.aop_lit);
                         isLit = 1;
-                        DEBUGpic14_emitcode("; left is lit", "line %d result %s, left %s, right %s", __LINE__,
-                                            AopType(AOP_TYPE(IC_RESULT(ic))),
-                                            AopType(AOP_TYPE(IC_LEFT(ic))),
-                                            AopType(AOP_TYPE(IC_RIGHT(ic))));
+                        DEBUGmc30_pic14_emitcode("; left is lit", "line %d result %s, left %s, right %s", __LINE__,
+                                                 mc30_AopType(AOP_TYPE(IC_RESULT(ic))),
+                                                 mc30_AopType(AOP_TYPE(IC_LEFT(ic))),
+                                                 mc30_AopType(AOP_TYPE(IC_RIGHT(ic))));
                 } // if
 
                 /*
@@ -1084,44 +1098,44 @@ void genMinus(iCode *ic)
                 if (same && isLit && ((lit & 0xff) == 0xff))
                 {
                         // right === res = 0xFF - right = ~right
-                        emitpcode(POC_COMF, popGet(right, 0));
+                        mc30_emitpcode(POC_COMF, mc30_popGet(right, 0));
                         if (size > 1)
                         {
                                 // setup CARRY/#BORROW
-                                emitSETC;
+                                mc30_emitSETC;
                         } // if
                 }
                 else if ((size == 1) && isLit && ((lit & 0xff) == 0xff))
                 {
                         // res = 0xFF - right = ~right
-                        emitpcode(POC_COMFW, popGet(right, 0));
-                        emitpcode(POC_MOVWF, popGet(result, 0));
+                        mc30_emitpcode(POC_COMFW, mc30_popGet(right, 0));
+                        mc30_emitpcode(POC_MOVWF, mc30_popGet(result, 0));
                         // CARRY/#BORROW is not setup correctly
                 }
                 else if ((size == 1) && same && isLit && ((lit & 0xff) == 0))
                 {
                         // right === res = 0 - right = ~right + 1
-                        emitpcode(POC_COMF, popGet(right, 0));
-                        emitpcode(POC_INCF, popGet(right, 0));
+                        mc30_emitpcode(POC_COMF, mc30_popGet(right, 0));
+                        mc30_emitpcode(POC_INCF, mc30_popGet(right, 0));
                         // CARRY/#BORROW is not setup correctly
                 }
                 else
                 {
                         // general case, should always work
-                        mov2w(right, 0);
-                        if (pic14_sameRegs(left, result))
+                        mc30_mov2w(right, 0);
+                        if (mc30_sameRegs(left, result))
                         {
                                 // result === left = left - right (in place)
-                                emitpcode(POC_SUBWF, popGet(result, 0));
+                                mc30_emitpcode(POC_SUBWF, mc30_popGet(result, 0));
                         }
                         else
                         {
                                 // works always: result = left - right
-                                emitpcode(op_isLitLike(IC_LEFT(ic))
-                                              ? POC_SUBLW
-                                              : POC_SUBFW,
-                                          popGetAddr(left, 0, 0));
-                                emitpcode(POC_MOVWF, popGet(result, 0));
+                                mc30_emitpcode(mc30_op_isLitLike(IC_LEFT(ic))
+                                                   ? POC_SUBLW
+                                                   : POC_SUBFW,
+                                               mc30_popGetAddr(left, 0, 0));
+                                mc30_emitpcode(POC_MOVWF, mc30_popGet(result, 0));
                         } // if
                 }         // if
 
@@ -1141,7 +1155,7 @@ void genMinus(iCode *ic)
                          * the best code possible with thees templates.
                          */
 
-                        if (pic14_sameRegs(left, right))
+                        if (mc30_sameRegs(left, right))
                         {
                                 /*
                              * This case should not occur; however, the
@@ -1154,9 +1168,9 @@ void genMinus(iCode *ic)
                              *
                              * 1 cycle
                              */
-                                emitpcode(POC_CLRF, popGet(result, offset));
+                                mc30_emitpcode(POC_CLRF, mc30_popGet(result, offset));
                         }
-                        else if (pic14_sameRegs(left, result))
+                        else if (mc30_sameRegs(left, result))
                         {
                                 /*
                              * This template works if LEFT, RIGHT, and
@@ -1174,10 +1188,10 @@ void genMinus(iCode *ic)
                              *
                              * 4 cycles
                              */
-                                mov2w(right, offset);
-                                emitSKPC;
-                                emitpcode(POC_INCFSZW, popGet(right, offset));
-                                emitpcode(POC_SUBWF, popGet(result, offset));
+                                mc30_mov2w(right, offset);
+                                mc30_emitSKPC;
+                                mc30_emitpcode(POC_INCFSZW, mc30_popGet(right, offset));
+                                mc30_emitpcode(POC_SUBWF, mc30_popGet(result, offset));
                         }
                         else if ((size == 1) && isLit && ((lit & 0xff) == 0xff))
                         {
@@ -1199,10 +1213,10 @@ void genMinus(iCode *ic)
                              *
                              * 4 cycles
                              */
-                                emitpcode(POC_COMFW, popGet(right, offset));
-                                emitSKPC;
-                                emitpcode(POC_ADDLW, popGetLit(0xff));
-                                emitpcode(POC_MOVWF, popGet(result, offset));
+                                mc30_emitpcode(POC_COMFW, mc30_popGet(right, offset));
+                                mc30_emitSKPC;
+                                mc30_emitpcode(POC_ADDLW, mc30_popGetLit(0xff));
+                                mc30_emitpcode(POC_MOVWF, mc30_popGet(result, offset));
                         }
                         else if (size == 1)
                         {
@@ -1223,16 +1237,16 @@ void genMinus(iCode *ic)
                              *
                              * 5 cycles
                              */
-                                mov2w(right, offset);
-                                emitSKPC;
-                                emitpcode(POC_INCFW, popGet(right, offset));
-                                emitpcode(op_isLitLike(IC_LEFT(ic))
-                                              ? POC_SUBLW
-                                              : POC_SUBFW,
-                                          popGetAddr(left, offset, 0));
-                                emitpcode(POC_MOVWF, popGet(result, offset));
+                                mc30_mov2w(right, offset);
+                                mc30_emitSKPC;
+                                mc30_emitpcode(POC_INCFW, mc30_popGet(right, offset));
+                                mc30_emitpcode(mc30_op_isLitLike(IC_LEFT(ic))
+                                                   ? POC_SUBLW
+                                                   : POC_SUBFW,
+                                               mc30_popGetAddr(left, offset, 0));
+                                mc30_emitpcode(POC_MOVWF, mc30_popGet(result, offset));
                         }
-                        else if (IS_ITEMP(IC_RESULT(ic)) && !pic14_sameRegs(right, result))
+                        else if (IS_ITEMP(IC_RESULT(ic)) && !mc30_sameRegs(right, result))
                         {
                                 /*
                              * This code template works if RIGHT and RESULT
@@ -1253,12 +1267,12 @@ void genMinus(iCode *ic)
                              *
                              * 6 cycles, but fails for SFR RESULT operands
                              */
-                                mov2w(left, offset);
-                                emitpcode(POC_MOVWF, popGet(result, offset));
-                                mov2w(right, offset);
-                                emitSKPC;
-                                emitpcode(POC_INCFSZW, popGet(right, offset));
-                                emitpcode(POC_SUBWF, popGet(result, offset));
+                                mc30_mov2w(left, offset);
+                                mc30_emitpcode(POC_MOVWF, mc30_popGet(result, offset));
+                                mc30_mov2w(right, offset);
+                                mc30_emitSKPC;
+                                mc30_emitpcode(POC_INCFSZW, mc30_popGet(right, offset));
+                                mc30_emitpcode(POC_SUBWF, mc30_popGet(result, offset));
                         }
                         else if (!optimize.codeSize && isLit && ((lit & 0xff) != 0))
                         {
@@ -1283,15 +1297,15 @@ void genMinus(iCode *ic)
                                 lbl_comm = newiTempLabel(NULL);
                                 lbl_next = newiTempLabel(NULL);
 
-                                mov2w(right, offset);
-                                emitSKPNC;
-                                emitpcode(POC_GOTO, popGetLabel(lbl_next->key));
-                                emitpcode(POC_SUBLW, popGetLit((lit - 1) & 0xff));
-                                emitpcode(POC_GOTO, popGetLabel(lbl_comm->key));
-                                emitpLabel(lbl_next->key);
-                                emitpcode(POC_SUBLW, popGetLit(lit & 0xff));
-                                emitpLabel(lbl_comm->key);
-                                emitpcode(POC_MOVWF, popGet(result, offset));
+                                mc30_mov2w(right, offset);
+                                mc30_emitSKPNC;
+                                mc30_emitpcode(POC_GOTO, mc30_popGetLabel(lbl_next->key));
+                                mc30_emitpcode(POC_SUBLW, mc30_popGetLit((lit - 1) & 0xff));
+                                mc30_emitpcode(POC_GOTO, mc30_popGetLabel(lbl_comm->key));
+                                mc30_emitpLabel(lbl_next->key);
+                                mc30_emitpcode(POC_SUBLW, mc30_popGetLit(lit & 0xff));
+                                mc30_emitpLabel(lbl_comm->key);
+                                mc30_emitpcode(POC_MOVWF, mc30_popGet(result, offset));
                         }
                         else
                         {
@@ -1343,19 +1357,19 @@ void genMinus(iCode *ic)
                                 lbl_comm = newiTempLabel(NULL);
                                 lbl_next = newiTempLabel(NULL);
 
-                                mov2w(right, offset);
-                                emitSKPC;
-                                emitpcode(POC_INCFSZW, popGet(right, offset));
-                                emitpcode(POC_GOTO, popGetLabel(lbl_comm->key));
-                                mov2w(left, offset);
-                                emitpcode(POC_GOTO, popGetLabel(lbl_next->key));
-                                emitpLabel(lbl_comm->key);
-                                emitpcode(op_isLitLike(IC_LEFT(ic))
-                                              ? POC_SUBLW
-                                              : POC_SUBFW,
-                                          popGetAddr(left, offset, 0));
-                                emitpLabel(lbl_next->key);
-                                emitpcode(POC_MOVWF, popGet(result, offset));
+                                mc30_mov2w(right, offset);
+                                mc30_emitSKPC;
+                                mc30_emitpcode(POC_INCFSZW, mc30_popGet(right, offset));
+                                mc30_emitpcode(POC_GOTO, mc30_popGetLabel(lbl_comm->key));
+                                mc30_mov2w(left, offset);
+                                mc30_emitpcode(POC_GOTO, mc30_popGetLabel(lbl_next->key));
+                                mc30_emitpLabel(lbl_comm->key);
+                                mc30_emitpcode(mc30_op_isLitLike(IC_LEFT(ic))
+                                                   ? POC_SUBLW
+                                                   : POC_SUBFW,
+                                               mc30_popGetAddr(left, offset, 0));
+                                mc30_emitpLabel(lbl_next->key);
+                                mc30_emitpcode(POC_MOVWF, mc30_popGet(result, offset));
                         } // if
                 }         // while
         }                 // if
@@ -1363,16 +1377,16 @@ void genMinus(iCode *ic)
         if (AOP_TYPE(IC_RESULT(ic)) == AOP_CRY)
         {
                 fprintf(stderr, "WARNING: AOP_CRY (bit-) results are probably broken. Please report this with source code as a bug.\n");
-                mov2w(result, 0); // load Z flag
-                emitpcode(POC_BCF, popGet(result, 0));
-                emitSKPZ;
-                emitpcode(POC_BSF, popGet(result, 0));
+                mc30_mov2w(result, 0); // load Z flag
+                mc30_emitpcode(POC_BCF, mc30_popGet(result, 0));
+                mc30_emitSKPZ;
+                mc30_emitpcode(POC_BSF, mc30_popGet(result, 0));
         } // if
 
         //    adjustArithmeticResult(ic);
 
 release:
-        freeAsmop(IC_LEFT(ic), NULL, ic, (RESULTONSTACK(ic) ? FALSE : TRUE));
-        freeAsmop(IC_RIGHT(ic), NULL, ic, (RESULTONSTACK(ic) ? FALSE : TRUE));
-        freeAsmop(IC_RESULT(ic), NULL, ic, TRUE);
+        mc30_freeAsmop(IC_LEFT(ic), NULL, ic, (RESULTONSTACK(ic) ? FALSE : TRUE));
+        mc30_freeAsmop(IC_RIGHT(ic), NULL, ic, (RESULTONSTACK(ic) ? FALSE : TRUE));
+        mc30_freeAsmop(IC_RESULT(ic), NULL, ic, TRUE);
 }

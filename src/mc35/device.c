@@ -29,14 +29,16 @@ extern set *userIncDirsSet;
 extern set *libDirsSet;
 extern set *libPathsSet;
 
-#define MAX_PICLIST 200
+// zwr 2.0.0
+#define MAX_PICLIST 400
+// #define MAX_PICLIST 200
 static MC35_device *mc35_Pics[MAX_PICLIST];
 static MC35_device *mc35_pic = NULL;
 static int mc35_num_of_supported_PICS = 0;
 static int mc35_maxRAMaddress = 0;
 
-// #define DEVICE_FILE_NAME_MC35 "mc35devices.txt" // zwr 1.0.0
-#define DEVICE_FILE_NAME_MC35 "35devices.txt" // zwr 1.1.5
+// #define DEVICE_FILE_NAME_MC35 "mc35devices.txt" // zwr 1.1.0
+#define DEVICE_FILE_NAME_MC35 "32devices.txt" // zwr 1.1.5
 #define PIC14_STRING_LEN 256
 #define MC35_SPLIT_WORDS_MAX 16
 
@@ -111,13 +113,15 @@ mc35_sanitise_processor_name(char *name)
 /* create a structure for a pic processor */
 static MC35_device *
 mc35_create_pic(char *pic_name, int maxram, int bankmsk, int confsiz,
-           int config[MAX_NUM_CONFIGS], int program, int data, int eeprom,
-           int io, int is_enhanced)
+                int config[MAX_NUM_CONFIGS], int program, int data, int eeprom,
+                int io, int is_enhanced)
 {
   MC35_device *new_pic;
   char *simple_pic_name = mc35_sanitise_processor_name(pic_name);
 
-  new_pic = Safe_calloc(1, sizeof(MC35_device));
+  // zwr 2.0.0
+  new_pic = Safe_alloc(sizeof(MC35_device));
+  // new_pic = Safe_calloc(1, sizeof(MC35_device));
   new_pic->name = Safe_strdup(simple_pic_name);
 
   new_pic->defMaxRAMaddrs = maxram;
@@ -148,7 +152,6 @@ mc35_register_map(int num_words, char **word)
 
   if (num_words < 3)
   {
-    // zwr 1.0.0
     fprintf(stderr, "WARNING: not enough values in %s regmap directive\n",
             DEVICE_FILE_NAME_MC35);
     return;
@@ -156,7 +159,9 @@ mc35_register_map(int num_words, char **word)
 
   for (pcount = 2; pcount < num_words; pcount++)
   {
-    r = Safe_calloc(1, sizeof(memRange));
+    // zwr 2.0.0
+    r = Safe_alloc(sizeof(memRange));
+    // r = Safe_calloc(1, sizeof(memRange));
 
     r->start_address = mc35_parse_config_value(word[pcount]);
     r->end_address = mc35_parse_config_value(word[pcount]);
@@ -176,13 +181,14 @@ mc35_ram_map(int num_words, char **word)
 
   if (num_words < 4)
   {
-    // zwr 1.0.0
     fprintf(stderr, "WARNING: not enough values in %s memmap directive\n",
             DEVICE_FILE_NAME_MC35);
     return;
   } // if
 
-  r = Safe_calloc(1, sizeof(memRange));
+  // zwr 2.0.0
+  r = Safe_alloc(sizeof(memRange));
+  // r = Safe_calloc(1, sizeof(memRange));
   //fprintf (stderr, "%s: %s %s %s\n", __FUNCTION__, word[1], word[2], word[3]);
 
   r->start_address = mc35_parse_config_value(word[1]);
@@ -202,7 +208,6 @@ mc35_setMaxRAM(int size)
 
   if (mc35_maxRAMaddress < 0)
   {
-    // zwr 1.0.0
     fprintf(stderr, "invalid maxram 0x%x setting in %s\n",
             mc35_maxRAMaddress, DEVICE_FILE_NAME_MC35);
     return;
@@ -254,13 +259,12 @@ mc35_find_device(char *pic_name)
   /* open the piclist file */
   /* first scan all include directories */
   pic_file = NULL;
-  //fprintf (stderr, "%s: searching %s\n", __FUNCTION__, DEVICE_FILE_NAME);
+  //fprintf (stderr, "%s: searching %s\n", __FUNCTION__, DEVICE_FILE_NAME_MC35);
   for (dir = setFirstItem(userIncDirsSet);
        !pic_file && dir;
        dir = setNextItem(userIncDirsSet))
   {
     //fprintf (stderr, "searching1 %s\n", dir);
-    // zwr 1.0.0
     SNPRINTF(&filename[0], len, "%s%s", dir,
              DIR_SEPARATOR_STRING DEVICE_FILE_NAME_MC35);
     pic_file = fopen(filename, "rt");
@@ -273,7 +277,6 @@ mc35_find_device(char *pic_name)
        dir = setNextItem(includeDirsSet))
   {
     //fprintf (stderr, "searching2 %s\n", dir);
-    // zwr 1.0.0
     SNPRINTF(&filename[0], len, "%s%s", dir,
              DIR_SEPARATOR_STRING DEVICE_FILE_NAME_MC35);
     pic_file = fopen(filename, "rt");
@@ -286,7 +289,6 @@ mc35_find_device(char *pic_name)
        dir = setNextItem(libDirsSet))
   {
     //fprintf (stderr, "searching3 %s\n", dir);
-    // zwr 1.0.0
     SNPRINTF(&filename[0], len, "%s%s", dir,
              DIR_SEPARATOR_STRING DEVICE_FILE_NAME_MC35);
     pic_file = fopen(filename, "rt");
@@ -308,7 +310,6 @@ mc35_find_device(char *pic_name)
 
   if (!pic_file)
   {
-    // zwr 1.0.0
     SNPRINTF(&filename[0], len, "%s",
              DATADIR LIB_DIR_SUFFIX
                  DIR_SEPARATOR_STRING "pic" DIR_SEPARATOR_STRING DEVICE_FILE_NAME_MC35);
@@ -317,7 +318,6 @@ mc35_find_device(char *pic_name)
 
   if (pic_file == NULL)
   {
-    // zwr 1.0.0
     fprintf(stderr, "can't find %s\n", DEVICE_FILE_NAME_MC35);
     return NULL;
   } // if
@@ -356,9 +356,9 @@ mc35_find_device(char *pic_name)
             for (dcount = 1; dcount < num_processor_names; dcount++)
             {
               mc35_create_pic(processor_name[dcount], pic_maxram,
-                         pic_bankmsk, pic_confsiz, pic_config,
-                         pic_program, pic_data, pic_eeprom,
-                         pic_io, pic_is_enhanced);
+                              pic_bankmsk, pic_confsiz, pic_config,
+                              pic_program, pic_data, pic_eeprom,
+                              pic_io, pic_is_enhanced);
             } // for
           }   // if
 
@@ -442,7 +442,6 @@ mc35_find_device(char *pic_name)
 
           else
           {
-            // zwr 1.0.0
             fprintf(stderr, "WARNING: %s: bad syntax `%s'\n",
                     DEVICE_FILE_NAME_MC35, pic_word[0]);
           } // if
@@ -467,8 +466,8 @@ mc35_find_device(char *pic_name)
       for (dcount = 1; dcount < num_processor_names; dcount++)
       {
         mc35_create_pic(processor_name[dcount], pic_maxram, pic_bankmsk,
-                   pic_confsiz, pic_config, pic_program, pic_data,
-                   pic_eeprom, pic_io, pic_is_enhanced);
+                        pic_confsiz, pic_config, pic_program, pic_data,
+                        pic_eeprom, pic_io, pic_is_enhanced);
       } // for
     }   // if
   }     // if
@@ -482,8 +481,8 @@ mc35_find_device(char *pic_name)
 
       /* create a new pic entry */
       return mc35_create_pic(pic_name, pic_maxram, pic_bankmsk,
-                        pic_confsiz, pic_config, pic_program,
-                        pic_data, pic_eeprom, pic_io, pic_is_enhanced);
+                             pic_confsiz, pic_config, pic_program,
+                             pic_data, pic_eeprom, pic_io, pic_is_enhanced);
     } // if
   }   // if
 
@@ -525,7 +524,7 @@ mc35_list_valid_pics(int ncols)
 
 #if 1
   /* heading */
-  fprintf(stderr, "\nMC35 processors and their characteristics:\n\n"); // zwr 1.0.0
+  fprintf(stderr, "\nMC35 processors and their characteristics:\n\n"); // zwr 1.10.0
   fprintf(stderr, " processor");
   for (k = 0; k < longest - 1; k++)
     fputc(' ', stderr);
@@ -551,7 +550,7 @@ mc35_list_valid_pics(int ncols)
 
   col = 0;
 
-  fprintf(stderr, "\nMC35 processors supported:\n"); // zwr 1.0.0
+  fprintf(stderr, "\nMC35 processors supported:\n"); // zwr 1.1.0
   for (i = 0; i < mc35_num_of_supported_PICS; i++)
   {
 
@@ -588,7 +587,9 @@ mc35_init_pic(char *pic_type)
   if (mc35_pic == NULL)
   {
     /* check for shortened "16xxx" form */
-    sprintf(long_name, "16%s", pic_type);
+    // zwr 2.0.0
+    SNPRINTF(long_name, sizeof(long_name), "16%s", pic_type);
+    // sprintf(long_name, "16%s", pic_type);
     mc35_pic = mc35_find_device(long_name);
     if (mc35_pic == NULL)
     {
@@ -623,7 +624,7 @@ int mc35_picIsInitialized(void)
 }
 
 /*-----------------------------------------------------------------*
-*  char *processor_base_name(void) - Include file is derived from this.
+*  char *mc35_processor_base_name(void) - Include file is derived from this.
 *-----------------------------------------------------------------*/
 char *mc35_processor_base_name(void)
 {

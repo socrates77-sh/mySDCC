@@ -1304,10 +1304,10 @@ void SaveGloabInfo(memmap *map, symbol *func, QValList *desvals)
 {
   symbol *sym;
   symbol *tempsym;
-  symbol *ev;
-  int testSize = 0;
+  // symbol *ev;
+  // int testSize = 0;
   if (!map || !map->syms)
-    return 0;
+    return;
 
   for (sym = setFirstItem(map->syms); sym;
        sym = setNextItem(map->syms))
@@ -1350,9 +1350,9 @@ void Saveinfo(memmap *map, symbol *func, QValList *desvals)
 {
   symbol *sym;
   symbol *tempsym;
-  symbol *ev;
+  // symbol *ev;
   if (!map || !map->syms)
-    return 0;
+    return;
 
   for (sym = setFirstItem(map->syms); sym;
        sym = setNextItem(map->syms))
@@ -1533,6 +1533,6 @@ void printValsInfo(QValList *desvals, struct dbuf_s *oBuf)
     dbuf_append_str(oBuf, ";@end Allocation info for local variables in function '");
     dbuf_append_str(oBuf, tempval->funname);
     dbuf_append_str(oBuf, "';\n");
-    tempval = tempval->next;
+    tempval = (QValList *)(tempval->next);
   }
 }

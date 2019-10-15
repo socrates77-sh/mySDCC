@@ -36,9 +36,9 @@
         do                                                                                 \
         {                                                                                  \
                 /*fprintf (stderr, "%s:%u:%s: *{*\n", __FILE__, __LINE__, __FUNCTION__);*/ \
-                if (options.debug || debug_verbose)                                        \
+                if (options.debug || mc30_debug_verbose)                                        \
                 {                                                                          \
-                        emitpComment("; %s:%u:%s *{*", __FILE__, __LINE__, __FUNCTION__);  \
+                        mc30_emitpComment("; %s:%u:%s *{*", __FILE__, __LINE__, __FUNCTION__);  \
                 }                                                                          \
         } while (0)
 #define FEXIT                                                                              \
@@ -47,7 +47,7 @@
                 /*fprintf (stderr, "%s:%u:%s: *}*\n", __FILE__, __LINE__, __FUNCTION__);*/ \
                 if (options.debug || debug.verbose)                                        \
                 {                                                                          \
-                        emitpComment("; %s:%u:%s *}*", __FILE__, __LINE__, __FUNCTION__);  \
+                        mc30_emitpComment("; %s:%u:%s *}*", __FILE__, __LINE__, __FUNCTION__);  \
                 }                                                                          \
         } while (0)
 
@@ -97,7 +97,7 @@ typedef struct asmop
         } aopu;
 } asmop;
 
-extern unsigned fReturnSizePic;
+extern unsigned mc30_fReturnSizePic;
 
 #define AOP(op) op->aop
 #define AOP_TYPE(op) AOP(op)->type
@@ -111,8 +111,8 @@ extern unsigned fReturnSizePic;
 
 #define MOVA(x)                                 \
         if (strcmp(x, "a") && strcmp(x, "acc")) \
-                pic14_emitcode(";XXX mov", "a,%s  %s,%d", x, __FILE__, __LINE__);
-#define CLRC pic14_emitcode(";XXX clr", "c %s,%d", __FILE__, __LINE__);
+                mc30_pic14_emitcode(";XXX mov", "a,%s  %s,%d", x, __FILE__, __LINE__);
+#define CLRC mc30_pic14_emitcode(";XXX clr", "c %s,%d", __FILE__, __LINE__);
 
 #define LSB 0
 #define MSB16 1
@@ -123,62 +123,70 @@ extern unsigned fReturnSizePic;
 /* Macros for emitting skip instructions                           */
 /*-----------------------------------------------------------------*/
 
-#define emitSKPC emitpcode(POC_BTFSS, popCopyGPR2Bit(PCOP(&pc_status), PIC_C_BIT))
-#define emitSKPNC emitpcode(POC_BTFSC, popCopyGPR2Bit(PCOP(&pc_status), PIC_C_BIT))
-#define emitSKPZ emitpcode(POC_BTFSS, popCopyGPR2Bit(PCOP(&pc_status), PIC_Z_BIT))
-#define emitSKPNZ emitpcode(POC_BTFSC, popCopyGPR2Bit(PCOP(&pc_status), PIC_Z_BIT))
-#define emitSKPDC emitpcode(POC_BTFSS, popCopyGPR2Bit(PCOP(&pc_status), PIC_DC_BIT))
-#define emitSKPNDC emitpcode(POC_BTFSC, popCopyGPR2Bit(PCOP(&pc_status), PIC_DC_BIT))
-#define emitCLRZ emitpcode(POC_BCF, popCopyGPR2Bit(PCOP(&pc_status), PIC_Z_BIT))
-#define emitCLRC emitpcode(POC_BCF, popCopyGPR2Bit(PCOP(&pc_status), PIC_C_BIT))
-#define emitCLRDC emitpcode(POC_BCF, popCopyGPR2Bit(PCOP(&pc_status), PIC_DC_BIT))
-#define emitCLRIRP emitpcode(POC_BCF, popCopyGPR2Bit(PCOP(&pc_status), PIC_IRP_BIT))
-#define emitSETZ emitpcode(POC_BSF, popCopyGPR2Bit(PCOP(&pc_status), PIC_Z_BIT))
-#define emitSETC emitpcode(POC_BSF, popCopyGPR2Bit(PCOP(&pc_status), PIC_C_BIT))
-#define emitSETDC emitpcode(POC_BSF, popCopyGPR2Bit(PCOP(&pc_status), PIC_DC_BIT))
-#define emitSETIRP emitpcode(POC_BSF, popCopyGPR2Bit(PCOP(&pc_status), PIC_IRP_BIT))
+#define mc30_emitSKPC mc30_emitpcode(POC_BTFSS, mc30_popCopyGPR2Bit(PCOP(&mc30_pc_status), PIC_C_BIT))
+#define mc30_emitSKPNC mc30_emitpcode(POC_BTFSC, mc30_popCopyGPR2Bit(PCOP(&mc30_pc_status), PIC_C_BIT))
+#define mc30_emitSKPZ mc30_emitpcode(POC_BTFSS, mc30_popCopyGPR2Bit(PCOP(&mc30_pc_status), PIC_Z_BIT))
+#define mc30_emitSKPNZ mc30_emitpcode(POC_BTFSC, mc30_popCopyGPR2Bit(PCOP(&mc30_pc_status), PIC_Z_BIT))
+#define mc30_emitSKPDC mc30_emitpcode(POC_BTFSS, mc30_popCopyGPR2Bit(PCOP(&mc30_pc_status), PIC_DC_BIT))
+#define mc30_emitSKPNDC mc30_emitpcode(POC_BTFSC, mc30_popCopyGPR2Bit(PCOP(&mc30_pc_status), PIC_DC_BIT))
+#define mc30_emitCLRZ mc30_emitpcode(POC_BCF, mc30_popCopyGPR2Bit(PCOP(&mc30_pc_status), PIC_Z_BIT))
+#define mc30_emitCLRC mc30_emitpcode(POC_BCF, mc30_popCopyGPR2Bit(PCOP(&mc30_pc_status), PIC_C_BIT))
+#define mc30_emitCLRDC mc30_emitpcode(POC_BCF, mc30_popCopyGPR2Bit(PCOP(&mc30_pc_status), PIC_DC_BIT))
+#define mc30_emitCLRIRP mc30_emitpcode(POC_BCF, mc30_popCopyGPR2Bit(PCOP(&mc30_pc_status), PIC_IRP_BIT))
+#define mc30_emitSETZ mc30_emitpcode(POC_BSF, mc30_popCopyGPR2Bit(PCOP(&mc30_pc_status), PIC_Z_BIT))
+#define mc30_emitSETC mc30_emitpcode(POC_BSF, mc30_popCopyGPR2Bit(PCOP(&mc30_pc_status), PIC_C_BIT))
+#define mc30_emitSETDC mc30_emitpcode(POC_BSF, mc30_popCopyGPR2Bit(PCOP(&mc30_pc_status), PIC_DC_BIT))
+#define mc30_emitSETIRP mc30_emitpcode(POC_BSF, mc30_popCopyGPR2Bit(PCOP(&mc30_pc_status), PIC_IRP_BIT))
 
-int pic14_getDataSize(operand *op);
-void emitpcode_real(PIC_OPCODE poc, pCodeOp *pcop);
-#define emitpcode(poc, pcop)                                                             \
+void mc30_emitpcodeNULLop(PIC_OPCODE poc);
+int mc30_getDataSize(operand *op);
+void mc30_emitpcode_real(PIC_OPCODE poc, pCodeOp *pcop);
+#define mc30_emitpcode(poc, pcop)                                                             \
         do                                                                               \
         {                                                                                \
-                if (options.debug || debug_verbose)                                      \
+                if (options.debug || mc30_debug_verbose)                                      \
                 {                                                                        \
-                        emitpComment(" >>> %s:%d:%s", __FILE__, __LINE__, __FUNCTION__); \
+                        mc30_emitpComment(" >>> %s:%d:%s", __FILE__, __LINE__, __FUNCTION__); \
                 }                                                                        \
-                emitpcode_real(poc, pcop);                                               \
+                mc30_emitpcode_real(poc, pcop);                                               \
         } while (0)
-void emitpComment(const char *fmt, ...);
-void emitpLabel(int key);
-void pic14_emitcode(char *inst, char *fmt, ...);
-void DEBUGpic14_emitcode(char *inst, char *fmt, ...);
-void pic14_emitDebuggerSymbol(const char *);
-bool pic14_sameRegs(asmop *aop1, asmop *aop2);
-char *aopGet(asmop *aop, int offset, bool bit16, bool dname);
-void DEBUGpic14_AopType(int line_no, operand *left, operand *right, operand *result);
-void genpic14Code(iCode *lic);
+void mc30_emitpComment(const char *fmt, ...);
+void mc30_emitpLabel(int key);
+// zwr 2.0.0
+void mc30_pic14_emitcode(const char *inst, const char *fmt, ...);
+void DEBUGmc30_pic14_emitcode(const char *inst, const char *fmt, ...);
+// void mc30_pic14_emitcode(char *inst, char *fmt, ...);
+// void DEBUGmc30_pic14_emitcode(char *inst, char *fmt, ...);
+void mc30_emitDebuggerSymbol(const char *);
+bool mc30_sameRegs(asmop *aop1, asmop *aop2);
+char *mc30_aopGet(asmop *aop, int offset, bool bit16, bool dname);
+void DEBUGmc30_pic14_AopType(int line_no, operand *left, operand *right, operand *result);
+void mc30_genpic14Code(iCode *lic);
 
-pCodeOp *popGet(asmop *aop, int offset); //, bool bit16, bool dname);
-pCodeOp *popGetAddr(asmop *aop, int offset, int index);
-pCodeOp *popGetExternal(char *str, int isReg);
-pCodeOp *popGetLabel(unsigned int key);
-pCodeOp *popGetLit(unsigned int lit);
+pCodeOp *mc30_popGet(asmop *aop, int offset); //, bool bit16, bool dname);
+pCodeOp *mc30_popGetAddr(asmop *aop, int offset, int index);
+// zwr 2.0.0
+pCodeOp *mc30_popGetExternal(const char *str, int isReg);
+// pCodeOp *mc30_popGetExternal(char *str, int isReg);
+pCodeOp *mc30_popGetLabel(unsigned int key);
+pCodeOp *mc30_popGetLit(unsigned int lit);
 
-void aopPut(asmop *aop, char *s, int offset);
-void pic14_outAcc(operand *result);
-void aopOp(operand *op, iCode *ic, bool result);
-void freeAsmop(operand *op, asmop *aaop, iCode *ic, bool pop);
-void mov2w(asmop *aop, int offset);
-int op_isLitLike(operand *op);
+// zwr 2.0.0
+void mc30_aopPut(asmop *aop, const char *s, int offset);
+// void mc30_aopPut(asmop *aop, char *s, int offset);
+void mc30_outAcc(operand *result);
+void mc30_aopOp(operand *op, iCode *ic, bool result);
+void mc30_freeAsmop(operand *op, asmop *aaop, iCode *ic, bool pop);
+void mc30_mov2w(asmop *aop, int offset);
+int mc30_op_isLitLike(operand *op);
 
 /*
  * From genarith.c:
  */
-const char *AopType(short type);
-const char *pCodeOpType(pCodeOp *pcop);
-void genPlus(iCode *ic);
-void addSign(operand *result, int offset, int sign);
-void genMinus(iCode *ic);
+const char *mc30_AopType(short type);
+const char *mc30_pCodeOpType(pCodeOp *pcop);
+void mc30_genPlus(iCode *ic);
+void mc30_addSign(operand *result, int offset, int sign);
+void mc30_genMinus(iCode *ic);
 
 #endif

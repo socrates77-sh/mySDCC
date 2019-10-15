@@ -32,13 +32,13 @@ pcoderegs.c
 #include "pcodeflow.h"
 #include "ralloc.h"
 
-static int total_registers_saved = 0;
-static int register_optimization = 1;
+static int mc30_total_registers_saved = 0;
+static int mc30_register_optimization = 1;
 
 /*-----------------------------------------------------------------*
-* void pCodeRegMapLiveRangesInFlow(pCodeFlow *pcfl)
+* void mc30_pCodeRegMapLiveRangesInFlow(pCodeFlow *pcfl)
 *-----------------------------------------------------------------*/
-static void pCodeRegMapLiveRangesInFlow(pCodeFlow *pcfl)
+static void mc30_pCodeRegMapLiveRangesInFlow(pCodeFlow *pcfl)
 {
 
 	pCode *pc = NULL;
@@ -48,7 +48,7 @@ static void pCodeRegMapLiveRangesInFlow(pCodeFlow *pcfl)
 	if (!pcfl)
 		return;
 
-	pc = findNextInstruction(pcfl->pc.next);
+	pc = mc30_findNextInstruction(pcfl->pc.next);
 
 	while (pc && !isPCFL(pc))
 	{
@@ -60,7 +60,7 @@ static void pCodeRegMapLiveRangesInFlow(pCodeFlow *pcfl)
 			continue;
 		assert(isPCI(pc));
 
-		reg = getRegFromInstruction(pc);
+		reg = mc30_getRegFromInstruction(pc);
 #if 0
 		pc->print(stderr, pc);
 		fprintf( stderr, "--> reg %p (%s,%u), inCond/outCond: %x/%x\n",
@@ -84,38 +84,38 @@ static void pCodeRegMapLiveRangesInFlow(pCodeFlow *pcfl)
 				addSetIfnotP(&(reg->reglives.assignedpFlows), pcfl);
 
 			addSetIfnotP(&(reg->reglives.usedpCodes), pc);
-			reg->wasUsed = 1;
+			reg->wasUsed = TRUE;
 		}
 
-		//pc = findNextInstruction(pc->next);
+		//pc = mc30_findNextInstruction(pc->next);
 		pc = pc->next;
 	}
 }
 
 /*-----------------------------------------------------------------*
-* void pCodeRegMapLiveRanges(pBlock *pb) 
+* void mc30_pCodeRegMapLiveRanges(pBlock *pb) 
 *-----------------------------------------------------------------*/
-void pCodeRegMapLiveRanges(pBlock *pb)
+void mc30_pCodeRegMapLiveRanges(pBlock *pb)
 {
 	pCode *pcflow;
 
-	for (pcflow = findNextpCode(pb->pcHead, PC_FLOW);
+	for (pcflow = mc30_findNextpCode(pb->pcHead, PC_FLOW);
 		 pcflow != NULL;
-		 pcflow = findNextpCode(pcflow->next, PC_FLOW))
+		 pcflow = mc30_findNextpCode(pcflow->next, PC_FLOW))
 	{
 
 		if (!isPCFL(pcflow))
 		{
-			fprintf(stderr, "pCodeRegMapLiveRanges - pcflow is not a flow object ");
+			fprintf(stderr, "mc30_pCodeRegMapLiveRanges - pcflow is not a flow object ");
 			continue;
 		}
-		pCodeRegMapLiveRangesInFlow(PCFL(pcflow));
+		mc30_pCodeRegMapLiveRangesInFlow(PCFL(pcflow));
 	}
 
 #if 0
-	for( pcflow = findNextpCode(pb->pcHead, PC_FLOW); 
+	for( pcflow = mc30_findNextpCode(pb->pcHead, PC_FLOW); 
 	pcflow != NULL;
-	pcflow = findNextpCode(pcflow->next, PC_FLOW) ) {
+	pcflow = mc30_findNextpCode(pcflow->next, PC_FLOW) ) {
 		
 		regs *r = setFirstItem(PCFL(pcflow)->registers);
 		fprintf(stderr,"flow seq %d\n", pcflow->seq);
@@ -133,7 +133,7 @@ void pCodeRegMapLiveRanges(pBlock *pb)
 /*-----------------------------------------------------------------*
 *
 *-----------------------------------------------------------------*/
-static void Remove1pcode(pCode *pc, reg_info *reg, int debug_code)
+static void mc30_Remove1pcode(pCode *pc, reg_info *reg, int debug_code)
 {
 
 	pCode *pcn = NULL;
@@ -145,16 +145,16 @@ static void Remove1pcode(pCode *pc, reg_info *reg, int debug_code)
 
 	if (PCI(pc)->label)
 	{
-		pcn = findNextInstruction(pc->next);
+		pcn = mc30_findNextInstruction(pc->next);
 
 		if (pcn)
-			PCI(pcn)->label = pBranchAppend(PCI(pcn)->label, PCI(pc)->label);
+			PCI(pcn)->label = mc30_pBranchAppend(PCI(pcn)->label, PCI(pc)->label);
 	}
 
 	if (PCI(pc)->cline)
 	{
 		if (!pcn)
-			pcn = findNextInstruction(pc->next);
+			pcn = mc30_findNextInstruction(pc->next);
 
 		if (pcn)
 		{
@@ -185,8 +185,8 @@ static void Remove1pcode(pCode *pc, reg_info *reg, int debug_code)
 		SNPRINTF(pbuff, size, ";%d", debug_code);
 		size -= strlen(pbuff);
 		pbuff += strlen(pbuff);
-		pCode2str(pbuff, size, pc);
-		pCodeInsertBefore(pc, newpCodeCharP(buff1));
+		mc30_pCode2str(pbuff, size, pc);
+		mc30_pCodeInsertBefore(pc, mc30_newpCodeCharP(buff1));
 		//fprintf(stderr,"removing instruction:\n%s\n",buff1);
 	}
 
@@ -194,10 +194,10 @@ static void Remove1pcode(pCode *pc, reg_info *reg, int debug_code)
 }
 
 /*-----------------------------------------------------------------*
-* void RemoveRegsFromSet(set *regset)
+* void mc30_RemoveRegsFromSet(set *regset)
 *
 *-----------------------------------------------------------------*/
-static void RemoveRegsFromSet(set *regset)
+static void mc30_RemoveRegsFromSet(set *regset)
 {
 	reg_info *reg;
 	int used;
@@ -216,8 +216,8 @@ static void RemoveRegsFromSet(set *regset)
 			if (used == 0)
 			{
 				//fprintf(stderr," getting rid of reg %s\n",reg->name);
-				reg->isFree = 1;
-				reg->wasUsed = 0;
+				reg->isFree = TRUE;
+				reg->wasUsed = FALSE;
 			}
 			else
 			{
@@ -235,7 +235,7 @@ static void RemoveRegsFromSet(set *regset)
 				{
 					if (PCI(pc)->label)
 					{
-						pCode *pcn = findNextInstruction(pc->next);
+						pCode *pcn = mc30_findNextInstruction(pc->next);
 
 						if (pcn && PCI(pcn)->label)
 						{
@@ -250,135 +250,135 @@ static void RemoveRegsFromSet(set *regset)
 
 					if (isPCI_SKIP(pc))
 					{
-						reg_info *r = getRegFromInstruction(pc);
+						reg_info *r = mc30_getRegFromInstruction(pc);
 						fprintf(stderr, "WARNING, a skip instruction is being optimized out\n");
 						pc->print(stderr, pc);
 						fprintf(stderr, "reg %s, type =%d\n", r->name, r->type);
 					}
 					//fprintf(stderr," removing reg %s because it is used only once\n",reg->name);
-					Remove1pcode(pc, reg, 1);
+					mc30_Remove1pcode(pc, reg, 1);
 					/*
-					unlinkpCode(pc);
+					mc30_unlinkpCode(pc);
 					deleteSetItem (&(reg->reglives.usedpCodes),pc);
 					*/
-					reg->isFree = 1;
-					reg->wasUsed = 0;
-					total_registers_saved++; // debugging stats.
+					reg->isFree = TRUE;
+					reg->wasUsed = FALSE;
+					mc30_total_registers_saved++; // debugging stats.
 				}
 			}
 		}
 	}
 }
 
-static void pic14_ReMapLiveRanges(void)
+static void mc30_ReMapLiveRanges(void)
 {
 	pBlock *pb;
-	if (!the_pFile)
+	if (!mc30_the_pFile)
 		return;
-	RegsUnMapLiveRanges();
-	for (pb = the_pFile->pbHead; pb; pb = pb->next)
+	mc30_RegsUnMapLiveRanges();
+	for (pb = mc30_the_pFile->pbHead; pb; pb = pb->next)
 	{
 #if 0
-		pCode *pc = findNextpCode(pb->pcHead, PC_FLOW);
+		pCode *pc = mc30_findNextpCode(pb->pcHead, PC_FLOW);
 		if (pc) {
 			pc->print( stderr, pc );
 		} else {
 			fprintf( stderr, "unnamed pBlock\n");
 		}
-		pc = findNextInstruction(pb->pcHead);
+		pc = mc30_findNextInstruction(pb->pcHead);
 		while (pc) {
 		  pc->print( stderr, pc );
-		  pc = findNextInstruction(pc->next);;
+		  pc = mc30_findNextInstruction(pc->next);;
 		}
 #endif
-		pCodeRegMapLiveRanges(pb);
+		mc30_pCodeRegMapLiveRanges(pb);
 	} // for
 }
 
 /*-----------------------------------------------------------------*
-* void RemoveUnusedRegisters(void)
+* void mc30_RemoveUnusedRegisters(void)
 *
 *-----------------------------------------------------------------*/
-void RemoveUnusedRegisters(void)
+void mc30_RemoveUnusedRegisters(void)
 {
 	/* First, get rid of registers that are used only one time */
-	pic14_ReMapLiveRanges();
+	mc30_ReMapLiveRanges();
 
-	//RemoveRegsFromSet(dynInternalRegs);
-	RemoveRegsFromSet(dynAllocRegs);
-	RemoveRegsFromSet(dynStackRegs);
+	//mc30_RemoveRegsFromSet(mc30_dynInternalRegs);
+	mc30_RemoveRegsFromSet(mc30_dynAllocRegs);
+	mc30_RemoveRegsFromSet(mc30_dynStackRegs);
 	/*
 	don't do DirectRegs yet - there's a problem with arrays
-	RemoveRegsFromSet(dynDirectRegs);
+	mc30_RemoveRegsFromSet(mc30_dynDirectRegs);
 	*/
-	RemoveRegsFromSet(dynDirectBitRegs);
+	mc30_RemoveRegsFromSet(mc30_dynDirectBitRegs);
 
-	if (total_registers_saved)
-		DFPRINTF((stderr, " *** Saved %d registers ***\n", total_registers_saved));
+	if (mc30_total_registers_saved)
+		DFPRINTF((stderr, " *** Saved %d registers ***\n", mc30_total_registers_saved));
 }
 
 /*-----------------------------------------------------------------*
 *
 *-----------------------------------------------------------------*/
-static void Remove2pcodes(pCode *pcflow, pCode *pc1, pCode *pc2, reg_info *reg, int can_free)
+static void mc30_Remove2pcodes(pCode *pcflow, pCode *pc1, pCode *pc2, reg_info *reg, int can_free)
 {
 	static int debug_code = 99;
 	if (!reg)
 		return;
 #if 0
 	fprintf (stderr, "%s:%d(%s): %d (reg:%s)\n", __FILE__, __LINE__, __FUNCTION__, debug_code, reg ? reg->name : "???");
-	printpCode (stderr, pc1);
-	printpCode (stderr, pc2);
+	mc30_printpCode (stderr, pc1);
+	mc30_printpCode (stderr, pc2);
 #endif
 
 	//fprintf(stderr,"%s\n",__FUNCTION__);
 	if (pc1)
-		Remove1pcode(pc1, reg, debug_code++);
+		mc30_Remove1pcode(pc1, reg, debug_code++);
 
 	if (pc2)
 	{
-		Remove1pcode(pc2, reg, debug_code++);
+		mc30_Remove1pcode(pc2, reg, debug_code++);
 		deleteSetItem(&(PCFL(pcflow)->registers), reg);
 
 		if (can_free)
 		{
-			reg->isFree = 1;
-			reg->wasUsed = 0;
+			reg->isFree = TRUE;
+			reg->wasUsed = FALSE;
 		}
 	}
 
-	pCodeRegMapLiveRangesInFlow(PCFL(pcflow));
+	mc30_pCodeRegMapLiveRangesInFlow(PCFL(pcflow));
 }
 
 /*-----------------------------------------------------------------*
 *
 *-----------------------------------------------------------------*/
-static int regUsedinRange(pCode *pc1, pCode *pc2, reg_info *reg)
+static int mc30_regUsedinRange(pCode *pc1, pCode *pc2, reg_info *reg)
 {
 	int i = 0;
 	reg_info *testreg;
 
 	do
 	{
-		testreg = getRegFromInstruction(pc1);
+		testreg = mc30_getRegFromInstruction(pc1);
 		if (testreg && (testreg->rIdx == reg->rIdx))
 		{
 			return 1;
 		}
 		if (i++ > 1000)
 		{
-			fprintf(stderr, "warning, regUsedinRange searched through too many pcodes\n");
+			fprintf(stderr, "warning, mc30_regUsedinRange searched through too many pcodes\n");
 			return 0;
 		}
 
-		pc1 = findNextInstruction(pc1->next);
+		pc1 = mc30_findNextInstruction(pc1->next);
 
 	} while (pc1 && (pc1 != pc2));
 
 	return 0;
 }
 
-static int regIsSpecial(reg_info *reg, int mayBeGlobal)
+static int mc30_regIsSpecial(reg_info *reg, int mayBeGlobal)
 {
 	if (!reg)
 		return 0;
@@ -390,7 +390,7 @@ static int regIsSpecial(reg_info *reg, int mayBeGlobal)
 }
 
 /*-----------------------------------------------------------------*
-* void pCodeOptime2pCodes(pCode *pc1, pCode *pc2) 
+* void mc30_pCodeOptime2pCodes(pCode *pc1, pCode *pc2) 
 *
 * ADHOC pattern checking 
 * Now look for specific sequences that are easy to optimize.
@@ -400,12 +400,12 @@ static int regIsSpecial(reg_info *reg, int mayBeGlobal)
 * 
 *
 *-----------------------------------------------------------------*/
-static int pCodeOptime2pCodes(pCode *pc1, pCode *pc2, pCode *pcfl_used, reg_info *reg, int can_free, int optimize_level)
+static int mc30_pCodeOptime2pCodes(pCode *pc1, pCode *pc2, pCode *pcfl_used, reg_info *reg, int can_free, int optimize_level)
 {
 	pCode *pct1, *pct2;
 	reg_info *reg1, *reg2;
 
-	int t = total_registers_saved;
+	int t = mc30_total_registers_saved;
 
 	if (!isPCI(pc1) || !isPCI(pc2))
 		return 0;
@@ -420,10 +420,10 @@ static int pCodeOptime2pCodes(pCode *pc1, pCode *pc2, pCode *pcfl_used, reg_info
 	}
 
 	/* disable this optimization for now -- it's buggy */
-	if (pic14_options.disable_df)
+	if (mc30_options.disable_df)
 		return 0;
 
-	//fprintf(stderr,"pCodeOptime2pCodes\n");
+	//fprintf(stderr,"mc30_pCodeOptime2pCodes\n");
 	//pc1->print(stderr,pc1);
 	//pc2->print(stderr,pc2);
 
@@ -447,45 +447,45 @@ static int pCodeOptime2pCodes(pCode *pc1, pCode *pc2, pCode *pcfl_used, reg_info
 			movlw 0 or clrf  reg
 		*/
 		DFPRINTF((stderr, "   optimising CLRF reg ... MOVF reg,W to ... MOVLW 0\n"));
-		pct2 = findNextInstruction(pc2->next);
-		if (pCodeSearchCondition(pct2, PCC_Z, 0) == -1)
+		pct2 = mc30_findNextInstruction(pc2->next);
+		if (mc30_pCodeSearchCondition(pct2, PCC_Z, 0) == -1)
 		{
 			/* Z is definitely overwritten before use */
-			newpc = newpCode(POC_MOVLW, newpCodeOpLit(0));
+			newpc = mc30_newpCode(POC_MOVLW, mc30_newpCodeOpLit(0));
 
-			pCodeInsertAfter(pc2, newpc);
+			mc30_pCodeInsertAfter(pc2, newpc);
 			PCI(newpc)->pcflow = PCFL(pcfl_used);
 			newpc->seq = pc2->seq;
 
-			//fprintf (stderr, "%s:%d(%s): Remove2pcodes (CLRF reg, ..., MOVF reg,W)\n", __FILE__, __LINE__, __FUNCTION__);
-			//Remove2pcodes(pcfl_used, pc2, NULL, reg, 0);
+			//fprintf (stderr, "%s:%d(%s): mc30_Remove2pcodes (CLRF reg, ..., MOVF reg,W)\n", __FILE__, __LINE__, __FUNCTION__);
+			//mc30_Remove2pcodes(pcfl_used, pc2, NULL, reg, 0);
 			pc2->destruct(pc2);
-			//total_registers_saved++;  // debugging stats.
+			//mc30_total_registers_saved++;  // debugging stats.
 		}
 	}
 	else if ((PCI(pc1)->op == POC_CLRF) && (PCI(pc2)->op == POC_IORFW))
 	{
 		DFPRINTF((stderr, "   optimising CLRF/IORFW\n"));
 
-		pct2 = findNextInstruction(pc2->next);
+		pct2 = mc30_findNextInstruction(pc2->next);
 
 		/* We must ensure that Z is destroyed before being read---IORLW must be performed unless this is proven. */
-		if (pCodeSearchCondition(pct2, PCC_Z, 0) != -1)
+		if (mc30_pCodeSearchCondition(pct2, PCC_Z, 0) != -1)
 		{
-			pct2 = newpCode(POC_IORLW, newpCodeOpLit(0));
+			pct2 = mc30_newpCode(POC_IORLW, mc30_newpCodeOpLit(0));
 			pct2->seq = pc2->seq;
 			PCI(pct2)->pcflow = PCFL(pcfl_used);
-			pCodeInsertAfter(pc1, pct2);
+			mc30_pCodeInsertAfter(pc1, pct2);
 		}
-		//fprintf (stderr, "%s:%d(%s): Remove2pcodes (CLRF/IORFW)\n", __FILE__, __LINE__, __FUNCTION__);
-		Remove2pcodes(pcfl_used, pc1, pc2, reg, can_free);
-		total_registers_saved++; // debugging stats.
+		//fprintf (stderr, "%s:%d(%s): mc30_Remove2pcodes (CLRF/IORFW)\n", __FILE__, __LINE__, __FUNCTION__);
+		mc30_Remove2pcodes(pcfl_used, pc1, pc2, reg, can_free);
+		mc30_total_registers_saved++; // debugging stats.
 	}
 	else if (PCI(pc1)->op == POC_MOVWF)
 	{
 		// Optimising MOVWF reg ...
 
-		pct2 = findNextInstruction(pc2->next);
+		pct2 = mc30_findNextInstruction(pc2->next);
 
 		if (PCI(pc2)->op == POC_MOVFW)
 		{
@@ -507,38 +507,38 @@ static int pCodeOptime2pCodes(pCode *pc1, pCode *pc2, pCode *pcfl_used, reg_info
 				  stuff...
 				  
 				*/
-				reg2 = getRegFromInstruction(pct2);
+				reg2 = mc30_getRegFromInstruction(pct2);
 				/* Check reg2 is not used for something else before it is loaded with reg */
-				if (reg2 && !regIsSpecial(reg2, 1) && !regUsedinRange(pc1, pc2, reg2))
+				if (reg2 && !mc30_regIsSpecial(reg2, 1) && !mc30_regUsedinRange(pc1, pc2, reg2))
 				{
-					pCode *pct3 = findNextInstruction(pct2->next);
+					pCode *pct3 = mc30_findNextInstruction(pct2->next);
 					/* Check following instructions are not relying on the use of W or the Z flag condiction */
 					/* XXX: We must ensure that this value is destroyed before use---otherwise it might be used in
 					 *      subsequent flows (checking for < 1 is insufficient). */
-					if ((pCodeSearchCondition(pct3, PCC_Z, 0) == -1) && (pCodeSearchCondition(pct3, PCC_W, 0) == -1))
+					if ((mc30_pCodeSearchCondition(pct3, PCC_Z, 0) == -1) && (mc30_pCodeSearchCondition(pct3, PCC_W, 0) == -1))
 					{
 						DFPRINTF((stderr, "   optimising MOVF reg ... MOVF reg,W MOVWF reg2 to MOVWF reg2 ...\n"));
 						pct2->seq = pc1->seq;
-						unlinkpCode(pct2);
-						pCodeInsertBefore(pc1, pct2);
-						if (regUsedinRange(pct2, 0, reg))
+						mc30_unlinkpCode(pct2);
+						mc30_pCodeInsertBefore(pc1, pct2);
+						if (mc30_regUsedinRange(pct2, 0, reg))
 						{
-							//fprintf (stderr, "%s:%d(%s): Remove2pcodes IF (MOVWF reg, ..., MOVW reg,W  MOVWF reg2)\n", __FILE__, __LINE__, __FUNCTION__);
-							Remove2pcodes(pcfl_used, pc2, NULL, reg, can_free);
+							//fprintf (stderr, "%s:%d(%s): mc30_Remove2pcodes IF (MOVWF reg, ..., MOVW reg,W  MOVWF reg2)\n", __FILE__, __LINE__, __FUNCTION__);
+							mc30_Remove2pcodes(pcfl_used, pc2, NULL, reg, can_free);
 						}
 						else
 						{
-							//fprintf (stderr, "%s:%d(%s): Remove2pcodes ELSE (MOVWF reg, ..., MOVW reg,W  MOVWF reg2)\n", __FILE__, __LINE__, __FUNCTION__);
-							Remove2pcodes(pcfl_used, pc1, pc2, reg, can_free);
+							//fprintf (stderr, "%s:%d(%s): mc30_Remove2pcodes ELSE (MOVWF reg, ..., MOVW reg,W  MOVWF reg2)\n", __FILE__, __LINE__, __FUNCTION__);
+							mc30_Remove2pcodes(pcfl_used, pc1, pc2, reg, can_free);
 						}
-						total_registers_saved++; // debugging stats.
+						mc30_total_registers_saved++; // debugging stats.
 						return 1;
 					}
 				}
 			}
 		}
 
-		pct1 = findPrevInstruction(pc1->prev);
+		pct1 = mc30_findPrevInstruction(pc1->prev);
 		if (pct1 && (PCI(pct1)->pcflow == PCI(pc1)->pcflow))
 		{
 
@@ -546,8 +546,8 @@ static int pCodeOptime2pCodes(pCode *pc1, pCode *pc2, pCode *pcfl_used, reg_info
 				(PCI(pc2)->op == POC_MOVFW))
 			{
 
-				reg1 = getRegFromInstruction(pct1);
-				if (reg1 && !regIsSpecial(reg1, 0) && !regUsedinRange(pc1, pc2, reg1))
+				reg1 = mc30_getRegFromInstruction(pct1);
+				if (reg1 && !mc30_regIsSpecial(reg1, 0) && !mc30_regUsedinRange(pc1, pc2, reg1))
 				{
 					DFPRINTF((stderr, "   optimising MOVF reg1,W MOVWF reg ... MOVF reg,W\n"));
 					/*
@@ -572,42 +572,42 @@ static int pCodeOptime2pCodes(pCode *pc1, pCode *pc2, pCode *pcfl_used, reg_info
 						movf   reg1,w
 						movwf  reg
 					*/
-					pct2 = newpCode(PCI(pc2)->op, PCI(pct1)->pcop);
-					pCodeInsertAfter(pc2, pct2);
+					pct2 = mc30_newpCode(PCI(pc2)->op, PCI(pct1)->pcop);
+					mc30_pCodeInsertAfter(pc2, pct2);
 					PCI(pct2)->pcflow = PCFL(pcfl_used);
 					pct2->seq = pc2->seq;
 
 					if (can_free)
 					{
-						//fprintf (stderr, "%s:%d(%s): Remove2pcodes CANFREE (MOVF reg1,W; MOVWF reg2; MOVF reg2,W)\n", __FILE__, __LINE__, __FUNCTION__);
-						Remove2pcodes(pcfl_used, pc1, pc2, reg, can_free);
+						//fprintf (stderr, "%s:%d(%s): mc30_Remove2pcodes CANFREE (MOVF reg1,W; MOVWF reg2; MOVF reg2,W)\n", __FILE__, __LINE__, __FUNCTION__);
+						mc30_Remove2pcodes(pcfl_used, pc1, pc2, reg, can_free);
 					}
 					else
 					{
 						/* If we're not freeing the register then that means (probably)
 						* the register is needed somewhere else.*/
-						unlinkpCode(pc1);
-						pCodeInsertAfter(pct2, pc1);
+						mc30_unlinkpCode(pc1);
+						mc30_pCodeInsertAfter(pct2, pc1);
 
-						//fprintf (stderr, "%s:%d(%s): Remove2pcodes ELSE (MOVF reg1,W; MOVWF reg2; MOVF reg2,W)\n", __FILE__, __LINE__, __FUNCTION__);
-						Remove2pcodes(pcfl_used, pc2, NULL, reg, can_free);
+						//fprintf (stderr, "%s:%d(%s): mc30_Remove2pcodes ELSE (MOVF reg1,W; MOVWF reg2; MOVF reg2,W)\n", __FILE__, __LINE__, __FUNCTION__);
+						mc30_Remove2pcodes(pcfl_used, pc2, NULL, reg, can_free);
 					}
 
-					//fprintf (stderr, "%s:%d(%s): Remove2pcodes ALWAYS (MOVF reg1,W; MOVWF reg2; MOVF reg2,W)\n", __FILE__, __LINE__, __FUNCTION__);
-					Remove2pcodes(pcfl_used, pct1, NULL, reg1, 0);
-					total_registers_saved++; // debugging stats.
+					//fprintf (stderr, "%s:%d(%s): mc30_Remove2pcodes ALWAYS (MOVF reg1,W; MOVWF reg2; MOVF reg2,W)\n", __FILE__, __LINE__, __FUNCTION__);
+					mc30_Remove2pcodes(pcfl_used, pct1, NULL, reg1, 0);
+					mc30_total_registers_saved++; // debugging stats.
 				}
 			}
 		}
 	}
 
-	return (total_registers_saved != t);
+	return (mc30_total_registers_saved != t);
 }
 
 /*-----------------------------------------------------------------*
 * void pCodeRegOptimeRegUsage(pBlock *pb) 
 *-----------------------------------------------------------------*/
-static void OptimizeRegUsage(set *fregs, int optimize_multi_uses, int optimize_level)
+static void mc30_OptimizeRegUsage(set *fregs, int optimize_multi_uses, int optimize_level)
 {
 	reg_info *reg;
 	int used;
@@ -658,7 +658,7 @@ static void OptimizeRegUsage(set *fregs, int optimize_multi_uses, int optimize_l
 			*/
 
 			/*
-			fprintf (stderr, "OptimizeRegUsage: %s  addr=0x%03x rIdx=0x%03x type=%d used=%d\n",
+			fprintf (stderr, "mc30_OptimizeRegUsage: %s  addr=0x%03x rIdx=0x%03x type=%d used=%d\n",
 			reg->name,
 			reg->address,
 			reg->rIdx, reg->type, used);
@@ -679,7 +679,7 @@ static void OptimizeRegUsage(set *fregs, int optimize_multi_uses, int optimize_l
 
 					//fprintf(stderr, "  and used in same flow\n");
 
-					pCodeOptime2pCodes(pc1, pc2, pcfl_used, reg, 1, optimize_level);
+					mc30_pCodeOptime2pCodes(pc1, pc2, pcfl_used, reg, 1, optimize_level);
 				}
 				else
 				{
@@ -695,8 +695,8 @@ static void OptimizeRegUsage(set *fregs, int optimize_multi_uses, int optimize_l
 			else
 			{
 				//fprintf(stderr,"WARNING %s.1: reg %s assigned without being used\n",__FUNCTION__,reg->name);
-				Remove2pcodes(pcfl_assigned, pc1, pc2, reg, 1);
-				total_registers_saved++; // debugging stats.
+				mc30_Remove2pcodes(pcfl_assigned, pc1, pc2, reg, 1);
+				mc30_total_registers_saved++; // debugging stats.
 			}
 		}
 		else
@@ -715,7 +715,7 @@ static void OptimizeRegUsage(set *fregs, int optimize_multi_uses, int optimize_l
 				{
 
 					pcfl_assigned = PCODE(PCI(pc)->pcflow);
-					Remove1pcode(pc, reg, 2);
+					mc30_Remove1pcode(pc, reg, 2);
 
 					deleteSetItem(&(PCFL(pcfl_assigned)->registers), reg);
 					/*
@@ -725,10 +725,10 @@ static void OptimizeRegUsage(set *fregs, int optimize_multi_uses, int optimize_l
 					pc = setNextItem(reg->reglives.usedpCodes);
 				}
 
-				reg->isFree = 1;
-				reg->wasUsed = 0;
+				reg->isFree = TRUE;
+				reg->wasUsed = FALSE;
 
-				total_registers_saved++; // debugging stats.
+				mc30_total_registers_saved++; // debugging stats.
 			}
 			else if ((used > 2) && optimize_multi_uses)
 			{
@@ -760,7 +760,7 @@ static void OptimizeRegUsage(set *fregs, int optimize_multi_uses, int optimize_l
 								if (pcfl2 == pcfl1)
 								{
 
-									if (pCodeOptime2pCodes(pc1, pc2, pcfl_used, reg, 0, optimize_level))
+									if (mc30_pCodeOptime2pCodes(pc1, pc2, pcfl_used, reg, 0, optimize_level))
 										searching = 0;
 								}
 							}
@@ -778,51 +778,51 @@ static void OptimizeRegUsage(set *fregs, int optimize_multi_uses, int optimize_l
 /*-----------------------------------------------------------------*
 * void pCodeRegOptimeRegUsage(pBlock *pb) 
 *-----------------------------------------------------------------*/
-void pCodeRegOptimizeRegUsage(int level)
+void mc30_pCodeRegOptimizeRegUsage(int level)
 {
 
 	int passes;
 	int saved = 0;
-	int t = total_registers_saved;
+	int t = mc30_total_registers_saved;
 
 #if 0
 	/* This is currently broken (need rewrite to correctly
 	 * handle arbitrary pCodeOps instead of registers only). */
-	if (!pic14_options.disable_df)
+	if (!mc30_options.disable_df)
 		optimizeDataflow ();
 #endif
 
-	if (!register_optimization)
+	if (!mc30_register_optimization)
 		return;
 #define OPT_PASSES 4
 	passes = OPT_PASSES;
 
 	do
 	{
-		saved = total_registers_saved;
+		saved = mc30_total_registers_saved;
 
 		/* Identify registers used in one flow sequence */
-		OptimizeRegUsage(dynAllocRegs, level, (OPT_PASSES - passes));
-		OptimizeRegUsage(dynStackRegs, level, (OPT_PASSES - passes));
-		OptimizeRegUsage(dynDirectRegs, 0, (OPT_PASSES - passes));
+		mc30_OptimizeRegUsage(mc30_dynAllocRegs, level, (OPT_PASSES - passes));
+		mc30_OptimizeRegUsage(mc30_dynStackRegs, level, (OPT_PASSES - passes));
+		mc30_OptimizeRegUsage(mc30_dynDirectRegs, 0, (OPT_PASSES - passes));
 
-		if (total_registers_saved != saved)
+		if (mc30_total_registers_saved != saved)
 			DFPRINTF((stderr, " *** pass %d, Saved %d registers, total saved %d ***\n",
-					  (1 + OPT_PASSES - passes), total_registers_saved - saved, total_registers_saved));
+					  (1 + OPT_PASSES - passes), mc30_total_registers_saved - saved, mc30_total_registers_saved));
 
 		passes--;
 
-	} while (passes && ((total_registers_saved != saved) || (passes == OPT_PASSES - 1)));
+	} while (passes && ((mc30_total_registers_saved != saved) || (passes == OPT_PASSES - 1)));
 
-	if (total_registers_saved == t)
+	if (mc30_total_registers_saved == t)
 		DFPRINTF((stderr, "No registers saved on this pass\n"));
 }
 
 /*-----------------------------------------------------------------*
-* void RegsUnMapLiveRanges(set *regset)
+* void mc30_RegsUnMapLiveRanges(set *regset)
 *
 *-----------------------------------------------------------------*/
-static void RegsSetUnMapLiveRanges(set *regset)
+static void mc30_RegsSetUnMapLiveRanges(set *regset)
 {
 	reg_info *reg;
 
@@ -837,13 +837,13 @@ static void RegsSetUnMapLiveRanges(set *regset)
 	}
 }
 
-void RegsUnMapLiveRanges(void)
+void mc30_RegsUnMapLiveRanges(void)
 {
 
-	RegsSetUnMapLiveRanges(dynAllocRegs);
-	RegsSetUnMapLiveRanges(dynStackRegs);
-	RegsSetUnMapLiveRanges(dynDirectRegs);
-	RegsSetUnMapLiveRanges(dynProcessorRegs);
-	RegsSetUnMapLiveRanges(dynDirectBitRegs);
-	RegsSetUnMapLiveRanges(dynInternalRegs);
+	mc30_RegsSetUnMapLiveRanges(mc30_dynAllocRegs);
+	mc30_RegsSetUnMapLiveRanges(mc30_dynStackRegs);
+	mc30_RegsSetUnMapLiveRanges(mc30_dynDirectRegs);
+	mc30_RegsSetUnMapLiveRanges(mc30_dynProcessorRegs);
+	mc30_RegsSetUnMapLiveRanges(mc30_dynDirectBitRegs);
+	mc30_RegsSetUnMapLiveRanges(mc30_dynInternalRegs);
 }

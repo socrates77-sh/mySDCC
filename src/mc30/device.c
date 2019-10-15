@@ -29,25 +29,27 @@ extern set *userIncDirsSet;
 extern set *libDirsSet;
 extern set *libPathsSet;
 
-#define MAX_PICLIST 200
-static PIC_device *Pics[MAX_PICLIST];
-static PIC_device *pic = NULL;
-static int num_of_supported_PICS = 0;
-static int maxRAMaddress = 0;
+// zwr 2.0.0
+#define MAX_PICLIST 400
+// #define MAX_PICLIST 200
+static MC30_device *mc30_Pics[MAX_PICLIST];
+static MC30_device *mc30_pic = NULL;
+static int mc30_num_of_supported_PICS = 0;
+static int mc30_maxRAMaddress = 0;
 
-// #define DEVICE_FILE_NAME "mc30devices.txt" // zwr 1.0.0
-#define DEVICE_FILE_NAME "30devices.txt" // zwr 1.1.5
+// #define DEVICE_FILE_NAME_MC30 "mc30devices.txt" // zwr 1.1.0
+#define DEVICE_FILE_NAME_MC30 "32devices.txt" // zwr 1.1.5
 #define PIC14_STRING_LEN 256
-#define SPLIT_WORDS_MAX 16
+#define MC30_SPLIT_WORDS_MAX 16
 
 /* Keep track of whether we found an assignment to the __config words. */
-static int pic14_hasSetConfigWord = 0;
-static unsigned int config_word[MAX_NUM_CONFIGS];
-static memRange *rangeRAM = NULL;
+static int mc30_pic14_hasSetConfigWord = 0;
+static unsigned int mc30_config_word[MAX_NUM_CONFIGS];
+static memRange *mc30_rangeRAM = NULL;
 
 /* parse a value from the configuration file */
 static int
-parse_config_value(char *str)
+mc30_parse_config_value(char *str)
 {
   if (str[strlen(str) - 1] == 'K')
     return atoi(str) * 1024; /* like "1K" */
@@ -61,14 +63,14 @@ parse_config_value(char *str)
 
 /* split a line into words */
 static int
-split_words(char **result_word, char *str)
+mc30_split_words(char **result_word, char *str)
 {
   static const char delim[] = " \f\n\r\t\v,";
   char *token;
   int num_words;
 
   /* release previously allocated words */
-  for (num_words = 0; num_words < SPLIT_WORDS_MAX; num_words++)
+  for (num_words = 0; num_words < MC30_SPLIT_WORDS_MAX; num_words++)
   {
     if (result_word[num_words])
     {
@@ -80,7 +82,7 @@ split_words(char **result_word, char *str)
   /* split line */
   token = strtok(str, delim);
   num_words = 0;
-  while (token && (num_words < SPLIT_WORDS_MAX))
+  while (token && (num_words < MC30_SPLIT_WORDS_MAX))
   {
     result_word[num_words] = Safe_strdup(token);
     num_words++;
@@ -92,7 +94,7 @@ split_words(char **result_word, char *str)
 
 /* remove annoying prefixes from the processor name */
 static char *
-sanitise_processor_name(char *name)
+mc30_sanitise_processor_name(char *name)
 {
   char *proc_pos = name;
 
@@ -109,15 +111,17 @@ sanitise_processor_name(char *name)
 }
 
 /* create a structure for a pic processor */
-static PIC_device *
-create_pic(char *pic_name, int maxram, int bankmsk, int confsiz,
-           int config[MAX_NUM_CONFIGS], int program, int data, int eeprom,
-           int io, int is_enhanced)
+static MC30_device *
+mc30_create_pic(char *pic_name, int maxram, int bankmsk, int confsiz,
+                int config[MAX_NUM_CONFIGS], int program, int data, int eeprom,
+                int io, int is_enhanced)
 {
-  PIC_device *new_pic;
-  char *simple_pic_name = sanitise_processor_name(pic_name);
+  MC30_device *new_pic;
+  char *simple_pic_name = mc30_sanitise_processor_name(pic_name);
 
-  new_pic = Safe_calloc(1, sizeof(PIC_device));
+  // zwr 2.0.0
+  new_pic = Safe_alloc(sizeof(MC30_device));
+  // new_pic = Safe_calloc(1, sizeof(MC30_device));
   new_pic->name = Safe_strdup(simple_pic_name);
 
   new_pic->defMaxRAMaddrs = maxram;
@@ -131,17 +135,17 @@ create_pic(char *pic_name, int maxram, int bankmsk, int confsiz,
   new_pic->ioPins = io;
   new_pic->isEnhancedCore = is_enhanced;
 
-  new_pic->ram = rangeRAM;
+  new_pic->ram = mc30_rangeRAM;
 
-  Pics[num_of_supported_PICS] = new_pic;
-  num_of_supported_PICS++;
+  mc30_Pics[mc30_num_of_supported_PICS] = new_pic;
+  mc30_num_of_supported_PICS++;
 
   return new_pic;
 }
 
 /* mark some registers as being duplicated across banks */
 static void
-register_map(int num_words, char **word)
+mc30_register_map(int num_words, char **word)
 {
   memRange *r;
   int pcount;
@@ -149,67 +153,71 @@ register_map(int num_words, char **word)
   if (num_words < 3)
   {
     fprintf(stderr, "WARNING: not enough values in %s regmap directive\n",
-            DEVICE_FILE_NAME);
+            DEVICE_FILE_NAME_MC30);
     return;
   } // if
 
   for (pcount = 2; pcount < num_words; pcount++)
   {
-    r = Safe_calloc(1, sizeof(memRange));
+    // zwr 2.0.0
+    r = Safe_alloc(sizeof(memRange));
+    // r = Safe_calloc(1, sizeof(memRange));
 
-    r->start_address = parse_config_value(word[pcount]);
-    r->end_address = parse_config_value(word[pcount]);
-    r->alias = parse_config_value(word[1]);
+    r->start_address = mc30_parse_config_value(word[pcount]);
+    r->end_address = mc30_parse_config_value(word[pcount]);
+    r->alias = mc30_parse_config_value(word[1]);
     r->bank = (r->start_address >> 7) & 3;
     // add memRange to device entry for future lookup (sharebanks)
-    r->next = rangeRAM;
-    rangeRAM = r;
+    r->next = mc30_rangeRAM;
+    mc30_rangeRAM = r;
   } // for
 }
 
 /* define ram areas - may be duplicated across banks */
 static void
-ram_map(int num_words, char **word)
+mc30_ram_map(int num_words, char **word)
 {
   memRange *r;
 
   if (num_words < 4)
   {
     fprintf(stderr, "WARNING: not enough values in %s memmap directive\n",
-            DEVICE_FILE_NAME);
+            DEVICE_FILE_NAME_MC30);
     return;
   } // if
 
-  r = Safe_calloc(1, sizeof(memRange));
+  // zwr 2.0.0
+  r = Safe_alloc(sizeof(memRange));
+  // r = Safe_calloc(1, sizeof(memRange));
   //fprintf (stderr, "%s: %s %s %s\n", __FUNCTION__, word[1], word[2], word[3]);
 
-  r->start_address = parse_config_value(word[1]);
-  r->end_address = parse_config_value(word[2]);
-  r->alias = parse_config_value(word[3]);
+  r->start_address = mc30_parse_config_value(word[1]);
+  r->end_address = mc30_parse_config_value(word[2]);
+  r->alias = mc30_parse_config_value(word[3]);
   r->bank = (r->start_address >> 7) & 3;
 
   // add memRange to device entry for future lookup (sharebanks)
-  r->next = rangeRAM;
-  rangeRAM = r;
+  r->next = mc30_rangeRAM;
+  mc30_rangeRAM = r;
 }
 
 static void
-setMaxRAM(int size)
+mc30_setMaxRAM(int size)
 {
-  maxRAMaddress = size;
+  mc30_maxRAMaddress = size;
 
-  if (maxRAMaddress < 0)
+  if (mc30_maxRAMaddress < 0)
   {
     fprintf(stderr, "invalid maxram 0x%x setting in %s\n",
-            maxRAMaddress, DEVICE_FILE_NAME);
+            mc30_maxRAMaddress, DEVICE_FILE_NAME_MC30);
     return;
   } // if
 }
 
 /* read the file with all the pic14 definitions and pick out the definition
  * for a processor if specified. if pic_name is NULL reads everything */
-static PIC_device *
-find_device(char *pic_name)
+static MC30_device *
+mc30_find_device(char *pic_name)
 {
   FILE *pic_file;
   char pic_buf[PIC14_STRING_LEN];
@@ -235,30 +243,30 @@ find_device(char *pic_name)
   int wcount;
   int i;
 
-  pic_word = Safe_calloc(sizeof(char *), SPLIT_WORDS_MAX);
-  processor_name = Safe_calloc(sizeof(char *), SPLIT_WORDS_MAX);
+  pic_word = Safe_calloc(sizeof(char *), MC30_SPLIT_WORDS_MAX);
+  processor_name = Safe_calloc(sizeof(char *), MC30_SPLIT_WORDS_MAX);
 
   for (i = 0; i < MAX_NUM_CONFIGS; i++)
   {
-    config_word[i] = -1;
+    mc30_config_word[i] = -1;
     pic_config[i] = -1;
   } // for
 
   /* allow abbreviations of the form "f877" - convert to "16f877" */
-  simple_pic_name = sanitise_processor_name(pic_name);
-  num_of_supported_PICS = 0;
+  simple_pic_name = mc30_sanitise_processor_name(pic_name);
+  mc30_num_of_supported_PICS = 0;
 
   /* open the piclist file */
   /* first scan all include directories */
   pic_file = NULL;
-  //fprintf (stderr, "%s: searching %s\n", __FUNCTION__, DEVICE_FILE_NAME);
+  //fprintf (stderr, "%s: searching %s\n", __FUNCTION__, DEVICE_FILE_NAME_MC30);
   for (dir = setFirstItem(userIncDirsSet);
        !pic_file && dir;
        dir = setNextItem(userIncDirsSet))
   {
     //fprintf (stderr, "searching1 %s\n", dir);
     SNPRINTF(&filename[0], len, "%s%s", dir,
-             DIR_SEPARATOR_STRING DEVICE_FILE_NAME);
+             DIR_SEPARATOR_STRING DEVICE_FILE_NAME_MC30);
     pic_file = fopen(filename, "rt");
     if (pic_file)
       break;
@@ -270,7 +278,7 @@ find_device(char *pic_name)
   {
     //fprintf (stderr, "searching2 %s\n", dir);
     SNPRINTF(&filename[0], len, "%s%s", dir,
-             DIR_SEPARATOR_STRING DEVICE_FILE_NAME);
+             DIR_SEPARATOR_STRING DEVICE_FILE_NAME_MC30);
     pic_file = fopen(filename, "rt");
     if (pic_file)
       break;
@@ -282,7 +290,7 @@ find_device(char *pic_name)
   {
     //fprintf (stderr, "searching3 %s\n", dir);
     SNPRINTF(&filename[0], len, "%s%s", dir,
-             DIR_SEPARATOR_STRING DEVICE_FILE_NAME);
+             DIR_SEPARATOR_STRING DEVICE_FILE_NAME_MC30);
     pic_file = fopen(filename, "rt");
     if (pic_file)
       break;
@@ -294,7 +302,7 @@ find_device(char *pic_name)
   {
     //fprintf (stderr, "searching4 %s\n", dir);
     SNPRINTF(&filename[0], len, "%s%s", dir,
-             DIR_SEPARATOR_STRING DEVICE_FILE_NAME);
+             DIR_SEPARATOR_STRING DEVICE_FILE_NAME_MC30);
     pic_file = fopen(filename, "rt");
     if (pic_file)
       break;
@@ -304,13 +312,13 @@ find_device(char *pic_name)
   {
     SNPRINTF(&filename[0], len, "%s",
              DATADIR LIB_DIR_SUFFIX
-                 DIR_SEPARATOR_STRING "pic" DIR_SEPARATOR_STRING DEVICE_FILE_NAME);
+                 DIR_SEPARATOR_STRING "pic" DIR_SEPARATOR_STRING DEVICE_FILE_NAME_MC30);
     pic_file = fopen(filename, "rt");
   } // if
 
   if (pic_file == NULL)
   {
-    fprintf(stderr, "can't find %s\n", DEVICE_FILE_NAME);
+    fprintf(stderr, "can't find %s\n", DEVICE_FILE_NAME_MC30);
     return NULL;
   } // if
 
@@ -329,7 +337,7 @@ find_device(char *pic_name)
     }
 
     /* split into fields */
-    num_pic_words = split_words(pic_word, pic_buf);
+    num_pic_words = mc30_split_words(pic_word, pic_buf);
 
     /* ignore comment / empty lines */
     if (num_pic_words > 0)
@@ -347,10 +355,10 @@ find_device(char *pic_name)
             /* store away all the previous processor definitions */
             for (dcount = 1; dcount < num_processor_names; dcount++)
             {
-              create_pic(processor_name[dcount], pic_maxram,
-                         pic_bankmsk, pic_confsiz, pic_config,
-                         pic_program, pic_data, pic_eeprom,
-                         pic_io, pic_is_enhanced);
+              mc30_create_pic(processor_name[dcount], pic_maxram,
+                              pic_bankmsk, pic_confsiz, pic_config,
+                              pic_program, pic_data, pic_eeprom,
+                              pic_io, pic_is_enhanced);
             } // for
           }   // if
 
@@ -373,7 +381,7 @@ find_device(char *pic_name)
             for (wcount = 1; wcount < num_pic_words; wcount++)
             {
               /* skip uninteresting prefixes */
-              char *found_name = sanitise_processor_name(pic_word[wcount]);
+              char *found_name = mc30_sanitise_processor_name(pic_word[wcount]);
 
               if (STRCASECMP(found_name, simple_pic_name) == 0)
                 found_processor = TRUE;
@@ -388,54 +396,54 @@ find_device(char *pic_name)
           /* only parse a processor section if we've found the one we want */
           if (STRCASECMP(pic_word[0], "maxram") == 0 && num_pic_words > 1)
           {
-            pic_maxram = parse_config_value(pic_word[1]);
-            setMaxRAM(pic_maxram);
+            pic_maxram = mc30_parse_config_value(pic_word[1]);
+            mc30_setMaxRAM(pic_maxram);
           } // if
 
           else if (STRCASECMP(pic_word[0], "bankmsk") == 0 && num_pic_words > 1)
-            pic_bankmsk = parse_config_value(pic_word[1]);
+            pic_bankmsk = mc30_parse_config_value(pic_word[1]);
 
           else if (STRCASECMP(pic_word[0], "config") == 0 && num_pic_words > 1)
           {
             pic_confsiz = 0;
             for (i = 1; (i < num_pic_words) && (i < MAX_NUM_CONFIGS + 1); i++)
             {
-              pic_config[i - 1] = parse_config_value(pic_word[i]);
+              pic_config[i - 1] = mc30_parse_config_value(pic_word[i]);
               pic_confsiz++;
             } // for
           }
 
           else if (STRCASECMP(pic_word[0], "program") == 0 && num_pic_words > 1)
-            pic_program = parse_config_value(pic_word[1]);
+            pic_program = mc30_parse_config_value(pic_word[1]);
 
           else if (STRCASECMP(pic_word[0], "data") == 0 && num_pic_words > 1)
-            pic_data = parse_config_value(pic_word[1]);
+            pic_data = mc30_parse_config_value(pic_word[1]);
 
           else if (STRCASECMP(pic_word[0], "eeprom") == 0 && num_pic_words > 1)
-            pic_eeprom = parse_config_value(pic_word[1]);
+            pic_eeprom = mc30_parse_config_value(pic_word[1]);
 
           else if (STRCASECMP(pic_word[0], "enhanced") == 0 && num_pic_words > 1)
-            pic_is_enhanced = parse_config_value(pic_word[1]);
+            pic_is_enhanced = mc30_parse_config_value(pic_word[1]);
 
           else if (STRCASECMP(pic_word[0], "io") == 0 && num_pic_words > 1)
-            pic_io = parse_config_value(pic_word[1]);
+            pic_io = mc30_parse_config_value(pic_word[1]);
 
           else if (STRCASECMP(pic_word[0], "regmap") == 0 && num_pic_words > 2)
           {
             if (found_processor)
-              register_map(num_pic_words, pic_word);
+              mc30_register_map(num_pic_words, pic_word);
           } // if
 
           else if (STRCASECMP(pic_word[0], "memmap") == 0 && num_pic_words > 2)
           {
             if (found_processor)
-              ram_map(num_pic_words, pic_word);
+              mc30_ram_map(num_pic_words, pic_word);
           } // if
 
           else
           {
             fprintf(stderr, "WARNING: %s: bad syntax `%s'\n",
-                    DEVICE_FILE_NAME, pic_word[0]);
+                    DEVICE_FILE_NAME_MC30, pic_word[0]);
           } // if
         }   // if
       }     // if
@@ -444,7 +452,7 @@ find_device(char *pic_name)
 
   fclose(pic_file);
 
-  split_words(pic_word, NULL);
+  mc30_split_words(pic_word, NULL);
   free(pic_word);
 
   /* if we're in read-the-lot mode then create the final processor definition */
@@ -457,9 +465,9 @@ find_device(char *pic_name)
 
       for (dcount = 1; dcount < num_processor_names; dcount++)
       {
-        create_pic(processor_name[dcount], pic_maxram, pic_bankmsk,
-                   pic_confsiz, pic_config, pic_program, pic_data,
-                   pic_eeprom, pic_io, pic_is_enhanced);
+        mc30_create_pic(processor_name[dcount], pic_maxram, pic_bankmsk,
+                        pic_confsiz, pic_config, pic_program, pic_data,
+                        pic_eeprom, pic_io, pic_is_enhanced);
       } // for
     }   // if
   }     // if
@@ -468,24 +476,24 @@ find_device(char *pic_name)
     /* in search mode */
     if (found_processor)
     {
-      split_words(processor_name, NULL);
+      mc30_split_words(processor_name, NULL);
       free(processor_name);
 
       /* create a new pic entry */
-      return create_pic(pic_name, pic_maxram, pic_bankmsk,
-                        pic_confsiz, pic_config, pic_program,
-                        pic_data, pic_eeprom, pic_io, pic_is_enhanced);
+      return mc30_create_pic(pic_name, pic_maxram, pic_bankmsk,
+                             pic_confsiz, pic_config, pic_program,
+                             pic_data, pic_eeprom, pic_io, pic_is_enhanced);
     } // if
   }   // if
 
-  split_words(processor_name, NULL);
+  mc30_split_words(processor_name, NULL);
   free(processor_name);
 
   return NULL;
 }
 
 /*-----------------------------------------------------------------*
- *  void list_valid_pics(int ncols, int list_alias)
+ *  void mc30_list_valid_pics(int ncols, int list_alias)
  *
  * Print out a formatted list of valid PIC devices
  *
@@ -495,61 +503,61 @@ find_device(char *pic_name)
  *              for a device (e.g. F84, 16F84, etc...)
  *-----------------------------------------------------------------*/
 static void
-list_valid_pics(int ncols)
+mc30_list_valid_pics(int ncols)
 {
   int col = 0, longest;
   int i, k, l;
 
-  if (num_of_supported_PICS == 0)
-    find_device(NULL); /* load all the definitions */
+  if (mc30_num_of_supported_PICS == 0)
+    mc30_find_device(NULL); /* load all the definitions */
 
   /* decrement the column number if it's greater than zero */
   ncols = (ncols > 1) ? ncols - 1 : 4;
 
   /* Find the device with the longest name */
-  for (i = 0, longest = 0; i < num_of_supported_PICS; i++)
+  for (i = 0, longest = 0; i < mc30_num_of_supported_PICS; i++)
   {
-    k = strlen(Pics[i]->name);
+    k = strlen(mc30_Pics[i]->name);
     if (k > longest)
       longest = k;
   }
 
 #if 1
   /* heading */
-  fprintf(stderr, "\nMC30 processors and their characteristics:\n\n"); // zwr 1.1.0
+  fprintf(stderr, "\nMC30 processors and their characteristics:\n\n"); // zwr 1.10.0
   fprintf(stderr, " processor");
   for (k = 0; k < longest - 1; k++)
     fputc(' ', stderr);
   fprintf(stderr, "program     RAM      EEPROM    I/O\n");
   fprintf(stderr, "-----------------------------------------------------\n");
 
-  for (i = 0; i < num_of_supported_PICS; i++)
+  for (i = 0; i < mc30_num_of_supported_PICS; i++)
   {
-    fprintf(stderr, "  %s", Pics[i]->name);
-    l = longest + 2 - strlen(Pics[i]->name);
+    fprintf(stderr, "  %s", mc30_Pics[i]->name);
+    l = longest + 2 - strlen(mc30_Pics[i]->name);
     for (k = 0; k < l; k++)
       fputc(' ', stderr);
 
     fprintf(stderr, "     ");
-    if (Pics[i]->programMemSize % 1024 == 0)
-      fprintf(stderr, "%4dK", Pics[i]->programMemSize / 1024);
+    if (mc30_Pics[i]->programMemSize % 1024 == 0)
+      fprintf(stderr, "%4dK", mc30_Pics[i]->programMemSize / 1024);
     else
-      fprintf(stderr, "%5d", Pics[i]->programMemSize);
+      fprintf(stderr, "%5d", mc30_Pics[i]->programMemSize);
 
     fprintf(stderr, "     %5d     %5d     %4d\n",
-            Pics[i]->dataMemSize, Pics[i]->eepromMemSize, Pics[i]->ioPins);
+            mc30_Pics[i]->dataMemSize, mc30_Pics[i]->eepromMemSize, mc30_Pics[i]->ioPins);
   }
 
   col = 0;
 
   fprintf(stderr, "\nMC30 processors supported:\n"); // zwr 1.1.0
-  for (i = 0; i < num_of_supported_PICS; i++)
+  for (i = 0; i < mc30_num_of_supported_PICS; i++)
   {
 
-    fprintf(stderr, "%s", Pics[i]->name);
+    fprintf(stderr, "%s", mc30_Pics[i]->name);
     if (col < ncols)
     {
-      l = longest + 2 - strlen(Pics[i]->name);
+      l = longest + 2 - strlen(mc30_Pics[i]->name);
       for (k = 0; k < l; k++)
         fputc(' ', stderr);
 
@@ -569,69 +577,71 @@ list_valid_pics(int ncols)
 /*-----------------------------------------------------------------*
 *  
 *-----------------------------------------------------------------*/
-PIC_device *
-init_pic(char *pic_type)
+MC30_device *
+mc30_init_pic(char *pic_type)
 {
   char long_name[PIC14_STRING_LEN];
 
-  pic = find_device(pic_type);
+  mc30_pic = mc30_find_device(pic_type);
 
-  if (pic == NULL)
+  if (mc30_pic == NULL)
   {
     /* check for shortened "16xxx" form */
-    sprintf(long_name, "16%s", pic_type);
-    pic = find_device(long_name);
-    if (pic == NULL)
+    // zwr 2.0.0
+    SNPRINTF(long_name, sizeof(long_name), "16%s", pic_type);
+    // sprintf(long_name, "16%s", pic_type);
+    mc30_pic = mc30_find_device(long_name);
+    if (mc30_pic == NULL)
     {
       if (pic_type != NULL && pic_type[0] != '\0')
         fprintf(stderr, "'%s' was not found.\n", pic_type);
       else
         fprintf(stderr, "No processor has been specified (use -pPROCESSOR_NAME)\n");
 
-      list_valid_pics(7);
+      mc30_list_valid_pics(7);
       exit(1);
     }
   }
 
-  if (pic && pic->isEnhancedCore)
+  if (mc30_pic && mc30_pic->isEnhancedCore)
   {
     /* Hack: Fixup enhanced core's SFR(s). */
-    pc_indf = &pc_indf0;
+    mc30_pc_indf = &mc30_pc_indf0;
   }
 
-  return pic;
+  return mc30_pic;
 }
 
 /*-----------------------------------------------------------------*
 *  
 *-----------------------------------------------------------------*/
-int picIsInitialized(void)
+int mc30_picIsInitialized(void)
 {
-  if (pic && maxRAMaddress > 0)
+  if (mc30_pic && mc30_maxRAMaddress > 0)
     return 1;
 
   return 0;
 }
 
 /*-----------------------------------------------------------------*
-*  char *processor_base_name(void) - Include file is derived from this.
+*  char *mc30_processor_base_name(void) - Include file is derived from this.
 *-----------------------------------------------------------------*/
-char *processor_base_name(void)
+char *mc30_processor_base_name(void)
 {
 
-  if (!pic)
+  if (!mc30_pic)
     return NULL;
 
-  return pic->name;
+  return mc30_pic->name;
 }
 
-int IS_CONFIG_ADDRESS(int address)
+int MC30_IS_CONFIG_ADDRESS(int address)
 {
   int i;
 
-  for (i = 0; i < pic->num_configs; i++)
+  for (i = 0; i < mc30_pic->num_configs; i++)
   {
-    if ((-1 != address) && (address == pic->config[i]))
+    if ((-1 != address) && (address == mc30_pic->config[i]))
     {
       /* address is used for config words */
       return (1);
@@ -642,7 +652,7 @@ int IS_CONFIG_ADDRESS(int address)
 }
 
 /*-----------------------------------------------------------------*
- *  void pic14_assignConfigWordValue(int address, int value)
+ *  void mc30_assignConfigWordValue(int address, int value)
  *
  * Most midrange PICs have one config word at address 0x2007.
  * Newer PIC14s have a second config word at address 0x2008.
@@ -651,49 +661,49 @@ int IS_CONFIG_ADDRESS(int address)
  *
  *-----------------------------------------------------------------*/
 
-void pic14_assignConfigWordValue(int address, int value)
+void mc30_assignConfigWordValue(int address, int value)
 {
   int i;
-  for (i = 0; i < pic->num_configs; i++)
+  for (i = 0; i < mc30_pic->num_configs; i++)
   {
-    if ((-1 != address) && (address == pic->config[i]))
+    if ((-1 != address) && (address == mc30_pic->config[i]))
     {
-      config_word[i] = value;
-      pic14_hasSetConfigWord = 1;
+      mc30_config_word[i] = value;
+      mc30_pic14_hasSetConfigWord = 1;
     } // if
   }   // for
 }
 
 /*-----------------------------------------------------------------*
- * int pic14_emitConfigWord (FILE * vFile)
+ * int mc30_emitConfigWord (FILE * vFile)
  *
  * Emit the __config directives iff we found a previous assignment
  * to the config word.
  *-----------------------------------------------------------------*/
-int pic14_emitConfigWord(FILE *vFile)
+int mc30_emitConfigWord(FILE *vFile)
 {
   int i;
 
-  if (pic14_hasSetConfigWord)
+  if (mc30_pic14_hasSetConfigWord)
   {
     fprintf(vFile, "%s", iComments2);
     fprintf(vFile, "; config word(s)\n");
     fprintf(vFile, "%s", iComments2);
-    if (pic->num_configs > 1)
+    if (mc30_pic->num_configs > 1)
     {
-      for (i = 0; i < pic->num_configs; i++)
+      for (i = 0; i < mc30_pic->num_configs; i++)
       {
-        if (-1 != config_word[i])
+        if (-1 != mc30_config_word[i])
         {
-          fprintf(vFile, "\t__config _CONFIG%u, 0x%x\n", i + 1, config_word[i]);
+          fprintf(vFile, "\t__config _CONFIG%u, 0x%x\n", i + 1, mc30_config_word[i]);
         } //if
       }   // for
     }
     else
     {
-      if (-1 != config_word[0])
+      if (-1 != mc30_config_word[0])
       {
-        fprintf(vFile, "\t__config 0x%x\n", config_word[0]);
+        fprintf(vFile, "\t__config 0x%x\n", mc30_config_word[0]);
       } // if
     }   // if
 
@@ -707,18 +717,18 @@ int pic14_emitConfigWord(FILE *vFile)
  * If true, low and high will be set to the low and high address
  * occupied by the (last) sharebank found.
  *-----------------------------------------------------------------*/
-static int pic14_hasSharebank(int *low, int *high, int *size)
+static int mc30_hasSharebank(int *low, int *high, int *size)
 {
   memRange *r;
 
-  assert(pic);
-  r = pic->ram;
+  assert(mc30_pic);
+  r = mc30_pic->ram;
 
   while (r)
   {
     //fprintf (stderr, "%s: region %x..%x, bank %x, alias %x, pic->bankmask %x, min_size %d\n",  __FUNCTION__, r->start_address, r->end_address, r->bank, r->alias, pic->bankMask, size ? *size : 0);
     // find sufficiently large shared region
-    if ((r->alias == pic->bankMask) && (r->end_address != r->start_address) // ignore SFRs
+    if ((r->alias == mc30_pic->bankMask) && (r->end_address != r->start_address) // ignore SFRs
         && (!size || (*size <= (r->end_address - r->start_address + 1))))
     {
       if (low)
@@ -745,17 +755,17 @@ static int pic14_hasSharebank(int *low, int *high, int *size)
 /*
  * True iff the memory region [low, high] is aliased in all banks.
  */
-static int pic14_isShared(int low, int high)
+static int mc30_isShared(int low, int high)
 {
   memRange *r;
 
-  assert(pic);
-  r = pic->ram;
+  assert(mc30_pic);
+  r = mc30_pic->ram;
 
   while (r)
   {
     //fprintf (stderr, "%s: region %x..%x, bank %x, alias %x, pic->bankmask %x\n", __FUNCTION__, r->start_address, r->end_address, r->bank, r->alias, pic->bankMask);
-    if ((r->alias == pic->bankMask) && (r->start_address <= low) && (r->end_address >= high))
+    if ((r->alias == mc30_pic->bankMask) && (r->start_address <= low) && (r->end_address >= high))
     {
       return 1;
     } // if
@@ -769,16 +779,16 @@ static int pic14_isShared(int low, int high)
  * True iff all RAM is aliased in all banks (no BANKSELs required except for
  * SFRs).
  */
-int pic14_allRAMShared(void)
+int mc30_allRAMShared(void)
 {
   memRange *r;
 
-  assert(pic);
-  r = pic->ram;
+  assert(mc30_pic);
+  r = mc30_pic->ram;
 
   while (r)
   {
-    if (r->alias != pic->bankMask)
+    if (r->alias != mc30_pic->bankMask)
       return 0;
     r = r->next;
   } // while
@@ -791,13 +801,13 @@ int pic14_allRAMShared(void)
  * [low, high] denotes a size byte long block of (shared or banked)
  * memory to be used.
  */
-int pic14_getSharedStack(int *low, int *high, int *size)
+int mc30_getSharedStack(int *low, int *high, int *size)
 {
   int haveShared;
   int l, h, s;
 
   s = options.stack_size ? options.stack_size : 0x10;
-  haveShared = pic14_hasSharebank(&l, &h, &s);
+  haveShared = mc30_hasSharebank(&l, &h, &s);
   if ((options.stack_loc != 0) || !haveShared)
   {
     // sharebank not available or not to be used
@@ -811,8 +821,8 @@ int pic14_getSharedStack(int *low, int *high, int *size)
     if (size)
       *size = s;
     // return 1 iff [low, high] is present in all banks
-    //fprintf(stderr, "%s: low %x, high %x, size %x, shared %d\n", __FUNCTION__, l, h, s, pic14_isShared(l, h));
-    return (pic14_isShared(l, h));
+    //fprintf(stderr, "%s: low %x, high %x, size %x, shared %d\n", __FUNCTION__, l, h, s, mc30_isShared(l, h));
+    return (mc30_isShared(l, h));
   }
   else
   {
@@ -834,7 +844,7 @@ int pic14_getSharedStack(int *low, int *high, int *size)
   }
 }
 
-PIC_device *pic14_getPIC(void)
+MC30_device *mc30_getPIC(void)
 {
-  return pic;
+  return mc30_pic;
 }

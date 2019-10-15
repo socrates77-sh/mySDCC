@@ -152,8 +152,11 @@ void mc32_emitpcode_real(PIC_OPCODE poc, pCodeOp *pcop);
         } while (0)
 void mc32_emitpComment(const char *fmt, ...);
 void mc32_emitpLabel(int key);
-void mc32_pic14_emitcode(char *inst, char *fmt, ...);
-void DEBUGmc32_pic14_emitcode(char *inst, char *fmt, ...);
+// zwr 2.0.0
+void mc32_pic14_emitcode(const char *inst, const char *fmt, ...);
+void DEBUGmc32_pic14_emitcode(const char *inst, const char *fmt, ...);
+// void mc32_pic14_emitcode(char *inst, char *fmt, ...);
+// void DEBUGmc32_pic14_emitcode(char *inst, char *fmt, ...);
 void mc32_emitDebuggerSymbol(const char *);
 bool mc32_sameRegs(asmop *aop1, asmop *aop2);
 char *mc32_aopGet(asmop *aop, int offset, bool bit16, bool dname);
@@ -162,11 +165,15 @@ void mc32_genpic14Code(iCode *lic);
 
 pCodeOp *mc32_popGet(asmop *aop, int offset); //, bool bit16, bool dname);
 pCodeOp *mc32_popGetAddr(asmop *aop, int offset, int index);
-pCodeOp *mc32_popGetExternal(char *str, int isReg);
+// zwr 2.0.0
+pCodeOp *mc32_popGetExternal(const char *str, int isReg);
+// pCodeOp *mc32_popGetExternal(char *str, int isReg);
 pCodeOp *mc32_popGetLabel(unsigned int key);
 pCodeOp *mc32_popGetLit(unsigned int lit);
 
-void mc32_aopPut(asmop *aop, char *s, int offset);
+// zwr 2.0.0
+void mc32_aopPut(asmop *aop, const char *s, int offset);
+// void mc32_aopPut(asmop *aop, char *s, int offset);
 void mc32_outAcc(operand *result);
 void mc32_aopOp(operand *op, iCode *ic, bool result);
 void mc32_freeAsmop(operand *op, asmop *aaop, iCode *ic, bool pop);

@@ -4,14 +4,14 @@
 typedef struct {
   unsigned int isLibrarySource:1;
   int disable_df;
-} pic14_options_t;
+  // zwr 2.0.0
+  int no_ext_instr;
+  int no_warn_non_free;
+} mc30_options_t;
 
-extern pic14_options_t pic14_options;
-extern int debug_verbose;
-
-// zwr 1.1.0
-extern int mc30_fl_mode;
-extern int mc30_start_addr;  
+extern mc30_options_t mc30_options;
+extern int mc30_debug_verbose;
+extern int mc30_long_call;        // zwr 1.1.0
 
 #endif
 

@@ -47,12 +47,19 @@
 extern struct dbuf_s *codeOutBuf;
 extern set *externs;
 
-// zwr 1.0.0
-extern struct Q_ValList *mc35_ValList;
-extern struct dbuf_s *ValLog;
+// zwr 2.0.0
+static MC35_device *mc35_pic = NULL;
 
-static pCodeOp *mc35_popGetImmd(char *name, unsigned int offset, int index, int is_func);
-static pCodeOp *mc35_popRegFromString(char *str, int size, int offset);
+// zwr 1.0.0
+extern struct QValList *mc35_ValList;
+extern struct dbuf_s *ValLog;
+extern void SaveAllocInfo(symbol *, QValList *);
+
+// zwr 2.0.0
+static pCodeOp *mc35_popGetImmd(const char *name, unsigned int offset, int index, int is_func);
+static pCodeOp *mc35_popRegFromString(const char *str, int size, int offset);
+// static pCodeOp *mc35_popGetImmd(char *name, unsigned int offset, int index, int is_func);
+// static pCodeOp *mc35_popRegFromString(char *str, int size, int offset);
 static int mc35_aop_isLitLike(asmop *aop);
 static void mc35_genCritical(iCode *ic);
 static void mc35_genEndCritical(iCode *ic);
@@ -67,7 +74,9 @@ static void mc35_genEndCritical(iCode *ic);
  */
 static int mc35_max_key = 0;
 static int mc35_labelOffset = 0;
-static int mc35_GpsuedoStkPtr = 0;
+// zwr 2.0.0
+static int mc35_GpseudoStkPtr = 0;
+// static int mc35_GpsuedoStkPtr = 0;
 static int mc35_inISR = 0;
 
 static char *zero = "0x00";
@@ -158,7 +167,9 @@ DEBUGmc35_pic14_AopTypeSign(int line_no, operand *left, operand *right, operand 
                            ((right) ? (SPEC_USIGN(operandType(right)) ? 'u' : 's') : '-'));
 }
 
-void DEBUGmc35_pic14_emitcode(char *inst, char *fmt, ...)
+// zwr 2.0.0
+void DEBUGmc35_pic14_emitcode(const char *inst, const char *fmt, ...)
+// void DEBUGmc35_pic14_emitcode(char *inst, char *fmt, ...)
 {
   va_list ap;
 
@@ -206,18 +217,17 @@ void mc35_emitpcode_real(PIC_OPCODE poc, pCodeOp *pcop)
     mc35_addpCode2pBlock(pb, mc35_newpCode(poc, pcop));
   else
   {
-    static int has_warned = 0;
+    static int has_warned = FALSE;
 
     DEBUGmc35_pic14_emitcode(";", "%s  ignoring NULL pcop", __FUNCTION__);
     if (!has_warned)
     {
-      has_warned = 1;
+      has_warned = TRUE;
       fprintf(stderr, "WARNING: encountered NULL pcop--this is probably a compiler bug...\n");
     }
   }
 }
 
-// zwr 1.0.0
 // static void
 // mc35_emitpcodeNULLop(PIC_OPCODE poc)
 void mc35_emitpcodeNULLop(PIC_OPCODE poc)
@@ -228,7 +238,9 @@ void mc35_emitpcodeNULLop(PIC_OPCODE poc)
 /*-----------------------------------------------------------------*/
 /* mc35_pic14_emitcode - writes the code into a file : for now it is simple    */
 /*-----------------------------------------------------------------*/
-void mc35_pic14_emitcode(char *inst, char *fmt, ...)
+// zwr 2.0.0
+void mc35_pic14_emitcode(const char *inst, const char *fmt, ...)
+// void mc35_pic14_emitcode(char *inst, char *fmt, ...)
 {
   va_list ap;
 
@@ -246,9 +258,9 @@ void mc35_pic14_emitcode(char *inst, char *fmt, ...)
 /*-----------------------------------------------------------------*/
 void mc35_emitDebuggerSymbol(const char *debugSym)
 {
-  genLine.lineElement.isDebug = 1;
+  genLine.lineElement.isDebug = TRUE;
   mc35_pic14_emitcode("", ";%s ==.", debugSym);
-  genLine.lineElement.isDebug = 0;
+  genLine.lineElement.isDebug = FALSE;
 }
 
 /*-----------------------------------------------------------------*/
@@ -276,8 +288,8 @@ resolveIfx(resolvedIfx *resIfx, iCode *ifx)
 
   //  DEBUGmc35_pic14_emitcode("; ***","%s %d",__FUNCTION__,__LINE__);
 
-  resIfx->condition = 1; /* assume that the ifx is true */
-  resIfx->generated = 0; /* indicate that the ifx has not been used */
+  resIfx->condition = TRUE;  /* assume that the ifx is true */
+  resIfx->generated = FALSE; /* indicate that the ifx has not been used */
 
   if (!ifx)
   {
@@ -292,7 +304,7 @@ resolveIfx(resolvedIfx *resIfx, iCode *ifx)
     else
     {
       resIfx->lbl = IC_FALSE(ifx);
-      resIfx->condition = 0;
+      resIfx->condition = FALSE;
     }
   }
 
@@ -331,9 +343,9 @@ aopForSym(iCode *ic, symbol *sym, bool result)
     sym->aop = aop = newAsmop(AOP_PCODE);
     aop->aopu.pcop = mc35_popGetImmd(sym->rname, 0, 0, 1);
     PCOI(aop->aopu.pcop)->_const = IN_CODESPACE(space);
-    PCOI(aop->aopu.pcop)->_function = 1;
+    PCOI(aop->aopu.pcop)->_function = TRUE;
     PCOI(aop->aopu.pcop)->index = 0;
-    aop->size = FPTRSIZE;
+    aop->size = FARPTRSIZE;
     DEBUGmc35_pic14_emitcode(";", "%d size = %d, name =%s", __LINE__, aop->size, sym->rname);
     return aop;
   }
@@ -343,7 +355,7 @@ aopForSym(iCode *ic, symbol *sym, bool result)
     sym->aop = aop = newAsmop(AOP_PCODE);
     aop->aopu.pcop = mc35_popGetImmd(sym->rname, 0, 0, 1);
     PCOI(aop->aopu.pcop)->_const = IN_CODESPACE(space);
-    PCOI(aop->aopu.pcop)->_function = 0;
+    PCOI(aop->aopu.pcop)->_function = FALSE;
     PCOI(aop->aopu.pcop)->index = 0;
     aop->size = getSize(sym->etype) * DCL_ELEM(sym->type);
 
@@ -363,11 +375,11 @@ aopForSym(iCode *ic, symbol *sym, bool result)
 
   mc35_allocDirReg(IC_LEFT(ic));
 
-  aop->size = FPTRSIZE;
+  aop->size = FARPTRSIZE;
 
   /* if it is in code space */
   if (IN_CODESPACE(space))
-    aop->code = 1;
+    aop->code = TRUE;
 
   return aop;
 }
@@ -647,7 +659,9 @@ void mc35_aopOp(operand *op, iCode *ic, bool result)
     }
 
     /* else spill location  */
-    if (sym->usl.spillLoc)
+    // zwr 2.0.0
+    if (sym->isspilt && sym->usl.spillLoc)
+    // if (sym->usl.spillLoc)
     {
       asmop *oldAsmOp = NULL;
 
@@ -703,7 +717,7 @@ void mc35_freeAsmop(operand *op, asmop *aaop, iCode *ic, bool pop)
   if (!aop)
     return;
 
-  aop->freed = 1;
+  aop->freed = TRUE;
 
   /* all other cases just dealloc */
   if (op)
@@ -754,8 +768,9 @@ pic14aopLiteral(value *val, int offset)
 char *
 mc35_aopGet(asmop *aop, int offset, bool bit16, bool dname)
 {
-  char *s = buffer;
-  char *rs;
+  // zwr 2.0.0
+  // char *s = buffer;
+  // char *rs;
 
   //DEBUGmc35_pic14_emitcode ("; ***","%s  %d",__FUNCTION__,__LINE__);
   /* offset is greater than
@@ -767,30 +782,51 @@ mc35_aopGet(asmop *aop, int offset, bool bit16, bool dname)
   /* depending on type */
   switch (aop->type)
   {
-
+    // zwr 2.0.0
   case AOP_IMMD:
     if (bit16)
-      sprintf(s, "%s", aop->aopu.aop_immd);
+      SNPRINTF(buffer, sizeof(buffer), "%s", aop->aopu.aop_immd);
     else if (offset)
-      sprintf(s, "(%s >> %d)", aop->aopu.aop_immd, offset * 8);
+      SNPRINTF(buffer, sizeof(buffer), "(%s >> %d)", aop->aopu.aop_immd, offset * 8);
     else
-      sprintf(s, "%s", aop->aopu.aop_immd);
-    DEBUGmc35_pic14_emitcode(";", "%d immd %s", __LINE__, s);
-    rs = Safe_calloc(1, strlen(s) + 1);
-    strcpy(rs, s);
-    return rs;
+      SNPRINTF(buffer, sizeof(buffer), "%s", aop->aopu.aop_immd);
+    DEBUGmc35_pic14_emitcode(";", "%d immd %s", __LINE__, buffer);
+    return Safe_strdup(buffer);
 
+  // case AOP_IMMD:
+  //   if (bit16)
+  //     sprintf(s, "%s", aop->aopu.aop_immd);
+  //   else if (offset)
+  //     sprintf(s, "(%s >> %d)", aop->aopu.aop_immd, offset * 8);
+  //   else
+  //     sprintf(s, "%s", aop->aopu.aop_immd);
+  //   DEBUGmc35_pic14_emitcode(";", "%d immd %s", __LINE__, s);
+  //   rs = Safe_calloc(1, strlen(s) + 1);
+  //   strcpy(rs, s);
+  //   return rs;
+
+  // zwr 2.0.0
   case AOP_DIR:
     if (offset)
     {
-      sprintf(s, "(%s + %d)", aop->aopu.aop_dir, offset);
-      DEBUGmc35_pic14_emitcode(";", "oops AOP_DIR did this %s\n", s);
+      SNPRINTF(buffer, sizeof(buffer), "(%s + %d)", aop->aopu.aop_dir, offset);
+      DEBUGmc35_pic14_emitcode(";", "oops AOP_DIR did this %s\n", buffer);
     }
     else
-      sprintf(s, "%s", aop->aopu.aop_dir);
-    rs = Safe_calloc(1, strlen(s) + 1);
-    strcpy(rs, s);
-    return rs;
+      SNPRINTF(buffer, sizeof(buffer), "%s", aop->aopu.aop_dir);
+    return Safe_strdup(buffer);
+
+    // case AOP_DIR:
+    //   if (offset)
+    //   {
+    //     sprintf(s, "(%s + %d)", aop->aopu.aop_dir, offset);
+    //     DEBUGmc35_pic14_emitcode(";", "oops AOP_DIR did this %s\n", s);
+    //   }
+    //   else
+    //     sprintf(s, "%s", aop->aopu.aop_dir);
+    //   rs = Safe_calloc(1, strlen(s) + 1);
+    //   strcpy(rs, s);
+    //   return rs;
 
   case AOP_REG:
     //if (dname)
@@ -802,10 +838,15 @@ mc35_aopGet(asmop *aop, int offset, bool bit16, bool dname)
     //mc35_pic14_emitcode(";","%d",__LINE__);
     return aop->aopu.aop_dir;
 
+  // zwr 2.0.0
   case AOP_LIT:
-    sprintf(s, "0x%02x", pic14aopLiteral(aop->aopu.aop_lit, offset));
-    rs = Safe_strdup(s);
-    return rs;
+    SNPRINTF(buffer, sizeof(buffer), "0x%02x", pic14aopLiteral(aop->aopu.aop_lit, offset));
+    return Safe_strdup(buffer);
+
+    // case AOP_LIT:
+    //   sprintf(s, "0x%02x", pic14aopLiteral(aop->aopu.aop_lit, offset));
+    //   rs = Safe_strdup(s);
+    //   return rs;
 
   case AOP_STR:
     aop->coff = offset;
@@ -828,20 +869,29 @@ mc35_aopGet(asmop *aop, int offset, bool bit16, bool dname)
       if (offset)
       {
         DEBUGmc35_pic14_emitcode(";", "%s offset %d", pcop->name, offset);
-        sprintf(s, "(%s+%d)", pcop->name, offset);
+        // zwr 2.0.0
+        SNPRINTF(buffer, sizeof(buffer), "(%s+%d)", pcop->name, offset);
+        // sprintf(s, "(%s+%d)", pcop->name, offset);
       }
       else
       {
         DEBUGmc35_pic14_emitcode(";", "%s", pcop->name);
-        sprintf(s, "%s", pcop->name);
+        // zwr 2.0.0
+        SNPRINTF(buffer, sizeof(buffer), "%s", pcop->name);
+        // sprintf(s, "%s", pcop->name);
       }
     }
     else
-      sprintf(s, "0x%02x", PCOI(aop->aopu.pcop)->offset);
+      // zwr 2.0.0
+      SNPRINTF(buffer, sizeof(buffer), "0x%02x", PCOI(aop->aopu.pcop)->offset);
+    // sprintf(s, "0x%02x", PCOI(aop->aopu.pcop)->offset);
   }
-    rs = Safe_calloc(1, strlen(s) + 1);
-    strcpy(rs, s);
-    return rs;
+    // zwr 2.0.0
+    return Safe_strdup(buffer);
+
+    // rs = Safe_calloc(1, strlen(s) + 1);
+    // strcpy(rs, s);
+    // return rs;
   }
 
   werror(E_INTERNAL_ERROR, __FILE__, __LINE__, "aopget got unsupported aop->type");
@@ -860,8 +910,8 @@ mc35_popGetTempReg(void)
   pcop = mc35_newpCodeOp(NULL, PO_GPR_TEMP);
   if (pcop && pcop->type == PO_GPR_TEMP && PCOR(pcop)->r)
   {
-    PCOR(pcop)->r->wasUsed = 1;
-    PCOR(pcop)->r->isFree = 0;
+    PCOR(pcop)->r->wasUsed = TRUE;
+    PCOR(pcop)->r->isFree = FALSE;
   }
 
   return pcop;
@@ -875,12 +925,13 @@ popReleaseTempReg(pCodeOp *pcop)
 {
 
   if (pcop && pcop->type == PO_GPR_TEMP && PCOR(pcop)->r)
-    PCOR(pcop)->r->isFree = 1;
+    PCOR(pcop)->r->isFree = TRUE;
 }
 
 /*-----------------------------------------------------------------*/
 /* mc35_popGetLabel - create a new pCodeOp of type PO_LABEL             */
 /*-----------------------------------------------------------------*/
+
 pCodeOp *
 mc35_popGetLabel(unsigned int key)
 {
@@ -918,8 +969,11 @@ mc35_popGetLit(unsigned int lit)
 /*-----------------------------------------------------------------*/
 /* mc35_popGetImmd - asm operator to pcode immediate conversion         */
 /*-----------------------------------------------------------------*/
+// zwr 2.0.0
 static pCodeOp *
-mc35_popGetImmd(char *name, unsigned int offset, int index, int is_func)
+mc35_popGetImmd(const char *name, unsigned int offset, int index, int is_func)
+// static pCodeOp *
+// mc35_popGetImmd(char *name, unsigned int offset, int index, int is_func)
 {
 
   return mc35_newpCodeOpImmd(name, offset, index, 0, is_func);
@@ -928,8 +982,11 @@ mc35_popGetImmd(char *name, unsigned int offset, int index, int is_func)
 /*-----------------------------------------------------------------*/
 /* mc35_popGetWithString - asm operator to pcode operator conversion            */
 /*-----------------------------------------------------------------*/
+// zwr 2.0.0
 static pCodeOp *
-mc35_popGetWithString(char *str, int isExtern)
+mc35_popGetWithString(const char *str, int isExtern)
+// static pCodeOp *
+// mc35_popGetWithString(char *str, int isExtern)
 {
   pCodeOp *pcop;
 
@@ -945,8 +1002,11 @@ mc35_popGetWithString(char *str, int isExtern)
   return pcop;
 }
 
+// zwr 2.0.0
 pCodeOp *
-mc35_popGetExternal(char *str, int isReg)
+mc35_popGetExternal(const char *str, int isReg)
+// pCodeOp *
+// mc35_popGetExternal(char *str, int isReg)
 {
   pCodeOp *pcop;
 
@@ -983,8 +1043,11 @@ mc35_popGetExternal(char *str, int isReg)
 /*-----------------------------------------------------------------*/
 /* mc35_popRegFromString -                                              */
 /*-----------------------------------------------------------------*/
+// zwr 2.0.0
 static pCodeOp *
-mc35_popRegFromString(char *str, int size, int offset)
+mc35_popRegFromString(const char *str, int size, int offset)
+// static pCodeOp *
+// mc35_popRegFromString(char *str, int size, int offset)
 {
 
   pCodeOp *pcop = Safe_calloc(1, sizeof(pCodeOpReg));
@@ -995,8 +1058,10 @@ mc35_popRegFromString(char *str, int size, int offset)
   if (!str)
     str = "BAD_STRING";
 
-  pcop->name = Safe_calloc(1, strlen(str) + 1);
-  strcpy(pcop->name, str);
+  // zwr 2.0.0
+  pcop->name = Safe_strdup(str);
+  // pcop->name = Safe_calloc(1, strlen(str) + 1);
+  // strcpy(pcop->name, str);
 
   //pcop->name = Safe_strdup( ( (str) ? str : "BAD STRING"));
 
@@ -1025,12 +1090,14 @@ popRegFromIdx(int rIdx)
 
   DEBUGmc35_pic14_emitcode("; ***", "%s,%d  , rIdx=0x%x", __FUNCTION__, __LINE__, rIdx);
 
-  pcop = Safe_calloc(1, sizeof(pCodeOpReg));
+  // zwr 2.0.0
+  pcop = Safe_alloc(sizeof(pCodeOpReg));
+  // pcop = Safe_calloc(1, sizeof(pCodeOpReg));
 
   PCOR(pcop)->rIdx = rIdx;
   PCOR(pcop)->r = mc35_typeRegWithIdx(rIdx, REG_STK, 1);
-  PCOR(pcop)->r->isFree = 0;
-  PCOR(pcop)->r->wasUsed = 1;
+  PCOR(pcop)->r->isFree = FALSE;
+  PCOR(pcop)->r->wasUsed = TRUE;
 
   pcop->type = PCOR(pcop)->r->pc_type;
 
@@ -1055,11 +1122,18 @@ mc35_popGet(asmop *aop, int offset) //, bool bit16, bool dname)
   assert(aop);
 
   /* XXX: still needed for BIT operands (AOP_CRY) */
-  if (offset > (aop->size - 1) && aop->type != AOP_LIT && aop->type != AOP_PCODE)
+  // zwr 2.0.0
+  if ((offset >= aop->size) && (aop->type != AOP_LIT) && (aop->type != AOP_PCODE))
   {
-    printf("%s: (offset[%d] > AOP_SIZE(op)[%d]-1) && AOP_TYPE(op) != AOP_LIT)\n", __FUNCTION__, offset, aop->size);
+    printf("%s: (offset[%d] >= AOP_SIZE(op)[%d]) && (AOP_TYPE(op)[%d] != { AOP_LIT, AOP_PCODE })\n",
+           __FUNCTION__, offset, aop->size, aop->type);
     return NULL; //zero;
   }
+  // if (offset > (aop->size - 1) && aop->type != AOP_LIT && aop->type != AOP_PCODE)
+  // {
+  //   printf("%s: (offset[%d] > AOP_SIZE(op)[%d]-1) && AOP_TYPE(op) != AOP_LIT)\n", __FUNCTION__, offset, aop->size);
+  //   return NULL; //zero;
+  // }
 
   /* depending on type */
   switch (aop->type)
@@ -1081,8 +1155,8 @@ mc35_popGet(asmop *aop, int offset) //, bool bit16, bool dname)
     pcop = Safe_calloc(1, sizeof(pCodeOpReg));
     PCOR(pcop)->rIdx = rIdx;
     PCOR(pcop)->r = mc35_pic14_regWithIdx(rIdx);
-    PCOR(pcop)->r->wasUsed = 1;
-    PCOR(pcop)->r->isFree = 0;
+    PCOR(pcop)->r->wasUsed = TRUE;
+    PCOR(pcop)->r->isFree = FALSE;
 
     PCOR(pcop)->instance = offset;
     pcop->type = PCOR(pcop)->r->pc_type;
@@ -1170,9 +1244,11 @@ mc35_popGetAddr(asmop *aop, int offset, int index)
 /*-----------------------------------------------------------------*/
 /* mc35_aopPut - puts a string for a aop                                */
 /*-----------------------------------------------------------------*/
-void mc35_aopPut(asmop *aop, char *s, int offset)
+// zwr 2.0.0
+void mc35_aopPut(asmop *aop, const char *s, int offset)
+// void mc35_aopPut(asmop *aop, char *s, int offset)
 {
-  char *d = buffer;
+  // char *d = buffer;
   symbol *lbl;
 
   DEBUGmc35_pic14_emitcode("; ***", "%s  %d", __FUNCTION__, __LINE__);
@@ -1190,18 +1266,23 @@ void mc35_aopPut(asmop *aop, char *s, int offset)
   case AOP_DIR:
     if (offset)
     {
-      sprintf(d, "(%s + %d)", aop->aopu.aop_dir, offset);
+      // zwr 2.0.0
+      SNPRINTF(buffer, sizeof(buffer), "(%s + %d)", aop->aopu.aop_dir, offset);
+      // sprintf(d, "(%s + %d)", aop->aopu.aop_dir, offset);
       fprintf(stderr, "oops mc35_aopPut:AOP_DIR did this %s\n", s);
     }
     else
-      sprintf(d, "%s", aop->aopu.aop_dir);
+      // zwr 2.0.0
+      SNPRINTF(buffer, sizeof(buffer), "%s", aop->aopu.aop_dir);
+    // sprintf(d, "%s", aop->aopu.aop_dir);
 
-    if (strcmp(d, s))
+    if (strcmp(buffer, s))
     {
       DEBUGmc35_pic14_emitcode(";", "%d", __LINE__);
       if (strcmp(s, "W"))
         mc35_pic14_emitcode("movf", "%s,w", s);
-      mc35_pic14_emitcode("movwf", "%s", d);
+
+      mc35_pic14_emitcode("movwf", "%s", buffer);
 
       if (strcmp(s, "W"))
       {
@@ -1234,7 +1315,9 @@ void mc35_aopPut(asmop *aop, char *s, int offset)
       }
       else if (strcmp(s, "W") == 0)
       {
-        pCodeOp *pcop = Safe_calloc(1, sizeof(pCodeOpReg));
+        // zwr 2.0.0
+        pCodeOp *pcop = Safe_alloc(sizeof(pCodeOpReg));
+        // pCodeOp *pcop = Safe_calloc(1, sizeof(pCodeOpReg));
         pcop->type = PO_GPR_REGISTER;
 
         PCOR(pcop)->rIdx = -1;
@@ -1247,11 +1330,8 @@ void mc35_aopPut(asmop *aop, char *s, int offset)
       }
       else if (strcmp(s, one) == 0)
       {
-        // zwr 1.0.0 inst incr #1
-        // mc35_emitpcode(POC_CLRF, mc35_popGet(aop, offset));
-        // mc35_emitpcode(POC_INCF, mc35_popGet(aop, offset));
-        mc35_emitpcode(POC_MOVLW, mc35_popGetLit(1));
-        mc35_emitpcode(POC_MOVWF, mc35_popGet(aop, offset));
+        mc35_emitpcode(POC_CLRF, mc35_popGet(aop, offset));
+        mc35_emitpcode(POC_INCF, mc35_popGet(aop, offset));
       }
       else
       {
@@ -1537,10 +1617,7 @@ genNot(iCode *ic)
     {
       mc35_emitpcode(POC_CLRF, mc35_popGet(AOP(IC_RESULT(ic)), 0));
       mc35_emitpcode(POC_BTFSS, mc35_popGet(AOP(IC_LEFT(ic)), 0));
-      // zwr 1.0.0 inst #2
-      // mc35_emitpcode(POC_INCF, mc35_popGet(AOP(IC_RESULT(ic)), 0));
-      mc35_emitpcode(POC_INCFSZ, mc35_popGet(AOP(IC_RESULT(ic)), 0));
-      mc35_emitpcodeNULLop(POC_NOP);
+      mc35_emitpcode(POC_INCF, mc35_popGet(AOP(IC_RESULT(ic)), 0));
     }
     goto release;
   }
@@ -1602,11 +1679,7 @@ genCpl(iCode *ic)
     size = AOP_SIZE(left);
   while (size--)
   {
-    // zwr 1.0.0 inst comar #1
-    // mc35_emitpcode(POC_COMFW, mc35_popGet(AOP(left), offset));
-    mc35_emitpcode(POC_MOVLW, mc35_popGetLit(0xff));
-    mc35_emitpcode(POC_XORFW, mc35_popGet(AOP(left), offset));
-
+    mc35_emitpcode(POC_COMFW, mc35_popGet(AOP(left), offset));
     mc35_emitpcode(POC_MOVWF, mc35_popGet(AOP(result), offset));
     offset++;
   }
@@ -1687,36 +1760,19 @@ genUminus(iCode *ic)
   for (i = 0; i < size; i++)
   {
     if (mc35_sameRegs(AOP(IC_LEFT(ic)), AOP(IC_RESULT(ic))))
-    {
-      // zwr 1.0.0 inst comr #1
-      // mc35_emitpcode(POC_COMF, mc35_popGet(AOP(IC_LEFT(ic)), i));
-      mc35_emitpcode(POC_MOVLW, mc35_popGetLit(0xff));
-      mc35_emitpcode(POC_XORWF, mc35_popGet(AOP(IC_LEFT(ic)), i));
-    }
+      mc35_emitpcode(POC_COMF, mc35_popGet(AOP(IC_LEFT(ic)), i));
     else
     {
-      // zwr 1.0.0 inst comar #1
-      // mc35_emitpcode(POC_COMFW, mc35_popGet(AOP(IC_LEFT(ic)), i));
-      mc35_emitpcode(POC_MOVLW, mc35_popGetLit(0xff));
-      mc35_emitpcode(POC_XORFW, mc35_popGet(AOP(IC_LEFT(ic)), i));
-
+      mc35_emitpcode(POC_COMFW, mc35_popGet(AOP(IC_LEFT(ic)), i));
       mc35_emitpcode(POC_MOVWF, mc35_popGet(AOP(IC_RESULT(ic)), i));
     }
   }
 
-  // zwr 1.0.0 inst incr #3
-  // mc35_emitpcode(POC_INCF, mc35_popGet(AOP(IC_RESULT(ic)), 0));
-  // for (i = 1; i < size; i++)
-  // {
-  //   mc35_emitSKPNZ;
-  //   mc35_emitpcode(POC_INCF, mc35_popGet(AOP(IC_RESULT(ic)), i));
-  // }
-  mc35_emitpcode(POC_MOVLW, mc35_popGetLit(1));
-  mc35_emitpcode(POC_ADDWF, mc35_popGet(AOP(IC_RESULT(ic)), 0));
+  mc35_emitpcode(POC_INCF, mc35_popGet(AOP(IC_RESULT(ic)), 0));
   for (i = 1; i < size; i++)
   {
     mc35_emitSKPNZ;
-    mc35_emitpcode(POC_ADDWF, mc35_popGet(AOP(IC_RESULT(ic)), i));
+    mc35_emitpcode(POC_INCF, mc35_popGet(AOP(IC_RESULT(ic)), i));
   }
 
 release:
@@ -1904,8 +1960,8 @@ assignResultValue(operand *oper)
   /* assign MSB first (passed via WREG) */
   while (size--)
   {
-    get_returnvalue(oper, size, offset + mc35_GpsuedoStkPtr);
-    mc35_GpsuedoStkPtr++;
+    get_returnvalue(oper, size, offset + mc35_GpseudoStkPtr);
+    mc35_GpseudoStkPtr++;
   }
 }
 
@@ -2099,7 +2155,7 @@ genCall(iCode *ic)
        * in registers. (The pCode optimizer will get
        * rid of most of these :).
        */
-    int psuedoStkPtr = -1;
+    int pseudoStkPtr = -1;
     int firstTimeThruLoop = 1;
 
     _G.sendSet = reverseSet(_G.sendSet);
@@ -2109,7 +2165,7 @@ genCall(iCode *ic)
     {
 
       mc35_aopOp(IC_LEFT(sic), sic, FALSE);
-      psuedoStkPtr += AOP_SIZE(IC_LEFT(sic));
+      pseudoStkPtr += AOP_SIZE(IC_LEFT(sic));
       mc35_freeAsmop(IC_LEFT(sic), NULL, sic, FALSE);
     }
 
@@ -2130,7 +2186,7 @@ genCall(iCode *ic)
                    * then we need to save the parameter in a temporary
                    * register. The last byte of the last parameter is
                    * passed in W. */
-          mc35_emitpcode(POC_MOVWF, popRegFromIdx(mc35_Gstack_base_addr - --psuedoStkPtr));
+          mc35_emitpcode(POC_MOVWF, popRegFromIdx(mc35_Gstack_base_addr - --pseudoStkPtr));
         }
         firstTimeThruLoop = 0;
 
@@ -2155,6 +2211,7 @@ genCall(iCode *ic)
    * file (might include this in the PAGESEL pass).
    */
   isExtern = IS_EXTERN(sym->etype) || mc35_inISR;
+
   if (isExtern)
   {
     /* Extern functions and ISRs maybe on a different page;
@@ -2169,7 +2226,7 @@ genCall(iCode *ic)
        * goto or call instruction */
     //mc35_emitpcode(POC_PAGESEL, mc35_popGetWithString("$", 0));   // zwr 1.0.0
   }
-  mc35_GpsuedoStkPtr = 0;
+  mc35_GpseudoStkPtr = 0;
   /* if we need assign a result value */
   if ((IS_ITEMP(IC_RESULT(ic)) &&
        (OP_SYMBOL(IC_RESULT(ic))->nRegs || OP_SYMBOL(IC_RESULT(ic))->spildir)) ||
@@ -2229,7 +2286,7 @@ genPcall(iCode *ic)
 
   poc = (mc35_op_isLitLike(IC_LEFT(ic)) ? POC_MOVLW : POC_MOVFW);
 
-  pushSide(IC_LEFT(ic), FPTRSIZE);
+  pushSide(IC_LEFT(ic), FARPTRSIZE);
 
   /* if send set is not empty, assign parameters */
   if (_G.sendSet)
@@ -2277,7 +2334,7 @@ genPcall(iCode *ic)
     mc35_aopOp(IC_RESULT(ic), ic, FALSE);
     _G.accInUse--;
 
-    mc35_GpsuedoStkPtr = 0;
+    mc35_GpseudoStkPtr = 0;
 
     assignResultValue(IC_RESULT(ic));
 
@@ -2332,18 +2389,20 @@ genFunction(iCode *ic)
 
   mc35_labelOffset += (mc35_max_key + 4);
   mc35_max_key = 0;
-  mc35_GpsuedoStkPtr = 0;
+  mc35_GpseudoStkPtr = 0;
   _G.nRegsSaved = 0;
   /* create the function header */
   mc35_pic14_emitcode(";", "-----------------------------------------");
   mc35_pic14_emitcode(";", " function %s", (sym = OP_SYMBOL(IC_LEFT(ic)))->name);
   mc35_pic14_emitcode(";", "-----------------------------------------");
 
-  /* prevent this symbol from being emitted as 'extern' */
+  /* prevent this symbol from being mc35_emitted as 'extern' */
   mc35_stringInSet(sym->rname, &mc35_localFunctions, 1);
 
   mc35_pic14_emitcode("", "%s:", sym->rname);
-  mc35_addpCode2pBlock(pb, mc35_newpCodeFunction(NULL, sym->rname, !IS_STATIC(sym->etype)));
+  // zwr 2.0.0
+  mc35_addpCode2pBlock(pb, mc35_newpCodeFunction(moduleName, sym->rname, !IS_STATIC(sym->etype), IFFUNC_ISISR(sym->type)));
+  // mc35_addpCode2pBlock(pb, mc35_newpCodeFunction(NULL, sym->rname, !IS_STATIC(sym->etype)));
 
   /* mark symbol as NOT extern (even if it was declared so previously) */
   assert(IS_SPEC(sym->etype));
@@ -2378,34 +2437,39 @@ genFunction(iCode *ic)
   if (IFFUNC_ISISR(sym->type))
   {
     mc35_inISR = 1;
-    if (mc35_getPIC()->isEnhancedCore)
+    // zwr 2.0.0
+    if (!IFFUNC_ISNAKED(sym->type))
     {
-      /*
-           * Enhanced CPUs have automatic context saving for W,
-           * STATUS, BSR, FSRx, and PCLATH in shadow registers.
-           */
-      mc35_emitpcode(POC_CLRF, mc35_popCopyReg(&mc35_pc_pclath));
+      if (mc35_pic->isEnhancedCore)
+      // if (mc35_getPIC()->isEnhancedCore)
+      {
+        /*
+            * Enhanced CPUs have automatic context saving for W,
+            * STATUS, BSR, FSRx, and PCLATH in shadow registers.
+            */
+        mc35_emitpcode(POC_CLRF, mc35_popCopyReg(&mc35_pc_pclath));
+      }
+      else
+      {
+        // zwr 1.0.0
+        // mc35_emitpcode(POC_MOVWF, mc35_popCopyReg(&mc35_pc_wsave));
+        // mc35_emitpcode(POC_SWAPFW, mc35_popCopyReg(&mc35_pc_status));
+        // /* XXX: Why? Does this assume that ssave and psave reside
+        //      * in a shared bank or bank0? We cannot guarantee the
+        //      * latter...
+        //      */
+        // mc35_emitpcode(POC_CLRF, mc35_popCopyReg(&mc35_pc_status));
+        // mc35_emitpcode(POC_MOVWF, mc35_popCopyReg(&mc35_pc_ssave));
+        // //mc35_emitpcode(POC_MOVWF,  mc35_popGetExternal("___sdcc_saved_status",1 ));
+        // mc35_emitpcode(POC_MOVFW, mc35_popCopyReg(&mc35_pc_pclath));
+        // /* during an interrupt PCLATH must be cleared before a goto or call statement */
+        // mc35_emitpcode(POC_CLRF, mc35_popCopyReg(&mc35_pc_pclath));
+        // mc35_emitpcode(POC_MOVWF, mc35_popCopyReg(&mc35_pc_psave));
+        // //mc35_emitpcode(POC_MOVWF,  mc35_popGetExternal("___sdcc_saved_pclath", 1));
+        // mc35_emitpcode(POC_MOVFW, mc35_popCopyReg(&mc35_pc_fsr));
+        // mc35_emitpcode(POC_MOVWF, mc35_popGetExternal("___sdcc_saved_fsr", 1));
+      } // if
     }
-    else
-    {
-      // zwr 1.0.0
-      // mc35_emitpcode(POC_MOVWF, mc35_popCopyReg(&mc35_pc_wsave));
-      // mc35_emitpcode(POC_SWAPFW, mc35_popCopyReg(&mc35_pc_status));
-      // /* XXX: Why? Does this assume that ssave and psave reside
-      //      * in a shared bank or bank0? We cannot guarantee the
-      //      * latter...
-      //      */
-      // mc35_emitpcode(POC_CLRF, mc35_popCopyReg(&mc35_pc_status));
-      // mc35_emitpcode(POC_MOVWF, mc35_popCopyReg(&mc35_pc_ssave));
-      // //mc35_emitpcode(POC_MOVWF,  mc35_popGetExternal("___sdcc_saved_status",1 ));
-      // mc35_emitpcode(POC_MOVFW, mc35_popCopyReg(&pc_pcmc35_pc_pclathlath));
-      // /* during an interrupt PCLATH must be cleared before a goto or call statement */
-      // mc35_emitpcode(POC_CLRF, mc35_popCopyReg(&mc35_pc_pclath));
-      // mc35_emitpcode(POC_MOVWF, mc35_popCopyReg(&mc35_pc_psave));
-      // //mc35_emitpcode(POC_MOVWF,  mc35_popGetExternal("___sdcc_saved_pclath", 1));
-      // mc35_emitpcode(POC_MOVFW, mc35_popCopyReg(&mc35_pc_fsr));
-      // mc35_emitpcode(POC_MOVWF, mc35_popGetExternal("___sdcc_saved_fsr", 1));
-    } // if
 
     mc35_pBlockConvert2ISR(pb);
     mc35_hasInterrupt = 1;
@@ -2577,7 +2641,7 @@ genEndFunction(iCode *ic)
           {
             if (bitVectBitValue(sym->regsUsed, i))
             {
-              mc35_pic14_emitcode("pop", "junk"); //"%s",mc35_pic14_regWithIdxg(i)->dname);
+              mc35_pic14_emitcode("pop", "junk"); //"%s",mc35_pic14_regWithIdx(i)->dname);
             }
           }
         }
@@ -2597,11 +2661,13 @@ genEndFunction(iCode *ic)
       debugFile->writeEndFunction(currFunc, ic, 1);
     }
 
-    if (mc35_getPIC()->isEnhancedCore)
-    {
-      /* Nothing to do. */
-    }
-    else
+    // zwr 2.0.0
+    if (!mc35_pic->isEnhancedCore && !IFFUNC_ISNAKED(sym->type))
+    // if (mc35_getPIC()->isEnhancedCore)
+    // {
+    //   /* Nothing to do. */
+    // }
+    // else
     {
       // zwr 1.0.0
       // mc35_emitpcode(POC_MOVFW, mc35_popGetExternal("___sdcc_saved_fsr", 1));
@@ -2652,7 +2718,9 @@ genEndFunction(iCode *ic)
     mc35_emitpcodeNULLop(POC_RETURN);
 
     /* Mark the end of a function */
-    mc35_addpCode2pBlock(pb, mc35_newpCodeFunction(NULL, NULL, 0));
+    // zwr 2.0.0
+    mc35_addpCode2pBlock(pb, mc35_newpCodeFunction(moduleName, NULL, 0, 0));
+    // mc35_addpCode2pBlock(pb, mc35_newpCodeFunction(NULL, NULL, 0));
   }
 }
 
@@ -3201,7 +3269,7 @@ genIfxJump(iCode *ic, char *jval)
   }
 
   /* mark the icode as generated */
-  ic->generated = 1;
+  ic->generated = TRUE;
 }
 
 /*-----------------------------------------------------------------*/
@@ -3221,7 +3289,7 @@ genSkipc(resolvedIfx *rifx)
 
   mc35_emitpcode(POC_GOTO, mc35_popGetLabel(rifx->lbl->key));
   mc35_emitpComment("%s:%u: created from rifx:%p", __FUNCTION__, __LINE__, rifx);
-  rifx->generated = 1;
+  rifx->generated = TRUE;
 }
 
 #define isAOP_REGlike(x) (AOP_TYPE(x) == AOP_REG || AOP_TYPE(x) == AOP_DIR || AOP_TYPE(x) == AOP_PCODE)
@@ -3229,7 +3297,7 @@ genSkipc(resolvedIfx *rifx)
 #define DEBUGpc mc35_emitpComment
 
 /*-----------------------------------------------------------------*/
-/* mc35_mov2w_regOrLit :- move to WREG either the offset's byte from    */
+/* mov2w_regOrLit :- move to WREG either the offset's byte from    */
 /*                  aop (if it's NOT a literal) or from lit (if    */
 /*                  aop is a literal)                              */
 /*-----------------------------------------------------------------*/
@@ -3405,11 +3473,7 @@ genCmp(operand *left, operand *right, operand *result, iCode *ifx, int sign)
   {
     // unsigned comparison
     mc35_mov2w_regOrLit(AOP(right), lit, size);
-    // zwr 1.0.0 inst rsubar #1
-    // mc35_emitpcode(POC_SUBFW, mc35_popGet(AOP(left), size));
-    mc35_emitpcode(POC_XCH, mc35_popGet(AOP(left), size));
-    mc35_emitpcode(POC_SUBWF, mc35_popGet(AOP(left), size));
-    mc35_emitpcode(POC_XCH, mc35_popGet(AOP(left), size));
+    mc35_emitpcode(POC_SUBFW, mc35_popGet(AOP(left), size));
   }
   else
   {
@@ -3443,11 +3507,7 @@ genCmp(operand *left, operand *right, operand *result, iCode *ifx, int sign)
       mc35_emitpcode(POC_MOVWF, pctemp);
       mc35_mov2w(AOP(right), size);
       mc35_emitpcode(POC_ADDLW, mc35_popGetLit(0x80));
-      // zwr 1.0.0 inst rsubar #1
-      // mc35_emitpcode(POC_SUBFW, pctemp);
-      mc35_emitpcode(POC_XCH, pctemp);
-      mc35_emitpcode(POC_SUBWF, pctemp);
-      mc35_emitpcode(POC_XCH, pctemp);
+      mc35_emitpcode(POC_SUBFW, pctemp);
       popReleaseTempReg(pctemp);
     }
   } // if (!sign)
@@ -3461,11 +3521,7 @@ genCmp(operand *left, operand *right, operand *result, iCode *ifx, int sign)
     mc35_emitSKPZ;
     mc35_emitpcode(POC_GOTO, mc35_popGetLabel(templbl->key));
     mc35_mov2w_regOrLit(AOP(right), lit, offs);
-    // zwr 1.0.0 inst rsubar #1
-    // mc35_emitpcode(POC_SUBFW, mc35_popGet(AOP(left), offs));
-    mc35_emitpcode(POC_XCH, mc35_popGet(AOP(left), offs));
-    mc35_emitpcode(POC_SUBWF, mc35_popGet(AOP(left), offs));
-    mc35_emitpcode(POC_XCH, mc35_popGet(AOP(left), offs));
+    mc35_emitpcode(POC_SUBFW, mc35_popGet(AOP(left), offs));
   } // while (offs)
   mc35_emitpLabel(templbl->key);
   goto result_in_carry;
@@ -3483,7 +3539,7 @@ result_in_carry:
   {
     invert_result = 1;
     // value will be used in the following genSkipc ()
-    rIfx.condition ^= 1;
+    rIfx.condition ^= TRUE;
   } // if
 
 correct_result_in_carry:
@@ -3518,7 +3574,7 @@ correct_result_in_carry:
   {
     //DEBUGpc ("generate control flow");
     genSkipc(&rIfx);
-    ifx->generated = 1;
+    ifx->generated = TRUE;
   } // if
 }
 
@@ -3701,10 +3757,7 @@ genCmpEq(iCode *ic, iCode *ifx)
 
   if (AOP_SIZE(result) > 0)
   {
-    // zwr 1.0.0 inst incr #2
-    // mc35_emitpcode(POC_INCF, mc35_popGet(AOP(result), 0));
-    mc35_emitpcode(POC_INCFSZ, mc35_popGet(AOP(result), 0));
-    mc35_emitpcodeNULLop(POC_NOP);
+    mc35_emitpcode(POC_INCF, mc35_popGet(AOP(result), 0));
   }
 
   if (ifx && IC_TRUE(ifx))
@@ -3716,7 +3769,7 @@ genCmpEq(iCode *ic, iCode *ifx)
     mc35_emitpLabel(false_label->key);
 
   if (ifx)
-    ifx->generated = 1;
+    ifx->generated = TRUE;
 
   mc35_freeAsmop(left, NULL, ic, (RESULTONSTACK(ic) ? FALSE : TRUE));
   mc35_freeAsmop(right, NULL, ic, (RESULTONSTACK(ic) ? FALSE : TRUE));
@@ -3806,10 +3859,7 @@ genOrOp(iCode *ic)
   mc35_emitpLabel(tlbl->key);
   /* here Z is clear IFF `left || right' */
   mc35_emitSKPZ;
-  // zwr 1.0.0 inst incr #2
-  // mc35_emitpcode(POC_INCF, mc35_popGet(AOP(result), 0));
-  mc35_emitpcode(POC_INCFSZ, mc35_popGet(AOP(result), 0));
-  mc35_emitpcodeNULLop(POC_NOP);
+  mc35_emitpcode(POC_INCF, mc35_popGet(AOP(result), 0));
 
   mc35_freeAsmop(left, NULL, ic, (RESULTONSTACK(ic) ? FALSE : TRUE));
   mc35_freeAsmop(right, NULL, ic, (RESULTONSTACK(ic) ? FALSE : TRUE));
@@ -3852,7 +3902,7 @@ continueIfTrue(iCode *ic)
     mc35_emitpcode(POC_GOTO, mc35_popGetLabel(labelKey2num(IC_TRUE(ic)->key)));
     mc35_pic14_emitcode("ljmp", "%05d_DS_", labelKey2num(IC_FALSE(ic)->key));
   }
-  ic->generated = 1;
+  ic->generated = TRUE;
 }
 
 /*-----------------------------------------------------------------*/
@@ -3868,7 +3918,7 @@ jumpIfTrue(iCode *ic)
     mc35_emitpcode(POC_GOTO, labelKey2num(mc35_popGetLabel(IC_TRUE(ic)->key)));
     mc35_pic14_emitcode("ljmp", "%05d_DS_", labelKey2num(IC_FALSE(ic)->key));
   }
-  ic->generated = 1;
+  ic->generated = TRUE;
 }
 
 /*-----------------------------------------------------------------*/
@@ -3893,7 +3943,7 @@ jmpTrueOrFalse(iCode *ic, symbol *tlbl)
     mc35_pic14_emitcode("ljmp", "%05d_DS_", labelKey2num(IC_FALSE(ic)->key));
     mc35_pic14_emitcode("", "%05d_DS_:", labelKey2num(tlbl->key));
   }
-  ic->generated = 1;
+  ic->generated = TRUE;
 }
 
 /*-----------------------------------------------------------------*/
@@ -4031,7 +4081,7 @@ genAnd(iCode *ic, iCode *ifx)
                          mc35_newpCodeOpBit(mc35_aopGet(AOP(left), offset, FALSE, FALSE), posbit, 0));
           mc35_emitpcode(POC_GOTO, mc35_popGetLabel(rIfx.lbl->key));
 
-          ifx->generated = 1;
+          ifx->generated = TRUE;
         }
         goto release;
       }
@@ -4042,38 +4092,65 @@ genAnd(iCode *ic, iCode *ifx)
       int sizel = AOP_SIZE(left);
       if (size)
         mc35_pic14_emitcode("setb", "c");
+      // zwr 2.0.0
       while (sizel--)
       {
         if ((bytelit = ((lit >> (offset * 8)) & 0x0FFL)) != 0x0L)
         {
-          mc35_mov2w(AOP(left), offset);
           // byte ==  2^n ?
           if ((posbit = isLiteralBit(bytelit)) != 0)
           {
-            mc35_emitpcode(rIfx.condition ? POC_BTFSC : POC_BTFSS, // XXX: or the other way round?
+            mc35_emitpcode(POC_BTFSC,
                            mc35_newpCodeOpBit(mc35_aopGet(AOP(left), offset, FALSE, FALSE), posbit - 1, 0));
-            mc35_pic14_emitcode("jb", "acc.%d,%05d_DS_", (posbit - 1) & 0x07, labelKey2num(tlbl->key));
           }
           else
           {
+            mc35_mov2w(AOP(left), offset);
             mc35_emitpcode(POC_ANDLW, mc35_newpCodeOpLit(bytelit & 0x0ff));
-            if (rIfx.condition)
-              mc35_emitSKPZ;
-            else
-              mc35_emitSKPNZ;
-
-            if (bytelit != 0x0FFL)
-            {
-              mc35_pic14_emitcode("anl", "a,%s", mc35_aopGet(AOP(right), offset, FALSE, TRUE));
-            }
-            mc35_pic14_emitcode("jnz", "%05d_DS_", labelKey2num(tlbl->key));
+            mc35_emitSKPZ;
           }
-
-          mc35_emitpcode(POC_GOTO, mc35_popGetLabel(rIfx.lbl->key));
-          ifx->generated = 1;
+          mc35_emitpcode(POC_GOTO, mc35_popGetLabel(rIfx.condition ? rIfx.lbl->key : tlbl->key));
         }
         offset++;
       }
+      if (!rIfx.condition)
+      {
+        mc35_emitpcode(POC_GOTO, mc35_popGetLabel(rIfx.lbl->key));
+      }
+      mc35_emitpLabel(tlbl->key);
+      ifx->generated = TRUE;
+      // while (sizel--)
+      // {
+      //   if ((bytelit = ((lit >> (offset * 8)) & 0x0FFL)) != 0x0L)
+      //   {
+      //     mc35_mov2w(AOP(left), offset);
+      //     // byte ==  2^n ?
+      //     if ((posbit = isLiteralBit(bytelit)) != 0)
+      //     {
+      //       mc35_emitpcode(rIfx.condition ? POC_BTFSC : POC_BTFSS, // XXX: or the other way round?
+      //                 mc35_newpCodeOpBit(mc35_aopGet(AOP(left), offset, FALSE, FALSE), posbit - 1, 0));
+      //       mc35_pic14_emitcode("jb", "acc.%d,%05d_DS_", (posbit - 1) & 0x07, labelKey2num(tlbl->key));
+      //     }
+      //     else
+      //     {
+      //       mc35_emitpcode(POC_ANDLW, mc35_newpCodeOpLit(bytelit & 0x0ff));
+      //       if (rIfx.condition)
+      //         mc35_emitSKPZ;
+      //       else
+      //         mc35_emitSKPNZ;
+
+      //       if (bytelit != 0x0FFL)
+      //       {
+      //         mc35_pic14_emitcode("anl", "a,%s", mc35_aopGet(AOP(right), offset, FALSE, TRUE));
+      //       }
+      //       mc35_pic14_emitcode("jnz", "%05d_DS_", labelKey2num(tlbl->key));
+      //     }
+
+      //     mc35_emitpcode(POC_GOTO, mc35_popGetLabel(rIfx.lbl->key));
+      //     ifx->generated = 1;
+      //   }
+      //   offset++;
+      // }
       // bit = left & literal
       if (size)
       {
@@ -4692,11 +4769,7 @@ genXor(iCode *ic, iCode *ifx)
             mc35_emitpcode(POC_MOVWF, mc35_popGet(AOP(result), offset));
             break;
           case 0xff:
-            // zwr 1.0.0 inst comar #1
-            // mc35_emitpcode(POC_COMFW, mc35_popGet(AOP(left), offset));
-            mc35_emitpcode(POC_MOVLW, mc35_popGetLit(0xff));
-            mc35_emitpcode(POC_XORFW, mc35_popGet(AOP(left), offset));
-
+            mc35_emitpcode(POC_COMFW, mc35_popGet(AOP(left), offset));
             mc35_emitpcode(POC_MOVWF, mc35_popGet(AOP(result), offset));
             break;
           default:
@@ -5086,12 +5159,8 @@ AccRsh(pCodeOp *pcop, int shCount, int mask_mode)
       /* load sign */
       mc35_emitpcode(POC_RLFW, pcop);
       mc35_emitpcode(POC_CLRF, pcop);
-      // zwr 1.0.0 inst comr #2
-      // mc35_emitSKPNC;
-      // mc35_emitpcode(POC_COMF, pcop);
-      mc35_emitpcode(POC_MOVLW, mc35_popGetLit(0xff));
       mc35_emitSKPNC;
-      mc35_emitpcode(POC_XORWF, pcop);
+      mc35_emitpcode(POC_COMF, pcop);
       return;
     }
     else
@@ -5337,10 +5406,7 @@ shiftRight_Left2ResultLit(operand *left, operand *result, int shCount, int sign)
       else
       {
         mc35_emitSKPNC;
-        // zwr 1.0.0 inst decr #1
-        // mc35_emitpcode(POC_DECF, mc35_popGet(AOP(result), size - 1));
-        mc35_emitpcode(POC_DECFSZ, mc35_popGet(AOP(result), size - 1));
-        mc35_emitpcodeNULLop(POC_NOP);
+        mc35_emitpcode(POC_DECF, mc35_popGet(AOP(result), size - 1));
       }
       break;
 
@@ -5487,15 +5553,8 @@ genGenericShift(iCode *ic, int shiftRight)
     /* signed shift count -- invert shift direction for c<0 */
     mc35_emitpcode(POC_BTFSC, mc35_newpCodeOpBit(mc35_aopGet(AOP(right), 0, FALSE, FALSE), 7, 0));
     mc35_emitpcode(POC_GOTO, mc35_popGetLabel(inverselbl->key));
-  } // if
-
-  // zwr 1.0.0 inst isubai #2
-  // mc35_emitpcode(POC_SUBLW, mc35_popGetLit(0));
-  mc35_emitpcode(POC_XORLW, mc35_popGetLit(0xff));
-  mc35_emitpcode(POC_ADDLW, mc35_popGetLit(1));
-
-  /* -count in WREG, 0-x > 0 --> BORROW = !CARRY --> CARRY is clear! */
-
+  }                                             // if
+  mc35_emitpcode(POC_SUBLW, mc35_popGetLit(0)); /* -count in WREG, 0-x > 0 --> BORROW = !CARRY --> CARRY is clear! */
   /* check for `a = b >> c' with `-c == 0' */
   mc35_emitSKPNZ;
   mc35_emitpcode(POC_GOTO, mc35_popGetLabel(tlbl1->key));
@@ -5565,24 +5624,31 @@ SetIrp(operand *result)
     else
       mc35_emitCLRIRP;
   }
+
+  // zwr 2.0.0
+  else if ((AOP_TYPE(result) == AOP_PCODE) && (AOP(result)->aopu.pcop->type == PO_LITERAL))
+  {
+    int addrs = PCOL(AOP(result)->aopu.pcop)->lit;
+    if (addrs & 0x100)
+      mc35_emitSETIRP;
+    else
+      mc35_emitCLRIRP;
+  }
+  else if ((AOP_TYPE(result) == AOP_PCODE) && (AOP(result)->aopu.pcop->type == PO_IMMEDIATE))
+  {
+    mc35_emitCLRIRP; /* always ensure this is clear as it may have previously been set */
+    mc35_emitpcode(POC_MOVLW, mc35_popGetAddr(AOP(result), 1, 0));
+    mc35_emitpcode(POC_ANDLW, mc35_popGetLit(0x01));
+    mc35_emitSKPZ;
+    mc35_emitSETIRP;
+  }
   else
   {
-    if ((AOP_TYPE(result) == AOP_PCODE) && (AOP(result)->aopu.pcop->type == PO_LITERAL))
+    mc35_emitCLRIRP; /* always ensure this is clear as it may have previouly been set */
+    if (AOP_SIZE(result) > 1)
     {
-      int addrs = PCOL(AOP(result)->aopu.pcop)->lit;
-      if (addrs & 0x100)
-        mc35_emitSETIRP;
-      else
-        mc35_emitCLRIRP;
-    }
-    else
-    {
-      mc35_emitCLRIRP; /* always ensure this is clear as it may have previouly been set */
-      if (AOP_SIZE(result) > 1)
-      {
-        mc35_emitpcode(POC_BTFSC, mc35_newpCodeOpBit(mc35_aopGet(AOP(result), 1, FALSE, FALSE), 0, 0));
-        mc35_emitSETIRP;
-      }
+      mc35_emitpcode(POC_BTFSC, mc35_newpCodeOpBit(mc35_aopGet(AOP(result), 1, FALSE, FALSE), 0, 0));
+      mc35_emitSETIRP;
     }
   }
 }
@@ -5633,28 +5699,19 @@ inc_fsr(int delta)
     switch (delta)
     {
     case 1:
-      // zwr 1.0.0 inst incr #2
-      // mc35_emitpcode(POC_INCF, mc35_popCopyReg(&mc35_pc_fsr));
-      // mc35_emitpcode(POC_INCFSZ, mc35_popCopyReg(&mc35_pc_fsr));
-      // mc35_emitpcodeNULLop(POC_NOP);
       // zwr 1.1.4
-      mc35_emitpcode(POC_MOVLW, mc35_popGetLit(1));
-      mc35_emitpcode(POC_ADDWF, mc35_popCopyReg(&mc35_pc_fsr0l));
+      // mc35_emitpcode(POC_INCF, mc35_popCopyReg(&mc35_pc_fsr));
+      mc35_emitpcode(POC_INCF, mc35_popCopyReg(&mc35_pc_fsr0l));
       mc35_emitSKPNZ;
-      mc35_emitpcode(POC_ADDWF, mc35_popCopyReg(&mc35_pc_fsr0h));
+      mc35_emitpcode(POC_INCF, mc35_popCopyReg(&mc35_pc_fsr0h));
       break;
     case -1:
-      // zwr 1.0.0 inst decr #2
-      // mc35_emitpcode(POC_DECF, mc35_popCopyReg(&mc35_pc_fsr));
-      // mc35_emitpcode(POC_DECFSZ, mc35_popCopyReg(&mc35_pc_fsr));
-      // mc35_emitpcodeNULLop(POC_NOP);
       // zwr 1.1.4
-      mc35_emitpcode(POC_MOVFW, mc35_popCopyReg(&mc35_pc_fsr0l));
-      mc35_emitpcode(POC_SUBLW, mc35_popGetLit(1));
+      // mc35_emitpcode(POC_DECF, mc35_popCopyReg(&mc35_pc_fsr));
+      mc35_emitpcode(POC_MOVLW, mc35_popGetLit(1));
+      mc35_emitpcode(POC_SUBWF, mc35_popCopyReg(&mc35_pc_fsr0l));
       mc35_emitSKPC;
-      mc35_emitpcode(POC_DECFSZ, mc35_popCopyReg(&mc35_pc_fsr0h));
-      mc35_emitpcodeNULLop(POC_NOP);
-      mc35_emitpcode(POC_MOVWF, mc35_popCopyReg(&mc35_pc_fsr0l));
+      mc35_emitpcode(POC_SUBWF, mc35_popCopyReg(&mc35_pc_fsr0h));
       break;
     case 0:
       break;
@@ -5761,8 +5818,8 @@ static void
 genUnpackBits(operand *result, operand *left, int ptype, iCode *ifx)
 {
   sym_link *etype; /* bitfield type information */
-  int blen;        /* bitfield length */
-  int bstr;        /* bitfield starting bit within byte */
+  unsigned blen;   /* bitfield length */
+  unsigned bstr;   /* bitfield starting bit within byte */
 
   FENTRY;
   DEBUGmc35_pic14_emitcode("; ***", "%s  %d", __FUNCTION__, __LINE__);
@@ -5789,21 +5846,40 @@ genUnpackBits(operand *result, operand *left, int ptype, iCode *ifx)
       }
       mc35_emitpcode((rIfx.condition) ? POC_BTFSC : POC_BTFSS, pcop);
       mc35_emitpcode(POC_GOTO, mc35_popGetLabel(rIfx.lbl->key));
-      ifx->generated = 1;
+      ifx->generated = TRUE;
     }
     else
     {
-      int i;
+      // zwr 2.0.0
+      /*
+           * In case of a volatile bitfield read such as
+           * (void)PORTCbits.RC3;
+           * we end up having no result ...
+           */
+      int haveResult = !!AOP_SIZE(result);
 
-      assert(!mc35_sameRegs(AOP(result), AOP(left)));
-      for (i = 0; i < AOP_SIZE(result); i++)
-        mc35_emitpcode(POC_CLRF, mc35_popGet(AOP(result), i));
+      if (haveResult)
+      {
+        assert(!mc35_sameRegs(AOP(result), AOP(left)));
+        mc35_emitpcode(POC_CLRF, mc35_popGet(AOP(result), 0));
+      } // if
+
+      // int i;
+
+      // assert(!mc35_sameRegs(AOP(result), AOP(left)));
+      // for (i = 0; i < AOP_SIZE(result); i++)
+      //   mc35_emitpcode(POC_CLRF, mc35_popGet(AOP(result), i));
 
       switch (ptype)
       {
       case -1:
         mc35_emitpcode(POC_BTFSC, mc35_newpCodeOpBit(mc35_aopGet(AOP(left), 0, FALSE, FALSE), bstr, 0));
         /* adjust result below */
+        if (!haveResult)
+        {
+          /* Dummy instruction to allow bit-test above (volatile dummy bitfield read). */
+          mc35_emitpcode(POC_MOVLW, mc35_popGetLit(0));
+        } // if
         break;
 
       case POINTER:
@@ -5811,8 +5887,14 @@ genUnpackBits(operand *result, operand *left, int ptype, iCode *ifx)
       case GPOINTER:
       case CPOINTER:
         emitPtrByteGet(left, ptype, FALSE);
-        mc35_emitpcode(POC_ANDLW, mc35_popGetLit(1UL << bstr));
-        mc35_emitSKPZ;
+        // zwr 2.0.0
+        {
+          mc35_emitpcode(POC_ANDLW, mc35_popGetLit(1UL << bstr));
+          mc35_emitSKPZ;
+          /* adjust result below */
+        } // if
+        // mc35_emitpcode(POC_ANDLW, mc35_popGetLit(1UL << bstr));
+        // mc35_emitSKPZ;
         /* adjust result below */
         break;
 
@@ -5821,21 +5903,15 @@ genUnpackBits(operand *result, operand *left, int ptype, iCode *ifx)
       } // switch
 
       /* move sign-/zero extended bit to result */
-      if (SPEC_USIGN(OP_SYM_ETYPE(left)))
+      // zwr 2.0.0
+      if (haveResult)
       {
-        // zwr 1.0.0 inst incr #2
-        // mc35_emitpcode(POC_INCF, mc35_popGet(AOP(result), 0));
-        mc35_emitpcode(POC_INCFSZ, mc35_popGet(AOP(result), 0));
-        mc35_emitpcodeNULLop(POC_NOP);
+        if (SPEC_USIGN(OP_SYM_ETYPE(left)))
+          mc35_emitpcode(POC_INCF, mc35_popGet(AOP(result), 0));
+        else
+          mc35_emitpcode(POC_DECF, mc35_popGet(AOP(result), 0));
+        mc35_addSign(result, 1, !SPEC_USIGN(OP_SYM_ETYPE(left)));
       }
-      else
-      {
-        // zwr 1.0.0 inst decr #1
-        // mc35_emitpcode(POC_DECF, mc35_popGet(AOP(result), 0));
-        mc35_emitpcode(POC_DECFSZ, mc35_popGet(AOP(result), 0));
-        mc35_emitpcodeNULLop(POC_NOP);
-      }
-      mc35_addSign(result, 1, !SPEC_USIGN(OP_SYM_ETYPE(left)));
     }
     return;
   }
@@ -5959,7 +6035,9 @@ genNearPointerGet(operand *left, operand *result, iCode *ic)
   mc35_aopOp(result, ic, FALSE);
 
   /* Check if can access directly instead of via a pointer */
-  if ((AOP_TYPE(left) == AOP_PCODE) && (AOP(left)->aopu.pcop->type == PO_IMMEDIATE) && (AOP_SIZE(result) == 1))
+  // zwr 2.0.0
+  if ((AOP_TYPE(left) == AOP_PCODE) && (AOP(left)->aopu.pcop->type == PO_IMMEDIATE) && (AOP_SIZE(result) <= 1))
+  // if ((AOP_TYPE(left) == AOP_PCODE) && (AOP(left)->aopu.pcop->type == PO_IMMEDIATE) && (AOP_SIZE(result) == 1))
   {
     direct = 1;
   }
@@ -6119,7 +6197,9 @@ genConstPointerGet(operand *left, operand *result, iCode *ic)
 
   {
     char *func[] = {NULL, "__gptrget1", "__gptrget2", "__gptrget3", "__gptrget4"};
-    int size = min((int)getSize(OP_SYM_ETYPE(left)), AOP_SIZE(result));
+    // zwr 2.0.0
+    int size = AOP_SIZE(result);
+    // int size = min((int)getSize(OP_SYM_ETYPE(left)), AOP_SIZE(result));
     assert(size > 0 && size <= 4);
 
     mc35_mov2w_op(left, 0);
@@ -6233,8 +6313,8 @@ genPointerGet(iCode *ic)
 static void
 genPackBits(sym_link *etype, operand *result, operand *right, int p_type)
 {
-  int blen;           /* bitfield length */
-  int bstr;           /* bitfield starting bit within byte */
+  unsigned blen;           /* bitfield length */
+  unsigned bstr;           /* bitfield starting bit within byte */
   int litval;         /* source literal value (if AOP_LIT) */
   unsigned char mask; /* bitmask within current byte */
 
@@ -6431,7 +6511,9 @@ genDataPointerSet(operand *right, operand *result, iCode *ic)
 {
   int size = 0;
   int offset = 0;
-  int ressize;
+  // zwr 2.0.0
+  sym_link *rtype = operandType(right);
+  // int ressize;
 
   FENTRY;
   DEBUGmc35_pic14_emitcode("; ***", "%s  %d", __FUNCTION__, __LINE__);
@@ -6446,14 +6528,14 @@ genDataPointerSet(operand *right, operand *result, iCode *ic)
    * The result might be a rematerialized pointer to (the first field in) a struct,
    * which then assumes the type (and size) of the struct rather than the first field.
    */
-  if (IS_SYMOP(right))
-    size = getSize(OP_SYM_ETYPE(right));
-  else if (IS_VALOP(right))
-    size = getSize(OP_VALUE(right)->type);
-  else
-    assert(!"Invalid operand.");
+  // if (IS_SYMOP(right))
+  //   size = getSize(OP_SYM_ETYPE(right));
+  // else if (IS_VALOP(right))
+  //   size = getSize(OP_VALUE(right)->type);
+  // else
+  //   assert(!"Invalid operand.");
 
-  ressize = getSize(OP_SYM_ETYPE(result));
+  // ressize = getSize(OP_SYM_ETYPE(result));
 
   //assert( !"what's going on here?" );
 
@@ -6466,33 +6548,53 @@ genDataPointerSet(operand *right, operand *result, iCode *ic)
    */
 
   // tsd, was l+1 - the underline `_' prefix was being stripped
-  while (size--)
-  {
-    mc35_emitpComment("%s:%u: size=%d/%d, offset=%d, AOP_TYPE(res)=%d", __FILE__, __LINE__, size, ressize, offset,
-                      AOP_TYPE(result));
 
-    if (AOP_TYPE(right) == AOP_LIT)
+  // zwr 2.0.0
+  size = AOP_SIZE(right);
+
+  /*test the right operand has a pointer value*/
+  if ((AOP_TYPE(right) == AOP_PCODE) && PIC_IS_DATA_PTR(rtype))
+  {
+    while (size--)
     {
-      unsigned int lit = pic14aopLiteral(AOP(IC_RIGHT(ic))->aopu.aop_lit, offset);
-      //fprintf (stderr, "%s:%u: lit %d 0x%x\n", __FUNCTION__,__LINE__, lit, lit);
-      if (lit & 0xff)
+      mc35_emitpcode(POC_MOVLW, mc35_popGetAddr(AOP(right), size, 0));
+      mc35_emitpcode(POC_MOVWF, mc35_popGet(AOP(result), size));
+    }
+  }
+  else
+  {
+    // tsd, was l+1 - the underline `_' prefix was being stripped
+    while (size--)
+    {
+      // zwr 2.0.0
+      mc35_emitpComment("%s:%u: size=%d, offset=%d, AOP_TYPE(res)=%d", __FILE__, __LINE__, size, offset,
+                   AOP_TYPE(result));
+      // mc35_emitpComment("%s:%u: size=%d/%d, offset=%d, AOP_TYPE(res)=%d", __FILE__, __LINE__, size, ressize, offset,
+      //                   AOP_TYPE(result));
+
+      if (AOP_TYPE(right) == AOP_LIT)
       {
-        mc35_emitpcode(POC_MOVLW, mc35_popGetLit(lit & 0xff));
-        mc35_emitpcode(POC_MOVWF, mc35_popGet(AOP(result), offset));
+        unsigned int lit = pic14aopLiteral(AOP(IC_RIGHT(ic))->aopu.aop_lit, offset);
+        //fprintf (stderr, "%s:%u: lit %d 0x%x\n", __FUNCTION__,__LINE__, lit, lit);
+        if (lit & 0xff)
+        {
+          mc35_emitpcode(POC_MOVLW, mc35_popGetLit(lit & 0xff));
+          mc35_emitpcode(POC_MOVWF, mc35_popGet(AOP(result), offset));
+        }
+        else
+        {
+          mc35_emitpcode(POC_CLRF, mc35_popGet(AOP(result), offset));
+        }
       }
       else
       {
-        mc35_emitpcode(POC_CLRF, mc35_popGet(AOP(result), offset));
+        //fprintf (stderr, "%s:%u: no lit\n", __FUNCTION__,__LINE__);
+        mc35_emitpcode(POC_MOVFW, mc35_popGet(AOP(right), offset));
+        mc35_emitpcode(POC_MOVWF, mc35_popGet(AOP(result), offset));
       }
-    }
-    else
-    {
-      //fprintf (stderr, "%s:%u: no lit\n", __FUNCTION__,__LINE__);
-      mc35_emitpcode(POC_MOVFW, mc35_popGet(AOP(right), offset));
-      mc35_emitpcode(POC_MOVWF, mc35_popGet(AOP(result), offset));
-    }
 
-    offset++;
+      offset++;
+    }
   }
 
   mc35_freeAsmop(right, NULL, ic, TRUE);
@@ -6823,7 +6925,7 @@ genIfx(iCode *ic, iCode *popIc)
     }
   }
 
-  ic->generated = 1;
+  ic->generated = TRUE;
 
   /* the result is now in the accumulator */
   mc35_freeAsmop(cond, NULL, ic, TRUE);
@@ -7046,10 +7148,7 @@ genAssign(iCode *ic)
       if (offset == 0)
       {
         mc35_emitpcode(POC_BTFSS, mc35_popGet(AOP(right), 0));
-        // zwr 1.0.0 inst incr #2
-        // mc35_emitpcode(POC_INCF, mc35_popGet(AOP(result), 0));
-        mc35_emitpcode(POC_INCFSZ, mc35_popGet(AOP(result), 0));
-        mc35_emitpcodeNULLop(POC_NOP);
+        mc35_emitpcode(POC_INCF, mc35_popGet(AOP(result), 0));
       }
     }
     else
@@ -7100,7 +7199,13 @@ genJumpTab(iCode *ic)
   // //mc35_emitSKPNC;
   // //mc35_emitpcode(POC_INCF, mc35_popCopyReg(&mc35_pc_pclath));
   // mc35_emitpcode(POC_MOVWF, mc35_popCopyReg(&mc35_pc_pcl));
-  mc35_emitpcode(POC_MOVFW, mc35_popGet(AOP(IC_JTCOND(ic)), 0));
+
+  // zwr 1.1.1 for long_call, address shift*2
+  if (!mc35_long_call)
+    mc35_emitpcode(POC_MOVFW, mc35_popGet(AOP(IC_JTCOND(ic)), 0));
+  else
+    mc35_emitpcode(POC_RLFW, mc35_popGet(AOP(IC_JTCOND(ic)), 0));
+
   mc35_emitpcode(POC_ADDWF, mc35_popCopyReg(&mc35_pc_pcl));
 
   mc35_emitpLabel(jtab->key);
@@ -7153,10 +7258,7 @@ genCast(iCode *ic)
 
     mc35_emitpcode(POC_CLRF, mc35_popGet(AOP(result), 0));
     mc35_emitpcode(POC_BTFSC, mc35_popGet(AOP(right), 0));
-    // zwr 1.0.0 inst incr #2
-    // mc35_emitpcode(POC_INCF, mc35_popGet(AOP(result), 0));
-    mc35_emitpcode(POC_INCFSZ, mc35_popGet(AOP(result), 0));
-    mc35_emitpcodeNULLop(POC_NOP);
+    mc35_emitpcode(POC_INCF, mc35_popGet(AOP(result), 0));
 
     while (size--)
       mc35_emitpcode(POC_CLRF, mc35_popGet(AOP(result), offset++));
@@ -7356,7 +7458,7 @@ genDjnz(iCode *ic, iCode *ifx)
   mc35_emitpcode(POC_GOTO, mc35_popGetLabel(IC_TRUE(ifx)->key));
 
   mc35_freeAsmop(IC_RESULT(ic), NULL, ic, TRUE);
-  ifx->generated = 1;
+  ifx->generated = TRUE;
   return 1;
 }
 
@@ -7393,7 +7495,7 @@ genReceive(iCode *ic)
     _G.accInUse++;
     mc35_aopOp(IC_RESULT(ic), ic, FALSE);
     _G.accInUse--;
-    mc35_GpsuedoStkPtr = ic->parmBytes; // address used arg on stack
+    mc35_GpseudoStkPtr = ic->parmBytes; // address used arg on stack
     assignResultValue(IC_RESULT(ic));
   }
 
@@ -7416,9 +7518,9 @@ genDummyRead(iCode *ic)
 // zwr 1.0.0
 void mc35_newVal()
 {
-  Q_ValList *tempval;
+  QValList *tempval;
 
-  tempval = (struct Q_ValList *)malloc(sizeof(struct Q_ValList));
+  tempval = (struct QValList *)malloc(sizeof(struct QValList));
   tempval->firstval = NULL;
   tempval->val = NULL;
   tempval->next = NULL;
@@ -7471,6 +7573,9 @@ void mc35_genpic14Code(iCode *lic)
   }
 
   FENTRY;
+
+  // zwr 2.0.0
+  mc35_pic = mc35_getPIC();
 
   pb = mc35_newpCodeChain(GcurMemmap, 0, mc35_newpCodeCharP("; Starting pCode block"));
   mc35_addpBlock(pb);
@@ -7745,32 +7850,36 @@ mc35_aop_isLitLike(asmop *aop)
 {
   assert(aop);
   if (aop->type == AOP_LIT)
-    return 1;
+    return TRUE;
   if (aop->type == AOP_IMMD)
-    return 1;
-  if ((aop->type == AOP_PCODE) && ((aop->aopu.pcop->type == PO_LITERAL)))
+    return TRUE;
+  // zwr 2.0.0
+  if ((aop->type == AOP_PCODE) &&
+      ((aop->aopu.pcop->type == PO_LITERAL) ||
+       (aop->aopu.pcop->type == PO_IMMEDIATE)))
+  // if ((aop->type == AOP_PCODE) && ((aop->aopu.pcop->type == PO_LITERAL)))
   {
     /* this should be treated like a literal/immediate (use MOVLW/ADDLW/SUBLW
        * instead of MOVFW/ADDFW/SUBFW, use mc35_popGetAddr instead of mc35_popGet) */
-    return 1;
+    return TRUE;
   }
-  return 0;
+  return FALSE;
 }
 
 int mc35_op_isLitLike(operand *op)
 {
   assert(op);
   if (mc35_aop_isLitLike(AOP(op)))
-    return 1;
+    return TRUE;
   if (IS_SYMOP(op) && IS_FUNC(OP_SYM_TYPE(op)))
-    return 1;
-    
+    return TRUE;
+
   // zwr 1.1.6
   // if (IS_SYMOP(op) && IS_PTR(OP_SYM_TYPE(op)) && (AOP_TYPE(op) == AOP_PCODE) && (AOP(op)->aopu.pcop->type == PO_IMMEDIATE))
   if (IS_SYMOP(op) && (AOP_TYPE(op) == AOP_PCODE) && (AOP(op)->aopu.pcop->type == PO_IMMEDIATE))
   {
-    return 1;
+    return TRUE;
   }
 
-  return 0;
+  return FALSE;
 }

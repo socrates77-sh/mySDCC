@@ -559,7 +559,8 @@ typedef struct pCodeFunction
 
 	int ncalled;		   /* Number of times function is called */
 	unsigned isPublic : 1; /* True if the fn is not static and can be called from another module (ie a another c or asm file) */
-
+	// zwr 2.0.0
+	unsigned isInterrupt : 1; /* True if the fn is interrupt. */
 } pCodeFunction;
 
 /*************************************************
@@ -777,10 +778,15 @@ typedef struct peepCommand
  *-----------------------------------------------------------------*/
 
 pCode *mc32_newpCode(PIC_OPCODE op, pCodeOp *pcop);			// Create a new pCode given an operand
-pCode *mc32_newpCodeCharP(char *cP);							// Create a new pCode given a char *
-pCode *mc32_newpCodeFunction(char *g, char *f, int);			// Create a new function
-pCode *mc32_newpCodeLabel(char *name, int key);				// Create a new label given a key
-pCode *mc32_newpCodeCSource(int ln, char *f, const char *l); // Create a new symbol line
+// zwr 2.0.0
+pCode *mc32_newpCodeCharP(const char *cP);							 // Create a new pCode given a char *
+pCode *mc32_newpCodeFunction(const char *g, const char *f, int, int); // Create a new function.
+pCode *mc32_newpCodeLabel(const char *name, int key);				 // Create a new label given a key
+pCode *mc32_newpCodeCSource(int ln, const char *f, const char *l);	// Create a new symbol line.
+// pCode *mc32_newpCodeCharP(char *cP);							// Create a new pCode given a char *
+// pCode *mc32_newpCodeFunction(char *g, char *f, int);			// Create a new function
+// pCode *mc32_newpCodeLabel(char *name, int key);				// Create a new label given a key
+// pCode *mc32_newpCodeCSource(int ln, char *f, const char *l); // Create a new symbol line
 pCode *mc32_newpCodeWild(int pCodeID, pCodeOp *optional_operand, pCodeOp *optional_label);
 pCode *mc32_findNextInstruction(pCode *pci);
 pCode *mc32_findPrevInstruction(pCode *pci);
@@ -807,15 +813,26 @@ void mc32_pCodeInsertAfter(pCode *pc1, pCode *pc2);
 void mc32_pCodeInsertBefore(pCode *pc1, pCode *pc2);
 void mc32_pCodeDeleteChain(pCode *f, pCode *t);
 
-pCode *mc32_newpCodeAsmDir(char *asdir, char *argfmt, ...);
+// zwr 2.0.0
+pCode *mc32_newpCodeAsmDir(const char *asdir, const char *argfmt, ...);
 
-pCodeOp *mc32_newpCodeOpLabel(char *name, int key);
-pCodeOp *mc32_newpCodeOpImmd(char *name, int offset, int index, int code_space, int is_func);
+pCodeOp *mc32_newpCodeOpLabel(const char *name, int key);
+pCodeOp *mc32_newpCodeOpImmd(const char *name, int offset, int index, int code_space, int is_func);
 pCodeOp *mc32_newpCodeOpLit(int lit);
-pCodeOp *mc32_newpCodeOpBit(char *name, int bit, int inBitSpace);
+pCodeOp *mc32_newpCodeOpBit(const char *name, int bit, int inBitSpace);
 pCodeOp *mc32_newpCodeOpWild(int id, pCodeWildBlock *pcwb, pCodeOp *subtype);
-pCodeOp *mc32_newpCodeOpRegFromStr(char *name);
-pCodeOp *mc32_newpCodeOp(char *name, PIC_OPTYPE p);
+pCodeOp *mc32_newpCodeOpRegFromStr(const char *name);
+pCodeOp *mc32_newpCodeOp(const char *name, PIC_OPTYPE p);
+
+// pCode *mc32_newpCodeAsmDir(char *asdir, char *argfmt, ...);
+
+// pCodeOp *mc32_newpCodeOpLabel(char *name, int key);
+// pCodeOp *mc32_newpCodeOpImmd(char *name, int offset, int index, int code_space, int is_func);
+// pCodeOp *mc32_newpCodeOpLit(int lit);
+// pCodeOp *mc32_newpCodeOpBit(char *name, int bit, int inBitSpace);
+// pCodeOp *mc32_newpCodeOpWild(int id, pCodeWildBlock *pcwb, pCodeOp *subtype);
+// pCodeOp *mc32_newpCodeOpRegFromStr(char *name);
+// pCodeOp *mc32_newpCodeOp(char *name, PIC_OPTYPE p);
 pCodeOp *mc32_pCodeOpCopy(pCodeOp *pcop);
 pCodeOp *mc32_popCopyGPR2Bit(pCodeOp *pc, int bitval);
 pCodeOp *mc32_popCopyReg(pCodeOpReg *pc);
@@ -857,8 +874,12 @@ extern pCodeInstruction *mc32_pic14Mnemonics[MAX_PIC14MNEMONICS];
 /*
  * From pcodepeep.h:
  */
-int mc32_getpCode(char *mnem, unsigned dest);
-int mc32_getpCodePeepCommand(char *cmd);
+
+// zwr 2.0.0
+int mc32_getpCode(const char *mnem, unsigned dest);
+int mc32_getpCodePeepCommand(const char *cmd);
+// int mc32_getpCode(char *mnem, unsigned dest);
+// int mc32_getpCodePeepCommand(char *cmd);
 int mc32_pCodeSearchCondition(pCode *pc, unsigned int cond, int contIfSkip);
 
 #endif // __PCODE_H__

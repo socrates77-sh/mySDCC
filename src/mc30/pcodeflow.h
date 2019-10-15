@@ -62,6 +62,6 @@
 
 /*------------------------------------------------------------*/
 
-void BuildFlowTree(pBlock *pb);
+void mc30_BuildFlowTree(pBlock *pb);
 
 #endif // __PCODEFLOW_H__

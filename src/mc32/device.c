@@ -29,7 +29,9 @@ extern set *userIncDirsSet;
 extern set *libDirsSet;
 extern set *libPathsSet;
 
-#define MAX_PICLIST 200
+// zwr 2.0.0
+#define MAX_PICLIST 400
+// #define MAX_PICLIST 200
 static MC32_device *mc32_Pics[MAX_PICLIST];
 static MC32_device *mc32_pic = NULL;
 static int mc32_num_of_supported_PICS = 0;
@@ -111,13 +113,15 @@ mc32_sanitise_processor_name(char *name)
 /* create a structure for a pic processor */
 static MC32_device *
 mc32_create_pic(char *pic_name, int maxram, int bankmsk, int confsiz,
-           int config[MAX_NUM_CONFIGS], int program, int data, int eeprom,
-           int io, int is_enhanced)
+                int config[MAX_NUM_CONFIGS], int program, int data, int eeprom,
+                int io, int is_enhanced)
 {
   MC32_device *new_pic;
   char *simple_pic_name = mc32_sanitise_processor_name(pic_name);
 
-  new_pic = Safe_calloc(1, sizeof(MC32_device));
+  // zwr 2.0.0
+  new_pic = Safe_alloc(sizeof(MC32_device));
+  // new_pic = Safe_calloc(1, sizeof(MC32_device));
   new_pic->name = Safe_strdup(simple_pic_name);
 
   new_pic->defMaxRAMaddrs = maxram;
@@ -155,7 +159,9 @@ mc32_register_map(int num_words, char **word)
 
   for (pcount = 2; pcount < num_words; pcount++)
   {
-    r = Safe_calloc(1, sizeof(memRange));
+    // zwr 2.0.0
+    r = Safe_alloc(sizeof(memRange));
+    // r = Safe_calloc(1, sizeof(memRange));
 
     r->start_address = mc32_parse_config_value(word[pcount]);
     r->end_address = mc32_parse_config_value(word[pcount]);
@@ -180,7 +186,9 @@ mc32_ram_map(int num_words, char **word)
     return;
   } // if
 
-  r = Safe_calloc(1, sizeof(memRange));
+  // zwr 2.0.0
+  r = Safe_alloc(sizeof(memRange));
+  // r = Safe_calloc(1, sizeof(memRange));
   //fprintf (stderr, "%s: %s %s %s\n", __FUNCTION__, word[1], word[2], word[3]);
 
   r->start_address = mc32_parse_config_value(word[1]);
@@ -348,9 +356,9 @@ mc32_find_device(char *pic_name)
             for (dcount = 1; dcount < num_processor_names; dcount++)
             {
               mc32_create_pic(processor_name[dcount], pic_maxram,
-                         pic_bankmsk, pic_confsiz, pic_config,
-                         pic_program, pic_data, pic_eeprom,
-                         pic_io, pic_is_enhanced);
+                              pic_bankmsk, pic_confsiz, pic_config,
+                              pic_program, pic_data, pic_eeprom,
+                              pic_io, pic_is_enhanced);
             } // for
           }   // if
 
@@ -458,8 +466,8 @@ mc32_find_device(char *pic_name)
       for (dcount = 1; dcount < num_processor_names; dcount++)
       {
         mc32_create_pic(processor_name[dcount], pic_maxram, pic_bankmsk,
-                   pic_confsiz, pic_config, pic_program, pic_data,
-                   pic_eeprom, pic_io, pic_is_enhanced);
+                        pic_confsiz, pic_config, pic_program, pic_data,
+                        pic_eeprom, pic_io, pic_is_enhanced);
       } // for
     }   // if
   }     // if
@@ -473,8 +481,8 @@ mc32_find_device(char *pic_name)
 
       /* create a new pic entry */
       return mc32_create_pic(pic_name, pic_maxram, pic_bankmsk,
-                        pic_confsiz, pic_config, pic_program,
-                        pic_data, pic_eeprom, pic_io, pic_is_enhanced);
+                             pic_confsiz, pic_config, pic_program,
+                             pic_data, pic_eeprom, pic_io, pic_is_enhanced);
     } // if
   }   // if
 
@@ -579,7 +587,9 @@ mc32_init_pic(char *pic_type)
   if (mc32_pic == NULL)
   {
     /* check for shortened "16xxx" form */
-    sprintf(long_name, "16%s", pic_type);
+    // zwr 2.0.0
+    SNPRINTF(long_name, sizeof(long_name), "16%s", pic_type);
+    // sprintf(long_name, "16%s", pic_type);
     mc32_pic = mc32_find_device(long_name);
     if (mc32_pic == NULL)
     {

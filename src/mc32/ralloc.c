@@ -37,7 +37,7 @@ set *mc32_dynInternalRegs = NULL;
 
 // zwr 1.0.0
 extern struct dbuf_s *ValLog;
-struct Q_ValList *mc32_ValList;
+struct QValList *mc32_ValList;
 
 #ifdef DEBUG_FENTRY2
 #define FENTRY2 printf
@@ -87,8 +87,11 @@ static FILE *mc32_debugF = NULL;
 /*-----------------------------------------------------------------*/
 /* mc32_debugLog - open a file for debugging information                */
 /*-----------------------------------------------------------------*/
+// zwr 2.0.0
 static void
-mc32_debugLog(char *fmt, ...)
+mc32_debugLog(const char *fmt, ...)
+// static void
+// mc32_debugLog(char *fmt, ...)
 {
         static int append = 0; // First time through, open the file without append.
 
@@ -102,8 +105,10 @@ mc32_debugLog(char *fmt, ...)
         if (!mc32_debugF)
         {
                 /* create the file name */
-                strcpy(buffer, dstFileName);
-                strcat(buffer, ".d");
+                // zwr 2.0.0
+                SNPRINTF(buffer, sizeof(buffer), "%s.d", dstFileName);
+                // strcpy(buffer, dstFileName);
+                // strcat(buffer, ".d");
 
                 if (!(mc32_debugF = fopen(buffer, (append ? "a+" : "w"))))
                 {
@@ -139,8 +144,11 @@ void mc32_debugLogClose(void)
         }
 }
 
+// zwr 2.0.0
 static char *
-mc32_debugAopGet(char *str, operand *op)
+mc32_debugAopGet(const char *str, operand *op)
+// static char *
+// mc32_debugAopGet(char *str, operand *op)
 {
         if (!mc32_debug)
                 return NULL;
@@ -154,14 +162,17 @@ mc32_debugAopGet(char *str, operand *op)
         return NULL;
 }
 
-static char *
+// zwr 2.0.0
+static const char *
 mc32_decodeOp(unsigned int op)
+// static char *
+// mc32_decodeOp(unsigned int op)
 {
 
         if (op < 128 && op > ' ')
         {
                 buffer[0] = (op & 0xff);
-                buffer[1] = 0;
+                buffer[1] = '\0';
                 return buffer;
         }
 
@@ -368,13 +379,18 @@ mc32_decodeOp(unsigned int op)
         case SEND:
                 return "SEND";
         }
-        sprintf(buffer, "unknown op %d %c", op, op & 0xff);
+        // zwr 2.0.0
+        SNPRINTF(buffer, sizeof(buffer), "unknown op %d %c", op, op & 0xff);
+        // sprintf(buffer, "unknown op %d %c", op, op & 0xff);
         return buffer;
 }
 /*-----------------------------------------------------------------*/
 /*-----------------------------------------------------------------*/
-static char *
+// zwr 2.0.0
+static const char *
 mc32_debugLogRegType(short type)
+// static char *
+// mc32_debugLogRegType(short type)
 {
 
         switch (type)
@@ -387,7 +403,8 @@ mc32_debugLogRegType(short type)
                 return "REG_CND";
         }
 
-        sprintf(buffer, "unknown reg type %d", type);
+        SNPRINTF(buffer, sizeof(buffer), "unknown reg type %d", type);
+        // sprintf(buffer, "unknown reg type %d", type);
         return buffer;
 }
 
@@ -435,7 +452,9 @@ mc32_regWithIdx(set *dRegs, int idx, int fixed)
 /*-----------------------------------------------------------------*/
 /* mc32_newReg - allocate and init memory for a new register            */
 /*-----------------------------------------------------------------*/
-static reg_info *mc32_newReg(short type, PIC_OPTYPE pc_type, int rIdx, char *name, int size, int alias)
+// zwr 2.0.0
+static reg_info *mc32_newReg(short type, PIC_OPTYPE pc_type, int rIdx, const char *name, int size, int alias)
+// static reg_info *mc32_newReg(short type, PIC_OPTYPE pc_type, int rIdx, char *name, int size, int alias)
 {
 
         reg_info *dReg, *reg_alias;
@@ -449,9 +468,9 @@ static reg_info *mc32_newReg(short type, PIC_OPTYPE pc_type, int rIdx, char *nam
         }
 
         // check whether a register at that location exists
-        reg_alias = mc32_regWithIdx(mc32_dynDirectRegs, rIdx, 0);
+        reg_alias = mc32_regWithIdx(mc32_dynDirectRegs, rIdx, FALSE);
         if (!reg_alias)
-                reg_alias = mc32_regWithIdx(mc32_dynDirectRegs, rIdx, 1);
+                reg_alias = mc32_regWithIdx(mc32_dynDirectRegs, rIdx, TRUE);
 
         // create a new register
         dReg = Safe_calloc(1, sizeof(reg_info));
@@ -464,20 +483,24 @@ static reg_info *mc32_newReg(short type, PIC_OPTYPE pc_type, int rIdx, char *nam
         }
         else
         {
-                sprintf(buffer, "r0x%02X", dReg->rIdx);
+                // zwr 2.0.0
+                SNPRINTF(buffer, sizeof(buffer), "r0x%02X", dReg->rIdx);
+                // sprintf(buffer, "r0x%02X", dReg->rIdx);
                 dReg->name = Safe_strdup(buffer);
         }
-        dReg->isFree = 0;
-        dReg->wasUsed = 0;
-        if (type == REG_SFR)
-                dReg->isFixed = 1;
-        else
-                dReg->isFixed = 0;
+        dReg->isFree = FALSE;
+        dReg->wasUsed = FALSE;
+        // zwr 2.0.0
+        dReg->isFixed = (type == REG_SFR) ? TRUE : FALSE;
+        // if (type == REG_SFR)
+        //         dReg->isFixed = 1;
+        // else
+        //         dReg->isFixed = 0;
 
-        dReg->isMapped = 0;
-        dReg->isEmitted = 0;
-        dReg->isPublic = 0;
-        dReg->isExtern = 0;
+        dReg->isMapped = FALSE;
+        dReg->isEmitted = FALSE;
+        dReg->isPublic = FALSE;
+        dReg->isExtern = FALSE;
         dReg->address = 0;
         dReg->size = size;
         dReg->alias = alias;
@@ -594,12 +617,14 @@ void mc32_initStack(int base_address, int size, int shared)
         {
                 char buffer[16];
                 reg_info *r;
-                SNPRINTF(&buffer[0], 16, "STK%02d", i);
+                // zwr 2.0.0
+                SNPRINTF(buffer, sizeof(buffer), "STK%02d", i);
+                // SNPRINTF(&buffer[0], 16, "STK%02d", i);
                 // multi-bank device, sharebank prohibited by user
                 r = mc32_newReg(REG_STK, PO_GPR_TEMP, base_address--, buffer, 1, shared ? (pic ? pic->bankMask : 0x180) : 0x0);
-                r->isFixed = 1;
-                r->isPublic = 1;
-                r->isEmitted = 1;
+                r->isFixed = TRUE;
+                r->isPublic = TRUE;
+                r->isEmitted = TRUE;
                 //r->name[0] = 's';
                 addSet(&mc32_dynStackRegs, r);
         }
@@ -607,8 +632,11 @@ void mc32_initStack(int base_address, int size, int shared)
 
 /*-----------------------------------------------------------------*
 *-----------------------------------------------------------------*/
+// zwr 2.0.0
 reg_info *
-mc32_allocProcessorRegister(int rIdx, char *name, short po_type, int alias)
+mc32_allocProcessorRegister(int rIdx, const char *name, short po_type, int alias)
+// reg_info *
+// mc32_allocProcessorRegister(int rIdx, char *name, short po_type, int alias)
 {
 
         //fprintf(stderr,"mc32_allocProcessorRegister %s addr =0x%x\n",name,rIdx);
@@ -618,15 +646,18 @@ mc32_allocProcessorRegister(int rIdx, char *name, short po_type, int alias)
 /*-----------------------------------------------------------------*
 *-----------------------------------------------------------------*/
 
+// zwr 2.0.0
 reg_info *
-mc32_allocInternalRegister(int rIdx, char *name, PIC_OPTYPE po_type, int alias)
+mc32_allocInternalRegister(int rIdx, const char *name, PIC_OPTYPE po_type, int alias)
+// reg_info *
+// mc32_allocInternalRegister(int rIdx, char *name, PIC_OPTYPE po_type, int alias)
 {
         reg_info *reg = mc32_newReg(REG_GPR, po_type, rIdx, name, 1, alias);
 
         //fprintf(stderr,"mc32_allocInternalRegister %s addr =0x%x\n",name,rIdx);
         if (reg)
         {
-                reg->wasUsed = 0;
+                reg->wasUsed = FALSE;
                 return addSet(&mc32_dynInternalRegs, reg);
         }
 
@@ -645,8 +676,8 @@ mc32_allocReg(short type)
 
         reg = mc32_findFreeReg(type);
 
-        reg->isFree = 0;
-        reg->wasUsed = 1;
+        reg->isFree = FALSE;
+        reg->wasUsed = TRUE;
 
         return reg;
 
@@ -656,8 +687,11 @@ mc32_allocReg(short type)
 /*-----------------------------------------------------------------*/
 /* mc32_dirregWithName - search for register by name                    */
 /*-----------------------------------------------------------------*/
+// zwr 2.0.0
 reg_info *
-mc32_dirregWithName(char *name)
+mc32_dirregWithName(const char *name)
+// reg_info *
+// mc32_dirregWithName(char *name)
 {
         int hkey;
         reg_info *reg;
@@ -738,24 +772,24 @@ mc32_allocNewDirReg(sym_link *symlnk, const char *name)
                 if (IS_BITVAR(spec))
                 {
                         addSet(&mc32_dynDirectBitRegs, reg);
-                        reg->isBitField = 1;
+                        reg->isBitField = TRUE;
                 }
                 else
                         addSet(&mc32_dynDirectRegs, reg);
 
                 if (!IS_STATIC(spec))
                 {
-                        reg->isPublic = 1;
+                        reg->isPublic = TRUE;
                 }
                 if (IS_EXTERN(spec))
                 {
-                        reg->isExtern = 1;
+                        reg->isExtern = TRUE;
                 }
         }
 
         if (address && reg)
         {
-                reg->isFixed = 1;
+                reg->isFixed = TRUE;
                 reg->address = address;
                 mc32_debugLog("  -- and it is at a fixed address 0x%02x\n", reg->address);
         }
@@ -815,7 +849,7 @@ mc32_allocDirReg(operand *op)
         /* First, search the hash table to see if there is a register with this name */
         if (SPEC_ABSA(OP_SYM_ETYPE(op)) && !(IS_BITVAR(OP_SYM_ETYPE(op))))
         {
-                reg = mc32_regWithIdx(mc32_dynProcessorRegs, SPEC_ADDR(OP_SYM_ETYPE(op)), 1);
+                reg = mc32_regWithIdx(mc32_dynProcessorRegs, SPEC_ADDR(OP_SYM_ETYPE(op)), TRUE);
                 /*
                 if(!reg)
                 fprintf(stderr,"ralloc %s is at fixed address but not a processor reg, addr=0x%x\n",
@@ -890,7 +924,7 @@ mc32_allocDirReg(operand *op)
         {
                 if (SPEC_ABSA(OP_SYM_ETYPE(op)))
                 {
-                        reg->isFixed = 1;
+                        reg->isFixed = TRUE;
                         reg->address = SPEC_ADDR(OP_SYM_ETYPE(op));
                         mc32_debugLog("  -- and it is at a fixed address 0x%02x\n", reg->address);
                 }
@@ -906,8 +940,11 @@ mc32_allocDirReg(operand *op)
 /*-----------------------------------------------------------------*/
 /* mc32_allocRegByName - allocates register with given name             */
 /*-----------------------------------------------------------------*/
+// zwr 2.0.0
 reg_info *
-mc32_allocRegByName(char *name, int size)
+mc32_allocRegByName(const char *name, int size)
+// reg_info *
+// mc32_allocRegByName(char *name, int size)
 {
 
         reg_info *reg;
@@ -923,7 +960,7 @@ mc32_allocRegByName(char *name, int size)
 
         if (!reg)
         {
-                int found = 0;
+                int found = FALSE;
                 symbol *sym;
                 /* Register wasn't found in hash, so let's create
                 * a new one and put it in the hash table AND in the
@@ -936,19 +973,19 @@ mc32_allocRegByName(char *name, int size)
                         {
                                 unsigned a = SPEC_ADDR(sym->etype);
                                 reg->address = a;
-                                reg->isFixed = 1;
+                                reg->isFixed = TRUE;
                                 reg->type = REG_SFR;
                                 if (!IS_STATIC(sym->etype))
                                 {
-                                        reg->isPublic = 1;
+                                        reg->isPublic = TRUE;
                                 }
                                 if (IS_EXTERN(sym->etype))
                                 {
-                                        reg->isExtern = 1;
+                                        reg->isExtern = TRUE;
                                 }
                                 if (IS_BITVAR(sym->etype))
-                                        reg->isBitField = 1;
-                                found = 1;
+                                        reg->isBitField = TRUE;
+                                found = TRUE;
                                 break;
                         }
                 }
@@ -962,15 +999,15 @@ mc32_allocRegByName(char *name, int size)
                                         reg->address = a;
                                         if (!IS_STATIC(sym->etype))
                                         {
-                                                reg->isPublic = 1;
+                                                reg->isPublic = TRUE;
                                         }
                                         if (IS_EXTERN(sym->etype))
                                         {
-                                                reg->isExtern = 1;
+                                                reg->isExtern = TRUE;
                                         }
                                         if (IS_BITVAR(sym->etype))
-                                                reg->isBitField = 1;
-                                        found = 1;
+                                                reg->isBitField = TRUE;
+                                        found = TRUE;
                                         break;
                                 }
                         }
@@ -1019,12 +1056,12 @@ mc32_typeRegWithIdx(int idx, int type, int fixed)
 
                 break;
         case REG_STK:
-                if ((dReg = mc32_regWithIdx(mc32_dynStackRegs, idx, 0)) != NULL)
+                if ((dReg = mc32_regWithIdx(mc32_dynStackRegs, idx, FALSE)) != NULL)
                 {
                         mc32_debugLog("Found a Stack Register!\n");
                         return dReg;
                 }
-                else if ((dReg = mc32_regWithIdx(mc32_dynStackRegs, idx, 1)) != NULL)
+                else if ((dReg = mc32_regWithIdx(mc32_dynStackRegs, idx, TRUE)) != NULL)
                 {
                         mc32_debugLog("Found a Stack Register!\n");
                         return dReg;
@@ -1080,24 +1117,24 @@ mc32_allocWithIdx(int idx)
 
         mc32_debugLog("%s - allocating with index = 0x%x\n", __FUNCTION__, idx);
 
-        if ((dReg = mc32_regWithIdx(mc32_dynAllocRegs, idx, 0)) != NULL)
+        if ((dReg = mc32_regWithIdx(mc32_dynAllocRegs, idx, FALSE)) != NULL)
         {
 
                 mc32_debugLog("Found a Dynamic Register!\n");
         }
-        else if ((dReg = mc32_regWithIdx(mc32_dynStackRegs, idx, 0)) != NULL)
+        else if ((dReg = mc32_regWithIdx(mc32_dynStackRegs, idx, FALSE)) != NULL)
         {
                 mc32_debugLog("Found a Stack Register!\n");
         }
-        else if ((dReg = mc32_regWithIdx(mc32_dynProcessorRegs, idx, 0)) != NULL)
+        else if ((dReg = mc32_regWithIdx(mc32_dynProcessorRegs, idx, FALSE)) != NULL)
         {
                 mc32_debugLog("Found a Processor Register!\n");
         }
-        else if ((dReg = mc32_regWithIdx(mc32_dynInternalRegs, idx, 0)) != NULL)
+        else if ((dReg = mc32_regWithIdx(mc32_dynInternalRegs, idx, FALSE)) != NULL)
         {
                 mc32_debugLog("Found an Internal Register!\n");
         }
-        else if ((dReg = mc32_regWithIdx(mc32_dynInternalRegs, idx, 1)) != NULL)
+        else if ((dReg = mc32_regWithIdx(mc32_dynInternalRegs, idx, TRUE)) != NULL)
         {
                 mc32_debugLog("Found an Internal Register!\n");
         }
@@ -1112,8 +1149,8 @@ mc32_allocWithIdx(int idx)
                 exit(1);
         }
 
-        dReg->wasUsed = 1;
-        dReg->isFree = 0;
+        dReg->wasUsed = TRUE;
+        dReg->isFree = FALSE;
 
         return dReg;
 }
@@ -1153,7 +1190,7 @@ static void
 mc32_freeReg(reg_info *reg)
 {
         mc32_debugLog("%s\n", __FUNCTION__);
-        reg->isFree = 1;
+        reg->isFree = TRUE;
 }
 
 /*-----------------------------------------------------------------*/
@@ -1210,7 +1247,7 @@ static void mc32_packBits(set *bregs)
         {
 
                 breg = regset->item;
-                breg->isBitField = 1;
+                breg->isBitField = TRUE;
                 //fprintf(stderr,"bit reg: %s\n",breg->name);
 
                 if (breg->isFixed)
@@ -1224,11 +1261,13 @@ static void mc32_packBits(set *bregs)
                         if (!bitfield)
                         {
                                 //sprintf (buffer, "fbitfield%02x", breg->address);
-                                sprintf(buffer, "0x%02x", breg->address);
+                                // zwr 2.0.0
+                                SNPRINTF(buffer, sizeof(buffer), "0x%02x", breg->address);
+                                // sprintf(buffer, "0x%02x", breg->address);
                                 //fprintf(stderr,"new bit field\n");
                                 bitfield = mc32_newReg(REG_SFR, PO_GPR_BIT, breg->address, buffer, 1, 0);
-                                bitfield->isBitField = 1;
-                                bitfield->isFixed = 1;
+                                bitfield->isBitField = TRUE;
+                                bitfield->isFixed = TRUE;
                                 bitfield->address = breg->address;
                                 //addSet(&mc32_dynDirectRegs,bitfield);
                                 addSet(&mc32_dynInternalRegs, bitfield);
@@ -1248,10 +1287,12 @@ static void mc32_packBits(set *bregs)
                         {
                                 byte_no++;
                                 bit_no = 0;
-                                sprintf(buffer, "bitfield%d", byte_no);
+                                // zwr 2.0.0
+                                SNPRINTF(buffer, sizeof(buffer), "bitfield%d", byte_no);
+                                // sprintf(buffer, "bitfield%d", byte_no);
                                 //fprintf(stderr,"new relocatable bit field\n");
                                 relocbitfield = mc32_newReg(REG_GPR, PO_GPR_BIT, mc32_dynrIdx++, buffer, 1, 0);
-                                relocbitfield->isBitField = 1;
+                                relocbitfield->isBitField = TRUE;
                                 //addSet(&mc32_dynDirectRegs,relocbitfield);
                                 addSet(&mc32_dynInternalRegs, relocbitfield);
                                 //hTabAddItem(&mc32_dynDirectRegNames, mc32_regname2key(buffer), relocbitfield);
@@ -1337,7 +1378,7 @@ static int
 mc32_noSpilLoc(symbol *sym, eBBlock *ebp, iCode *ic)
 {
         mc32_debugLog("%s\n", __FUNCTION__);
-        return (sym->usl.spillLoc ? 0 : 1);
+        return (sym->usl.spillLoc ? FALSE : TRUE);
 }
 
 /*-----------------------------------------------------------------*/
@@ -1347,7 +1388,7 @@ static int
 mc32_hasSpilLoc(symbol *sym, eBBlock *ebp, iCode *ic)
 {
         mc32_debugLog("%s\n", __FUNCTION__);
-        return (sym->usl.spillLoc ? 1 : 0);
+        return (sym->usl.spillLoc ? TRUE : FALSE);
 }
 
 /*-----------------------------------------------------------------*/
@@ -1359,9 +1400,9 @@ mc32_directSpilLoc(symbol *sym, eBBlock *ebp, iCode *ic)
         mc32_debugLog("%s\n", __FUNCTION__);
         if (sym->usl.spillLoc &&
             (IN_DIRSPACE(SPEC_OCLS(sym->usl.spillLoc->etype))))
-                return 1;
+                return TRUE;
         else
-                return 0;
+                return FALSE;
 }
 
 /*-----------------------------------------------------------------*/
@@ -1372,7 +1413,7 @@ static int
 mc32_hasSpilLocnoUptr(symbol *sym, eBBlock *ebp, iCode *ic)
 {
         mc32_debugLog("%s\n", __FUNCTION__);
-        return ((sym->usl.spillLoc && !sym->uptr) ? 1 : 0);
+        return ((sym->usl.spillLoc && !sym->uptr) ? TRUE : FALSE);
 }
 
 /*-----------------------------------------------------------------*/
@@ -1488,10 +1529,10 @@ mc32_noOverLap(set *itmpStack, symbol *fsym)
              sym = setNextItem(itmpStack))
         {
                 if (sym->liveTo > fsym->liveFrom)
-                        return 0;
+                        return FALSE;
         }
 
-        return 1;
+        return TRUE;
 }
 
 /*-----------------------------------------------------------------*/
@@ -1506,7 +1547,7 @@ static DEFSETFUNC(isFree)
         mc32_debugLog("%s\n", __FUNCTION__);
         /* if already found */
         if (*sloc)
-                return 0;
+                return FALSE;
 
         /* if it is free && and the itmp assigned to
                 this does not have any overlapping live ranges
@@ -1517,10 +1558,10 @@ static DEFSETFUNC(isFree)
             getSize(sym->type) >= getSize(fsym->type))
         {
                 *sloc = sym;
-                return 1;
+                return TRUE;
         }
 
-        return 0;
+        return FALSE;
 }
 
 /*-----------------------------------------------------------------*/
@@ -1561,7 +1602,9 @@ mc32_createStackSpil(symbol *sym)
         symbol *sloc = NULL;
         int useXstack, model, noOverlay;
 
-        char slocBuffer[30];
+        // zwr 2.0.0
+        char slocBuffer[120];
+        // char slocBuffer[30];
         mc32_debugLog("%s\n", __FUNCTION__);
 
         FENTRY2("called.");
@@ -1573,7 +1616,7 @@ mc32_createStackSpil(symbol *sym)
                 /* found a free one : just update & return */
                 sym->usl.spillLoc = sloc;
                 sym->stackSpil = 1;
-                sloc->isFree = 0;
+                sloc->isFree = FALSE;
                 addSetHead(&sloc->usl.itmpStack, sym);
                 return sym;
         }
@@ -1582,12 +1625,14 @@ mc32_createStackSpil(symbol *sym)
         we need to allocate this on the stack : this is really a
         hack!! but cannot think of anything better at this time */
 
-        if (sprintf(slocBuffer, "sloc%d", _G.slocNum++) >= sizeof(slocBuffer))
-        {
-                fprintf(stderr, "kkkInternal error: slocBuffer overflowed: %s:%d\n",
-                        __FILE__, __LINE__);
-                exit(1);
-        }
+        // zwr 2.0.0
+        SNPRINTF(slocBuffer, sizeof(slocBuffer), "sloc%d", _G.slocNum++);
+        // if (sprintf(slocBuffer, "sloc%d", _G.slocNum++) >= sizeof(slocBuffer))
+        // {
+        //         fprintf(stderr, "kkkInternal error: slocBuffer overflowed: %s:%d\n",
+        //                 __FILE__, __LINE__);
+        //         exit(1);
+        // }
 
         sloc = newiTemp(slocBuffer);
 
@@ -1712,7 +1757,8 @@ mc32_spillThis(symbol *sym)
         if (sym->usl.spillLoc && !sym->remat)
                 sym->usl.spillLoc->allocreq = 1;
 
-        return;
+        // zwr 2.0.0
+        // return;
 }
 
 /*-----------------------------------------------------------------*/
@@ -1880,10 +1926,12 @@ mc32_spilSomething(iCode *ic, eBBlock *ebp, symbol *forSym)
                 addiCodeToeBBlock(ebp, nic, NULL);
         }
 
-        if (ssym == forSym)
-                return FALSE;
-        else
-                return TRUE;
+        // zwr 2.0.0
+        return ((ssym == forSym) ? FALSE : TRUE);
+        // if (ssym == forSym)
+        //         return FALSE;
+        // else
+        //         return TRUE;
 }
 
 /*-----------------------------------------------------------------*/
@@ -1912,7 +1960,7 @@ tryAgain:
         /* make sure partially assigned registers aren't reused */
         for (j = 0; j <= sym->nRegs; j++)
                 if (sym->regs[j])
-                        sym->regs[j]->isFree = 0;
+                        sym->regs[j]->isFree = FALSE;
 
         /* this looks like an infinite loop but
                 in really mc32_selectSpil will abort  */
@@ -1945,7 +1993,7 @@ tryAgain:
         /* make sure partially assigned registers aren't reused */
         for (j = 0; j <= sym->nRegs; j++)
                 if (sym->regs[j])
-                        sym->regs[j]->isFree = 0;
+                        sym->regs[j]->isFree = FALSE;
 
         /* this looks like an infinite loop but
                         in really mc32_selectSpil will abort  */
@@ -2024,7 +2072,7 @@ mc32_deassignLRs(iCode *ic, eBBlock *ebp)
                 {
                         if (sym->stackSpil)
                         {
-                                sym->usl.spillLoc->isFree = 1;
+                                sym->usl.spillLoc->isFree = TRUE;
                                 sym->stackSpil = 0;
                         }
                         continue;
@@ -2121,7 +2169,7 @@ mc32_reassignLR(operand *op)
         _G.blockSpil--;
 
         for (i = 0; i < sym->nRegs; i++)
-                sym->regs[i]->isFree = 0;
+                sym->regs[i]->isFree = FALSE;
 }
 
 /*-----------------------------------------------------------------*/
@@ -2139,29 +2187,29 @@ mc32_willCauseSpill(int nr, int rt)
         if pointer type not avlb then
                 check for type gpr */
                 if (mc32_nFreeRegs(rt) >= nr)
-                        return 0;
+                        return FALSE;
                 if (mc32_nFreeRegs(REG_GPR) >= nr)
-                        return 0;
+                        return FALSE;
         }
         else
         {
                 if (mc32_ptrRegReq)
                 {
                         if (mc32_nFreeRegs(rt) >= nr)
-                                return 0;
+                                return FALSE;
                 }
                 else
                 {
                         if (mc32_nFreeRegs(REG_PTR) +
                                 mc32_nFreeRegs(REG_GPR) >=
                             nr)
-                                return 0;
+                                return FALSE;
                 }
         }
 
         mc32_debugLog(" ... yep it will (cause a spill)\n");
         /* it will cause a spil */
-        return 1;
+        return TRUE;
 }
 
 /*-----------------------------------------------------------------*/
@@ -2173,14 +2221,14 @@ static void
 mc32_positionRegs(symbol *result, symbol *opsym, int lineno)
 {
         int count = min(result->nRegs, opsym->nRegs);
-        int i, j = 0, shared = 0;
+        int i, j = 0, shared = FALSE;
 
         mc32_debugLog("%s\n", __FUNCTION__);
         /* if the result has been spilt then cannot share */
         if (opsym->isspilt)
                 return;
 again:
-        shared = 0;
+        shared = FALSE;
         /* first make sure that they actually share */
         for (i = 0; i < count; i++)
         {
@@ -2188,7 +2236,7 @@ again:
                 {
                         if (result->regs[i] == opsym->regs[j] && i != j)
                         {
-                                shared = 1;
+                                shared = TRUE;
                                 goto xchgPositions;
                         }
                 }
@@ -2379,7 +2427,7 @@ mc32_serialRegAssign(eBBlock **ebbs, int count)
 
                                 /* if we need ptr regs for the right side
                                 then mark it */
-                                if (POINTER_GET(ic) && IS_SYMOP(IC_LEFT(ic)) && getSize(OP_SYMBOL(IC_LEFT(ic))->type) <= (unsigned)PTRSIZE)
+                                if (POINTER_GET(ic) && IS_SYMOP(IC_LEFT(ic)) && getSize(OP_SYMBOL(IC_LEFT(ic))->type) <= (unsigned)NEARPTRSIZE)
                                 {
                                         mc32_ptrRegReq++;
                                         ptrRegSet = 1;
@@ -2508,16 +2556,20 @@ mc32_regsUsedIniCode(iCode *ic)
         /* do the special cases first */
         if (ic->op == IFX)
         {
-                rmask = bitVectUnion(rmask,
-                                     mc32_rUmaskForOp(IC_COND(ic)));
-                goto ret;
+                // zwr 2.0.0
+                return bitVectUnion(rmask, mc32_rUmaskForOp(IC_COND(ic)));
+                // rmask = bitVectUnion(rmask,
+                //                      mc32_rUmaskForOp(IC_COND(ic)));
+                // goto ret;
         }
 
         /* for the jumptable */
         if (ic->op == JUMPTABLE)
         {
-                rmask = bitVectUnion(rmask,
-                                     mc32_rUmaskForOp(IC_JTCOND(ic)));
+                // zwr 2.0.0
+                return bitVectUnion(rmask, mc32_rUmaskForOp(IC_JTCOND(ic)));
+                // rmask = bitVectUnion(rmask,
+                //                      mc32_rUmaskForOp(IC_JTCOND(ic)));
 
                 goto ret;
         }
@@ -2613,7 +2665,7 @@ mc32_createRegMask(eBBlock **ebbs, int count)
 /* mc32_regTypeNum - computes the type & number of registers required   */
 /*-----------------------------------------------------------------*/
 static void
-mc32_regTypeNum()
+mc32_regTypeNum(void)
 {
         symbol *sym;
         int k;
@@ -2847,7 +2899,7 @@ mc32_packRegsForAssign(iCode *ic, eBBlock *ebp)
                         bitVectUnSetBit(OP_SYMBOL(IC_RESULT(ic))->defs, ic->key);
                         hTabDeleteItem(&iCodehTab, ic->key, ic, DELETE_ITEM, NULL);
 
-                        return 1;
+                        return TRUE;
                 }
         }
 
@@ -2870,14 +2922,14 @@ mc32_packRegsForAssign(iCode *ic, eBBlock *ebp)
                 /* only pack if this is not a function pointer */
                 if (!IS_REF(IC_RIGHT(ic)))
                         mc32_allocDirReg(IC_RIGHT(ic));
-                return 0;
+                return FALSE;
         }
 
         if (OP_SYMBOL(IC_RIGHT(ic))->isind ||
             OP_LIVETO(IC_RIGHT(ic)) > ic->seq)
         {
                 mc32_debugLog("  %d - not packing - right side fails \n", __LINE__);
-                return 0;
+                return FALSE;
         }
 
         /* if the true symbol is defined in far space or on stack
@@ -2887,7 +2939,7 @@ mc32_packRegsForAssign(iCode *ic, eBBlock *ebp)
                 if ((dic = mc32_farSpacePackable(ic)))
                         goto pack;
                 else
-                        return 0;
+                        return FALSE;
         }
         /* find the definition of iTempNN scanning backwards if we find a
         a use of the true symbol before we find the definition then
@@ -2958,7 +3010,7 @@ mc32_packRegsForAssign(iCode *ic, eBBlock *ebp)
         }
 
         if (!dic)
-                return 0; /* did not find */
+                return FALSE; /* did not find */
 
         /* if assignment then check that right is not a bit */
         if (ASSIGNMENT(ic) && !POINTER_SET(ic))
@@ -2969,7 +3021,7 @@ mc32_packRegsForAssign(iCode *ic, eBBlock *ebp)
                         /* if result is a bit too then it's ok */
                         etype = operandType(IC_RESULT(ic));
                         if (!IS_BITFIELD(etype))
-                                return 0;
+                                return FALSE;
                 }
         }
 
@@ -2989,7 +3041,7 @@ mc32_packRegsForAssign(iCode *ic, eBBlock *ebp)
                        IC_RESULT(ic)->key == IC_LEFT(dic)->key) ||
                       (IC_RIGHT(dic) &&
                        IC_RESULT(ic)->key == IC_RIGHT(dic)->key)))
-                        return 0;
+                        return FALSE;
         }
 pack:
         mc32_debugLog("  packing. removing %s\n", OP_SYMBOL(IC_RIGHT(ic))->rname);
@@ -3018,7 +3070,7 @@ pack:
         bitVectUnSetBit(OP_SYMBOL(IC_RESULT(ic))->defs, ic->key);
         hTabDeleteItem(&iCodehTab, ic->key, ic, DELETE_ITEM, NULL);
         OP_DEFS(IC_RESULT(dic)) = bitVectSetBit(OP_DEFS(IC_RESULT(dic)), dic->key);
-        return 1;
+        return TRUE;
 }
 
 /*-----------------------------------------------------------------*/
@@ -4118,7 +4170,7 @@ void mc32_assignRegisters(ebbIndex *ebbi)
                      r;
                      r = setNextItem(mc32_dynAllocRegs))
                 {
-                        r->isFree = 0;
+                        r->isFree = FALSE;
                 }
         }
 
@@ -4144,7 +4196,9 @@ void mc32_assignRegisters(ebbIndex *ebbi)
                 }
         }
 
-        if (options.dump_pack)
+        // zwr 2.0.0
+        if (options.dump_i_code)
+        // if (options.dump_pack)
                 dumpEbbsToFileExt(DUMP_PACK, ebbi);
 
         /* first determine for each live range the number of
@@ -4171,7 +4225,9 @@ void mc32_assignRegisters(ebbIndex *ebbi)
         /* redo that offsets for stacked automatic variables */
         redoStackOffsets();
 
-        if (options.dump_rassgn)
+        // zwr 2.0.0
+        if (options.dump_i_code)
+        // if (options.dump_rassgn)
                 dumpEbbsToFileExt(DUMP_RASSGN, ebbi);
 
         /* now get back the chain */

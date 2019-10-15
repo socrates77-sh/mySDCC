@@ -39,7 +39,8 @@ extern struct dbuf_s *codeOutBuf;
 
 // zwr 1.0.0
 extern struct dbuf_s *ValLog;
-extern struct Q_ValList *mc32_ValList;
+extern struct QValList *mc32_ValList;
+extern void printValsInfo(QValList *, struct dbuf_s *);
 
 extern void initialComments(FILE *afile);
 extern operand *operandFromAst(ast *tree, int lvl);
@@ -331,20 +332,20 @@ int mc32_stringInSet(const char *str, set **world, int autoAdd)
     char *s;
 
     if (!str)
-        return 1;
+        return TRUE;
     assert(world);
 
     for (s = setFirstItem(*world); s; s = setNextItem(*world))
     {
         /* found in set */
         if (0 == strcmp(s, str))
-            return 1;
+            return TRUE;
     }
 
     /* not found */
     if (autoAdd)
         addSet(world, Safe_strdup(str));
-    return 0;
+    return FALSE;
 }
 
 static void
@@ -353,7 +354,7 @@ mc32_printLocals(struct dbuf_s *oBuf)
     set *allregs[6] = {mc32_dynAllocRegs /*, mc32_dynStackRegs, mc32_dynProcessorRegs*/,
                        mc32_dynDirectRegs, mc32_dynDirectBitRegs /*, mc32_dynInternalRegs */};
     reg_info *reg;
-    int i, is_first = 1;
+    int i, is_first = TRUE;
     static unsigned sectionNr = 0;
 
     /* emit all registers from all possible sets */
@@ -369,7 +370,7 @@ mc32_printLocals(struct dbuf_s *oBuf)
 
             if (reg->wasUsed && !reg->isExtern)
             {
-                if (!mc32_stringInSet(reg->name, &mc32_emitted, 1))
+                if (!mc32_stringInSet(reg->name, &mc32_emitted, TRUE))
                 {
                     if (reg->isFixed)
                     {
@@ -393,14 +394,14 @@ mc32_printLocals(struct dbuf_s *oBuf)
                             if (is_first)
                             {
                                 dbuf_printf(oBuf, "UDL_%s_%u\tudata\n", moduleName, sectionNr++);
-                                is_first = 0;
+                                is_first = FALSE;
                             }
                             dbuf_printf(oBuf, "%s\tres\t%d\n", reg->name, reg->size);
                         }
                     }
                 }
             }
-            reg->isEmitted = 1;
+            reg->isEmitted = TRUE;
         } // for
     }     // for
 }
@@ -534,7 +535,7 @@ mc32_emitInterruptHandler(FILE *asmFile)
 /*-----------------------------------------------------------------*/
 /* glue - the final glue that hold the whole thing together        */
 /*-----------------------------------------------------------------*/
-void mc32_picglue()
+void mc32_picglue(void)
 {
     FILE *asmFile;
     struct dbuf_s ovrBuf;
@@ -554,7 +555,7 @@ void mc32_picglue()
     {
         /* main missing -- import stack from main module */
         //fprintf (stderr, "main() missing -- assuming we are NOT the main module\n");
-        mc32_options.isLibrarySource = 1;
+        mc32_options.isLibrarySource = TRUE;
     }
 
     /* At this point we've got all the code in the form of pCode structures */
@@ -596,12 +597,16 @@ void mc32_picglue()
 
     if ((noAssemble || options.c1mode) && fullDstFileName)
     {
-        sprintf(buffer, "%s", fullDstFileName);
+        // zwr 2.0.0
+        SNPRINTF(buffer, sizeof(buffer), "%s", fullDstFileName);
+        // sprintf(buffer, "%s", fullDstFileName);
     }
     else
     {
-        sprintf(buffer, "%s", dstFileName);
-        strcat(buffer, ".asm");
+        // zwr 2.0.0
+        SNPRINTF(buffer, sizeof(buffer), "%s.asm", dstFileName);
+        // sprintf(buffer, "%s", dstFileName);
+        // strcat(buffer, ".asm");
     }
 
     if (!(asmFile = fopen(buffer, "w")))
@@ -636,7 +641,7 @@ void mc32_picglue()
     if (mc32_ValList)
     {
         printValsInfo(mc32_ValList, ValLog);
-        fprintf(asmFile, "\n%s\n", ValLog->buf);
+        fprintf(asmFile, "\n%s\n", (char*)(ValLog->buf));
     }
     
     /* print the locally defined variables in this module */
@@ -708,11 +713,11 @@ mc32_parseIvalAst(ast *node, int *inCodeSpace)
         symbol *sym = IS_AST_SYM_VALUE(node) ? AST_SYMBOL(node) : NULL;
         if (inCodeSpace && val->type && (IS_FUNC(val->type) || IS_CODE(getSpec(val->type))))
         {
-            *inCodeSpace = 1;
+            *inCodeSpace = TRUE;
         }
         if (inCodeSpace && sym && (IS_FUNC(sym->type) || IS_CODE(getSpec(sym->type))))
         {
-            *inCodeSpace = 1;
+            *inCodeSpace = TRUE;
         }
 
         DEBUGprintf("%s: AST_VALUE\n", __FUNCTION__);
@@ -793,7 +798,7 @@ static int
 mc32_emitIvalLabel(struct dbuf_s *oBuf, symbol *sym)
 {
     char *segname;
-    static int in_code = 0;
+    static int in_code = FALSE;
     static int sectionNr = 0;
 
     if (sym)
@@ -802,12 +807,12 @@ mc32_emitIvalLabel(struct dbuf_s *oBuf, symbol *sym)
         if (IS_CODE(getSpec(sym->type)))
         {
             segname = "code";
-            in_code = 1;
+            in_code = TRUE;
         }
         else
         {
             segname = "idata";
-            in_code = 0;
+            in_code = FALSE;
         }
         dbuf_printf(oBuf, "\nID_%s_%d\t%s", moduleName, sectionNr++, segname);
         if (SPEC_ABSA(getSpec(sym->type)))
@@ -832,7 +837,7 @@ mc32_emitIvals(struct dbuf_s *oBuf, symbol *sym, initList *list, long lit, int s
     ast *node;
     operand *op;
     value *val = NULL;
-    int inCodeSpace = 0;
+    int inCodeSpace = FALSE;
     char *str = NULL;
     int in_code;
 
@@ -1117,7 +1122,10 @@ mc32_emitInitVal(struct dbuf_s *oBuf, symbol *topsym, sym_link *my_type, initLis
         return;
     }
 
-    if (IS_CHAR(my_type) || IS_INT(my_type) || IS_LONG(my_type))
+    // zwr 2.0.0
+    if (IS_CHAR(my_type) || IS_INT(my_type) || IS_LONG(my_type) ||
+        IS_BOOL(my_type))
+    // if (IS_CHAR(my_type) || IS_INT(my_type) || IS_LONG(my_type))
     {
         // integral type, 8, 16, or 32 bit
         DEBUGprintf("(integral, %d byte) 0x%lx/%ld\n", size, list ? (long)list2int(list) : 0, list ? (long)list2int(list) : 0);
@@ -1221,7 +1229,7 @@ mc32_emitSymbolSet(set *s, int type)
 {
     symbol *sym;
     initList *list;
-    unsigned sectionNr = 0;
+    unsigned int sectionNr = 0;
 
     for (sym = setFirstItem(s); sym; sym = setNextItem(s))
     {
