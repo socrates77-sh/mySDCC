@@ -308,11 +308,8 @@ mc35_createInterruptVect(struct dbuf_s *vBuf)
     // dbuf_printf(vBuf, "\tgoto\t__sdcc_gsinit_startup\n");
     // mc35_popGetExternal("__sdcc_gsinit_startup", 0);
 
-    // zwr 1.1.0
-    if(!mc35_long_call)
-        dbuf_printf(vBuf, "\tgoto\t_main\n");
-    else
-        dbuf_printf(vBuf, "\tlgoto\t_main\n");
+    dbuf_printf(vBuf, "\tgoto\t_main\n");
+    
     mc35_popGetExternal("_main", 0);
 }
 

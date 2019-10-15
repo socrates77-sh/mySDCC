@@ -524,7 +524,7 @@ mc32_list_valid_pics(int ncols)
 
 #if 1
   /* heading */
-  fprintf(stderr, "\nMC32 processors and their characteristics:\n\n"); // zwr 1.10.0
+  fprintf(stderr, "\nMC32 processors and their characteristics:\n\n"); // zwr 1.0.0
   fprintf(stderr, " processor");
   for (k = 0; k < longest - 1; k++)
     fputc(' ', stderr);

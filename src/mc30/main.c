@@ -30,8 +30,11 @@ int mc30_debug_verbose = 0;
 #define OPTION_STACK_SIZE "--stack-size"
 
 // zwr 1.1.0
-#define LONG_CALL "--long-call"
-int mc30_long_call = 0;
+#define FL_MODE "--fl-mode"
+int mc30_fl_mode = 0;
+
+#define START_ADDR "--start-addr"
+int mc30_start_addr = 0;
 
 static char _mc30_defaultRules[] =
     {
@@ -43,7 +46,8 @@ static OPTION _mc30_poptions[] =
         {0, "--debug-xtra", &mc30_debug_verbose, "show more debug info in assembly output"},
         {0, "--no-pcode-opt", &mc30_options.disable_df, "disable (slightly faulty) optimization on pCode"},
         // zwr 1.1.0
-        {0, LONG_CALL, &mc30_long_call, "enable lcall/lgoto"},
+        {0, FL_MODE, &mc30_fl_mode, "enable feeling mode"},
+        {0, START_ADDR, &mc30_start_addr, "sets the start address (default: 0)", CLAT_INTEGER},
         {0, OPTION_STACK_SIZE, &options.stack_size, "sets the size if the argument passing stack (default: 16, minimum: 4)", CLAT_INTEGER},
         // zwr 2.0.0
         {0, "--no-extended-instructions", &mc30_options.no_ext_instr, "forbid use of the extended instruction set (e.g., ADDFSR)"},

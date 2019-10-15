@@ -301,18 +301,16 @@ mc30_createInterruptVect(struct dbuf_s *vBuf)
     dbuf_printf(vBuf, "%s", iComments2);
     // Lkr file should place section STARTUP at address 0x0, but does not ...
 
+    // zwr 1.1.0
+    dbuf_printf(vBuf, "STARTUP\t%s 0x%04x\n", CODE_NAME, mc30_start_addr);
+    // dbuf_printf(vBuf, "STARTUP\t%s 0x0000\n", CODE_NAME);
     // zwr 1.0.0
-    dbuf_printf(vBuf, "STARTUP\t%s 0x0000\n", CODE_NAME);
     //dbuf_printf(vBuf, "\tnop\n"); /* first location for used by incircuit debugger */
     //dbuf_printf(vBuf, "\tpagesel __sdcc_gsinit_startup\n");
     // dbuf_printf(vBuf, "\tgoto\t__sdcc_gsinit_startup\n");
     // mc30_popGetExternal("__sdcc_gsinit_startup", 0);
 
-    // zwr 1.1.0
-    if(!mc30_long_call)
-        dbuf_printf(vBuf, "\tgoto\t_main\n");
-    else
-        dbuf_printf(vBuf, "\tlgoto\t_main\n");
+    dbuf_printf(vBuf, "\tgoto\t_main\n");
     mc30_popGetExternal("_main", 0);
 }
 
@@ -855,8 +853,8 @@ mc30_emitIvals(struct dbuf_s *oBuf, symbol *sym, initList *list, long lit, int s
         {
             if (in_code)
             {
-                // zwr 1.1.0
-                dbuf_printf(oBuf, "\tdw 0x%02x\n", (int)(lit & 0xff));
+                // zwr 1.0.0
+                dbuf_printf(oBuf, "\tretai 0x%02x\n", (int)(lit & 0xff));
                 // dbuf_printf (oBuf, "\tretlw 0x00\n"); // conflict from merge of sf-patch-2991122 ?
             }
             else
@@ -919,8 +917,8 @@ mc30_emitIvals(struct dbuf_s *oBuf, symbol *sym, initList *list, long lit, int s
         } // if
         if (in_code)
         {
-            // zwr 1.1.0
-            dbuf_printf(oBuf, "\tdw %s\n", text);
+            // zwr 1.0.0
+            dbuf_printf(oBuf, "\tretai %s\n", text);
         }
         else
         {
@@ -1083,8 +1081,8 @@ mc30_emitInitVal(struct dbuf_s *oBuf, symbol *topsym, sym_link *my_type, initLis
         mc30_emitIvalLabel(oBuf, topsym);
         do
         {
-            // zwr 1.1.0
-            dbuf_printf(oBuf, "\tdw 0x%02x ; '%c'\n", str[0], (str[0] >= 0x20 && str[0] < 128) ? str[0] : '.');
+            // zwr 1.0.0
+            dbuf_printf(oBuf, "\tretai 0x%02x ; '%c'\n", str[0], (str[0] >= 0x20 && str[0] < 128) ? str[0] : '.');
         } while (*(str++));
         return;
     }

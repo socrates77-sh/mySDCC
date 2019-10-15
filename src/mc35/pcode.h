@@ -93,9 +93,9 @@ struct reg_info;
 /***********************************************************************
  *  PIC status bits - this will move into device dependent headers
  ***********************************************************************/
-#define PIC_C_BIT 0
+#define PIC_C_BIT 2		// zwr 1.0.0
 #define PIC_DC_BIT 1
-#define PIC_Z_BIT 2
+#define PIC_Z_BIT 0		// zwr 1.0.0
 #define PIC_RP0_BIT 5 /* Register Bank select bits RP1:0 : */
 #define PIC_RP1_BIT 6 /* 00 - bank 0, 01 - bank 1, 10 - bank 2, 11 - bank 3 */
 #define PIC_IRP_BIT 7 /* Indirect register page select */
@@ -196,6 +196,7 @@ typedef enum {
 	POC_MOVLW,
 	POC_MOVWF,
 	POC_NOP,
+	POC_XCH,	// zwr 1.0.0 inst
 	POC_RETLW,
 	POC_RETURN,
 	POC_RETFIE,

@@ -29,10 +29,6 @@ int mc35_debug_verbose = 0;
 
 #define OPTION_STACK_SIZE "--stack-size"
 
-// zwr 1.1.0
-#define LONG_CALL "--long-call"
-int mc35_long_call = 0;
-
 static char _mc35_defaultRules[] =
     {
 #include "peeph.rul"
@@ -42,8 +38,6 @@ static OPTION _mc35_poptions[] =
     {
         {0, "--debug-xtra", &mc35_debug_verbose, "show more debug info in assembly output"},
         {0, "--no-pcode-opt", &mc35_options.disable_df, "disable (slightly faulty) optimization on pCode"},
-        // zwr 1.1.0
-        {0, LONG_CALL, &mc35_long_call, "enable lcall/lgoto"},
         {0, OPTION_STACK_SIZE, &options.stack_size, "sets the size if the argument passing stack (default: 16, minimum: 4)", CLAT_INTEGER},
         // zwr 2.0.0
         {0, "--no-extended-instructions", &mc35_options.no_ext_instr, "forbid use of the extended instruction set (e.g., ADDFSR)"},

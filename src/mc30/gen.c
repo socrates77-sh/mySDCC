@@ -5656,26 +5656,21 @@ SetIrp(operand *result)
 static void
 setup_fsr(operand *ptr)
 {
-  // zwr 1.1.3
-  mc30_mov2w_op(ptr, 0);
-  mc30_emitpcode(POC_MOVWF, mc30_popCopyReg(&mc30_pc_fsr0l));
-  mc30_mov2w_op(ptr, 1);
-  mc30_emitpcode(POC_MOVWF, mc30_popCopyReg(&mc30_pc_fsr0h));
-  // if (mc30_getPIC()->isEnhancedCore)
-  // {
-  //   mc30_mov2w_op(ptr, 0);
-  //   mc30_emitpcode(POC_MOVWF, mc30_popCopyReg(&mc30_pc_fsr0l));
-  //   mc30_mov2w_op(ptr, 1);
-  //   mc30_emitpcode(POC_MOVWF, mc30_popCopyReg(&mc30_pc_fsr0h));
-  // }
-  // else
-  // {
-  //   mc30_mov2w_op(ptr, 0);
-  //   mc30_emitpcode(POC_MOVWF, mc30_popCopyReg(&mc30_pc_fsr));
+  if (mc30_getPIC()->isEnhancedCore)
+  {
+    mc30_mov2w_op(ptr, 0);
+    mc30_emitpcode(POC_MOVWF, mc30_popCopyReg(&mc30_pc_fsr0l));
+    mc30_mov2w_op(ptr, 1);
+    mc30_emitpcode(POC_MOVWF, mc30_popCopyReg(&mc30_pc_fsr0h));
+  }
+  else
+  {
+    mc30_mov2w_op(ptr, 0);
+    mc30_emitpcode(POC_MOVWF, mc30_popCopyReg(&mc30_pc_fsr));
 
-  //   /* also setup-up IRP */
-  //   SetIrp(ptr);
-  // }
+    /* also setup-up IRP */
+    SetIrp(ptr);
+  }
 }
 
 static void
@@ -6222,6 +6217,84 @@ release:
   mc30_freeAsmop(result, NULL, ic, TRUE);
 }
 
+// zwr 1.1.6
+static void
+genConstPointerGet_emc(operand *left, operand *result, iCode *ic)
+{
+// zwr 1.1.7
+// printf("global const is not supported, please try FL-MODE\n");
+// exit(EXIT_FAILURE);
+//sym_link *retype = getSpec(operandType(result));
+#if 0
+    symbol *albl, *blbl;          //, *clbl;
+    pCodeOp *pcop;
+#endif
+  int i, lit;
+
+  FENTRY;
+  DEBUGmc30_pic14_emitcode("; ***", "%s  %d", __FUNCTION__, __LINE__);
+  mc30_aopOp(left, ic, FALSE);
+  mc30_aopOp(result, ic, FALSE);
+
+  DEBUGmc30_pic14_AopType(__LINE__, left, NULL, result);
+
+  DEBUGmc30_pic14_emitcode("; ", " %d getting const pointer", __LINE__);
+
+  lit = mc30_op_isLitLike(left);
+  // zwr 1.1.7
+  if (!lit)
+  {
+    printf("global const array labled by variable is not supported, please try FL-MODE\n");
+    exit(EXIT_FAILURE);
+  }
+
+  if (IS_BITFIELD(getSpec(operandType(result))))
+  {
+    genUnpackBits(result, left, lit ? -1 : CPOINTER, ifxForOp(IC_RESULT(ic), ic));
+    goto release;
+  }
+
+  {
+    // char *func[] = {NULL, "__gptrget1", "__gptrget2", "__gptrget3", "__gptrget4"};
+    int size = min((int)getSize(OP_SYM_ETYPE(left)), AOP_SIZE(result));
+    assert(size > 0 && size <= 4);
+
+    // mov2w_op(left, 0);
+    // emitpcode(POC_MOVWF, popRegFromIdx(Gstack_base_addr - 1));
+    // mov2w_op(left, 1);
+    // emitpcode(POC_MOVWF, popRegFromIdx(Gstack_base_addr));
+    // emitpcode(POC_MOVLW, popGetLit(GPTRTAG_CODE)); /* GPOINTER tag for __code space */
+    // call_libraryfunc(func[size]);
+
+    // zwr 1.1.7
+    char fun_name[256];
+    if (mc30_op_isLitLike(left))
+    {
+      for (i = 0; i < size; i++)
+      {
+        if (left->isaddr)
+        {
+          mc30_emitpcode(POC_CALL, mc30_popGetAddr(AOP(left), 0, size - i)); // index+1 (for addai pcl)
+        }
+        else
+        {
+          SNPRINTF(fun_name, 256, "(%s + %d)", left->aop->aopu.pcop->name, size - 1 - i);
+          mc30_emitpcode(POC_CALL, mc30_popGetWithString(fun_name, 0));
+        }
+        movwf(AOP(result), size - 1 - i);
+      }
+    }
+    else
+    {
+      //call_libraryfunc(func[size]);
+    }
+  }
+
+release:
+  mc30_freeAsmop(left, NULL, ic, TRUE);
+  mc30_freeAsmop(result, NULL, ic, TRUE);
+}
+
 /*-----------------------------------------------------------------*/
 /* genPointerGet - generate code for pointer get                   */
 /*-----------------------------------------------------------------*/
@@ -6295,7 +6368,12 @@ genPointerGet(iCode *ic)
          break;
        */
   case CPOINTER:
-    genConstPointerGet(left, result, ic);
+    // zwr 1.1.6
+    // genConstPointerGet(left, result, ic);
+    if (mc30_fl_mode)
+      genConstPointerGet(left, result, ic);
+    else
+      genConstPointerGet_emc(left, result, ic);
     break;
 
   case GPOINTER:
@@ -7056,7 +7134,12 @@ genAssign(iCode *ic)
       && IN_CODESPACE(SPEC_OCLS(getSpec(OP_SYM_TYPE(right)))))
   {
     mc30_emitpComment("genAssign from CODESPACE");
-    genConstPointerGet(right, result, ic);
+    // zwr 1.1.6
+    // genConstPointerGet(right, result, ic);
+    if (mc30_fl_mode)
+      genConstPointerGet(right, result, ic);
+    else
+      genConstPointerGet_emc(right, result, ic);
     goto release;
   }
 
@@ -7190,23 +7273,22 @@ genJumpTab(iCode *ic)
   mc30_pic14_emitcode("jmp", "@a+dptr");
   mc30_pic14_emitcode("", "%05d_DS_:", labelKey2num(jtab->key));
 
-  // zwr 1.0.0, revise for switch
-
-  // //mc30_emitpcode(POC_MOVLW, mc30_popGetHighLabel(jtab->key));
-  // //mc30_emitpcode(POC_MOVWF, mc30_popCopyReg(&mc30_pc_pclath));
-  // mc30_emitpcode(POC_MOVLW, mc30_popGetLabel(jtab->key));
-  // mc30_emitpcode(POC_ADDFW, mc30_popGet(AOP(IC_JTCOND(ic)), 0));
-  // //mc30_emitSKPNC;
-  // //mc30_emitpcode(POC_INCF, mc30_popCopyReg(&mc30_pc_pclath));
-  // mc30_emitpcode(POC_MOVWF, mc30_popCopyReg(&mc30_pc_pcl));
-
-  // zwr 1.1.1 for long_call, address shift*2
-  if (!mc30_long_call)
-    mc30_emitpcode(POC_MOVFW, mc30_popGet(AOP(IC_JTCOND(ic)), 0));
+  // zwr 1.1.0
+  if (mc30_fl_mode)
+  {
+    mc30_emitpcode(POC_MOVLW, mc30_popGetHighLabel(jtab->key));
+    mc30_emitpcode(POC_MOVWF, mc30_popCopyReg(&mc30_pc_pclath));
+    mc30_emitpcode(POC_MOVLW, mc30_popGetLabel(jtab->key));
+    mc30_emitpcode(POC_ADDFW, mc30_popGet(AOP(IC_JTCOND(ic)), 0));
+    mc30_emitSKPNC;
+    mc30_emitpcode(POC_INCF, mc30_popCopyReg(&mc30_pc_pclath));
+    mc30_emitpcode(POC_MOVWF, mc30_popCopyReg(&mc30_pc_pcl));
+  }
   else
-    mc30_emitpcode(POC_RLFW, mc30_popGet(AOP(IC_JTCOND(ic)), 0));
-
-  mc30_emitpcode(POC_ADDWF, mc30_popCopyReg(&mc30_pc_pcl));
+  {
+    mc30_emitpcode(POC_MOVFW, mc30_popGet(AOP(IC_JTCOND(ic)), 0));
+    mc30_emitpcode(POC_ADDWF, mc30_popCopyReg(&mc30_pc_pcl));
+  }
 
   mc30_emitpLabel(jtab->key);
 

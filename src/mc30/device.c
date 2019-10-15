@@ -38,7 +38,7 @@ static int mc30_num_of_supported_PICS = 0;
 static int mc30_maxRAMaddress = 0;
 
 // #define DEVICE_FILE_NAME_MC30 "mc30devices.txt" // zwr 1.1.0
-#define DEVICE_FILE_NAME_MC30 "32devices.txt" // zwr 1.1.5
+#define DEVICE_FILE_NAME_MC30 "30devices.txt" // zwr 1.1.5
 #define PIC14_STRING_LEN 256
 #define MC30_SPLIT_WORDS_MAX 16
 

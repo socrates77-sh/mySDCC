@@ -11,7 +11,6 @@ typedef struct {
 
 extern mc35_options_t mc35_options;
 extern int mc35_debug_verbose;
-extern int mc35_long_call;        // zwr 1.1.0
 
 #endif
 

@@ -28,26 +28,17 @@
 /****************************************************************/
 
 // Eventually this will go into device dependent files:
-// zwr 1.1.0
-pCodeOpReg mc30_pc_status = {{PO_STATUS, "PFLAG"}, -1, NULL, 0, NULL};
-// pCodeOpReg mc30_pc_status = {{PO_STATUS, "STATUS"}, -1, NULL, 0, NULL};
+pCodeOpReg mc30_pc_status = {{PO_STATUS, "STATUS"}, -1, NULL, 0, NULL};
 pCodeOpReg mc30_pc_fsr = {{PO_FSR, "FSR"}, -1, NULL, 0, NULL};
-// zwr 1.1.3
-// pCodeOpReg mc30_pc_fsr0l = {{PO_FSR, "FSR0L"}, -1, NULL, 0, NULL};
-// pCodeOpReg mc30_pc_fsr0h = {{PO_FSR, "FSR0H"}, -1, NULL, 0, NULL};
-pCodeOpReg mc30_pc_fsr0l = {{PO_FSR, "FSR0"}, -1, NULL, 0, NULL};
-pCodeOpReg mc30_pc_fsr0h = {{PO_FSR, "FSR1"}, -1, NULL, 0, NULL};
-
+pCodeOpReg mc30_pc_fsr0l = {{PO_FSR, "FSR0L"}, -1, NULL, 0, NULL};
+pCodeOpReg mc30_pc_fsr0h = {{PO_FSR, "FSR0H"}, -1, NULL, 0, NULL};
 pCodeOpReg mc30_pc_indf_ = {{PO_INDF, "INDF"}, -1, NULL, 0, NULL};
 pCodeOpReg mc30_pc_indf0 = {{PO_INDF, "INDF0"}, -1, NULL, 0, NULL};
 pCodeOpReg mc30_pc_intcon = {{PO_INTCON, "INTCON"}, -1, NULL, 0, NULL};
 pCodeOpReg mc30_pc_pcl = {{PO_PCL, "PCL"}, -1, NULL, 0, NULL};
 pCodeOpReg mc30_pc_pclath = {{PO_PCLATH, "PCLATH"}, -1, NULL, 0, NULL};
 
-// zwr 1.1.3
-pCodeOpReg mc30_pc_indf2_ = {{PO_INDF, "INDF2"}, -1, NULL, 0, NULL};
-pCodeOpReg *mc30_pc_indf = &mc30_pc_indf2_;
-// pCodeOpReg *mc30_pc_indf = &mc30_pc_indf_;
+pCodeOpReg *mc30_pc_indf = &mc30_pc_indf_;
 
 pCodeOpReg mc30_pc_wsave = {{PO_GPR_REGISTER, "WSAVE"}, -1, NULL, 0, NULL};
 pCodeOpReg mc30_pc_ssave = {{PO_GPR_REGISTER, "SSAVE"}, -1, NULL, 0, NULL};
@@ -357,30 +348,6 @@ static pCodeInstruction mc30_pciCALL = {
 	(PCC_NONE | PCC_W | PCC_C | PCC_DC | PCC_Z) // outCond, flags are destroyed by called function
 };
 
-// zwr 1.1.0
-static pCodeInstruction mc30_pciLCALL = {
-	{PC_OPCODE, NULL, NULL, 0, 0, NULL,
-	 mc30_genericDestruct,
-	 mc30_genericPrint},
-	POC_CALL,
-	"LCALL",
-	NULL,  // from branch
-	NULL,  // to branch
-	NULL,  // label
-	NULL,  // operand
-	NULL,  // flow block
-	NULL,  // C source
-	1,	 // num ops
-	FALSE, // dest
-	FALSE, // bit instruction
-	TRUE,  // branch
-	FALSE, // skip
-	FALSE, // literal operand
-	POC_NOP,
-	(PCC_NONE | PCC_W),							// inCond, reads argument from WREG
-	(PCC_NONE | PCC_W | PCC_C | PCC_DC | PCC_Z) // outCond, flags are destroyed by called function
-};
-
 static pCodeInstruction mc30_pciCOMF = {
 	{PC_OPCODE, NULL, NULL, 0, 0, NULL,
 	 mc30_genericDestruct,
@@ -594,30 +561,6 @@ static pCodeInstruction mc30_pciGOTO = {
 	 mc30_genericPrint},
 	POC_GOTO,
 	"GOTO",
-	NULL,  // from branch
-	NULL,  // to branch
-	NULL,  // label
-	NULL,  // operand
-	NULL,  // flow block
-	NULL,  // C source
-	1,	 // num ops
-	FALSE, // dest
-	FALSE, // bit instruction
-	TRUE,  // branch
-	FALSE, // skip
-	FALSE, // literal operand
-	POC_NOP,
-	PCC_NONE, // inCond
-	PCC_NONE  // outCond
-};
-
-// zwr 1.1.0
-static pCodeInstruction mc30_pciLGOTO = {
-	{PC_OPCODE, NULL, NULL, 0, 0, NULL,
-	 mc30_genericDestruct,
-	 mc30_genericPrint},
-	POC_GOTO,
-	"LGOTO",
 	NULL,  // from branch
 	NULL,  // to branch
 	NULL,  // label
@@ -1362,8 +1305,7 @@ void mc30_pCodeInitRegisters(void)
 	mc30_initStack(shareBankAddress, stkSize, haveShared);
 
 	/* TODO: Read aliases for SFRs from regmap lines in device description. */
-	// zwr 1.1.0
-	mc30_pc_status.r = mc30_allocProcessorRegister(IDX_STATUS, "PFLAG", PO_STATUS, 0xf80);
+	mc30_pc_status.r = mc30_allocProcessorRegister(IDX_STATUS, "STATUS", PO_STATUS, 0xf80);
 	mc30_pc_pcl.r = mc30_allocProcessorRegister(IDX_PCL, "PCL", PO_PCL, 0xf80);
 	mc30_pc_pclath.r = mc30_allocProcessorRegister(IDX_PCLATH, "PCLATH", PO_PCLATH, 0xf80);
 	mc30_pc_indf_.r = mc30_allocProcessorRegister(IDX_INDF, "INDF", PO_INDF, 0xf80);
@@ -1450,19 +1392,7 @@ static void pic14initMnemonics(void)
 	mc30_pic14Mnemonics[POC_BSF] = &mc30_pciBSF;
 	mc30_pic14Mnemonics[POC_BTFSC] = &mc30_pciBTFSC;
 	mc30_pic14Mnemonics[POC_BTFSS] = &mc30_pciBTFSS;
-
-	// zwr 1.1.0
-	if (!mc30_long_call)
-	{
-		mc30_pic14Mnemonics[POC_CALL] = &mc30_pciCALL;
-		mc30_pic14Mnemonics[POC_GOTO] = &mc30_pciGOTO;
-	}
-	else
-	{
-		mc30_pic14Mnemonics[POC_CALL] = &mc30_pciLCALL;
-		mc30_pic14Mnemonics[POC_GOTO] = &mc30_pciLGOTO;
-	}
-
+	mc30_pic14Mnemonics[POC_CALL] = &mc30_pciCALL;
 	mc30_pic14Mnemonics[POC_COMF] = &mc30_pciCOMF;
 	mc30_pic14Mnemonics[POC_COMFW] = &mc30_pciCOMFW;
 	mc30_pic14Mnemonics[POC_CLRF] = &mc30_pciCLRF;
@@ -1472,7 +1402,7 @@ static void pic14initMnemonics(void)
 	mc30_pic14Mnemonics[POC_DECFW] = &mc30_pciDECFW;
 	mc30_pic14Mnemonics[POC_DECFSZ] = &mc30_pciDECFSZ;
 	mc30_pic14Mnemonics[POC_DECFSZW] = &mc30_pciDECFSZW;
-
+	mc30_pic14Mnemonics[POC_GOTO] = &mc30_pciGOTO;
 	mc30_pic14Mnemonics[POC_INCF] = &mc30_pciINCF;
 	mc30_pic14Mnemonics[POC_INCFW] = &mc30_pciINCFW;
 	mc30_pic14Mnemonics[POC_INCFSZ] = &mc30_pciINCFSZ;

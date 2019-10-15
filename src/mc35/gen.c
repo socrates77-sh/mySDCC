@@ -1330,8 +1330,11 @@ void mc35_aopPut(asmop *aop, const char *s, int offset)
       }
       else if (strcmp(s, one) == 0)
       {
-        mc35_emitpcode(POC_CLRF, mc35_popGet(aop, offset));
-        mc35_emitpcode(POC_INCF, mc35_popGet(aop, offset));
+        // zwr 1.0.0 inst incr #1
+        // mc35_emitpcode(POC_CLRF, mc35_popGet(aop, offset));
+        // mc35_emitpcode(POC_INCF, mc35_popGet(aop, offset));
+        mc35_emitpcode(POC_MOVLW, mc35_popGetLit(1));
+        mc35_emitpcode(POC_MOVWF, mc35_popGet(aop, offset));
       }
       else
       {
@@ -1617,7 +1620,10 @@ genNot(iCode *ic)
     {
       mc35_emitpcode(POC_CLRF, mc35_popGet(AOP(IC_RESULT(ic)), 0));
       mc35_emitpcode(POC_BTFSS, mc35_popGet(AOP(IC_LEFT(ic)), 0));
-      mc35_emitpcode(POC_INCF, mc35_popGet(AOP(IC_RESULT(ic)), 0));
+      // zwr 1.0.0 inst #2
+      // mc35_emitpcode(POC_INCF, mc35_popGet(AOP(IC_RESULT(ic)), 0));
+      mc35_emitpcode(POC_INCFSZ, mc35_popGet(AOP(IC_RESULT(ic)), 0));
+      mc35_emitpcodeNULLop(POC_NOP);
     }
     goto release;
   }
@@ -1679,7 +1685,11 @@ genCpl(iCode *ic)
     size = AOP_SIZE(left);
   while (size--)
   {
-    mc35_emitpcode(POC_COMFW, mc35_popGet(AOP(left), offset));
+    // zwr 1.0.0 inst comar #1
+    // mc35_emitpcode(POC_COMFW, mc35_popGet(AOP(left), offset));
+    mc35_emitpcode(POC_MOVLW, mc35_popGetLit(0xff));
+    mc35_emitpcode(POC_XORFW, mc35_popGet(AOP(left), offset));
+
     mc35_emitpcode(POC_MOVWF, mc35_popGet(AOP(result), offset));
     offset++;
   }
@@ -1760,19 +1770,36 @@ genUminus(iCode *ic)
   for (i = 0; i < size; i++)
   {
     if (mc35_sameRegs(AOP(IC_LEFT(ic)), AOP(IC_RESULT(ic))))
-      mc35_emitpcode(POC_COMF, mc35_popGet(AOP(IC_LEFT(ic)), i));
+    {
+      // zwr 1.0.0 inst comr #1
+      // mc35_emitpcode(POC_COMF, mc35_popGet(AOP(IC_LEFT(ic)), i));
+      mc35_emitpcode(POC_MOVLW, mc35_popGetLit(0xff));
+      mc35_emitpcode(POC_XORWF, mc35_popGet(AOP(IC_LEFT(ic)), i));
+    }
     else
     {
-      mc35_emitpcode(POC_COMFW, mc35_popGet(AOP(IC_LEFT(ic)), i));
+      // zwr 1.0.0 inst comar #1
+      // mc35_emitpcode(POC_COMFW, mc35_popGet(AOP(IC_LEFT(ic)), i));
+      mc35_emitpcode(POC_MOVLW, mc35_popGetLit(0xff));
+      mc35_emitpcode(POC_XORFW, mc35_popGet(AOP(IC_LEFT(ic)), i));
+
       mc35_emitpcode(POC_MOVWF, mc35_popGet(AOP(IC_RESULT(ic)), i));
     }
   }
 
-  mc35_emitpcode(POC_INCF, mc35_popGet(AOP(IC_RESULT(ic)), 0));
+  // zwr 1.0.0 inst incr #3
+  // mc35_emitpcode(POC_INCF, mc35_popGet(AOP(IC_RESULT(ic)), 0));
+  // for (i = 1; i < size; i++)
+  // {
+  //   mc35_emitSKPNZ;
+  //   mc35_emitpcode(POC_INCF, mc35_popGet(AOP(IC_RESULT(ic)), i));
+  // }
+  mc35_emitpcode(POC_MOVLW, mc35_popGetLit(1));
+  mc35_emitpcode(POC_ADDWF, mc35_popGet(AOP(IC_RESULT(ic)), 0));
   for (i = 1; i < size; i++)
   {
     mc35_emitSKPNZ;
-    mc35_emitpcode(POC_INCF, mc35_popGet(AOP(IC_RESULT(ic)), i));
+    mc35_emitpcode(POC_ADDWF, mc35_popGet(AOP(IC_RESULT(ic)), i));
   }
 
 release:
@@ -3473,7 +3500,11 @@ genCmp(operand *left, operand *right, operand *result, iCode *ifx, int sign)
   {
     // unsigned comparison
     mc35_mov2w_regOrLit(AOP(right), lit, size);
-    mc35_emitpcode(POC_SUBFW, mc35_popGet(AOP(left), size));
+    // zwr 1.0.0 inst rsubar #1
+    // mc35_emitpcode(POC_SUBFW, mc35_popGet(AOP(left), size));
+    mc35_emitpcode(POC_XCH, mc35_popGet(AOP(left), size));
+    mc35_emitpcode(POC_SUBWF, mc35_popGet(AOP(left), size));
+    mc35_emitpcode(POC_XCH, mc35_popGet(AOP(left), size));
   }
   else
   {
@@ -3507,7 +3538,11 @@ genCmp(operand *left, operand *right, operand *result, iCode *ifx, int sign)
       mc35_emitpcode(POC_MOVWF, pctemp);
       mc35_mov2w(AOP(right), size);
       mc35_emitpcode(POC_ADDLW, mc35_popGetLit(0x80));
-      mc35_emitpcode(POC_SUBFW, pctemp);
+      // zwr 1.0.0 inst rsubar #1
+      // mc35_emitpcode(POC_SUBFW, pctemp);
+      mc35_emitpcode(POC_XCH, pctemp);
+      mc35_emitpcode(POC_SUBWF, pctemp);
+      mc35_emitpcode(POC_XCH, pctemp);
       popReleaseTempReg(pctemp);
     }
   } // if (!sign)
@@ -3521,7 +3556,11 @@ genCmp(operand *left, operand *right, operand *result, iCode *ifx, int sign)
     mc35_emitSKPZ;
     mc35_emitpcode(POC_GOTO, mc35_popGetLabel(templbl->key));
     mc35_mov2w_regOrLit(AOP(right), lit, offs);
-    mc35_emitpcode(POC_SUBFW, mc35_popGet(AOP(left), offs));
+    // zwr 1.0.0 inst rsubar #1
+    // mc35_emitpcode(POC_SUBFW, mc35_popGet(AOP(left), offs));
+    mc35_emitpcode(POC_XCH, mc35_popGet(AOP(left), offs));
+    mc35_emitpcode(POC_SUBWF, mc35_popGet(AOP(left), offs));
+    mc35_emitpcode(POC_XCH, mc35_popGet(AOP(left), offs));
   } // while (offs)
   mc35_emitpLabel(templbl->key);
   goto result_in_carry;
@@ -3757,7 +3796,10 @@ genCmpEq(iCode *ic, iCode *ifx)
 
   if (AOP_SIZE(result) > 0)
   {
-    mc35_emitpcode(POC_INCF, mc35_popGet(AOP(result), 0));
+    // zwr 1.0.0 inst incr #2
+    // mc35_emitpcode(POC_INCF, mc35_popGet(AOP(result), 0));
+    mc35_emitpcode(POC_INCFSZ, mc35_popGet(AOP(result), 0));
+    mc35_emitpcodeNULLop(POC_NOP);
   }
 
   if (ifx && IC_TRUE(ifx))
@@ -3859,7 +3901,10 @@ genOrOp(iCode *ic)
   mc35_emitpLabel(tlbl->key);
   /* here Z is clear IFF `left || right' */
   mc35_emitSKPZ;
-  mc35_emitpcode(POC_INCF, mc35_popGet(AOP(result), 0));
+  // zwr 1.0.0 inst incr #2
+  // mc35_emitpcode(POC_INCF, mc35_popGet(AOP(result), 0));
+  mc35_emitpcode(POC_INCFSZ, mc35_popGet(AOP(result), 0));
+  mc35_emitpcodeNULLop(POC_NOP);
 
   mc35_freeAsmop(left, NULL, ic, (RESULTONSTACK(ic) ? FALSE : TRUE));
   mc35_freeAsmop(right, NULL, ic, (RESULTONSTACK(ic) ? FALSE : TRUE));
@@ -4769,7 +4814,11 @@ genXor(iCode *ic, iCode *ifx)
             mc35_emitpcode(POC_MOVWF, mc35_popGet(AOP(result), offset));
             break;
           case 0xff:
-            mc35_emitpcode(POC_COMFW, mc35_popGet(AOP(left), offset));
+            // zwr 1.0.0 inst comar #1
+            // mc35_emitpcode(POC_COMFW, mc35_popGet(AOP(left), offset));
+            mc35_emitpcode(POC_MOVLW, mc35_popGetLit(0xff));
+            mc35_emitpcode(POC_XORFW, mc35_popGet(AOP(left), offset));
+
             mc35_emitpcode(POC_MOVWF, mc35_popGet(AOP(result), offset));
             break;
           default:
@@ -5159,8 +5208,12 @@ AccRsh(pCodeOp *pcop, int shCount, int mask_mode)
       /* load sign */
       mc35_emitpcode(POC_RLFW, pcop);
       mc35_emitpcode(POC_CLRF, pcop);
+      // zwr 1.0.0 inst comr #2
+      // mc35_emitSKPNC;
+      // mc35_emitpcode(POC_COMF, pcop);
+      mc35_emitpcode(POC_MOVLW, mc35_popGetLit(0xff));
       mc35_emitSKPNC;
-      mc35_emitpcode(POC_COMF, pcop);
+      mc35_emitpcode(POC_XORWF, pcop);
       return;
     }
     else
@@ -5406,7 +5459,10 @@ shiftRight_Left2ResultLit(operand *left, operand *result, int shCount, int sign)
       else
       {
         mc35_emitSKPNC;
-        mc35_emitpcode(POC_DECF, mc35_popGet(AOP(result), size - 1));
+        // zwr 1.0.0 inst decr #1
+        // mc35_emitpcode(POC_DECF, mc35_popGet(AOP(result), size - 1));
+        mc35_emitpcode(POC_DECFSZ, mc35_popGet(AOP(result), size - 1));
+        mc35_emitpcodeNULLop(POC_NOP);
       }
       break;
 
@@ -5554,7 +5610,14 @@ genGenericShift(iCode *ic, int shiftRight)
     mc35_emitpcode(POC_BTFSC, mc35_newpCodeOpBit(mc35_aopGet(AOP(right), 0, FALSE, FALSE), 7, 0));
     mc35_emitpcode(POC_GOTO, mc35_popGetLabel(inverselbl->key));
   }                                             // if
-  mc35_emitpcode(POC_SUBLW, mc35_popGetLit(0)); /* -count in WREG, 0-x > 0 --> BORROW = !CARRY --> CARRY is clear! */
+
+  // zwr 1.0.0 inst isubai #2
+  // mc35_emitpcode(POC_SUBLW, mc35_popGetLit(0));
+  mc35_emitpcode(POC_XORLW, mc35_popGetLit(0xff));
+  mc35_emitpcode(POC_ADDLW, mc35_popGetLit(1)); 
+  
+  /* -count in WREG, 0-x > 0 --> BORROW = !CARRY --> CARRY is clear! */
+  
   /* check for `a = b >> c' with `-c == 0' */
   mc35_emitSKPNZ;
   mc35_emitpcode(POC_GOTO, mc35_popGetLabel(tlbl1->key));
@@ -5699,19 +5762,27 @@ inc_fsr(int delta)
     switch (delta)
     {
     case 1:
-      // zwr 1.1.4
+      // zwr 1.0.0 inst incr #2
       // mc35_emitpcode(POC_INCF, mc35_popCopyReg(&mc35_pc_fsr));
-      mc35_emitpcode(POC_INCF, mc35_popCopyReg(&mc35_pc_fsr0l));
-      mc35_emitSKPNZ;
-      mc35_emitpcode(POC_INCF, mc35_popCopyReg(&mc35_pc_fsr0h));
-      break;
-    case -1:
+      // mc35_emitpcode(POC_INCFSZ, mc35_popCopyReg(&mc35_pc_fsr));
+      // mc35_emitpcodeNULLop(POC_NOP);
       // zwr 1.1.4
-      // mc35_emitpcode(POC_DECF, mc35_popCopyReg(&mc35_pc_fsr));
       mc35_emitpcode(POC_MOVLW, mc35_popGetLit(1));
-      mc35_emitpcode(POC_SUBWF, mc35_popCopyReg(&mc35_pc_fsr0l));
+      mc35_emitpcode(POC_ADDWF, mc35_popCopyReg(&mc35_pc_fsr0l));
+      mc35_emitSKPNZ;
+      mc35_emitpcode(POC_ADDWF, mc35_popCopyReg(&mc35_pc_fsr0h));
+    case -1:
+      // zwr 1.0.0 inst decr #2
+      // mc35_emitpcode(POC_DECF, mc35_popCopyReg(&mc35_pc_fsr));
+      // mc35_emitpcode(POC_DECFSZ, mc35_popCopyReg(&mc35_pc_fsr));
+      // mc35_emitpcodeNULLop(POC_NOP);
+      // zwr 1.1.4
+      mc35_emitpcode(POC_MOVFW, mc35_popCopyReg(&mc35_pc_fsr0l));
+      mc35_emitpcode(POC_SUBLW, mc35_popGetLit(1));
       mc35_emitSKPC;
-      mc35_emitpcode(POC_SUBWF, mc35_popCopyReg(&mc35_pc_fsr0h));
+      mc35_emitpcode(POC_DECFSZ, mc35_popCopyReg(&mc35_pc_fsr0h));
+      mc35_emitpcodeNULLop(POC_NOP);
+      mc35_emitpcode(POC_MOVWF, mc35_popCopyReg(&mc35_pc_fsr0l));
       break;
     case 0:
       break;
@@ -5907,9 +5978,19 @@ genUnpackBits(operand *result, operand *left, int ptype, iCode *ifx)
       if (haveResult)
       {
         if (SPEC_USIGN(OP_SYM_ETYPE(left)))
-          mc35_emitpcode(POC_INCF, mc35_popGet(AOP(result), 0));
+        {
+          // zwr 1.0.0 inst incr #2
+          // mc35_emitpcode(POC_INCF, mc35_popGet(AOP(result), 0));
+          mc35_emitpcode(POC_INCFSZ, mc35_popGet(AOP(result), 0));
+          mc35_emitpcodeNULLop(POC_NOP);
+        }
         else
-          mc35_emitpcode(POC_DECF, mc35_popGet(AOP(result), 0));
+        {
+          // zwr 1.0.0 inst decr #1
+          // mc35_emitpcode(POC_DECF, mc35_popGet(AOP(result), 0));
+          mc35_emitpcode(POC_DECFSZ, mc35_popGet(AOP(result), 0));
+          mc35_emitpcodeNULLop(POC_NOP);
+        }
         mc35_addSign(result, 1, !SPEC_USIGN(OP_SYM_ETYPE(left)));
       }
     }
@@ -7148,7 +7229,10 @@ genAssign(iCode *ic)
       if (offset == 0)
       {
         mc35_emitpcode(POC_BTFSS, mc35_popGet(AOP(right), 0));
-        mc35_emitpcode(POC_INCF, mc35_popGet(AOP(result), 0));
+        // zwr 1.0.0 inst incr #2
+        // mc35_emitpcode(POC_INCF, mc35_popGet(AOP(result), 0));
+        mc35_emitpcode(POC_INCFSZ, mc35_popGet(AOP(result), 0));
+        mc35_emitpcodeNULLop(POC_NOP);
       }
     }
     else
@@ -7200,13 +7284,7 @@ genJumpTab(iCode *ic)
   // //mc35_emitpcode(POC_INCF, mc35_popCopyReg(&mc35_pc_pclath));
   // mc35_emitpcode(POC_MOVWF, mc35_popCopyReg(&mc35_pc_pcl));
 
-  // zwr 1.1.1 for long_call, address shift*2
-  if (!mc35_long_call)
-    mc35_emitpcode(POC_MOVFW, mc35_popGet(AOP(IC_JTCOND(ic)), 0));
-  else
-    mc35_emitpcode(POC_RLFW, mc35_popGet(AOP(IC_JTCOND(ic)), 0));
-
-  mc35_emitpcode(POC_ADDWF, mc35_popCopyReg(&mc35_pc_pcl));
+  mc35_emitpcode(POC_MOVFW, mc35_popGet(AOP(IC_JTCOND(ic)), 0));
 
   mc35_emitpLabel(jtab->key);
 
@@ -7258,7 +7336,10 @@ genCast(iCode *ic)
 
     mc35_emitpcode(POC_CLRF, mc35_popGet(AOP(result), 0));
     mc35_emitpcode(POC_BTFSC, mc35_popGet(AOP(right), 0));
-    mc35_emitpcode(POC_INCF, mc35_popGet(AOP(result), 0));
+    // zwr 1.0.0 inst incr #2
+    // mc35_emitpcode(POC_INCF, mc35_popGet(AOP(result), 0));
+    mc35_emitpcode(POC_INCFSZ, mc35_popGet(AOP(result), 0));
+    mc35_emitpcodeNULLop(POC_NOP);
 
     while (size--)
       mc35_emitpcode(POC_CLRF, mc35_popGet(AOP(result), offset++));

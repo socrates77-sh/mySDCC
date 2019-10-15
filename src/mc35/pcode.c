@@ -44,10 +44,11 @@ pCodeOpReg mc35_pc_intcon = {{PO_INTCON, "INTCON"}, -1, NULL, 0, NULL};
 pCodeOpReg mc35_pc_pcl = {{PO_PCL, "PCL"}, -1, NULL, 0, NULL};
 pCodeOpReg mc35_pc_pclath = {{PO_PCLATH, "PCLATH"}, -1, NULL, 0, NULL};
 
+// zwr 1.1.4, cancle 1.1.3 modified here
 // zwr 1.1.3
-pCodeOpReg mc35_pc_indf2_ = {{PO_INDF, "INDF2"}, -1, NULL, 0, NULL};
-pCodeOpReg *mc35_pc_indf = &mc35_pc_indf2_;
-// pCodeOpReg *mc35_pc_indf = &mc35_pc_indf_;
+// pCodeOpReg mc35_pc_indf2_ = {{PO_INDF, "INDF2"}, -1, NULL, 0, NULL};
+// pCodeOpReg *mc35_pc_indf = &mc35_pc_indf2_;
+pCodeOpReg *mc35_pc_indf = &mc35_pc_indf_;
 
 pCodeOpReg mc35_pc_wsave = {{PO_GPR_REGISTER, "WSAVE"}, -1, NULL, 0, NULL};
 pCodeOpReg mc35_pc_ssave = {{PO_GPR_REGISTER, "SSAVE"}, -1, NULL, 0, NULL};
@@ -357,30 +358,6 @@ static pCodeInstruction mc35_pciCALL = {
 	(PCC_NONE | PCC_W | PCC_C | PCC_DC | PCC_Z) // outCond, flags are destroyed by called function
 };
 
-// zwr 1.1.0
-static pCodeInstruction mc35_pciLCALL = {
-	{PC_OPCODE, NULL, NULL, 0, 0, NULL,
-	 mc35_genericDestruct,
-	 mc35_genericPrint},
-	POC_CALL,
-	"LCALL",
-	NULL,  // from branch
-	NULL,  // to branch
-	NULL,  // label
-	NULL,  // operand
-	NULL,  // flow block
-	NULL,  // C source
-	1,	 // num ops
-	FALSE, // dest
-	FALSE, // bit instruction
-	TRUE,  // branch
-	FALSE, // skip
-	FALSE, // literal operand
-	POC_NOP,
-	(PCC_NONE | PCC_W),							// inCond, reads argument from WREG
-	(PCC_NONE | PCC_W | PCC_C | PCC_DC | PCC_Z) // outCond, flags are destroyed by called function
-};
-
 static pCodeInstruction mc35_pciCOMF = {
 	{PC_OPCODE, NULL, NULL, 0, 0, NULL,
 	 mc35_genericDestruct,
@@ -450,51 +427,53 @@ static pCodeInstruction mc35_pciCLRF = {
 	PCC_REGISTER | PCC_Z // outCond
 };
 
-static pCodeInstruction mc35_pciCLRW = {
-	{PC_OPCODE, NULL, NULL, 0, 0, NULL,
-	 mc35_genericDestruct,
-	 mc35_genericPrint},
-	POC_CLRW,
-	"CLRA",
-	NULL,  // from branch
-	NULL,  // to branch
-	NULL,  // label
-	NULL,  // operand
-	NULL,  // flow block
-	NULL,  // C source
-	0,	 // num ops
-	FALSE, // dest
-	FALSE, // bit instruction
-	FALSE, // branch
-	FALSE, // skip
-	FALSE, // literal operand
-	POC_NOP,
-	PCC_NONE,	 // inCond
-	PCC_W | PCC_Z // outCond
-};
+// zwr 1.0.0 inst
+// static pCodeInstruction mc35_pciCLRW = {
+// 	{PC_OPCODE, NULL, NULL, 0, 0, NULL,
+// 	 mc35_genericDestruct,
+// 	 mc35_genericPrint},
+// 	POC_CLRW,
+// 	"CLRA",
+// 	NULL,  // from branch
+// 	NULL,  // to branch
+// 	NULL,  // label
+// 	NULL,  // operand
+// 	NULL,  // flow block
+// 	NULL,  // C source
+// 	0,	 // num ops
+// 	FALSE, // dest
+// 	FALSE, // bit instruction
+// 	FALSE, // branch
+// 	FALSE, // skip
+// 	FALSE, // literal operand
+// 	POC_NOP,
+// 	PCC_NONE,	 // inCond
+// 	PCC_W | PCC_Z // outCond
+// };
 
-static pCodeInstruction mc35_pciCLRWDT = {
-	{PC_OPCODE, NULL, NULL, 0, 0, NULL,
-	 mc35_genericDestruct,
-	 mc35_genericPrint},
-	POC_CLRWDT,
-	"CLRWDT",
-	NULL,  // from branch
-	NULL,  // to branch
-	NULL,  // label
-	NULL,  // operand
-	NULL,  // flow block
-	NULL,  // C source
-	0,	 // num ops
-	FALSE, // dest
-	FALSE, // bit instruction
-	FALSE, // branch
-	FALSE, // skip
-	FALSE, // literal operand
-	POC_NOP,
-	PCC_NONE, // inCond
-	PCC_NONE  // outCond
-};
+// zwr 1.0.0 inst
+// static pCodeInstruction mc35_pciCLRWDT = {
+// 	{PC_OPCODE, NULL, NULL, 0, 0, NULL,
+// 	 mc35_genericDestruct,
+// 	 mc35_genericPrint},
+// 	POC_CLRWDT,
+// 	"CLRWDT",
+// 	NULL,  // from branch
+// 	NULL,  // to branch
+// 	NULL,  // label
+// 	NULL,  // operand
+// 	NULL,  // flow block
+// 	NULL,  // C source
+// 	0,	 // num ops
+// 	FALSE, // dest
+// 	FALSE, // bit instruction
+// 	FALSE, // branch
+// 	FALSE, // skip
+// 	FALSE, // literal operand
+// 	POC_NOP,
+// 	PCC_NONE, // inCond
+// 	PCC_NONE  // outCond
+// };
 
 static pCodeInstruction mc35_pciDECF = {
 	{PC_OPCODE, NULL, NULL, 0, 0, NULL,
@@ -594,30 +573,6 @@ static pCodeInstruction mc35_pciGOTO = {
 	 mc35_genericPrint},
 	POC_GOTO,
 	"GOTO",
-	NULL,  // from branch
-	NULL,  // to branch
-	NULL,  // label
-	NULL,  // operand
-	NULL,  // flow block
-	NULL,  // C source
-	1,	 // num ops
-	FALSE, // dest
-	FALSE, // bit instruction
-	TRUE,  // branch
-	FALSE, // skip
-	FALSE, // literal operand
-	POC_NOP,
-	PCC_NONE, // inCond
-	PCC_NONE  // outCond
-};
-
-// zwr 1.1.0
-static pCodeInstruction mc35_pciLGOTO = {
-	{PC_OPCODE, NULL, NULL, 0, 0, NULL,
-	 mc35_genericDestruct,
-	 mc35_genericPrint},
-	POC_GOTO,
-	"LGOTO",
 	NULL,  // from branch
 	NULL,  // to branch
 	NULL,  // label
@@ -796,28 +751,29 @@ static pCodeInstruction mc35_pciIORLW = {
 	(PCC_W | PCC_Z)		   // outCond
 };
 
-static pCodeInstruction mc35_pciMOVF = {
-	{PC_OPCODE, NULL, NULL, 0, 0, NULL,
-	 mc35_genericDestruct,
-	 mc35_genericPrint},
-	POC_MOVF,
-	"MOVR",
-	NULL,  // from branch
-	NULL,  // to branch
-	NULL,  // label
-	NULL,  // operand
-	NULL,  // flow block
-	NULL,  // C source
-	1,	 // num ops
-	TRUE,  // dest
-	FALSE, // bit instruction
-	FALSE, // branch
-	FALSE, // skip
-	FALSE, // literal operand
-	POC_NOP,
-	PCC_REGISTER, // inCond
-	PCC_Z		  // outCond
-};
+// zwr 1.0.0 inst
+// static pCodeInstruction mc35_pciMOVF = {
+// 	{PC_OPCODE, NULL, NULL, 0, 0, NULL,
+// 	 mc35_genericDestruct,
+// 	 mc35_genericPrint},
+// 	POC_MOVF,
+// 	"MOVR",
+// 	NULL,  // from branch
+// 	NULL,  // to branch
+// 	NULL,  // label
+// 	NULL,  // operand
+// 	NULL,  // flow block
+// 	NULL,  // C source
+// 	1,	 // num ops
+// 	TRUE,  // dest
+// 	FALSE, // bit instruction
+// 	FALSE, // branch
+// 	FALSE, // skip
+// 	FALSE, // literal operand
+// 	POC_NOP,
+// 	PCC_REGISTER, // inCond
+// 	PCC_Z		  // outCond
+// };
 
 static pCodeInstruction mc35_pciMOVFW = {
 	{PC_OPCODE, NULL, NULL, 0, 0, NULL,
@@ -911,6 +867,30 @@ static pCodeInstruction mc35_pciNOP = {
 	PCC_NONE  // outCond
 };
 
+// zwr 1.0.0 inst
+static pCodeInstruction mc35_pciXCH = {
+	{PC_OPCODE, NULL, NULL, 0, 0, NULL,
+	 mc35_genericDestruct,
+	 mc35_genericPrint},
+	POC_XCH,
+	"XCH",
+	NULL, // from branch
+	NULL, // to branch
+	NULL, // label
+	NULL, // operand
+	NULL, // flow block
+	NULL, // C source
+	1,	// num ops
+	FALSE, // dest
+	FALSE, // bit instruction
+	FALSE, // branch
+	FALSE, // skip
+	FALSE, // literal operand
+	POC_NOP,
+	PCC_W,		 // inCond
+	PCC_REGISTER // outCond
+};
+
 static pCodeInstruction mc35_pciRETFIE = {
 	{PC_OPCODE, NULL, NULL, 0, 0, NULL,
 	 mc35_genericDestruct,
@@ -934,28 +914,29 @@ static pCodeInstruction mc35_pciRETFIE = {
 	(PCC_NONE | PCC_C | PCC_DC | PCC_Z) // outCond (not true... affects the GIE bit too), STATUS bit are retored
 };
 
-static pCodeInstruction mc35_pciRETLW = {
-	{PC_OPCODE, NULL, NULL, 0, 0, NULL,
-	 mc35_genericDestruct,
-	 mc35_genericPrint},
-	POC_RETLW,
-	"RETAI",
-	NULL,  // from branch
-	NULL,  // to branch
-	NULL,  // label
-	NULL,  // operand
-	NULL,  // flow block
-	NULL,  // C source
-	1,	 // num ops
-	FALSE, // dest
-	FALSE, // bit instruction
-	TRUE,  // branch
-	FALSE, // skip
-	TRUE,  // literal operand
-	POC_NOP,
-	PCC_LITERAL,					 // inCond
-	(PCC_W | PCC_C | PCC_DC | PCC_Z) // outCond, STATUS bits are irrelevant after RETLW
-};
+// zwr 1.0.0 inst
+// static pCodeInstruction mc35_pciRETLW = {
+// 	{PC_OPCODE, NULL, NULL, 0, 0, NULL,
+// 	 mc35_genericDestruct,
+// 	 mc35_genericPrint},
+// 	POC_RETLW,
+// 	"RETAI",
+// 	NULL,  // from branch
+// 	NULL,  // to branch
+// 	NULL,  // label
+// 	NULL,  // operand
+// 	NULL,  // flow block
+// 	NULL,  // C source
+// 	1,	 // num ops
+// 	FALSE, // dest
+// 	FALSE, // bit instruction
+// 	TRUE,  // branch
+// 	FALSE, // skip
+// 	TRUE,  // literal operand
+// 	POC_NOP,
+// 	PCC_LITERAL,					 // inCond
+// 	(PCC_W | PCC_C | PCC_DC | PCC_Z) // outCond, STATUS bits are irrelevant after RETLW
+// };
 
 static pCodeInstruction mc35_pciRETURN = {
 	{PC_OPCODE, NULL, NULL, 0, 0, NULL,
@@ -1077,7 +1058,7 @@ static pCodeInstruction mc35_pciSUBWF = {
 	 mc35_genericDestruct,
 	 mc35_genericPrint},
 	POC_SUBWF,
-	"RSUBRA",
+	"ASUBRA",		// zwr 1.0.0 inst
 	NULL,  // from branch
 	NULL,  // to branch
 	NULL,  // label
@@ -1100,7 +1081,7 @@ static pCodeInstruction mc35_pciSUBFW = {
 	 mc35_genericDestruct,
 	 mc35_genericPrint},
 	POC_SUBFW,
-	"RSUBAR",
+	"ASUBAR",		// zwr 1.0.0 inst
 	NULL,  // from branch
 	NULL,  // to branch
 	NULL,  // label
@@ -1123,7 +1104,7 @@ static pCodeInstruction mc35_pciSUBLW = {
 	 mc35_genericDestruct,
 	 mc35_genericPrint},
 	POC_SUBLW,
-	"ISUBAI",
+	"ASUBAI",		// zwr 1.0.0 inst
 	NULL,  // from branch
 	NULL,  // to branch
 	NULL,  // label
@@ -1450,29 +1431,19 @@ static void pic14initMnemonics(void)
 	mc35_pic14Mnemonics[POC_BSF] = &mc35_pciBSF;
 	mc35_pic14Mnemonics[POC_BTFSC] = &mc35_pciBTFSC;
 	mc35_pic14Mnemonics[POC_BTFSS] = &mc35_pciBTFSS;
-
-	// zwr 1.1.0
-	if (!mc35_long_call)
-	{
-		mc35_pic14Mnemonics[POC_CALL] = &mc35_pciCALL;
-		mc35_pic14Mnemonics[POC_GOTO] = &mc35_pciGOTO;
-	}
-	else
-	{
-		mc35_pic14Mnemonics[POC_CALL] = &mc35_pciLCALL;
-		mc35_pic14Mnemonics[POC_GOTO] = &mc35_pciLGOTO;
-	}
-
+	mc35_pic14Mnemonics[POC_CALL] = &mc35_pciCALL;
 	mc35_pic14Mnemonics[POC_COMF] = &mc35_pciCOMF;
 	mc35_pic14Mnemonics[POC_COMFW] = &mc35_pciCOMFW;
 	mc35_pic14Mnemonics[POC_CLRF] = &mc35_pciCLRF;
-	mc35_pic14Mnemonics[POC_CLRW] = &mc35_pciCLRW;
-	mc35_pic14Mnemonics[POC_CLRWDT] = &mc35_pciCLRWDT;
+	// zwr 1.0.0 inst
+	// mc35_pic14Mnemonics[POC_CLRW] = &mc35_pciCLRW;
+	// zwr 1.0.0 inst
+	// mc35_pic14Mnemonics[POC_CLRWDT] = &mc35_pciCLRWDT;
 	mc35_pic14Mnemonics[POC_DECF] = &mc35_pciDECF;
 	mc35_pic14Mnemonics[POC_DECFW] = &mc35_pciDECFW;
 	mc35_pic14Mnemonics[POC_DECFSZ] = &mc35_pciDECFSZ;
 	mc35_pic14Mnemonics[POC_DECFSZW] = &mc35_pciDECFSZW;
-
+	mc35_pic14Mnemonics[POC_GOTO] = &mc35_pciGOTO;
 	mc35_pic14Mnemonics[POC_INCF] = &mc35_pciINCF;
 	mc35_pic14Mnemonics[POC_INCFW] = &mc35_pciINCFW;
 	mc35_pic14Mnemonics[POC_INCFSZ] = &mc35_pciINCFSZ;
@@ -1480,13 +1451,17 @@ static void pic14initMnemonics(void)
 	mc35_pic14Mnemonics[POC_IORLW] = &mc35_pciIORLW;
 	mc35_pic14Mnemonics[POC_IORWF] = &mc35_pciIORWF;
 	mc35_pic14Mnemonics[POC_IORFW] = &mc35_pciIORFW;
-	mc35_pic14Mnemonics[POC_MOVF] = &mc35_pciMOVF;
+	// zwr 1.0.0 inst
+	// mc35_pic14Mnemonics[POC_MOVF] = &mc35_pciMOVF;
 	mc35_pic14Mnemonics[POC_MOVFW] = &mc35_pciMOVFW;
 	mc35_pic14Mnemonics[POC_MOVLW] = &mc35_pciMOVLW;
 	mc35_pic14Mnemonics[POC_MOVWF] = &mc35_pciMOVWF;
 	mc35_pic14Mnemonics[POC_NOP] = &mc35_pciNOP;
+	// zwr 1.0.0 inst
+	mc35_pic14Mnemonics[POC_XCH] = &mc35_pciXCH;
 	mc35_pic14Mnemonics[POC_RETFIE] = &mc35_pciRETFIE;
-	mc35_pic14Mnemonics[POC_RETLW] = &mc35_pciRETLW;
+	// zwr 1.0.0 inst
+	// mc35_pic14Mnemonics[POC_RETLW] = &mc35_pciRETLW;
 	mc35_pic14Mnemonics[POC_RETURN] = &mc35_pciRETURN;
 	mc35_pic14Mnemonics[POC_RLF] = &mc35_pciRLF;
 	mc35_pic14Mnemonics[POC_RLFW] = &mc35_pciRLFW;
