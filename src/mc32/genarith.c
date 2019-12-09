@@ -533,10 +533,7 @@ static void mc32_genAddLit(iCode *ic, int lit)
                                 mc32_emitMOVWF(result, 0);
                                 break;
                         case 0xff:
-                                mc32_emitpcode(POC_DECFW, mc32_popGet(AOP(left), 0));
-                                // zwr 1.1.8
-                                mc32_emitMOVWF(left, 0);
-                                
+                                mc32_emitpcode(POC_DECFW, mc32_popGet(AOP(left), 0));                             
                                 mc32_emitMOVWF(result, 0);
                                 break;
                         default:

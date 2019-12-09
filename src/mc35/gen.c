@@ -7285,6 +7285,7 @@ genJumpTab(iCode *ic)
   // mc35_emitpcode(POC_MOVWF, mc35_popCopyReg(&mc35_pc_pcl));
 
   mc35_emitpcode(POC_MOVFW, mc35_popGet(AOP(IC_JTCOND(ic)), 0));
+  mc35_emitpcode(POC_ADDWF, mc35_popCopyReg(&mc35_pc_pcl));
 
   mc35_emitpLabel(jtab->key);
 

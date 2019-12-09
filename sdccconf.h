@@ -156,7 +156,7 @@
 #define OPT_DISABLE_MC35 0
 
 /* XXX */
-#define OPT_DISABLE_PIC14 1
+#define OPT_DISABLE_PIC14 0
 
 /* XXX */
 #define OPT_DISABLE_PIC16 1

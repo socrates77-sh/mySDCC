@@ -2864,8 +2864,8 @@ void initPeepHole(void)
   /* Convert the peep rules into pcode.
      NOTE: this is only support in the PIC port (at the moment)
   */
-  if (TARGET_IS_PIC14)
-    peepRules2pCode(rootRules);
+  // if (TARGET_IS_PIC14)
+  //   peepRules2pCode(rootRules);
 #endif
 
 #if !OPT_DISABLE_PIC16
@@ -2873,8 +2873,8 @@ void initPeepHole(void)
      NOTE: this is only support in the PIC port (at the moment)
        and the PIC16 port (VR 030601)
   */
-  if (TARGET_IS_PIC16)
-    pic16_peepRules2pCode(rootRules);
+  // if (TARGET_IS_PIC16)
+  //   pic16_peepRules2pCode(rootRules);
 
 #endif
 }

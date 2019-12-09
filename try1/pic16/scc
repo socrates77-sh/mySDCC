@@ -1,0 +1,5 @@
+#../bin/sdcc -V --verbose --use-non-free -mpic14 -p16f877 test.c
+../../bin/sdcc -V --verbose --use-non-free --i-code-in-asm -mpic16 -p18f1220 --debug \
+-I/home/zwr/work/tool/sdcc/device/include/pic16 \
+-I/home/zwr/work/tool/sdcc/device/non-free/include/pic16 \
+$1

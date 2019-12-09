@@ -1,0 +1,213 @@
+gplink-1.3.0 (Jun 19 2013)
+Listing File Generated: 2013-6-21  08:52:10
+ 
+ 
+Address  Value    Disassembly              Source
+-------  -----    -----------              ------
+                                           ;--------------------------------------------------------
+                                           ; File Created by SDCC : free open source ANSI-C Compiler
+                                           ; Version 0.0.1 (Jun 19 2013) (Linux)
+                                           ; This file was generated Fri Jun 21 08:52:10 2013
+                                           ;--------------------------------------------------------
+                                           ; MC30 port for the 14-bit core
+                                           ;--------------------------------------------------------
+                                           ;	.file	"asm.c"
+                                           	list	p=30p011
+                                           	radix dec
+                                           	include "mc30p011.inc"
+                                           		LIST
+                                           ;mc30p011.inc   Standard Header File, Version 1.00 by Sinomcu
+                                           		NOLIST
+                                           ;--------------------------------------------------------
+                                           ; external declarations
+                                           ;--------------------------------------------------------
+                                           	extern	_STATUSbits
+                                           	extern	_P0bits
+                                           	extern	_P1bits
+                                           	extern	_MCRbits
+                                           	extern	_KBIMbits
+                                           	extern	_PDCONbits
+                                           	extern	_ODCONbits
+                                           	extern	_PUCONbits
+                                           	extern	_INTECONbits
+                                           	extern	_INTFLAGbits
+                                           	extern	_DDR0bits
+                                           	extern	_DDR1bits
+                                           	extern	_TMCRbits
+                                           	extern	_T1CRbits
+                                           	extern	_INDF
+                                           	extern	_T0CNT
+                                           	extern	_PCL
+                                           	extern	_STATUS
+                                           	extern	_FSR
+                                           	extern	_P0
+                                           	extern	_P1
+                                           	extern	_MCR
+                                           	extern	_KBIM
+                                           	extern	_PCLATH
+                                           	extern	_PDCON
+                                           	extern	_ODCON
+                                           	extern	_PUCON
+                                           	extern	_INTECON
+                                           	extern	_INTFLAG
+                                           	extern	_TOCR
+                                           	extern	_DDR0
+                                           	extern	_DDR1
+                                           	extern	_TMCR
+                                           	extern	_T1CR
+                                           	extern	_T1CNT
+                                           	extern	_T1LOAD
+                                           	extern	_T1DATA
+                                           	extern	__gptrget1
+                                           	extern	__sdcc_gsinit_startup
+                                           ;--------------------------------------------------------
+                                           ; global declarations
+                                           ;--------------------------------------------------------
+                                           	global	_main
+                                           	global	_c_a
+                                           	global	_c_b
+                                           
+                                           	global PSAVE
+                                           	global SSAVE
+                                           	global WSAVE
+                                           	global STK12
+                                           	global STK11
+                                           	global STK10
+                                           	global STK09
+                                           	global STK08
+                                           	global STK07
+                                           	global STK06
+                                           	global STK05
+                                           	global STK04
+                                           	global STK03
+                                           	global STK02
+                                           	global STK01
+                                           	global STK00
+                                           
+                                           sharebank udata_ovr 0x0010
+                                           PSAVE	res 1
+                                           SSAVE	res 1
+                                           WSAVE	res 1
+                                           STK12	res 1
+                                           STK11	res 1
+                                           STK10	res 1
+                                           STK09	res 1
+                                           STK08	res 1
+                                           STK07	res 1
+                                           STK06	res 1
+                                           STK05	res 1
+                                           STK04	res 1
+                                           STK03	res 1
+                                           STK02	res 1
+                                           STK01	res 1
+                                           STK00	res 1
+                                           
+                                           ;--------------------------------------------------------
+                                           ; global definitions
+                                           ;--------------------------------------------------------
+                                           UD_asm_0	udata
+                                           _c_a	res	1
+                                           
+                                           ;--------------------------------------------------------
+                                           ; absolute symbol definitions
+                                           ;--------------------------------------------------------
+                                           ;--------------------------------------------------------
+                                           ; compiler-defined variables
+                                           ;--------------------------------------------------------
+                                           UDL_asm_0	udata
+                                           r0x1001	res	1
+                                           ;--------------------------------------------------------
+                                           ; initialized data
+                                           ;--------------------------------------------------------
+                                           
+                                           ID_asm_0	code
+                                           _c_b
+0000b8   0a64     retai   0x64             	retai 0x64
+                                           
+                                           ;--------------------------------------------------------
+                                           ; overlayable items in internal ram 
+                                           ;--------------------------------------------------------
+                                           ;	udata_ovr
+                                           ;--------------------------------------------------------
+                                           ; reset vector 
+                                           ;--------------------------------------------------------
+                                           STARTUP	code 0x0000
+000000   2801     goto    0x1              	goto	__sdcc_gsinit_startup
+                                           ;--------------------------------------------------------
+                                           ; code
+                                           ;--------------------------------------------------------
+                                           code_asm	code
+                                           ;***
+                                           ;  pBlock Stats: dbName = M
+                                           ;***
+                                           ;entry:  _main	;Function start
+                                           ; 2 exit points
+                                           ;has an exit
+                                           ;functions called:
+                                           ;   __gptrget1
+                                           ;   __gptrget1
+                                           ;3 compiler assigned registers:
+                                           ;   STK01
+                                           ;   STK00
+                                           ;   r0x1001
+                                           ;; Starting pCode block
+                                           _main	;Function start
+                                           ; 2 exit points
+                                           ;	.line	8; "asm.c"	c_a = MCR;
+000099   1608     movar   0x8              	MOVAR	_MCR
+00009a   1587     movra   0x7              	MOVRA	_c_a
+                                           ;;genAssign from CODESPACE
+                                           ;	.line	11; "asm.c"	P0 = c_a + c_b;
+00009b   16b8     movr    0x38             	MOVAR	low (_c_b+0)
+00009c   159e     movra   0x1e             	MOVRA	STK01
+00009d   16b9     movr    0x39             	MOVAR	low (_c_b+1)
+00009e   159f     movra   0x1f             	MOVRA	STK00
+00009f   0b80     movai   0x80             	MOVAI	0x80
+0000a0   206f     call    0x6f             	CALL	__gptrget1
+0000a1   15ac     movra   0x2c             	MOVRA	r0x1001
+0000a2   162c     movar   0x2c             	MOVAR	r0x1001
+0000a3   1f07     addar   0x7              	ADDAR	_c_a
+0000a4   1585     movra   0x5              	MOVRA	_P0
+                                           ;	.line	12; "asm.c"	P1 = c_a - c_b;
+0000a5   162c     movar   0x2c             	MOVAR	r0x1001
+0000a6   1207     rsubar  0x7              	RSUBAR	_c_a
+0000a7   1586     movra   0x6              	MOVRA	_P1
+0000a8   0b64     movai   0x64             	movai 100
+0000a9   1586     movra   0x6              	movra P1
+                                           	
+0000aa   000b     sleep                    	stop
+0000ab   0000     nop                      	nop
+0000ac   000e     clrwdt                   	clrwdt
+0000ad   000b     sleep                    	stop
+                                           _00106_DS_
+                                           ;	.line	25; "asm.c"	while(1);
+0000ae   28ae     goto    0xae             	GOTO	_00106_DS_
+0000af   000c     return                   	RETURN	
+                                           ; exit point of _main
+                                           
+                                           
+                                           ;	code size estimation:
+                                           ;	   17+    0 =    17 instructions (   34 byte)
+                                           
+                                           	end
+                                           		LIST
+                                           ;mc30p011.inc   Standard Header File, Version 1.00 by Sinomcu
+                                           		NOLIST
+                                           		LIST
+                                           ;mc30p011.inc   Standard Header File, Version 1.00 by Sinomcu
+                                           		NOLIST
+
+
+MEMORY USAGE MAP ('X' = Used,  '-' = Unused)
+
+0000 : XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX
+0040 : XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX
+0080 : XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX
+00C0 : XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX
+0100 : XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX
+0140 : XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX XXXX------------
+
+All other memory blocks unused.
+
+Program Memory Words Used:   186
+

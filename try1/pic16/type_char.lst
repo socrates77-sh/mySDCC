@@ -1,0 +1,507 @@
+gpasm-1.4.0 (Aug  2 2013)    type_char.asm      2013-8-2  17:50:23           PAGE  1
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+                      00001 ;--------------------------------------------------------
+                      00002 ; File Created by SDCC : free open source ANSI-C Compiler
+                      00003 ; Version 3.2.0 #8004 (Jun 26 2013) (Linux)
+                      00004 ; This file was generated Fri Aug  2 17:50:23 2013
+                      00005 ;--------------------------------------------------------
+                      00006 ; PIC16 port for the Microchip 16-bit core micros
+                      00007 ;--------------------------------------------------------
+                      00008 
+                      00009         .ident "SDCC version 3.2.0 #8004 [pic16 port]"
+                      00010         .file   "type_char.c"
+Error[132]  : Unknown processor.
+                      00011         list    p=18f1220
+                      00012 
+                      00013         radix dec
+                      00014 
+                      00015 ;--------------------------------------------------------
+                      00016 ; public variables in this module
+                      00017 ;--------------------------------------------------------
+                      00018         global  _c_a
+                      00019         global  _c_b
+                      00020         global  _uc_a
+                      00021         global  _uc_b
+                      00022         global  _main
+                      00023 
+                      00024 ;--------------------------------------------------------
+                      00025 ; extern variables in this module
+                      00026 ;--------------------------------------------------------
+                      00027         extern  _PORTAbits
+                      00028         extern  _PORTBbits
+                      00029         extern  _LATAbits
+                      00030         extern  _LATBbits
+                      00031         extern  _TRISAbits
+                      00032         extern  _TRISBbits
+                      00033         extern  _PIE1bits
+                      00034         extern  _PIR1bits
+                      00035         extern  _IPR1bits
+                      00036         extern  _PIE2bits
+                      00037         extern  _PIR2bits
+                      00038         extern  _IPR2bits
+                      00039         extern  _EECON1bits
+                      00040         extern  _BAUDCTLbits
+                      00041         extern  _RCSTAbits
+                      00042         extern  _TXSTAbits
+                      00043         extern  _T3CONbits
+                      00044         extern  _ECCPASbits
+                      00045         extern  _CCP1CONbits
+                      00046         extern  _ADCON2bits
+                      00047         extern  _ADCON1bits
+                      00048         extern  _ADCON0bits
+                      00049         extern  _T2CONbits
+                      00050         extern  _T1CONbits
+                      00051         extern  _RCONbits
+                      00052         extern  _WDTCONbits
+                      00053         extern  _LVDCONbits
+                      00054         extern  _OSCCONbits
+                      00055         extern  _T0CONbits
+                      00056         extern  _STATUSbits
+                      00057         extern  _INTCON3bits
+                      00058         extern  _INTCON2bits
+                      00059         extern  _INTCONbits
+                      00060         extern  _STKPTRbits
+                      00061         extern  _PORTA
+                      00062         extern  _PORTB
+                      00063         extern  _LATA
+                      00064         extern  _LATB
+                      00065         extern  _TRISA
+                      00066         extern  _TRISB
+                      00067         extern  _PIE1
+                      00068         extern  _PIR1
+                      00069         extern  _IPR1
+                      00070         extern  _PIE2
+                      00071         extern  _PIR2
+                      00072         extern  _IPR2
+                      00073         extern  _EECON1
+                      00074         extern  _EECON2
+                      00075         extern  _EEDATA
+                      00076         extern  _EEADR
+                      00077         extern  _BAUDCTL
+                      00078         extern  _RCSTA
+                      00079         extern  _TXSTA
+                      00080         extern  _TXREG
+                      00081         extern  _RCREG
+                      00082         extern  _SPBRG
+                      00083         extern  _SPBRGH
+                      00084         extern  _T3CON
+                      00085         extern  _TMR3L
+                      00086         extern  _TMR3H
+                      00087         extern  _ECCPAS
+                      00088         extern  _CCP1CON
+                      00089         extern  _CCPR1L
+                      00090         extern  _CCPR1H
+                      00091         extern  _ADCON2
+                      00092         extern  _ADCON1
+                      00093         extern  _ADCON0
+                      00094         extern  _ADRESL
+                      00095         extern  _ADRESH
+                      00096         extern  _T2CON
+                      00097         extern  _PR2
+                      00098         extern  _TMR2
+                      00099         extern  _T1CON
+                      00100         extern  _TMR1L
+                      00101         extern  _TMR1H
+                      00102         extern  _RCON
+                      00103         extern  _WDTCON
+                      00104         extern  _LVDCON
+                      00105         extern  _OSCCON
+                      00106         extern  _T0CON
+                      00107         extern  _TMR0L
+                      00108         extern  _TMR0H
+                      00109         extern  _STATUS
+                      00110         extern  _FSR2L
+                      00111         extern  _FSR2H
+                      00112         extern  _PLUSW2
+                      00113         extern  _PREINC2
+                      00114         extern  _POSTDEC2
+                      00115         extern  _POSTINC2
+                      00116         extern  _INDF2
+                      00117         extern  _BSR
+                      00118         extern  _FSR1L
+                      00119         extern  _FSR1H
+                      00120         extern  _PLUSW1
+                      00121         extern  _PREINC1
+                      00122         extern  _POSTDEC1
+                      00123         extern  _POSTINC1
+                      00124         extern  _INDF1
+                      00125         extern  _WREG
+                      00126         extern  _FSR0L
+                      00127         extern  _FSR0H
+                      00128         extern  _PLUSW0
+                      00129         extern  _PREINC0
+                      00130         extern  _POSTDEC0
+                      00131         extern  _POSTINC0
+                      00132         extern  _INDF0
+                      00133         extern  _INTCON3
+                      00134         extern  _INTCON2
+                      00135         extern  _INTCON
+                      00136         extern  _PRODL
+                      00137         extern  _PRODH
+                      00138         extern  _TABLAT
+                      00139         extern  _TBLPTRL
+                      00140         extern  _TBLPTRH
+                      00141         extern  _TBLPTRU
+                      00142         extern  _PCL
+                      00143         extern  _PCLATH
+                      00144         extern  _PCLATU
+                      00145         extern  _STKPTR
+                      00146         extern  _TOSL
+                      00147         extern  _TOSH
+                      00148         extern  _TOSU
+                      00149 
+                      00150 ;--------------------------------------------------------
+                      00151 ;       Equates to used internal registers
+                      00152 ;--------------------------------------------------------
+  00000FD8            00153 STATUS  equ     0xfd8
+                      00154 
+                      00155 
+                      00156 ; Internal registers
+                      00157 .registers      udata_ovr       0x0000
+Error[131]  : Processor type is undefined.
+0000                  00158 r0x00   res     1
+Error[131]  : Processor type is undefined.
+0000                  00159 r0x01   res     1
+Error[131]  : Processor type is undefined.
+0000                  00160 r0x02   res     1
+Error[131]  : Processor type is undefined.
+0000                  00161 r0x03   res     1
+                      00162 
+                      00163 udata_type_char_0       udata
+Error[131]  : Processor type is undefined.
+0000                  00164 _c_a    res     1
+                      00165 
+                      00166 udata_type_char_1       udata
+Error[131]  : Processor type is undefined.
+0000                  00167 _c_b    res     1
+                      00168 
+                      00169 udata_type_char_2       udata
+Error[131]  : Processor type is undefined.
+0000                  00170 _uc_a   res     1
+                      00171 
+                      00172 udata_type_char_3       udata
+Error[131]  : Processor type is undefined.
+0000                  00173 _uc_b   res     1
+                      00174 
+                      00175 ;--------------------------------------------------------
+                      00176 ; interrupt vector
+                      00177 ;--------------------------------------------------------
+                      00178 
+                      00179 ;--------------------------------------------------------
+                      00180 ; global & static initialisations
+                      00181 ;--------------------------------------------------------
+                      00182 ; I code from now on!
+                      00183 ; ; Starting pCode block
+                      00184 S_type_char__main       code
+0000                  00185 _main:
+                      00186         .line   9; type_char.c  c_a = PORTB;
+Error[131]  : Processor type is undefined.
+                      00187         MOVFF   _PORTB, _c_a
+                      00188         .line   10; type_char.c c_b = PORTA;
+Error[131]  : Processor type is undefined.
+                      00189         MOVFF   _PORTA, _c_b
+                      00190         .line   11; type_char.c uc_a = PORTA;
+Error[131]  : Processor type is undefined.
+                      00191         MOVFF   _PORTA, _uc_a
+                      00192         .line   12; type_char.c uc_b = PORTB;
+Error[131]  : Processor type is undefined.
+                      00193         MOVFF   _PORTB, _uc_b
+Error[131]  : Processor type is undefined.
+                      00194         BANKSEL _c_b
+                      00195         .line   14; type_char.c PORTA = c_a + c_b;
+Error[131]  : Processor type is undefined.
+                      00196         MOVF    _c_b, W, B
+Error[131]  : Processor type is undefined.
+                      00197         BANKSEL _c_a
+Error[131]  : Processor type is undefined.
+                      00198         ADDWF   _c_a, W, B
+Error[131]  : Processor type is undefined.
+                      00199         MOVWF   _PORTA
+Error[131]  : Processor type is undefined.
+                      00200         BANKSEL _uc_b
+                      00201         .line   15; type_char.c PORTA = uc_a + uc_b;
+Error[131]  : Processor type is undefined.
+                      00202         MOVF    _uc_b, W, B
+Error[131]  : Processor type is undefined.
+                      00203         BANKSEL _uc_a
+Error[131]  : Processor type is undefined.
+                      00204         ADDWF   _uc_a, W, B
+Error[131]  : Processor type is undefined.
+                      00205         MOVWF   _PORTA
+Error[131]  : Processor type is undefined.
+                      00206         BANKSEL _c_b
+                      00207         .line   16; type_char.c PORTB = c_a - c_b;
+Error[131]  : Processor type is undefined.
+                      00208         MOVF    _c_b, W, B
+Error[131]  : Processor type is undefined.
+                      00209         BANKSEL _c_a
+Error[131]  : Processor type is undefined.
+                      00210         SUBWF   _c_a, W, B
+Error[131]  : Processor type is undefined.
+                      00211         MOVWF   _PORTB
+Error[131]  : Processor type is undefined.
+                      00212         BANKSEL _uc_b
+                      00213         .line   17; type_char.c PORTB = uc_a - uc_b;
+Error[131]  : Processor type is undefined.
+                      00214         MOVF    _uc_b, W, B
+Error[131]  : Processor type is undefined.
+                      00215         BANKSEL _uc_a
+Error[131]  : Processor type is undefined.
+                      00216         SUBWF   _uc_a, W, B
+Error[131]  : Processor type is undefined.
+                      00217         MOVWF   _PORTB
+Error[131]  : Processor type is undefined.
+                      00218         BANKSEL _c_a
+                      00219         .line   19; type_char.c if (c_a > 0) PORTA = c_b;
+Error[131]  : Processor type is undefined.
+                      00220         MOVF    _c_a, W, B
+Error[131]  : Processor type is undefined.
+                      00221         ADDLW   0x80
+Error[131]  : Processor type is undefined.
+                      00222         ADDLW   0x7f
+Error[131]  : Processor type is undefined.
+                      00223         BNC     _00106_DS_
+Error[131]  : Processor type is undefined.
+                      00224         MOVFF   _c_b, _PORTA
+0000                  00225 _00106_DS_:
+Error[131]  : Processor type is undefined.
+                      00226         BANKSEL _uc_a
+                      00227         .line   20; type_char.c if (uc_a > 0) PORTA = uc_b;
+Error[131]  : Processor type is undefined.
+                      00228         MOVF    _uc_a, W, B
+Error[131]  : Processor type is undefined.
+                      00229         BZ      _00108_DS_
+Error[131]  : Processor type is undefined.
+                      00230         MOVFF   _uc_b, _PORTA
+0000                  00231 _00108_DS_:
+Error[131]  : Processor type is undefined.
+                      00232         BANKSEL _c_a
+                      00233         .line   22; type_char.c if (c_a > -3) PORTA = c_b;
+Error[131]  : Processor type is undefined.
+                      00234         MOVF    _c_a, W, B
+Error[131]  : Processor type is undefined.
+                      00235         ADDLW   0x80
+Error[131]  : Processor type is undefined.
+                      00236         ADDLW   0x82
+Error[131]  : Processor type is undefined.
+                      00237         BNC     _00110_DS_
+Error[131]  : Processor type is undefined.
+                      00238         MOVFF   _c_b, _PORTA
+0000                  00239 _00110_DS_:
+                      00240         .line   29; type_char.c if (uc_a == ~uc_b) PORTA = uc_b;
+Error[131]  : Processor type is undefined.
+                      00241         MOVFF   _uc_b, r0x00
+Error[131]  : Processor type is undefined.
+                      00242         CLRF    r0x01
+Error[131]  : Processor type is undefined.
+                      00243         COMF    r0x00, F
+Error[131]  : Processor type is undefined.
+                      00244         COMF    r0x01, F
+Error[131]  : Processor type is undefined.
+                      00245         MOVFF   _uc_a, r0x02
+Error[131]  : Processor type is undefined.
+                      00246         CLRF    r0x03
+Error[131]  : Processor type is undefined.
+                      00247         MOVF    r0x02, W
+Error[131]  : Processor type is undefined.
+                      00248         XORWF   r0x00, W
+Error[131]  : Processor type is undefined.
+                      00249         BNZ     _00130_DS_
+Error[131]  : Processor type is undefined.
+                      00250         MOVF    r0x03, W
+Error[131]  : Processor type is undefined.
+                      00251         XORWF   r0x01, W
+Error[131]  : Processor type is undefined.
+                      00252         BZ      _00131_DS_
+0000                  00253 _00130_DS_:
+Error[131]  : Processor type is undefined.
+                      00254         BRA     _00112_DS_
+0000                  00255 _00131_DS_:
+Error[131]  : Processor type is undefined.
+                      00256         MOVFF   _uc_b, _PORTA
+0000                  00257 _00112_DS_:
+                      00258         .line   31; type_char.c uc_a = uc_b = 0x33;
+Error[131]  : Processor type is undefined.
+                      00259         MOVLW   0x33
+Error[131]  : Processor type is undefined.
+                      00260         BANKSEL _uc_b
+Error[131]  : Processor type is undefined.
+                      00261         MOVWF   _uc_b, B
+Error[131]  : Processor type is undefined.
+                      00262         MOVLW   0x33
+Error[131]  : Processor type is undefined.
+                      00263         BANKSEL _uc_a
+Error[131]  : Processor type is undefined.
+                      00264         MOVWF   _uc_a, B
+0000                  00265 _00114_DS_:
+                      00266         .line   33; type_char.c while(1);
+Error[131]  : Processor type is undefined.
+                      00267         BRA     _00114_DS_
+Error[131]  : Processor type is undefined.
+                      00268         RETURN  
+                      00269 
+                      00270 
+                      00271 
+                      00272 ; Statistics:
+                      00273 ; code size:      144 (0x0090) bytes ( 0.11%)
+                      00274 ;                  72 (0x0048) words
+                      00275 ; udata size:       4 (0x0004) bytes ( 6.25%)
+                      00276 ; access size:      4 (0x0004) bytes
+                      00277 
+                      00278 
+                      00279         end
+gpasm-1.4.0 (Aug  2 2013)    type_char.asm      2013-8-2  17:50:23           PAGE  2
+
+
+SYMBOL TABLE
+  LABEL                             VALUE
+
+STATUS                            00000FD8
+_00106_DS_                        00000000
+_00108_DS_                        00000000
+_00110_DS_                        00000000
+_00112_DS_                        00000000
+_00114_DS_                        00000000
+_00130_DS_                        00000000
+_00131_DS_                        00000000
+_ADCON0                           00000000
+_ADCON0bits                       00000000
+_ADCON1                           00000000
+_ADCON1bits                       00000000
+_ADCON2                           00000000
+_ADCON2bits                       00000000
+_ADRESH                           00000000
+_ADRESL                           00000000
+_BAUDCTL                          00000000
+_BAUDCTLbits                      00000000
+_BSR                              00000000
+_CCP1CON                          00000000
+_CCP1CONbits                      00000000
+_CCPR1H                           00000000
+_CCPR1L                           00000000
+_ECCPAS                           00000000
+_ECCPASbits                       00000000
+_EEADR                            00000000
+_EECON1                           00000000
+_EECON1bits                       00000000
+_EECON2                           00000000
+_EEDATA                           00000000
+_FSR0H                            00000000
+_FSR0L                            00000000
+_FSR1H                            00000000
+_FSR1L                            00000000
+_FSR2H                            00000000
+_FSR2L                            00000000
+_INDF0                            00000000
+_INDF1                            00000000
+_INDF2                            00000000
+_INTCON                           00000000
+_INTCON2                          00000000
+_INTCON2bits                      00000000
+_INTCON3                          00000000
+_INTCON3bits                      00000000
+_INTCONbits                       00000000
+_IPR1                             00000000
+_IPR1bits                         00000000
+_IPR2                             00000000
+_IPR2bits                         00000000
+_LATA                             00000000
+_LATAbits                         00000000
+_LATB                             00000000
+_LATBbits                         00000000
+_LVDCON                           00000000
+_LVDCONbits                       00000000
+_OSCCON                           00000000
+_OSCCONbits                       00000000
+_PCL                              00000000
+_PCLATH                           00000000
+_PCLATU                           00000000
+_PIE1                             00000000
+_PIE1bits                         00000000
+_PIE2                             00000000
+_PIE2bits                         00000000
+_PIR1                             00000000
+_PIR1bits                         00000000
+_PIR2                             00000000
+_PIR2bits                         00000000
+_PLUSW0                           00000000
+_PLUSW1                           00000000
+_PLUSW2                           00000000
+_PORTA                            00000000
+_PORTAbits                        00000000
+_PORTB                            00000000
+_PORTBbits                        00000000
+_POSTDEC0                         00000000
+_POSTDEC1                         00000000
+_POSTDEC2                         00000000
+_POSTINC0                         00000000
+_POSTINC1                         00000000
+_POSTINC2                         00000000
+_PR2                              00000000
+_PREINC0                          00000000
+_PREINC1                          00000000
+_PREINC2                          00000000
+_PRODH                            00000000
+_PRODL                            00000000
+_RCON                             00000000
+_RCONbits                         00000000
+_RCREG                            00000000
+_RCSTA                            00000000
+_RCSTAbits                        00000000
+_SPBRG                            00000000
+_SPBRGH                           00000000
+_STATUS                           00000000
+_STATUSbits                       00000000
+_STKPTR                           00000000
+_STKPTRbits                       00000000
+_T0CON                            00000000
+_T0CONbits                        00000000
+_T1CON                            00000000
+_T1CONbits                        00000000
+_T2CON                            00000000
+_T2CONbits                        00000000
+_T3CON                            00000000
+_T3CONbits                        00000000
+_TABLAT                           00000000
+_TBLPTRH                          00000000
+_TBLPTRL                          00000000
+_TBLPTRU                          00000000
+_TMR0H                            00000000
+_TMR0L                            00000000
+_TMR1H                            00000000
+_TMR1L                            00000000
+_TMR2                             00000000
+_TMR3H                            00000000
+_TMR3L                            00000000
+_TOSH                             00000000
+_TOSL                             00000000
+_TOSU                             00000000
+_TRISA                            00000000
+_TRISAbits                        00000000
+_TRISB                            00000000
+_TRISBbits                        00000000
+_TXREG                            00000000
+_TXSTA                            00000000
+_TXSTAbits                        00000000
+_WDTCON                           00000000
+_WDTCONbits                       00000000
+_WREG                             00000000
+_c_a                              00000000
+_c_b                              00000000
+_main                             00000000
+_uc_a                             00000000
+_uc_b                             00000000
+r0x00                             00000000
+r0x01                             00000000
+r0x02                             00000000
+r0x03                             00000000
+
+Errors   :    71
+Warnings :     0 reported,     0 suppressed
+Messages :     0 reported,     0 suppressed
+
+

@@ -486,7 +486,7 @@ PORT mc30_port =
         {+1, 1, 4, 1, 1, 0, 0},
         /* pic14 has an 8 bit mul */
         {
-            1, FALSE},
+            -1, FALSE},
         {mc30_emitDebuggerSymbol},
         {
             255 / 3, /* maxCount */

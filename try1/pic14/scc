@@ -1,0 +1,14 @@
+#../bin/sdcc -V --verbose --use-non-free -mpic14 -p16f877 test.c
+#../../bin/sdcc -S --verbose --use-non-free --fsigned-char -mpic14 -p16f1507 \
+#-I../../device/include/pic14 \
+#-I../../device/non-free/include/pic14 \
+
+#../../bin/sdcc -S --verbose --use-non-free --fsigned-char -mmc32 -p7511 \
+#-I/e/tools/demo/bug191009b/share/include \
+#$1
+
+../../bin/sdcc -S --verbose --use-non-free --fsigned-char -mpic14 -p16f72 \
+-I../../device/include/pic14 \
+-I../../device/non-free/include/pic14 \
+$1
+

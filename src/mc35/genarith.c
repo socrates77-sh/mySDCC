@@ -605,10 +605,8 @@ static void mc35_genAddLit(iCode *ic, int lit)
                                 mc35_emitpcode(POC_DECFSZW, mc35_popGet(AOP(left), 0));
                                 mc35_emitpcodeNULLop(POC_NOP);
 
-                                // zwr 1.1.8
-                                mc35_emitMOVWF(left, 0);
-
                                 mc35_emitMOVWF(result, 0);
+                                break;
                         default:
                                 mc35_emitpcode(POC_MOVLW, mc35_popGetLit(lit & 0xff));
                                 mc35_emitpcode(POC_ADDFW, mc35_popGet(AOP(left), 0));
@@ -815,6 +813,8 @@ void mc35_genPlus(iCode *ic)
                                 // mc35_emitpcode(POC_INCFW, mc35_popGet(AOP(IC_LEFT(ic)), 0));
                                 mc35_emitpcode(POC_INCFSZW, mc35_popGet(AOP(IC_LEFT(ic)), 0));
                                 mc35_emitpcodeNULLop(POC_NOP);
+								
+								mc35_emitMOVWF(IC_RIGHT(ic), 0);
                         }
 
                         while (--size)
@@ -1161,6 +1161,8 @@ void mc35_genMinus(iCode *ic)
                                         // mc35_emitpcode(POC_DECFW, mc35_popGet(left, 0));
                                         mc35_emitpcode(POC_DECFSZW, mc35_popGet(left, 0));
                                         mc35_emitpcodeNULLop(POC_NOP);
+										
+										mc35_emitpcode(POC_MOVWF, mc35_popGet(result, 0));
                                 }
                         }
                 }

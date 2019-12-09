@@ -2658,10 +2658,10 @@ void mc35_printpBlock(FILE *of, pBlock *pb)
 	for (pc = pb->pcHead; pc; pc = pc->next)
 	{
 		// zwr 2.0.0
-		if (isPCF(pc) && PCF(pc)->fname && !PCF(pc)->isInterrupt)
-		{
-			fprintf(of, "S_%s_%s\tcode\n", PCF(pc)->modname, PCF(pc)->fname);
-		}
+		// if (isPCF(pc) && PCF(pc)->fname && !PCF(pc)->isInterrupt)
+		// {
+		// 	fprintf(of, "S_%s_%s\tcode\n", PCF(pc)->modname, PCF(pc)->fname);
+		// }
 
 		mc35_printpCode(of, pc);
 
@@ -3415,8 +3415,9 @@ static void mc35_pCodePrintFunction(FILE *of, pCode *pc)
 	if (!pc || !of)
 		return;
 
-	if (((pCodeFunction *)pc)->modname)
-		fprintf(of, "F_%s", ((pCodeFunction *)pc)->modname);
+	// zwr 2.0.0
+	// if (((pCodeFunction *)pc)->modname)
+	// 	fprintf(of, "F_%s", ((pCodeFunction *)pc)->modname);
 
 	if (PCF(pc)->fname)
 	{
@@ -5555,12 +5556,12 @@ static void mc35_pBlockStats(FILE *of, pBlock *pb)
 
 	// for now just print the first element of each set
 	// zwr 2.0.0
-	// pc = setFirstItem(pb->function_entries);
-	// if (pc)
-	// {
-	// 	fprintf(of, ";entry:  ");
-	// 	pc->print(of, pc);
-	// }
+	pc = setFirstItem(pb->function_entries);
+	if (pc)
+	{
+		fprintf(of, ";entry:  ");
+		pc->print(of, pc);
+	}
 	pc = setFirstItem(pb->function_exits);
 	if (pc)
 	{
