@@ -2080,9 +2080,13 @@ geniCodeMultiply(operand *left, operand *right, RESULT_TYPE resultType)
   /* code generated for 1 byte * 1 byte literal = 2 bytes result is more
      efficient in most cases than 2 bytes result = 2 bytes << literal
      if port has 1 byte muldiv */
+
+  // zwr 2.0.0
+  // if ((p2 > 0) && !IS_FLOAT(letype) && !IS_FIXED(letype) &&
+  //     !((resultType == RESULT_TYPE_INT) && (getSize(resType) != getSize(ltype)) && !(TARGET_Z80_LIKE || TARGET_IS_STM8 && p2 == 1) /* Mimic old behaviour that tested port->muldiv, which was zero for stm8 and z80-like only. Someone should look into what really makes sense here. */) &&
+  //     !TARGET_PIC_LIKE) /* don't shift for pic */
   if ((p2 > 0) && !IS_FLOAT(letype) && !IS_FIXED(letype) &&
-      !((resultType == RESULT_TYPE_INT) && (getSize(resType) != getSize(ltype)) && !(TARGET_Z80_LIKE || TARGET_IS_STM8 && p2 == 1) /* Mimic old behaviour that tested port->muldiv, which was zero for stm8 and z80-like only. Someone should look into what really makes sense here. */) &&
-      !TARGET_PIC_LIKE) /* don't shift for pic */
+      !((resultType == RESULT_TYPE_INT) && (getSize(resType) != getSize(ltype)) && !(TARGET_Z80_LIKE || TARGET_IS_STM8 && p2 == 1) /* Mimic old behaviour that tested port->muldiv, which was zero for stm8 and z80-like only. Someone should look into what really makes sense here. */))
   {
     if ((resultType == RESULT_TYPE_INT) && (getSize(resType) != getSize(ltype)))
     {
@@ -2331,7 +2335,10 @@ geniCodeAdd(operand *left, operand *right, RESULT_TYPE resultType, int lvl)
         SPEC_LONG(getSpec(operandType(size))) = 1;
         SPEC_CVAL(getSpec(operandType(size))).v_ulong = nBytes;
       }
-      right = geniCodeMultiply(right, size, (ptrSize >= INTSIZE) ? RESULT_TYPE_INT : RESULT_TYPE_CHAR);
+      // zwr 2.0.0
+      // same with 1.1.8
+      right = geniCodeMultiply(right, size, resultType);
+      // right = geniCodeMultiply(right, size, (ptrSize >= INTSIZE) ? RESULT_TYPE_INT : RESULT_TYPE_CHAR);
       /* Even if right is a 'unsigned char',
              the result will be a 'signed int' due to the promotion rules.
              It doesn't make sense when accessing arrays, so let's fix it here: */
@@ -4634,4 +4641,15 @@ validateOpTypeConst(const operand *op, const char *macro, const char *args, OPTY
           macro, args, file, line, opTypeToStr(type), op ? opTypeToStr(op->type) : "null op");
   exit(EXIT_FAILURE);
   return op; // never reached, makes compiler happy.
+}
+
+// for debug by zwr
+void print_icode_chain(iCode *ic)
+{
+  iCode *ica;
+  printf("=================iCode=================\n");
+  for (ica = ic; ica; ica = ica->next)
+  {
+    printf("lineno: %d\top: %d\n", ica->lineno, ica->op);
+  }
 }

@@ -44,7 +44,7 @@ CC = gcc
 CFLAGS =  -pipe -ggdb -g
 CPPFLAGS =  -DNO_VARARGS
 EXEEXT = .exe
-PYTHON = python
+PYTHON = python3
 M4 = m4
 
 srcdir       = .

@@ -2683,7 +2683,7 @@ void peepHole(lineNode **pls)
   lineNode *mtail = NULL;
   bool restart, replaced;
 
-#if !OPT_DISABLE_PIC14 || !OPT_DISABLE_PIC16
+#if !OPT_DISABLE_PIC14 || !OPT_DISABLE_PIC16 || !OPT_DISABLE_MC30 || !OPT_DISABLE_MC32 ||!OPT_DISABLE_MC35
   /* The PIC port uses a different peep hole optimizer based on "pCode" */
   if (TARGET_PIC_LIKE)
     return;

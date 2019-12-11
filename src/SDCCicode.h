@@ -352,4 +352,7 @@ int isiCodeInFunctionCall(iCode *);
 /*-----------------------------------------------------------------*/
 extern char *filename;
 extern int lineno;
+
+// for debug by zwr
+void print_icode_chain(iCode *);
 #endif

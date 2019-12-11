@@ -1,6 +1,6 @@
 .SILENT:
 
-PYTHON       = python
+PYTHON       = python3
 
 srcdir       = .
 top_srcdir   = ../..

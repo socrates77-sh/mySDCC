@@ -6274,7 +6274,10 @@ genConstPointerGet_emc(operand *left, operand *result, iCode *ic)
       {
         if (left->isaddr)
         {
-          mc30_emitpcode(POC_CALL, mc30_popGetAddr(AOP(left), 0, size - i)); // index+1 (for addai pcl)
+          // zwr 2.0.0
+          // revise bug of 1.1.7
+          mc30_emitpcode(POC_CALL, mc30_popGetAddr(AOP(left), 0, size - 1 - i)); // index+1 (for addai pcl)
+          // mc30_emitpcode(POC_CALL, mc30_popGetAddr(AOP(left), 0, size - i)); // index+1 (for addai pcl)
         }
         else
         {
@@ -6391,8 +6394,8 @@ genPointerGet(iCode *ic)
 static void
 genPackBits(sym_link *etype, operand *result, operand *right, int p_type)
 {
-  unsigned blen;           /* bitfield length */
-  unsigned bstr;           /* bitfield starting bit within byte */
+  unsigned blen;      /* bitfield length */
+  unsigned bstr;      /* bitfield starting bit within byte */
   int litval;         /* source literal value (if AOP_LIT) */
   unsigned char mask; /* bitmask within current byte */
 
@@ -6646,7 +6649,7 @@ genDataPointerSet(operand *right, operand *result, iCode *ic)
     {
       // zwr 2.0.0
       mc30_emitpComment("%s:%u: size=%d, offset=%d, AOP_TYPE(res)=%d", __FILE__, __LINE__, size, offset,
-                   AOP_TYPE(result));
+                        AOP_TYPE(result));
       // mc30_emitpComment("%s:%u: size=%d/%d, offset=%d, AOP_TYPE(res)=%d", __FILE__, __LINE__, size, ressize, offset,
       //                   AOP_TYPE(result));
 
